@@ -1,0 +1,12 @@
+!package-lock.json
+build
+dist
+node_modules
+/npm-debug.log
+.DS_Store
+/.tmp*
+.swp
+.swo
+/static-app.json
+*.orig
+test-reports/

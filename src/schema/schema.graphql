@@ -1,0 +1,1100 @@
+enum SortBy {
+	none
+	dateAsc
+	dateDesc
+	subjAsc
+	subjDesc
+	nameAsc
+	nameDesc
+	rcptAsc
+	rcptDesc
+	attachAsc
+	attachDesc
+	flagAsc
+	flagDesc
+	priorityAsc
+	priorityDesc
+}
+
+enum FreeBusyStatus {
+	F # Free
+	B # Busy
+	T # Tentative
+	O # Out of Office
+}
+
+enum AccountType {
+	imap
+	pop3
+}
+
+enum ConnectionType {
+	cleartext
+	ssl
+	tls
+	tls_is_available
+}
+
+enum PrefCalendarInitialView {
+	day
+	list
+	month
+	week
+	workWeek
+	year
+}
+
+enum AlarmAction {
+	DISPLAY
+	AUDIO
+	EMAIL
+	PROCEDURE
+	X_YAHOO_CALENDAR_ACTION_IM
+	X_YAHOO_CALENDAR_ACTION_MOBILE
+}
+
+enum AlarmRelatedTo {
+	START
+	END
+}
+
+enum CalendarItemRecurrenceFrequency {
+	SEC
+	MIN
+	HOU
+	DAI
+	WEE
+	MON
+	YEA
+}
+
+enum ParticipationStatus {
+	NE # needs-action
+	AC # accept
+	TE # tentative
+	DE # declined
+	DG # delegated
+	CO # completed
+	IN # in-process
+	WA # waiting (only tasks)
+	DF # deferred (only tasks)
+}
+
+enum InviteCompletionStatus {
+	NEED # Not Started / Need Response
+	TENT # Tentative
+	CONF # Confirmed
+	CANC # Cancelled
+	COMP # Completed
+	INPR # In Progress
+	WAITING # Waiting on someone else
+	DEFERRED # Deferred
+}
+
+enum ParticipationRole {
+	REQ # required
+	OPT # optional
+	NON # informational purposes only
+}
+
+enum CalendarItemClass {
+	PRI # Private
+	PUB # Public
+	CON # Confidential
+}
+
+enum AddressType {
+	f # from
+	t # to
+	c # cc
+	b # bcc
+	r # reply-to
+	s # sender
+	n # read-receipt notification
+	rf # resent-from
+}
+
+# https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/acl.md
+enum GranteeType {
+	usr # Zimbra User
+	grp # Zimbra Group (distribution list)
+	egp # an external AD group
+	dom # Zimbra Domain
+	all # All authenticated users
+	pub # public access
+	guest # Non-zimbra email address and password
+	key # Non-Zimbra email address and access key
+	cos # Grantee ID must match zimbraCOSId (Class of Service)
+}
+
+enum SearchType {
+	conversation
+	message
+	contact
+	appointment
+	task
+	wiki
+	document
+}
+
+enum FolderView {
+	search
+	folder
+	tag
+	conversation
+	message
+	contact
+	document
+	appointment
+	virtual
+	remote
+	wiki
+	task
+	chat
+	note
+	comment
+}
+
+enum ReadingPaneLocation {
+	off
+	right
+	bottom
+}
+
+enum PrefMailSelectAfterDelete {
+	next
+	previous
+	adaptive
+}
+
+enum ActionTypeName {
+	ContactAction
+	ConvAction
+	DistributionList
+	FolderAction
+	ItemAction
+	MsgAction
+	TagAction
+}
+
+type CalOrganizer {
+	address: String
+	name: String
+	url: String
+}
+
+type Instance {
+	start: Float
+	dueDate: Float
+	tzoDue: Int
+}
+
+type EmailAddress {
+	address: String
+	name: String
+	type: String
+	displayName: String
+}
+
+interface MailItem {
+	id: ID
+	size: Float # s
+	date: Float # d
+	folderId: ID # l
+	subject: String # su
+	emailAddresses: [EmailAddress]
+	excerpt: String # fr
+	conversationId: String # cid
+	flags: String # f
+	tags: String # t
+	tagNames: String # tn
+	revision: Int # rev
+	changeDate: Float # md
+	modifiedSequence: Int # ms
+	invitations: [InviteInfo] # inv
+	sortField: String # sf, Sort field used for cursor-based pagination
+}
+
+type MessageInfo implements MailItem {
+	id: ID
+	size: Float # s
+	date: Float # d
+	folderId: ID # l
+	subject: String # su
+	emailAddresses: [EmailAddress]
+	excerpt: String # fr
+	conversationId: String # cid
+	flags: String # f
+	tags: String # t
+	tagNames: String # tn
+	revision: Int # rev
+	changeDate: Float # md
+	modifiedSequence: Int # ms
+	invitations: [InviteInfo] # inv
+	sortField: String # sf, Sort field used for cursor-based pagination
+	mimeParts: [MimePart]
+	to: [EmailAddress]
+	from: [EmailAddress]
+	cc: [EmailAddress]
+	bcc: [EmailAddress]
+	sender: [EmailAddress]
+	html: String
+	text: String
+	attachments: [MimePart]
+	inlineAttachments: [MimePart]
+}
+
+type Conversation implements MailItem {
+	id: ID
+	size: Float # s
+	date: Float # d
+	folderId: ID # l
+	subject: String # su
+	excerpt: String # fr
+	emailAddresses: [EmailAddress]
+	conversationId: String # cid
+	flags: String # f
+	tags: String # t
+	tagNames: String # tn
+	revision: Int # rev
+	changeDate: Float # md
+	modifiedSequence: Int # ms
+	invitations: [InviteInfo] # inv
+	sortField: String # sf, Sort field used for cursor-based pagination
+	messages: [MessageInfo]
+	numMessages: Int # n, Number of messages in this conversation
+	unread: Int # u
+}
+
+enum InviteType {
+	appt # Appointment
+	task
+}
+
+type InviteInfo {
+	type: InviteType!
+	components: [InviteComponent] #comp
+}
+
+type InviteComponent {
+	# duration: DurationInfo # dur - TODO
+	# recurrence: RecurrenceInfo - TODO
+	allDay: Boolean
+	attendees: [CalendarItemAttendee]
+	calItemId: String
+	ciFolder: ID
+	class: CalendarItemClass
+	completedDateTime: String # completed , yyyyMMddThhmmssZ
+	componentNum: Int # compNum
+	date: Float # d
+	description: [StringContent] # desc
+	draft: Boolean
+	end: [DtTimeInfo] # e
+	excerpt: String # fr
+	freeBusy: FreeBusyStatus # fb
+	freeBusyActual: FreeBusyStatus # fba
+	htmlDescription: [StringContent] # descHtml
+	isException: Boolean # ex
+	isOrganizer: Boolean # isOrg
+	location: String # loc
+	name: String
+	noBlob: Boolean
+	organizer: CalOrganizer # or
+	percentComplete: String
+	priority: String
+	recurrenceId: String #ridZ
+	rsvp: Boolean
+	sequence: Int # seq
+	start: [DtTimeInfo] # s
+	status: InviteCompletionStatus
+	uid: String
+	x_uid: String
+	aid: String
+}
+
+type DtTimeInfo {
+	date: String # d , of format YYYYMMDD['T'HHMMSS[Z]]
+	timezone: String # tz
+}
+
+type CalendarItemHitInfo {
+	alarm: Boolean
+	allDay: Boolean
+	changeDate: Float # md
+	class: CalendarItemClass!
+	componentNum: Int # compNum
+	date: Float # d
+	duration: Float # dur
+	excerpt: String # fr
+	flags: String # f
+	folderId: ID! # l
+	freeBusy: FreeBusyStatus # fb
+	freeBusyActual: FreeBusyStatus # fba
+	id: ID!
+	instances: [Instance] # inst
+	inviteId: ID! #invId
+	isOrganizer: Boolean # isOrg
+	location: String # loc
+	modifiedSequence: Int # ms
+	name: String
+	organizer: CalOrganizer # or
+	participationStatus: ParticipationStatus
+	percentComplete: String
+	priority: Int
+	revision: Int # rev
+	size: Float # s
+	sortField: String # sf
+	status: InviteCompletionStatus
+	tagNames: String # tn
+	tags: String # t
+	uid: String
+	x_uid: String
+	aid: String
+}
+
+input ExternalAccount {
+	id: ID!
+	name: String!
+	accountType: AccountType
+	isEnabled: Int
+	host: String!
+	port: String!
+	connectionType: ConnectionType
+	username: String!
+	password: String!
+}
+
+type FreeBusyInstance {
+	start: Float
+	end: Float
+}
+
+type FreeBusy {
+	id: String!
+	tentative: [FreeBusyInstance]
+	busy: [FreeBusyInstance]
+	unavailable: [FreeBusyInstance]
+	nodata: [FreeBusyInstance]
+	free: [FreeBusyInstance]
+}
+
+type Folder {
+	absFolderPath: String
+	acl: ACL
+	appointments(start: Float, end: Float): SearchResponse
+	tasks(folderId: ID, offset: Int, limit: Int, sortBy: String): SearchResponse
+	color: Int
+	flags: String
+	id: ID
+	uuid: ID
+	name: String
+	nonFolderItemCount: Int # Number of non-subfolder items in folder
+	nonFolderItemCountTotal: Float # Total size of all of non-subfolder items in folder
+	linkedFolders: [Folder] # Folders this user has linked from other users nested in this Folder
+	folders: [Folder] # Folders nested in this Folder
+	owner: String
+	revision: Int
+	view: FolderView
+	parentFolderId: ID
+	unread: Int
+	query: String
+}
+
+type GetFolderResponse {
+	folders: [Folder]
+}
+
+type ACL {
+	grant: [ACLGrant]
+}
+
+type ACLGrant {
+	address: String
+	permissions: String
+	granteeType: GranteeType
+	zimbraId: ID
+	password: String
+	key: String
+}
+
+type AccountInfo {
+	id: ID!
+	name: String
+	publicURL: String
+	rest: String
+	soapURL: String
+	version: String
+	identities: Identities
+	dataSources: DataSources!
+	signatures: Signatures
+	attrs: AccountInfoAttrs
+	prefs: Preferences
+}
+
+type AccountInfoAttrs {
+	displayName: String
+	zimbraFeatureCalendarEnabled: Boolean
+	zimbraFeatureRelatedContactsEnabled: Boolean
+}
+
+type Identities {
+	identity: [Identity]
+}
+
+type Identity {
+	id: ID!
+	name: String
+	_attrs: IdentityAttrs
+	defaultSignature: ID
+}
+
+type DataSource {
+	id: ID!
+	connectionType: String
+	defaultSignature: ID
+	emailAddress: String
+	l: ID
+	forwardReplySignature: ID
+	fromDisplay: String
+	host: String
+	importOnly: Boolean
+	isEnabled: Boolean
+	name: String
+	pollingInterval: Float
+	port: String
+	replyToAddress: String
+	replyToDisplay: String
+	smtpPort: String
+	useAddressForForwardReply: Boolean
+	username: String
+	failingSince: String
+	lastError: [String]
+}
+
+type Signatures {
+	signature: [Signature]
+}
+
+type Signature {
+	id: ID
+	name: String
+	content: [SignatureContent]
+}
+
+type SignatureContent {
+	type: String
+	_content: String
+}
+
+type StringContent {
+	_content: String
+}
+
+type DataSources {
+	imap: [DataSource]
+	pop3: [DataSource]
+	cal: [DataSource]
+}
+
+type IdentityAttrs {
+	zimbraPrefIdentityId: ID!
+	zimbraPrefDefaultSignatureId: ID
+	zimbraPrefForwardReplySignatureId: ID
+	zimbraPrefForwardReplyFormat: String
+	zimbraPrefFromAddress: String
+	zimbraPrefFromAddressType: String
+	zimbraPrefFromDisplay: String
+	zimbraPrefIdentityName: String
+	zimbraPrefMailSignatureStyle: String
+	zimbraPrefReplyToAddress: String
+	zimbraPrefReplyToDisplay: String
+	zimbraPrefReplyToEnabled: Boolean
+	zimbraPrefSaveToSent: Boolean
+	zimbraPrefSentMailFolder: String
+}
+
+type Preferences {
+	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
+	zimbraPrefCalendarFirstDayOfWeek: String
+	zimbraPrefCalendarInitialView: PrefCalendarInitialView
+	zimbraPrefCalendarReminderEmail: String
+	zimbraPrefCalendarWorkingHours: String
+	zimbraPrefGroupMailBy: String
+	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
+	zimbraPrefMarkMsgRead: Int
+	zimbraPrefOutOfOfficeFromDate: String
+	zimbraPrefOutOfOfficeReply: String
+	zimbraPrefOutOfOfficeReplyEnabled: Boolean
+	zimbraPrefOutOfOfficeStatusAlertOnLogin: Boolean
+	zimbraPrefOutOfOfficeUntilDate: String
+	zimbraPrefReadingPaneEnabled: Boolean
+	zimbraPrefReadingPaneLocation: ReadingPaneLocation
+	zimbraPrefReadingPaneSashHorizontal: Int
+	zimbraPrefShowFragments: Boolean
+}
+
+type SignatureResponse {
+	id: ID!
+}
+
+type SearchResponse {
+	contacts: [Contact]
+	messages: [MessageInfo]
+	conversations: [Conversation]
+	tasks: [CalendarItemHitInfo]
+	appointments: [CalendarItemHitInfo]
+	more: Boolean
+	offset: Int
+	sortBy: String
+}
+
+type Contact {
+	id: ID!
+	date: Float
+	folderId: ID
+	revision: Int
+	sortField: String
+	attributes: ContactAttributes
+}
+
+type ContactAttributes {
+	anniversary: String
+	birthday: String
+	company: String
+	email: String
+	email2: String
+	fax: String
+	firstName: String
+	fullName: String
+	homeCity: String
+	homeEmail: String
+	homePhone: String
+	homePostal: String
+	homeState: String
+	homeStreet: String
+	im: String
+	im2: String
+	im3: String
+	im4: String
+	jobTitle: String
+	lastName: String
+	middleName: String
+	mobile: String
+	nickname: String
+	pager: String
+	phone: String
+	website: String
+	workCity: String
+	workEmail: String
+	workPhone: String
+	workPostal: String
+	workState: String
+	workStreet: String
+}
+
+type RelatedContact {
+	email: String
+	scope: Int
+	p: String
+}
+
+type RelatedContacts {
+	relatedContacts: [RelatedContact]
+}
+
+type ContactFrequencyResponse {
+	data: [ContactFrequencyData]
+}
+
+type ContactFrequencyData {
+	by: String
+	dataPoint: [ContactFrequencyDataPoints]
+}
+
+type ContactFrequencyDataPoints {
+	label: Float
+	value: Int
+}
+
+input EmailAddressInput {
+	email: String!
+	name: String!
+	shortName: String!
+}
+
+type ShareInfo {
+	folderId: ID!
+	folderPath: String
+	folderUuid: String
+	granteeDisplayName: String
+	granteeId: String
+	granteeType: String
+	ownerEmail: String
+	ownerId: String
+	ownerName: String
+	rights: String
+	view: FolderView
+}
+
+type MailboxMetadata {
+	meta: [MailboxMetadataMeta]
+}
+
+type MailboxMetadataMeta {
+	section: String!
+	_attrs: MailboxMetadataAttrs!
+}
+
+type MailboxMetadataAttrs {
+	zimbraPrefCustomFolderTreeOpen: Boolean
+	zimbraPrefFoldersExpanded: String
+	zimbraPrefFolderTreeSash: Int
+	zimbraPrefGenerateLinkPreviews: Boolean
+	zimbraPrefGroupByList: String
+	zimbraPrefMessageListDensity: String
+	zimbraPrefMultitasking: String
+	zimbraPrefReadingPaneSashHorizontal: Int
+	zimbraPrefReadingPaneSashVertical: Int
+	zimbraPrefSmartFolderTreeOpen: Boolean
+	zimbraPrefUndoSendEnabled: Boolean
+	zimbraPrefUndoSendTimeout: Int
+}
+
+input MailboxMetadataSectionAttrsInput {
+	zimbraPrefCustomFolderTreeOpen: Boolean
+	zimbraPrefFoldersExpanded: String
+	zimbraPrefFolderTreeSash: Int
+	zimbraPrefGenerateLinkPreviews: Boolean
+	zimbraPrefGroupByList: String
+	zimbraPrefMessageListDensity: String
+	zimbraPrefMultitasking: String
+	zimbraPrefReadingPaneSashHorizontal: Int
+	zimbraPrefReadingPaneSashVertical: Int
+	zimbraPrefSmartFolderTreeOpen: Boolean
+	zimbraPrefUndoSendEnabled: Boolean
+	zimbraPrefUndoSendTimeout: Int
+}
+
+type MimePart {
+	body: Boolean
+	filename: String
+	part: String # Mime part name
+	content: String
+	contentId: String
+	contentType: String
+	contentDisposition: String
+	size: Int # Size in bytes
+	mimeParts: [MimePart]
+	url: String
+	messageId: ID
+}
+
+input MimePartInput {
+	contentType: String!
+	content: String
+	mimeParts: [MimePartInput]
+}
+
+input CalendarItemAttach {
+	aid: String
+}
+
+input CalendarItemInput {
+	id: ID
+	modifiedSequence: Float
+	revision: Float
+	message: CalendarItemMessageInput!
+}
+
+input CalendarItemMessageInput {
+	folderId: ID!
+	subject: String!
+	invitations: CalendarItemInviteInput!
+	mimeParts: MimePartInput
+	emailAddresses: [CalendarItemInviteEmailAddressInput]
+	attach: [CalendarItemAttach]
+}
+
+input CalendarItemInviteInput {
+	components: [CalendarItemInviteComponentInput]!
+}
+
+input CalendarItemInviteEmailAddressInput {
+	address: String!
+	name: String!
+	type: AddressType!
+}
+
+input CalendarItemInviteComponentInput {
+	name: String!
+	location: String
+	start: CalendarItemDateTimeInput
+	end: CalendarItemDateTimeInput
+	freeBusy: FreeBusyStatus
+	allDay: Boolean
+	organizer: CalendarItemOrganizerInput
+	recurrence: CalendarItemRecurrenceInput
+	attendees: [CalendarItemAttendeesInput]
+	alarms: [CalendarItemAlarmInput]
+	class: CalendarItemClass!
+	priority: Int
+	percentComplete: String
+	status: InviteCompletionStatus
+	noBlob: Boolean
+	description: [CalendarItemInviteComponentDescriptionInput]
+}
+
+input CalendarItemInviteComponentDescriptionInput {
+	_content: String
+}
+
+input CalendarItemDateTimeInput {
+	timezone: String
+	date: String!
+}
+
+type CalendarItemAttendee {
+	role: ParticipationRole
+	participationStatus: ParticipationStatus
+	rsvp: Boolean
+	address: String
+	name: String
+}
+
+input CalendarItemAttendeesInput {
+	role: ParticipationRole
+	participationStatus: ParticipationStatus
+	rsvp: Boolean
+	address: String!
+	name: String
+}
+
+input CalendarItemAlarmInput {
+	action: AlarmAction!
+	trigger: CalendarItemAlarmTriggerInput!
+	attendees: CalendarItemAlarmAttendees
+}
+
+input CalendarItemAlarmAttendees {
+	email: String!
+}
+
+input CalendarItemAlarmTriggerInput {
+	relative: CalendarItemAlarmTriggerRelativeInput
+	absolute: CalendarItemAlarmTriggerAbsoluteInput
+}
+
+input CalendarItemAlarmTriggerRelativeInput {
+	seconds: Int
+	minutes: Int
+	hours: Int
+	days: Int
+	relatedTo: AlarmRelatedTo
+	negative: Boolean
+}
+
+input CalendarItemAlarmTriggerAbsoluteInput {
+	date: String!
+}
+
+input CalendarItemOrganizerInput {
+	address: String
+	name: String
+}
+
+input CalendarItemRecurrenceInput {
+	add: CalendarItemRecurrenceAddInput
+}
+
+input CalendarItemRecurrenceAddInput {
+	rule: CalendarItemRecurrenceRuleInput
+}
+
+input CalendarItemRecurrenceRuleInput {
+	interval: CalendarItemRecurrenceIntervalInput
+	frequency: CalendarItemRecurrenceFrequency
+}
+
+input CalendarItemRecurrenceIntervalInput {
+	intervalCount: Int!
+	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
+}
+
+input FolderQueryInput {
+	uuid: ID
+	id: ID
+	view: FolderView
+}
+
+input FolderActionInput {
+	id: ID!
+	op: String!
+	grant: [GrantInput]
+	name: String
+	folderId: String
+	zimbraId: ID
+}
+
+input GrantInput {
+	address: String
+	granteeType: GranteeType!
+	key: String
+	password: String
+	permissions: String!
+	zimbraId: ID
+}
+
+input ShareNotificationInput {
+	item: ShareNotificationItemInput!
+	address: ShareNotificaitonEmailAddressInput!
+	notes: String
+}
+
+input ShareNotificationItemInput {
+	id: ID!
+}
+
+input ShareNotificaitonEmailAddressInput {
+	address: String!
+	type: AddressType
+	personalName: String
+}
+
+input SharedCalendarInput {
+	ownerId: String!
+	ownerCalendarId: String!
+	name: String!
+	color: String!
+	reminder: Boolean!
+}
+
+input IdentityAttrsInput {
+	zimbraPrefIdentityId: ID
+	zimbraPrefDefaultSignatureId: ID
+	zimbraPrefForwardReplySignatureId: ID
+	zimbraPrefForwardReplyFormat: String
+	zimbraPrefFromAddress: String
+	zimbraPrefFromAddressType: String
+	zimbraPrefFromDisplay: String
+	zimbraPrefIdentityName: String
+	zimbraPrefMailSignatureStyle: String
+	zimbraPrefReplyToAddress: String
+	zimbraPrefReplyToDisplay: String
+	zimbraPrefReplyToEnabled: Boolean
+	zimbraPrefSaveToSent: Boolean
+	zimbraPrefSentMailFolder: String
+}
+
+input ExternalAccountAddInput {
+	accountType: AccountType
+	connectionType: ConnectionType
+	emailAddress: String
+	host: String!
+	isEnabled: Boolean
+	l: Int!
+	leaveOnServer: Boolean
+	name: String!
+	password: String!
+	port: String!
+	username: String!
+}
+
+input ExternalAccountModifyAttrsInput {
+	id: ID
+	accountType: AccountType
+	defaultSignature: ID
+	description: String
+	emailAddress: String
+	fromDisplay: String
+	name: String
+	replyToAddress: String
+	replyToDisplay: String
+	replyToEnabled: Boolean
+	storeAndForward: String
+	useAddressForForwardReply: Boolean
+	username: String
+	host: String
+	signatureValue: String
+	importOnly: Boolean
+	forwardReplySignature: ID
+	connectionType: ConnectionType
+	isEnabled: Boolean
+	port: String
+	smtpPort: String
+}
+
+# Include one of these fields to query for a folder
+input GetFolderFolderInput {
+	uuid: ID
+	l: ID # Folder ID
+	path: String # Fully qualifed folder path
+}
+
+input Cursor {
+	id: String
+	sortVal: String
+	endSortVal: String
+	includeOffset: Boolean
+}
+
+input MailItemHeaderInput {
+	n: String!
+}
+
+# Zimbra GraphQL Queries
+# - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
+# - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
+# - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
+type Query {
+	accountInfo: AccountInfo
+	calendars: [Folder]
+	folder(id: ID!): Folder
+	folders(ids: [FolderQueryInput]!): [Folder]
+	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
+	getContact(id: ID!): Contact
+	getContactFrequency(
+		email: String!
+		by: String!
+		offsetInMinutes: Int
+	): ContactFrequencyResponse
+	getConversation(
+		id: ID!,
+		headers: [MailItemHeaderInput],
+		html: Boolean,
+		max: Int,
+		needExp: Boolean,
+		fetch: String
+	): Conversation
+	getFolder(
+		visible: Boolean,
+		needGranteeName: Boolean,
+		view: FolderView,
+		depth: Int,
+		traverseMountpoints: Boolean
+		folder: GetFolderFolderInput
+	): GetFolderResponse
+	getMailboxMetadata(section: String): MailboxMetadata
+	getMessage(
+		id: ID!,
+		headers: [MailItemHeaderInput],
+		html: Boolean,
+		max: Int,
+		needExp: Boolean,
+		neuter: Boolean,
+		part: String,
+		raw: Boolean,
+		read: Boolean,
+		ridZ: String
+	): MessageInfo
+	getSearchFolder: GetFolderResponse
+	getTask(inviteId: ID!): Boolean
+	noop: Boolean
+	preferences: Preferences
+	relatedContacts(email: String!): RelatedContacts
+	shareInfos(addresses: [String!]): [[ShareInfo]]
+
+
+	# Perform a search for a variety types using a flexible query interface.
+	# [[SOAP Search API Documentation]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/zimbraMail/Search.html)
+	# [[Query Tips]](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips)
+	search(
+		contact: String
+		cursor: Cursor,
+		fetch: String,
+		fullConversation: Boolean,
+		limit: Int,
+		needExp: Boolean,
+		offset: Int,
+		query: String,
+		recip: Int,
+		sortBy: SortBy,
+		types: SearchType
+	): SearchResponse
+	taskFolders: [Folder]
+}
+
+type Mutation {
+	action(
+		type: ActionTypeName!,
+		id: ID,
+		ids: [ID!],
+		op: String!,
+		color: Int,
+		constraints: String,
+		flags: String,
+		folderId: String,
+		rgb: String,
+		tagNames: String,
+		name: String
+	): Boolean
+	addSignature(
+		name: String!
+		contentType: String
+		value: String!
+	): SignatureResponse
+	addExternalAccount(externalAccount: ExternalAccountAddInput!): String
+	cancelTask(inviteId: ID!): Boolean
+	changeCalendarColor(id: String!, color: Int!): Boolean
+	checkCalendar(calendarId: ID!, value: Boolean!): Boolean
+	conversationAction(
+		ids: [ID!]!
+		op: String!
+	): Boolean
+	createAppointment(appointment: CalendarItemInput!): Boolean
+	createCalendar(name: String!, color: Int!, url: String): Boolean
+	createFolder(
+		color: Int
+		fetchIfExists: Boolean
+		flags: String
+		name: String!
+		parentFolderId: String
+		url: String
+		view: FolderView
+	): Boolean
+	createSharedCalendar(sharedCalendar: SharedCalendarInput!): Boolean
+	createSearchFolder(
+		name: String!
+		parentFolderId: String
+		query: String!
+		view: FolderView
+	): Boolean
+	createTask(task: CalendarItemInput!): Boolean
+	deleteAppointment(inviteId: String!): Boolean
+	deleteExternalAccount(id: ID!): String
+	deleteSignature(id: ID!): String
+	folderAction(action: FolderActionInput!): Boolean
+	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
+	messageAction(
+		ids: [ID!]!
+		op: String!
+	): Boolean
+	modifyExternalAccount(
+		id: ID!
+		type: AccountType
+		attrs: ExternalAccountModifyAttrsInput!
+	): String
+	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
+	modifySignature(id: ID!, contentType: String, value: String!): String
+	modifyTask(task: CalendarItemInput!): Boolean
+	moveTask(inviteId: ID!, destFolderId: ID!): String
+	prefAutoAddAppointmentToCalendar(value: Boolean!): Boolean
+	prefCalendarFirstDayOfWeek(value: String!): String
+	prefCalendarInitialView(
+		value: PrefCalendarInitialView!
+	): PrefCalendarInitialView
+	prefCalendarWorkingHours(value: String!): String
+	prefEnableOutOfOfficeAlertOnLogin(value: Boolean!): Boolean
+	prefEnableOutOfOfficeReply(value: Boolean!): Boolean
+	prefMailForward(address: String, deleteAndForward: Boolean!): String
+	prefOutOfOfficeFromDate(value: String!): String
+	prefOutOfOfficeReply(value: String!): String
+	prefOutOfOfficeUntilDate(value: String!): String
+	sendMsg(subject: String!, text: String!, to: [EmailAddressInput]!): Boolean
+	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
+	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean
+}
+
+schema {
+	query: Query
+	mutation: Mutation
+}

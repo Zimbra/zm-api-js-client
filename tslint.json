@@ -1,0 +1,15 @@
+{
+	"extends": [
+		"tslint-config-prettier",
+		"tslint-plugin-prettier"
+	],
+	"rules": {
+		"function-name": false,
+		"import-name": false,
+		"member-ordering": [true, {"order": "fields-first", "alphabetize": true }],
+		"ordered-imports": true,
+		"prefer-array-literal": false,
+		"prettier": [true, "."],
+		"variable-name": false
+	}
+}
