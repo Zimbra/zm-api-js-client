@@ -5,7 +5,14 @@
   "main": "index.ts",
   "module": "index.ts",
   "scripts": {
-    "lint": "tslint --project ."
+    "build": "npm run rollup -s && npm run minify -s && npm run size -s",
+    "lint": "tslint --project .",
+    "lint:fix": "npm run lint -- --fix",
+    "rollup": "rollup -c rollup.config.js -m -f umd -n $npm_package_amdName src/index.ts -o $npm_package_main",
+    "minify": "uglifyjs $npm_package_main -cm -o $npm_package_main -p relative --in-source-map $npm_package_main.map --source-map $npm_package_main.map",
+    "size": "echo \"Gzipped Size: $(gzip-size $npm_package_main | pretty-bytes)\"",
+    "release": "npm run test && npm run build -s && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "zimbra",
@@ -36,7 +43,15 @@
     "@types/recompose": "^0.24.6",
     "@types/whatwg-fetch": "0.0.33",
     "apollo-codegen": "^0.19.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
     "prettier-eslint": "^8.8.1",
+    "rollup": "^0.57.1",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-graphql": "^0.1.0",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-typescript": "^0.8.1",
     "shelljs": "^0.8.1",
     "tslint": "^5.9.1",
     "tslint-config-prettier": "^1.6.0",
