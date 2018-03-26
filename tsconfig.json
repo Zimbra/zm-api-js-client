@@ -2,6 +2,8 @@
 	"compilerOptions": {
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
+		"declaration": true,
+		"outDir": "types",
 		"jsx": "react",
 		"jsxFactory": "h",
 		"lib": ["dom", "es2015", "es2016"],
@@ -13,6 +15,10 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
-		"target": "ESNext"
-	}
+		"target": "esnext"
+	},
+	"include": [
+		"./src/**/*",
+		"./*.ts"
+    ]
 }

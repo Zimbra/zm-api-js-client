@@ -1,4 +1,5 @@
-import { get, reduce } from 'lodash';
+import get from 'lodash-es/get';
+import reduce from 'lodash-es/reduce';
 import {
 	BatchRequestOptions,
 	BatchRequestResponse,

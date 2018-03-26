@@ -3,7 +3,7 @@ import {
 	defaultDataIdFromObject,
 	InMemoryCache
 } from 'apollo-cache-inmemory';
-import { get } from 'lodash';
+import get from 'lodash-es/get';
 
 const dataIdFromPath = (result: any, path: string) => {
 	if (result.__typename) {

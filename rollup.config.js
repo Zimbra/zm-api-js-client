@@ -1,47 +1,56 @@
 import babel from 'rollup-plugin-babel';
-import typescript from 'rollup-plugin-typescript';
+import typescript from 'rollup-plugin-typescript2';
 import graphql from 'rollup-plugin-graphql';
+import localResolve from 'rollup-plugin-local-resolve';
 import nodeResolve from 'rollup-plugin-node-resolve';
+import commonjs from 'rollup-plugin-commonjs';
 import pkg from './package.json';
+import * as graphqlType from 'graphql/type';
+import * as graphqlLanguage from 'graphql/language';
+import * as graphqlExecution from 'graphql/execution';
+import * as graphqlSubscription from 'graphql/subscription';
+import * as graphqlError from 'graphql/error';
+import * as graphqlUtilities from 'graphql/utilities';
 
+
+let external = Object.keys(pkg.peerDependencies);
+let globals = external.reduce((acc, e) => {
+	acc[e] = e;
+	return acc;
+}, {});
+
+let FORMAT = process.env.FORMAT;
 
 export default {
-	input: 'index.ts',
+	external,
+	context: 'commonjsGlobal', // what should "this" be at the top level when it is used by another module
 	plugins: [
 		graphql(),
+		localResolve(),
+		nodeResolve({
+			jsnext: true,
+			extensions: [ '.js', '.ts', '.json' ]
+		}),
+		commonjs({
+			namedExports: {
+				'graphql-tools': [ 'makeExecutableSchema' ],
+				'graphql/type': Object.keys(graphqlType),
+				'graphql/language': Object.keys(graphqlLanguage),
+				'graphql/execution': Object.keys(graphqlExecution),
+				'graphql/subscription': Object.keys(graphqlSubscription),
+				'graphql/error': Object.keys(graphqlError),
+				'graphql/utilities': Object.keys(graphqlUtilities)
+			}
+		}),
 		typescript({
 			typescript: require('typescript')
 		}),
 		babel({
-			exclude: [
-				'*.json'
-			],
-			presets: [
-				[ 'env', {
-					targets: {
-						browsers: ['last 2 versions', 'not ie > 0', 'iOS >= 8']
-					},
-					modules: false,
-					loose: true
-				}]
-			],
-			plugins: [
-				'transform-object-assign'
-			]
-		}),
-		nodeResolve({
-			jsnext: true,
-			extensions: [ '.ts', '.json' ]
+			exclude: 'node_modules/**'
 		})
 	],
-  output: [{
-		dest: pkg["main"],
-		format: "umd",
-		moduleName: "zm-x-api-js-client",
-		sourceMap: true
-	}, {
-		dest: pkg["module"],
-		format: "es",
-		sourceMap: true
-	}],
+	output: {
+		exports: FORMAT==='es' ? null : 'named',
+		globals
+	},
 };

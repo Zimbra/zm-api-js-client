@@ -1,4 +1,5 @@
-import { isObject, mapValues } from 'lodash';
+import isObject from 'lodash-es/isObject';
+import mapValues from 'lodash-es/mapValues';
 
 export function mapValuesDeep(
 	obj: {},
