@@ -55,7 +55,7 @@
     "@babel/preset-env": "^7.0.0-beta.42",
     "@babel/preset-typescript": "^7.0.0-beta.42",
     "@types/graphql": "^0.12.6",
-    "@types/lodash-es": "^4.17.0",
+    "@types/lodash": "^4.14.106",
     "@types/node": "^9.6.0",
     "@types/recompose": "^0.24.6",
     "@types/whatwg-fetch": "0.0.33",
