@@ -13,7 +13,7 @@ import * as graphqlError from 'graphql/error';
 import * as graphqlUtilities from 'graphql/utilities';
 
 
-let external = Object.keys(pkg.peerDependencies);
+let external = Object.keys(pkg.dependencies);
 let globals = external.reduce((acc, e) => {
 	acc[e] = e;
 	return acc;
