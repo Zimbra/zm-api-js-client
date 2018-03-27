@@ -1,8 +1,5 @@
 import DataLoader from 'dataloader';
-import get from 'lodash-es/get';
-import isError from 'lodash-es/isError';
-import mapValues from 'lodash-es/mapValues';
-
+import { get, isError, mapValues } from 'lodash';
 import { denormalize, normalize } from '../normalize';
 import {
 	CalendarItemCreateModifyRequest,

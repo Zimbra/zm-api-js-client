@@ -12,14 +12,18 @@ import * as graphqlSubscription from 'graphql/subscription';
 import * as graphqlError from 'graphql/error';
 import * as graphqlUtilities from 'graphql/utilities';
 
-
-let external = Object.keys(pkg.dependencies);
-let globals = external.reduce((acc, e) => {
-	acc[e] = e;
-	return acc;
-}, {});
-
 let FORMAT = process.env.FORMAT;
+
+// graphql-tools currently has a rollup build failure, so always call it an external until they fix it
+// otherwise, make all npm production dependencies external, plus their subpath usages
+// throughout the codebase, which rollup doesn't automatically pick up on
+let external = FORMAT==='es' ?
+	Object.keys(pkg.dependencies)
+		.concat(
+			['get','isError', 'isObject', 'mapValues', 'reduce', 'omitBy'].map(v => 'lodash/'+v),
+			['graphql/language/printer', 'graphql/type']) :
+	['graphql-tools'];
+
 
 export default {
 	external,
@@ -29,11 +33,12 @@ export default {
 		localResolve(),
 		nodeResolve({
 			jsnext: true,
-			extensions: [ '.js', '.ts', '.json' ]
+			modules: true,
+			extensions: [  '.js', '.ts', '.json' ]
 		}),
 		commonjs({
 			namedExports: {
-				'graphql-tools': [ 'makeExecutableSchema' ],
+				// 'graphql-tools': [ 'makeExecutableSchema' ],
 				'graphql/type': Object.keys(graphqlType),
 				'graphql/language': Object.keys(graphqlLanguage),
 				'graphql/execution': Object.keys(graphqlExecution),
@@ -50,7 +55,6 @@ export default {
 		})
 	],
 	output: {
-		exports: FORMAT==='es' ? null : 'named',
-		globals
+		exports: FORMAT==='es' ? null : 'named'
 	},
 };

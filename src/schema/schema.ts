@@ -1,6 +1,6 @@
 import { GraphQLSchema } from 'graphql';
 import { makeExecutableSchema } from 'graphql-tools';
-import mapValues from 'lodash-es/mapValues';
+import { mapValues } from 'lodash';
 import { ZimbraBatchClient } from '../batch-client';
 import {
 	ActionOptions,
