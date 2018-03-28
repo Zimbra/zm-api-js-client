@@ -1,8 +1,6 @@
 export * from './src/schema/generated-schema-types';
 export { ActionType, ActionResultType } from './src/batch-client/types';
 
-export const ReadingPaneSashHorizontalDefault = 50;
-
 export enum MailFolderView {
 	conversation = 'conversation',
 	message = 'message'
