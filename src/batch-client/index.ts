@@ -6,10 +6,12 @@ import {
 	CalendarItemCreateModifyRequest,
 	Conversation,
 	Folder,
+	FolderAction,
 	FreeBusy,
 	GetFolderResponse,
 	MessageInfo,
-	SearchResponse
+	SearchResponse,
+	ShareNotification
 } from '../normalize/entities';
 import {
 	batchJsonRequest,
@@ -19,7 +21,8 @@ import {
 import { Namespace, RequestBody, RequestOptions } from '../request/types';
 import {
 	CalendarItemInput,
-	FolderView
+	FolderView,
+	ShareNotificationInput
 } from '../schema/generated-schema-types';
 import {
 	coerceBooleanToInt,
@@ -167,6 +170,14 @@ export class ZimbraBatchClient {
 	public conversationAction = (options: ActionOptions) =>
 		this.action(ActionType.conversation, options);
 
+	public createAppointment = (appointment: CalendarItemInput) =>
+		this.jsonRequest({
+			name: 'CreateAppointment',
+			body: {
+				...denormalize(CalendarItemCreateModifyRequest)(appointment)
+			}
+		});
+
 	public createFolder = (_options: CreateFolderOptions) => {
 		const { flags, fetchIfExists, parentFolderId, ...options } = _options;
 		return this.jsonRequest({
@@ -214,7 +225,7 @@ export class ZimbraBatchClient {
 		}).then(res => normalize(Folder)(res.folder[0].folder));
 
 	public folderAction = (options: ActionOptions) =>
-		this.action(ActionType.folder, options);
+		this.action(ActionType.folder, denormalize(FolderAction)(options));
 
 	public folders = ({ ids }: FoldersOptions) =>
 		Promise.all(
@@ -402,6 +413,14 @@ export class ZimbraBatchClient {
 				);
 			}
 			return normalized;
+		});
+
+	public sendShareNotification = (body: ShareNotificationInput) =>
+		this.jsonRequest({
+			name: 'SendShareNotification',
+			body: {
+				...denormalize(ShareNotification)(body)
+			}
 		});
 
 	public shareInfos = ({ addresses }: ShareInfosOptions) =>

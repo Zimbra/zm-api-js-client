@@ -6,6 +6,7 @@ import {
 	FolderView,
 	getFolderQueryVariables,
 	getMailboxMetadataQueryVariables,
+	ShareNotificationInput,
 	SortBy
 } from './generated-schema-types';
 import { ZimbraSchemaOptions } from './types';
@@ -135,8 +136,8 @@ export function createZimbraSchema(
 					client.createFolder(variables as CreateFolderOptions),
 				createSearchFolder: (_, variables) =>
 					client.createSearchFolder(variables as CreateSearchFolderOptions),
-				createAppointment: (_, { appointment }, { zimbra }) =>
-					zimbra.appointments.create({ appointment }),
+				createAppointment: (_, { appointment }) =>
+					client.createAppointment(appointment as CalendarItemInput),
 				deleteAppointment: (_, { inviteId }, { zimbra }) =>
 					zimbra.appointments.delete({ inviteId }),
 				checkCalendar: (_, { calendarId, value }, { zimbra }) =>
@@ -184,8 +185,10 @@ export function createZimbraSchema(
 						})
 						.then(() => value),
 				folderAction: (_, { action }) => client.folderAction(action),
-				sendShareNotification: (_, { shareNotification }, { zimbra }) =>
-					zimbra.shares.send(shareNotification),
+				sendShareNotification: (_, { shareNotification }) =>
+					client.sendShareNotification(
+						shareNotification as ShareNotificationInput
+					),
 				addExternalAccount: (_, { externalAccount }, { zimbra }) =>
 					zimbra.account
 						.addExternal({
