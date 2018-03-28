@@ -16,6 +16,7 @@ import { CalendarItemHitInfo } from '../normalize/entities';
 import { coerceBooleanToString } from '../utils/coerce-boolean';
 import { ZimbraNotifications } from './notifications';
 
+import { GraphQLSchema } from 'graphql';
 import {
 	ActionOptions,
 	ChangePasswordOptions,
@@ -36,7 +37,9 @@ import {
 } from '../batch-client/types';
 import schema from './schema.graphql';
 
-export function createZimbraSchema(options: ZimbraSchemaOptions) {
+export function createZimbraSchema(
+	options: ZimbraSchemaOptions
+): { client: ZimbraBatchClient; schema: GraphQLSchema } {
 	const { cache, ...clientOptions } = options;
 	const notifications = cache ? new ZimbraNotifications({ cache }) : undefined;
 	const client = new ZimbraBatchClient({
