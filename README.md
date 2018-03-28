@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/Zimbra/zm-api-js-client.svg?style=shield)](https://circleci.com/gh/Zimbra/zm-api-js-client) [![NPM Downloads](https://img.shields.io/npm/dm/@zimbra/api-client.svg?style=flat)](https://www.npmjs.com/package/@zimbra/api-client) [![NPM Version](https://img.shields.io/npm/v/@zimbra/api-client.svg?style=flat)](https://www.npmjs.com/package/@zimbra/api-client)
+
 # zm-api-js-client
 A GraphQL client for making requests against the Zimbra SOAP API.
 
