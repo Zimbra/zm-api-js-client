@@ -8,7 +8,7 @@ export enum Namespace {
 export type SessionId = string;
 export type SessionSeq = number;
 
-interface BaseRequestOptions {
+export interface BaseRequestOptions {
 	accountId?: string;
 	accountName?: string;
 	credentials?: RequestCredentials;

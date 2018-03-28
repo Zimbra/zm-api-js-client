@@ -1,6 +1,5 @@
 import DataLoader from 'dataloader';
 import { get, isError, mapValues } from 'lodash';
-
 import { denormalize, normalize } from '../normalize';
 import {
 	CalendarItemCreateModifyRequest,

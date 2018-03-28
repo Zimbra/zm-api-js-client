@@ -1,21 +1,7 @@
+import { GraphQLSchema } from 'graphql';
 import { makeExecutableSchema } from 'graphql-tools';
 import { mapValues } from 'lodash';
-
-import {
-	CalendarItemInput,
-	FolderView,
-	getFolderQueryVariables,
-	getMailboxMetadataQueryVariables,
-	SortBy
-} from './generated-schema-types';
-import { ZimbraSchemaOptions } from './types';
-
 import { ZimbraBatchClient } from '../batch-client';
-import { normalize } from '../normalize';
-import { CalendarItemHitInfo } from '../normalize/entities';
-import { coerceBooleanToString } from '../utils/coerce-boolean';
-import { ZimbraNotifications } from './notifications';
-
 import {
 	ActionOptions,
 	CreateFolderOptions,
@@ -33,9 +19,23 @@ import {
 	SearchOptions,
 	ShareInfosOptions
 } from '../batch-client/types';
+import { normalize } from '../normalize';
+import { CalendarItemHitInfo } from '../normalize/entities';
+import { coerceBooleanToString } from '../utils/coerce-boolean';
+import {
+	CalendarItemInput,
+	FolderView,
+	getFolderQueryVariables,
+	getMailboxMetadataQueryVariables,
+	SortBy
+} from './generated-schema-types';
+import { ZimbraNotifications } from './notifications';
 import schema from './schema.graphql';
+import { ZimbraSchemaOptions } from './types';
 
-export function createZimbraSchema(options: ZimbraSchemaOptions) {
+export function createZimbraSchema(
+	options: ZimbraSchemaOptions
+): { client: ZimbraBatchClient; schema: GraphQLSchema } {
 	const { cache, ...clientOptions } = options;
 	const notifications = cache ? new ZimbraNotifications({ cache }) : undefined;
 	const client = new ZimbraBatchClient({

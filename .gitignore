@@ -10,3 +10,5 @@ node_modules
 /static-app.json
 *.orig
 test-reports/
+types/
+.rpt2_cache/

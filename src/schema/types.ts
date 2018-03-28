@@ -1,4 +1,4 @@
-import { ZimbraInMemoryCache } from '../../apollo';
+import { ZimbraInMemoryCache } from '../apollo/zimbra-in-memory-cache';
 import { ZimbraClientOptions } from '../batch-client/types';
 
 export interface ZimbraNotificationsOptions {

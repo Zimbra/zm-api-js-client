@@ -27,13 +27,13 @@ export enum ActionOps {
 	trash = 'trash'
 }
 
-enum _MessageActionOps {
+export enum _MessageActionOps {
 	update = 'update'
 }
 
 export type MessageActionOps = ActionOps | _MessageActionOps;
 
-enum _ConversationActionOps {
+export enum _ConversationActionOps {
 	priority = 'priority'
 }
 

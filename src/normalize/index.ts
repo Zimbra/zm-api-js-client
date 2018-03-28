@@ -1,4 +1,4 @@
-import reduce from 'lodash/reduce';
+import { reduce } from 'lodash';
 
 import { EntityMapping, EntityMappingValue, NormalizedKey } from './types';
 
