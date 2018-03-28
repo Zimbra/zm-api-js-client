@@ -1,5 +1,5 @@
 {
-  "name": "@zimbra/zm-x-api-js-client",
+  "name": "@zimbra/api-client",
   "amdName": "zm-x-api-js-client",
   "version": "1.0.0",
   "description": "Zimbra JS API Client is a GraphQL client for making requests against the Zimbra SOAP API.",
