@@ -1,16 +1,17 @@
 {
   "name": "@zimbra/api-client",
-  "amdName": "zm-x-api-js-client",
-  "version": "1.0.0",
-  "description": "Zimbra JS API Client is a GraphQL client for making requests against the Zimbra SOAP API.",
-  "main": "dist/zm-x-api-js-client.js",
+  "amdName": "zmApiJsClient",
+  "version": "0.1.0",
+  "description": "Zimbra JS API Client and GraphQL client for making requests against the Zimbra SOAP API.",
+  "main": "dist/zm-api-js-client.js",
   "source": "index.ts",
-  "module": "dist/zm-x-api-js-client.esm.js",
-  "umd:main": "dist/zm-x-api-js-client.umd.js",
+  "module": "dist/zm-api-js-client.esm.js",
+  "umd:main": "dist/zm-api-js-client.umd.js",
   "scripts": {
     "lint": "tslint --project .",
-    "eslint": "eslint src --ext .js",
     "lint:fix": "npm run lint -- --fix",
+    "eslint": "eslint src --ext .js",
+    "test": "npm-run-all -p lint eslint",
     "clean": "rimraf dist",
     "build": "npm-run-all clean rollup:* -p build:ts minify:* copySchema",
     "build:ts": "tsc --emitDeclarationOnly --declaration",
@@ -18,21 +19,20 @@
     "rollup:cjs": "rollup -c rollup.config.js -m -f cjs -n $npm_package_amdName $npm_package_source -o $npm_package_main",
     "rollup:umd": "rollup -c rollup.config.js -m -f umd -n $npm_package_amdName $npm_package_source -o $npm_package_umd_main",
     "rollup:esm": "rollup -c rollup.config.js -m -f es --environment FORMAT:es -n $npm_package_amdName $npm_package_source -o $npm_package_module",
-    "minify:cjs": "uglifyjs $npm_package_main -c pure_getters,pure_funcs=classCallCheck -m toplevel -o $npm_package_main --source-map content=${npm_package_main}.map,url=zm-x-api-js-client.js.map,filename=${npm_package_main}.map",
-    "minify:umd": "uglifyjs $npm_package_umd_main -c pure_getters,pure_funcs=classCallCheck -m -o $npm_package_umd_main --source-map content=${npm_package_umd_main}.map,url=zm-x-api-js-client.umd.js.map,filename=${npm_package_umd_main}.map",
+    "minify:cjs": "uglifyjs $npm_package_main -c pure_getters,pure_funcs=classCallCheck -m toplevel -o $npm_package_main --source-map content=${npm_package_main}.map,url=zm-api-js-client.js.map,filename=${npm_package_main}.map",
+    "minify:umd": "uglifyjs $npm_package_umd_main -c pure_getters,pure_funcs=classCallCheck -m -o $npm_package_umd_main --source-map content=${npm_package_umd_main}.map,url=zm-api-js-client.umd.js.map,filename=${npm_package_umd_main}.map",
     "size": "echo \"Gzipped Size: $(gzip-size $npm_package_main | pretty-bytes)\"",
-    "release": "npm run test && npm run build -s && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run test && npm run build -s && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags"
   },
   "keywords": [
     "zimbra",
-    "zm-x-web",
+    "api",
     "graphql"
   ],
   "extends": [
     "eslint-config-synacor"
   ],
-  "repository": "Zimbra/zm-x-api-js-client",
+  "repository": "Zimbra/zm-api-js-client",
   "license": "BSD-3-Clause",
   "dependencies": {
     "apollo-cache-inmemory": "^1.1.11",
