@@ -1,10 +1,10 @@
-# zm-x-api-js-client
+# zm-api-js-client
 A GraphQL client for making requests against the Zimbra SOAP API.
 
 ### Install
 
 ```
-npm install @zimbra/zm-x-api-js-client
+npm install @zimbra/api-client
 ```
 
 ---
