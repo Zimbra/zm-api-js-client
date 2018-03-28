@@ -1,5 +1,6 @@
 import DataLoader from 'dataloader';
 import { get, isError, mapValues } from 'lodash';
+
 import { denormalize, normalize } from '../normalize';
 import {
 	CalendarItemCreateModifyRequest,
@@ -30,6 +31,7 @@ import { normalizeMimeParts } from '../utils/normalize-mime-parts';
 import {
 	ActionOptions,
 	ActionType,
+	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
 	FolderOptions,
@@ -57,6 +59,15 @@ function normalizeMessage(
 	return normalizeEmailAddresses(
 		normalizeMimeParts(normalize(MessageInfo)(message), zimbraOrigin)
 	);
+}
+
+function getErrorFromPasswordResetResponse(html: string) {
+	// Parse the error in the HTML response in the ZLoginErrorPanel element.
+	const doc = new DOMParser().parseFromString(html, 'text/html');
+	const err = doc && doc.getElementById('ZLoginErrorPanel');
+	if (err && err.textContent) {
+		return err.textContent.trim();
+	}
 }
 
 export class ZimbraBatchClient {
@@ -118,6 +129,40 @@ export class ZimbraBatchClient {
 				id: inviteId
 			}
 		});
+
+	public changePassword = ({
+		loginConfirmNewPassword,
+		loginNewPassword,
+		password,
+		username
+	}: ChangePasswordOptions) =>
+		fetch(`${this.origin}/`, {
+			credentials: 'include',
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			body: `loginOp=login&username=${encodeURIComponent(
+				username
+			)}&password=${encodeURIComponent(
+				password
+			)}&loginNewPassword=${encodeURIComponent(
+				loginNewPassword
+			)}&loginConfirmNewPassword=${encodeURIComponent(
+				loginConfirmNewPassword
+			)}&client=preferred`
+		})
+			.then((r: any) => {
+				if (r && r.ok) {
+					return r.text();
+				}
+
+				return Promise.reject(`${r.status} Bad Response`);
+			})
+			.then((html: string) => {
+				const error = getErrorFromPasswordResetResponse(html);
+				return error ? Promise.reject(error) : Promise.resolve(html);
+			});
 
 	public conversationAction = (options: ActionOptions) =>
 		this.action(ActionType.conversation, options);
@@ -291,6 +336,26 @@ export class ZimbraBatchClient {
 	public jsonRequest = (options: RequestOptions): Promise<RequestBody> =>
 		this.dataLoader.load(options);
 
+	public logout = () => {
+		return new Promise(resolve => {
+			// iFrame to the page that actually clears cookies.
+			const iframe = document.createElement('iframe');
+			iframe.setAttribute('style', 'display: none');
+			iframe.src = this.resolve('/?loginOp=logout');
+
+			iframe.onload = iframe.onerror = () => {
+				const { parentNode } = iframe;
+				if (parentNode) {
+					parentNode.removeChild(iframe);
+				}
+
+				resolve();
+			};
+
+			document.body.appendChild(iframe);
+		});
+	};
+
 	public messageAction = (options: ActionOptions) =>
 		this.action(ActionType.message, options);
 
@@ -319,6 +384,8 @@ export class ZimbraBatchClient {
 				}
 			}
 		});
+
+	public resolve = (path: string) => `${this.origin}${path}`;
 
 	public search = (options: SearchOptions) =>
 		this.jsonRequest({
