@@ -1035,6 +1035,12 @@ type Mutation {
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): String
 	cancelTask(inviteId: ID!): Boolean
 	changeCalendarColor(id: String!, color: Int!): Boolean
+	changePassword(
+		loginConfirmNewPassword: String!
+		loginNewPassword: String!
+		password: String!
+		username: String!
+	): String
 	checkCalendar(calendarId: ID!, value: Boolean!): Boolean
 	conversationAction(
 		ids: [ID!]!
@@ -1064,6 +1070,7 @@ type Mutation {
 	deleteSignature(id: ID!): String
 	folderAction(action: FolderActionInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
+	logout: Boolean
 	messageAction(
 		ids: [ID!]!
 		op: String!

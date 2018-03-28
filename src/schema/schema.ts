@@ -1,9 +1,24 @@
-import { GraphQLSchema } from 'graphql';
 import { makeExecutableSchema } from 'graphql-tools';
 import { mapValues } from 'lodash';
+
+import {
+	CalendarItemInput,
+	FolderView,
+	getFolderQueryVariables,
+	getMailboxMetadataQueryVariables,
+	SortBy
+} from './generated-schema-types';
+import { ZimbraSchemaOptions } from './types';
+
 import { ZimbraBatchClient } from '../batch-client';
+import { normalize } from '../normalize';
+import { CalendarItemHitInfo } from '../normalize/entities';
+import { coerceBooleanToString } from '../utils/coerce-boolean';
+import { ZimbraNotifications } from './notifications';
+
 import {
 	ActionOptions,
+	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
 	FolderOptions,
@@ -19,23 +34,9 @@ import {
 	SearchOptions,
 	ShareInfosOptions
 } from '../batch-client/types';
-import { normalize } from '../normalize';
-import { CalendarItemHitInfo } from '../normalize/entities';
-import { coerceBooleanToString } from '../utils/coerce-boolean';
-import {
-	CalendarItemInput,
-	FolderView,
-	getFolderQueryVariables,
-	getMailboxMetadataQueryVariables,
-	SortBy
-} from './generated-schema-types';
-import { ZimbraNotifications } from './notifications';
 import schema from './schema.graphql';
-import { ZimbraSchemaOptions } from './types';
 
-export function createZimbraSchema(
-	options: ZimbraSchemaOptions
-): { client: ZimbraBatchClient; schema: GraphQLSchema } {
+export function createZimbraSchema(options: ZimbraSchemaOptions) {
 	const { cache, ...clientOptions } = options;
 	const notifications = cache ? new ZimbraNotifications({ cache }) : undefined;
 	const client = new ZimbraBatchClient({
@@ -120,8 +121,11 @@ export function createZimbraSchema(
 				cancelTask: (_, variables) => client.cancelTask(variables),
 				itemAction: (_, variables) =>
 					client.itemAction(variables as ActionOptions),
+				logout: client.logout,
 				messageAction: (_, variables) =>
 					client.messageAction(variables as ActionOptions),
+				changePassword: (_, variables) =>
+					client.changePassword(variables as ChangePasswordOptions),
 				conversationAction: (_, variables) =>
 					client.conversationAction(variables as ActionOptions),
 				createFolder: (_, variables) =>

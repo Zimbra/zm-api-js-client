@@ -107,6 +107,13 @@ export interface ShareInfosOptions {
 	addresses: Array<string>;
 }
 
+export interface ChangePasswordOptions {
+	loginConfirmNewPassword: string;
+	loginNewPassword: string;
+	password: string;
+	username: string;
+}
+
 export interface ActionOptions {
 	color?: number;
 	constraints?: string;
