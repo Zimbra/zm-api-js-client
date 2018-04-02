@@ -150,6 +150,7 @@ export function jsonRequest(
 	const options = {
 		...requestOptions,
 		credentials: requestOptions.credentials || 'include',
+		headers: requestOptions.headers || {},
 		origin: requestOptions.origin || DEFAULT_HOSTNAME,
 		soapPathname: requestOptions.soapPathname || DEFAULT_SOAP_PATHNAME,
 		namespace: requestOptions.namespace || Namespace.Mail
