@@ -93,7 +93,8 @@ const commonInviteFields = {
 	invId: 'inviteId',
 	isOrg: 'isOrganizer',
 	loc: 'location',
-	or: ['organizer', CalendarItemOrganizer]
+	or: ['organizer', CalendarItemOrganizer],
+	ridZ: 'recurrenceId'
 };
 
 const InviteComponent = new Entity({
@@ -107,12 +108,20 @@ const InviteComponent = new Entity({
 	e: ['end', CalendarItemDateTime],
 	ex: 'isException',
 	recur: ['recurrence', CalendarItemAlarmRecurrence],
-	ridZ: 'recurrenceId',
 	s: ['start', CalendarItemDateTime],
 	seq: 'sequence'
 });
 
-const InviteInfo = new Entity({
+const CalTZInfo = new Entity({
+	stdoff: 'timezoneStdOffset',
+	dayoff: 'timezoneDaylightOffset'
+});
+
+const Invitation = new Entity({
+	seq: 'sequenceNumber',
+	compNum: 'componentNum',
+	recurId: 'recurrenceId',
+	tz: ['tz', CalTZInfo],
 	comp: ['components', InviteComponent],
 	mp: ['mimeParts', MimePart]
 });
@@ -127,7 +136,7 @@ const CalendarItemInviteEmailAddress = new Entity({
 const commonMailItemFields = {
 	...commonMessageFields,
 	e: ['emailAddresses', CalendarItemInviteEmailAddress],
-	inv: ['invitations', InviteInfo],
+	inv: ['invitations', Invitation],
 	mp: ['mimeParts', MimePart],
 	su: 'subject'
 };
@@ -178,6 +187,7 @@ export const CalendarItemHitInfo = new Entity({
 	ptst: 'participationStatus',
 	dur: 'duration',
 	inst: ['instances', Instance],
+	inv: ['invitations', Invitation],
 	sf: 'sortField'
 });
 
