@@ -187,6 +187,8 @@ type Instance {
 	start: Float
 	dueDate: Float
 	tzoDue: Int
+	isRecurring: Boolean
+	recurrenceId: String
 }
 
 type EmailAddress {
@@ -341,6 +343,7 @@ type CalendarItemHitInfo {
 	participationStatus: ParticipationStatus
 	percentComplete: String
 	priority: Int
+	isRecurring: Boolean
 	revision: Int # rev
 	size: Float # s
 	sortField: String # sf

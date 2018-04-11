@@ -167,12 +167,14 @@ const ShareNotificationAddress = new Entity({
 
 const Instance = new Entity({
 	s: 'start',
+	recur: 'isRecurring',
 	ridZ: 'recurrenceId'
 });
 
 export const CalendarItemHitInfo = new Entity({
 	...commonMessageFields,
 	...commonInviteFields,
+	recur: 'isRecurring',
 	ptst: 'participationStatus',
 	dur: 'duration',
 	inst: ['instances', Instance],
