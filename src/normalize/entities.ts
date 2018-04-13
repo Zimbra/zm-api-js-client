@@ -126,6 +126,11 @@ const Invitation = new Entity({
 	mp: ['mimeParts', MimePart]
 });
 
+const InviteInfo = new Entity({
+	comp: ['components', InviteComponent],
+	mp: ['mimeParts', MimePart]
+});
+
 const CalendarItemInviteEmailAddress = new Entity({
 	a: 'address',
 	p: 'name',
@@ -136,7 +141,7 @@ const CalendarItemInviteEmailAddress = new Entity({
 const commonMailItemFields = {
 	...commonMessageFields,
 	e: ['emailAddresses', CalendarItemInviteEmailAddress],
-	inv: ['invitations', Invitation],
+	inv: ['invitations', InviteInfo],
 	mp: ['mimeParts', MimePart],
 	su: 'subject'
 };
