@@ -90,11 +90,11 @@ const commonInviteFields = {
 	fb: 'freeBusy',
 	fba: 'freeBusyActual',
 	fr: 'excerpt',
-	invId: 'inviteId',
 	isOrg: 'isOrganizer',
+	invId: 'inviteId',
 	loc: 'location',
 	or: ['organizer', CalendarItemOrganizer],
-	ridZ: 'recurrenceId'
+	ridZ: 'utcRecurrenceId'
 };
 
 const InviteComponent = new Entity({
@@ -182,7 +182,7 @@ const ShareNotificationAddress = new Entity({
 const Instance = new Entity({
 	s: 'start',
 	recur: 'isRecurring',
-	ridZ: 'recurrenceId'
+	ridZ: 'utcRecurrenceId'
 });
 
 export const CalendarItemHitInfo = new Entity({
