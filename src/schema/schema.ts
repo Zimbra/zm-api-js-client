@@ -4,8 +4,6 @@ import { mapValues } from 'lodash';
 import {
 	CalendarItemInput,
 	FolderView,
-	getFolderQueryVariables,
-	getMailboxMetadataQueryVariables,
 	ShareNotificationInput,
 	SortBy
 } from './generated-schema-types';
@@ -64,12 +62,10 @@ export function createZimbraSchema(
 					client.getContactFrequency(variables as GetContactFrequencyOptions),
 				getConversation: (_, variables) =>
 					client.getConversation(variables as GetConversationOptions),
-				getFolder: (_: any, variables: getFolderQueryVariables) =>
+				getFolder: (_: any, variables) =>
 					client.getFolder(variables as GetFolderOptions),
-				getMailboxMetadata: (
-					_: any,
-					variables: getMailboxMetadataQueryVariables
-				) => client.getMailboxMetadata(variables as GetMailboxMetadataOptions),
+				getMailboxMetadata: (_: any, variables) =>
+					client.getMailboxMetadata(variables as GetMailboxMetadataOptions),
 				getMessage: (_, variables) =>
 					client.getMessage(variables as GetMessageOptions),
 				getSearchFolder: client.getSearchFolder,
