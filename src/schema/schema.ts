@@ -22,7 +22,6 @@ import {
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
 	FolderOptions,
-	FoldersOptions,
 	FreeBusyOptions,
 	GetContactFrequencyOptions,
 	GetContactOptions,
@@ -51,9 +50,7 @@ export function createZimbraSchema(
 		resolvers: {
 			Query: {
 				accountInfo: client.accountInfo,
-				calendars: client.calendars,
 				folder: (_, variables) => client.folder(variables as FolderOptions),
-				folders: (_, variables) => client.folders(variables as FoldersOptions),
 				freeBusy: (_, variables) =>
 					client.freeBusy(variables as FreeBusyOptions),
 				getContact: (_, variables) =>

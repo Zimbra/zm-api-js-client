@@ -8,7 +8,6 @@ import {
 	Folder,
 	FolderAction,
 	FreeBusy,
-	GetFolderResponse,
 	MessageInfo,
 	SearchResponse,
 	ShareNotification
@@ -114,15 +113,6 @@ export class ZimbraBatchClient {
 			}
 		});
 	};
-
-	public calendars = () =>
-		this.jsonRequest({
-			name: 'GetFolder',
-			body: {
-				view: FolderView.appointment,
-				tr: true
-			}
-		}).then(res => normalize(Folder)(res.folder[0].folder));
 
 	public cancelTask = ({ inviteId }: any) =>
 		this.jsonRequest({
@@ -286,7 +276,7 @@ export class ZimbraBatchClient {
 				...options,
 				tr: traverseMountpoints
 			}
-		}).then(normalize(GetFolderResponse));
+		}).then(normalize(Folder));
 	};
 
 	public getMailboxMetadata = ({ section }: GetMailboxMetadataOptions) =>
