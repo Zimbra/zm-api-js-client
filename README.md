@@ -123,3 +123,6 @@ In addition, the request primitives are also available:
 ```javascript
 import { jsonRequest, batchJsonRequest } from 'zimbra-graphql/request';
 ```
+
+### Hacking on the Client
+See the [wiki](https://github.com/Zimbra/zm-api-js-client/wiki) for details on how to add new APIs to the client.
