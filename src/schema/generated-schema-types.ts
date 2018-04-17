@@ -310,7 +310,7 @@ export interface InviteComponent {
 	organizer?: CalOrganizer | null;
 	percentComplete?: string | null;
 	priority?: string | null;
-	recurrenceId?: string | null;
+	utcRecurrenceId?: string | null;
 	rsvp?: boolean | null;
 	sequence?: number | null;
 	start?: DtTimeInfo[] | null;
@@ -394,8 +394,10 @@ export interface CalendarItemHitInfo {
 	freeBusyActual?: FreeBusyStatus | null;
 	id: string;
 	instances?: Instance[] | null;
+	invitations?: Invitation[] | null;
 	inviteId: string;
 	isOrganizer?: boolean | null;
+	isRecurring?: boolean | null;
 	location?: string | null;
 	modifiedSequence?: number | null;
 	name?: string | null;
@@ -404,6 +406,7 @@ export interface CalendarItemHitInfo {
 	percentComplete?: string | null;
 	priority?: number | null;
 	revision?: number | null;
+	utcRecurrenceId?: string | null;
 	size?: number | null;
 	sortField?: string | null;
 	status?: InviteCompletionStatus | null;
@@ -418,6 +421,39 @@ export interface Instance {
 	start?: number | null;
 	dueDate?: number | null;
 	tzoDue?: number | null;
+	isRecurring?: boolean | null;
+	utcRecurrenceId?: string | null;
+}
+
+export interface Invitation {
+	type: string;
+	sequenceNumber: number;
+	id: number;
+	componentNum: number;
+	recurrenceId?: string | null;
+	tz?: CalTZInfo | null;
+	components: InviteComponent[];
+	mimeParts?: MimePart | null;
+}
+
+export interface CalTZInfo {
+	id?: string | null;
+	timezoneStdOffset?: number | null;
+	timezoneDaylightOffset?: number | null;
+	stdname?: string | null;
+	dayname?: string | null;
+	standard?: TzOnsetInfo | null;
+	daylight?: TzOnsetInfo | null;
+}
+
+export interface TzOnsetInfo {
+	week?: number | null;
+	wkday?: number | null;
+	mon?: number | null;
+	mday?: number | null;
+	hour?: number | null;
+	min?: number | null;
+	sec?: number | null;
 }
 
 export interface FreeBusy {
