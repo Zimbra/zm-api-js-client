@@ -191,6 +191,8 @@ type Instance {
 	start: Float
 	dueDate: Float
 	tzoDue: Int
+	isRecurring: Boolean
+	utcRecurrenceId: String
 }
 
 type EmailAddress {
@@ -306,7 +308,7 @@ type InviteComponent {
 	organizer: CalOrganizer # or
 	percentComplete: String
 	priority: String
-	recurrenceId: String #ridZ
+	utcRecurrenceId: String #ridZ
 	rsvp: Boolean
 	sequence: Int # seq
 	start: [DtTimeInfo] # s
@@ -321,7 +323,38 @@ type DtTimeInfo {
 	timezone: String # tz
 }
 
-type CalendarItemHitInfo {
+type Invitation { # <inv>
+	type: String!
+	sequenceNumber: Int! # seq
+	id: Int!
+	componentNum: Int! # compNum
+	recurrenceId: String # recurId
+	tz: CalTZInfo
+	components: [InviteComponent]! # comp
+	mimeParts: MimePart
+}
+
+type CalTZInfo { # <tz>
+	id: String
+	timezoneStdOffset: Int # stdoff
+	timezoneDaylightOffset: Int # dayoff
+	stdname: String
+	dayname: String
+	standard: TzOnsetInfo
+	daylight: TzOnsetInfo
+}
+
+type TzOnsetInfo { # <standard>, <daylight>
+	week: Int
+	wkday: Int
+	mon: Int
+	mday: Int
+	hour: Int
+	min: Int
+	sec: Int
+}
+
+type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	alarm: Boolean
 	allDay: Boolean
 	changeDate: Float # md
@@ -336,8 +369,10 @@ type CalendarItemHitInfo {
 	freeBusyActual: FreeBusyStatus # fba
 	id: ID!
 	instances: [Instance] # inst
+	invitations: [Invitation] # inv
 	inviteId: ID! #invId
 	isOrganizer: Boolean # isOrg
+	isRecurring: Boolean # recur
 	location: String # loc
 	modifiedSequence: Int # ms
 	name: String
@@ -346,6 +381,7 @@ type CalendarItemHitInfo {
 	percentComplete: String
 	priority: Int
 	revision: Int # rev
+	utcRecurrenceId: String # ridZ
 	size: Float # s
 	sortField: String # sf
 	status: InviteCompletionStatus
