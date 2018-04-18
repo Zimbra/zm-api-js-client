@@ -285,9 +285,10 @@ export interface InviteInfo {
 }
 
 export interface InviteComponent {
-	allDay?:
-		| boolean
-		| null /* duration: DurationInfo # dur - TODOrecurrence: RecurrenceInfo - TODO */;
+	recurrence?:
+		| RecurrenceInfo[]
+		| null /* duration: DurationInfo # dur - TODO */;
+	allDay?: boolean | null;
 	attendees?: CalendarItemAttendee[] | null;
 	calItemId?: string | null;
 	ciFolder?: string | null;
@@ -318,6 +319,62 @@ export interface InviteComponent {
 	uid?: string | null;
 	x_uid?: string | null;
 	aid?: string | null;
+}
+
+export interface RecurrenceInfo {
+	add?: AddRecurrenceInfo[] | null;
+	exclude?: ExcludeRecurrenceInfo[] | null;
+	except?: ExceptionRuleInfo[] | null;
+	cancel?: CancelRuleInfo[] | null;
+	rule?: SimpleRepeatingRule[] | null /* dates: [SingleDates] # TODO */;
+}
+
+export interface AddRecurrenceInfo {
+	add?: AddRecurrenceInfo[] | null;
+	exclude?: ExcludeRecurrenceInfo[] | null;
+	except?: ExceptionRuleInfo[] | null;
+	cancel?: CancelRuleInfo[] | null;
+	rule?: SimpleRepeatingRule[] | null /* dates: SingleDates # TODO */;
+}
+
+export interface ExcludeRecurrenceInfo {
+	exclude?: ExcludeRecurrenceInfo[] | null;
+	except?: ExceptionRuleInfo[] | null;
+}
+
+export interface ExceptionRuleInfo {
+	rangeType?: number | null;
+	recurId?: string | null;
+	tz?: string | null;
+	ridZ?: string | null;
+	add?: AddRecurrenceInfo[] | null;
+	exclude?: ExcludeRecurrenceInfo[] | null;
+}
+
+export interface CancelRuleInfo {
+	rangeType?: number | null;
+	recurId?: string | null;
+	tz?: string | null;
+	ridZ?: string | null;
+}
+
+export interface SimpleRepeatingRule {
+	frequency?: CalendarItemRecurrenceFrequency | null;
+	interval?: IntervalRule[] | null;
+	byday?: ByDayRule[] | null;
+}
+
+export interface IntervalRule {
+	intervalCount?: number | null;
+}
+
+export interface ByDayRule {
+	wkday?: WkDay[] | null;
+}
+
+export interface WkDay {
+	day?: Weekday | null;
+	ordwk?: number | null;
 }
 
 export interface CalendarItemAttendee {
@@ -1136,6 +1193,26 @@ export enum InviteType {
 	task = 'task'
 }
 
+export enum CalendarItemRecurrenceFrequency {
+	SEC = 'SEC',
+	MIN = 'MIN',
+	HOU = 'HOU',
+	DAI = 'DAI',
+	WEE = 'WEE',
+	MON = 'MON',
+	YEA = 'YEA'
+}
+
+export enum Weekday {
+	SU = 'SU',
+	MO = 'MO',
+	TU = 'TU',
+	WE = 'WE',
+	TH = 'TH',
+	FR = 'FR',
+	SA = 'SA'
+}
+
 export enum ParticipationRole {
 	REQ = 'REQ',
 	OPT = 'OPT',
@@ -1248,16 +1325,6 @@ export enum ConnectionType {
 	ssl = 'ssl',
 	tls = 'tls',
 	tls_is_available = 'tls_is_available'
-}
-
-export enum CalendarItemRecurrenceFrequency {
-	SEC = 'SEC',
-	MIN = 'MIN',
-	HOU = 'HOU',
-	DAI = 'DAI',
-	WEE = 'WEE',
-	MON = 'MON',
-	YEA = 'YEA'
 }
 
 export enum AlarmAction {
