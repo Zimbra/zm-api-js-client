@@ -62,6 +62,16 @@ enum AlarmRelatedTo {
 	END
 }
 
+enum Weekday {
+	SU
+	MO
+	TU
+	WE
+	TH
+	FR
+	SA
+}
+
 enum CalendarItemRecurrenceFrequency {
 	SEC
 	MIN
@@ -282,9 +292,70 @@ type InviteInfo {
 	components: [InviteComponent] #comp
 }
 
+type AddRecurrenceInfo { # <add>
+	add: [AddRecurrenceInfo]
+	exclude: [ExcludeRecurrenceInfo]
+	except: [ExceptionRuleInfo]
+	cancel: [CancelRuleInfo]
+	# dates: SingleDates # TODO
+	rule: [SimpleRepeatingRule]
+}
+
+type ExcludeRecurrenceInfo { # <exclude>
+	exclude: [ExcludeRecurrenceInfo]
+	except: [ExceptionRuleInfo]
+}
+
+type ExceptionRuleInfo { # <except>
+	rangeType: Int
+	recurId: String
+	tz: String
+	ridZ: String
+	add: [AddRecurrenceInfo]
+	exclude: [ExcludeRecurrenceInfo]
+}
+
+type CancelRuleInfo { # <cancel>
+	rangeType: Int
+	recurId: String
+	tz: String
+	ridZ: String
+}
+
+# type SingleDates { # <dates>
+# }
+
+type WkDay { # <wkday>
+	day: Weekday
+	ordwk: Int
+}
+
+type ByDayRule { # <byday>
+	wkday: [WkDay]
+}
+
+type IntervalRule { # <interval>
+	intervalCount: Int # ival
+}
+
+type SimpleRepeatingRule { # <rule>
+	frequency: CalendarItemRecurrenceFrequency # freq
+	interval: [IntervalRule]
+	byday: [ByDayRule]
+}
+
+type RecurrenceInfo { # <recur>
+	add: [AddRecurrenceInfo]
+	exclude: [ExcludeRecurrenceInfo]
+	except: [ExceptionRuleInfo]
+	cancel: [CancelRuleInfo]
+	# dates: [SingleDates] # TODO
+	rule: [SimpleRepeatingRule]
+}
+
 type InviteComponent {
 	# duration: DurationInfo # dur - TODO
-	# recurrence: RecurrenceInfo - TODO
+	recurrence: [RecurrenceInfo] # recur
 	allDay: Boolean
 	attendees: [CalendarItemAttendee]
 	calItemId: String

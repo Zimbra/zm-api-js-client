@@ -36,17 +36,21 @@ const CalendarItemAlarmAttendees = new Entity({
 	a: 'email'
 });
 
-const CalendarItemRecurrenceRule = new Entity({
-	freq: 'frequency',
-	interval: {
-		ival: 'intervalCount'
-	}
+const IntervalRule = new Entity({
+	ival: 'intervalCount'
 });
 
-const CalendarItemAlarmRecurrence = new Entity({
-	add: {
-		rule: CalendarItemRecurrenceRule
-	}
+const SimpleRepeatingRule = new Entity({
+	freq: 'frequency',
+	interval: ['interval', IntervalRule]
+});
+
+const AddRecurrenceInfo = new Entity({
+	rule: ['rule', SimpleRepeatingRule]
+});
+
+const RecurrenceInfo = new Entity({
+	add: ['add', AddRecurrenceInfo]
 });
 
 const CalendarItemAlarm = new Entity({
@@ -107,7 +111,7 @@ const InviteComponent = new Entity({
 	descHtml: 'htmlDescription',
 	e: ['end', CalendarItemDateTime],
 	ex: 'isException',
-	recur: ['recurrence', CalendarItemAlarmRecurrence],
+	recur: ['recurrence', RecurrenceInfo],
 	s: ['start', CalendarItemDateTime],
 	seq: 'sequence'
 });
