@@ -134,6 +134,8 @@ export function createZimbraSchema(
 					client.createSearchFolder(variables as CreateSearchFolderOptions),
 				createAppointment: (_, { appointment }) =>
 					client.createAppointment(appointment as CalendarItemInput),
+				modifyAppointment: (_, { appointment }) =>
+					client.modifyAppointment(appointment as CalendarItemInput),
 				deleteAppointment: (_, { inviteId }, { zimbra }) =>
 					zimbra.appointments.delete({ inviteId }),
 				checkCalendar: (_, { calendarId, value }, { zimbra }) =>

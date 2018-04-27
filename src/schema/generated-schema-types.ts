@@ -285,9 +285,8 @@ export interface InviteInfo {
 }
 
 export interface InviteComponent {
-	recurrence?:
-		| RecurrenceInfo[]
-		| null /* duration: DurationInfo # dur - TODO */;
+	alarm?: CalendarItemAlarm[] | null /* duration: DurationInfo # dur - TODO */;
+	recurrence?: RecurrenceInfo[] | null;
 	allDay?: boolean | null;
 	attendees?: CalendarItemAttendee[] | null;
 	calItemId?: string | null;
@@ -319,6 +318,29 @@ export interface InviteComponent {
 	uid?: string | null;
 	x_uid?: string | null;
 	aid?: string | null;
+}
+
+export interface CalendarItemAlarm {
+	trigger: CalendarItemAlarmTrigger;
+	attendees: CalendarItemAlarmAttendees;
+}
+
+export interface CalendarItemAlarmTrigger {
+	relative: CalendarItemAlarmTriggerRelative;
+}
+
+export interface CalendarItemAlarmTriggerRelative {
+	weeks?: number | null;
+	days?: number | null;
+	hours?: number | null;
+	minutes?: number | null;
+	seconds?: number | null;
+	relatedTo: string;
+	negative: boolean;
+}
+
+export interface CalendarItemAlarmAttendees {
+	email: string;
 }
 
 export interface RecurrenceInfo {
@@ -616,6 +638,7 @@ export interface Mutation {
 	logout?: boolean | null;
 	messageAction?: boolean | null;
 	modifyExternalAccount?: string | null;
+	modifyAppointment?: boolean | null;
 	modifyIdentity?: string | null;
 	modifySignature?: string | null;
 	modifyTask?: boolean | null;
@@ -754,7 +777,7 @@ export interface CalendarItemAttendeesInput {
 export interface CalendarItemAlarmInput {
 	action: AlarmAction;
 	trigger: CalendarItemAlarmTriggerInput;
-	attendees?: CalendarItemAlarmAttendees | null;
+	attendees?: CalendarItemAlarmAttendeesInput | null;
 }
 
 export interface CalendarItemAlarmTriggerInput {
@@ -775,7 +798,7 @@ export interface CalendarItemAlarmTriggerAbsoluteInput {
 	date: string;
 }
 
-export interface CalendarItemAlarmAttendees {
+export interface CalendarItemAlarmAttendeesInput {
 	email: string;
 }
 
@@ -1093,6 +1116,9 @@ export interface ModifyExternalAccountMutationArgs {
 	id: string;
 	type?: AccountType | null;
 	attrs: ExternalAccountModifyAttrsInput;
+}
+export interface ModifyAppointmentMutationArgs {
+	appointment: CalendarItemInput;
 }
 export interface ModifyIdentityMutationArgs {
 	id: string;

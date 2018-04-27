@@ -355,6 +355,7 @@ type RecurrenceInfo { # <recur>
 
 type InviteComponent {
 	# duration: DurationInfo # dur - TODO
+	alarms: [CalendarItemAlarm] # alarm
 	recurrence: [RecurrenceInfo] # recur
 	allDay: Boolean
 	attendees: [CalendarItemAttendee]
@@ -426,7 +427,6 @@ type TzOnsetInfo { # <standard>, <daylight>
 }
 
 type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
-	alarm: Boolean
 	allDay: Boolean
 	changeDate: Float # md
 	class: CalendarItemClass!
@@ -880,13 +880,36 @@ input CalendarItemAttendeesInput {
 	name: String
 }
 
+type CalendarItemAlarmTriggerRelative {
+	weeks: Int
+	days: Int
+	hours: Int
+	minutes: Int
+	seconds: Int
+	relatedTo: AlarmRelatedTo!
+	negative: Boolean!
+}
+
+type CalendarItemAlarmAttendees {
+	email: String!
+}
+
+type CalendarItemAlarmTrigger {
+	relative: CalendarItemAlarmTriggerRelative!
+}
+
+type CalendarItemAlarm {
+	trigger: CalendarItemAlarmTrigger!
+	attendees: CalendarItemAlarmAttendees!
+}
+
 input CalendarItemAlarmInput {
 	action: AlarmAction!
 	trigger: CalendarItemAlarmTriggerInput!
-	attendees: CalendarItemAlarmAttendees
+	attendees: CalendarItemAlarmAttendeesInput
 }
 
-input CalendarItemAlarmAttendees {
+input CalendarItemAlarmAttendeesInput {
 	email: String!
 }
 
@@ -896,10 +919,11 @@ input CalendarItemAlarmTriggerInput {
 }
 
 input CalendarItemAlarmTriggerRelativeInput {
-	seconds: Int
-	minutes: Int
-	hours: Int
+	weeks: Int
 	days: Int
+	hours: Int
+	minutes: Int
+	seconds: Int
 	relatedTo: AlarmRelatedTo
 	negative: Boolean
 }
@@ -1191,6 +1215,7 @@ type Mutation {
 		type: AccountType
 		attrs: ExternalAccountModifyAttrsInput!
 	): String
+	modifyAppointment(appointment: CalendarItemInput!): Boolean
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifySignature(id: ID!, contentType: String, value: String!): String
 	modifyTask(task: CalendarItemInput!): Boolean
