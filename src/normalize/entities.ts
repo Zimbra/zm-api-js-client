@@ -32,10 +32,6 @@ const CalendarItemAlarmTrigger = new Entity({
 	rel: ['relative', CalendarItemAlarmTriggerRelative]
 });
 
-const CalendarItemAlarmAttendees = new Entity({
-	a: 'email'
-});
-
 const IntervalRule = new Entity({
 	ival: 'intervalCount'
 });
@@ -54,8 +50,7 @@ const RecurrenceInfo = new Entity({
 });
 
 const CalendarItemAlarm = new Entity({
-	trigger: CalendarItemAlarmTrigger,
-	at: ['attendees', CalendarItemAlarmAttendees]
+	trigger: CalendarItemAlarmTrigger
 });
 
 const CalendarItemDateTime = new Entity({
@@ -189,9 +184,14 @@ const Instance = new Entity({
 	ridZ: 'utcRecurrenceId'
 });
 
+const CalendarItemAlarmData = new Entity({
+	alarm: ['alarms', CalendarItemAlarm]
+});
+
 export const CalendarItemHitInfo = new Entity({
 	...commonMessageFields,
 	...commonInviteFields,
+	alarmData: ['alarmData', CalendarItemAlarmData],
 	recur: 'isRecurring',
 	ptst: 'participationStatus',
 	dur: 'duration',

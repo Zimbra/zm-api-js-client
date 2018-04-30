@@ -355,7 +355,6 @@ type RecurrenceInfo { # <recur>
 
 type InviteComponent {
 	# duration: DurationInfo # dur - TODO
-	alarms: [CalendarItemAlarm] # alarm
 	recurrence: [RecurrenceInfo] # recur
 	allDay: Boolean
 	attendees: [CalendarItemAttendee]
@@ -427,6 +426,8 @@ type TzOnsetInfo { # <standard>, <daylight>
 }
 
 type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
+	alarm: Boolean
+	alarmData: [CalendarItemAlarmData]
 	allDay: Boolean
 	changeDate: Float # md
 	class: CalendarItemClass!
@@ -895,12 +896,17 @@ type CalendarItemAlarmAttendees {
 }
 
 type CalendarItemAlarmTrigger {
-	relative: CalendarItemAlarmTriggerRelative!
+	relative: [CalendarItemAlarmTriggerRelative]
 }
 
 type CalendarItemAlarm {
-	trigger: CalendarItemAlarmTrigger!
-	attendees: CalendarItemAlarmAttendees!
+	action: AlarmAction!
+	trigger: [CalendarItemAlarmTrigger]
+}
+
+type CalendarItemAlarmData {
+	alarms: [CalendarItemAlarm]
+	nextAlarm: Float!
 }
 
 input CalendarItemAlarmInput {
