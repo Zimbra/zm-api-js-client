@@ -36,17 +36,21 @@ const CalendarItemAlarmAttendees = new Entity({
 	a: 'email'
 });
 
-const CalendarItemRecurrenceRule = new Entity({
-	freq: 'frequency',
-	interval: {
-		ival: 'intervalCount'
-	}
+const IntervalRule = new Entity({
+	ival: 'intervalCount'
 });
 
-const CalendarItemAlarmRecurrence = new Entity({
-	add: {
-		rule: CalendarItemRecurrenceRule
-	}
+const SimpleRepeatingRule = new Entity({
+	freq: 'frequency',
+	interval: ['interval', IntervalRule]
+});
+
+const AddRecurrenceInfo = new Entity({
+	rule: ['rule', SimpleRepeatingRule]
+});
+
+const RecurrenceInfo = new Entity({
+	add: ['add', AddRecurrenceInfo]
 });
 
 const CalendarItemAlarm = new Entity({
@@ -90,10 +94,11 @@ const commonInviteFields = {
 	fb: 'freeBusy',
 	fba: 'freeBusyActual',
 	fr: 'excerpt',
-	invId: 'inviteId',
 	isOrg: 'isOrganizer',
+	invId: 'inviteId',
 	loc: 'location',
-	or: ['organizer', CalendarItemOrganizer]
+	or: ['organizer', CalendarItemOrganizer],
+	ridZ: 'utcRecurrenceId'
 };
 
 const InviteComponent = new Entity({
@@ -106,10 +111,23 @@ const InviteComponent = new Entity({
 	descHtml: 'htmlDescription',
 	e: ['end', CalendarItemDateTime],
 	ex: 'isException',
-	recur: ['recurrence', CalendarItemAlarmRecurrence],
-	ridZ: 'recurrenceId',
+	recur: ['recurrence', RecurrenceInfo],
 	s: ['start', CalendarItemDateTime],
 	seq: 'sequence'
+});
+
+const CalTZInfo = new Entity({
+	stdoff: 'timezoneStdOffset',
+	dayoff: 'timezoneDaylightOffset'
+});
+
+const Invitation = new Entity({
+	seq: 'sequenceNumber',
+	compNum: 'componentNum',
+	recurId: 'recurrenceId',
+	tz: ['tz', CalTZInfo],
+	comp: ['components', InviteComponent],
+	mp: ['mimeParts', MimePart]
 });
 
 const InviteInfo = new Entity({
@@ -167,15 +185,18 @@ const ShareNotificationAddress = new Entity({
 
 const Instance = new Entity({
 	s: 'start',
-	ridZ: 'recurrenceId'
+	recur: 'isRecurring',
+	ridZ: 'utcRecurrenceId'
 });
 
 export const CalendarItemHitInfo = new Entity({
 	...commonMessageFields,
 	...commonInviteFields,
+	recur: 'isRecurring',
 	ptst: 'participationStatus',
 	dur: 'duration',
 	inst: ['instances', Instance],
+	inv: ['invitations', Invitation],
 	sf: 'sortField'
 });
 
