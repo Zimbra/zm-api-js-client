@@ -511,10 +511,6 @@ type Folder {
 	query: String
 }
 
-type GetFolderResponse {
-	folders: [Folder]
-}
-
 type ACL {
 	grant: [ACLGrant]
 }
@@ -1058,9 +1054,7 @@ input MailItemHeaderInput {
 # - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
 type Query {
 	accountInfo: AccountInfo
-	calendars: [Folder]
 	folder(id: ID!): Folder
-	folders(ids: [FolderQueryInput]!): [Folder]
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
 	getContact(id: ID!): Contact
 	getContactFrequency(
@@ -1083,7 +1077,7 @@ type Query {
 		depth: Int,
 		traverseMountpoints: Boolean
 		folder: GetFolderFolderInput
-	): GetFolderResponse
+	): Folder
 	getMailboxMetadata(section: String): MailboxMetadata
 	getMessage(
 		id: ID!,
@@ -1097,7 +1091,7 @@ type Query {
 		read: Boolean,
 		ridZ: String
 	): MessageInfo
-	getSearchFolder: GetFolderResponse
+	getSearchFolder: Folder
 	getTask(inviteId: ID!): Boolean
 	noop: Boolean
 	preferences: Preferences
