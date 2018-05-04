@@ -622,6 +622,7 @@ type IdentityAttrs {
 
 type Preferences {
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
+	zimbraPrefCalendarAutoAddInvites: Boolean
 	zimbraPrefCalendarFirstDayOfWeek: String
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
@@ -955,6 +956,7 @@ input GrantInput {
 
 input PreferencesInput {
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
+	zimbraPrefCalendarAutoAddInvites: Boolean
 	zimbraPrefCalendarFirstDayOfWeek: String
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
@@ -973,6 +975,7 @@ input PreferencesInput {
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
 	zimbraPrefReadingPaneSashHorizontal: Int
 	zimbraPrefShowFragments: Boolean
+
 }
 
 input ShareNotificationInput {
@@ -1222,7 +1225,6 @@ type Mutation {
 	prefCalendarWorkingHours(value: String!): String
 	prefEnableOutOfOfficeAlertOnLogin(value: Boolean!): Boolean
 	prefEnableOutOfOfficeReply(value: Boolean!): Boolean
-	prefMailForward(address: String, deleteAndForward: Boolean!): String
 	prefOutOfOfficeFromDate(value: String!): String
 	prefOutOfOfficeReply(value: String!): String
 	prefOutOfOfficeUntilDate(value: String!): String

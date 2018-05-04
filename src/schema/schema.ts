@@ -136,20 +136,20 @@ export function createZimbraSchema(
 					zimbra.appointments.delete({ inviteId }),
 				checkCalendar: (_, { calendarId, value }, { zimbra }) =>
 					zimbra.calendars.check({ calendarId, value }),
-				prefCalendarInitialView: (_, { value }, { zimbra }) =>
-					zimbra.account
+				prefCalendarInitialView: (_, { value }) =>
+					client
 						.modifyPrefs({
 							zimbraPrefCalendarInitialView: value
 						})
 						.then(() => value),
-				prefCalendarWorkingHours: (_, { value }, { zimbra }) =>
-					zimbra.account
+				prefCalendarWorkingHours: (_, { value }) =>
+					client
 						.modifyPrefs({
 							zimbraPrefCalendarWorkingHours: value
 						})
 						.then(() => value),
-				prefAutoAddAppointmentToCalendar: (_, { value }, { zimbra }) =>
-					zimbra.account
+				prefAutoAddAppointmentToCalendar: (_, { value }) =>
+					client
 						.modifyPrefs({
 							zimbraPrefCalendarAutoAddInvites: value
 						})
@@ -172,8 +172,8 @@ export function createZimbraSchema(
 						id,
 						color
 					}),
-				prefCalendarFirstDayOfWeek: (_, { value }, { zimbra }) =>
-					zimbra.account
+				prefCalendarFirstDayOfWeek: (_, { value }) =>
+					client
 						.modifyPrefs({
 							zimbraPrefCalendarFirstDayOfWeek: value
 						})
@@ -195,36 +195,34 @@ export function createZimbraSchema(
 					zimbra.account.modifyExternal(id, type, attrs),
 				deleteExternalAccount: (_, { id }, { zimbra }) =>
 					zimbra.account.deleteExternal({ id }),
-				prefEnableOutOfOfficeAlertOnLogin: (_, { value }, { zimbra }) =>
-					zimbra.account
+				prefEnableOutOfOfficeAlertOnLogin: (_, { value }) =>
+					client
 						.modifyPrefs({
 							zimbraPrefOutOfOfficeStatusAlertOnLogin: value
 						})
 						.then(() => value),
 
-				prefEnableOutOfOfficeReply: (_, { value }, { zimbra }) =>
-					zimbra.account
+				prefEnableOutOfOfficeReply: (_, { value }) =>
+					client
 						.modifyPrefs({
 							zimbraPrefOutOfOfficeReplyEnabled: value
 						})
 						.then(() => value),
 
-				prefOutOfOfficeFromDate: (_, { value }, { zimbra }) =>
-					zimbra.account
+				prefOutOfOfficeFromDate: (_, { value }) =>
+					client
 						.modifyPrefs({
 							zimbraPrefOutOfOfficeFromDate: value
 						})
 						.then(() => value),
 
-				prefOutOfOfficeUntilDate: (_, { value }, { zimbra }) =>
-					zimbra.account
-						.modifyPrefs({
-							zimbraPrefOutOfOfficeUntilDate: value
-						})
+				prefOutOfOfficeUntilDate: (_, { value }) =>
+					client
+						.modifyPrefs({ zimbraPrefOutOfOfficeUntilDate: value })
 						.then(() => value),
 
-				prefOutOfOfficeReply: (_, { value }, { zimbra }) =>
-					zimbra.account
+				prefOutOfOfficeReply: (_, { value }) =>
+					client
 						.modifyPrefs({
 							zimbraPrefOutOfOfficeReply: value
 						})

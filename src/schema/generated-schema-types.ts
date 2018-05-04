@@ -133,6 +133,7 @@ export interface AccountInfoAttrs {
 
 export interface Preferences {
 	zimbraPrefAutoAddAppointmentsToCalendar?: boolean | null;
+	zimbraPrefCalendarAutoAddInvites?: boolean | null;
 	zimbraPrefCalendarFirstDayOfWeek?: string | null;
 	zimbraPrefCalendarInitialView?: PrefCalendarInitialView | null;
 	zimbraPrefCalendarReminderEmail?: string | null;
@@ -623,7 +624,6 @@ export interface Mutation {
 	prefCalendarWorkingHours?: string | null;
 	prefEnableOutOfOfficeAlertOnLogin?: boolean | null;
 	prefEnableOutOfOfficeReply?: boolean | null;
-	prefMailForward?: string | null;
 	prefOutOfOfficeFromDate?: string | null;
 	prefOutOfOfficeReply?: string | null;
 	prefOutOfOfficeUntilDate?: string | null;
@@ -859,6 +859,7 @@ export interface IdentityAttrsInput {
 
 export interface PreferencesInput {
 	zimbraPrefAutoAddAppointmentsToCalendar?: boolean | null;
+	zimbraPrefCalendarAutoAddInvites?: boolean | null;
 	zimbraPrefCalendarFirstDayOfWeek?: string | null;
 	zimbraPrefCalendarInitialView?: PrefCalendarInitialView | null;
 	zimbraPrefCalendarReminderEmail?: string | null;
@@ -1146,10 +1147,6 @@ export interface PrefEnableOutOfOfficeAlertOnLoginMutationArgs {
 }
 export interface PrefEnableOutOfOfficeReplyMutationArgs {
 	value: boolean;
-}
-export interface PrefMailForwardMutationArgs {
-	address?: string | null;
-	deleteAndForward: boolean;
 }
 export interface PrefOutOfOfficeFromDateMutationArgs {
 	value: string;
