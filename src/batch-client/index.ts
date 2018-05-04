@@ -374,7 +374,7 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetPrefs',
 			namespace: Namespace.Account
-		}).then(res => res._attrs);
+		}).then(res => mapValuesDeep(res._attrs, coerceStringToBoolean));
 
 	public relatedContacts = ({ email }: RelatedContactsOptions) =>
 		this.jsonRequest({
