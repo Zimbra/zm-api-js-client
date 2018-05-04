@@ -21,10 +21,12 @@ import { Namespace, RequestBody, RequestOptions } from '../request/types';
 import {
 	CalendarItemInput,
 	FolderView,
+	PreferencesInput,
 	ShareNotificationInput
 } from '../schema/generated-schema-types';
 import {
 	coerceBooleanToInt,
+	coerceBooleanToString,
 	coerceStringToBoolean
 } from '../utils/coerce-boolean';
 import { mapValuesDeep } from '../utils/map-values-deep';
@@ -359,6 +361,15 @@ export class ZimbraBatchClient {
 
 	public messageAction = (options: ActionOptions) =>
 		this.action(ActionType.message, options);
+
+	public modifyPrefs = (prefs: PreferencesInput) =>
+		this.jsonRequest({
+			name: 'ModifyPrefs',
+			namespace: Namespace.Account,
+			body: {
+				_attrs: mapValuesDeep(prefs, coerceBooleanToString)
+			}
+		});
 
 	public modifyTask = (task: CalendarItemInput) =>
 		this.jsonRequest({

@@ -953,6 +953,28 @@ input GrantInput {
 	zimbraId: ID
 }
 
+input PreferencesInput {
+	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
+	zimbraPrefCalendarFirstDayOfWeek: String
+	zimbraPrefCalendarInitialView: PrefCalendarInitialView
+	zimbraPrefCalendarReminderEmail: String
+	zimbraPrefCalendarWorkingHours: String
+	zimbraPrefDisplayExternalImages: Boolean
+	zimbraPrefGroupMailBy: String
+	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
+	zimbraPrefMailTrustedSenderList: [String]
+	zimbraPrefMarkMsgRead: Int
+	zimbraPrefOutOfOfficeFromDate: String
+	zimbraPrefOutOfOfficeReply: String
+	zimbraPrefOutOfOfficeReplyEnabled: Boolean
+	zimbraPrefOutOfOfficeStatusAlertOnLogin: Boolean
+	zimbraPrefOutOfOfficeUntilDate: String
+	zimbraPrefReadingPaneEnabled: Boolean
+	zimbraPrefReadingPaneLocation: ReadingPaneLocation
+	zimbraPrefReadingPaneSashHorizontal: Int
+	zimbraPrefShowFragments: Boolean
+}
+
 input ShareNotificationInput {
 	item: ShareNotificationItemInput!
 	address: ShareNotificaitonEmailAddressInput!
@@ -1188,6 +1210,7 @@ type Mutation {
 		attrs: ExternalAccountModifyAttrsInput!
 	): String
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
+	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifySignature(id: ID!, contentType: String, value: String!): String
 	modifyTask(task: CalendarItemInput!): Boolean
 	moveTask(inviteId: ID!, destFolderId: ID!): String

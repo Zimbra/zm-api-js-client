@@ -137,8 +137,10 @@ export interface Preferences {
 	zimbraPrefCalendarInitialView?: PrefCalendarInitialView | null;
 	zimbraPrefCalendarReminderEmail?: string | null;
 	zimbraPrefCalendarWorkingHours?: string | null;
+	zimbraPrefDisplayExternalImages?: boolean | null;
 	zimbraPrefGroupMailBy?: string | null;
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
+	zimbraPrefMailTrustedSenderList?: string[] | null;
 	zimbraPrefMarkMsgRead?: number | null;
 	zimbraPrefOutOfOfficeFromDate?: string | null;
 	zimbraPrefOutOfOfficeReply?: string | null;
@@ -611,6 +613,7 @@ export interface Mutation {
 	messageAction?: boolean | null;
 	modifyExternalAccount?: string | null;
 	modifyIdentity?: string | null;
+	modifyPrefs?: boolean | null;
 	modifySignature?: string | null;
 	modifyTask?: boolean | null;
 	moveTask?: string | null;
@@ -854,6 +857,28 @@ export interface IdentityAttrsInput {
 	zimbraPrefSentMailFolder?: string | null;
 }
 
+export interface PreferencesInput {
+	zimbraPrefAutoAddAppointmentsToCalendar?: boolean | null;
+	zimbraPrefCalendarFirstDayOfWeek?: string | null;
+	zimbraPrefCalendarInitialView?: PrefCalendarInitialView | null;
+	zimbraPrefCalendarReminderEmail?: string | null;
+	zimbraPrefCalendarWorkingHours?: string | null;
+	zimbraPrefDisplayExternalImages?: boolean | null;
+	zimbraPrefGroupMailBy?: string | null;
+	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
+	zimbraPrefMailTrustedSenderList?: string[] | null;
+	zimbraPrefMarkMsgRead?: number | null;
+	zimbraPrefOutOfOfficeFromDate?: string | null;
+	zimbraPrefOutOfOfficeReply?: string | null;
+	zimbraPrefOutOfOfficeReplyEnabled?: boolean | null;
+	zimbraPrefOutOfOfficeStatusAlertOnLogin?: boolean | null;
+	zimbraPrefOutOfOfficeUntilDate?: string | null;
+	zimbraPrefReadingPaneEnabled?: boolean | null;
+	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
+	zimbraPrefReadingPaneSashHorizontal?: number | null;
+	zimbraPrefShowFragments?: boolean | null;
+}
+
 export interface EmailAddressInput {
 	email: string;
 	name: string;
@@ -1088,6 +1113,9 @@ export interface ModifyExternalAccountMutationArgs {
 export interface ModifyIdentityMutationArgs {
 	id: string;
 	attrs: IdentityAttrsInput;
+}
+export interface ModifyPrefsMutationArgs {
+	prefs: PreferencesInput;
 }
 export interface ModifySignatureMutationArgs {
 	id: string;

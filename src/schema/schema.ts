@@ -4,6 +4,7 @@ import { mapValues } from 'lodash';
 import {
 	CalendarItemInput,
 	FolderView,
+	PreferencesInput,
 	ShareNotificationInput,
 	SortBy
 } from './generated-schema-types';
@@ -235,6 +236,8 @@ export function createZimbraSchema(
 						zimbraPrefMailForwardingAddress: address,
 						zimbraPrefMailLocalDeliveryDisabled: deleteAndForward
 					}),
+				modifyPrefs: (_, { prefs }) =>
+					client.modifyPrefs(prefs as PreferencesInput),
 				// addSignature: (_, { name, contentType, value }) =>
 				// 	api.loadAddSignature({ name, contentType, value }),
 				// modifySignature: (_, { id, contentType, value }) =>
