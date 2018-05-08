@@ -184,14 +184,9 @@ const Instance = new Entity({
 	ridZ: 'utcRecurrenceId'
 });
 
-const CalendarItemAlarmData = new Entity({
-	alarm: ['alarms', CalendarItemAlarm]
-});
-
 export const CalendarItemHitInfo = new Entity({
 	...commonMessageFields,
 	...commonInviteFields,
-	alarmData: ['alarmData', CalendarItemAlarmData],
 	recur: 'isRecurring',
 	ptst: 'participationStatus',
 	dur: 'duration',

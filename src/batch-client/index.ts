@@ -178,14 +178,6 @@ export class ZimbraBatchClient {
 			}
 		});
 
-	public modifyAppointment = (appointment: CalendarItemInput) =>
-		this.jsonRequest({
-			name: 'ModifyAppointment',
-			body: {
-				...denormalize(CalendarItemCreateModifyRequest)(appointment)
-			}
-		});
-
 	public createFolder = (_options: CreateFolderOptions) => {
 		const { flags, fetchIfExists, parentFolderId, ...options } = _options;
 		return this.jsonRequest({
@@ -377,6 +369,14 @@ export class ZimbraBatchClient {
 
 	public messageAction = (options: ActionOptions) =>
 		this.action(ActionType.message, options);
+
+	public modifyAppointment = (appointment: CalendarItemInput) =>
+		this.jsonRequest({
+			name: 'ModifyAppointment',
+			body: {
+				...denormalize(CalendarItemCreateModifyRequest)(appointment)
+			}
+		});
 
 	public modifyTask = (task: CalendarItemInput) =>
 		this.jsonRequest({

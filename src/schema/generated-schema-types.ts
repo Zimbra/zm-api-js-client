@@ -285,9 +285,8 @@ export interface InviteInfo {
 }
 
 export interface InviteComponent {
-	recurrence?:
-		| RecurrenceInfo[]
-		| null /* duration: DurationInfo # dur - TODO */;
+	alarms?: CalendarItemAlarm[] | null /* duration: DurationInfo # dur - TODO */;
+	recurrence?: RecurrenceInfo[] | null;
 	allDay?: boolean | null;
 	attendees?: CalendarItemAttendee[] | null;
 	calItemId?: string | null;
@@ -319,6 +318,25 @@ export interface InviteComponent {
 	uid?: string | null;
 	x_uid?: string | null;
 	aid?: string | null;
+}
+
+export interface CalendarItemAlarm {
+	action: AlarmAction;
+	trigger?: CalendarItemAlarmTrigger[] | null;
+}
+
+export interface CalendarItemAlarmTrigger {
+	relative?: CalendarItemAlarmTriggerRelative[] | null;
+}
+
+export interface CalendarItemAlarmTriggerRelative {
+	weeks?: number | null;
+	days?: number | null;
+	hours?: number | null;
+	minutes?: number | null;
+	seconds?: number | null;
+	relatedTo: AlarmRelatedTo;
+	negative: boolean;
 }
 
 export interface RecurrenceInfo {
@@ -438,7 +456,6 @@ export interface Conversation extends MailItem {
 
 export interface CalendarItemHitInfo {
 	alarm?: boolean | null;
-	alarmData?: CalendarItemAlarmData[] | null;
 	allDay?: boolean | null;
 	changeDate?: number | null;
 	class: CalendarItemClass;
@@ -473,30 +490,6 @@ export interface CalendarItemHitInfo {
 	uid?: string | null;
 	x_uid?: string | null;
 	aid?: string | null;
-}
-
-export interface CalendarItemAlarmData {
-	alarms?: CalendarItemAlarm[] | null;
-	nextAlarm: number;
-}
-
-export interface CalendarItemAlarm {
-	action: AlarmAction;
-	trigger?: CalendarItemAlarmTrigger[] | null;
-}
-
-export interface CalendarItemAlarmTrigger {
-	relative?: CalendarItemAlarmTriggerRelative[] | null;
-}
-
-export interface CalendarItemAlarmTriggerRelative {
-	weeks?: number | null;
-	days?: number | null;
-	hours?: number | null;
-	minutes?: number | null;
-	seconds?: number | null;
-	relatedTo: AlarmRelatedTo;
-	negative: boolean;
 }
 
 export interface Instance {
@@ -1227,6 +1220,20 @@ export enum InviteType {
 	task = 'task'
 }
 
+export enum AlarmAction {
+	DISPLAY = 'DISPLAY',
+	AUDIO = 'AUDIO',
+	EMAIL = 'EMAIL',
+	PROCEDURE = 'PROCEDURE',
+	X_YAHOO_CALENDAR_ACTION_IM = 'X_YAHOO_CALENDAR_ACTION_IM',
+	X_YAHOO_CALENDAR_ACTION_MOBILE = 'X_YAHOO_CALENDAR_ACTION_MOBILE'
+}
+
+export enum AlarmRelatedTo {
+	START = 'START',
+	END = 'END'
+}
+
 export enum CalendarItemRecurrenceFrequency {
 	SEC = 'SEC',
 	MIN = 'MIN',
@@ -1287,20 +1294,6 @@ export enum InviteCompletionStatus {
 	INPR = 'INPR',
 	WAITING = 'WAITING',
 	DEFERRED = 'DEFERRED'
-}
-
-export enum AlarmAction {
-	DISPLAY = 'DISPLAY',
-	AUDIO = 'AUDIO',
-	EMAIL = 'EMAIL',
-	PROCEDURE = 'PROCEDURE',
-	X_YAHOO_CALENDAR_ACTION_IM = 'X_YAHOO_CALENDAR_ACTION_IM',
-	X_YAHOO_CALENDAR_ACTION_MOBILE = 'X_YAHOO_CALENDAR_ACTION_MOBILE'
-}
-
-export enum AlarmRelatedTo {
-	START = 'START',
-	END = 'END'
 }
 
 export enum FolderView {
