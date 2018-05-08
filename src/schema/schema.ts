@@ -229,11 +229,6 @@ export function createZimbraSchema(
 						.then(() => value),
 				modifyIdentity: (_, { id, attrs }, { zimbra }) =>
 					zimbra.account.modifyIdentity(id, attrs),
-				prefMailForward: (_, { address, deleteAndForward }, { zimbra }) =>
-					zimbra.mail.modifyPrefs({
-						zimbraPrefMailForwardingAddress: address,
-						zimbraPrefMailLocalDeliveryDisabled: deleteAndForward
-					}),
 				modifyPrefs: (_, { prefs }) =>
 					client.modifyPrefs(prefs as PreferencesInput),
 				// addSignature: (_, { name, contentType, value }) =>
