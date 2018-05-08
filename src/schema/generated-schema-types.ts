@@ -133,12 +133,15 @@ export interface AccountInfoAttrs {
 
 export interface Preferences {
 	zimbraPrefAutoAddAppointmentsToCalendar?: boolean | null;
+	zimbraPrefCalendarAutoAddInvites?: boolean | null;
 	zimbraPrefCalendarFirstDayOfWeek?: string | null;
 	zimbraPrefCalendarInitialView?: PrefCalendarInitialView | null;
 	zimbraPrefCalendarReminderEmail?: string | null;
 	zimbraPrefCalendarWorkingHours?: string | null;
+	zimbraPrefDisplayExternalImages?: boolean | null;
 	zimbraPrefGroupMailBy?: string | null;
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
+	zimbraPrefMailTrustedSenderList?: string[] | null;
 	zimbraPrefMarkMsgRead?: number | null;
 	zimbraPrefOutOfOfficeFromDate?: string | null;
 	zimbraPrefOutOfOfficeReply?: string | null;
@@ -611,6 +614,7 @@ export interface Mutation {
 	messageAction?: boolean | null;
 	modifyExternalAccount?: string | null;
 	modifyIdentity?: string | null;
+	modifyPrefs?: boolean | null;
 	modifySignature?: string | null;
 	modifyTask?: boolean | null;
 	moveTask?: string | null;
@@ -620,7 +624,6 @@ export interface Mutation {
 	prefCalendarWorkingHours?: string | null;
 	prefEnableOutOfOfficeAlertOnLogin?: boolean | null;
 	prefEnableOutOfOfficeReply?: boolean | null;
-	prefMailForward?: string | null;
 	prefOutOfOfficeFromDate?: string | null;
 	prefOutOfOfficeReply?: string | null;
 	prefOutOfOfficeUntilDate?: string | null;
@@ -852,6 +855,29 @@ export interface IdentityAttrsInput {
 	zimbraPrefReplyToEnabled?: boolean | null;
 	zimbraPrefSaveToSent?: boolean | null;
 	zimbraPrefSentMailFolder?: string | null;
+}
+
+export interface PreferencesInput {
+	zimbraPrefAutoAddAppointmentsToCalendar?: boolean | null;
+	zimbraPrefCalendarAutoAddInvites?: boolean | null;
+	zimbraPrefCalendarFirstDayOfWeek?: string | null;
+	zimbraPrefCalendarInitialView?: PrefCalendarInitialView | null;
+	zimbraPrefCalendarReminderEmail?: string | null;
+	zimbraPrefCalendarWorkingHours?: string | null;
+	zimbraPrefDisplayExternalImages?: boolean | null;
+	zimbraPrefGroupMailBy?: string | null;
+	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
+	zimbraPrefMailTrustedSenderList?: string[] | null;
+	zimbraPrefMarkMsgRead?: number | null;
+	zimbraPrefOutOfOfficeFromDate?: string | null;
+	zimbraPrefOutOfOfficeReply?: string | null;
+	zimbraPrefOutOfOfficeReplyEnabled?: boolean | null;
+	zimbraPrefOutOfOfficeStatusAlertOnLogin?: boolean | null;
+	zimbraPrefOutOfOfficeUntilDate?: string | null;
+	zimbraPrefReadingPaneEnabled?: boolean | null;
+	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
+	zimbraPrefReadingPaneSashHorizontal?: number | null;
+	zimbraPrefShowFragments?: boolean | null;
 }
 
 export interface EmailAddressInput {
@@ -1089,6 +1115,9 @@ export interface ModifyIdentityMutationArgs {
 	id: string;
 	attrs: IdentityAttrsInput;
 }
+export interface ModifyPrefsMutationArgs {
+	prefs: PreferencesInput;
+}
 export interface ModifySignatureMutationArgs {
 	id: string;
 	contentType?: string | null;
@@ -1118,10 +1147,6 @@ export interface PrefEnableOutOfOfficeAlertOnLoginMutationArgs {
 }
 export interface PrefEnableOutOfOfficeReplyMutationArgs {
 	value: boolean;
-}
-export interface PrefMailForwardMutationArgs {
-	address?: string | null;
-	deleteAndForward: boolean;
 }
 export interface PrefOutOfOfficeFromDateMutationArgs {
 	value: string;

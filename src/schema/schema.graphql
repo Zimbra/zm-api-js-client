@@ -622,12 +622,15 @@ type IdentityAttrs {
 
 type Preferences {
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
+	zimbraPrefCalendarAutoAddInvites: Boolean
 	zimbraPrefCalendarFirstDayOfWeek: String
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
 	zimbraPrefCalendarWorkingHours: String
+	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
+	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
 	zimbraPrefOutOfOfficeFromDate: String
 	zimbraPrefOutOfOfficeReply: String
@@ -951,6 +954,30 @@ input GrantInput {
 	zimbraId: ID
 }
 
+input PreferencesInput {
+	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
+	zimbraPrefCalendarAutoAddInvites: Boolean
+	zimbraPrefCalendarFirstDayOfWeek: String
+	zimbraPrefCalendarInitialView: PrefCalendarInitialView
+	zimbraPrefCalendarReminderEmail: String
+	zimbraPrefCalendarWorkingHours: String
+	zimbraPrefDisplayExternalImages: Boolean
+	zimbraPrefGroupMailBy: String
+	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
+	zimbraPrefMailTrustedSenderList: [String]
+	zimbraPrefMarkMsgRead: Int
+	zimbraPrefOutOfOfficeFromDate: String
+	zimbraPrefOutOfOfficeReply: String
+	zimbraPrefOutOfOfficeReplyEnabled: Boolean
+	zimbraPrefOutOfOfficeStatusAlertOnLogin: Boolean
+	zimbraPrefOutOfOfficeUntilDate: String
+	zimbraPrefReadingPaneEnabled: Boolean
+	zimbraPrefReadingPaneLocation: ReadingPaneLocation
+	zimbraPrefReadingPaneSashHorizontal: Int
+	zimbraPrefShowFragments: Boolean
+
+}
+
 input ShareNotificationInput {
 	item: ShareNotificationItemInput!
 	address: ShareNotificaitonEmailAddressInput!
@@ -1186,6 +1213,7 @@ type Mutation {
 		attrs: ExternalAccountModifyAttrsInput!
 	): String
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
+	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifySignature(id: ID!, contentType: String, value: String!): String
 	modifyTask(task: CalendarItemInput!): Boolean
 	moveTask(inviteId: ID!, destFolderId: ID!): String
@@ -1197,7 +1225,6 @@ type Mutation {
 	prefCalendarWorkingHours(value: String!): String
 	prefEnableOutOfOfficeAlertOnLogin(value: Boolean!): Boolean
 	prefEnableOutOfOfficeReply(value: Boolean!): Boolean
-	prefMailForward(address: String, deleteAndForward: Boolean!): String
 	prefOutOfOfficeFromDate(value: String!): String
 	prefOutOfOfficeReply(value: String!): String
 	prefOutOfOfficeUntilDate(value: String!): String
