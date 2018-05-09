@@ -87,7 +87,7 @@ export function createZimbraSchema(
 								calExpandInstEnd: end,
 								query: `inid:"${root.id}"`,
 								offset: 0,
-								limit: 50
+								limit: 1000
 							}
 						})
 						.then(({ appt = [], ...rest }) => ({
