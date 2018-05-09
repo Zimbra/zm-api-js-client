@@ -77,7 +77,7 @@ export function createZimbraSchema(
 				taskFolders: client.taskFolders
 			},
 			Folder: {
-				appointments: (root, { start, end }) =>
+				appointments: (root, { start, end, offset = 0, limit = 1000 }) =>
 					client
 						.jsonRequest({
 							name: 'Search',
@@ -86,8 +86,8 @@ export function createZimbraSchema(
 								calExpandInstStart: start,
 								calExpandInstEnd: end,
 								query: `inid:"${root.id}"`,
-								offset: 0,
-								limit: 50
+								offset,
+								limit
 							}
 						})
 						.then(({ appt = [], ...rest }) => ({
