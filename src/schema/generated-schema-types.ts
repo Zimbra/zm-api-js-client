@@ -1006,6 +1006,8 @@ export interface SearchQueryArgs {
 export interface AppointmentsFolderArgs {
 	start?: number | null;
 	end?: number | null;
+	offset?: number | null;
+	limit?: number | null;
 }
 export interface TasksFolderArgs {
 	folderId?: string | null;
