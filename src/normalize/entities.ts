@@ -229,8 +229,11 @@ export const FreeBusy = new Entity({
 	n: ['nodata', FreeBusyInstance]
 });
 
-export const FolderAction = new Entity({
+export const ActionOptions = new Entity({
 	l: 'folderId',
+	tcon: 'constraints',
+	tn: 'tagNames',
+	f: 'flags',
 	zid: 'zimbraId',
 	grant: ACLGrant
 });
