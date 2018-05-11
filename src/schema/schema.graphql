@@ -509,6 +509,7 @@ type Folder {
 	parentFolderId: ID
 	unread: Int
 	query: String
+	permissions: String # It will be available on linked folders only
 }
 
 type ACL {
