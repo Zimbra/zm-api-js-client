@@ -21,17 +21,15 @@ export interface MailItem {
 /* Zimbra GraphQL Queries- [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)- [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)- [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap) */
 export interface Query {
 	accountInfo?: AccountInfo | null;
-	calendars?: Folder[] | null;
 	folder?: Folder | null;
-	folders?: Folder[] | null;
 	freeBusy?: FreeBusy[] | null;
 	getContact?: Contact | null;
 	getContactFrequency?: ContactFrequencyResponse | null;
 	getConversation?: Conversation | null;
-	getFolder?: GetFolderResponse | null;
+	getFolder?: Folder | null;
 	getMailboxMetadata?: MailboxMetadata | null;
 	getMessage?: MessageInfo | null;
-	getSearchFolder?: GetFolderResponse | null;
+	getSearchFolder?: Folder | null;
 	getTask?: boolean | null;
 	noop?: boolean | null;
 	preferences?: Preferences | null;
@@ -135,12 +133,15 @@ export interface AccountInfoAttrs {
 
 export interface Preferences {
 	zimbraPrefAutoAddAppointmentsToCalendar?: boolean | null;
+	zimbraPrefCalendarAutoAddInvites?: boolean | null;
 	zimbraPrefCalendarFirstDayOfWeek?: string | null;
 	zimbraPrefCalendarInitialView?: PrefCalendarInitialView | null;
 	zimbraPrefCalendarReminderEmail?: string | null;
 	zimbraPrefCalendarWorkingHours?: string | null;
+	zimbraPrefDisplayExternalImages?: boolean | null;
 	zimbraPrefGroupMailBy?: string | null;
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
+	zimbraPrefMailTrustedSenderList?: string[] | null;
 	zimbraPrefMarkMsgRead?: number | null;
 	zimbraPrefOutOfOfficeFromDate?: string | null;
 	zimbraPrefOutOfOfficeReply?: string | null;
@@ -559,10 +560,6 @@ export interface ContactFrequencyDataPoints {
 	value?: number | null;
 }
 
-export interface GetFolderResponse {
-	folders?: Folder[] | null;
-}
-
 export interface MailboxMetadata {
 	meta?: MailboxMetadataMeta[] | null;
 }
@@ -636,6 +633,7 @@ export interface Mutation {
 	modifyExternalAccount?: string | null;
 	modifyAppointment?: boolean | null;
 	modifyIdentity?: string | null;
+	modifyPrefs?: boolean | null;
 	modifySignature?: string | null;
 	modifyTask?: boolean | null;
 	moveTask?: string | null;
@@ -645,7 +643,6 @@ export interface Mutation {
 	prefCalendarWorkingHours?: string | null;
 	prefEnableOutOfOfficeAlertOnLogin?: boolean | null;
 	prefEnableOutOfOfficeReply?: boolean | null;
-	prefMailForward?: string | null;
 	prefOutOfOfficeFromDate?: string | null;
 	prefOutOfOfficeReply?: string | null;
 	prefOutOfOfficeUntilDate?: string | null;
@@ -656,16 +653,6 @@ export interface Mutation {
 
 export interface SignatureResponse {
 	id: string;
-}
-
-export interface CalendarItemAlarmAttendees {
-	email: string;
-}
-
-export interface FolderQueryInput {
-	uuid?: string | null;
-	id?: string | null;
-	view?: FolderView | null;
 }
 
 export interface MailItemHeaderInput {
@@ -890,6 +877,29 @@ export interface IdentityAttrsInput {
 	zimbraPrefSentMailFolder?: string | null;
 }
 
+export interface PreferencesInput {
+	zimbraPrefAutoAddAppointmentsToCalendar?: boolean | null;
+	zimbraPrefCalendarAutoAddInvites?: boolean | null;
+	zimbraPrefCalendarFirstDayOfWeek?: string | null;
+	zimbraPrefCalendarInitialView?: PrefCalendarInitialView | null;
+	zimbraPrefCalendarReminderEmail?: string | null;
+	zimbraPrefCalendarWorkingHours?: string | null;
+	zimbraPrefDisplayExternalImages?: boolean | null;
+	zimbraPrefGroupMailBy?: string | null;
+	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
+	zimbraPrefMailTrustedSenderList?: string[] | null;
+	zimbraPrefMarkMsgRead?: number | null;
+	zimbraPrefOutOfOfficeFromDate?: string | null;
+	zimbraPrefOutOfOfficeReply?: string | null;
+	zimbraPrefOutOfOfficeReplyEnabled?: boolean | null;
+	zimbraPrefOutOfOfficeStatusAlertOnLogin?: boolean | null;
+	zimbraPrefOutOfOfficeUntilDate?: string | null;
+	zimbraPrefReadingPaneEnabled?: boolean | null;
+	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
+	zimbraPrefReadingPaneSashHorizontal?: number | null;
+	zimbraPrefShowFragments?: boolean | null;
+}
+
 export interface EmailAddressInput {
 	email: string;
 	name: string;
@@ -938,11 +948,14 @@ export interface ExternalAccount {
 	username: string;
 	password: string;
 }
+
+export interface FolderQueryInput {
+	uuid?: string | null;
+	id?: string | null;
+	view?: FolderView | null;
+}
 export interface FolderQueryArgs {
 	id: string;
-}
-export interface FoldersQueryArgs {
-	ids: FolderQueryInput[];
 }
 export interface FreeBusyQueryArgs {
 	names?: string[] | null;
@@ -1013,6 +1026,8 @@ export interface SearchQueryArgs {
 export interface AppointmentsFolderArgs {
 	start?: number | null;
 	end?: number | null;
+	offset?: number | null;
+	limit?: number | null;
 }
 export interface TasksFolderArgs {
 	folderId?: string | null;
@@ -1125,6 +1140,9 @@ export interface ModifyIdentityMutationArgs {
 	id: string;
 	attrs: IdentityAttrsInput;
 }
+export interface ModifyPrefsMutationArgs {
+	prefs: PreferencesInput;
+}
 export interface ModifySignatureMutationArgs {
 	id: string;
 	contentType?: string | null;
@@ -1154,10 +1172,6 @@ export interface PrefEnableOutOfOfficeAlertOnLoginMutationArgs {
 }
 export interface PrefEnableOutOfOfficeReplyMutationArgs {
 	value: boolean;
-}
-export interface PrefMailForwardMutationArgs {
-	address?: string | null;
-	deleteAndForward: boolean;
 }
 export interface PrefOutOfOfficeFromDateMutationArgs {
 	value: string;

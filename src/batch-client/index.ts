@@ -8,7 +8,6 @@ import {
 	Folder,
 	FolderAction,
 	FreeBusy,
-	GetFolderResponse,
 	MessageInfo,
 	SearchResponse,
 	ShareNotification
@@ -22,10 +21,12 @@ import { Namespace, RequestBody, RequestOptions } from '../request/types';
 import {
 	CalendarItemInput,
 	FolderView,
+	PreferencesInput,
 	ShareNotificationInput
 } from '../schema/generated-schema-types';
 import {
 	coerceBooleanToInt,
+	coerceBooleanToString,
 	coerceStringToBoolean
 } from '../utils/coerce-boolean';
 import { mapValuesDeep } from '../utils/map-values-deep';
@@ -114,15 +115,6 @@ export class ZimbraBatchClient {
 			}
 		});
 	};
-
-	public calendars = () =>
-		this.jsonRequest({
-			name: 'GetFolder',
-			body: {
-				view: FolderView.appointment,
-				tr: true
-			}
-		}).then(res => normalize(Folder)(res.folder[0].folder));
 
 	public cancelTask = ({ inviteId }: any) =>
 		this.jsonRequest({
@@ -286,7 +278,7 @@ export class ZimbraBatchClient {
 				...options,
 				tr: traverseMountpoints
 			}
-		}).then(normalize(GetFolderResponse));
+		}).then(normalize(Folder));
 	};
 
 	public getMailboxMetadata = ({ section }: GetMailboxMetadataOptions) =>
@@ -378,6 +370,15 @@ export class ZimbraBatchClient {
 			}
 		});
 
+	public modifyPrefs = (prefs: PreferencesInput) =>
+		this.jsonRequest({
+			name: 'ModifyPrefs',
+			namespace: Namespace.Account,
+			body: {
+				_attrs: mapValuesDeep(prefs, coerceBooleanToString)
+			}
+		});
+
 	public modifyTask = (task: CalendarItemInput) =>
 		this.jsonRequest({
 			name: 'ModifyTask',
@@ -392,7 +393,7 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetPrefs',
 			namespace: Namespace.Account
-		}).then(res => res._attrs);
+		}).then(res => mapValuesDeep(res._attrs, coerceStringToBoolean));
 
 	public relatedContacts = ({ email }: RelatedContactsOptions) =>
 		this.jsonRequest({

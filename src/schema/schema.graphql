@@ -493,7 +493,7 @@ type FreeBusy {
 type Folder {
 	absFolderPath: String
 	acl: ACL
-	appointments(start: Float, end: Float): SearchResponse
+	appointments(start: Float, end: Float, offset: Int, limit: Int): SearchResponse
 	tasks(folderId: ID, offset: Int, limit: Int, sortBy: String): SearchResponse
 	color: Int
 	flags: String
@@ -510,10 +510,6 @@ type Folder {
 	parentFolderId: ID
 	unread: Int
 	query: String
-}
-
-type GetFolderResponse {
-	folders: [Folder]
 }
 
 type ACL {
@@ -627,12 +623,15 @@ type IdentityAttrs {
 
 type Preferences {
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
+	zimbraPrefCalendarAutoAddInvites: Boolean
 	zimbraPrefCalendarFirstDayOfWeek: String
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
 	zimbraPrefCalendarWorkingHours: String
+	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
+	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
 	zimbraPrefOutOfOfficeFromDate: String
 	zimbraPrefOutOfOfficeReply: String
@@ -980,6 +979,30 @@ input GrantInput {
 	zimbraId: ID
 }
 
+input PreferencesInput {
+	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
+	zimbraPrefCalendarAutoAddInvites: Boolean
+	zimbraPrefCalendarFirstDayOfWeek: String
+	zimbraPrefCalendarInitialView: PrefCalendarInitialView
+	zimbraPrefCalendarReminderEmail: String
+	zimbraPrefCalendarWorkingHours: String
+	zimbraPrefDisplayExternalImages: Boolean
+	zimbraPrefGroupMailBy: String
+	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
+	zimbraPrefMailTrustedSenderList: [String]
+	zimbraPrefMarkMsgRead: Int
+	zimbraPrefOutOfOfficeFromDate: String
+	zimbraPrefOutOfOfficeReply: String
+	zimbraPrefOutOfOfficeReplyEnabled: Boolean
+	zimbraPrefOutOfOfficeStatusAlertOnLogin: Boolean
+	zimbraPrefOutOfOfficeUntilDate: String
+	zimbraPrefReadingPaneEnabled: Boolean
+	zimbraPrefReadingPaneLocation: ReadingPaneLocation
+	zimbraPrefReadingPaneSashHorizontal: Int
+	zimbraPrefShowFragments: Boolean
+
+}
+
 input ShareNotificationInput {
 	item: ShareNotificationItemInput!
 	address: ShareNotificaitonEmailAddressInput!
@@ -1083,9 +1106,7 @@ input MailItemHeaderInput {
 # - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
 type Query {
 	accountInfo: AccountInfo
-	calendars: [Folder]
 	folder(id: ID!): Folder
-	folders(ids: [FolderQueryInput]!): [Folder]
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
 	getContact(id: ID!): Contact
 	getContactFrequency(
@@ -1108,7 +1129,7 @@ type Query {
 		depth: Int,
 		traverseMountpoints: Boolean
 		folder: GetFolderFolderInput
-	): GetFolderResponse
+	): Folder
 	getMailboxMetadata(section: String): MailboxMetadata
 	getMessage(
 		id: ID!,
@@ -1122,7 +1143,7 @@ type Query {
 		read: Boolean,
 		ridZ: String
 	): MessageInfo
-	getSearchFolder: GetFolderResponse
+	getSearchFolder: Folder
 	getTask(inviteId: ID!): Boolean
 	noop: Boolean
 	preferences: Preferences
@@ -1218,6 +1239,7 @@ type Mutation {
 	): String
 	modifyAppointment(appointment: CalendarItemInput!): Boolean
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
+	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifySignature(id: ID!, contentType: String, value: String!): String
 	modifyTask(task: CalendarItemInput!): Boolean
 	moveTask(inviteId: ID!, destFolderId: ID!): String
@@ -1229,7 +1251,6 @@ type Mutation {
 	prefCalendarWorkingHours(value: String!): String
 	prefEnableOutOfOfficeAlertOnLogin(value: Boolean!): Boolean
 	prefEnableOutOfOfficeReply(value: Boolean!): Boolean
-	prefMailForward(address: String, deleteAndForward: Boolean!): String
 	prefOutOfOfficeFromDate(value: String!): String
 	prefOutOfOfficeReply(value: String!): String
 	prefOutOfOfficeUntilDate(value: String!): String

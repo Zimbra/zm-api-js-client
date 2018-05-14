@@ -211,10 +211,6 @@ Folder.addMapping({
 });
 export { Folder };
 
-export const GetFolderResponse = new Entity({
-	folder: ['folders', Folder]
-});
-
 const FreeBusyInstance = new Entity({
 	s: 'start',
 	e: 'end'
