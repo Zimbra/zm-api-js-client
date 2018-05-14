@@ -174,6 +174,7 @@ export interface Folder {
 	parentFolderId?: string | null;
 	unread?: number | null;
 	query?: string | null;
+	permissions?: string | null;
 }
 
 export interface ACL {
