@@ -207,7 +207,8 @@ const Folder = new Entity({
 	n: 'nonFolderItemCount',
 	s: 'nonFolderItemCountTotal',
 	rev: 'revision',
-	acl: ACL
+	acl: ACL,
+	perm: 'permissions'
 });
 
 Folder.addMapping({
