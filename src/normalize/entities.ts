@@ -108,6 +108,7 @@ const InviteComponent = new Entity({
 	ex: 'isException',
 	recur: ['recurrence', RecurrenceInfo],
 	s: ['start', CalendarItemDateTime],
+	exceptId: ['exceptId', CalendarItemDateTime],
 	seq: 'sequence'
 });
 
@@ -157,6 +158,7 @@ export const Conversation = new Entity({
 export const CalendarItemCreateModifyRequest = new Entity({
 	ms: 'modifiedSequence',
 	rev: 'revision',
+	comp: 'componentNum',
 	m: ['message', MessageInfo]
 });
 
@@ -179,9 +181,13 @@ const ShareNotificationAddress = new Entity({
 });
 
 const Instance = new Entity({
+	...commonMessageFields,
+	...commonInviteFields,
 	s: 'start',
 	recur: 'isRecurring',
-	ridZ: 'utcRecurrenceId'
+	ptst: 'participationStatus',
+	dur: 'duration',
+	ex: 'isException'
 });
 
 export const CalendarItemHitInfo = new Entity({

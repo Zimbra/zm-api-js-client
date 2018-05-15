@@ -497,8 +497,26 @@ export interface Instance {
 	start?: number | null;
 	dueDate?: number | null;
 	tzoDue?: number | null;
-	isRecurring?: boolean | null;
 	utcRecurrenceId?: string | null;
+	alarm?: boolean | null;
+	allDay?: boolean | null;
+	changeDate?: number | null;
+	class?: CalendarItemClass | null;
+	componentNum?: number | null;
+	date?: number | null;
+	duration?: number | null;
+	excerpt?: string | null;
+	flags?: string | null;
+	freeBusy?: FreeBusyStatus | null;
+	freeBusyActual?: FreeBusyStatus | null;
+	inviteId: string;
+	location?: string | null;
+	modifiedSequence?: number | null;
+	name?: string | null;
+	organizer?: CalOrganizer | null;
+	participationStatus?: ParticipationStatus | null;
+	revision?: number | null;
+	status?: InviteCompletionStatus | null;
 }
 
 export interface Invitation {
@@ -618,6 +636,7 @@ export interface Mutation {
 	checkCalendar?: boolean | null;
 	conversationAction?: boolean | null;
 	createAppointment?: boolean | null;
+	createAppointmentException?: boolean | null;
 	createCalendar?: boolean | null;
 	createFolder?: boolean | null;
 	createSharedCalendar?: boolean | null;
@@ -653,6 +672,10 @@ export interface Mutation {
 
 export interface SignatureResponse {
 	id: string;
+}
+
+export interface CalendarItemAlarmAttendees {
+	email: string;
 }
 
 export interface MailItemHeaderInput {
@@ -711,6 +734,7 @@ export interface CalendarItemInviteComponentInput {
 	location?: string | null;
 	start?: CalendarItemDateTimeInput | null;
 	end?: CalendarItemDateTimeInput | null;
+	exceptId?: CalendarItemDateTimeInput | null;
 	freeBusy?: FreeBusyStatus | null;
 	allDay?: boolean | null;
 	organizer?: CalendarItemOrganizerInput | null;
@@ -1078,6 +1102,9 @@ export interface ConversationActionMutationArgs {
 	op: string;
 }
 export interface CreateAppointmentMutationArgs {
+	appointment: CalendarItemInput;
+}
+export interface CreateAppointmentExceptionMutationArgs {
 	appointment: CalendarItemInput;
 }
 export interface CreateCalendarMutationArgs {

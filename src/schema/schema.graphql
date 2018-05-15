@@ -201,8 +201,27 @@ type Instance {
 	start: Float
 	dueDate: Float
 	tzoDue: Int
-	isRecurring: Boolean
 	utcRecurrenceId: String
+	isException: Boolean # ex
+	alarm: Boolean
+	allDay: Boolean
+	changeDate: Float # md
+	class: CalendarItemClass
+	componentNum: Int # compNum
+	date: Float # d
+	duration: Float # dur
+	excerpt: String # fr
+	flags: String # f
+	freeBusy: FreeBusyStatus # fb
+	freeBusyActual: FreeBusyStatus # fba
+	inviteId: ID #invId
+	location: String # loc
+	modifiedSequence: Int # ms
+	name: String
+	organizer: CalOrganizer # or
+	participationStatus: ParticipationStatus
+	revision: Int # rev
+	status: InviteCompletionStatus
 }
 
 type EmailAddress {
@@ -814,6 +833,7 @@ input CalendarItemInput {
 	id: ID
 	modifiedSequence: Float
 	revision: Float
+	componentNum: Int # comp
 	message: CalendarItemMessageInput!
 }
 
@@ -841,6 +861,7 @@ input CalendarItemInviteComponentInput {
 	location: String
 	start: CalendarItemDateTimeInput
 	end: CalendarItemDateTimeInput
+	exceptId: CalendarOptionalItemDateTimeInput
 	freeBusy: FreeBusyStatus
 	allDay: Boolean
 	organizer: CalendarItemOrganizerInput
@@ -862,6 +883,12 @@ input CalendarItemInviteComponentDescriptionInput {
 input CalendarItemDateTimeInput {
 	timezone: String
 	date: String!
+}
+
+# @FIXME
+input CalendarOptionalItemDateTimeInput {
+	timezone: String
+	date: String
 }
 
 type CalendarItemAttendee {
@@ -1204,6 +1231,7 @@ type Mutation {
 		op: String!
 	): Boolean
 	createAppointment(appointment: CalendarItemInput!): Boolean
+	createAppointmentException(appointment: CalendarItemInput!): Boolean
 	createCalendar(name: String!, color: Int!, url: String): Boolean
 	createFolder(
 		color: Int
