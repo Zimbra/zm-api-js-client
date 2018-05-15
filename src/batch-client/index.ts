@@ -170,6 +170,14 @@ export class ZimbraBatchClient {
 			}
 		});
 
+	public createAppointmentException = (appointment: CalendarItemInput) =>
+		this.jsonRequest({
+			name: 'CreateAppointmentException',
+			body: {
+				...denormalize(CalendarItemCreateModifyRequest)(appointment)
+			}
+		});
+
 	public createFolder = (_options: CreateFolderOptions) => {
 		const { flags, fetchIfExists, parentFolderId, ...options } = _options;
 		return this.jsonRequest({
@@ -304,7 +312,8 @@ export class ZimbraBatchClient {
 		raw,
 		headers,
 		read,
-		max
+		max,
+		ridZ
 	}: GetMessageOptions) =>
 		this.jsonRequest({
 			name: 'GetMsg',
@@ -319,7 +328,8 @@ export class ZimbraBatchClient {
 					neuter: 0,
 					// max body length (look for mp.truncated=1)
 					max: max || 250000,
-					raw: raw ? 1 : 0
+					raw: raw ? 1 : 0,
+					...(ridZ && { ridZ: ridZ })
 				}
 			}
 		}).then(
@@ -361,6 +371,14 @@ export class ZimbraBatchClient {
 
 	public messageAction = (options: ActionOptions) =>
 		this.action(ActionType.message, options);
+
+	public modifyAppointment = (appointment: CalendarItemInput) =>
+		this.jsonRequest({
+			name: 'ModifyAppointment',
+			body: {
+				...denormalize(CalendarItemCreateModifyRequest)(appointment)
+			}
+		});
 
 	public modifyPrefs = (prefs: PreferencesInput) =>
 		this.jsonRequest({

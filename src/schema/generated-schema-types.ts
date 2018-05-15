@@ -287,9 +287,8 @@ export interface InviteInfo {
 }
 
 export interface InviteComponent {
-	recurrence?:
-		| RecurrenceInfo[]
-		| null /* duration: DurationInfo # dur - TODO */;
+	alarms?: CalendarItemAlarm[] | null /* duration: DurationInfo # dur - TODO */;
+	recurrence?: RecurrenceInfo[] | null;
 	allDay?: boolean | null;
 	attendees?: CalendarItemAttendee[] | null;
 	calItemId?: string | null;
@@ -321,6 +320,25 @@ export interface InviteComponent {
 	uid?: string | null;
 	x_uid?: string | null;
 	aid?: string | null;
+}
+
+export interface CalendarItemAlarm {
+	action: AlarmAction;
+	trigger?: CalendarItemAlarmTrigger[] | null;
+}
+
+export interface CalendarItemAlarmTrigger {
+	relative?: CalendarItemAlarmTriggerRelative[] | null;
+}
+
+export interface CalendarItemAlarmTriggerRelative {
+	weeks?: number | null;
+	days?: number | null;
+	hours?: number | null;
+	minutes?: number | null;
+	seconds?: number | null;
+	relatedTo: AlarmRelatedTo;
+	negative: boolean;
 }
 
 export interface RecurrenceInfo {
@@ -480,8 +498,26 @@ export interface Instance {
 	start?: number | null;
 	dueDate?: number | null;
 	tzoDue?: number | null;
-	isRecurring?: boolean | null;
 	utcRecurrenceId?: string | null;
+	alarm?: boolean | null;
+	allDay?: boolean | null;
+	changeDate?: number | null;
+	class?: CalendarItemClass | null;
+	componentNum?: number | null;
+	date?: number | null;
+	duration?: number | null;
+	excerpt?: string | null;
+	flags?: string | null;
+	freeBusy?: FreeBusyStatus | null;
+	freeBusyActual?: FreeBusyStatus | null;
+	inviteId: string;
+	location?: string | null;
+	modifiedSequence?: number | null;
+	name?: string | null;
+	organizer?: CalOrganizer | null;
+	participationStatus?: ParticipationStatus | null;
+	revision?: number | null;
+	status?: InviteCompletionStatus | null;
 }
 
 export interface Invitation {
@@ -601,6 +637,7 @@ export interface Mutation {
 	checkCalendar?: boolean | null;
 	conversationAction?: boolean | null;
 	createAppointment?: boolean | null;
+	createAppointmentException?: boolean | null;
 	createCalendar?: boolean | null;
 	createFolder?: boolean | null;
 	createSharedCalendar?: boolean | null;
@@ -614,6 +651,7 @@ export interface Mutation {
 	logout?: boolean | null;
 	messageAction?: boolean | null;
 	modifyExternalAccount?: string | null;
+	modifyAppointment?: boolean | null;
 	modifyIdentity?: string | null;
 	modifyPrefs?: boolean | null;
 	modifySignature?: string | null;
@@ -635,6 +673,10 @@ export interface Mutation {
 
 export interface SignatureResponse {
 	id: string;
+}
+
+export interface CalendarItemAlarmAttendees {
+	email: string;
 }
 
 export interface MailItemHeaderInput {
@@ -693,6 +735,7 @@ export interface CalendarItemInviteComponentInput {
 	location?: string | null;
 	start?: CalendarItemDateTimeInput | null;
 	end?: CalendarItemDateTimeInput | null;
+	exceptId?: CalendarItemDateTimeInput | null;
 	freeBusy?: FreeBusyStatus | null;
 	allDay?: boolean | null;
 	organizer?: CalendarItemOrganizerInput | null;
@@ -746,7 +789,7 @@ export interface CalendarItemAttendeesInput {
 export interface CalendarItemAlarmInput {
 	action: AlarmAction;
 	trigger: CalendarItemAlarmTriggerInput;
-	attendees?: CalendarItemAlarmAttendees | null;
+	attendees?: CalendarItemAlarmAttendeesInput | null;
 }
 
 export interface CalendarItemAlarmTriggerInput {
@@ -755,10 +798,11 @@ export interface CalendarItemAlarmTriggerInput {
 }
 
 export interface CalendarItemAlarmTriggerRelativeInput {
-	seconds?: number | null;
-	minutes?: number | null;
-	hours?: number | null;
+	weeks?: number | null;
 	days?: number | null;
+	hours?: number | null;
+	minutes?: number | null;
+	seconds?: number | null;
 	relatedTo?: AlarmRelatedTo | null;
 	negative?: boolean | null;
 }
@@ -767,7 +811,7 @@ export interface CalendarItemAlarmTriggerAbsoluteInput {
 	date: string;
 }
 
-export interface CalendarItemAlarmAttendees {
+export interface CalendarItemAlarmAttendeesInput {
 	email: string;
 }
 
@@ -1061,6 +1105,9 @@ export interface ConversationActionMutationArgs {
 export interface CreateAppointmentMutationArgs {
 	appointment: CalendarItemInput;
 }
+export interface CreateAppointmentExceptionMutationArgs {
+	appointment: CalendarItemInput;
+}
 export interface CreateCalendarMutationArgs {
 	name: string;
 	color: number;
@@ -1113,6 +1160,9 @@ export interface ModifyExternalAccountMutationArgs {
 	id: string;
 	type?: AccountType | null;
 	attrs: ExternalAccountModifyAttrsInput;
+}
+export interface ModifyAppointmentMutationArgs {
+	appointment: CalendarItemInput;
 }
 export interface ModifyIdentityMutationArgs {
 	id: string;
@@ -1210,6 +1260,20 @@ export enum GranteeType {
 export enum InviteType {
 	appt = 'appt',
 	task = 'task'
+}
+
+export enum AlarmAction {
+	DISPLAY = 'DISPLAY',
+	AUDIO = 'AUDIO',
+	EMAIL = 'EMAIL',
+	PROCEDURE = 'PROCEDURE',
+	X_YAHOO_CALENDAR_ACTION_IM = 'X_YAHOO_CALENDAR_ACTION_IM',
+	X_YAHOO_CALENDAR_ACTION_MOBILE = 'X_YAHOO_CALENDAR_ACTION_MOBILE'
+}
+
+export enum AlarmRelatedTo {
+	START = 'START',
+	END = 'END'
 }
 
 export enum CalendarItemRecurrenceFrequency {
@@ -1344,20 +1408,6 @@ export enum ConnectionType {
 	ssl = 'ssl',
 	tls = 'tls',
 	tls_is_available = 'tls_is_available'
-}
-
-export enum AlarmAction {
-	DISPLAY = 'DISPLAY',
-	AUDIO = 'AUDIO',
-	EMAIL = 'EMAIL',
-	PROCEDURE = 'PROCEDURE',
-	X_YAHOO_CALENDAR_ACTION_IM = 'X_YAHOO_CALENDAR_ACTION_IM',
-	X_YAHOO_CALENDAR_ACTION_MOBILE = 'X_YAHOO_CALENDAR_ACTION_MOBILE'
-}
-
-export enum AlarmRelatedTo {
-	START = 'START',
-	END = 'END'
 }
 
 export enum AddressType {
