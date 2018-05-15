@@ -886,7 +886,6 @@ input CalendarItemDateTimeInput {
 	date: String!
 }
 
-# @FIXME
 input CalendarOptionalItemDateTimeInput {
 	timezone: String
 	date: String

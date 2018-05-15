@@ -49,8 +49,13 @@ const RecurrenceInfo = new Entity({
 	add: ['add', AddRecurrenceInfo]
 });
 
+const CalendarItemAlarmAttendees = new Entity({
+	a: 'email'
+});
+
 const CalendarItemAlarm = new Entity({
-	trigger: CalendarItemAlarmTrigger
+	trigger: CalendarItemAlarmTrigger,
+	at: ['attendees', CalendarItemAlarmAttendees]
 });
 
 const CalendarItemDateTime = new Entity({
@@ -184,7 +189,6 @@ const Instance = new Entity({
 	...commonMessageFields,
 	...commonInviteFields,
 	s: 'start',
-	recur: 'isRecurring',
 	ptst: 'participationStatus',
 	dur: 'duration',
 	ex: 'isException'
