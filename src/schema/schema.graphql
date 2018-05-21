@@ -509,45 +509,196 @@ type FreeBusy {
 	free: [FreeBusyInstance]
 }
 
-type ActionFileInto {
-	copy: Boolean
-	folderPath: String!
-	index: Int
+##### Filters ######
+
+enum Importance {
+	high
+	normal
+	low
 }
 
-type ActionStop {
-	index: Int
-}
-
-type AddressTest {
-	header: String!
-	index: Int
-	part: String!
-	stringComparison: String!
-	value: String!
-}
-
-enum FilterCondition {
+enum FilterMatchCondition {
 	allof
 	anyof
 }
 
-type FilterAction {
-	actionFileInto: [ActionFileInto]
-	actionStop: [ActionStop]
+type AddressCondition {
+	header: String!
+	part: String!
+	stringComparison: String!
+	caseSensitive: Boolean
+	value: String!
+	valueComparison: String
+	countComparison: String
+	index: Int
+	negative: Boolean
 }
 
-type FilterTest {
-	condition: FilterCondition!
-	addressTest: [AddressTest]
+type BasicCondition {
+	index: Int
+	negative: Boolean
+}
+
+type BodyCondition {
+	caseSensitive: Boolean
+	value: String
+	index: Int
+	negative: Boolean
+}
+
+type ConversationCondition {
+	where: String
+	index: Int
+	negative: Boolean
+}
+
+type DateCondition {
+	dateComparison: String
+	date: Float # d
+	index: Int
+	negative: Boolean
+}
+
+type FlagCondition {
+	flagName: String!
+	index: Int
+	negative: Boolean
+}
+
+type HeaderCheckCondition {
+	header: String!
+	index: Int
+	negative: Boolean
+}
+
+type HeaderCondition {
+	header: String
+	stringComparison: String
+	valueComparison: String
+	countComparison: String
+	value: String
+	caseSensitive: Boolean
+	index: Int
+	negative: Boolean
+}
+
+type ImportanceCondition {
+	importance: Importance! # imp
+	index: Int
+	negative: Boolean
+}
+
+type InviteCondition {
+	methods: [String]
+	index: Int
+	negative: Boolean
+}
+
+type MimeHeaderCondition {
+	header: String
+	stringComparison: String
+	value: String
+	caseSensitive: Boolean
+	index: Int
+	negative: Boolean
+}
+
+type SizeCondition {
+	numberComparison: String
+	size: String # s
+	index: Int
+	negative: Boolean
+}
+
+type FilterCondition {
+	allOrAny: FilterMatchCondition! # condition
+
+	addressBook: [HeaderCheckCondition] # addressBookTest
+	address: [AddressCondition] # addressTest
+	attachment: [BasicCondition] # attachmentTest
+	body: [BodyCondition] # bodyTest
+	bulk: [BasicCondition] # bulkTest
+	contactRanking: [HeaderCheckCondition] # contactRankingTest
+	conversation: [ConversationCondition] # conversationTest
+	date: [DateCondition] # dateTest
+	facebook: [BasicCondition] # facebookTest
+	flag: [FlagCondition] # flaggedTest
+	headerExists: [HeaderCheckCondition] # headerExistsTest
+	header: [HeaderCondition] # headerTest
+	importance: [ImportanceCondition] # importanceTest
+	invite: [InviteCondition] # inviteTest
+	linkedin: [BasicCondition] # linkedinTest
+	list: [BasicCondition] # listTest
+	me: [HeaderCheckCondition] # meTest
+	mimeHeader: [MimeHeaderCondition] # mimeHeaderTest
+	size: [SizeCondition] # sizeTest
+	twitter: [BasicCondition] # twitterTest
+	communityRequests: [BasicCondition] # communityRequestsTest
+	communityContent: [BasicCondition] # communityContentTest
+	communityConnections: [BasicCondition] # communityConnectionsTest
+}
+
+type BasicAction {
+	index: Int
+}
+
+type FileIntoAction {
+	folderPath: String
+	copy: Boolean
+	index: Int
+}
+
+type FlagAction {
+	flagName: String
+	index: Int
+}
+
+type TagAction {
+	tagName: String!
+	index: Int
+}
+
+type RedirectAction {
+	address: String # a
+	copy: Boolean
+	index: Int
+}
+
+type ReplyAction {
+	index: Int
+	content: [String]
+}
+
+type NotifyAction {
+	address: String # a
+	subject: String # su
+	maxBodySize: Int
+	origHeaders: String
+	index: Int
+	content: [String]
+}
+
+type FilterAction {
+	keep: [BasicAction] # actionKeep
+	discard: [BasicAction] # actionDiscard
+	fileInto: [FileIntoAction] # actionFileInto
+	flag: [FlagAction] # actionFlag
+	tag: [TagAction] # actionTag
+	redirect: [RedirectAction] # actionRedirect
+	reply: [ReplyAction] # actionReply
+	notify: [NotifyAction] # actionNotify
+	stop: [BasicAction] # actionStop
 }
 
 type Filter {
 	name: String!
 	active: Boolean!
-	filterActions: [FilterAction]
-	filterTests: [FilterTest]
+
+	actions: [FilterAction] # filterActions
+	conditions: [FilterCondition] # filterTests
 }
+
+##### End Of Filters ######
 
 type Folder {
 	absFolderPath: String
@@ -1069,6 +1220,8 @@ input PreferencesInput {
 	zimbraPrefShowFragments: Boolean
 }
 
+##### FiltersInput #####
+
 input ActionFileIntoInput {
 	copy: Boolean
 	folderPath: String!
@@ -1089,7 +1242,7 @@ input AddressTestInput {
 }
 
 input FilterTestInput {
-	condition: FilterCondition
+	condition: FilterMatchCondition
 	addressTest: [AddressTestInput]
 }
 
@@ -1104,6 +1257,8 @@ input FiltersInput {
 	filterActions: [FilterActionInput]
 	filterTests: [FilterTestInput]
 }
+
+##### End Of FiltersInput #####
 
 input ShareNotificationInput {
 	item: ShareNotificationItemInput!
@@ -1224,7 +1379,7 @@ type Query {
 		needExp: Boolean,
 		fetch: String
 	): Conversation
-	getFilters: [Filter]
+	getFilterRules: [Filter]
 	getFolder(
 		visible: Boolean,
 		needGranteeName: Boolean,
@@ -1344,7 +1499,7 @@ type Mutation {
 	modifyAppointment(appointment: CalendarItemInput!): Boolean
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
-	modifyFilters(filters: [FiltersInput!]): Boolean
+	modifyFilterRules(filters: [FiltersInput!]): Boolean
 	modifySignature(id: ID!, contentType: String, value: String!): String
 	modifyTask(task: CalendarItemInput!): Boolean
 	moveTask(inviteId: ID!, destFolderId: ID!): String
