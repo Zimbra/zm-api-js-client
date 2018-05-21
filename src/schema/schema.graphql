@@ -231,6 +231,11 @@ type EmailAddress {
 	displayName: String
 }
 
+type ShareNotification {
+	truncated: Boolean,
+	content: String
+}
+
 interface MailItem {
 	id: ID
 	size: Float # s
@@ -248,6 +253,7 @@ interface MailItem {
 	modifiedSequence: Int # ms
 	invitations: [InviteInfo] # inv
 	sortField: String # sf, Sort field used for cursor-based pagination
+	share: [ShareNotification] # shr
 }
 
 type MessageInfo implements MailItem {
@@ -277,6 +283,7 @@ type MessageInfo implements MailItem {
 	text: String
 	attachments: [MimePart]
 	inlineAttachments: [MimePart]
+	share: [ShareNotification] # shr
 }
 
 type Conversation implements MailItem {
@@ -299,6 +306,7 @@ type Conversation implements MailItem {
 	messages: [MessageInfo]
 	numMessages: Int # n, Number of messages in this conversation
 	unread: Int # u
+	share: [ShareNotification] # shr
 }
 
 enum InviteType {

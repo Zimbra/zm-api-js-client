@@ -148,6 +148,7 @@ const commonMailItemFields = {
 	e: ['emailAddresses', CalendarItemInviteEmailAddress],
 	inv: ['invitations', InviteInfo],
 	mp: ['mimeParts', MimePart],
+	shr: 'share',
 	su: 'subject'
 };
 
