@@ -26,6 +26,7 @@ export interface Query {
 	getContact?: Contact | null;
 	getContactFrequency?: ContactFrequencyResponse | null;
 	getConversation?: Conversation | null;
+	getFilters?: Filter[] | null;
 	getFolder?: Folder | null;
 	getMailboxMetadata?: MailboxMetadata | null;
 	getMessage?: MessageInfo | null;
@@ -580,6 +581,41 @@ export interface ContactFrequencyDataPoints {
 	value?: number | null;
 }
 
+export interface Filter {
+	name: string;
+	active: boolean;
+	filterActions?: FilterAction[] | null;
+	filterTests?: FilterTest[] | null;
+}
+
+export interface FilterAction {
+	actionFileInto?: ActionFileInto[] | null;
+	actionStop?: ActionStop[] | null;
+}
+
+export interface ActionFileInto {
+	copy?: boolean | null;
+	folderPath: string;
+	index?: number | null;
+}
+
+export interface ActionStop {
+	index?: number | null;
+}
+
+export interface FilterTest {
+	condition: FilterCondition;
+	addressTest?: AddressTest[] | null;
+}
+
+export interface AddressTest {
+	header: string;
+	index?: number | null;
+	part: string;
+	stringComparison: string;
+	value: string;
+}
+
 export interface MailboxMetadata {
 	meta?: MailboxMetadataMeta[] | null;
 }
@@ -655,6 +691,7 @@ export interface Mutation {
 	modifyAppointment?: boolean | null;
 	modifyIdentity?: string | null;
 	modifyPrefs?: boolean | null;
+	modifyFilters?: boolean | null;
 	modifySignature?: string | null;
 	modifyTask?: boolean | null;
 	moveTask?: string | null;
@@ -932,6 +969,36 @@ export interface PreferencesInput {
 	zimbraPrefShowFragments?: boolean | null;
 }
 
+export interface FiltersInput {
+	name: string;
+	active: boolean;
+	filterActions?: FilterActionInput[] | null;
+	filterTests?: FilterTestInput[] | null;
+}
+
+export interface FilterActionInput {
+	actionFileInto?: ActionFileIntoInput[] | null;
+}
+
+export interface ActionFileIntoInput {
+	copy?: boolean | null;
+	folderPath: string;
+	index?: number | null;
+}
+
+export interface FilterTestInput {
+	condition?: FilterCondition | null;
+	addressTest?: AddressTestInput[] | null;
+}
+
+export interface AddressTestInput {
+	header: string;
+	index?: number | null;
+	part: string;
+	stringComparison: string;
+	value: string;
+}
+
 export interface EmailAddressInput {
 	email: string;
 	name: string;
@@ -1178,6 +1245,9 @@ export interface ModifyIdentityMutationArgs {
 export interface ModifyPrefsMutationArgs {
 	prefs: PreferencesInput;
 }
+export interface ModifyFiltersMutationArgs {
+	filters: FiltersInput;
+}
 export interface ModifySignatureMutationArgs {
 	id: string;
 	contentType?: string | null;
@@ -1361,6 +1431,11 @@ export enum FolderView {
 	chat = 'chat',
 	note = 'note',
 	comment = 'comment'
+}
+
+export enum FilterCondition {
+	allof = 'allof',
+	anyof = 'anyof'
 }
 
 export enum SortBy {

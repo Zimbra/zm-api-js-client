@@ -3,6 +3,7 @@ import { mapValues } from 'lodash';
 
 import {
 	CalendarItemInput,
+	FiltersInput,
 	FolderView,
 	PreferencesInput,
 	ShareNotificationInput,
@@ -236,6 +237,8 @@ export function createZimbraSchema(
 					zimbra.account.modifyIdentity(id, attrs),
 				modifyPrefs: (_, { prefs }) =>
 					client.modifyPrefs(prefs as PreferencesInput),
+				modifyFilters: (_, { filters }) =>
+					client.modifyFilters(filters as Array<FiltersInput>),
 				// addSignature: (_, { name, contentType, value }) =>
 				// 	api.loadAddSignature({ name, contentType, value }),
 				// modifySignature: (_, { id, contentType, value }) =>

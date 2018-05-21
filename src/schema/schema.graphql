@@ -509,7 +509,6 @@ type FreeBusy {
 	free: [FreeBusyInstance]
 }
 
-
 type ActionFileInto {
 	copy: Boolean
 	folderPath: String!
@@ -1068,7 +1067,42 @@ input PreferencesInput {
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
 	zimbraPrefReadingPaneSashHorizontal: Int
 	zimbraPrefShowFragments: Boolean
+}
 
+input ActionFileIntoInput {
+	copy: Boolean
+	folderPath: String!
+	index: Int
+}
+
+input ActionStopInput {
+	index: Int
+}
+
+input AddressTestInput {
+	header: String!
+	index: Int
+	part: String!
+	stringComparison: String!
+	value: String!
+	negative: Boolean
+}
+
+input FilterTestInput {
+	condition: FilterCondition
+	addressTest: [AddressTestInput]
+}
+
+input FilterActionInput {
+	actionFileInto: [ActionFileIntoInput]
+	actionStop: [ActionStopInput]
+}
+
+input FiltersInput {
+	name: String!
+	active: Boolean!
+	filterActions: [FilterActionInput]
+	filterTests: [FilterTestInput]
 }
 
 input ShareNotificationInput {
@@ -1310,6 +1344,7 @@ type Mutation {
 	modifyAppointment(appointment: CalendarItemInput!): Boolean
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
+	modifyFilters(filters: [FiltersInput!]): Boolean
 	modifySignature(id: ID!, contentType: String, value: String!): String
 	modifyTask(task: CalendarItemInput!): Boolean
 	moveTask(inviteId: ID!, destFolderId: ID!): String
