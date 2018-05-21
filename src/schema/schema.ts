@@ -60,6 +60,7 @@ export function createZimbraSchema(
 					client.getContactFrequency(variables as GetContactFrequencyOptions),
 				getConversation: (_, variables) =>
 					client.getConversation(variables as GetConversationOptions),
+				getFilters: client.getFilters,
 				getFolder: (_: any, variables) =>
 					client.getFolder(variables as GetFolderOptions),
 				getMailboxMetadata: (_: any, variables) =>

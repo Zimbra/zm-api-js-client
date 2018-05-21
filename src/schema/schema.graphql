@@ -509,6 +509,35 @@ type FreeBusy {
 	free: [FreeBusyInstance]
 }
 
+type Filter {
+	filterRules {
+		filterRule {
+			name
+			active
+			filterActions {
+				actionFileInto {
+					copy
+					folderPath
+					index
+				}
+				actionStop {
+					index
+				}
+			}
+			filterTests {
+				condition
+				addressTest {
+					header
+					index
+					part
+					stringComparison
+					value
+				}
+			}
+		}
+	}
+}
+
 type Folder {
 	absFolderPath: String
 	acl: ACL
@@ -1149,6 +1178,7 @@ type Query {
 		needExp: Boolean,
 		fetch: String
 	): Conversation
+	getFilters: Filter
 	getFolder(
 		visible: Boolean,
 		needGranteeName: Boolean,
