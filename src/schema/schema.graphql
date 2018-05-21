@@ -509,33 +509,45 @@ type FreeBusy {
 	free: [FreeBusyInstance]
 }
 
+
+type ActionFileInto {
+	copy: Boolean
+	folderPath: String!
+	index: Int
+}
+
+type ActionStop {
+	index: Int
+}
+
+type AddressTest {
+	header: String!
+	index: Int
+	part: String!
+	stringComparison: String!
+	value: String!
+}
+
+enum FilterCondition {
+	allof
+	anyof
+}
+
+type FilterAction {
+	actionFileInto: [ActionFileInto]
+	actionStop: [ActionStop]
+}
+
+type FilterTest {
+	condition: FilterCondition!
+	addressTest: [AddressTest]
+}
+
 type Filter {
-	filterRules {
-		filterRule {
-			name
-			active
-			filterActions {
-				actionFileInto {
-					copy
-					folderPath
-					index
-				}
-				actionStop {
-					index
-				}
-			}
-			filterTests {
-				condition
-				addressTest {
-					header
-					index
-					part
-					stringComparison
-					value
-				}
-			}
-		}
-	}
+	name: String!
+	active: Boolean!
+	filterActions: [FilterAction]
+	filterTests: [FilterTest]
 }
 
 type Folder {
@@ -1178,7 +1190,7 @@ type Query {
 		needExp: Boolean,
 		fetch: String
 	): Conversation
-	getFilters: Filter
+	getFilters: [Filter]
 	getFolder(
 		visible: Boolean,
 		needGranteeName: Boolean,
