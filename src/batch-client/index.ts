@@ -5,6 +5,7 @@ import { denormalize, normalize } from '../normalize';
 import {
 	CalendarItemCreateModifyRequest,
 	Conversation,
+	CreateMountpointRequest,
 	Folder,
 	FolderAction,
 	FreeBusy,
@@ -20,6 +21,7 @@ import {
 import { Namespace, RequestBody, RequestOptions } from '../request/types';
 import {
 	CalendarItemInput,
+	CreateMountpointInput,
 	FolderView,
 	PreferencesInput,
 	ShareNotificationInput
@@ -192,6 +194,12 @@ export class ZimbraBatchClient {
 			}
 		});
 	};
+
+	public createMountpoint = (_options: CreateMountpointInput) =>
+		this.jsonRequest({
+			name: 'CreateMountpoint',
+			body: denormalize(CreateMountpointRequest)(_options)
+		});
 
 	public createSearchFolder = (_options: CreateSearchFolderOptions) => {
 		const { parentFolderId, ...options } = _options;

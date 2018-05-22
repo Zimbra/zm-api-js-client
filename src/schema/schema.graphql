@@ -990,6 +990,22 @@ input CalendarItemRecurrenceIntervalInput {
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
 }
 
+input NewMountpointSpec {
+	name: String!
+	owner: String!
+	view: SearchType
+	flags: String
+	rid: ID
+	color: Int
+	zid: String
+	reminder: Boolean
+	parentFolderId: String
+}
+
+input CreateMountpointInput {
+	link: NewMountpointSpec
+}
+
 input FolderQueryInput {
 	uuid: ID
 	id: ID
@@ -1249,6 +1265,9 @@ type Mutation {
 		parentFolderId: String
 		url: String
 		view: FolderView
+	): Boolean
+	createMountpoint(
+		link: NewMountpointSpec!
 	): Boolean
 	createSharedCalendar(sharedCalendar: SharedCalendarInput!): Boolean
 	createSearchFolder(

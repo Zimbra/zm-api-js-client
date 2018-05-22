@@ -168,6 +168,15 @@ export const CalendarItemCreateModifyRequest = new Entity({
 	m: ['message', MessageInfo]
 });
 
+const NewMountpointSpec = new Entity({
+	f: 'flags',
+	l: 'parentFolderId'
+});
+
+export const CreateMountpointRequest = new Entity({
+	link: NewMountpointSpec
+});
+
 const ACLGrant = new Entity({
 	d: 'address',
 	gt: 'granteeType',

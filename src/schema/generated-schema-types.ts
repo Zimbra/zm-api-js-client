@@ -649,6 +649,7 @@ export interface Mutation {
 	createAppointmentException?: boolean | null;
 	createCalendar?: boolean | null;
 	createFolder?: boolean | null;
+	createMountpoint?: boolean | null;
 	createSharedCalendar?: boolean | null;
 	createSearchFolder?: boolean | null;
 	createTask?: boolean | null;
@@ -850,6 +851,18 @@ export interface CalendarItemAttach {
 	aid?: string | null;
 }
 
+export interface NewMountpointSpec {
+	name: string;
+	owner: string;
+	view?: SearchType | null;
+	flags?: string | null;
+	rid?: string | null;
+	color?: number | null;
+	zid?: string | null;
+	reminder?: boolean | null;
+	parentFolderId?: string | null;
+}
+
 export interface SharedCalendarInput {
 	ownerId: string;
 	ownerCalendarId: string;
@@ -987,6 +1000,10 @@ export interface ExternalAccount {
 	connectionType?: ConnectionType | null;
 	username: string;
 	password: string;
+}
+
+export interface CreateMountpointInput {
+	link?: NewMountpointSpec | null;
 }
 
 export interface FolderQueryInput {
@@ -1136,6 +1153,9 @@ export interface CreateFolderMutationArgs {
 	parentFolderId?: string | null;
 	url?: string | null;
 	view?: FolderView | null;
+}
+export interface CreateMountpointMutationArgs {
+	link: NewMountpointSpec;
 }
 export interface CreateSharedCalendarMutationArgs {
 	sharedCalendar: SharedCalendarInput;
