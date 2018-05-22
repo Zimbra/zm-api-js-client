@@ -21,7 +21,7 @@ import {
 import { Namespace, RequestBody, RequestOptions } from '../request/types';
 import {
 	CalendarItemInput,
-	FiltersInput,
+	FilterInput,
 	FolderView,
 	PreferencesInput,
 	ShareNotificationInput
@@ -387,13 +387,13 @@ export class ZimbraBatchClient {
 			}
 		});
 
-	public modifyFilterRules = (filters: Array<FiltersInput>) =>
+	public modifyFilterRules = (filters: Array<FilterInput>) =>
 		this.jsonRequest({
 			name: 'ModifyFilterRules',
 			body: {
 				filterRules: [
 					{
-						filterRule: filters
+						filterRule: denormalize(Filter)(filters)
 					}
 				]
 			}

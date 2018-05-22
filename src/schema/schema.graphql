@@ -1220,45 +1220,185 @@ input PreferencesInput {
 	zimbraPrefShowFragments: Boolean
 }
 
-##### FiltersInput #####
+##### FilterInput #####
 
-input ActionFileIntoInput {
-	copy: Boolean
-	folderPath: String!
-	index: Int
-}
-
-input ActionStopInput {
-	index: Int
-}
-
-input AddressTestInput {
+input AddressConditionInput {
 	header: String!
-	index: Int
 	part: String!
 	stringComparison: String!
+	caseSensitive: Boolean
 	value: String!
+	valueComparison: String
+	countComparison: String
+	index: Int
 	negative: Boolean
 }
 
-input FilterTestInput {
-	condition: FilterMatchCondition
-	addressTest: [AddressTestInput]
+input BasicConditionInput {
+	index: Int
+	negative: Boolean
+}
+
+input BodyConditionInput {
+	caseSensitive: Boolean
+	value: String
+	index: Int
+	negative: Boolean
+}
+
+input ConversationConditionInput {
+	where: String
+	index: Int
+	negative: Boolean
+}
+
+input DateConditionInput {
+	dateComparison: String
+	date: Float # d
+	index: Int
+	negative: Boolean
+}
+
+input FlagConditionInput {
+	flagName: String!
+	index: Int
+	negative: Boolean
+}
+
+input HeaderCheckConditionInput {
+	header: String!
+	index: Int
+	negative: Boolean
+}
+
+input HeaderConditionInput {
+	header: String
+	stringComparison: String
+	valueComparison: String
+	countComparison: String
+	value: String
+	caseSensitive: Boolean
+	index: Int
+	negative: Boolean
+}
+
+input ImportanceConditionInput {
+	importance: Importance! # imp
+	index: Int
+	negative: Boolean
+}
+
+input InviteConditionInput {
+	methods: [String]
+	index: Int
+	negative: Boolean
+}
+
+input MimeHeaderConditionInput {
+	header: String
+	stringComparison: String
+	value: String
+	caseSensitive: Boolean
+	index: Int
+	negative: Boolean
+}
+
+input SizeConditionInput {
+	numberComparison: String
+	size: String # s
+	index: Int
+	negative: Boolean
+}
+
+input FilterConditionInput {
+	allOrAny: FilterMatchCondition! # condition
+
+	addressBook: [HeaderCheckConditionInput] # addressBookTest
+	address: [AddressConditionInput] # addressTest
+	attachment: [BasicConditionInput] # attachmentTest
+	body: [BodyConditionInput] # bodyTest
+	bulk: [BasicConditionInput] # bulkTest
+	contactRanking: [HeaderCheckConditionInput] # contactRankingTest
+	conversation: [ConversationConditionInput] # conversationTest
+	date: [DateConditionInput] # dateTest
+	facebook: [BasicConditionInput] # facebookTest
+	flag: [FlagConditionInput] # flaggedTest
+	headerExists: [HeaderCheckConditionInput] # headerExistsTest
+	header: [HeaderConditionInput] # headerTest
+	importance: [ImportanceConditionInput] # importanceTest
+	invite: [InviteConditionInput] # inviteTest
+	linkedin: [BasicConditionInput] # linkedinTest
+	list: [BasicConditionInput] # listTest
+	me: [HeaderCheckConditionInput] # meTest
+	mimeHeader: [MimeHeaderConditionInput] # mimeHeaderTest
+	size: [SizeConditionInput] # sizeTest
+	twitter: [BasicConditionInput] # twitterTest
+	communityRequests: [BasicConditionInput] # communityRequestsTest
+	communityContent: [BasicConditionInput] # communityContentTest
+	communityConnections: [BasicConditionInput] # communityConnectionsTest
+}
+
+input BasicActionInput {
+	index: Int
+}
+
+input FileIntoActionInput {
+	folderPath: String
+	copy: Boolean
+	index: Int
+}
+
+input FlagActionInput {
+	flagName: String
+	index: Int
+}
+
+input TagActionInput {
+	tagName: String!
+	index: Int
+}
+
+input RedirectActionInput {
+	address: String # a
+	copy: Boolean
+	index: Int
+}
+
+input ReplyActionInput {
+	index: Int
+	content: [String]
+}
+
+input NotifyActionInput {
+	address: String # a
+	subject: String # su
+	maxBodySize: Int
+	origHeaders: String
+	index: Int
+	content: [String]
 }
 
 input FilterActionInput {
-	actionFileInto: [ActionFileIntoInput]
-	actionStop: [ActionStopInput]
+	keep: [BasicActionInput] # actionKeep
+	discard: [BasicActionInput] # actionDiscard
+	fileInto: [FileIntoActionInput] # actionFileInto
+	flag: [FlagActionInput] # actionFlag
+	tag: [TagActionInput] # actionTag
+	redirect: [RedirectActionInput] # actionRedirect
+	reply: [ReplyActionInput] # actionReply
+	notify: [NotifyActionInput] # actionNotify
+	stop: [BasicActionInput] # actionStop
 }
 
-input FiltersInput {
+input FilterInput {
 	name: String!
 	active: Boolean!
-	filterActions: [FilterActionInput]
-	filterTests: [FilterTestInput]
+
+	actions: [FilterActionInput] # filterActions
+	conditions: [FilterConditionInput] # filterTests
 }
 
-##### End Of FiltersInput #####
+##### End Of FilterInput #####
 
 input ShareNotificationInput {
 	item: ShareNotificationItemInput!
@@ -1499,7 +1639,7 @@ type Mutation {
 	modifyAppointment(appointment: CalendarItemInput!): Boolean
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
-	modifyFilterRules(filters: [FiltersInput!]): Boolean
+	modifyFilterRules(filters: [FilterInput!]): Boolean
 	modifySignature(id: ID!, contentType: String, value: String!): String
 	modifyTask(task: CalendarItemInput!): Boolean
 	moveTask(inviteId: ID!, destFolderId: ID!): String

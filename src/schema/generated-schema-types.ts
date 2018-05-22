@@ -26,7 +26,7 @@ export interface Query {
 	getContact?: Contact | null;
 	getContactFrequency?: ContactFrequencyResponse | null;
 	getConversation?: Conversation | null;
-	getFilters?: Filter[] | null;
+	getFilterRules?: Filter[] | null;
 	getFolder?: Folder | null;
 	getMailboxMetadata?: MailboxMetadata | null;
 	getMessage?: MessageInfo | null;
@@ -584,36 +584,175 @@ export interface ContactFrequencyDataPoints {
 export interface Filter {
 	name: string;
 	active: boolean;
-	filterActions?: FilterAction[] | null;
-	filterTests?: FilterTest[] | null;
+	actions?: FilterAction[] | null;
+	conditions?: FilterCondition[] | null;
 }
 
 export interface FilterAction {
-	actionFileInto?: ActionFileInto[] | null;
-	actionStop?: ActionStop[] | null;
+	keep?: BasicAction[] | null;
+	discard?: BasicAction[] | null;
+	fileInto?: FileIntoAction[] | null;
+	flag?: FlagAction[] | null;
+	tag?: TagAction[] | null;
+	redirect?: RedirectAction[] | null;
+	reply?: ReplyAction[] | null;
+	notify?: NotifyAction[] | null;
+	stop?: BasicAction[] | null;
 }
 
-export interface ActionFileInto {
+export interface BasicAction {
+	index?: number | null;
+}
+
+export interface FileIntoAction {
+	folderPath?: string | null;
 	copy?: boolean | null;
-	folderPath: string;
 	index?: number | null;
 }
 
-export interface ActionStop {
+export interface FlagAction {
+	flagName?: string | null;
 	index?: number | null;
 }
 
-export interface FilterTest {
-	condition: FilterCondition;
-	addressTest?: AddressTest[] | null;
+export interface TagAction {
+	tagName: string;
+	index?: number | null;
 }
 
-export interface AddressTest {
+export interface RedirectAction {
+	address?: string | null;
+	copy?: boolean | null;
+	index?: number | null;
+}
+
+export interface ReplyAction {
+	index?: number | null;
+	content?: string[] | null;
+}
+
+export interface NotifyAction {
+	address?: string | null;
+	subject?: string | null;
+	maxBodySize?: number | null;
+	origHeaders?: string | null;
+	index?: number | null;
+	content?: string[] | null;
+}
+
+export interface FilterCondition {
+	allOrAny: FilterMatchCondition;
+	addressBook?: HeaderCheckCondition[] | null;
+	address?: AddressCondition[] | null;
+	attachment?: BasicCondition[] | null;
+	body?: BodyCondition[] | null;
+	bulk?: BasicCondition[] | null;
+	contactRanking?: HeaderCheckCondition[] | null;
+	conversation?: ConversationCondition[] | null;
+	date?: DateCondition[] | null;
+	facebook?: BasicCondition[] | null;
+	flag?: FlagCondition[] | null;
+	headerExists?: HeaderCheckCondition[] | null;
+	header?: HeaderCondition[] | null;
+	importance?: ImportanceCondition[] | null;
+	invite?: InviteCondition[] | null;
+	linkedin?: BasicCondition[] | null;
+	list?: BasicCondition[] | null;
+	me?: HeaderCheckCondition[] | null;
+	mimeHeader?: MimeHeaderCondition[] | null;
+	size?: SizeCondition[] | null;
+	twitter?: BasicCondition[] | null;
+	communityRequests?: BasicCondition[] | null;
+	communityContent?: BasicCondition[] | null;
+	communityConnections?: BasicCondition[] | null;
+}
+
+export interface HeaderCheckCondition {
 	header: string;
 	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface AddressCondition {
+	header: string;
 	part: string;
 	stringComparison: string;
+	caseSensitive?: boolean | null;
 	value: string;
+	valueComparison?: string | null;
+	countComparison?: string | null;
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface BasicCondition {
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface BodyCondition {
+	caseSensitive?: boolean | null;
+	value?: string | null;
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface ConversationCondition {
+	where?: string | null;
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface DateCondition {
+	dateComparison?: string | null;
+	date?: number | null;
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface FlagCondition {
+	flagName: string;
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface HeaderCondition {
+	header?: string | null;
+	stringComparison?: string | null;
+	valueComparison?: string | null;
+	countComparison?: string | null;
+	value?: string | null;
+	caseSensitive?: boolean | null;
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface ImportanceCondition {
+	importance: Importance;
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface InviteCondition {
+	methods?: string[] | null;
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface MimeHeaderCondition {
+	header?: string | null;
+	stringComparison?: string | null;
+	value?: string | null;
+	caseSensitive?: boolean | null;
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface SizeCondition {
+	numberComparison?: string | null;
+	size?: string | null;
+	index?: number | null;
+	negative?: boolean | null;
 }
 
 export interface MailboxMetadata {
@@ -691,7 +830,7 @@ export interface Mutation {
 	modifyAppointment?: boolean | null;
 	modifyIdentity?: string | null;
 	modifyPrefs?: boolean | null;
-	modifyFilters?: boolean | null;
+	modifyFilterRules?: boolean | null;
 	modifySignature?: string | null;
 	modifyTask?: boolean | null;
 	moveTask?: string | null;
@@ -969,34 +1108,178 @@ export interface PreferencesInput {
 	zimbraPrefShowFragments?: boolean | null;
 }
 
-export interface FiltersInput {
+export interface FilterInput {
 	name: string;
 	active: boolean;
-	filterActions?: FilterActionInput[] | null;
-	filterTests?: FilterTestInput[] | null;
+	actions?: FilterActionInput[] | null;
+	conditions?: FilterConditionInput[] | null;
 }
 
 export interface FilterActionInput {
-	actionFileInto?: ActionFileIntoInput[] | null;
+	keep?: BasicActionInput[] | null;
+	discard?: BasicActionInput[] | null;
+	fileInto?: FileIntoActionInput[] | null;
+	flag?: FlagActionInput[] | null;
+	tag?: TagActionInput[] | null;
+	redirect?: RedirectActionInput[] | null;
+	reply?: ReplyActionInput[] | null;
+	notify?: NotifyActionInput[] | null;
+	stop?: BasicActionInput[] | null;
 }
 
-export interface ActionFileIntoInput {
-	copy?: boolean | null;
-	folderPath: string;
+export interface BasicActionInput {
 	index?: number | null;
 }
 
-export interface FilterTestInput {
-	condition?: FilterCondition | null;
-	addressTest?: AddressTestInput[] | null;
+export interface FileIntoActionInput {
+	folderPath?: string | null;
+	copy?: boolean | null;
+	index?: number | null;
 }
 
-export interface AddressTestInput {
+export interface FlagActionInput {
+	flagName?: string | null;
+	index?: number | null;
+}
+
+export interface TagActionInput {
+	tagName: string;
+	index?: number | null;
+}
+
+export interface RedirectActionInput {
+	address?: string | null;
+	copy?: boolean | null;
+	index?: number | null;
+}
+
+export interface ReplyActionInput {
+	index?: number | null;
+	content?: string[] | null;
+}
+
+export interface NotifyActionInput {
+	address?: string | null;
+	subject?: string | null;
+	maxBodySize?: number | null;
+	origHeaders?: string | null;
+	index?: number | null;
+	content?: string[] | null;
+}
+
+export interface FilterConditionInput {
+	allOrAny: FilterMatchCondition;
+	addressBook?: HeaderCheckConditionInput[] | null;
+	address?: AddressConditionInput[] | null;
+	attachment?: BasicConditionInput[] | null;
+	body?: BodyConditionInput[] | null;
+	bulk?: BasicConditionInput[] | null;
+	contactRanking?: HeaderCheckConditionInput[] | null;
+	conversation?: ConversationConditionInput[] | null;
+	date?: DateConditionInput[] | null;
+	facebook?: BasicConditionInput[] | null;
+	flag?: FlagConditionInput[] | null;
+	headerExists?: HeaderCheckConditionInput[] | null;
+	header?: HeaderConditionInput[] | null;
+	importance?: ImportanceConditionInput[] | null;
+	invite?: InviteConditionInput[] | null;
+	linkedin?: BasicConditionInput[] | null;
+	list?: BasicConditionInput[] | null;
+	me?: HeaderCheckConditionInput[] | null;
+	mimeHeader?: MimeHeaderConditionInput[] | null;
+	size?: SizeConditionInput[] | null;
+	twitter?: BasicConditionInput[] | null;
+	communityRequests?: BasicConditionInput[] | null;
+	communityContent?: BasicConditionInput[] | null;
+	communityConnections?: BasicConditionInput[] | null;
+}
+
+export interface HeaderCheckConditionInput {
 	header: string;
 	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface AddressConditionInput {
+	header: string;
 	part: string;
 	stringComparison: string;
+	caseSensitive?: boolean | null;
 	value: string;
+	valueComparison?: string | null;
+	countComparison?: string | null;
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface BasicConditionInput {
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface BodyConditionInput {
+	caseSensitive?: boolean | null;
+	value?: string | null;
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface ConversationConditionInput {
+	where?: string | null;
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface DateConditionInput {
+	dateComparison?: string | null;
+	date?: number | null;
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface FlagConditionInput {
+	flagName: string;
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface HeaderConditionInput {
+	header?: string | null;
+	stringComparison?: string | null;
+	valueComparison?: string | null;
+	countComparison?: string | null;
+	value?: string | null;
+	caseSensitive?: boolean | null;
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface ImportanceConditionInput {
+	importance: Importance;
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface InviteConditionInput {
+	methods?: string[] | null;
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface MimeHeaderConditionInput {
+	header?: string | null;
+	stringComparison?: string | null;
+	value?: string | null;
+	caseSensitive?: boolean | null;
+	index?: number | null;
+	negative?: boolean | null;
+}
+
+export interface SizeConditionInput {
+	numberComparison?: string | null;
+	size?: string | null;
+	index?: number | null;
+	negative?: boolean | null;
 }
 
 export interface EmailAddressInput {
@@ -1245,8 +1528,8 @@ export interface ModifyIdentityMutationArgs {
 export interface ModifyPrefsMutationArgs {
 	prefs: PreferencesInput;
 }
-export interface ModifyFiltersMutationArgs {
-	filters: FiltersInput;
+export interface ModifyFilterRulesMutationArgs {
+	filters?: FilterInput[] | null;
 }
 export interface ModifySignatureMutationArgs {
 	id: string;
@@ -1433,9 +1716,15 @@ export enum FolderView {
 	comment = 'comment'
 }
 
-export enum FilterCondition {
+export enum FilterMatchCondition {
 	allof = 'allof',
 	anyof = 'anyof'
+}
+
+export enum Importance {
+	high = 'high',
+	normal = 'normal',
+	low = 'low'
 }
 
 export enum SortBy {
