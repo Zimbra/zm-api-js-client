@@ -499,6 +499,7 @@ export interface Instance {
 	dueDate?: number | null;
 	tzoDue?: number | null;
 	utcRecurrenceId?: string | null;
+	isException?: boolean | null;
 	alarm?: boolean | null;
 	allDay?: boolean | null;
 	changeDate?: number | null;
@@ -510,7 +511,7 @@ export interface Instance {
 	flags?: string | null;
 	freeBusy?: FreeBusyStatus | null;
 	freeBusyActual?: FreeBusyStatus | null;
-	inviteId: string;
+	inviteId?: string | null;
 	location?: string | null;
 	modifiedSequence?: number | null;
 	name?: string | null;
@@ -714,6 +715,7 @@ export interface CalendarItemInput {
 	id?: string | null;
 	modifiedSequence?: number | null;
 	revision?: number | null;
+	componentNum?: number | null;
 	message: CalendarItemMessageInput;
 }
 
@@ -735,7 +737,7 @@ export interface CalendarItemInviteComponentInput {
 	location?: string | null;
 	start?: CalendarItemDateTimeInput | null;
 	end?: CalendarItemDateTimeInput | null;
-	exceptId?: CalendarItemDateTimeInput | null;
+	exceptId?: CalendarOptionalItemDateTimeInput | null;
 	freeBusy?: FreeBusyStatus | null;
 	allDay?: boolean | null;
 	organizer?: CalendarItemOrganizerInput | null;
@@ -753,6 +755,11 @@ export interface CalendarItemInviteComponentInput {
 export interface CalendarItemDateTimeInput {
 	timezone?: string | null;
 	date: string;
+}
+
+export interface CalendarOptionalItemDateTimeInput {
+	timezone?: string | null;
+	date?: string | null;
 }
 
 export interface CalendarItemOrganizerInput {
