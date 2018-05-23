@@ -282,7 +282,9 @@ export class ZimbraBatchClient {
 	public getFilterRules = () =>
 		this.jsonRequest({
 			name: 'GetFilterRules'
-		}).then(res => normalize(Filter)(get(res, 'filterRules.0.filterRule')));
+		}).then(res =>
+			normalize(Filter)(get(res, 'filterRules.0.filterRule') || [])
+		);
 
 	public getFolder = (_options: GetFolderOptions) => {
 		const { traverseMountpoints, ...options } = _options;
