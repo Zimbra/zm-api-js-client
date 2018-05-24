@@ -195,6 +195,7 @@ type CalOrganizer {
 	address: String
 	name: String
 	url: String
+	sentBy: String
 }
 
 type Instance {
@@ -962,6 +963,7 @@ input CalendarItemAlarmTriggerAbsoluteInput {
 input CalendarItemOrganizerInput {
 	address: String
 	name: String
+	sentBy: String
 }
 
 input CalendarItemRecurrenceInput {
