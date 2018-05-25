@@ -101,14 +101,18 @@ const commonInviteFields = {
 	ridZ: 'utcRecurrenceId'
 };
 
+const StringContent = new Entity({
+	_content: 'content'
+});
+
 const InviteComponent = new Entity({
 	...commonMessageFields,
 	...commonInviteFields,
 	alarm: ['alarms', CalendarItemAlarm],
 	at: ['attendees', CalendarItemAttendees],
 	completed: 'completedDateTime',
-	desc: 'description',
-	descHtml: 'htmlDescription',
+	desc: ['description', StringContent],
+	descHtml: ['htmlDescription', StringContent],
 	e: ['end', CalendarItemDateTime],
 	ex: 'isException',
 	recur: ['recurrence', RecurrenceInfo],
