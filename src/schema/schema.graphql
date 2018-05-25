@@ -616,7 +616,7 @@ type SignatureContent {
 }
 
 type StringContent {
-	content: String
+	_content: String
 }
 
 type DataSources {
