@@ -156,7 +156,10 @@ export class ZimbraBatchClient {
 			});
 
 	public conversationAction = (options: ActionOptions) =>
-		this.action(ActionType.conversation, denormalize(ActionOptionsEntity)(options));
+		this.action(
+			ActionType.conversation,
+			denormalize(ActionOptionsEntity)(options)
+		);
 
 	public createAppointment = (appointment: CalendarItemInput) =>
 		this.jsonRequest({
