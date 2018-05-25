@@ -31,9 +31,9 @@ function attributeKeys(data: any) {
 
 // Fragment names are required to be unique
 function generateFragmentName(name: string, id: string = '') {
-	// Dashes are illegal GraphQL syntax - remove them from
+	// Dashes and colons are illegal GraphQL syntax - remove them from
 	// from the identifier
-	return `${name}${id.replace(/-/g, '')}${new Date().valueOf()}`;
+	return `${name}${id.replace(/-|:/g, '')}${new Date().valueOf()}`;
 }
 
 export class ZimbraNotifications {

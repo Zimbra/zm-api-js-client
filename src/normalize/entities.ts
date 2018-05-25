@@ -32,10 +32,6 @@ const CalendarItemAlarmTrigger = new Entity({
 	rel: ['relative', CalendarItemAlarmTriggerRelative]
 });
 
-const CalendarItemAlarmAttendees = new Entity({
-	a: 'email'
-});
-
 const IntervalRule = new Entity({
 	ival: 'intervalCount'
 });
@@ -51,6 +47,10 @@ const AddRecurrenceInfo = new Entity({
 
 const RecurrenceInfo = new Entity({
 	add: ['add', AddRecurrenceInfo]
+});
+
+const CalendarItemAlarmAttendees = new Entity({
+	a: 'email'
 });
 
 const CalendarItemAlarm = new Entity({
@@ -113,6 +113,7 @@ const InviteComponent = new Entity({
 	ex: 'isException',
 	recur: ['recurrence', RecurrenceInfo],
 	s: ['start', CalendarItemDateTime],
+	exceptId: ['exceptId', CalendarItemDateTime],
 	seq: 'sequence'
 });
 
@@ -162,6 +163,7 @@ export const Conversation = new Entity({
 export const CalendarItemCreateModifyRequest = new Entity({
 	ms: 'modifiedSequence',
 	rev: 'revision',
+	comp: 'componentNum',
 	m: ['message', MessageInfo]
 });
 
@@ -184,9 +186,12 @@ const ShareNotificationAddress = new Entity({
 });
 
 const Instance = new Entity({
+	...commonMessageFields,
+	...commonInviteFields,
 	s: 'start',
-	recur: 'isRecurring',
-	ridZ: 'utcRecurrenceId'
+	ptst: 'participationStatus',
+	dur: 'duration',
+	ex: 'isException'
 });
 
 export const CalendarItemHitInfo = new Entity({
@@ -207,7 +212,8 @@ const Folder = new Entity({
 	n: 'nonFolderItemCount',
 	s: 'nonFolderItemCountTotal',
 	rev: 'revision',
-	acl: ACL
+	acl: ACL,
+	perm: 'permissions'
 });
 
 Folder.addMapping({
