@@ -827,8 +827,14 @@ input MimePartInput {
 	mimeParts: [MimePartInput]
 }
 
-input CalendarItemAttach {
-	aid: String
+input ExistingAttachmentInput {
+	messageId: String
+	part: Int
+}
+
+input AttachmentInput {
+	attachmentIds: String
+	existingAttachments: [ExistingAttachmentInput]
 }
 
 input CalendarItemInput {
@@ -845,7 +851,7 @@ input CalendarItemMessageInput {
 	invitations: CalendarItemInviteInput!
 	mimeParts: MimePartInput
 	emailAddresses: [CalendarItemInviteEmailAddressInput]
-	attach: [CalendarItemAttach]
+	attachments: [AttachmentInput]
 }
 
 input CalendarItemInviteInput {
