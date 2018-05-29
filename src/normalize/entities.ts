@@ -273,3 +273,69 @@ export const SearchResponse = new Entity({
 	c: ['conversations', Conversation],
 	cn: ['contacts', Contact]
 });
+
+const RedirectAction = new Entity({
+	a: 'address'
+});
+
+const NotifyAction = new Entity({
+	a: 'address',
+	su: 'subject'
+});
+
+const FilterAction = new Entity({
+	actionKeep: 'keep',
+	actionDiscard: 'discard',
+	actionFileInto: 'fileInto',
+	actionFlag: 'flag',
+	actionTag: 'tag',
+	actionRedirect: ['redirect', RedirectAction],
+	actionReply: 'reply',
+	actionNotify: ['notify', NotifyAction],
+	actionStop: 'stop'
+});
+
+const DateCondition = new Entity({
+	d: 'date'
+});
+
+const ImportanceCondition = new Entity({
+	imp: 'importance'
+});
+
+const SizeCondition = new Entity({
+	s: 'size'
+});
+
+const FilterCondition = new Entity({
+	condition: 'allOrAny',
+
+	addressBookTest: 'addressBook',
+	addressTest: 'address',
+	attachmentTest: 'attachment',
+	bodyTest: 'body',
+	bulkTest: 'bulk',
+	contactRankingTest: 'contactRanking',
+	conversationTest: 'conversation',
+	dateTest: ['date', DateCondition],
+	facebookTest: 'facebook',
+	flaggedTest: 'flag',
+	headerExistsTest: 'headerExists',
+	headerTest: 'header',
+	importanceTest: ['importance', ImportanceCondition],
+	inviteTest: 'invite',
+	linkedinTest: 'linkedin',
+	listTest: 'list',
+	meTest: 'me',
+	mimeHeaderTest: 'mimeHeader',
+	sizeTest: ['size', SizeCondition],
+	twitterTest: 'twitter',
+	communityRequestsTest: 'communityRequests',
+	communityContentTest: 'communityContent',
+	communityConnectionsTest: 'communityConnections'
+});
+
+export const Filter = new Entity({
+	filterActions: ['actions', FilterAction],
+	filterTests: ['conditions', FilterCondition]
+});
