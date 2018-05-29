@@ -3,11 +3,12 @@ import { get, isError, mapValues } from 'lodash';
 
 import { denormalize, normalize } from '../normalize';
 import {
+	ActionOptions as ActionOptionsEntity,
 	CalendarItemCreateModifyRequest,
 	Conversation,
 	CreateMountpointRequest,
+	Filter,
 	Folder,
-	FolderAction,
 	FreeBusy,
 	MessageInfo,
 	SearchResponse,
@@ -22,6 +23,7 @@ import { Namespace, RequestBody, RequestOptions } from '../request/types';
 import {
 	CalendarItemInput,
 	CreateMountpointInput,
+	FilterInput,
 	FolderView,
 	PreferencesInput,
 	ShareNotificationInput
@@ -101,18 +103,14 @@ export class ZimbraBatchClient {
 		}));
 
 	public action = (type: ActionType, options: ActionOptions) => {
-		const { ids, ...rest } = options;
+		const { ids, id, ...rest } = options;
 
 		return this.jsonRequest({
 			name: type,
 			body: {
 				action: {
-					...rest,
-					id: rest.id || (ids || []).join(','),
-					l: options.folderId,
-					tcon: options.constraints,
-					tn: options.tagNames,
-					f: options.flags
+					id: id || (ids || []).join(','),
+					...rest
 				}
 			}
 		});
@@ -162,7 +160,10 @@ export class ZimbraBatchClient {
 			});
 
 	public conversationAction = (options: ActionOptions) =>
-		this.action(ActionType.conversation, options);
+		this.action(
+			ActionType.conversation,
+			denormalize(ActionOptionsEntity)(options)
+		);
 
 	public createAppointment = (appointment: CalendarItemInput) =>
 		this.jsonRequest({
@@ -233,7 +234,7 @@ export class ZimbraBatchClient {
 		}).then(res => normalize(Folder)(res.folder[0].folder));
 
 	public folderAction = (options: ActionOptions) =>
-		this.action(ActionType.folder, denormalize(FolderAction)(options));
+		this.action(ActionType.folder, denormalize(ActionOptionsEntity)(options));
 
 	public folders = ({ ids }: FoldersOptions) =>
 		Promise.all(
@@ -284,6 +285,13 @@ export class ZimbraBatchClient {
 			c.messages = c.messages.map((m: any) => normalizeMessage(m, this.origin));
 			return c;
 		});
+
+	public getFilterRules = () =>
+		this.jsonRequest({
+			name: 'GetFilterRules'
+		}).then(res =>
+			normalize(Filter)(get(res, 'filterRules.0.filterRule') || [])
+		);
 
 	public getFolder = (_options: GetFolderOptions) => {
 		const { traverseMountpoints, ...options } = _options;
@@ -352,7 +360,7 @@ export class ZimbraBatchClient {
 		);
 
 	public itemAction = (options: ActionOptions) =>
-		this.action(ActionType.item, options);
+		this.action(ActionType.item, denormalize(ActionOptionsEntity)(options));
 
 	public jsonRequest = (options: RequestOptions): Promise<RequestBody> =>
 		this.dataLoader.load(options);
@@ -378,13 +386,25 @@ export class ZimbraBatchClient {
 	};
 
 	public messageAction = (options: ActionOptions) =>
-		this.action(ActionType.message, options);
+		this.action(ActionType.message, denormalize(ActionOptionsEntity)(options));
 
 	public modifyAppointment = (appointment: CalendarItemInput) =>
 		this.jsonRequest({
 			name: 'ModifyAppointment',
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
+			}
+		});
+
+	public modifyFilterRules = (filters: Array<FilterInput>) =>
+		this.jsonRequest({
+			name: 'ModifyFilterRules',
+			body: {
+				filterRules: [
+					{
+						filterRule: denormalize(Filter)(filters)
+					}
+				]
 			}
 		});
 

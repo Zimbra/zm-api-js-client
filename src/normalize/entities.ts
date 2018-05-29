@@ -143,13 +143,23 @@ const CalendarItemInviteEmailAddress = new Entity({
 	t: 'type'
 });
 
+const ExistingAttachmentsInfo = new Entity({
+	mid: 'messageId'
+});
+
+const AttachmentsInfo = new Entity({
+	aid: 'attachmentIds',
+	mp: ['existingAttachments', ExistingAttachmentsInfo]
+});
+
 const commonMailItemFields = {
 	...commonMessageFields,
 	e: ['emailAddresses', CalendarItemInviteEmailAddress],
 	inv: ['invitations', InviteInfo],
 	mp: ['mimeParts', MimePart],
 	shr: 'share',
-	su: 'subject'
+	su: 'subject',
+	attach: ['attachments', AttachmentsInfo]
 };
 
 export const MessageInfo = new Entity(commonMailItemFields);
@@ -245,8 +255,11 @@ export const FreeBusy = new Entity({
 	n: ['nodata', FreeBusyInstance]
 });
 
-export const FolderAction = new Entity({
+export const ActionOptions = new Entity({
 	l: 'folderId',
+	tcon: 'constraints',
+	tn: 'tagNames',
+	f: 'flags',
 	zid: 'zimbraId',
 	grant: ACLGrant
 });
@@ -272,4 +285,70 @@ export const SearchResponse = new Entity({
 	m: ['messages', MessageInfo],
 	c: ['conversations', Conversation],
 	cn: ['contacts', Contact]
+});
+
+const RedirectAction = new Entity({
+	a: 'address'
+});
+
+const NotifyAction = new Entity({
+	a: 'address',
+	su: 'subject'
+});
+
+const FilterAction = new Entity({
+	actionKeep: 'keep',
+	actionDiscard: 'discard',
+	actionFileInto: 'fileInto',
+	actionFlag: 'flag',
+	actionTag: 'tag',
+	actionRedirect: ['redirect', RedirectAction],
+	actionReply: 'reply',
+	actionNotify: ['notify', NotifyAction],
+	actionStop: 'stop'
+});
+
+const DateCondition = new Entity({
+	d: 'date'
+});
+
+const ImportanceCondition = new Entity({
+	imp: 'importance'
+});
+
+const SizeCondition = new Entity({
+	s: 'size'
+});
+
+const FilterCondition = new Entity({
+	condition: 'allOrAny',
+
+	addressBookTest: 'addressBook',
+	addressTest: 'address',
+	attachmentTest: 'attachment',
+	bodyTest: 'body',
+	bulkTest: 'bulk',
+	contactRankingTest: 'contactRanking',
+	conversationTest: 'conversation',
+	dateTest: ['date', DateCondition],
+	facebookTest: 'facebook',
+	flaggedTest: 'flag',
+	headerExistsTest: 'headerExists',
+	headerTest: 'header',
+	importanceTest: ['importance', ImportanceCondition],
+	inviteTest: 'invite',
+	linkedinTest: 'linkedin',
+	listTest: 'list',
+	meTest: 'me',
+	mimeHeaderTest: 'mimeHeader',
+	sizeTest: ['size', SizeCondition],
+	twitterTest: 'twitter',
+	communityRequestsTest: 'communityRequests',
+	communityContentTest: 'communityContent',
+	communityConnectionsTest: 'communityConnections'
+});
+
+export const Filter = new Entity({
+	filterActions: ['actions', FilterAction],
+	filterTests: ['conditions', FilterCondition]
 });

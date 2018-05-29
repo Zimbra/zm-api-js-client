@@ -4,6 +4,7 @@ import { mapValues } from 'lodash';
 import {
 	CalendarItemInput,
 	CreateMountpointInput,
+	FilterInput,
 	FolderView,
 	PreferencesInput,
 	ShareNotificationInput,
@@ -61,6 +62,7 @@ export function createZimbraSchema(
 					client.getContactFrequency(variables as GetContactFrequencyOptions),
 				getConversation: (_, variables) =>
 					client.getConversation(variables as GetConversationOptions),
+				getFilterRules: client.getFilterRules,
 				getFolder: (_: any, variables) =>
 					client.getFolder(variables as GetFolderOptions),
 				getMailboxMetadata: (_: any, variables) =>
@@ -238,6 +240,8 @@ export function createZimbraSchema(
 					zimbra.account.modifyIdentity(id, attrs),
 				modifyPrefs: (_, { prefs }) =>
 					client.modifyPrefs(prefs as PreferencesInput),
+				modifyFilterRules: (_, { filters }) =>
+					client.modifyFilterRules(filters as Array<FilterInput>),
 				// addSignature: (_, { name, contentType, value }) =>
 				// 	api.loadAddSignature({ name, contentType, value }),
 				// modifySignature: (_, { id, contentType, value }) =>

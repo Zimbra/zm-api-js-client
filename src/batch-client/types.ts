@@ -139,7 +139,7 @@ export enum ActionType {
 
 export enum ActionResultType {
 	ConvAction = 'Conversation',
-	MsgAction = 'Message'
+	MsgAction = 'MessageInfo'
 }
 
 export interface CreateFolderOptions {
