@@ -419,6 +419,7 @@ export interface CalOrganizer {
 	address?: string | null;
 	name?: string | null;
 	url?: string | null;
+	sentBy?: string | null;
 }
 
 export interface MimePart {
@@ -901,7 +902,7 @@ export interface CalendarItemMessageInput {
 	invitations: CalendarItemInviteInput;
 	mimeParts?: MimePartInput | null;
 	emailAddresses?: CalendarItemInviteEmailAddressInput[] | null;
-	attach?: CalendarItemAttach[] | null;
+	attachments?: AttachmentInput[] | null;
 }
 
 export interface CalendarItemInviteInput {
@@ -941,6 +942,7 @@ export interface CalendarOptionalItemDateTimeInput {
 export interface CalendarItemOrganizerInput {
 	address?: string | null;
 	name?: string | null;
+	sentBy?: string | null;
 }
 
 export interface CalendarItemRecurrenceInput {
@@ -1014,8 +1016,14 @@ export interface CalendarItemInviteEmailAddressInput {
 	type: AddressType;
 }
 
-export interface CalendarItemAttach {
-	aid?: string | null;
+export interface AttachmentInput {
+	attachmentIds?: string | null;
+	existingAttachments?: ExistingAttachmentInput[] | null;
+}
+
+export interface ExistingAttachmentInput {
+	messageId?: string | null;
+	part?: number | null;
 }
 
 export interface SharedCalendarInput {
