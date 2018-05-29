@@ -5,6 +5,7 @@ import { denormalize, normalize } from '../normalize';
 import {
 	CalendarItemCreateModifyRequest,
 	Conversation,
+	Filter,
 	Folder,
 	FolderAction,
 	FreeBusy,
@@ -20,6 +21,7 @@ import {
 import { Namespace, RequestBody, RequestOptions } from '../request/types';
 import {
 	CalendarItemInput,
+	FilterInput,
 	FolderView,
 	PreferencesInput,
 	ShareNotificationInput
@@ -277,6 +279,13 @@ export class ZimbraBatchClient {
 			return c;
 		});
 
+	public getFilterRules = () =>
+		this.jsonRequest({
+			name: 'GetFilterRules'
+		}).then(res =>
+			normalize(Filter)(get(res, 'filterRules.0.filterRule') || [])
+		);
+
 	public getFolder = (_options: GetFolderOptions) => {
 		const { traverseMountpoints, ...options } = _options;
 
@@ -377,6 +386,18 @@ export class ZimbraBatchClient {
 			name: 'ModifyAppointment',
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
+			}
+		});
+
+	public modifyFilterRules = (filters: Array<FilterInput>) =>
+		this.jsonRequest({
+			name: 'ModifyFilterRules',
+			body: {
+				filterRules: [
+					{
+						filterRule: denormalize(Filter)(filters)
+					}
+				]
 			}
 		});
 
