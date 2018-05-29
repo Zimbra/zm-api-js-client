@@ -195,6 +195,7 @@ type CalOrganizer {
 	address: String
 	name: String
 	url: String
+	sentBy: String
 }
 
 type Instance {
@@ -1017,8 +1018,14 @@ input MimePartInput {
 	mimeParts: [MimePartInput]
 }
 
-input CalendarItemAttach {
-	aid: String
+input ExistingAttachmentInput {
+	messageId: String
+	part: Int
+}
+
+input AttachmentInput {
+	attachmentIds: String
+	existingAttachments: [ExistingAttachmentInput]
 }
 
 input CalendarItemInput {
@@ -1035,7 +1042,7 @@ input CalendarItemMessageInput {
 	invitations: CalendarItemInviteInput!
 	mimeParts: MimePartInput
 	emailAddresses: [CalendarItemInviteEmailAddressInput]
-	attach: [CalendarItemAttach]
+	attachments: [AttachmentInput]
 }
 
 input CalendarItemInviteInput {
@@ -1153,6 +1160,7 @@ input CalendarItemAlarmTriggerAbsoluteInput {
 input CalendarItemOrganizerInput {
 	address: String
 	name: String
+	sentBy: String
 }
 
 input CalendarItemRecurrenceInput {
