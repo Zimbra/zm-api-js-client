@@ -110,7 +110,7 @@ export class ZimbraBatchClient {
 			body: {
 				action: {
 					id: id || (ids || []).join(','),
-					...rest
+					...denormalize(ActionOptionsEntity)(rest)
 				}
 			}
 		});
@@ -160,10 +160,7 @@ export class ZimbraBatchClient {
 			});
 
 	public conversationAction = (options: ActionOptions) =>
-		this.action(
-			ActionType.conversation,
-			denormalize(ActionOptionsEntity)(options)
-		);
+		this.action(ActionType.conversation, options);
 
 	public createAppointment = (appointment: CalendarItemInput) =>
 		this.jsonRequest({
@@ -234,7 +231,7 @@ export class ZimbraBatchClient {
 		}).then(res => normalize(Folder)(res.folder[0].folder));
 
 	public folderAction = (options: ActionOptions) =>
-		this.action(ActionType.folder, denormalize(ActionOptionsEntity)(options));
+		this.action(ActionType.folder, options);
 
 	public folders = ({ ids }: FoldersOptions) =>
 		Promise.all(
@@ -360,7 +357,7 @@ export class ZimbraBatchClient {
 		);
 
 	public itemAction = (options: ActionOptions) =>
-		this.action(ActionType.item, denormalize(ActionOptionsEntity)(options));
+		this.action(ActionType.item, options);
 
 	public jsonRequest = (options: RequestOptions): Promise<RequestBody> =>
 		this.dataLoader.load(options);
@@ -386,7 +383,7 @@ export class ZimbraBatchClient {
 	};
 
 	public messageAction = (options: ActionOptions) =>
-		this.action(ActionType.message, denormalize(ActionOptionsEntity)(options));
+		this.action(ActionType.message, options);
 
 	public modifyAppointment = (appointment: CalendarItemInput) =>
 		this.jsonRequest({
