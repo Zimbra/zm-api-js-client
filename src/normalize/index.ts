@@ -30,7 +30,7 @@ function _normalize(data: {}, schema: Entity, inverse: Boolean = false) {
 			const { key, nestedSchema } = normalizeKey(k, schema, inverse);
 			const type = typeof v;
 			if (Array.isArray(v)) {
-				result[key] = v.map(
+				result[key] = (v as Array<any>).map(
 					i => (nestedSchema ? _normalize(i, nestedSchema, inverse) : i)
 				);
 			} else if (type === 'object' && v !== null) {
