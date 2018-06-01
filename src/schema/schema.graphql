@@ -856,8 +856,13 @@ type Preferences {
 	zimbraPrefShowFragments: Boolean
 }
 
+type NameId {
+	id: ID
+	name: String
+}
+
 type SignatureResponse {
-	id: ID!
+	signature: [NameId]
 }
 
 type SearchResponse {
@@ -1505,6 +1510,18 @@ input MailItemHeaderInput {
 	n: String!
 }
 
+input SignatureInput {
+	id: ID
+	name: String
+	content: SignatureContentInput
+	contentId: String
+}
+
+input SignatureContentInput {
+	type: String
+	_content: String
+}
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -1591,9 +1608,7 @@ type Mutation {
 		name: String
 	): Boolean
 	addSignature(
-		name: String!
-		contentType: String
-		value: String!
+		signature: SignatureInput!
 	): SignatureResponse
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): String
 	cancelTask(inviteId: ID!): Boolean

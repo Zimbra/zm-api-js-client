@@ -6,6 +6,7 @@ import {
 	ActionOptions as ActionOptionsEntity,
 	CalendarItemCreateModifyRequest,
 	Conversation,
+	CreateSignatureRequest,
 	Filter,
 	Folder,
 	FreeBusy,
@@ -24,7 +25,8 @@ import {
 	FilterInput,
 	FolderView,
 	PreferencesInput,
-	ShareNotificationInput
+	ShareNotificationInput,
+	SignatureInput
 } from '../schema/generated-schema-types';
 import {
 	coerceBooleanToInt,
@@ -113,6 +115,13 @@ export class ZimbraBatchClient {
 			}
 		});
 	};
+
+	public addSignature = (options: SignatureInput) =>
+		this.jsonRequest({
+			name: 'CreateSignature',
+			namespace: Namespace.Account,
+			body: denormalize(CreateSignatureRequest)(options)
+		});
 
 	public cancelTask = ({ inviteId }: any) =>
 		this.jsonRequest({

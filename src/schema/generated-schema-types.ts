@@ -850,7 +850,12 @@ export interface Mutation {
 }
 
 export interface SignatureResponse {
-	id: string;
+	signature?: NameId[] | null;
+}
+
+export interface NameId {
+	id?: string | null;
+	name?: string | null;
 }
 
 export interface CalendarItemAlarmAttendees {
@@ -872,6 +877,18 @@ export interface Cursor {
 	sortVal?: string | null;
 	endSortVal?: string | null;
 	includeOffset?: boolean | null;
+}
+
+export interface SignatureInput {
+	id?: string | null;
+	name?: string | null;
+	content?: SignatureContentInput | null;
+	contentId?: string | null;
+}
+
+export interface SignatureContentInput {
+	type?: string | null;
+	_content?: string | null;
 }
 
 export interface ExternalAccountAddInput {
@@ -1439,9 +1456,7 @@ export interface ActionMutationArgs {
 	name?: string | null;
 }
 export interface AddSignatureMutationArgs {
-	name: string;
-	contentType?: string | null;
-	value: string;
+	signature: SignatureInput;
 }
 export interface AddExternalAccountMutationArgs {
 	externalAccount: ExternalAccountAddInput;

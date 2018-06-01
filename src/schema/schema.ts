@@ -7,6 +7,7 @@ import {
 	FolderView,
 	PreferencesInput,
 	ShareNotificationInput,
+	SignatureInput,
 	SortBy
 } from './generated-schema-types';
 import { ZimbraSchemaOptions } from './types';
@@ -118,6 +119,8 @@ export function createZimbraSchema(
 					const { type, ...rest } = variables;
 					return client.action(type, rest as ActionOptions);
 				},
+				addSignature: (_, variables) =>
+					client.addSignature(variables as SignatureInput),
 				cancelTask: (_, variables) => client.cancelTask(variables),
 				itemAction: (_, variables) =>
 					client.itemAction(variables as ActionOptions),
@@ -239,8 +242,6 @@ export function createZimbraSchema(
 					client.modifyPrefs(prefs as PreferencesInput),
 				modifyFilterRules: (_, { filters }) =>
 					client.modifyFilterRules(filters as Array<FilterInput>),
-				// addSignature: (_, { name, contentType, value }) =>
-				// 	api.loadAddSignature({ name, contentType, value }),
 				// modifySignature: (_, { id, contentType, value }) =>
 				// 	api.loadModifySignature({ id, contentType, value }),
 				// deleteSignature: (_, { id }) => api.loadDeleteSignature({ id }),
