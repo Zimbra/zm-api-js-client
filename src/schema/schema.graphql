@@ -722,6 +722,8 @@ type Folder {
 	unread: Int
 	query: String
 	permissions: String # It will be available on linked folders only
+	ownerZimbraId: ID
+	sharedItemId: ID
 }
 
 type ACL {
@@ -1051,7 +1053,7 @@ input CalendarItemInviteInput {
 
 input CalendarItemInviteEmailAddressInput {
 	address: String!
-	name: String!
+	name: String
 	type: AddressType!
 }
 
