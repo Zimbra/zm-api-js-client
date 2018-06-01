@@ -116,13 +116,6 @@ export class ZimbraBatchClient {
 		});
 	};
 
-	public addSignature = (options: SignatureInput) =>
-		this.jsonRequest({
-			name: 'CreateSignature',
-			namespace: Namespace.Account,
-			body: denormalize(CreateSignatureRequest)(options)
-		});
-
 	public cancelTask = ({ inviteId }: any) =>
 		this.jsonRequest({
 			name: 'CancelTask',
@@ -212,6 +205,13 @@ export class ZimbraBatchClient {
 			}
 		});
 	};
+
+	public createSignature = (options: SignatureInput) =>
+		this.jsonRequest({
+			name: 'CreateSignature',
+			namespace: Namespace.Account,
+			body: denormalize(CreateSignatureRequest)(options)
+		});
 
 	public createTask = (task: CalendarItemInput) =>
 		this.jsonRequest({

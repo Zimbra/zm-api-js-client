@@ -806,7 +806,6 @@ export interface ShareInfo {
 
 export interface Mutation {
 	action?: boolean | null;
-	addSignature?: SignatureResponse | null;
 	addExternalAccount?: string | null;
 	cancelTask?: boolean | null;
 	changeCalendarColor?: boolean | null;
@@ -819,6 +818,7 @@ export interface Mutation {
 	createFolder?: boolean | null;
 	createSharedCalendar?: boolean | null;
 	createSearchFolder?: boolean | null;
+	createSignature?: SignatureResponse | null;
 	createTask?: boolean | null;
 	deleteAppointment?: boolean | null;
 	deleteExternalAccount?: string | null;
@@ -877,18 +877,6 @@ export interface Cursor {
 	sortVal?: string | null;
 	endSortVal?: string | null;
 	includeOffset?: boolean | null;
-}
-
-export interface SignatureInput {
-	id?: string | null;
-	name?: string | null;
-	content?: SignatureContentInput | null;
-	contentId?: string | null;
-}
-
-export interface SignatureContentInput {
-	type?: string | null;
-	_content?: string | null;
 }
 
 export interface ExternalAccountAddInput {
@@ -1049,6 +1037,18 @@ export interface SharedCalendarInput {
 	name: string;
 	color: string;
 	reminder: boolean;
+}
+
+export interface SignatureInput {
+	id?: string | null;
+	name?: string | null;
+	content?: SignatureContentInput | null;
+	contentId?: string | null;
+}
+
+export interface SignatureContentInput {
+	type?: string | null;
+	_content?: string | null;
 }
 
 export interface NameIdInput {
@@ -1460,9 +1460,6 @@ export interface ActionMutationArgs {
 	tagNames?: string | null;
 	name?: string | null;
 }
-export interface AddSignatureMutationArgs {
-	signature: SignatureInput;
-}
 export interface AddExternalAccountMutationArgs {
 	externalAccount: ExternalAccountAddInput;
 }
@@ -1515,6 +1512,9 @@ export interface CreateSearchFolderMutationArgs {
 	parentFolderId?: string | null;
 	query: string;
 	view?: FolderView | null;
+}
+export interface CreateSignatureMutationArgs {
+	signature: SignatureInput;
 }
 export interface CreateTaskMutationArgs {
 	task: CalendarItemInput;

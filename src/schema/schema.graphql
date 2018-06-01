@@ -1612,9 +1612,6 @@ type Mutation {
 		tagNames: String,
 		name: String
 	): Boolean
-	addSignature(
-		signature: SignatureInput!
-	): SignatureResponse
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): String
 	cancelTask(inviteId: ID!): Boolean
 	changeCalendarColor(id: String!, color: Int!): Boolean
@@ -1648,6 +1645,9 @@ type Mutation {
 		query: String!
 		view: FolderView
 	): Boolean
+	createSignature(
+		signature: SignatureInput!
+	): SignatureResponse
 	createTask(task: CalendarItemInput!): Boolean
 	deleteAppointment(inviteId: String!): Boolean
 	deleteExternalAccount(id: ID!): String

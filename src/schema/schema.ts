@@ -241,8 +241,8 @@ export function createZimbraSchema(
 					client.modifyPrefs(prefs as PreferencesInput),
 				modifyFilterRules: (_, { filters }) =>
 					client.modifyFilterRules(filters as Array<FilterInput>),
-				addSignature: (_, variables) =>
-					client.addSignature(variables as SignatureInput),
+				createSignature: (_, variables) =>
+					client.createSignature(variables as SignatureInput),
 				modifySignature: (_, variables) =>
 					client.modifySignature(variables as SignatureInput),
 				deleteSignature: (_, variables) =>
