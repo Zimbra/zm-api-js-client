@@ -1510,6 +1510,11 @@ input MailItemHeaderInput {
 	n: String!
 }
 
+input NameIdInput {
+	id: ID
+	name: String
+}
+
 input SignatureInput {
 	id: ID
 	name: String
@@ -1646,7 +1651,7 @@ type Mutation {
 	createTask(task: CalendarItemInput!): Boolean
 	deleteAppointment(inviteId: String!): Boolean
 	deleteExternalAccount(id: ID!): String
-	deleteSignature(id: ID!): String
+	deleteSignature(signature: NameIdInput!): String
 	folderAction(action: FolderActionInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	logout: Boolean
@@ -1663,7 +1668,7 @@ type Mutation {
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyFilterRules(filters: [FilterInput!]): Boolean
-	modifySignature(id: ID!, contentType: String, value: String!): String
+	modifySignature(signature: SignatureInput!): String
 	modifyTask(task: CalendarItemInput!): Boolean
 	moveTask(inviteId: ID!, destFolderId: ID!): String
 	prefAutoAddAppointmentToCalendar(value: Boolean!): Boolean

@@ -1051,6 +1051,11 @@ export interface SharedCalendarInput {
 	reminder: boolean;
 }
 
+export interface NameIdInput {
+	id?: string | null;
+	name?: string | null;
+}
+
 export interface FolderActionInput {
 	id: string;
 	op: string;
@@ -1521,7 +1526,7 @@ export interface DeleteExternalAccountMutationArgs {
 	id: string;
 }
 export interface DeleteSignatureMutationArgs {
-	id: string;
+	signature: NameIdInput;
 }
 export interface FolderActionMutationArgs {
 	action: FolderActionInput;
@@ -1555,9 +1560,7 @@ export interface ModifyFilterRulesMutationArgs {
 	filters?: FilterInput[] | null;
 }
 export interface ModifySignatureMutationArgs {
-	id: string;
-	contentType?: string | null;
-	value: string;
+	signature: SignatureInput;
 }
 export interface ModifyTaskMutationArgs {
 	task: CalendarItemInput;

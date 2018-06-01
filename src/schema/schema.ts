@@ -5,6 +5,7 @@ import {
 	CalendarItemInput,
 	FilterInput,
 	FolderView,
+	NameIdInput,
 	PreferencesInput,
 	ShareNotificationInput,
 	SignatureInput,
@@ -119,8 +120,6 @@ export function createZimbraSchema(
 					const { type, ...rest } = variables;
 					return client.action(type, rest as ActionOptions);
 				},
-				addSignature: (_, variables) =>
-					client.addSignature(variables as SignatureInput),
 				cancelTask: (_, variables) => client.cancelTask(variables),
 				itemAction: (_, variables) =>
 					client.itemAction(variables as ActionOptions),
@@ -242,9 +241,12 @@ export function createZimbraSchema(
 					client.modifyPrefs(prefs as PreferencesInput),
 				modifyFilterRules: (_, { filters }) =>
 					client.modifyFilterRules(filters as Array<FilterInput>),
-				// modifySignature: (_, { id, contentType, value }) =>
-				// 	api.loadModifySignature({ id, contentType, value }),
-				// deleteSignature: (_, { id }) => api.loadDeleteSignature({ id }),
+				addSignature: (_, variables) =>
+					client.addSignature(variables as SignatureInput),
+				modifySignature: (_, variables) =>
+					client.modifySignature(variables as SignatureInput),
+				deleteSignature: (_, variables) =>
+					client.deleteSignature(variables as NameIdInput),
 				sendMsg: (_, { to, subject, text }, { zimbra }) =>
 					zimbra.messages.send({ to, subject, text }),
 				createTask: (_, { task }) =>

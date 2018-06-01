@@ -221,6 +221,13 @@ export class ZimbraBatchClient {
 			}
 		});
 
+	public deleteSignature = (options: SignatureInput) =>
+		this.jsonRequest({
+			name: 'DeleteSignature',
+			namespace: Namespace.Account,
+			body: options
+		});
+
 	public folder = ({ id, uuid, view }: FolderOptions) =>
 		this.jsonRequest({
 			name: 'GetFolder',
@@ -413,6 +420,13 @@ export class ZimbraBatchClient {
 			body: {
 				_attrs: mapValuesDeep(prefs, coerceBooleanToString)
 			}
+		});
+
+	public modifySignature = (options: SignatureInput) =>
+		this.jsonRequest({
+			name: 'ModifySignature',
+			namespace: Namespace.Account,
+			body: denormalize(CreateSignatureRequest)(options)
 		});
 
 	public modifyTask = (task: CalendarItemInput) =>
