@@ -16,9 +16,15 @@ import {
 import {
 	batchJsonRequest,
 	DEFAULT_HOSTNAME,
-	DEFAULT_SOAP_PATHNAME
+	DEFAULT_SOAP_PATHNAME,
+	jsonRequest as singleJSONRequest
 } from '../request';
-import { Namespace, RequestBody, RequestOptions } from '../request/types';
+import {
+	JsonRequestOptions,
+	Namespace,
+	RequestBody,
+	RequestOptions
+} from '../request/types';
 import {
 	CalendarItemInput,
 	FilterInput,
@@ -160,20 +166,30 @@ export class ZimbraBatchClient {
 	public conversationAction = (options: ActionOptions) =>
 		this.action(ActionType.conversation, options);
 
-	public createAppointment = (appointment: CalendarItemInput) =>
-		this.jsonRequest({
+	public createAppointment = (data: {
+		accountName: string;
+		appointment: CalendarItemInput;
+	}) =>
+		this.singleRequest({
 			name: 'CreateAppointment',
 			body: {
-				...denormalize(CalendarItemCreateModifyRequest)(appointment)
-			}
+				...denormalize(CalendarItemCreateModifyRequest)(data.appointment)
+			},
+			accountName: data.accountName,
+			namespace: Namespace.Mail
 		});
 
-	public createAppointmentException = (appointment: CalendarItemInput) =>
-		this.jsonRequest({
+	public createAppointmentException = (data: {
+		accountName: string;
+		appointment: CalendarItemInput;
+	}) =>
+		this.singleRequest({
 			name: 'CreateAppointmentException',
 			body: {
-				...denormalize(CalendarItemCreateModifyRequest)(appointment)
-			}
+				...denormalize(CalendarItemCreateModifyRequest)(data.appointment)
+			},
+			accountName: data.accountName,
+			namespace: Namespace.Mail
 		});
 
 	public createFolder = (_options: CreateFolderOptions) => {
@@ -377,12 +393,17 @@ export class ZimbraBatchClient {
 	public messageAction = (options: ActionOptions) =>
 		this.action(ActionType.message, options);
 
-	public modifyAppointment = (appointment: CalendarItemInput) =>
-		this.jsonRequest({
+	public modifyAppointment = (data: {
+		accountName: string;
+		appointment: CalendarItemInput;
+	}) =>
+		this.singleRequest({
 			name: 'ModifyAppointment',
 			body: {
-				...denormalize(CalendarItemCreateModifyRequest)(appointment)
-			}
+				...denormalize(CalendarItemCreateModifyRequest)(data.appointment)
+			},
+			accountName: data.accountName,
+			namespace: Namespace.Mail
 		});
 
 	public modifyFilterRules = (filters: Array<FilterInput>) =>
@@ -475,6 +496,16 @@ export class ZimbraBatchClient {
 				})
 			)
 		);
+
+	public singleRequest = (options: JsonRequestOptions) => {
+		singleJSONRequest({
+			...options,
+			sessionId: this.sessionId,
+			origin: this.origin,
+			name: options.name,
+			namespace: options.namespace
+		});
+	};
 
 	public taskFolders = () =>
 		this.jsonRequest({
