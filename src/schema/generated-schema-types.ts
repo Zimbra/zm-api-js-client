@@ -176,6 +176,8 @@ export interface Folder {
 	unread?: number | null;
 	query?: string | null;
 	permissions?: string | null;
+	ownerZimbraId?: string | null;
+	sharedItemId?: string | null;
 }
 
 export interface ACL {
@@ -889,6 +891,7 @@ export interface ExternalAccountAddInput {
 }
 
 export interface CalendarItemInput {
+	accountName?: string | null;
 	id?: string | null;
 	modifiedSequence?: number | null;
 	revision?: number | null;
@@ -1012,7 +1015,7 @@ export interface MimePartInput {
 
 export interface CalendarItemInviteEmailAddressInput {
 	address: string;
-	name: string;
+	name?: string | null;
 	type: AddressType;
 }
 

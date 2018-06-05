@@ -17,7 +17,7 @@ import {
 	batchJsonRequest,
 	DEFAULT_HOSTNAME,
 	DEFAULT_SOAP_PATHNAME,
-	jsonRequest as singleJSONRequest
+	jsonRequest
 } from '../request';
 import {
 	JsonRequestOptions,
@@ -86,6 +86,7 @@ export class ZimbraBatchClient {
 	public origin: string;
 	public sessionId: string = '1';
 	public soapPathname: string;
+	private batchDataLoader: DataLoader<RequestOptions, RequestBody>;
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
 	private notificationHandler?: NotificationHandler;
 
@@ -93,7 +94,12 @@ export class ZimbraBatchClient {
 		this.origin = options.zimbraOrigin || DEFAULT_HOSTNAME;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
 		this.notificationHandler = options.notificationHandler;
-		this.dataLoader = new DataLoader(this.batchHandler);
+
+		// Used for sending batch requests
+		this.batchDataLoader = new DataLoader(this.batchDataHandler);
+
+		// Used for sending individual requests
+		this.dataLoader = new DataLoader(this.dataHandler, { batch: false });
 	}
 
 	public accountInfo = () =>
@@ -166,31 +172,31 @@ export class ZimbraBatchClient {
 	public conversationAction = (options: ActionOptions) =>
 		this.action(ActionType.conversation, options);
 
-	public createAppointment = (data: {
-		accountName: string;
-		appointment: CalendarItemInput;
-	}) =>
-		this.singleRequest({
+	public createAppointment = (appointment: CalendarItemInput) => {
+		const { accountName, ...restAppointment } = appointment;
+
+		return this.jsonRequest({
 			name: 'CreateAppointment',
 			body: {
-				...denormalize(CalendarItemCreateModifyRequest)(data.appointment)
+				...denormalize(CalendarItemCreateModifyRequest)(restAppointment)
 			},
-			accountName: data.accountName,
+			accountName,
 			namespace: Namespace.Mail
 		});
+	};
 
-	public createAppointmentException = (data: {
-		accountName: string;
-		appointment: CalendarItemInput;
-	}) =>
-		this.singleRequest({
+	public createAppointmentException = (appointment: CalendarItemInput) => {
+		const { accountName, ...restAppointment } = appointment;
+
+		this.jsonRequest({
 			name: 'CreateAppointmentException',
 			body: {
-				...denormalize(CalendarItemCreateModifyRequest)(data.appointment)
+				...denormalize(CalendarItemCreateModifyRequest)(restAppointment)
 			},
-			accountName: data.accountName,
+			accountName,
 			namespace: Namespace.Mail
 		});
+	};
 
 	public createFolder = (_options: CreateFolderOptions) => {
 		const { flags, fetchIfExists, parentFolderId, ...options } = _options;
@@ -367,8 +373,14 @@ export class ZimbraBatchClient {
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);
 
-	public jsonRequest = (options: RequestOptions): Promise<RequestBody> =>
-		this.dataLoader.load(options);
+	public jsonRequest = (options: JsonRequestOptions) => {
+		const { accountName } = options;
+
+		// If account name is present that means we will not be able to batch requests
+		return accountName
+			? this.dataLoader.load(options)
+			: this.batchDataLoader.load(options);
+	};
 
 	public logout = () => {
 		return new Promise(resolve => {
@@ -393,18 +405,18 @@ export class ZimbraBatchClient {
 	public messageAction = (options: ActionOptions) =>
 		this.action(ActionType.message, options);
 
-	public modifyAppointment = (data: {
-		accountName: string;
-		appointment: CalendarItemInput;
-	}) =>
-		this.singleRequest({
+	public modifyAppointment = (appointment: CalendarItemInput) => {
+		const { accountName, ...restAppointment } = appointment;
+
+		this.jsonRequest({
 			name: 'ModifyAppointment',
 			body: {
-				...denormalize(CalendarItemCreateModifyRequest)(data.appointment)
+				...denormalize(CalendarItemCreateModifyRequest)(restAppointment)
 			},
-			accountName: data.accountName,
+			accountName,
 			namespace: Namespace.Mail
 		});
+	};
 
 	public modifyFilterRules = (filters: Array<FilterInput>) =>
 		this.jsonRequest({
@@ -497,16 +509,6 @@ export class ZimbraBatchClient {
 			)
 		);
 
-	public singleRequest = (options: JsonRequestOptions) => {
-		singleJSONRequest({
-			...options,
-			sessionId: this.sessionId,
-			origin: this.origin,
-			name: options.name,
-			namespace: options.namespace
-		});
-	};
-
 	public taskFolders = () =>
 		this.jsonRequest({
 			name: 'GetFolder',
@@ -516,7 +518,7 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => normalize(Folder)(res.folder[0].folder));
 
-	private batchHandler = (requests: Array<RequestOptions>) =>
+	private batchDataHandler = (requests: Array<RequestOptions>) =>
 		batchJsonRequest({
 			requests,
 			sessionId: this.sessionId,
@@ -543,5 +545,25 @@ export class ZimbraBatchClient {
 				}
 				return isError(r) ? r : r.body;
 			});
+		});
+
+	private dataHandler = (requests: Array<JsonRequestOptions>) =>
+		jsonRequest({
+			...requests[0],
+			sessionId: this.sessionId,
+			origin: this.origin
+		}).then(response => {
+			const sessionId = get(response, 'header.context.session.id');
+			const notifications = get(response, 'header.context.notify.0');
+
+			if (sessionId) {
+				this.sessionId = sessionId;
+			}
+
+			if (notifications && this.notificationHandler) {
+				this.notificationHandler(notifications);
+			}
+
+			return isError(response) ? [response] : [response.body];
 		});
 }

@@ -10,7 +10,7 @@ export type SessionSeq = number;
 
 export interface BaseRequestOptions {
 	accountId?: string;
-	accountName?: string;
+	accountName?: string | null;
 	credentials?: RequestCredentials;
 	headers?: any;
 	origin?: string;

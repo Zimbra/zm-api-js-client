@@ -1031,6 +1031,7 @@ input AttachmentInput {
 }
 
 input CalendarItemInput {
+	accountName: String # This will be passed in headers for delegate calendar
 	id: ID
 	modifiedSequence: Float
 	revision: Float
@@ -1611,8 +1612,8 @@ type Mutation {
 		ids: [ID!]!
 		op: String!
 	): Boolean
-	createAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
-	createAppointmentException(accountName: String, appointment: CalendarItemInput!): Boolean
+	createAppointment(appointment: CalendarItemInput!): Boolean
+	createAppointmentException(appointment: CalendarItemInput!): Boolean
 	createCalendar(name: String!, color: Int!, url: String): Boolean
 	createFolder(
 		color: Int
@@ -1646,7 +1647,7 @@ type Mutation {
 		type: AccountType
 		attrs: ExternalAccountModifyAttrsInput!
 	): String
-	modifyAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
+	modifyAppointment(appointment: CalendarItemInput!): Boolean
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyFilterRules(filters: [FilterInput!]): Boolean
