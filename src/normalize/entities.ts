@@ -352,3 +352,11 @@ export const Filter = new Entity({
 	filterActions: ['actions', FilterAction],
 	filterTests: ['conditions', FilterCondition]
 });
+
+const Signature = new Entity({
+	cid: 'contentId'
+});
+
+export const CreateSignatureRequest = new Entity({
+	signature: Signature
+});
