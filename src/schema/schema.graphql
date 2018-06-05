@@ -842,6 +842,7 @@ type Preferences {
 	zimbraPrefCalendarWorkingHours: String
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
+	zimbraPrefMailPollingInterval: String
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int

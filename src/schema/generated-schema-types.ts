@@ -141,6 +141,7 @@ export interface Preferences {
 	zimbraPrefCalendarWorkingHours?: string | null;
 	zimbraPrefDisplayExternalImages?: boolean | null;
 	zimbraPrefGroupMailBy?: string | null;
+	zimbraPrefMailPollingInterval?: string | null;
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
 	zimbraPrefMailTrustedSenderList?: string[] | null;
 	zimbraPrefMarkMsgRead?: number | null;
