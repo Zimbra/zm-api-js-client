@@ -806,7 +806,6 @@ export interface ShareInfo {
 
 export interface Mutation {
 	action?: boolean | null;
-	addSignature?: SignatureResponse | null;
 	addExternalAccount?: string | null;
 	cancelTask?: boolean | null;
 	changeCalendarColor?: boolean | null;
@@ -819,6 +818,7 @@ export interface Mutation {
 	createFolder?: boolean | null;
 	createSharedCalendar?: boolean | null;
 	createSearchFolder?: boolean | null;
+	createSignature?: SignatureResponse | null;
 	createTask?: boolean | null;
 	deleteAppointment?: boolean | null;
 	deleteExternalAccount?: string | null;
@@ -850,7 +850,12 @@ export interface Mutation {
 }
 
 export interface SignatureResponse {
-	id: string;
+	signature?: NameId[] | null;
+}
+
+export interface NameId {
+	id?: string | null;
+	name?: string | null;
 }
 
 export interface CalendarItemAlarmAttendees {
@@ -1032,6 +1037,23 @@ export interface SharedCalendarInput {
 	name: string;
 	color: string;
 	reminder: boolean;
+}
+
+export interface SignatureInput {
+	id?: string | null;
+	name?: string | null;
+	content?: SignatureContentInput | null;
+	contentId?: string | null;
+}
+
+export interface SignatureContentInput {
+	type?: string | null;
+	_content?: string | null;
+}
+
+export interface NameIdInput {
+	id?: string | null;
+	name?: string | null;
 }
 
 export interface FolderActionInput {
@@ -1438,11 +1460,6 @@ export interface ActionMutationArgs {
 	tagNames?: string | null;
 	name?: string | null;
 }
-export interface AddSignatureMutationArgs {
-	name: string;
-	contentType?: string | null;
-	value: string;
-}
 export interface AddExternalAccountMutationArgs {
 	externalAccount: ExternalAccountAddInput;
 }
@@ -1496,6 +1513,9 @@ export interface CreateSearchFolderMutationArgs {
 	query: string;
 	view?: FolderView | null;
 }
+export interface CreateSignatureMutationArgs {
+	signature: SignatureInput;
+}
 export interface CreateTaskMutationArgs {
 	task: CalendarItemInput;
 }
@@ -1506,7 +1526,7 @@ export interface DeleteExternalAccountMutationArgs {
 	id: string;
 }
 export interface DeleteSignatureMutationArgs {
-	id: string;
+	signature: NameIdInput;
 }
 export interface FolderActionMutationArgs {
 	action: FolderActionInput;
@@ -1540,9 +1560,7 @@ export interface ModifyFilterRulesMutationArgs {
 	filters?: FilterInput[] | null;
 }
 export interface ModifySignatureMutationArgs {
-	id: string;
-	contentType?: string | null;
-	value: string;
+	signature: SignatureInput;
 }
 export interface ModifyTaskMutationArgs {
 	task: CalendarItemInput;

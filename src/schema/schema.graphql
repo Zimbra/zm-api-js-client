@@ -856,8 +856,13 @@ type Preferences {
 	zimbraPrefShowFragments: Boolean
 }
 
+type NameId {
+	id: ID
+	name: String
+}
+
 type SignatureResponse {
-	id: ID!
+	signature: [NameId]
 }
 
 type SearchResponse {
@@ -1505,6 +1510,23 @@ input MailItemHeaderInput {
 	n: String!
 }
 
+input NameIdInput {
+	id: ID
+	name: String
+}
+
+input SignatureInput {
+	id: ID
+	name: String
+	content: SignatureContentInput
+	contentId: String
+}
+
+input SignatureContentInput {
+	type: String
+	_content: String
+}
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -1590,11 +1612,6 @@ type Mutation {
 		tagNames: String,
 		name: String
 	): Boolean
-	addSignature(
-		name: String!
-		contentType: String
-		value: String!
-	): SignatureResponse
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): String
 	cancelTask(inviteId: ID!): Boolean
 	changeCalendarColor(id: String!, color: Int!): Boolean
@@ -1628,10 +1645,13 @@ type Mutation {
 		query: String!
 		view: FolderView
 	): Boolean
+	createSignature(
+		signature: SignatureInput!
+	): SignatureResponse
 	createTask(task: CalendarItemInput!): Boolean
 	deleteAppointment(inviteId: String!): Boolean
 	deleteExternalAccount(id: ID!): String
-	deleteSignature(id: ID!): String
+	deleteSignature(signature: NameIdInput!): String
 	folderAction(action: FolderActionInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	logout: Boolean
@@ -1648,7 +1668,7 @@ type Mutation {
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyFilterRules(filters: [FilterInput!]): Boolean
-	modifySignature(id: ID!, contentType: String, value: String!): String
+	modifySignature(signature: SignatureInput!): String
 	modifyTask(task: CalendarItemInput!): Boolean
 	moveTask(inviteId: ID!, destFolderId: ID!): String
 	prefAutoAddAppointmentToCalendar(value: Boolean!): Boolean
