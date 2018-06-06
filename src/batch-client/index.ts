@@ -188,7 +188,7 @@ export class ZimbraBatchClient {
 					l: parentFolderId
 				}
 			}
-		});
+		}).then(res => normalize(Folder)(res.folder[0]));
 	};
 
 	public createSearchFolder = (_options: CreateSearchFolderOptions) => {
