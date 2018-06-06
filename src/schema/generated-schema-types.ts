@@ -1471,9 +1471,11 @@ export interface ConversationActionMutationArgs {
 	op: string;
 }
 export interface CreateAppointmentMutationArgs {
+	accountName?: string | null;
 	appointment: CalendarItemInput;
 }
 export interface CreateAppointmentExceptionMutationArgs {
+	accountName?: string | null;
 	appointment: CalendarItemInput;
 }
 export interface CreateCalendarMutationArgs {
@@ -1530,6 +1532,7 @@ export interface ModifyExternalAccountMutationArgs {
 	attrs: ExternalAccountModifyAttrsInput;
 }
 export interface ModifyAppointmentMutationArgs {
+	accountName?: string | null;
 	appointment: CalendarItemInput;
 }
 export interface ModifyIdentityMutationArgs {

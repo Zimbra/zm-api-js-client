@@ -1612,8 +1612,8 @@ type Mutation {
 		ids: [ID!]!
 		op: String!
 	): Boolean
-	createAppointment(appointment: CalendarItemInput!): Boolean
-	createAppointmentException(appointment: CalendarItemInput!): Boolean
+	createAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
+	createAppointmentException(accountName: String, appointment: CalendarItemInput!): Boolean
 	createCalendar(name: String!, color: Int!, url: String): Boolean
 	createFolder(
 		color: Int
@@ -1647,7 +1647,7 @@ type Mutation {
 		type: AccountType
 		attrs: ExternalAccountModifyAttrsInput!
 	): String
-	modifyAppointment(appointment: CalendarItemInput!): Boolean
+	modifyAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyFilterRules(filters: [FilterInput!]): Boolean

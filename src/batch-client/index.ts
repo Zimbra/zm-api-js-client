@@ -172,31 +172,31 @@ export class ZimbraBatchClient {
 	public conversationAction = (options: ActionOptions) =>
 		this.action(ActionType.conversation, options);
 
-	public createAppointment = (appointment: CalendarItemInput) => {
-		const { accountName, ...restAppointment } = appointment;
-
-		return this.jsonRequest({
+	public createAppointment = (
+		accountName: string,
+		appointment: CalendarItemInput
+	) =>
+		this.jsonRequest({
 			name: 'CreateAppointment',
 			body: {
-				...denormalize(CalendarItemCreateModifyRequest)(restAppointment)
+				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
-			accountName,
+			accountName: accountName,
 			namespace: Namespace.Mail
 		});
-	};
 
-	public createAppointmentException = (appointment: CalendarItemInput) => {
-		const { accountName, ...restAppointment } = appointment;
-
+	public createAppointmentException = (
+		accountName: string,
+		appointment: CalendarItemInput
+	) =>
 		this.jsonRequest({
 			name: 'CreateAppointmentException',
 			body: {
-				...denormalize(CalendarItemCreateModifyRequest)(restAppointment)
+				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
-			accountName,
+			accountName: accountName,
 			namespace: Namespace.Mail
 		});
-	};
 
 	public createFolder = (_options: CreateFolderOptions) => {
 		const { flags, fetchIfExists, parentFolderId, ...options } = _options;
@@ -405,18 +405,18 @@ export class ZimbraBatchClient {
 	public messageAction = (options: ActionOptions) =>
 		this.action(ActionType.message, options);
 
-	public modifyAppointment = (appointment: CalendarItemInput) => {
-		const { accountName, ...restAppointment } = appointment;
-
+	public modifyAppointment = (
+		accountName: string,
+		appointment: CalendarItemInput
+	) =>
 		this.jsonRequest({
 			name: 'ModifyAppointment',
 			body: {
-				...denormalize(CalendarItemCreateModifyRequest)(restAppointment)
+				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
-			accountName,
+			accountName: accountName,
 			namespace: Namespace.Mail
 		});
-	};
 
 	public modifyFilterRules = (filters: Array<FilterInput>) =>
 		this.jsonRequest({
