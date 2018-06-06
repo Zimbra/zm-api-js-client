@@ -891,7 +891,6 @@ export interface ExternalAccountAddInput {
 }
 
 export interface CalendarItemInput {
-	accountName?: string | null;
 	id?: string | null;
 	modifiedSequence?: number | null;
 	revision?: number | null;
