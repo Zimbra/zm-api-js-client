@@ -181,8 +181,7 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
-			accountName: accountName,
-			namespace: Namespace.Mail
+			accountName: accountName
 		});
 
 	public createAppointmentException = (
@@ -194,8 +193,7 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
-			accountName: accountName,
-			namespace: Namespace.Mail
+			accountName: accountName
 		});
 
 	public createFolder = (_options: CreateFolderOptions) => {
@@ -414,8 +412,7 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
-			accountName: accountName,
-			namespace: Namespace.Mail
+			accountName: accountName
 		});
 
 	public modifyFilterRules = (filters: Array<FilterInput>) =>
