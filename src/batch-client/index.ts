@@ -6,6 +6,7 @@ import {
 	ActionOptions as ActionOptionsEntity,
 	CalendarItemCreateModifyRequest,
 	Conversation,
+	CreateSignatureRequest,
 	Filter,
 	Folder,
 	FreeBusy,
@@ -30,7 +31,8 @@ import {
 	FilterInput,
 	FolderView,
 	PreferencesInput,
-	ShareNotificationInput
+	ShareNotificationInput,
+	SignatureInput
 } from '../schema/generated-schema-types';
 import {
 	coerceBooleanToInt,
@@ -224,12 +226,26 @@ export class ZimbraBatchClient {
 		});
 	};
 
+	public createSignature = (options: SignatureInput) =>
+		this.jsonRequest({
+			name: 'CreateSignature',
+			namespace: Namespace.Account,
+			body: denormalize(CreateSignatureRequest)(options)
+		});
+
 	public createTask = (task: CalendarItemInput) =>
 		this.jsonRequest({
 			name: 'CreateTask',
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(task)
 			}
+		});
+
+	public deleteSignature = (options: SignatureInput) =>
+		this.jsonRequest({
+			name: 'DeleteSignature',
+			namespace: Namespace.Account,
+			body: options
 		});
 
 	public folder = ({ id, uuid, view }: FolderOptions) =>
@@ -434,6 +450,13 @@ export class ZimbraBatchClient {
 			body: {
 				_attrs: mapValuesDeep(prefs, coerceBooleanToString)
 			}
+		});
+
+	public modifySignature = (options: SignatureInput) =>
+		this.jsonRequest({
+			name: 'ModifySignature',
+			namespace: Namespace.Account,
+			body: denormalize(CreateSignatureRequest)(options)
 		});
 
 	public modifyTask = (task: CalendarItemInput) =>
