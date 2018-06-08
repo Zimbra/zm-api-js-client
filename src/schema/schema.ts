@@ -80,6 +80,12 @@ export function createZimbraSchema(
 					client.shareInfos(variables as ShareInfosOptions),
 				taskFolders: client.taskFolders
 			},
+			//resolveType is necessary to differentiate for any Union or Interfaces
+			MailItem: {
+				__resolveType(obj) {
+					return obj.conversationId ? 'MessageInfo' : 'Conversation';
+				}
+			},
 			Folder: {
 				appointments: (root, { start, end, offset = 0, limit = 1000 }) =>
 					client
