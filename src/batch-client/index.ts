@@ -6,6 +6,7 @@ import {
 	ActionOptions as ActionOptionsEntity,
 	CalendarItemCreateModifyRequest,
 	Conversation,
+	CreateMountpointRequest,
 	CreateSignatureRequest,
 	Filter,
 	Folder,
@@ -22,6 +23,7 @@ import {
 import { Namespace, RequestBody, RequestOptions } from '../request/types';
 import {
 	CalendarItemInput,
+	CreateMountpointInput,
 	FilterInput,
 	FolderView,
 	PreferencesInput,
@@ -192,6 +194,12 @@ export class ZimbraBatchClient {
 			}
 		});
 	};
+
+	public createMountpoint = (_options: CreateMountpointInput) =>
+		this.jsonRequest({
+			name: 'CreateMountpoint',
+			body: denormalize(CreateMountpointRequest)(_options)
+		});
 
 	public createSearchFolder = (_options: CreateSearchFolderOptions) => {
 		const { parentFolderId, ...options } = _options;
