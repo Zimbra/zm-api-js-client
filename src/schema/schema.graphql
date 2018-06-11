@@ -1047,7 +1047,6 @@ input AttachmentInput {
 }
 
 input CalendarItemInput {
-	accountName: String # This will be passed in headers for delegate calendar
 	id: ID
 	modifiedSequence: Float
 	revision: Float
