@@ -3,6 +3,7 @@ import { mapValues } from 'lodash';
 
 import {
 	CalendarItemInput,
+	CreateMountpointInput,
 	FilterInput,
 	FolderView,
 	NameIdInput,
@@ -80,6 +81,12 @@ export function createZimbraSchema(
 					client.shareInfos(variables as ShareInfosOptions),
 				taskFolders: client.taskFolders
 			},
+			//resolveType is necessary to differentiate for any Union or Interfaces
+			MailItem: {
+				__resolveType(obj) {
+					return obj.conversationId ? 'MessageInfo' : 'Conversation';
+				}
+			},
 			Folder: {
 				appointments: (root, { start, end, offset = 0, limit = 1000 }) =>
 					client
@@ -134,12 +141,23 @@ export function createZimbraSchema(
 					client.createFolder(variables as CreateFolderOptions),
 				createSearchFolder: (_, variables) =>
 					client.createSearchFolder(variables as CreateSearchFolderOptions),
-				createAppointment: (_, { appointment }) =>
-					client.createAppointment(appointment as CalendarItemInput),
-				createAppointmentException: (_, { appointment }) =>
-					client.createAppointmentException(appointment as CalendarItemInput),
-				modifyAppointment: (_, { appointment }) =>
-					client.modifyAppointment(appointment as CalendarItemInput),
+				createAppointment: (_, { accountName, appointment }) =>
+					client.createAppointment(
+						accountName,
+						appointment as CalendarItemInput
+					),
+				createAppointmentException: (_, { accountName, appointment }) =>
+					client.createAppointmentException(
+						accountName,
+						appointment as CalendarItemInput
+					),
+				modifyAppointment: (_, { accountName, appointment }) =>
+					client.modifyAppointment(
+						accountName,
+						appointment as CalendarItemInput
+					),
+				createMountpoint: (_, variables) =>
+					client.createMountpoint(variables as CreateMountpointInput),
 				deleteAppointment: (_, { inviteId }, { zimbra }) =>
 					zimbra.appointments.delete({ inviteId }),
 				checkCalendar: (_, { calendarId, value }, { zimbra }) =>
