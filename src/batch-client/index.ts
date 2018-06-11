@@ -18,9 +18,15 @@ import {
 import {
 	batchJsonRequest,
 	DEFAULT_HOSTNAME,
-	DEFAULT_SOAP_PATHNAME
+	DEFAULT_SOAP_PATHNAME,
+	jsonRequest
 } from '../request';
-import { Namespace, RequestBody, RequestOptions } from '../request/types';
+import {
+	JsonRequestOptions,
+	Namespace,
+	RequestBody,
+	RequestOptions
+} from '../request/types';
 import {
 	CalendarItemInput,
 	CreateMountpointInput,
@@ -84,6 +90,7 @@ export class ZimbraBatchClient {
 	public origin: string;
 	public sessionId: string = '1';
 	public soapPathname: string;
+	private batchDataLoader: DataLoader<RequestOptions, RequestBody>;
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
 	private notificationHandler?: NotificationHandler;
 
@@ -91,7 +98,12 @@ export class ZimbraBatchClient {
 		this.origin = options.zimbraOrigin || DEFAULT_HOSTNAME;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
 		this.notificationHandler = options.notificationHandler;
-		this.dataLoader = new DataLoader(this.batchHandler);
+
+		// Used for sending batch requests
+		this.batchDataLoader = new DataLoader(this.batchDataHandler);
+
+		// Used for sending individual requests
+		this.dataLoader = new DataLoader(this.dataHandler, { batch: false });
 	}
 
 	public accountInfo = () =>
@@ -164,20 +176,28 @@ export class ZimbraBatchClient {
 	public conversationAction = (options: ActionOptions) =>
 		this.action(ActionType.conversation, options);
 
-	public createAppointment = (appointment: CalendarItemInput) =>
+	public createAppointment = (
+		accountName: string,
+		appointment: CalendarItemInput
+	) =>
 		this.jsonRequest({
 			name: 'CreateAppointment',
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
-			}
+			},
+			accountName: accountName
 		});
 
-	public createAppointmentException = (appointment: CalendarItemInput) =>
+	public createAppointmentException = (
+		accountName: string,
+		appointment: CalendarItemInput
+	) =>
 		this.jsonRequest({
 			name: 'CreateAppointmentException',
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
-			}
+			},
+			accountName: accountName
 		});
 
 	public createFolder = (_options: CreateFolderOptions) => {
@@ -375,8 +395,14 @@ export class ZimbraBatchClient {
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);
 
-	public jsonRequest = (options: RequestOptions): Promise<RequestBody> =>
-		this.dataLoader.load(options);
+	public jsonRequest = (options: JsonRequestOptions) => {
+		const { accountName } = options;
+
+		// If account name is present that means we will not be able to batch requests
+		return accountName
+			? this.dataLoader.load(options)
+			: this.batchDataLoader.load(options);
+	};
 
 	public logout = () => {
 		return new Promise(resolve => {
@@ -401,12 +427,16 @@ export class ZimbraBatchClient {
 	public messageAction = (options: ActionOptions) =>
 		this.action(ActionType.message, options);
 
-	public modifyAppointment = (appointment: CalendarItemInput) =>
+	public modifyAppointment = (
+		accountName: string,
+		appointment: CalendarItemInput
+	) =>
 		this.jsonRequest({
 			name: 'ModifyAppointment',
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
-			}
+			},
+			accountName: accountName
 		});
 
 	public modifyFilterRules = (filters: Array<FilterInput>) =>
@@ -516,7 +546,7 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => normalize(Folder)(res.folder[0].folder));
 
-	private batchHandler = (requests: Array<RequestOptions>) =>
+	private batchDataHandler = (requests: Array<RequestOptions>) =>
 		batchJsonRequest({
 			requests,
 			sessionId: this.sessionId,
@@ -543,5 +573,25 @@ export class ZimbraBatchClient {
 				}
 				return isError(r) ? r : r.body;
 			});
+		});
+
+	private dataHandler = (requests: Array<JsonRequestOptions>) =>
+		jsonRequest({
+			...requests[0],
+			sessionId: this.sessionId,
+			origin: this.origin
+		}).then(response => {
+			const sessionId = get(response, 'header.context.session.id');
+			const notifications = get(response, 'header.context.notify.0');
+
+			if (sessionId) {
+				this.sessionId = sessionId;
+			}
+
+			if (notifications && this.notificationHandler) {
+				this.notificationHandler(notifications);
+			}
+
+			return isError(response) ? [response] : [response.body];
 		});
 }

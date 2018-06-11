@@ -730,6 +730,8 @@ type Folder {
 	unread: Int
 	query: String
 	permissions: String # It will be available on linked folders only
+	ownerZimbraId: ID
+	sharedItemId: ID
 }
 
 type ACL {
@@ -1042,6 +1044,7 @@ input AttachmentInput {
 }
 
 input CalendarItemInput {
+	accountName: String # This will be passed in headers for delegate calendar
 	id: ID
 	modifiedSequence: Float
 	revision: Float
@@ -1064,7 +1067,7 @@ input CalendarItemInviteInput {
 
 input CalendarItemInviteEmailAddressInput {
 	address: String!
-	name: String!
+	name: String
 	type: AddressType!
 }
 
@@ -1650,8 +1653,8 @@ type Mutation {
 		ids: [ID!]!
 		op: String!
 	): Boolean
-	createAppointment(appointment: CalendarItemInput!): Boolean
-	createAppointmentException(appointment: CalendarItemInput!): Boolean
+	createAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
+	createAppointmentException(accountName: String, appointment: CalendarItemInput!): Boolean
 	createCalendar(name: String!, color: Int!, url: String): Boolean
 	createFolder(
 		color: Int
@@ -1691,7 +1694,7 @@ type Mutation {
 		type: AccountType
 		attrs: ExternalAccountModifyAttrsInput!
 	): String
-	modifyAppointment(appointment: CalendarItemInput!): Boolean
+	modifyAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyFilterRules(filters: [FilterInput!]): Boolean

@@ -177,6 +177,8 @@ export interface Folder {
 	unread?: number | null;
 	query?: string | null;
 	permissions?: string | null;
+	ownerZimbraId?: string | null;
+	sharedItemId?: string | null;
 }
 
 export interface ACL {
@@ -1026,7 +1028,7 @@ export interface MimePartInput {
 
 export interface CalendarItemInviteEmailAddressInput {
 	address: string;
-	name: string;
+	name?: string | null;
 	type: AddressType;
 }
 
@@ -1510,9 +1512,11 @@ export interface ConversationActionMutationArgs {
 	op: string;
 }
 export interface CreateAppointmentMutationArgs {
+	accountName?: string | null;
 	appointment: CalendarItemInput;
 }
 export interface CreateAppointmentExceptionMutationArgs {
+	accountName?: string | null;
 	appointment: CalendarItemInput;
 }
 export interface CreateCalendarMutationArgs {
@@ -1575,6 +1579,7 @@ export interface ModifyExternalAccountMutationArgs {
 	attrs: ExternalAccountModifyAttrsInput;
 }
 export interface ModifyAppointmentMutationArgs {
+	accountName?: string | null;
 	appointment: CalendarItemInput;
 }
 export interface ModifyIdentityMutationArgs {
