@@ -17,6 +17,7 @@ export interface MailItem {
 	modifiedSequence?: number | null;
 	invitations?: InviteInfo[] | null;
 	sortField?: string | null;
+	share?: ShareNotification[] | null;
 }
 /* Zimbra GraphQL Queries- [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)- [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)- [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap) */
 export interface Query {
@@ -141,6 +142,7 @@ export interface Preferences {
 	zimbraPrefCalendarWorkingHours?: string | null;
 	zimbraPrefDisplayExternalImages?: boolean | null;
 	zimbraPrefGroupMailBy?: string | null;
+	zimbraPrefMailPollingInterval?: string | null;
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
 	zimbraPrefMailTrustedSenderList?: string[] | null;
 	zimbraPrefMarkMsgRead?: number | null;
@@ -176,6 +178,8 @@ export interface Folder {
 	unread?: number | null;
 	query?: string | null;
 	permissions?: string | null;
+	ownerZimbraId?: string | null;
+	sharedItemId?: string | null;
 }
 
 export interface ACL {
@@ -273,6 +277,7 @@ export interface MessageInfo extends MailItem {
 	text?: string | null;
 	attachments?: MimePart[] | null;
 	inlineAttachments?: MimePart[] | null;
+	share?: ShareNotification[] | null;
 }
 
 export interface EmailAddress {
@@ -422,6 +427,11 @@ export interface CalOrganizer {
 	sentBy?: string | null;
 }
 
+export interface ShareNotification {
+	truncated?: boolean | null;
+	content?: string | null;
+}
+
 export interface MimePart {
 	body?: boolean | null;
 	filename?: string | null;
@@ -456,6 +466,7 @@ export interface Conversation extends MailItem {
 	messages?: MessageInfo[] | null;
 	numMessages?: number | null;
 	unread?: number | null;
+	share?: ShareNotification[] | null;
 }
 
 export interface CalendarItemHitInfo {
@@ -817,6 +828,7 @@ export interface Mutation {
 	createAppointmentException?: boolean | null;
 	createCalendar?: boolean | null;
 	createFolder?: Folder | null;
+	createMountpoint?: boolean | null;
 	createSharedCalendar?: boolean | null;
 	createSearchFolder?: boolean | null;
 	createSignature?: SignatureResponse | null;
@@ -1018,7 +1030,7 @@ export interface MimePartInput {
 
 export interface CalendarItemInviteEmailAddressInput {
 	address: string;
-	name: string;
+	name?: string | null;
 	type: AddressType;
 }
 
@@ -1030,6 +1042,18 @@ export interface AttachmentInput {
 export interface ExistingAttachmentInput {
 	messageId?: string | null;
 	part?: number | null;
+}
+
+export interface NewMountpointSpec {
+	name: string;
+	owner: string;
+	view?: SearchType | null;
+	flags?: string | null;
+	rid?: string | null;
+	color?: number | null;
+	zid?: string | null;
+	reminder?: boolean | null;
+	parentFolderId?: string | null;
 }
 
 export interface SharedCalendarInput {
@@ -1363,6 +1387,10 @@ export interface ExternalAccount {
 	password: string;
 }
 
+export interface CreateMountpointInput {
+	link?: NewMountpointSpec | null;
+}
+
 export interface FolderQueryInput {
 	uuid?: string | null;
 	id?: string | null;
@@ -1487,9 +1515,11 @@ export interface ConversationActionMutationArgs {
 	op: string;
 }
 export interface CreateAppointmentMutationArgs {
+	accountName?: string | null;
 	appointment: CalendarItemInput;
 }
 export interface CreateAppointmentExceptionMutationArgs {
+	accountName?: string | null;
 	appointment: CalendarItemInput;
 }
 export interface CreateCalendarMutationArgs {
@@ -1505,6 +1535,9 @@ export interface CreateFolderMutationArgs {
 	parentFolderId?: string | null;
 	url?: string | null;
 	view?: FolderView | null;
+}
+export interface CreateMountpointMutationArgs {
+	link: NewMountpointSpec;
 }
 export interface CreateSharedCalendarMutationArgs {
 	sharedCalendar: SharedCalendarInput;
@@ -1549,6 +1582,7 @@ export interface ModifyExternalAccountMutationArgs {
 	attrs: ExternalAccountModifyAttrsInput;
 }
 export interface ModifyAppointmentMutationArgs {
+	accountName?: string | null;
 	appointment: CalendarItemInput;
 }
 export interface ModifyIdentityMutationArgs {

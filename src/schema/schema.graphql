@@ -232,6 +232,11 @@ type EmailAddress {
 	displayName: String
 }
 
+type ShareNotification {
+	truncated: Boolean,
+	content: String
+}
+
 interface MailItem {
 	id: ID
 	size: Float # s
@@ -249,6 +254,7 @@ interface MailItem {
 	modifiedSequence: Int # ms
 	invitations: [InviteInfo] # inv
 	sortField: String # sf, Sort field used for cursor-based pagination
+	share: [ShareNotification] # shr
 }
 
 type MessageInfo implements MailItem {
@@ -278,6 +284,7 @@ type MessageInfo implements MailItem {
 	text: String
 	attachments: [MimePart]
 	inlineAttachments: [MimePart]
+	share: [ShareNotification] # shr
 }
 
 type Conversation implements MailItem {
@@ -300,6 +307,7 @@ type Conversation implements MailItem {
 	messages: [MessageInfo]
 	numMessages: Int # n, Number of messages in this conversation
 	unread: Int # u
+	share: [ShareNotification] # shr
 }
 
 enum InviteType {
@@ -722,6 +730,8 @@ type Folder {
 	unread: Int
 	query: String
 	permissions: String # It will be available on linked folders only
+	ownerZimbraId: ID
+	sharedItemId: ID
 }
 
 type ACL {
@@ -842,6 +852,7 @@ type Preferences {
 	zimbraPrefCalendarWorkingHours: String
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
+	zimbraPrefMailPollingInterval: String
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
@@ -1036,6 +1047,7 @@ input AttachmentInput {
 }
 
 input CalendarItemInput {
+	accountName: String # This will be passed in headers for delegate calendar
 	id: ID
 	modifiedSequence: Float
 	revision: Float
@@ -1058,7 +1070,7 @@ input CalendarItemInviteInput {
 
 input CalendarItemInviteEmailAddressInput {
 	address: String!
-	name: String!
+	name: String
 	type: AddressType!
 }
 
@@ -1186,6 +1198,22 @@ input CalendarItemRecurrenceRuleInput {
 input CalendarItemRecurrenceIntervalInput {
 	intervalCount: Int!
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
+}
+
+input NewMountpointSpec {
+	name: String!
+	owner: String!
+	view: SearchType
+	flags: String
+	rid: ID
+	color: Int
+	zid: String
+	reminder: Boolean
+	parentFolderId: String
+}
+
+input CreateMountpointInput {
+	link: NewMountpointSpec
 }
 
 input FolderQueryInput {
@@ -1628,8 +1656,8 @@ type Mutation {
 		ids: [ID!]!
 		op: String!
 	): Boolean
-	createAppointment(appointment: CalendarItemInput!): Boolean
-	createAppointmentException(appointment: CalendarItemInput!): Boolean
+	createAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
+	createAppointmentException(accountName: String, appointment: CalendarItemInput!): Boolean
 	createCalendar(name: String!, color: Int!, url: String): Boolean
 	createFolder(
 		color: Int
@@ -1640,6 +1668,9 @@ type Mutation {
 		url: String
 		view: FolderView
 	): Folder
+	createMountpoint(
+		link: NewMountpointSpec!
+	): Boolean
 	createSharedCalendar(sharedCalendar: SharedCalendarInput!): Boolean
 	createSearchFolder(
 		name: String!
@@ -1666,7 +1697,7 @@ type Mutation {
 		type: AccountType
 		attrs: ExternalAccountModifyAttrsInput!
 	): String
-	modifyAppointment(appointment: CalendarItemInput!): Boolean
+	modifyAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyFilterRules(filters: [FilterInput!]): Boolean
