@@ -789,6 +789,7 @@ export interface MailboxMetadataAttrs {
 	zimbraPrefSmartFolderTreeOpen?: boolean | null;
 	zimbraPrefUndoSendEnabled?: boolean | null;
 	zimbraPrefUndoSendTimeout?: number | null;
+	archivedFolder?: string | null;
 }
 
 export interface RelatedContacts {
@@ -826,7 +827,7 @@ export interface Mutation {
 	createAppointment?: boolean | null;
 	createAppointmentException?: boolean | null;
 	createCalendar?: boolean | null;
-	createFolder?: boolean | null;
+	createFolder?: Folder | null;
 	createMountpoint?: boolean | null;
 	createSharedCalendar?: boolean | null;
 	createSearchFolder?: boolean | null;
@@ -1371,6 +1372,7 @@ export interface MailboxMetadataSectionAttrsInput {
 	zimbraPrefSmartFolderTreeOpen?: boolean | null;
 	zimbraPrefUndoSendEnabled?: boolean | null;
 	zimbraPrefUndoSendTimeout?: number | null;
+	archivedFolder?: string | null;
 }
 
 export interface ExternalAccount {

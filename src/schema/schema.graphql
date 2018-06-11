@@ -997,6 +997,7 @@ type MailboxMetadataAttrs {
 	zimbraPrefSmartFolderTreeOpen: Boolean
 	zimbraPrefUndoSendEnabled: Boolean
 	zimbraPrefUndoSendTimeout: Int
+	archivedFolder: String
 }
 
 input MailboxMetadataSectionAttrsInput {
@@ -1012,6 +1013,7 @@ input MailboxMetadataSectionAttrsInput {
 	zimbraPrefSmartFolderTreeOpen: Boolean
 	zimbraPrefUndoSendEnabled: Boolean
 	zimbraPrefUndoSendTimeout: Int
+	archivedFolder: String
 }
 
 type MimePart {
@@ -1665,7 +1667,7 @@ type Mutation {
 		parentFolderId: String
 		url: String
 		view: FolderView
-	): Boolean
+	): Folder
 	createMountpoint(
 		link: NewMountpointSpec!
 	): Boolean
