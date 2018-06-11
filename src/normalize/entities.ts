@@ -157,6 +157,7 @@ const commonMailItemFields = {
 	e: ['emailAddresses', CalendarItemInviteEmailAddress],
 	inv: ['invitations', InviteInfo],
 	mp: ['mimeParts', MimePart],
+	shr: 'share',
 	su: 'subject',
 	attach: ['attachments', AttachmentsInfo]
 };
@@ -175,6 +176,15 @@ export const CalendarItemCreateModifyRequest = new Entity({
 	rev: 'revision',
 	comp: 'componentNum',
 	m: ['message', MessageInfo]
+});
+
+const NewMountpointSpec = new Entity({
+	f: 'flags',
+	l: 'parentFolderId'
+});
+
+export const CreateMountpointRequest = new Entity({
+	link: NewMountpointSpec
 });
 
 const ACLGrant = new Entity({
@@ -223,7 +233,9 @@ const Folder = new Entity({
 	s: 'nonFolderItemCountTotal',
 	rev: 'revision',
 	acl: ACL,
-	perm: 'permissions'
+	perm: 'permissions',
+	rid: 'sharedItemId',
+	zid: 'ownerZimbraId'
 });
 
 Folder.addMapping({
