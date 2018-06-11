@@ -3,6 +3,7 @@ import { mapValues } from 'lodash';
 
 import {
 	CalendarItemInput,
+	CreateMountpointInput,
 	FilterInput,
 	FolderView,
 	NameIdInput,
@@ -155,6 +156,8 @@ export function createZimbraSchema(
 						accountName,
 						appointment as CalendarItemInput
 					),
+				createMountpoint: (_, variables) =>
+					client.createMountpoint(variables as CreateMountpointInput),
 				deleteAppointment: (_, { inviteId }, { zimbra }) =>
 					zimbra.appointments.delete({ inviteId }),
 				checkCalendar: (_, { calendarId, value }, { zimbra }) =>
