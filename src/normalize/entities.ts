@@ -235,7 +235,9 @@ const Folder = new Entity({
 	s: 'nonFolderItemCountTotal',
 	rev: 'revision',
 	acl: ACL,
-	perm: 'permissions'
+	perm: 'permissions',
+	rid: 'sharedItemId',
+	zid: 'ownerZimbraId'
 });
 
 Folder.addMapping({

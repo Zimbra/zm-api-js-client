@@ -143,6 +143,7 @@ export interface Preferences {
 	zimbraPrefDeleteInviteOnReply?: boolean | null;
 	zimbraPrefDisplayExternalImages?: boolean | null;
 	zimbraPrefGroupMailBy?: string | null;
+	zimbraPrefMailPollingInterval?: string | null;
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
 	zimbraPrefMailTrustedSenderList?: string[] | null;
 	zimbraPrefMarkMsgRead?: number | null;
@@ -178,6 +179,8 @@ export interface Folder {
 	unread?: number | null;
 	query?: string | null;
 	permissions?: string | null;
+	ownerZimbraId?: string | null;
+	sharedItemId?: string | null;
 }
 
 export interface ACL {
@@ -787,6 +790,7 @@ export interface MailboxMetadataAttrs {
 	zimbraPrefSmartFolderTreeOpen?: boolean | null;
 	zimbraPrefUndoSendEnabled?: boolean | null;
 	zimbraPrefUndoSendTimeout?: number | null;
+	archivedFolder?: string | null;
 }
 
 export interface RelatedContacts {
@@ -824,7 +828,7 @@ export interface Mutation {
 	createAppointment?: boolean | null;
 	createAppointmentException?: boolean | null;
 	createCalendar?: boolean | null;
-	createFolder?: boolean | null;
+	createFolder?: Folder | null;
 	createMountpoint?: boolean | null;
 	createSharedCalendar?: boolean | null;
 	createSearchFolder?: boolean | null;
@@ -1392,6 +1396,7 @@ export interface MailboxMetadataSectionAttrsInput {
 	zimbraPrefSmartFolderTreeOpen?: boolean | null;
 	zimbraPrefUndoSendEnabled?: boolean | null;
 	zimbraPrefUndoSendTimeout?: number | null;
+	archivedFolder?: string | null;
 }
 
 export interface ExternalAccount {
@@ -1534,9 +1539,11 @@ export interface ConversationActionMutationArgs {
 	op: string;
 }
 export interface CreateAppointmentMutationArgs {
+	accountName?: string | null;
 	appointment: CalendarItemInput;
 }
 export interface CreateAppointmentExceptionMutationArgs {
+	accountName?: string | null;
 	appointment: CalendarItemInput;
 }
 export interface CreateCalendarMutationArgs {
@@ -1599,6 +1606,7 @@ export interface ModifyExternalAccountMutationArgs {
 	attrs: ExternalAccountModifyAttrsInput;
 }
 export interface ModifyAppointmentMutationArgs {
+	accountName?: string | null;
 	appointment: CalendarItemInput;
 }
 export interface ModifyIdentityMutationArgs {

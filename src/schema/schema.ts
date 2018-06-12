@@ -142,14 +142,23 @@ export function createZimbraSchema(
 					client.createFolder(variables as CreateFolderOptions),
 				createSearchFolder: (_, variables) =>
 					client.createSearchFolder(variables as CreateSearchFolderOptions),
+				createAppointment: (_, { accountName, appointment }) =>
+					client.createAppointment(
+						accountName,
+						appointment as CalendarItemInput
+					),
+				createAppointmentException: (_, { accountName, appointment }) =>
+					client.createAppointmentException(
+						accountName,
+						appointment as CalendarItemInput
+					),
+				modifyAppointment: (_, { accountName, appointment }) =>
+					client.modifyAppointment(
+						accountName,
+						appointment as CalendarItemInput
+					),
 				createMountpoint: (_, variables) =>
 					client.createMountpoint(variables as CreateMountpointInput),
-				createAppointment: (_, { appointment }) =>
-					client.createAppointment(appointment as CalendarItemInput),
-				createAppointmentException: (_, { appointment }) =>
-					client.createAppointmentException(appointment as CalendarItemInput),
-				modifyAppointment: (_, { appointment }) =>
-					client.modifyAppointment(appointment as CalendarItemInput),
 				deleteAppointment: (_, { inviteId }, { zimbra }) =>
 					zimbra.appointments.delete({ inviteId }),
 				checkCalendar: (_, { calendarId, value }, { zimbra }) =>
