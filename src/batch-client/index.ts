@@ -13,7 +13,9 @@ import {
 	FreeBusy,
 	MessageInfo,
 	SearchResponse,
-	ShareNotification
+	ShareNotification,
+	CalendarItemHitInfo,
+	InviteReply
 } from '../normalize/entities';
 import {
 	batchJsonRequest,
@@ -28,7 +30,8 @@ import {
 	FolderView,
 	PreferencesInput,
 	ShareNotificationInput,
-	SignatureInput
+	SignatureInput,
+	InviteReplyInput
 } from '../schema/generated-schema-types';
 import {
 	coerceBooleanToInt,
@@ -481,6 +484,14 @@ export class ZimbraBatchClient {
 			}
 			return normalized;
 		});
+
+	public sendInviteReply = (requestOptions: InviteReplyInput) =>
+		this.jsonRequest({
+			name: 'SendInviteReply',
+			body: {
+				...denormalize(InviteReply)(requestOptions)
+			}
+		}).then(res => normalize(CalendarItemHitInfo)(res));
 
 	public sendShareNotification = (body: ShareNotificationInput) =>
 		this.jsonRequest({

@@ -10,7 +10,8 @@ import {
 	PreferencesInput,
 	ShareNotificationInput,
 	SignatureInput,
-	SortBy
+	SortBy,
+	InviteReplyInput
 } from './generated-schema-types';
 import { ZimbraSchemaOptions } from './types';
 
@@ -262,6 +263,8 @@ export function createZimbraSchema(
 					client.createTask(task as CalendarItemInput),
 				modifyTask: (_, { task }) =>
 					client.modifyTask(task as CalendarItemInput),
+				sendInviteReply: (_, { inviteReply }) =>
+					client.sendInviteReply(inviteReply as InviteReplyInput),
 				setMailboxMetadata: (_: any, variables: any) =>
 					client.jsonRequest({
 						name: 'SetMailboxMetadata',
