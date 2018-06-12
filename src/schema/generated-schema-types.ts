@@ -26,7 +26,7 @@ export interface Query {
 	freeBusy?: FreeBusy[] | null;
 	getContact?: Contact | null;
 	getContactFrequency?: ContactFrequencyResponse | null;
-	getConversation?: Conversation | null;
+	getConversation?: ConversationDetail | null;
 	getFilterRules?: Filter[] | null;
 	getFolder?: Folder | null;
 	getMailboxMetadata?: MailboxMetadata | null;
@@ -591,6 +591,29 @@ export interface ContactFrequencyData {
 export interface ContactFrequencyDataPoints {
 	label?: number | null;
 	value?: number | null;
+}
+
+export interface ConversationDetail extends MailItem {
+	id?: string | null;
+	size?: number | null;
+	date?: number | null;
+	folderId?: string | null;
+	subject?: string | null;
+	excerpt?: string | null;
+	emailAddresses?: EmailAddress[] | null;
+	conversationId?: string | null;
+	flags?: string | null;
+	tags?: string | null;
+	tagNames?: string | null;
+	revision?: number | null;
+	changeDate?: number | null;
+	modifiedSequence?: number | null;
+	invitations?: InviteInfo[] | null;
+	sortField?: string | null;
+	messages?: MessageInfo[] | null;
+	numMessages?: number | null;
+	unread?: number | null;
+	share?: ShareNotification[] | null;
 }
 
 export interface Filter {

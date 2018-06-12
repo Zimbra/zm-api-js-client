@@ -330,6 +330,7 @@ type ConversationDetail implements MailItem {
 	messages: [MessageInfo]
 	numMessages: Int # n, Number of messages in this conversation
 	unread: Int # u
+	share: [ShareNotification] # shr
 }
 
 enum InviteType {
