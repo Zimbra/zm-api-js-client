@@ -6,13 +6,13 @@ import {
 	ActionOptions as ActionOptionsEntity,
 	CalendarItemCreateModifyRequest,
 	CalendarItemHitInfo,
-	InviteReply,
 	Conversation,
 	CreateMountpointRequest,
 	CreateSignatureRequest,
 	Filter,
 	Folder,
 	FreeBusy,
+	InviteReply,
 	MessageInfo,
 	SearchResponse,
 	ShareNotification
@@ -34,10 +34,10 @@ import {
 	CreateMountpointInput,
 	FilterInput,
 	FolderView,
+	InviteReplyInput,
 	PreferencesInput,
 	ShareNotificationInput,
-	SignatureInput,
-	InviteReplyInput
+	SignatureInput
 } from '../schema/generated-schema-types';
 import {
 	coerceBooleanToInt,
