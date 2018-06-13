@@ -84,7 +84,9 @@ export function createZimbraSchema(
 			//resolveType is necessary to differentiate for any Union or Interfaces
 			MailItem: {
 				__resolveType(obj) {
-					return obj.conversationId ? 'MessageInfo' : 'Conversation';
+					return obj.conversationId
+						? 'MessageInfo'
+						: obj.excerpt ? 'Conversation' : 'ConversationDetail';
 				}
 			},
 			Folder: {
