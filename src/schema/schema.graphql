@@ -310,29 +310,6 @@ type Conversation implements MailItem {
 	share: [ShareNotification] # shr
 }
 
-type ConversationDetail implements MailItem {
-	id: ID
-	size: Float # s
-	date: Float # d
-	folderId: ID # l
-	subject: String # su
-	excerpt: String # fr
-	emailAddresses: [EmailAddress]
-	conversationId: String # cid
-	flags: String # f
-	tags: String # t
-	tagNames: String # tn
-	revision: Int # rev
-	changeDate: Float # md
-	modifiedSequence: Int # ms
-	invitations: [InviteInfo] # inv
-	sortField: String # sf, Sort field used for cursor-based pagination
-	messages: [MessageInfo]
-	numMessages: Int # n, Number of messages in this conversation
-	unread: Int # u
-	share: [ShareNotification] # shr
-}
-
 enum InviteType {
 	appt # Appointment
 	task
@@ -1600,7 +1577,7 @@ type Query {
 		max: Int,
 		needExp: Boolean,
 		fetch: String
-	): ConversationDetail
+	): Conversation
 	getFilterRules: [Filter]
 	getFolder(
 		visible: Boolean,
