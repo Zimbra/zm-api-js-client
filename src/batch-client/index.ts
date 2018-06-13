@@ -5,6 +5,8 @@ import { denormalize, normalize } from '../normalize';
 import {
 	ActionOptions as ActionOptionsEntity,
 	CalendarItemCreateModifyRequest,
+	CalendarItemHitInfo,
+	InviteReply,
 	Conversation,
 	CreateMountpointRequest,
 	CreateSignatureRequest,
@@ -13,9 +15,7 @@ import {
 	FreeBusy,
 	MessageInfo,
 	SearchResponse,
-	ShareNotification,
-	CalendarItemHitInfo,
-	InviteReply
+	ShareNotification
 } from '../normalize/entities';
 import {
 	batchJsonRequest,

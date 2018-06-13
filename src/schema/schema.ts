@@ -6,12 +6,12 @@ import {
 	CreateMountpointInput,
 	FilterInput,
 	FolderView,
+	InviteReplyInput,
 	NameIdInput,
 	PreferencesInput,
 	ShareNotificationInput,
 	SignatureInput,
-	SortBy,
-	InviteReplyInput
+	SortBy
 } from './generated-schema-types';
 import { ZimbraSchemaOptions } from './types';
 

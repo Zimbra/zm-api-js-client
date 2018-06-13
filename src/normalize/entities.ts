@@ -360,7 +360,7 @@ export const Filter = new Entity({
 export const InviteReply = new Entity({
 	compNum: 'componentNum',
 	m: ['message', MessageInfo],
-	rt: 'replyType',
+	rt: 'replyType'
 });
 
 const Signature = new Entity({
