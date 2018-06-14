@@ -138,6 +138,7 @@ export class ZimbraBatchClient {
 	}: ChangePasswordOptions) =>
 		this.jsonRequest({
 			name: 'ChangePassword',
+			namespace: Namespace.Account,
 			body: {
 				account: {
 					by: 'name',

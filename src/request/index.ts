@@ -206,16 +206,19 @@ export function jsonRequest(
 		}),
 		headers: options.headers
 	})
+		.then(response => {
+			if (!response.ok) {
+				throw networkError(response);
+			}
+
+			return response;
+		})
 		.then(parseJSON)
 		.then(response => {
 			const globalFault = get(response.parsed, 'Body.Fault');
 
 			if (globalFault) {
 				throw faultError(response, globalFault);
-			}
-
-			if (!response.ok) {
-				throw networkError(response);
 			}
 
 			return {
