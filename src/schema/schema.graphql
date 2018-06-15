@@ -763,8 +763,10 @@ type AccountInfo {
 
 type AccountInfoAttrs {
 	displayName: String
+	zimbraFeatureMailEnabled: Boolean
 	zimbraFeatureCalendarEnabled: Boolean
 	zimbraFeatureRelatedContactsEnabled: Boolean
+	zimbraFeatureChangePasswordEnabled: Boolean
 }
 
 type Identities {
