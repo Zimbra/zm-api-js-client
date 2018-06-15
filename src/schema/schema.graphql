@@ -863,7 +863,6 @@ type Preferences {
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
-	zimbraPrefReadingPaneSashHorizontal: Int
 	zimbraPrefShowFragments: Boolean
 }
 
@@ -1258,7 +1257,6 @@ input PreferencesInput {
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
-	zimbraPrefReadingPaneSashHorizontal: Int
 	zimbraPrefShowFragments: Boolean
 }
 
