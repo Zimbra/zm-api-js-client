@@ -1676,8 +1676,8 @@ type Mutation {
 		name: String!
 		parentFolderId: String
 		query: String!
-		view: FolderView
-	): Boolean
+		types: FolderView
+	): Folder
 	createSignature(
 		signature: SignatureInput!
 	): SignatureResponse

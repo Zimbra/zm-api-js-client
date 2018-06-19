@@ -830,7 +830,7 @@ export interface Mutation {
 	createFolder?: Folder | null;
 	createMountpoint?: boolean | null;
 	createSharedCalendar?: boolean | null;
-	createSearchFolder?: boolean | null;
+	createSearchFolder?: Folder | null;
 	createSignature?: SignatureResponse | null;
 	createTask?: boolean | null;
 	deleteAppointment?: boolean | null;
