@@ -34,6 +34,7 @@ import {
 	GetFolderOptions,
 	GetMailboxMetadataOptions,
 	GetMessageOptions,
+	LoginOptions,
 	RelatedContactsOptions,
 	SearchOptions,
 	ShareInfosOptions
@@ -130,6 +131,7 @@ export function createZimbraSchema(
 				cancelTask: (_, variables) => client.cancelTask(variables),
 				itemAction: (_, variables) =>
 					client.itemAction(variables as ActionOptions),
+				login: (_, variables) => client.login(variables as LoginOptions),
 				logout: client.logout,
 				messageAction: (_, variables) =>
 					client.messageAction(variables as ActionOptions),

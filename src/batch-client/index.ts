@@ -59,6 +59,7 @@ import {
 	GetFolderOptions,
 	GetMailboxMetadataOptions,
 	GetMessageOptions,
+	LoginOptions,
 	NotificationHandler,
 	RelatedContactsOptions,
 	SearchOptions,
@@ -75,15 +76,6 @@ function normalizeMessage(
 	return normalizeEmailAddresses(
 		normalizeMimeParts(normalize(MessageInfo)(message), zimbraOrigin)
 	);
-}
-
-function getErrorFromPasswordResetResponse(html: string) {
-	// Parse the error in the HTML response in the ZLoginErrorPanel element.
-	const doc = new DOMParser().parseFromString(html, 'text/html');
-	const err = doc && doc.getElementById('ZLoginErrorPanel');
-	if (err && err.textContent) {
-		return err.textContent.trim();
-	}
 }
 
 export class ZimbraBatchClient {
@@ -140,38 +132,22 @@ export class ZimbraBatchClient {
 		});
 
 	public changePassword = ({
-		loginConfirmNewPassword,
 		loginNewPassword,
 		password,
 		username
 	}: ChangePasswordOptions) =>
-		fetch(`${this.origin}/`, {
-			credentials: 'include',
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded'
-			},
-			body: `loginOp=login&username=${encodeURIComponent(
-				username
-			)}&password=${encodeURIComponent(
-				password
-			)}&loginNewPassword=${encodeURIComponent(
-				loginNewPassword
-			)}&loginConfirmNewPassword=${encodeURIComponent(
-				loginConfirmNewPassword
-			)}&client=preferred`
-		})
-			.then((r: any) => {
-				if (r && r.ok) {
-					return r.text();
-				}
-
-				return Promise.reject(`${r.status} Bad Response`);
-			})
-			.then((html: string) => {
-				const error = getErrorFromPasswordResetResponse(html);
-				return error ? Promise.reject(error) : Promise.resolve(html);
-			});
+		this.jsonRequest({
+			name: 'ChangePassword',
+			namespace: Namespace.Account,
+			body: {
+				account: {
+					by: 'name',
+					_content: username
+				},
+				oldPassword: password,
+				password: loginNewPassword
+			}
+		});
 
 	public conversationAction = (options: ActionOptions) =>
 		this.action(ActionType.conversation, options);
@@ -404,25 +380,29 @@ export class ZimbraBatchClient {
 			: this.batchDataLoader.load(options);
 	};
 
-	public logout = () => {
-		return new Promise(resolve => {
-			// iFrame to the page that actually clears cookies.
-			const iframe = document.createElement('iframe');
-			iframe.setAttribute('style', 'display: none');
-			iframe.src = this.resolve('/?loginOp=logout');
-
-			iframe.onload = iframe.onerror = () => {
-				const { parentNode } = iframe;
-				if (parentNode) {
-					parentNode.removeChild(iframe);
-				}
-
-				resolve();
-			};
-
-			document.body.appendChild(iframe);
+	public login = (options: LoginOptions) =>
+		this.jsonRequest({
+			name: 'Auth',
+			body: {
+				account: {
+					by: 'name',
+					_content: options.username
+				},
+				password: options.password
+				// prefs: [],
+				// attrs: []
+			},
+			namespace: Namespace.Account
 		});
-	};
+
+	public logout = () =>
+		this.jsonRequest({
+			name: 'EndSession',
+			body: {
+				logoff: true
+			},
+			namespace: Namespace.Account
+		});
 
 	public messageAction = (options: ActionOptions) =>
 		this.action(ActionType.message, options);

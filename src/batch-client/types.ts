@@ -108,8 +108,12 @@ export interface ShareInfosOptions {
 }
 
 export interface ChangePasswordOptions {
-	loginConfirmNewPassword: string;
 	loginNewPassword: string;
+	password: string;
+	username: string;
+}
+
+export interface LoginOptions {
 	password: string;
 	username: string;
 }
