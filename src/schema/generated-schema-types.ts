@@ -155,7 +155,6 @@ export interface Preferences {
 	zimbraPrefOutOfOfficeUntilDate?: string | null;
 	zimbraPrefReadingPaneEnabled?: boolean | null;
 	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
-	zimbraPrefReadingPaneSashHorizontal?: number | null;
 	zimbraPrefShowFragments?: boolean | null;
 }
 
@@ -1162,7 +1161,6 @@ export interface PreferencesInput {
 	zimbraPrefOutOfOfficeUntilDate?: string | null;
 	zimbraPrefReadingPaneEnabled?: boolean | null;
 	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
-	zimbraPrefReadingPaneSashHorizontal?: number | null;
 	zimbraPrefShowFragments?: boolean | null;
 }
 
