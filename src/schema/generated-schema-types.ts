@@ -129,8 +129,10 @@ export interface SignatureContent {
 
 export interface AccountInfoAttrs {
 	displayName?: string | null;
+	zimbraFeatureMailEnabled?: boolean | null;
 	zimbraFeatureCalendarEnabled?: boolean | null;
 	zimbraFeatureRelatedContactsEnabled?: boolean | null;
+	zimbraFeatureChangePasswordEnabled?: boolean | null;
 }
 
 export interface Preferences {
@@ -153,7 +155,6 @@ export interface Preferences {
 	zimbraPrefOutOfOfficeUntilDate?: string | null;
 	zimbraPrefReadingPaneEnabled?: boolean | null;
 	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
-	zimbraPrefReadingPaneSashHorizontal?: number | null;
 	zimbraPrefShowFragments?: boolean | null;
 }
 
@@ -839,6 +840,7 @@ export interface Mutation {
 	folderAction?: boolean | null;
 	itemAction?: boolean | null;
 	logout?: boolean | null;
+	login?: boolean | null;
 	messageAction?: boolean | null;
 	modifyExternalAccount?: string | null;
 	modifyAppointment?: boolean | null;
@@ -1159,7 +1161,6 @@ export interface PreferencesInput {
 	zimbraPrefOutOfOfficeUntilDate?: string | null;
 	zimbraPrefReadingPaneEnabled?: boolean | null;
 	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
-	zimbraPrefReadingPaneSashHorizontal?: number | null;
 	zimbraPrefShowFragments?: boolean | null;
 }
 
@@ -1501,7 +1502,6 @@ export interface ChangeCalendarColorMutationArgs {
 	color: number;
 }
 export interface ChangePasswordMutationArgs {
-	loginConfirmNewPassword: string;
 	loginNewPassword: string;
 	password: string;
 	username: string;
@@ -1571,6 +1571,10 @@ export interface ItemActionMutationArgs {
 	ids?: string[] | null;
 	folderId?: string | null;
 	op: string;
+}
+export interface LoginMutationArgs {
+	username: string;
+	password: string;
 }
 export interface MessageActionMutationArgs {
 	ids: string[];

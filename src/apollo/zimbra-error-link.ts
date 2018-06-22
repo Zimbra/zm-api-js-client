@@ -1,12 +1,44 @@
-import { ApolloLink } from 'apollo-link';
-import { onError } from 'apollo-link-error';
+import { ErrorLink } from 'apollo-link-error';
+import get from 'lodash/get';
 
-const ZimbraErrorLink: ApolloLink = onError(({ graphQLErrors }) => {
-	if (graphQLErrors) {
-		graphQLErrors.map(({ message, ...rest }) =>
-			console.error(`[GraphQL]: ${message}:`, rest)
-		);
+class ZimbraErrorLink extends ErrorLink {
+	handlers: any[] = [];
+
+	constructor() {
+		super(({ graphQLErrors, networkError }) => {
+			graphQLErrors &&
+				graphQLErrors.map(({ message, originalError, ...rest }) => {
+					let errorCode = get(originalError, 'faults.0.Detail.Error.Code', '');
+
+					this.executeHandlers({
+						errorCode,
+						message,
+						originalError,
+						...rest
+					});
+				});
+
+			networkError &&
+				this.executeHandlers({
+					message: `[Network error]: ${networkError}`
+				});
+		});
 	}
-});
+
+	executeHandlers = (data: object) => {
+		this.handlers.map(handler => {
+			handler(data);
+		});
+	};
+
+	registerHandler = (handler: any) => {
+		this.handlers.push(handler);
+	};
+
+	unRegisterHandler = (handler: any) => {
+		const index = this.handlers.findIndex(handler);
+		index !== -1 && this.handlers.splice(index, 1);
+	};
+}
 
 export { ZimbraErrorLink };

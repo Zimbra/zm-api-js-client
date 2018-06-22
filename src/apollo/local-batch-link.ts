@@ -21,7 +21,7 @@ export class LocalBatchLink extends ApolloLink {
 
 		const batchHandler = (operations: Operation[]) =>
 			new Observable<FetchResult[]>(observer => {
-				notifier.emit('req');
+				notifier.emit('req', operations);
 				let emittedResponse = false;
 				Promise.all(
 					operations.map((operation: Operation) => {
@@ -39,14 +39,14 @@ export class LocalBatchLink extends ApolloLink {
 					})
 				)
 					.then((results: FetchResult[]) => {
-						(emittedResponse = true) && notifier.emit('res');
+						(emittedResponse = true) && notifier.emit('res', results);
 						// we have data and can send it to back up the link chain
 						observer.next(results);
 						observer.complete();
 						return results;
 					})
 					.catch(err => {
-						emittedResponse || notifier.emit('res');
+						emittedResponse || notifier.emit('res', err);
 						observer.error(err);
 					});
 			});

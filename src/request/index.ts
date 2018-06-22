@@ -24,6 +24,10 @@ function soapCommandBody(options: RequestOptions) {
 }
 
 function parseJSON(response: Response): Promise<ParsedResponse> {
+	if (!response.ok) {
+		throw networkError(response);
+	}
+
 	try {
 		return response.json().then(json => {
 			(response as ParsedResponse).parsed = json;
@@ -212,10 +216,6 @@ export function jsonRequest(
 
 			if (globalFault) {
 				throw faultError(response, globalFault);
-			}
-
-			if (!response.ok) {
-				throw networkError(response);
 			}
 
 			return {
