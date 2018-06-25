@@ -145,6 +145,12 @@ const CalendarItemInviteEmailAddress = new Entity({
 	t: 'type'
 });
 
+const SendMessageEmailAddress = new Entity({
+	a: 'address',
+	p: 'name',
+	t: 'type'
+});
+
 const ExistingAttachmentsInfo = new Entity({
 	mid: 'messageId'
 });
@@ -163,6 +169,15 @@ const commonMailItemFields = {
 	su: 'subject',
 	attach: ['attachments', AttachmentsInfo]
 };
+
+export const SendMessageInfo = new Entity({
+	e: ['emailAddresses', SendMessageEmailAddress],
+	mp: ['mimeParts', MimePart],
+	su: 'subject',
+	attach: ['attachments', AttachmentsInfo],
+	did: 'draftId',
+	idnt: 'fromAccountId'
+});
 
 export const MessageInfo = new Entity(commonMailItemFields);
 

@@ -15,6 +15,7 @@ import {
 	InviteReply,
 	MessageInfo,
 	SearchResponse,
+	SendMessageInfo,
 	ShareNotification
 } from '../normalize/entities';
 import {
@@ -36,6 +37,7 @@ import {
 	FolderView,
 	InviteReplyInput,
 	PreferencesInput,
+	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput
 } from '../schema/generated-schema-types';
@@ -502,6 +504,12 @@ export class ZimbraBatchClient {
 				...denormalize(InviteReply)(requestOptions)
 			}
 		}).then(res => normalize(CalendarItemHitInfo)(res));
+
+	public sendMessage = (body: SendMessageInput) =>
+		this.jsonRequest({
+			name: 'SendMsgRequest',
+			body: denormalize(SendMessageInfo)(body)
+		});
 
 	public sendShareNotification = (body: ShareNotificationInput) =>
 		this.jsonRequest({

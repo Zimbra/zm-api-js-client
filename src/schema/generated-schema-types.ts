@@ -861,6 +861,7 @@ export interface Mutation {
 	prefOutOfOfficeReply?: string | null;
 	prefOutOfOfficeUntilDate?: string | null;
 	sendMsg?: boolean | null;
+	sendMessage?: boolean | null;
 	sendInviteReply?: InviteReplyResponse | null;
 	sendShareNotification?: boolean | null;
 	setMailboxMetadata?: boolean | null;
@@ -1360,6 +1361,21 @@ export interface EmailAddressInput {
 	shortName: string;
 }
 
+export interface SendMessageInput {
+	draftId?: string | null;
+	fromAccountId?: string | null;
+	subject?: string | null;
+	mimeParts?: MimePartInput[] | null;
+	emailAddresses?: SendMessageEmailAddressInput[] | null;
+	attachments?: AttachmentInput[] | null;
+}
+
+export interface SendMessageEmailAddressInput {
+	address: string;
+	name?: string | null;
+	type: AddressType;
+}
+
 export interface InviteReplyInput {
 	componentNum: number;
 	id: string;
@@ -1664,6 +1680,9 @@ export interface SendMsgMutationArgs {
 	subject: string;
 	text: string;
 	to: EmailAddressInput[];
+}
+export interface SendMessageMutationArgs {
+	message: SendMessageInput;
 }
 export interface SendInviteReplyMutationArgs {
 	inviteReply: InviteReplyInput;

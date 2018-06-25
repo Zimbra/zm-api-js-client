@@ -1090,11 +1090,27 @@ input CalendarItemMessageInput {
 	replyType: InviteReplyType #rt
 }
 
+
+input SendMessageInput {
+	draftId: ID #did
+	fromAccountId: String #idnt
+	subject: String #su
+	mimeParts: [MimePartInput] #mp
+	emailAddresses: [SendMessageEmailAddressInput] #e
+	attachments: [AttachmentInput] #attach
+}
+
 input CalendarItemInviteInput {
 	components: [CalendarItemInviteComponentInput]!
 }
 
 input CalendarItemInviteEmailAddressInput {
+	address: String!
+	name: String
+	type: AddressType!
+}
+
+input SendMessageEmailAddressInput {
 	address: String!
 	name: String
 	type: AddressType!
@@ -1749,6 +1765,7 @@ type Mutation {
 	prefOutOfOfficeReply(value: String!): String
 	prefOutOfOfficeUntilDate(value: String!): String
 	sendMsg(subject: String!, text: String!, to: [EmailAddressInput]!): Boolean
+	sendMessage(message: SendMessageInput!):Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean
