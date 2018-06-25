@@ -212,7 +212,7 @@ export class ZimbraBatchClient {
 					l: parentFolderId
 				}
 			}
-		});
+		}).then(res => normalize(Folder)(res.search[0]));
 	};
 
 	public createSignature = (options: SignatureInput) =>

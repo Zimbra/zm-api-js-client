@@ -173,6 +173,7 @@ export interface Folder {
 	nonFolderItemCountTotal?: number | null;
 	linkedFolders?: Folder[] | null;
 	folders?: Folder[] | null;
+	search?: Folder[] | null;
 	owner?: string | null;
 	revision?: number | null;
 	view?: FolderView | null;
@@ -832,7 +833,7 @@ export interface Mutation {
 	createFolder?: Folder | null;
 	createMountpoint?: boolean | null;
 	createSharedCalendar?: boolean | null;
-	createSearchFolder?: boolean | null;
+	createSearchFolder?: Folder | null;
 	createSignature?: SignatureResponse | null;
 	createTask?: boolean | null;
 	deleteAppointment?: boolean | null;
@@ -1586,7 +1587,7 @@ export interface CreateSearchFolderMutationArgs {
 	name: string;
 	parentFolderId?: string | null;
 	query: string;
-	view?: FolderView | null;
+	types?: FolderView | null;
 }
 export interface CreateSignatureMutationArgs {
 	signature: SignatureInput;
