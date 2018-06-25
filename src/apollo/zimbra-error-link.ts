@@ -35,6 +35,10 @@ class ZimbraErrorLink extends ErrorLink {
 		this.handlers.push(handler);
 	};
 
+	unRegisterAllHandlers = () => {
+		this.handlers = [];
+	};
+
 	unRegisterHandler = (handler: any) => {
 		const index = this.handlers.findIndex(handler);
 		index !== -1 && this.handlers.splice(index, 1);
