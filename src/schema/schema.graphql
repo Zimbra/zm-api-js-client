@@ -1094,7 +1094,7 @@ input CalendarItemMessageInput {
 
 input SendMessageInput {
 	draftId: ID #did
-	fromAccountId: String #idnt
+	entityId: String #idnt
 	subject: String #su
 	mimeParts: [MimePartInput] #mp
 	emailAddresses: [SendMessageEmailAddressInput] #e

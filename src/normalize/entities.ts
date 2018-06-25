@@ -176,7 +176,7 @@ export const SendMessageInfo = new Entity({
 	su: 'subject',
 	attach: ['attachments', AttachmentsInfo],
 	did: 'draftId',
-	idnt: 'fromAccountId'
+	idnt: 'entityId'
 });
 
 export const MessageInfo = new Entity(commonMailItemFields);
