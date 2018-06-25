@@ -723,6 +723,7 @@ type Folder {
 	nonFolderItemCountTotal: Float # Total size of all of non-subfolder items in folder
 	linkedFolders: [Folder] # Folders this user has linked from other users nested in this Folder
 	folders: [Folder] # Folders nested in this Folder
+	search: [Folder] #smart folders
 	owner: String
 	revision: Int
 	view: FolderView
@@ -1674,8 +1675,8 @@ type Mutation {
 		name: String!
 		parentFolderId: String
 		query: String!
-		view: FolderView
-	): Boolean
+		types: FolderView
+	): Folder
 	createSignature(
 		signature: SignatureInput!
 	): SignatureResponse
