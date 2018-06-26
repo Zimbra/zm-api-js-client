@@ -11,11 +11,15 @@ const MimePart = new Entity({
 	cd: 'contentDisposition',
 	ci: 'contentId',
 	ct: 'contentType',
-	s: 'size'
+	s: 'size',
+	part: 'part',
+	mid: 'messageId',
+	content: 'content'
 });
 
 MimePart.addMapping({
-	mp: ['mimeParts', MimePart]
+	mp: ['mimeParts', MimePart],
+	attach: ['attach', MimePart]
 });
 
 const CalendarItemAlarmTriggerRelative = new Entity({
@@ -170,13 +174,23 @@ const commonMailItemFields = {
 	attach: ['attachments', AttachmentsInfo]
 };
 
-export const SendMessageInfo = new Entity({
+const SendMessageFields = new Entity({
+	id: 'id',
+	origid: 'origId',
+	rt: 'rt',
+	irt: 'inReplyTo',
+	f: 'flag',
+	autoSendTime: 'autoSendTime',
 	e: ['emailAddresses', SendMessageEmailAddress],
 	mp: ['mimeParts', MimePart],
 	su: 'subject',
-	attach: ['attachments', AttachmentsInfo],
+	attach: ['attach', MimePart],
 	did: 'draftId',
 	idnt: 'entityId'
+});
+
+export const SendMessageInfo = new Entity({
+	m: ['message', SendMessageFields]
 });
 
 export const MessageInfo = new Entity(commonMailItemFields);

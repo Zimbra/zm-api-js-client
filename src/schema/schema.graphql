@@ -1061,6 +1061,7 @@ input MimePartInput {
 	mimeParts: [MimePartInput]
 	url: String
 	messageId: ID
+	attach: [MimePartInput]
 }
 
 input ExistingAttachmentInput {
@@ -1091,14 +1092,19 @@ input CalendarItemMessageInput {
 	replyType: InviteReplyType #rt
 }
 
-
 input SendMessageInput {
+	id: ID #id
+	origId: ID #origid
+	rt: String #rt
+	inReplyTo: String #irt
+	flag: String #f
+	autoSendTime: Float #autoSendTime
 	draftId: ID #did
 	entityId: String #idnt
 	subject: String #su
 	mimeParts: [MimePartInput] #mp
 	emailAddresses: [SendMessageEmailAddressInput] #e
-	attachments: [AttachmentInput] #attach
+	attach: [MimePartInput] #attach
 }
 
 input CalendarItemInviteInput {
@@ -1114,7 +1120,7 @@ input CalendarItemInviteEmailAddressInput {
 input SendMessageEmailAddressInput {
 	address: String!
 	name: String
-	type: AddressType!
+	type: AddressType
 }
 
 input CalendarItemInviteComponentInput {
@@ -1765,8 +1771,7 @@ type Mutation {
 	prefOutOfOfficeFromDate(value: String!): String
 	prefOutOfOfficeReply(value: String!): String
 	prefOutOfOfficeUntilDate(value: String!): String
-	sendMsg(subject: String!, text: String!, to: [EmailAddressInput]!): Boolean
-	sendMessage(message: SendMessageInput!):Boolean
+	sendMessage(message: SendMessageInput!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean

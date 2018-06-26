@@ -507,8 +507,10 @@ export class ZimbraBatchClient {
 
 	public sendMessage = (body: SendMessageInput) =>
 		this.jsonRequest({
-			name: 'SendMsgRequest',
-			body: denormalize(SendMessageInfo)(body)
+			name: 'SendMsg',
+			body: {
+				...denormalize(SendMessageInfo)(body)
+			}
 		});
 
 	public sendShareNotification = (body: ShareNotificationInput) =>
