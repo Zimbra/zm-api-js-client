@@ -76,6 +76,7 @@ const CalendarItemOrganizer = new Entity({
 });
 
 const commonMessageFields = {
+	cid: 'conversationId',
 	d: 'date',
 	f: 'flags',
 	fr: 'excerpt',
@@ -91,6 +92,7 @@ const commonMessageFields = {
 
 const commonInviteFields = {
 	compNum: 'componentNum',
+	calItemId: 'calendarItemId',
 	fb: 'freeBusy',
 	fba: 'freeBusyActual',
 	fr: 'excerpt',
@@ -353,6 +355,12 @@ const FilterCondition = new Entity({
 export const Filter = new Entity({
 	filterActions: ['actions', FilterAction],
 	filterTests: ['conditions', FilterCondition]
+});
+
+export const InviteReply = new Entity({
+	compNum: 'componentNum',
+	m: ['message', MessageInfo],
+	rt: 'replyType'
 });
 
 const Signature = new Entity({

@@ -142,6 +142,7 @@ export interface Preferences {
 	zimbraPrefCalendarInitialView?: PrefCalendarInitialView | null;
 	zimbraPrefCalendarReminderEmail?: string | null;
 	zimbraPrefCalendarWorkingHours?: string | null;
+	zimbraPrefDeleteInviteOnReply?: boolean | null;
 	zimbraPrefDisplayExternalImages?: boolean | null;
 	zimbraPrefGroupMailBy?: string | null;
 	zimbraPrefMailPollingInterval?: string | null;
@@ -861,6 +862,7 @@ export interface Mutation {
 	prefOutOfOfficeReply?: string | null;
 	prefOutOfOfficeUntilDate?: string | null;
 	sendMsg?: boolean | null;
+	sendInviteReply?: InviteReplyResponse | null;
 	sendShareNotification?: boolean | null;
 	setMailboxMetadata?: boolean | null;
 }
@@ -872,6 +874,11 @@ export interface SignatureResponse {
 export interface NameId {
 	id?: string | null;
 	name?: string | null;
+}
+
+export interface InviteReplyResponse {
+	inviteId?: string | null;
+	calendarItemId?: string | null;
 }
 
 export interface CalendarItemAlarmAttendees {
@@ -918,12 +925,13 @@ export interface CalendarItemInput {
 }
 
 export interface CalendarItemMessageInput {
-	folderId: string;
-	subject: string;
-	invitations: CalendarItemInviteInput;
-	mimeParts?: MimePartInput | null;
+	folderId?: string | null;
+	subject?: string | null;
+	invitations?: CalendarItemInviteInput | null;
+	mimeParts?: MimePartInput[] | null;
 	emailAddresses?: CalendarItemInviteEmailAddressInput[] | null;
 	attachments?: AttachmentInput[] | null;
+	replyType?: InviteReplyType | null;
 }
 
 export interface CalendarItemInviteInput {
@@ -1026,9 +1034,17 @@ export interface CalendarItemInviteComponentDescriptionInput {
 }
 
 export interface MimePartInput {
-	contentType: string;
+	body?: boolean | null;
+	filename?: string | null;
+	part?: string | null;
 	content?: string | null;
+	contentId?: string | null;
+	contentType?: string | null;
+	contentDisposition?: string | null;
+	size?: number | null;
 	mimeParts?: MimePartInput[] | null;
+	url?: string | null;
+	messageId?: string | null;
 }
 
 export interface CalendarItemInviteEmailAddressInput {
@@ -1345,6 +1361,14 @@ export interface EmailAddressInput {
 	shortName: string;
 }
 
+export interface InviteReplyInput {
+	componentNum: number;
+	id: string;
+	verb: InviteReplyVerb;
+	updateOrganizer?: boolean | null;
+	message?: CalendarItemMessageInput | null;
+}
+
 export interface ShareNotificationInput {
 	item: ShareNotificationItemInput;
 	address: ShareNotificaitonEmailAddressInput;
@@ -1642,6 +1666,9 @@ export interface SendMsgMutationArgs {
 	text: string;
 	to: EmailAddressInput[];
 }
+export interface SendInviteReplyMutationArgs {
+	inviteReply: InviteReplyInput;
+}
 export interface SendShareNotificationMutationArgs {
 	shareNotification: ShareNotificationInput;
 }
@@ -1857,4 +1884,15 @@ export enum AddressType {
 	s = 's',
 	n = 'n',
 	rf = 'rf'
+}
+
+export enum InviteReplyType {
+	r = 'r',
+	w = 'w'
+}
+
+export enum InviteReplyVerb {
+	ACCEPT = 'ACCEPT',
+	DECLINE = 'DECLINE',
+	TENTATIVE = 'TENTATIVE'
 }

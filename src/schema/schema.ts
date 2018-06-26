@@ -6,6 +6,7 @@ import {
 	CreateMountpointInput,
 	FilterInput,
 	FolderView,
+	InviteReplyInput,
 	NameIdInput,
 	PreferencesInput,
 	ShareNotificationInput,
@@ -273,6 +274,8 @@ export function createZimbraSchema(
 					client.createTask(task as CalendarItemInput),
 				modifyTask: (_, { task }) =>
 					client.modifyTask(task as CalendarItemInput),
+				sendInviteReply: (_, { inviteReply }) =>
+					client.sendInviteReply(inviteReply as InviteReplyInput),
 				setMailboxMetadata: (_: any, variables: any) =>
 					client.jsonRequest({
 						name: 'SetMailboxMetadata',

@@ -5,12 +5,14 @@ import { denormalize, normalize } from '../normalize';
 import {
 	ActionOptions as ActionOptionsEntity,
 	CalendarItemCreateModifyRequest,
+	CalendarItemHitInfo,
 	Conversation,
 	CreateMountpointRequest,
 	CreateSignatureRequest,
 	Filter,
 	Folder,
 	FreeBusy,
+	InviteReply,
 	MessageInfo,
 	SearchResponse,
 	ShareNotification
@@ -32,6 +34,7 @@ import {
 	CreateMountpointInput,
 	FilterInput,
 	FolderView,
+	InviteReplyInput,
 	PreferencesInput,
 	ShareNotificationInput,
 	SignatureInput
@@ -491,6 +494,14 @@ export class ZimbraBatchClient {
 			}
 			return normalized;
 		});
+
+	public sendInviteReply = (requestOptions: InviteReplyInput) =>
+		this.jsonRequest({
+			name: 'SendInviteReply',
+			body: {
+				...denormalize(InviteReply)(requestOptions)
+			}
+		}).then(res => normalize(CalendarItemHitInfo)(res));
 
 	public sendShareNotification = (body: ShareNotificationInput) =>
 		this.jsonRequest({

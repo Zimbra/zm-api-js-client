@@ -82,6 +82,17 @@ enum CalendarItemRecurrenceFrequency {
 	YEA
 }
 
+enum InviteReplyVerb {
+	ACCEPT
+	DECLINE
+	TENTATIVE
+}
+
+enum InviteReplyType {
+	r #reply
+	w #forward
+}
+
 enum ParticipationStatus {
 	NE # needs-action
 	AC # accept
@@ -223,6 +234,11 @@ type Instance {
 	participationStatus: ParticipationStatus
 	revision: Int # rev
 	status: InviteCompletionStatus
+}
+
+type InviteReplyResponse {
+	inviteId: ID #invId
+	calendarItemId: ID #calItemId
 }
 
 type EmailAddress {
@@ -853,6 +869,7 @@ type Preferences {
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
 	zimbraPrefCalendarWorkingHours: String
+	zimbraPrefDeleteInviteOnReply: Boolean
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
@@ -1033,9 +1050,17 @@ type MimePart {
 }
 
 input MimePartInput {
-	contentType: String!
+	body: Boolean
+	filename: String
+	part: String # Mime part name
 	content: String
+	contentId: String
+	contentType: String
+	contentDisposition: String
+	size: Int # Size in bytes
 	mimeParts: [MimePartInput]
+	url: String
+	messageId: ID
 }
 
 input ExistingAttachmentInput {
@@ -1057,12 +1082,13 @@ input CalendarItemInput {
 }
 
 input CalendarItemMessageInput {
-	folderId: ID!
-	subject: String!
-	invitations: CalendarItemInviteInput!
-	mimeParts: MimePartInput
-	emailAddresses: [CalendarItemInviteEmailAddressInput]
-	attachments: [AttachmentInput]
+	folderId: ID #l
+	subject: String #su
+	invitations: CalendarItemInviteInput #inv
+	mimeParts: [MimePartInput] #mp
+	emailAddresses: [CalendarItemInviteEmailAddressInput] #e
+	attachments: [AttachmentInput] #attach
+	replyType: InviteReplyType #rt
 }
 
 input CalendarItemInviteInput {
@@ -1239,6 +1265,14 @@ input GrantInput {
 	password: String
 	permissions: String!
 	zimbraId: ID
+}
+
+input InviteReplyInput {
+	componentNum: Int! #compNum
+	id: ID!
+	verb: InviteReplyVerb!
+	updateOrganizer: Boolean
+	message: CalendarItemMessageInput
 }
 
 input PreferencesInput {
@@ -1716,6 +1750,7 @@ type Mutation {
 	prefOutOfOfficeReply(value: String!): String
 	prefOutOfOfficeUntilDate(value: String!): String
 	sendMsg(subject: String!, text: String!, to: [EmailAddressInput]!): Boolean
+	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean
 }
