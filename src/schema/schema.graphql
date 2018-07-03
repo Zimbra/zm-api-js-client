@@ -1061,12 +1061,12 @@ input MimePartInput {
 	mimeParts: [MimePartInput]
 	url: String
 	messageId: ID
-	attach: [MimePartInput]
+	attachments: [AttachmentInput]
 }
 
 input ExistingAttachmentInput {
 	messageId: String
-	part: Int
+	part: String
 }
 
 input AttachmentInput {
@@ -1087,7 +1087,7 @@ input CalendarItemMessageInput {
 	subject: String #su
 	invitations: CalendarItemInviteInput #inv
 	mimeParts: [MimePartInput] #mp
-	emailAddresses: [CalendarItemInviteEmailAddressInput] #e
+	emailAddresses: [MailItemEmailAddressInput] #e
 	attachments: [AttachmentInput] #attach
 	replyType: InviteReplyType #rt
 }
@@ -1097,30 +1097,24 @@ input SendMessageInput {
 	origId: ID #origid
 	rt: String #rt
 	inReplyTo: String #irt
-	flag: String #f
+	flags: String #f
 	autoSendTime: Float #autoSendTime
 	draftId: ID #did
 	entityId: String #idnt
 	subject: String #su
 	mimeParts: [MimePartInput] #mp
-	emailAddresses: [SendMessageEmailAddressInput] #e
-	attach: [MimePartInput] #attach
+	emailAddresses: [MailItemEmailAddressInput] #e
+	attachments: [AttachmentInput] #attach
 }
 
 input CalendarItemInviteInput {
 	components: [CalendarItemInviteComponentInput]!
 }
 
-input CalendarItemInviteEmailAddressInput {
+input MailItemEmailAddressInput {
 	address: String!
 	name: String
 	type: AddressType!
-}
-
-input SendMessageEmailAddressInput {
-	address: String!
-	name: String
-	type: AddressType
 }
 
 input CalendarItemInviteComponentInput {
