@@ -861,7 +861,6 @@ export interface Mutation {
 	prefOutOfOfficeFromDate?: string | null;
 	prefOutOfOfficeReply?: string | null;
 	prefOutOfOfficeUntilDate?: string | null;
-	sendMsg?: boolean | null;
 	sendMessage?: boolean | null;
 	sendInviteReply?: InviteReplyResponse | null;
 	sendShareNotification?: boolean | null;
@@ -930,7 +929,7 @@ export interface CalendarItemMessageInput {
 	subject?: string | null;
 	invitations?: CalendarItemInviteInput | null;
 	mimeParts?: MimePartInput[] | null;
-	emailAddresses?: CalendarItemInviteEmailAddressInput[] | null;
+	emailAddresses?: MailItemEmailAddressInput[] | null;
 	attachments?: AttachmentInput[] | null;
 	replyType?: InviteReplyType | null;
 }
@@ -1046,12 +1045,7 @@ export interface MimePartInput {
 	mimeParts?: MimePartInput[] | null;
 	url?: string | null;
 	messageId?: string | null;
-}
-
-export interface CalendarItemInviteEmailAddressInput {
-	address: string;
-	name?: string | null;
-	type: AddressType;
+	attachments?: AttachmentInput[] | null;
 }
 
 export interface AttachmentInput {
@@ -1061,7 +1055,13 @@ export interface AttachmentInput {
 
 export interface ExistingAttachmentInput {
 	messageId?: string | null;
-	part?: number | null;
+	part?: string | null;
+}
+
+export interface MailItemEmailAddressInput {
+	address: string;
+	name?: string | null;
+	type: AddressType;
 }
 
 export interface NewMountpointSpec {
@@ -1356,25 +1356,19 @@ export interface SizeConditionInput {
 	negative?: boolean | null;
 }
 
-export interface EmailAddressInput {
-	email: string;
-	name: string;
-	shortName: string;
-}
-
 export interface SendMessageInput {
+	id?: string | null;
+	origId?: string | null;
+	rt?: string | null;
+	inReplyTo?: string | null;
+	flags?: string | null;
+	autoSendTime?: number | null;
 	draftId?: string | null;
-	fromAccountId?: string | null;
+	entityId?: string | null;
 	subject?: string | null;
 	mimeParts?: MimePartInput[] | null;
-	emailAddresses?: SendMessageEmailAddressInput[] | null;
+	emailAddresses?: MailItemEmailAddressInput[] | null;
 	attachments?: AttachmentInput[] | null;
-}
-
-export interface SendMessageEmailAddressInput {
-	address: string;
-	name?: string | null;
-	type: AddressType;
 }
 
 export interface InviteReplyInput {
@@ -1427,6 +1421,12 @@ export interface ExternalAccount {
 	connectionType?: ConnectionType | null;
 	username: string;
 	password: string;
+}
+
+export interface EmailAddressInput {
+	email: string;
+	name: string;
+	shortName: string;
 }
 
 export interface CreateMountpointInput {
@@ -1676,11 +1676,6 @@ export interface PrefOutOfOfficeReplyMutationArgs {
 }
 export interface PrefOutOfOfficeUntilDateMutationArgs {
 	value: string;
-}
-export interface SendMsgMutationArgs {
-	subject: string;
-	text: string;
-	to: EmailAddressInput[];
 }
 export interface SendMessageMutationArgs {
 	message: SendMessageInput;
