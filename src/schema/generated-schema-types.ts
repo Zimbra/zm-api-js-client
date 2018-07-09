@@ -133,6 +133,7 @@ export interface AccountInfoAttrs {
 	zimbraFeatureCalendarEnabled?: boolean | null;
 	zimbraFeatureRelatedContactsEnabled?: boolean | null;
 	zimbraFeatureChangePasswordEnabled?: boolean | null;
+	zimbraFeatureSMIMEEnabled?: boolean | null;
 }
 
 export interface Preferences {

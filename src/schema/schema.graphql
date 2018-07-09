@@ -784,6 +784,7 @@ type AccountInfoAttrs {
 	zimbraFeatureCalendarEnabled: Boolean
 	zimbraFeatureRelatedContactsEnabled: Boolean
 	zimbraFeatureChangePasswordEnabled: Boolean
+	zimbraFeatureSMIMEEnabled: Boolean
 }
 
 type Identities {
