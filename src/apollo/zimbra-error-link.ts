@@ -9,13 +9,11 @@ class ZimbraErrorLink extends ErrorLink {
 			graphQLErrors &&
 				graphQLErrors.map(({ message, originalError, ...rest }) => {
 					let errorCode = get(originalError, 'faults.0.Detail.Error.Code', '');
-					let statusCode = get(originalError, 'response.status', '');
 
 					this.executeHandlers({
 						errorCode,
 						message,
 						originalError,
-						statusCode,
 						...rest
 					});
 				});
