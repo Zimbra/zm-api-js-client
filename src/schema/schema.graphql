@@ -271,6 +271,7 @@ interface MailItem {
 	invitations: [InviteInfo] # inv
 	sortField: String # sf, Sort field used for cursor-based pagination
 	share: [ShareNotification] # shr
+	rt: String
 }
 
 type MessageInfo implements MailItem {
@@ -301,6 +302,7 @@ type MessageInfo implements MailItem {
 	attachments: [MimePart]
 	inlineAttachments: [MimePart]
 	share: [ShareNotification] # shr
+	rt: String
 }
 
 type Conversation implements MailItem {
@@ -324,6 +326,7 @@ type Conversation implements MailItem {
 	numMessages: Int # n, Number of messages in this conversation
 	unread: Int # u
 	share: [ShareNotification] # shr
+	rt: String
 }
 
 enum InviteType {
