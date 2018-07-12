@@ -86,7 +86,7 @@ const commonMessageFields = {
 	s: 'size',
 	sf: 'sortField',
 	t: 'tags',
-	tn: 'tagNames'
+	tn: 'tagNames',
 };
 
 const commonInviteFields = {
@@ -166,14 +166,14 @@ const commonMailItemFields = {
 	mp: ['mimeParts', MimePart],
 	shr: 'share',
 	su: 'subject',
-	attach: ['attachments', AttachmentsInfo]
+	attach: ['attachments', AttachmentsInfo],
+	rt: 'replyType'
 };
 
 const SendMessageFields = new Entity({
 	...commonMailItemFields,
 	id: 'id',
 	origid: 'origId',
-	rt: 'rt',
 	irt: 'inReplyTo',
 	autoSendTime: 'autoSendTime',
 	did: 'draftId',
