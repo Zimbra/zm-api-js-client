@@ -86,7 +86,7 @@ const commonMessageFields = {
 	s: 'size',
 	sf: 'sortField',
 	t: 'tags',
-	tn: 'tagNames',
+	tn: 'tagNames'
 };
 
 const commonInviteFields = {
