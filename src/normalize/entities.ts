@@ -11,11 +11,10 @@ const MimePart = new Entity({
 	cd: 'contentDisposition',
 	ci: 'contentId',
 	ct: 'contentType',
-	s: 'size'
-});
-
-MimePart.addMapping({
-	mp: ['mimeParts', MimePart]
+	s: 'size',
+	part: 'part',
+	mid: 'messageId',
+	content: 'content'
 });
 
 const CalendarItemAlarmTriggerRelative = new Entity({
@@ -138,7 +137,7 @@ const InviteInfo = new Entity({
 	mp: ['mimeParts', MimePart]
 });
 
-const CalendarItemInviteEmailAddress = new Entity({
+const MailItemEmailAddress = new Entity({
 	a: 'address',
 	p: 'name',
 	d: 'displayName',
@@ -146,7 +145,8 @@ const CalendarItemInviteEmailAddress = new Entity({
 });
 
 const ExistingAttachmentsInfo = new Entity({
-	mid: 'messageId'
+	mid: 'messageId',
+	part: 'part'
 });
 
 const AttachmentsInfo = new Entity({
@@ -154,15 +154,35 @@ const AttachmentsInfo = new Entity({
 	mp: ['existingAttachments', ExistingAttachmentsInfo]
 });
 
+MimePart.addMapping({
+	mp: ['mimeParts', MimePart],
+	attach: ['attachments', AttachmentsInfo]
+});
+
 const commonMailItemFields = {
 	...commonMessageFields,
-	e: ['emailAddresses', CalendarItemInviteEmailAddress],
+	e: ['emailAddresses', MailItemEmailAddress],
 	inv: ['invitations', InviteInfo],
 	mp: ['mimeParts', MimePart],
 	shr: 'share',
 	su: 'subject',
 	attach: ['attachments', AttachmentsInfo]
 };
+
+const SendMessageFields = new Entity({
+	...commonMailItemFields,
+	id: 'id',
+	origid: 'origId',
+	rt: 'rt',
+	irt: 'inReplyTo',
+	autoSendTime: 'autoSendTime',
+	did: 'draftId',
+	idnt: 'entityId'
+});
+
+export const SendMessageInfo = new Entity({
+	m: ['message', SendMessageFields]
+});
 
 export const MessageInfo = new Entity(commonMailItemFields);
 
