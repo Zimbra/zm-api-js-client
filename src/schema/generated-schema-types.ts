@@ -142,6 +142,7 @@ export interface Preferences {
 	zimbraPrefCalendarInitialView?: PrefCalendarInitialView | null;
 	zimbraPrefCalendarReminderEmail?: string | null;
 	zimbraPrefCalendarWorkingHours?: string | null;
+	zimbraPrefDefaultCalendarId?: number | null;
 	zimbraPrefDeleteInviteOnReply?: boolean | null;
 	zimbraPrefDisplayExternalImages?: boolean | null;
 	zimbraPrefGroupMailBy?: string | null;
@@ -853,6 +854,7 @@ export interface Mutation {
 	modifyTask?: boolean | null;
 	moveTask?: string | null;
 	prefAutoAddAppointmentToCalendar?: boolean | null;
+	prefCalendarDefaultCal?: number | null;
 	prefCalendarFirstDayOfWeek?: string | null;
 	prefCalendarInitialView?: PrefCalendarInitialView | null;
 	prefCalendarWorkingHours?: string | null;
@@ -1163,6 +1165,7 @@ export interface IdentityAttrsInput {
 export interface PreferencesInput {
 	zimbraPrefAutoAddAppointmentsToCalendar?: boolean | null;
 	zimbraPrefCalendarAutoAddInvites?: boolean | null;
+	zimbraPrefDefaultCalendarId?: number | null;
 	zimbraPrefCalendarFirstDayOfWeek?: string | null;
 	zimbraPrefCalendarInitialView?: PrefCalendarInitialView | null;
 	zimbraPrefCalendarReminderEmail?: string | null;
@@ -1652,6 +1655,9 @@ export interface MoveTaskMutationArgs {
 }
 export interface PrefAutoAddAppointmentToCalendarMutationArgs {
 	value: boolean;
+}
+export interface PrefCalendarDefaultCalMutationArgs {
+	value: number;
 }
 export interface PrefCalendarFirstDayOfWeekMutationArgs {
 	value: string;

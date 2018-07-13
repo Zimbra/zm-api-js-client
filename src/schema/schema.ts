@@ -184,6 +184,12 @@ export function createZimbraSchema(
 							zimbraPrefCalendarAutoAddInvites: value
 						})
 						.then(() => value),
+				prefCalendarDefaultCal: (_, { value }) =>
+					client
+						.modifyPrefs({
+							zimbraPrefDefaultCalendarId: value
+						})
+						.then(() => value),
 				createCalendar: (_, { name, color, url }, { zimbra }) =>
 					zimbra.folders.create({
 						name,
