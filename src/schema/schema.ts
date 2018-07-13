@@ -9,6 +9,7 @@ import {
 	InviteReplyInput,
 	NameIdInput,
 	PreferencesInput,
+	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput,
 	SortBy
@@ -268,8 +269,8 @@ export function createZimbraSchema(
 					client.modifySignature(variables as SignatureInput),
 				deleteSignature: (_, variables) =>
 					client.deleteSignature(variables as NameIdInput),
-				sendMsg: (_, { to, subject, text }, { zimbra }) =>
-					zimbra.messages.send({ to, subject, text }),
+				sendMessage: (_, variables) =>
+					client.sendMessage(variables as SendMessageInput),
 				createTask: (_, { task }) =>
 					client.createTask(task as CalendarItemInput),
 				modifyTask: (_, { task }) =>
