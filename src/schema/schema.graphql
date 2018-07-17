@@ -1757,12 +1757,9 @@ type Mutation {
 	modifyTask(task: CalendarItemInput!): Boolean
 	moveTask(inviteId: ID!, destFolderId: ID!): String
 	prefAutoAddAppointmentToCalendar(value: Boolean!): Boolean
-	prefCalendarDefaultCal(value: Int!): Int
-	prefCalendarFirstDayOfWeek(value: String!): String
 	prefCalendarInitialView(
 		value: PrefCalendarInitialView!
 	): PrefCalendarInitialView
-	prefCalendarWorkingHours(value: String!): String
 	prefEnableOutOfOfficeAlertOnLogin(value: Boolean!): Boolean
 	prefEnableOutOfOfficeReply(value: Boolean!): Boolean
 	prefOutOfOfficeFromDate(value: String!): String

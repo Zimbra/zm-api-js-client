@@ -854,10 +854,7 @@ export interface Mutation {
 	modifyTask?: boolean | null;
 	moveTask?: string | null;
 	prefAutoAddAppointmentToCalendar?: boolean | null;
-	prefCalendarDefaultCal?: number | null;
-	prefCalendarFirstDayOfWeek?: string | null;
 	prefCalendarInitialView?: PrefCalendarInitialView | null;
-	prefCalendarWorkingHours?: string | null;
 	prefEnableOutOfOfficeAlertOnLogin?: boolean | null;
 	prefEnableOutOfOfficeReply?: boolean | null;
 	prefOutOfOfficeFromDate?: string | null;
@@ -1656,17 +1653,8 @@ export interface MoveTaskMutationArgs {
 export interface PrefAutoAddAppointmentToCalendarMutationArgs {
 	value: boolean;
 }
-export interface PrefCalendarDefaultCalMutationArgs {
-	value: number;
-}
-export interface PrefCalendarFirstDayOfWeekMutationArgs {
-	value: string;
-}
 export interface PrefCalendarInitialViewMutationArgs {
 	value: PrefCalendarInitialView;
-}
-export interface PrefCalendarWorkingHoursMutationArgs {
-	value: string;
 }
 export interface PrefEnableOutOfOfficeAlertOnLoginMutationArgs {
 	value: boolean;
