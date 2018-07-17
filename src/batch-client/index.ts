@@ -37,6 +37,7 @@ import {
 	FolderView,
 	InviteReplyInput,
 	PreferencesInput,
+	PropertiesInput,
 	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput
@@ -457,6 +458,15 @@ export class ZimbraBatchClient {
 			name: 'ModifyTask',
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(task)
+			}
+		});
+
+	public modifyZimletProperties = (props: PropertiesInput) =>
+		this.jsonRequest({
+			name: 'ModifyProperties',
+			namespace: Namespace.Account,
+			body: {
+				_attrs: mapValuesDeep(props, coerceBooleanToString)
 			}
 		});
 

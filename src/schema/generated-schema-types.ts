@@ -53,6 +53,7 @@ export interface AccountInfo {
 	signatures?: Signatures | null;
 	attrs?: AccountInfoAttrs | null;
 	prefs?: Preferences | null;
+	zimlets?: Zimlets | null;
 }
 
 export interface Identities {
@@ -158,6 +159,28 @@ export interface Preferences {
 	zimbraPrefReadingPaneEnabled?: boolean | null;
 	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
 	zimbraPrefShowFragments?: boolean | null;
+}
+
+export interface Zimlets {
+	zimlet?: Zimlet[] | null;
+}
+
+export interface Zimlet {
+	zimlet?: ZimletSettings[] | null;
+}
+
+export interface ZimletSettings {
+	name: string;
+	userProperties?: ZimletUserProperties[] | null;
+}
+
+export interface ZimletUserProperties {
+	property?: ZimletUserProperty[] | null;
+}
+
+export interface ZimletUserProperty {
+	name: string;
+	value: string;
 }
 
 export interface Folder {
@@ -849,6 +872,7 @@ export interface Mutation {
 	modifyAppointment?: boolean | null;
 	modifyIdentity?: string | null;
 	modifyPrefs?: boolean | null;
+	modifyZimletProperties?: boolean | null;
 	modifyFilterRules?: boolean | null;
 	modifySignature?: string | null;
 	modifyTask?: boolean | null;
@@ -1181,6 +1205,11 @@ export interface PreferencesInput {
 	zimbraPrefReadingPaneEnabled?: boolean | null;
 	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
 	zimbraPrefShowFragments?: boolean | null;
+}
+
+export interface PropertiesInput {
+	MAIL_USER_SECURITY?: number | null;
+	MAIL_SECURITY?: string | null;
 }
 
 export interface FilterInput {
@@ -1637,6 +1666,9 @@ export interface ModifyIdentityMutationArgs {
 }
 export interface ModifyPrefsMutationArgs {
 	prefs: PreferencesInput;
+}
+export interface ModifyZimletPropertiesMutationArgs {
+	props: PropertiesInput;
 }
 export interface ModifyFilterRulesMutationArgs {
 	filters?: FilterInput[] | null;

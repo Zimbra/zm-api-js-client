@@ -776,6 +776,7 @@ type AccountInfo {
 	signatures: Signatures
 	attrs: AccountInfoAttrs
 	prefs: Preferences
+	zimlets: Zimlets
 }
 
 type AccountInfoAttrs {
@@ -885,6 +886,28 @@ type Preferences {
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
 	zimbraPrefShowFragments: Boolean
+}
+
+type ZimletUserProperty {
+	name: String!
+	value: String!
+}
+
+type ZimletUserProperties {
+	property: [ZimletUserProperty!]
+}
+
+type ZimletSettings {
+	name: String!
+	userProperties: [ZimletUserProperties]
+}
+
+type Zimlet {
+	zimlet: [ZimletSettings!]
+}
+
+type Zimlets {
+	zimlet: [Zimlet!]
 }
 
 type NameId {
@@ -1312,6 +1335,11 @@ input PreferencesInput {
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
 	zimbraPrefShowFragments: Boolean
+}
+
+input PropertiesInput {
+	MAIL_USER_SECURITY: Int
+	MAIL_SECURITY: String
 }
 
 ##### FilterInput #####
@@ -1751,6 +1779,7 @@ type Mutation {
 	modifyAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
+	modifyZimletProperties(props: PropertiesInput!): Boolean
 	modifyFilterRules(filters: [FilterInput!]): Boolean
 	modifySignature(signature: SignatureInput!): String
 	modifyTask(task: CalendarItemInput!): Boolean
