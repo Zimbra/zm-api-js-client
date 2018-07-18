@@ -1041,6 +1041,7 @@ type MailboxMetadataAttrs {
 	zimbraPrefUndoSendEnabled: Boolean
 	zimbraPrefUndoSendTimeout: Int
 	archivedFolder: String
+	zimbraPrefSMIMEDefaultSetting: String
 }
 
 input MailboxMetadataSectionAttrsInput {
