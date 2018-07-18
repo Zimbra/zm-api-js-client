@@ -1057,6 +1057,7 @@ input MailboxMetadataSectionAttrsInput {
 	zimbraPrefUndoSendEnabled: Boolean
 	zimbraPrefUndoSendTimeout: Int
 	archivedFolder: String
+	zimbraPrefSMIMEDefaultSetting: String
 }
 
 type MimePart {
