@@ -175,6 +175,7 @@ const SendMessageFields = new Entity({
 	id: 'id',
 	origid: 'origId',
 	irt: 'inReplyTo',
+	rt: 'replyType',
 	autoSendTime: 'autoSendTime',
 	did: 'draftId',
 	idnt: 'entityId'
