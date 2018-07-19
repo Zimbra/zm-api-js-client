@@ -9,7 +9,6 @@ import {
 	InviteReplyInput,
 	NameIdInput,
 	PreferencesInput,
-	PropertiesInput,
 	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput,
@@ -262,8 +261,6 @@ export function createZimbraSchema(
 					zimbra.account.modifyIdentity(id, attrs),
 				modifyPrefs: (_, { prefs }) =>
 					client.modifyPrefs(prefs as PreferencesInput),
-				modifyZimletProperties: (_, { props }) =>
-					client.modifyZimletProperties(props as PropertiesInput),
 				modifyFilterRules: (_, { filters }) =>
 					client.modifyFilterRules(filters as Array<FilterInput>),
 				createSignature: (_, variables) =>
