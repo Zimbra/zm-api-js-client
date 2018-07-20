@@ -53,6 +53,7 @@ export interface AccountInfo {
 	signatures?: Signatures | null;
 	attrs?: AccountInfoAttrs | null;
 	prefs?: Preferences | null;
+	license?: License | null;
 }
 
 export interface Identities {
@@ -133,7 +134,6 @@ export interface AccountInfoAttrs {
 	zimbraFeatureCalendarEnabled?: boolean | null;
 	zimbraFeatureRelatedContactsEnabled?: boolean | null;
 	zimbraFeatureChangePasswordEnabled?: boolean | null;
-	zimbraFeatureSMIMEEnabled?: boolean | null;
 }
 
 export interface Preferences {
@@ -158,6 +158,16 @@ export interface Preferences {
 	zimbraPrefReadingPaneEnabled?: boolean | null;
 	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
 	zimbraPrefShowFragments?: boolean | null;
+}
+
+export interface License {
+	attr?: LicenseAttrs[] | null;
+	status: string;
+}
+
+export interface LicenseAttrs {
+	name: string;
+	_content: string;
 }
 
 export interface Folder {
