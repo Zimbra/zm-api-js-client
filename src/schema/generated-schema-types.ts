@@ -161,7 +161,7 @@ export interface Preferences {
 }
 
 export interface License {
-	status: string;
+	status: LicenseStatus;
 	attr?: LicenseAttrs[] | null;
 }
 
@@ -1723,6 +1723,17 @@ export enum ReadingPaneLocation {
 	off = 'off',
 	right = 'right',
 	bottom = 'bottom'
+}
+
+export enum LicenseStatus {
+	OK = 'OK',
+	NOT_INSTALLED = 'NOT_INSTALLED',
+	NOT_ACTIVATED = 'NOT_ACTIVATED',
+	IN_FUTURE = 'IN_FUTURE',
+	EXPIRED = 'EXPIRED',
+	INVALID = 'INVALID',
+	LICENSE_GRACE_PERIOD = 'LICENSE_GRACE_PERIOD',
+	ACTIVATION_GRACE_PERIOD = 'ACTIVATION_GRACE_PERIOD'
 }
 
 /* https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/acl.md */
