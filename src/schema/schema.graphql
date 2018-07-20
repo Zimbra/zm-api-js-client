@@ -766,12 +766,12 @@ type ACLGrant {
 
 type LicenseAttrs {
 	name: String!
-	_content: String!
+	_content: Boolean!
 }
 
 type License {
-	attr: [LicenseAttrs]
 	status: String!
+	attr: [LicenseAttrs]
 }
 
 type AccountInfo {

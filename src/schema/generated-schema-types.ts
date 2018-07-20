@@ -161,13 +161,13 @@ export interface Preferences {
 }
 
 export interface License {
-	attr?: LicenseAttrs[] | null;
 	status: string;
+	attr?: LicenseAttrs[] | null;
 }
 
 export interface LicenseAttrs {
 	name: string;
-	_content: string;
+	_content: boolean;
 }
 
 export interface Folder {

@@ -110,7 +110,13 @@ export class ZimbraBatchClient {
 		}).then(res => ({
 			...res,
 			attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
-			prefs: mapValuesDeep(res.prefs._attrs, coerceStringToBoolean)
+			prefs: mapValuesDeep(res.prefs._attrs, coerceStringToBoolean),
+			...(get(res, 'license.attr') && {
+				license: {
+					status: res.license.status,
+					attr: mapValuesDeep(res.license.attr, coerceStringToBoolean)
+				}
+			})
 		}));
 
 	public action = (type: ActionType, options: ActionOptions) => {
