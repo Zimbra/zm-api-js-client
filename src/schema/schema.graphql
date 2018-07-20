@@ -764,6 +764,16 @@ type ACLGrant {
 	key: String
 }
 
+type LicenseAttrs {
+	name: String!
+	_content: String!
+}
+
+type License {
+	attr: [LicenseAttrs]
+	status: String!
+}
+
 type AccountInfo {
 	id: ID!
 	name: String
@@ -776,6 +786,7 @@ type AccountInfo {
 	signatures: Signatures
 	attrs: AccountInfoAttrs
 	prefs: Preferences
+	license: License
 }
 
 type AccountInfoAttrs {
@@ -784,7 +795,6 @@ type AccountInfoAttrs {
 	zimbraFeatureCalendarEnabled: Boolean
 	zimbraFeatureRelatedContactsEnabled: Boolean
 	zimbraFeatureChangePasswordEnabled: Boolean
-	zimbraFeatureSMIMEEnabled: Boolean
 }
 
 type Identities {
