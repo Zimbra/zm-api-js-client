@@ -18,6 +18,7 @@ export interface MailItem {
 	invitations?: InviteInfo[] | null;
 	sortField?: string | null;
 	share?: ShareNotification[] | null;
+	replyType?: string | null;
 }
 /* Zimbra GraphQL Queries- [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)- [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)- [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap) */
 export interface Query {
@@ -292,6 +293,7 @@ export interface MessageInfo extends MailItem {
 	attachments?: MimePart[] | null;
 	inlineAttachments?: MimePart[] | null;
 	share?: ShareNotification[] | null;
+	replyType?: string | null;
 }
 
 export interface EmailAddress {
@@ -481,6 +483,7 @@ export interface Conversation extends MailItem {
 	numMessages?: number | null;
 	unread?: number | null;
 	share?: ShareNotification[] | null;
+	replyType?: string | null;
 }
 
 export interface CalendarItemHitInfo {
@@ -1371,7 +1374,7 @@ export interface SizeConditionInput {
 export interface SendMessageInput {
 	id?: string | null;
 	origId?: string | null;
-	rt?: string | null;
+	replyType?: string | null;
 	inReplyTo?: string | null;
 	flags?: string | null;
 	autoSendTime?: number | null;
