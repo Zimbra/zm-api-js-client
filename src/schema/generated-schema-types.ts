@@ -54,6 +54,7 @@ export interface AccountInfo {
 	signatures?: Signatures | null;
 	attrs?: AccountInfoAttrs | null;
 	prefs?: Preferences | null;
+	license?: License | null;
 }
 
 export interface Identities {
@@ -158,6 +159,16 @@ export interface Preferences {
 	zimbraPrefReadingPaneEnabled?: boolean | null;
 	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
 	zimbraPrefShowFragments?: boolean | null;
+}
+
+export interface License {
+	status: LicenseStatus;
+	attr?: LicenseAttrs[] | null;
+}
+
+export interface LicenseAttrs {
+	name: string;
+	_content: boolean;
 }
 
 export interface Folder {
@@ -796,6 +807,7 @@ export interface MailboxMetadataAttrs {
 	zimbraPrefUndoSendEnabled?: boolean | null;
 	zimbraPrefUndoSendTimeout?: number | null;
 	archivedFolder?: string | null;
+	zimbraPrefSMIMEDefaultSetting?: string | null;
 }
 
 export interface RelatedContacts {
@@ -1412,6 +1424,7 @@ export interface MailboxMetadataSectionAttrsInput {
 	zimbraPrefUndoSendEnabled?: boolean | null;
 	zimbraPrefUndoSendTimeout?: number | null;
 	archivedFolder?: string | null;
+	zimbraPrefSMIMEDefaultSetting?: string | null;
 }
 
 export interface ExternalAccount {
@@ -1713,6 +1726,17 @@ export enum ReadingPaneLocation {
 	off = 'off',
 	right = 'right',
 	bottom = 'bottom'
+}
+
+export enum LicenseStatus {
+	OK = 'OK',
+	NOT_INSTALLED = 'NOT_INSTALLED',
+	NOT_ACTIVATED = 'NOT_ACTIVATED',
+	IN_FUTURE = 'IN_FUTURE',
+	EXPIRED = 'EXPIRED',
+	INVALID = 'INVALID',
+	LICENSE_GRACE_PERIOD = 'LICENSE_GRACE_PERIOD',
+	ACTIVATION_GRACE_PERIOD = 'ACTIVATION_GRACE_PERIOD'
 }
 
 /* https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/acl.md */

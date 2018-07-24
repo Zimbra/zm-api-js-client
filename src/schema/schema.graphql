@@ -202,6 +202,17 @@ enum ActionTypeName {
 	TagAction
 }
 
+enum LicenseStatus {
+	OK
+	NOT_INSTALLED
+	NOT_ACTIVATED
+	IN_FUTURE
+	EXPIRED
+	INVALID
+	LICENSE_GRACE_PERIOD
+	ACTIVATION_GRACE_PERIOD
+}
+
 type CalOrganizer {
 	address: String
 	name: String
@@ -767,6 +778,16 @@ type ACLGrant {
 	key: String
 }
 
+type LicenseAttrs {
+	name: String!
+	_content: Boolean!
+}
+
+type License {
+	status: LicenseStatus!
+	attr: [LicenseAttrs]
+}
+
 type AccountInfo {
 	id: ID!
 	name: String
@@ -779,6 +800,7 @@ type AccountInfo {
 	signatures: Signatures
 	attrs: AccountInfoAttrs
 	prefs: Preferences
+	license: License
 }
 
 type AccountInfoAttrs {
@@ -1020,6 +1042,7 @@ type MailboxMetadataAttrs {
 	zimbraPrefUndoSendEnabled: Boolean
 	zimbraPrefUndoSendTimeout: Int
 	archivedFolder: String
+	zimbraPrefSMIMEDefaultSetting: String
 }
 
 input MailboxMetadataSectionAttrsInput {
@@ -1036,6 +1059,7 @@ input MailboxMetadataSectionAttrsInput {
 	zimbraPrefUndoSendEnabled: Boolean
 	zimbraPrefUndoSendTimeout: Int
 	archivedFolder: String
+	zimbraPrefSMIMEDefaultSetting: String
 }
 
 type MimePart {
