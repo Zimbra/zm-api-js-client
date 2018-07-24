@@ -166,15 +166,16 @@ const commonMailItemFields = {
 	mp: ['mimeParts', MimePart],
 	shr: 'share',
 	su: 'subject',
-	attach: ['attachments', AttachmentsInfo]
+	attach: ['attachments', AttachmentsInfo],
+	rt: 'replyType'
 };
 
 const SendMessageFields = new Entity({
 	...commonMailItemFields,
 	id: 'id',
 	origid: 'origId',
-	rt: 'rt',
 	irt: 'inReplyTo',
+	rt: 'replyType',
 	autoSendTime: 'autoSendTime',
 	did: 'draftId',
 	idnt: 'entityId'

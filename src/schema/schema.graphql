@@ -202,6 +202,17 @@ enum ActionTypeName {
 	TagAction
 }
 
+enum LicenseStatus {
+	OK
+	NOT_INSTALLED
+	NOT_ACTIVATED
+	IN_FUTURE
+	EXPIRED
+	INVALID
+	LICENSE_GRACE_PERIOD
+	ACTIVATION_GRACE_PERIOD
+}
+
 type CalOrganizer {
 	address: String
 	name: String
@@ -271,6 +282,7 @@ interface MailItem {
 	invitations: [InviteInfo] # inv
 	sortField: String # sf, Sort field used for cursor-based pagination
 	share: [ShareNotification] # shr
+	replyType: String #rt
 }
 
 type MessageInfo implements MailItem {
@@ -301,6 +313,7 @@ type MessageInfo implements MailItem {
 	attachments: [MimePart]
 	inlineAttachments: [MimePart]
 	share: [ShareNotification] # shr
+	replyType: String #rt
 }
 
 type Conversation implements MailItem {
@@ -324,6 +337,7 @@ type Conversation implements MailItem {
 	numMessages: Int # n, Number of messages in this conversation
 	unread: Int # u
 	share: [ShareNotification] # shr
+	replyType: String #rt
 }
 
 enum InviteType {
@@ -764,6 +778,16 @@ type ACLGrant {
 	key: String
 }
 
+type LicenseAttrs {
+	name: String!
+	_content: Boolean!
+}
+
+type License {
+	status: LicenseStatus!
+	attr: [LicenseAttrs]
+}
+
 type AccountInfo {
 	id: ID!
 	name: String
@@ -776,6 +800,7 @@ type AccountInfo {
 	signatures: Signatures
 	attrs: AccountInfoAttrs
 	prefs: Preferences
+	license: License
 }
 
 type AccountInfoAttrs {
@@ -1018,6 +1043,7 @@ type MailboxMetadataAttrs {
 	zimbraPrefUndoSendEnabled: Boolean
 	zimbraPrefUndoSendTimeout: Int
 	archivedFolder: String
+	zimbraPrefSMIMEDefaultSetting: String
 }
 
 input MailboxMetadataSectionAttrsInput {
@@ -1034,6 +1060,7 @@ input MailboxMetadataSectionAttrsInput {
 	zimbraPrefUndoSendEnabled: Boolean
 	zimbraPrefUndoSendTimeout: Int
 	archivedFolder: String
+	zimbraPrefSMIMEDefaultSetting: String
 }
 
 type MimePart {
@@ -1096,7 +1123,7 @@ input CalendarItemMessageInput {
 input SendMessageInput {
 	id: ID #id
 	origId: ID #origid
-	rt: String #rt
+	replyType: String #rt
 	inReplyTo: String #irt
 	flags: String #f
 	autoSendTime: Float #autoSendTime
