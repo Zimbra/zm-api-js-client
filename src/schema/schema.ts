@@ -172,12 +172,6 @@ export function createZimbraSchema(
 							zimbraPrefCalendarInitialView: value
 						})
 						.then(() => value),
-				prefCalendarWorkingHours: (_, { value }) =>
-					client
-						.modifyPrefs({
-							zimbraPrefCalendarWorkingHours: value
-						})
-						.then(() => value),
 				prefAutoAddAppointmentToCalendar: (_, { value }) =>
 					client
 						.modifyPrefs({
@@ -202,12 +196,6 @@ export function createZimbraSchema(
 						id,
 						color
 					}),
-				prefCalendarFirstDayOfWeek: (_, { value }) =>
-					client
-						.modifyPrefs({
-							zimbraPrefCalendarFirstDayOfWeek: value
-						})
-						.then(() => value),
 				folderAction: (_, { action }) => client.folderAction(action),
 				sendShareNotification: (_, { shareNotification }) =>
 					client.sendShareNotification(

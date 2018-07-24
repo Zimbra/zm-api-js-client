@@ -894,6 +894,7 @@ type Preferences {
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
 	zimbraPrefCalendarWorkingHours: String
+	zimbraPrefDefaultCalendarId: Int
 	zimbraPrefDeleteInviteOnReply: Boolean
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
@@ -1321,6 +1322,7 @@ input InviteReplyInput {
 input PreferencesInput {
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
 	zimbraPrefCalendarAutoAddInvites: Boolean
+	zimbraPrefDefaultCalendarId: Int
 	zimbraPrefCalendarFirstDayOfWeek: String
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
@@ -1782,11 +1784,9 @@ type Mutation {
 	modifyTask(task: CalendarItemInput!): Boolean
 	moveTask(inviteId: ID!, destFolderId: ID!): String
 	prefAutoAddAppointmentToCalendar(value: Boolean!): Boolean
-	prefCalendarFirstDayOfWeek(value: String!): String
 	prefCalendarInitialView(
 		value: PrefCalendarInitialView!
 	): PrefCalendarInitialView
-	prefCalendarWorkingHours(value: String!): String
 	prefEnableOutOfOfficeAlertOnLogin(value: Boolean!): Boolean
 	prefEnableOutOfOfficeReply(value: Boolean!): Boolean
 	prefOutOfOfficeFromDate(value: String!): String
