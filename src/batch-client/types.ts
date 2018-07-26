@@ -14,6 +14,12 @@ export interface Notification {
 
 export type NotificationHandler = (notificaton: Notification) => void;
 
+export interface OfflineCRUD {
+	create: (tagName: string, attributes: ItemAttributes) => OfflineCRUD;
+	delete: (tagName: string, attributes: ItemAttributes) => OfflineCRUD;
+	modify: (tagName: string, attributes: ItemAttributes) => OfflineCRUD;
+}
+
 export interface ZimbraClientOptions {
 	notificationHandler?: NotificationHandler;
 	soapPathname?: string;
@@ -34,6 +40,12 @@ export interface FreeBusyOptions {
 	end: number;
 	names: Array<string>;
 	start: number;
+}
+
+/** Anything with an ID */
+export interface ItemAttributes {
+	id: string;
+	[key: string]: any;
 }
 
 export interface GetContactOptions {

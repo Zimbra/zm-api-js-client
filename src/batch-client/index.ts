@@ -66,11 +66,14 @@ import {
 	GetMessageOptions,
 	LoginOptions,
 	NotificationHandler,
+	OfflineCRUD,
 	RelatedContactsOptions,
 	SearchOptions,
 	ShareInfosOptions,
 	ZimbraClientOptions
 } from './types';
+
+import createOfflineCRUD from './offline-crud';
 
 const DEBUG = false;
 
@@ -84,17 +87,21 @@ function normalizeMessage(
 }
 
 export class ZimbraBatchClient {
+	public isOffline: boolean = false;
 	public origin: string;
 	public sessionId: string = '1';
 	public soapPathname: string;
 	private batchDataLoader: DataLoader<RequestOptions, RequestBody>;
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
 	private notificationHandler?: NotificationHandler;
+	private offlineQueue: OfflineCRUD;
 
 	constructor(options: ZimbraClientOptions = {}) {
 		this.origin = options.zimbraOrigin || DEFAULT_HOSTNAME;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
 		this.notificationHandler = options.notificationHandler;
+
+		this.offlineQueue = createOfflineCRUD();
 
 		// Used for sending batch requests
 		this.batchDataLoader = new DataLoader(this.batchDataHandler);
@@ -379,11 +386,59 @@ export class ZimbraBatchClient {
 			res => (res.search ? { folders: normalize(Folder)(res.search) } : {})
 		);
 
+	public goOffline = () => {
+		// TODO: fire off `onEnteringOffline` event
+		this.isOffline = true;
+		console.info('Going Offline...');
+
+		let timer = setInterval(() => {
+			// poll with dummy requests and go Online when connection returns
+			fetch(this.resolve(`/public/blank.html?t_${Date.now()}`)) // TODO: Should this be a real token?
+				.then(res => {
+					if (res.ok) {
+						console.info('Online Connection Restored');
+						this.goOnline();
+						clearInterval(timer);
+					}
+				})
+				.catch(() => {});
+		}, 5000);
+	};
+
+	public goOnline = () => {
+		// TODO: fire off `onExitingOffline` event
+		this.isOffline = false;
+		const operations = this.offlineQueue.toString();
+		if (operations) {
+			// Process the children of <notify> with real JSONRequests
+			console.log('operations:', operations);
+		}
+	};
+
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);
 
 	public jsonRequest = (options: JsonRequestOptions) => {
 		const { accountName } = options;
+
+		if (this.isOffline) {
+			// maintain a "map" of the operations that need performing...
+			switch (options.name) {
+				case 'SendInviteReply':
+					this.offlineQueue.modify('appt', options.body);
+					break;
+				case 'SaveDraft':
+					this.offlineQueue.create('draft', { ...options.body, draftId: options.body.draftId || String(Date.now()) });
+					break;
+				case 'SendMsg':
+					this.offlineQueue.create('m', options.body);
+					break;
+			}
+
+			console.log('offlineQueue:', String(this.offlineQueue));
+
+			return Promise.reject(Error('Offline')); //what to return...
+		}
 
 		// If account name is present that means we will not be able to batch requests
 		return accountName
@@ -406,6 +461,7 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		});
 
+	// works offline special - clear all data when we logout: https://www.zimbra.com/docs/user_guide/8.6.0/wwhelp/wwhimpl/js/html/wwhelp.htm#href=ZWC_86_Revised1.Offline_Mode_Features_and_Functionality.html#1217561
 	public logout = () =>
 		this.jsonRequest({
 			name: 'EndSession',
@@ -442,6 +498,7 @@ export class ZimbraBatchClient {
 			}
 		});
 
+	// works offline
 	public modifyPrefs = (prefs: PreferencesInput) =>
 		this.jsonRequest({
 			name: 'ModifyPrefs',
@@ -458,6 +515,7 @@ export class ZimbraBatchClient {
 			body: denormalize(CreateSignatureRequest)(options)
 		});
 
+	// works offline
 	public modifyTask = (task: CalendarItemInput) =>
 		this.jsonRequest({
 			name: 'ModifyTask',
@@ -503,6 +561,7 @@ export class ZimbraBatchClient {
 			return normalized;
 		});
 
+	// works offline
 	public sendInviteReply = (requestOptions: InviteReplyInput) =>
 		this.jsonRequest({
 			name: 'SendInviteReply',
@@ -511,12 +570,14 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => normalize(CalendarItemHitInfo)(res));
 
+	// works offline
 	public sendMessage = (body: SendMessageInput) =>
 		this.jsonRequest({
 			name: 'SendMsg',
 			body: denormalize(SendMessageInfo)(body)
 		});
 
+	// works offline
 	public sendShareNotification = (body: ShareNotificationInput) =>
 		this.jsonRequest({
 			name: 'SendShareNotification',
