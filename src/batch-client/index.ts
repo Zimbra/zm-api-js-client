@@ -4,6 +4,8 @@ import { get, isError, mapValues } from 'lodash';
 import { denormalize, normalize } from '../normalize';
 import {
 	ActionOptions as ActionOptionsEntity,
+	AutoComplete as AutoCompleteEntity,
+	AutoCompleteResponse as AutoCompleteResponseEntity,
 	CalendarItemCreateModifyRequest,
 	CalendarItemHitInfo,
 	Conversation,
@@ -52,6 +54,7 @@ import { normalizeMimeParts } from '../utils/normalize-mime-parts';
 import {
 	ActionOptions,
 	ActionType,
+	AutoCompleteOptions,
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
@@ -139,6 +142,13 @@ export class ZimbraBatchClient {
 			}
 		});
 	};
+
+	public autoComplete = (options: AutoCompleteOptions) =>
+		this.jsonRequest({
+			name: 'AutoComplete',
+			body: denormalize(AutoCompleteEntity)(options)
+		})
+		.then(normalize(AutoCompleteResponseEntity));
 
 	public cancelTask = ({ inviteId }: any) =>
 		this.jsonRequest({

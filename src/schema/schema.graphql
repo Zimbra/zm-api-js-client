@@ -93,6 +93,12 @@ enum InviteReplyType {
 	w #forward
 }
 
+enum MatchTypeGal {
+	gal
+	contact
+	rankingTable
+}
+
 enum ParticipationStatus {
 	NE # needs-action
 	AC # accept
@@ -178,6 +184,13 @@ enum FolderView {
 	chat
 	note
 	comment
+}
+
+enum GalSearchType {
+	all
+	account
+	resource
+	group
 }
 
 enum ReadingPaneLocation {
@@ -1102,6 +1115,29 @@ input AttachmentInput {
 	existingAttachments: [ExistingAttachmentInput]
 }
 
+type AutoCompleteResponse {
+	canBeCached: Boolean
+	match: [AutoCompleteMatch]
+}
+
+type AutoCompleteMatch {
+	email: String
+	type: MatchTypeGal
+	ranking: Int
+	isGroup: Boolean
+	exp: Boolean
+	id: String
+	folderId: String
+	display: String
+	first: String
+	middle: String
+	last: String
+	full: String
+	nick: String
+	company: String
+	filas: String
+}
+
 input CalendarItemInput {
 	id: ID
 	modifiedSequence: Float
@@ -1642,6 +1678,13 @@ input SignatureContentInput {
 # - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
 type Query {
 	accountInfo: AccountInfo
+	autoComplete(
+		name: String
+		type: GalSearchType,
+		needExp: Boolean,
+		folders: String,
+		includeGal: Boolean
+	): AutoCompleteResponse
 	folder(id: ID!): Folder
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
 	getContact(id: ID!): Contact

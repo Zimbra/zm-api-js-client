@@ -25,6 +25,7 @@ import { ZimbraNotifications } from './notifications';
 import { GraphQLSchema } from 'graphql';
 import {
 	ActionOptions,
+	AutoCompleteOptions,
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
@@ -58,6 +59,7 @@ export function createZimbraSchema(
 		resolvers: {
 			Query: {
 				accountInfo: client.accountInfo,
+				autoComplete: (_, variables) => client.autoComplete(variables as AutoCompleteOptions),
 				folder: (_, variables) => client.folder(variables as FolderOptions),
 				freeBusy: (_, variables) =>
 					client.freeBusy(variables as FreeBusyOptions),

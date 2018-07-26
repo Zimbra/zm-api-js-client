@@ -23,6 +23,7 @@ export interface MailItem {
 /* Zimbra GraphQL Queries- [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)- [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)- [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap) */
 export interface Query {
 	accountInfo?: AccountInfo | null;
+	autoComplete?: AutoCompleteResponse | null;
 	folder?: Folder | null;
 	freeBusy?: FreeBusy[] | null;
 	getContact?: Contact | null;
@@ -170,6 +171,29 @@ export interface License {
 export interface LicenseAttrs {
 	name: string;
 	_content: boolean;
+}
+
+export interface AutoCompleteResponse {
+	canBeCached?: boolean | null;
+	match?: AutoCompleteMatch[] | null;
+}
+
+export interface AutoCompleteMatch {
+	email?: string | null;
+	type?: MatchTypeGal | null;
+	ranking?: number | null;
+	isGroup?: boolean | null;
+	exp?: boolean | null;
+	id?: string | null;
+	folderId?: string | null;
+	display?: string | null;
+	first?: string | null;
+	middle?: string | null;
+	last?: string | null;
+	full?: string | null;
+	nick?: string | null;
+	company?: string | null;
+	filas?: string | null;
 }
 
 export interface Folder {
@@ -1454,6 +1478,13 @@ export interface FolderQueryInput {
 	id?: string | null;
 	view?: FolderView | null;
 }
+export interface AutoCompleteQueryArgs {
+	name?: string | null;
+	type?: GalSearchType | null;
+	needExp?: boolean | null;
+	folders?: string | null;
+	includeGal?: boolean | null;
+}
 export interface FolderQueryArgs {
 	id: string;
 }
@@ -1731,6 +1762,19 @@ export enum LicenseStatus {
 	INVALID = 'INVALID',
 	LICENSE_GRACE_PERIOD = 'LICENSE_GRACE_PERIOD',
 	ACTIVATION_GRACE_PERIOD = 'ACTIVATION_GRACE_PERIOD'
+}
+
+export enum GalSearchType {
+	all = 'all',
+	account = 'account',
+	resource = 'resource',
+	group = 'group'
+}
+
+export enum MatchTypeGal {
+	gal = 'gal',
+	contact = 'contact',
+	rankingTable = 'rankingTable'
 }
 
 /* https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/acl.md */

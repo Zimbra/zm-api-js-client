@@ -5,6 +5,21 @@ import {
 	SortBy
 } from '../schema/generated-schema-types';
 
+export enum GalSearchType {
+	all = 'all',
+	account = 'account',
+	resource = 'resource',
+	group = 'group'
+}
+
+export interface AutoCompleteOptions {
+	name: string;
+	type?: GalSearchType;
+	needExp?: boolean;
+	folders?: string;
+	includeGal?: boolean;
+}
+
 export interface Notification {
 	created?: any;
 	deleted?: any;
