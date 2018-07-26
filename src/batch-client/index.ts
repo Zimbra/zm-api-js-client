@@ -390,19 +390,6 @@ export class ZimbraBatchClient {
 		// TODO: fire off `onEnteringOffline` event
 		this.isOffline = true;
 		console.info('Going Offline...');
-
-		let timer = setInterval(() => {
-			// poll with dummy requests and go Online when connection returns
-			fetch(this.resolve(`/public/blank.html?t_${Date.now()}`)) // TODO: Should this be a real token?
-				.then(res => {
-					if (res.ok) {
-						console.info('Online Connection Restored');
-						this.goOnline();
-						clearInterval(timer);
-					}
-				})
-				.catch(() => {});
-		}, 5000);
 	};
 
 	public goOnline = () => {
