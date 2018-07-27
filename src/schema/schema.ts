@@ -59,7 +59,8 @@ export function createZimbraSchema(
 		resolvers: {
 			Query: {
 				accountInfo: client.accountInfo,
-				autoComplete: (_, variables) => client.autoComplete(variables as AutoCompleteOptions),
+				autoComplete: (_, variables) =>
+					client.autoComplete(variables as AutoCompleteOptions),
 				folder: (_, variables) => client.folder(variables as FolderOptions),
 				freeBusy: (_, variables) =>
 					client.freeBusy(variables as FreeBusyOptions),
@@ -259,6 +260,8 @@ export function createZimbraSchema(
 					client.modifySignature(variables as SignatureInput),
 				deleteSignature: (_, variables) =>
 					client.deleteSignature(variables as NameIdInput),
+				saveDraft: (_, variables) =>
+					client.saveDraft(variables as SendMessageInput),
 				sendMessage: (_, variables) =>
 					client.sendMessage(variables as SendMessageInput),
 				createTask: (_, { task }) =>
