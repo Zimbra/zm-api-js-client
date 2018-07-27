@@ -314,7 +314,7 @@ export interface InviteComponent {
 	recurrence?: RecurrenceInfo[] | null;
 	allDay?: boolean | null;
 	attendees?: CalendarItemAttendee[] | null;
-	calItemId?: string | null;
+	calendarItemId?: string | null;
 	ciFolder?: string | null;
 	class?: CalendarItemClass | null;
 	completedDateTime?: string | null;
