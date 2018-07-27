@@ -64,6 +64,7 @@ import {
 	GetFolderOptions,
 	GetMailboxMetadataOptions,
 	GetMessageOptions,
+	GetSMimePublicCertsOptions,
 	LoginOptions,
 	NotificationHandler,
 	RelatedContactsOptions,
@@ -378,6 +379,26 @@ export class ZimbraBatchClient {
 		}).then(
 			res => (res.search ? { folders: normalize(Folder)(res.search) } : {})
 		);
+
+	public getSMimePublicCerts = (options: GetSMimePublicCertsOptions) => {
+		const { recipientsAddr } = options;
+
+		return (
+			recipientsAddr.length &&
+			this.jsonRequest({
+				name: 'GetSMIMEPublicCerts',
+				body: {
+					store: {
+						_content: options.store
+					},
+					email: recipientsAddr.map(emailAddr => ({
+						_content: emailAddr
+					}))
+				},
+				namespace: Namespace.Account
+			}).then(res => mapValuesDeep(res, coerceStringToBoolean))
+		);
+	};
 
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);

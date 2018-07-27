@@ -1636,6 +1636,25 @@ input SignatureContentInput {
 	_content: String
 }
 
+##### SMIME Certificates type #####
+
+type SMimePublicCert {
+	store: String
+	field: String
+	_content: String
+}
+
+type SMimePublicCerts {
+	email: String
+	cert: [SMimePublicCert]
+}
+
+type SMimePublicCertResponse{
+	certs: [SMimePublicCerts]
+}
+
+##### End Of SMIME Certificates type #####
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -1680,6 +1699,7 @@ type Query {
 		read: Boolean,
 		ridZ: String
 	): MessageInfo
+	getSMimePublicCerts(recipientsAddr: [String], store: String): SMimePublicCertResponse
 	getSearchFolder: Folder
 	getTask(inviteId: ID!): Boolean
 	noop: Boolean

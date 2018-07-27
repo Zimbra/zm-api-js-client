@@ -162,3 +162,8 @@ export interface CreateSearchFolderOptions {
 	query: string;
 	view?: string;
 }
+
+export interface GetSMimePublicCertsOptions {
+	recipientsAddr: Array<string>;
+	store: string;
+}
