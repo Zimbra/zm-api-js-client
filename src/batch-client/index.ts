@@ -147,8 +147,7 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'AutoComplete',
 			body: denormalize(AutoCompleteEntity)(options)
-		})
-		.then(normalize(AutoCompleteResponseEntity));
+		}).then(normalize(AutoCompleteResponseEntity));
 
 	public cancelTask = ({ inviteId }: any) =>
 		this.jsonRequest({
@@ -425,7 +424,10 @@ export class ZimbraBatchClient {
 					this.offlineQueue.modify('appt', options.body);
 					break;
 				case 'SaveDraft':
-					this.offlineQueue.create('draft', { ...options.body, draftId: options.body.draftId || String(Date.now()) });
+					this.offlineQueue.create('draft', {
+						...options.body,
+						draftId: options.body.draftId || String(Date.now())
+					});
 					break;
 				case 'SendMsg':
 					this.offlineQueue.create('m', options.body);
@@ -540,6 +542,15 @@ export class ZimbraBatchClient {
 		});
 
 	public resolve = (path: string) => `${this.origin}${path}`;
+
+	public saveDraft = (options: SendMessageInput) =>
+		this.jsonRequest({
+			name: 'SaveDraft',
+			body: denormalize(SendMessageInfo)(options)
+		}).then(({ m: messages }) => ({
+			message:
+				messages && messages.map((m: any) => normalizeMessage(m, this.origin))
+		}));
 
 	public search = (options: SearchOptions) =>
 		this.jsonRequest({

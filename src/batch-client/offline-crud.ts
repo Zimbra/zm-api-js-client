@@ -20,7 +20,9 @@ export default function createOfflineCRUD(/* options?: any */) {
 
 	const api = {
 		create(tagName: string, attributes: ItemAttributes) {
-			let created = notify.querySelector('created') || notify.appendChild(doc.createElement('created'));
+			let created =
+				notify.querySelector('created') ||
+				notify.appendChild(doc.createElement('created'));
 
 			let tag = document.createElement(tagName);
 			setAttributes(tag, attributes);
@@ -30,7 +32,9 @@ export default function createOfflineCRUD(/* options?: any */) {
 			return api;
 		},
 		delete(tagName: string, attributes: ItemAttributes) {
-			let deleted = notify.querySelector('deleted') || notify.appendChild(doc.createElement('deleted'));
+			let deleted =
+				notify.querySelector('deleted') ||
+				notify.appendChild(doc.createElement('deleted'));
 			let createdTag = notify.querySelector(
 				`created ${tagName}[id="${attributes.id}"]`
 			);
@@ -52,7 +56,9 @@ export default function createOfflineCRUD(/* options?: any */) {
 			return api;
 		},
 		modify(tagName: string, attributes: ItemAttributes) {
-			let modified = notify.querySelector('modified') || notify.appendChild(doc.createElement('modified'));
+			let modified =
+				notify.querySelector('modified') ||
+				notify.appendChild(doc.createElement('modified'));
 
 			let tag = document.createElement(tagName);
 			setAttributes(tag, attributes);

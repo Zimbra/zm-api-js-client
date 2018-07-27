@@ -13,11 +13,11 @@ export enum GalSearchType {
 }
 
 export interface AutoCompleteOptions {
-	name: string;
-	type?: GalSearchType;
-	needExp?: boolean;
 	folders?: string;
 	includeGal?: boolean;
+	name: string;
+	needExp?: boolean;
+	type?: GalSearchType;
 }
 
 export interface Notification {

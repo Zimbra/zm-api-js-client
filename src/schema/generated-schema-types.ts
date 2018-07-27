@@ -899,7 +899,8 @@ export interface Mutation {
 	prefOutOfOfficeFromDate?: string | null;
 	prefOutOfOfficeReply?: string | null;
 	prefOutOfOfficeUntilDate?: string | null;
-	sendMessage?: boolean | null;
+	saveDraft?: SaveDraftResponse | null;
+	sendMessage?: SendMessageResponse | null;
 	sendInviteReply?: InviteReplyResponse | null;
 	sendShareNotification?: boolean | null;
 	setMailboxMetadata?: boolean | null;
@@ -912,6 +913,44 @@ export interface SignatureResponse {
 export interface NameId {
 	id?: string | null;
 	name?: string | null;
+}
+
+export interface SaveDraftResponse {
+	message?: MessageInfo[] | null;
+}
+
+export interface SendMessageResponse {
+	message?: MsgWithGroupInfo[] | null;
+}
+
+export interface MsgWithGroupInfo extends MailItem {
+	id?: string | null;
+	i4uid?: number | null;
+	cif?: string | null;
+	origid?: string | null;
+	replyType?: string | null;
+	entityId?: string | null;
+	forAcct?: string | null;
+	autoSendTime?: number | null;
+	size?: number | null;
+	date?: number | null;
+	folderId?: string | null;
+	subject?: string | null;
+	emailAddresses?: EmailAddress[] | null;
+	excerpt?: string | null;
+	conversationId?: string | null;
+	flags?: string | null;
+	tags?: string | null;
+	tagNames?: string | null;
+	revision?: number | null;
+	changeDate?: number | null;
+	modifiedSequence?: number | null;
+	invitations?: InviteInfo[] | null;
+	sortField?: string | null;
+	messages?: MessageInfo[] | null;
+	numMessages?: number | null;
+	unread?: number | null;
+	share?: ShareNotification[] | null;
 }
 
 export interface InviteReplyResponse {
@@ -1717,6 +1756,9 @@ export interface PrefOutOfOfficeReplyMutationArgs {
 }
 export interface PrefOutOfOfficeUntilDateMutationArgs {
 	value: string;
+}
+export interface SaveDraftMutationArgs {
+	message: SendMessageInput;
 }
 export interface SendMessageMutationArgs {
 	message: SendMessageInput;
