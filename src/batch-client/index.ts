@@ -69,14 +69,14 @@ import {
 	GetMessageOptions,
 	LoginOptions,
 	NotificationHandler,
-	OfflineCRUD,
+	OfflineJSONRequestQueue,
 	RelatedContactsOptions,
 	SearchOptions,
 	ShareInfosOptions,
 	ZimbraClientOptions
 } from './types';
 
-import createOfflineCRUD from './offline-crud';
+import { createOfflineJSONRequestQueue } from './offline-crud';
 
 const DEBUG = false;
 
@@ -97,14 +97,14 @@ export class ZimbraBatchClient {
 	private batchDataLoader: DataLoader<RequestOptions, RequestBody>;
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
 	private notificationHandler?: NotificationHandler;
-	private offlineQueue: OfflineCRUD;
+	private offlineQueue: OfflineJSONRequestQueue;
 
 	constructor(options: ZimbraClientOptions = {}) {
 		this.origin = options.zimbraOrigin || DEFAULT_HOSTNAME;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
 		this.notificationHandler = options.notificationHandler;
 
-		this.offlineQueue = createOfflineCRUD();
+		this.offlineQueue = createOfflineJSONRequestQueue();
 
 		// Used for sending batch requests
 		this.batchDataLoader = new DataLoader(this.batchDataHandler);
@@ -404,10 +404,14 @@ export class ZimbraBatchClient {
 	public goOnline = () => {
 		// TODO: fire off `onExitingOffline` event
 		this.isOffline = false;
-		const operations = this.offlineQueue.toString();
-		if (operations) {
-			// Process the children of <notify> with real JSONRequests
-			console.log('operations:', operations);
+
+		const ops = this.offlineQueue.consume();
+
+		if (ops && ops.length) {
+			console.log('consuming offline operations:', ops);
+			Promise.all(ops.map(this.jsonRequest)).then(() => {
+				console.log('Offline operations have been synced with the server');
+			});
 		}
 	};
 
@@ -419,23 +423,7 @@ export class ZimbraBatchClient {
 
 		if (this.isOffline) {
 			// maintain a "map" of the operations that need performing...
-			switch (options.name) {
-				case 'SendInviteReply':
-					this.offlineQueue.modify('appt', options.body);
-					break;
-				case 'SaveDraft':
-					this.offlineQueue.create('draft', {
-						...options.body,
-						draftId: options.body.draftId || String(Date.now())
-					});
-					break;
-				case 'SendMsg':
-					this.offlineQueue.create('m', options.body);
-					break;
-			}
-
-			console.log('offlineQueue:', String(this.offlineQueue));
-
+			this.offlineQueue.push(options);
 			return Promise.reject(Error('Offline')); //what to return...
 		}
 

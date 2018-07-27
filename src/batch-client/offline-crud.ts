@@ -1,87 +1,107 @@
-import { ItemAttributes } from './types';
-function debug(...args: any[]) {
-	console.info('[OfflineCRUD]:', ...args);
-}
+import { JsonRequestOptions } from '../request/types';
 
-function setAttributes(node: any, attrs: ItemAttributes) {
-	for (let key in attrs) {
-		node.setAttribute(key, attrs[key]);
+/**
+ * @private
+ * consolidate create/delete/modify for operations supported in Offline mode.
+ *
+ * <example>
+ * create('folder', { id: 1, owner: 'john@example.com' })
+ */
+function createOfflineCrud() {
+	let operations: any = {};
+
+	function getKey(op: string, attributes: any) {
+		return `${op}:${attributes.id || Date.now()}`;
 	}
-}
 
-// TODO: Handle Children
-export default function createOfflineCRUD(/* options?: any */) {
-	const doc = new DOMParser().parseFromString(
-		'<notify></notify>',
-		'application/xml'
-	);
-
-	const notify = <HTMLElement>doc.querySelector('notify');
+	function getKeys(attributes: any) {
+		return {
+			createKey: getKey('create', attributes),
+			modifyKey: getKey('modify', attributes),
+			deleteKey: getKey('delete', attributes)
+		};
+	}
 
 	const api = {
-		create(tagName: string, attributes: ItemAttributes) {
-			let created =
-				notify.querySelector('created') ||
-				notify.appendChild(doc.createElement('created'));
+		create(options: JsonRequestOptions) {
+			const { createKey, deleteKey } = getKeys(options);
 
-			let tag = document.createElement(tagName);
-			setAttributes(tag, attributes);
-			created.appendChild(tag);
-
-			debug(`<created ${tagName}[id="${attributes.id}"]>`);
-			return api;
-		},
-		delete(tagName: string, attributes: ItemAttributes) {
-			let deleted =
-				notify.querySelector('deleted') ||
-				notify.appendChild(doc.createElement('deleted'));
-			let createdTag = notify.querySelector(
-				`created ${tagName}[id="${attributes.id}"]`
-			);
-
-			if (createdTag) {
-				const created = <HTMLElement>notify.querySelector('created');
-				created.removeChild(createdTag);
-
-				debug(`removing <created ${tagName}[id="${attributes.id}"]>`);
-			} else {
-				// Create <deleted>
-				let tag = document.createElement(tagName);
-				setAttributes(tag, attributes);
-				deleted.appendChild(tag);
-
-				debug(`<deleted ${tagName}[id="${attributes.id}"]>`);
+			// if deleted, remove from deleted
+			if (deleteKey in operations) {
+				delete operations[deleteKey];
 			}
 
-			return api;
+			operations[createKey] = options;
 		},
-		modify(tagName: string, attributes: ItemAttributes) {
-			let modified =
-				notify.querySelector('modified') ||
-				notify.appendChild(doc.createElement('modified'));
+		delete(options: JsonRequestOptions) {
+			const { createKey, modifyKey, deleteKey } = getKeys(options);
 
-			let tag = document.createElement(tagName);
-			setAttributes(tag, attributes);
-			modified.appendChild(tag);
+			// if created or modified, remove from created or modified
+			if (createKey in operations) {
+				delete operations[createKey];
+			}
+			if (modifyKey in operations) {
+				delete operations[modifyKey];
+			}
 
-			debug(`<modified ${tagName}[id="${attributes.id}"]>`);
-			return api;
+			operations[deleteKey] = options;
+		},
+		modify(options: JsonRequestOptions) {
+			const { createKey, modifyKey, deleteKey } = getKeys(options);
+
+			// if created, consolidate changes into the created item... (hard)
+			if (createKey in operations) {
+				console.log('modifying a created entity is difficult?');
+			}
+
+			// if deleted, should the modification un-delete?
+			if (deleteKey in operations) {
+				delete operations[deleteKey];
+			}
+
+			operations[modifyKey] = options;
 		},
 		reset() {
-			notify.innerHTML = '';
-			return api;
+			operations = {};
 		},
-		toString() {
-			return notify.outerHTML;
+		get operations() {
+			return operations;
+		}
+	};
+	return api;
+}
+
+/**
+ * @public
+ */
+export function createOfflineJSONRequestQueue(/* options */) {
+	const crud = createOfflineCrud();
+
+	const api = {
+		consume() {
+			const { operations } = crud;
+			crud.reset();
+			console.log('Consuming operations:', operations);
+			return Object.keys(operations).map(key => operations[key]);
+		},
+		push(options: JsonRequestOptions) {
+			//			if (!options.body.id) {
+			//				options.body.id = String(Date.now())
+			//			}
+
+			switch (options.name) {
+				case 'SendInviteReply':
+					crud.modify(options);
+					break;
+				case 'SaveDraft':
+					crud.create(options);
+					break;
+				case 'SendMsg':
+					crud.create(options);
+					break;
+			}
 		}
 	};
 
 	return api;
 }
-
-/**
- * create/delete/modify for serializing operations supported in Offline mode.
- *
- * <example>
- * create('folder', { id: 1, owner: 'john@example.com' })
- */
