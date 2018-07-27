@@ -358,7 +358,6 @@ type MsgWithGroupInfo implements MailItem {
 	i4uid: Int
 	cif: String
 	origid: String
-	replyType: String # rt
 	entityId: String # idnt
 	forAcct: String
 	autoSendTime: Float

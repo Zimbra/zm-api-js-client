@@ -928,7 +928,6 @@ export interface MsgWithGroupInfo extends MailItem {
 	i4uid?: number | null;
 	cif?: string | null;
 	origid?: string | null;
-	replyType?: string | null;
 	entityId?: string | null;
 	forAcct?: string | null;
 	autoSendTime?: number | null;
@@ -947,10 +946,8 @@ export interface MsgWithGroupInfo extends MailItem {
 	modifiedSequence?: number | null;
 	invitations?: InviteInfo[] | null;
 	sortField?: string | null;
-	messages?: MessageInfo[] | null;
-	numMessages?: number | null;
-	unread?: number | null;
 	share?: ShareNotification[] | null;
+	replyType?: string | null;
 }
 
 export interface InviteReplyResponse {
