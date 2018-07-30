@@ -5,8 +5,6 @@ import {
 	SortBy
 } from '../schema/generated-schema-types';
 
-import { JsonRequestOptions } from '../request/types';
-
 export enum GalSearchType {
 	all = 'all',
 	account = 'account',
@@ -30,17 +28,6 @@ export interface Notification {
 }
 
 export type NotificationHandler = (notificaton: Notification) => void;
-
-export interface OfflineCRUD {
-	create: (tagName: string, attributes: any) => OfflineCRUD;
-	delete: (tagName: string, attributes: any) => OfflineCRUD;
-	modify: (tagName: string, attributes: any) => OfflineCRUD;
-}
-
-export interface OfflineJSONRequestQueue {
-	consume: () => Array<JsonRequestOptions>;
-	push: (options: JsonRequestOptions) => void;
-}
 
 export interface ZimbraClientOptions {
 	notificationHandler?: NotificationHandler;
