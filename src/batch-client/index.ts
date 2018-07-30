@@ -396,19 +396,18 @@ export class ZimbraBatchClient {
 		);
 
 	public goOffline = () => {
-		// TODO: fire off `onEnteringOffline` event
+		// TODO: Fire off `onEnteringOffline` event
 		this.isOffline = true;
-		console.info('Going Offline...');
 	};
 
 	public goOnline = () => {
-		// TODO: fire off `onExitingOffline` event
+		// TODO: Fire off `onExitingOffline` event
 		this.isOffline = false;
 
 		const ops = this.offlineQueue.consume();
 
+		// TODO: Replace with custom apollo-link
 		if (ops && ops.length) {
-			console.log('consuming offline operations:', ops);
 			Promise.all(ops.map(this.jsonRequest)).then(() => {
 				console.log('Offline operations have been synced with the server');
 			});
@@ -422,9 +421,11 @@ export class ZimbraBatchClient {
 		const { accountName } = options;
 
 		if (this.isOffline) {
-			// maintain a "map" of the operations that need performing...
+			// Maintain a "map" of the operations that need performing
 			this.offlineQueue.push(options);
-			return Promise.reject(Error('Offline')); //what to return...
+
+			// TODO: Replace with apollo-link-retry and retry the query
+			return Promise.reject(Error('Offline'));
 		}
 
 		// If account name is present that means we will not be able to batch requests
@@ -485,7 +486,6 @@ export class ZimbraBatchClient {
 			}
 		});
 
-	// works offline
 	public modifyPrefs = (prefs: PreferencesInput) =>
 		this.jsonRequest({
 			name: 'ModifyPrefs',
@@ -502,7 +502,6 @@ export class ZimbraBatchClient {
 			body: denormalize(CreateSignatureRequest)(options)
 		});
 
-	// works offline
 	public modifyTask = (task: CalendarItemInput) =>
 		this.jsonRequest({
 			name: 'ModifyTask',
@@ -557,7 +556,6 @@ export class ZimbraBatchClient {
 			return normalized;
 		});
 
-	// works offline
 	public sendInviteReply = (requestOptions: InviteReplyInput) =>
 		this.jsonRequest({
 			name: 'SendInviteReply',
@@ -566,14 +564,12 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => normalize(CalendarItemHitInfo)(res));
 
-	// works offline
 	public sendMessage = (body: SendMessageInput) =>
 		this.jsonRequest({
 			name: 'SendMsg',
 			body: denormalize(SendMessageInfo)(body)
 		});
 
-	// works offline
 	public sendShareNotification = (body: ShareNotificationInput) =>
 		this.jsonRequest({
 			name: 'SendShareNotification',
