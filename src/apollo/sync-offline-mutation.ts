@@ -1,10 +1,15 @@
+/** see: github:iamrommel/offline-demo/web */
 export class SyncOfflineMutation {
 	public apolloClient: any;
 	public storage: any;
 	private offlineData: Array<any>;
 	private storeKey: string;
 
-	constructor({ apolloClient, storage }: any = {}) {
+	constructor({
+		apolloClient,
+		storage,
+		storeKey = '@offlineQueueKey'
+	}: any = {}) {
 		if (!apolloClient)
 			throw new Error(
 				'Apollo Client instance is required when syncing data, please assign value to it'
@@ -16,7 +21,7 @@ export class SyncOfflineMutation {
 
 		this.apolloClient = apolloClient;
 		this.storage = storage;
-		this.storeKey = '@offlineQueueKey';
+		this.storeKey = storeKey;
 		this.offlineData = [];
 	}
 
@@ -59,6 +64,7 @@ export class SyncOfflineMutation {
 				}
 			})
 		)
+			.catch(e => console.warn('SyncOfflineMutation::sync ERR:', e))
 			.then(this.clearOfflineData) //wait before it was cleared
 			.then(() => {
 				//then add again the uncommited storage
