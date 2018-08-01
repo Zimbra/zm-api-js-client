@@ -66,8 +66,11 @@ import {
 	GetMessageOptions,
 	LoginOptions,
 	NotificationHandler,
+	RecoverAccountOptions,
 	RelatedContactsOptions,
 	SearchOptions,
+	SetRecoveryAccountChannelType,
+	SetRecoveryAccountOptions,
 	ShareInfosOptions,
 	ZimbraClientOptions
 } from './types';
@@ -474,6 +477,16 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		}).then(res => mapValuesDeep(res._attrs, coerceStringToBoolean));
 
+	public recoverAccount = ({ email, op }: RecoverAccountOptions) =>
+		this.jsonRequest({
+			name: 'RecoverAccountRequest',
+			body: {
+				channel: SetRecoveryAccountChannelType.email,
+				email,
+				op
+			}
+		});
+
 	public relatedContacts = ({ email }: RelatedContactsOptions) =>
 		this.jsonRequest({
 			name: 'GetRelatedContacts',
@@ -522,6 +535,21 @@ export class ZimbraBatchClient {
 			name: 'SendShareNotification',
 			body: {
 				...denormalize(ShareNotification)(body)
+			}
+		});
+
+	public setRecoveryAccount = ({
+		op,
+		recoveryAccount,
+		recoveryAccountVerificationCode
+	}: SetRecoveryAccountOptions) =>
+		this.jsonRequest({
+			name: 'SetRecoveryAccountRequest',
+			body: {
+				channel: SetRecoveryAccountChannelType.email,
+				op,
+				recoveryAccount,
+				recoveryAccountVerificationCode
 			}
 		});
 

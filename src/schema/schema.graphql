@@ -213,6 +213,22 @@ enum LicenseStatus {
 	ACTIVATION_GRACE_PERIOD
 }
 
+enum SetRecoveryAccountOp {
+  sendCode
+  validateCode
+  resendCode
+  reset
+}
+
+enum SetRecoveryAccountChannel {
+  email
+}
+
+enum RecoverAccountOp {
+  getRecoveryAccount
+  sendRecoveryCode
+}
+
 type CalOrganizer {
 	address: String
 	name: String
@@ -1218,6 +1234,13 @@ type CalendarItemAlarm {
 	trigger: [CalendarItemAlarmTrigger]
 }
 
+type SetRecoveryAccount {}
+
+type RecoverAccount {
+  recoveryAccount: String
+  recoveryAttemptsLeft: String
+}
+
 input CalendarItemAlarmInput {
 	action: AlarmAction!
 	trigger: CalendarItemAlarmTriggerInput!
@@ -1686,6 +1709,18 @@ type Query {
 	preferences: Preferences
 	relatedContacts(email: String!): RelatedContacts
 	shareInfos(addresses: [String!]): [[ShareInfo]]
+    setRecoveryAccount(
+      channel: SetRecoveryAccountChannel!
+      op: SetRecoveryAccountOp!
+      recoveryAccount: String
+      recoveryAccountVerificationCode: String
+    ): SetRecoveryAccount
+    recoverAccount(
+      op: RecoverAccountOp!
+      email: String!
+      channel: SetRecoveryAccountChannel!
+    ): RecoverAccount
+
 
 
 	# Perform a search for a variety types using a flexible query interface.
