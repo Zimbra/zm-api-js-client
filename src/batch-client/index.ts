@@ -479,13 +479,13 @@ export class ZimbraBatchClient {
 
 	public recoverAccount = ({ email, op }: RecoverAccountOptions) =>
 		this.jsonRequest({
-			name: 'RecoverAccountRequest',
+			name: 'RecoverAccount',
 			body: {
 				channel: SetRecoveryAccountChannelType.email,
 				email,
 				op
 			}
-		});
+		}).catch(() => ({ error: true }));
 
 	public relatedContacts = ({ email }: RelatedContactsOptions) =>
 		this.jsonRequest({

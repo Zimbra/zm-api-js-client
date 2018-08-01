@@ -37,6 +37,7 @@ import {
 	GetMailboxMetadataOptions,
 	GetMessageOptions,
 	LoginOptions,
+	RecoverAccountOptions,
 	RelatedContactsOptions,
 	SearchOptions,
 	ShareInfosOptions
@@ -77,6 +78,8 @@ export function createZimbraSchema(
 				getSearchFolder: client.getSearchFolder,
 				preferences: client.preferences,
 				noop: client.noop,
+				recoverAccount: (_, variables) =>
+					client.recoverAccount(variables as RecoverAccountOptions),
 				relatedContacts: (_, variables) =>
 					client.relatedContacts(variables as RelatedContactsOptions),
 				search: (_, variables) => client.search(variables as SearchOptions),
