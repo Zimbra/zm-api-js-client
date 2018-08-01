@@ -1234,8 +1234,6 @@ type CalendarItemAlarm {
 	trigger: [CalendarItemAlarmTrigger]
 }
 
-type SetRecoveryAccount {}
-
 type RecoverAccount {
   recoveryAccount: String
   recoveryAttemptsLeft: String
@@ -1714,7 +1712,7 @@ type Query {
       op: SetRecoveryAccountOp!
       recoveryAccount: String
       recoveryAccountVerificationCode: String
-    ): SetRecoveryAccount
+    ): Boolean
     recoverAccount(
       op: RecoverAccountOp!
       email: String!

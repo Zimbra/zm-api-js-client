@@ -38,6 +38,8 @@ export interface Query {
 	preferences?: Preferences | null;
 	relatedContacts?: RelatedContacts | null;
 	shareInfos?: ShareInfo[] | null;
+	setRecoveryAccount?: boolean | null;
+	recoverAccount?: RecoverAccount | null;
 	search?: SearchResponse | null /* Perform a search for a variety types using a flexible query interface.[[SOAP Search API Documentation]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/zimbraMail/Search.html)[[Query Tips]](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips) */;
 	taskFolders?: Folder[] | null;
 }
@@ -835,6 +837,11 @@ export interface ShareInfo {
 	view?: FolderView | null;
 }
 
+export interface RecoverAccount {
+	recoveryAccount?: string | null;
+	recoveryAttemptsLeft?: string | null;
+}
+
 export interface Mutation {
 	action?: boolean | null;
 	addExternalAccount?: string | null;
@@ -1510,6 +1517,17 @@ export interface RelatedContactsQueryArgs {
 export interface ShareInfosQueryArgs {
 	addresses?: string[] | null;
 }
+export interface SetRecoveryAccountQueryArgs {
+	channel: SetRecoveryAccountChannel;
+	op: SetRecoveryAccountOp;
+	recoveryAccount?: string | null;
+	recoveryAccountVerificationCode?: string | null;
+}
+export interface RecoverAccountQueryArgs {
+	op: RecoverAccountOp;
+	email: string;
+	channel: SetRecoveryAccountChannel;
+}
 export interface SearchQueryArgs {
 	contact?: string | null;
 	cursor?: Cursor | null;
@@ -1854,6 +1872,22 @@ export enum Importance {
 	high = 'high',
 	normal = 'normal',
 	low = 'low'
+}
+
+export enum SetRecoveryAccountChannel {
+	email = 'email'
+}
+
+export enum SetRecoveryAccountOp {
+	sendCode = 'sendCode',
+	validateCode = 'validateCode',
+	resendCode = 'resendCode',
+	reset = 'reset'
+}
+
+export enum RecoverAccountOp {
+	getRecoveryAccount = 'getRecoveryAccount',
+	sendRecoveryCode = 'sendRecoveryCode'
 }
 
 export enum SortBy {
