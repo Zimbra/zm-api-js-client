@@ -458,7 +458,7 @@ type InviteComponent {
 	recurrence: [RecurrenceInfo] # recur
 	allDay: Boolean
 	attendees: [CalendarItemAttendee]
-	calItemId: String
+	calendarItemId: String
 	ciFolder: ID
 	class: CalendarItemClass
 	completedDateTime: String # completed , yyyyMMddThhmmssZ
