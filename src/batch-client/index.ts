@@ -69,14 +69,11 @@ import {
 	GetMessageOptions,
 	LoginOptions,
 	NotificationHandler,
-	OfflineJSONRequestQueue,
 	RelatedContactsOptions,
 	SearchOptions,
 	ShareInfosOptions,
 	ZimbraClientOptions
 } from './types';
-
-import { createOfflineJSONRequestQueue } from './offline-crud';
 
 const DEBUG = false;
 
@@ -90,21 +87,17 @@ function normalizeMessage(
 }
 
 export class ZimbraBatchClient {
-	public isOffline: boolean = false;
 	public origin: string;
 	public sessionId: string = '1';
 	public soapPathname: string;
 	private batchDataLoader: DataLoader<RequestOptions, RequestBody>;
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
 	private notificationHandler?: NotificationHandler;
-	private offlineQueue: OfflineJSONRequestQueue;
 
 	constructor(options: ZimbraClientOptions = {}) {
 		this.origin = options.zimbraOrigin || DEFAULT_HOSTNAME;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
 		this.notificationHandler = options.notificationHandler;
-
-		this.offlineQueue = createOfflineJSONRequestQueue();
 
 		// Used for sending batch requests
 		this.batchDataLoader = new DataLoader(this.batchDataHandler);
@@ -395,38 +388,11 @@ export class ZimbraBatchClient {
 			res => (res.search ? { folders: normalize(Folder)(res.search) } : {})
 		);
 
-	public goOffline = () => {
-		// TODO: Fire off `onEnteringOffline` event
-		this.isOffline = true;
-	};
-
-	public goOnline = () => {
-		// TODO: Fire off `onExitingOffline` event
-		this.isOffline = false;
-
-		const ops = this.offlineQueue.consume();
-
-		// TODO: Replace with custom apollo-link
-		if (ops && ops.length) {
-			Promise.all(ops.map(this.jsonRequest)).then(() => {
-				console.log('Offline operations have been synced with the server');
-			});
-		}
-	};
-
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);
 
 	public jsonRequest = (options: JsonRequestOptions) => {
 		const { accountName } = options;
-
-		if (this.isOffline) {
-			// Maintain a "map" of the operations that need performing
-			this.offlineQueue.push(options);
-
-			// TODO: Replace with apollo-link-retry and retry the query
-			return Promise.reject(Error('Offline'));
-		}
 
 		// If account name is present that means we will not be able to batch requests
 		return accountName
@@ -449,7 +415,6 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		});
 
-	// works offline special - clear all data when we logout: https://www.zimbra.com/docs/user_guide/8.6.0/wwhelp/wwhimpl/js/html/wwhelp.htm#href=ZWC_86_Revised1.Offline_Mode_Features_and_Functionality.html#1217561
 	public logout = () =>
 		this.jsonRequest({
 			name: 'EndSession',
