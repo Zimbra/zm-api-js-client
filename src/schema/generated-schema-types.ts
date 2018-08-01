@@ -32,7 +32,7 @@ export interface Query {
 	getFolder?: Folder | null;
 	getMailboxMetadata?: MailboxMetadata | null;
 	getMessage?: MessageInfo | null;
-	getSMimePublicCerts?: SMimePublicCertResponse | null;
+	getSMimePublicCerts?: SMimePublicCertsResponse | null;
 	getSearchFolder?: Folder | null;
 	getTask?: boolean | null;
 	noop?: boolean | null;
@@ -812,7 +812,7 @@ export interface MailboxMetadataAttrs {
 	zimbraPrefSMIMEDefaultSetting?: string | null;
 }
 
-export interface SMimePublicCertResponse {
+export interface SMimePublicCertsResponse {
 	certs?: SMimePublicCerts[] | null;
 }
 
@@ -1518,7 +1518,7 @@ export interface GetMessageQueryArgs {
 	ridZ?: string | null;
 }
 export interface GetSMimePublicCertsQueryArgs {
-	recipientsAddr?: string[] | null;
+	recipientAddr?: string | null;
 	store?: string | null;
 }
 export interface GetTaskQueryArgs {

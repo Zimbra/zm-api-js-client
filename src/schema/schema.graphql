@@ -1649,7 +1649,7 @@ type SMimePublicCerts {
 	cert: [SMimePublicCert]
 }
 
-type SMimePublicCertResponse{
+type SMimePublicCertsResponse{
 	certs: [SMimePublicCerts]
 }
 
@@ -1699,7 +1699,7 @@ type Query {
 		read: Boolean,
 		ridZ: String
 	): MessageInfo
-	getSMimePublicCerts(recipientsAddr: [String], store: String): SMimePublicCertResponse
+	getSMimePublicCerts(recipientAddr: String, store: String): SMimePublicCertsResponse
 	getSearchFolder: Folder
 	getTask(inviteId: ID!): Boolean
 	noop: Boolean

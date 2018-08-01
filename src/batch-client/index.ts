@@ -380,25 +380,20 @@ export class ZimbraBatchClient {
 			res => (res.search ? { folders: normalize(Folder)(res.search) } : {})
 		);
 
-	public getSMimePublicCerts = (options: GetSMimePublicCertsOptions) => {
-		const { recipientsAddr } = options;
-
-		return (
-			recipientsAddr.length &&
-			this.jsonRequest({
-				name: 'GetSMIMEPublicCerts',
-				body: {
-					store: {
-						_content: options.store
-					},
-					email: recipientsAddr.map(emailAddr => ({
-						_content: emailAddr
-					}))
+	public getSMimePublicCerts = (options: GetSMimePublicCertsOptions) =>
+		options.recipientAddr &&
+		this.jsonRequest({
+			name: 'GetSMIMEPublicCerts',
+			body: {
+				store: {
+					_content: options.store
 				},
-				namespace: Namespace.Account
-			}).then(res => mapValuesDeep(res, coerceStringToBoolean))
-		);
-	};
+				email: {
+					_content: options.recipientAddr
+				}
+			},
+			namespace: Namespace.Account
+		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
 
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);
