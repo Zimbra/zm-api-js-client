@@ -229,6 +229,11 @@ enum RecoverAccountOp {
   sendRecoveryCode
 }
 
+enum PasswordRecoveryAddressStatus {
+	verified
+	pending
+}
+
 type CalOrganizer {
 	address: String
 	name: String
@@ -825,6 +830,7 @@ type AccountInfoAttrs {
 	zimbraFeatureCalendarEnabled: Boolean
 	zimbraFeatureRelatedContactsEnabled: Boolean
 	zimbraFeatureChangePasswordEnabled: Boolean
+	zimbraFeatureResetPasswordEnabled: Boolean
 }
 
 type Identities {
@@ -925,6 +931,8 @@ type Preferences {
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
+	zimbraPrefPasswordRecoveryAddress: String
+	zimbraPrefPasswordRecoveryAddressStatus: PasswordRecoveryAddressStatus
 	zimbraPrefShowFragments: Boolean
 }
 

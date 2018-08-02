@@ -137,6 +137,7 @@ export interface AccountInfoAttrs {
 	zimbraFeatureCalendarEnabled?: boolean | null;
 	zimbraFeatureRelatedContactsEnabled?: boolean | null;
 	zimbraFeatureChangePasswordEnabled?: boolean | null;
+	zimbraFeatureResetPasswordEnabled?: boolean | null;
 }
 
 export interface Preferences {
@@ -161,6 +162,8 @@ export interface Preferences {
 	zimbraPrefOutOfOfficeUntilDate?: string | null;
 	zimbraPrefReadingPaneEnabled?: boolean | null;
 	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
+	zimbraPrefPasswordRecoveryAddress?: string | null;
+	zimbraPrefPasswordRecoveryAddressStatus?: PasswordRecoveryAddressStatus | null;
 	zimbraPrefShowFragments?: boolean | null;
 }
 
@@ -1738,6 +1741,11 @@ export enum ReadingPaneLocation {
 	off = 'off',
 	right = 'right',
 	bottom = 'bottom'
+}
+
+export enum PasswordRecoveryAddressStatus {
+	verified = 'verified',
+	pending = 'pending'
 }
 
 export enum LicenseStatus {
