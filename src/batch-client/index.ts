@@ -544,7 +544,7 @@ export class ZimbraBatchClient {
 		recoveryAccountVerificationCode
 	}: SetRecoveryAccountOptions) =>
 		this.jsonRequest({
-			name: 'SetRecoveryAccountRequest',
+			name: 'SetRecoveryAccount',
 			body: {
 				channel: SetRecoveryAccountChannelType.email,
 				op,

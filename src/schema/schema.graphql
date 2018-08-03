@@ -1715,12 +1715,6 @@ type Query {
 	preferences: Preferences
 	relatedContacts(email: String!): RelatedContacts
 	shareInfos(addresses: [String!]): [[ShareInfo]]
-    setRecoveryAccount(
-      channel: SetRecoveryAccountChannel!
-      op: SetRecoveryAccountOp!
-      recoveryAccount: String
-      recoveryAccountVerificationCode: String
-    ): Boolean
     recoverAccount(
       op: RecoverAccountOp!
       email: String!
@@ -1837,6 +1831,12 @@ type Mutation {
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean
+	setRecoveryAccount(
+		channel: SetRecoveryAccountChannel!
+		op: SetRecoveryAccountOp!
+		recoveryAccount: String
+		recoveryAccountVerificationCode: String
+	): Boolean
 }
 
 schema {

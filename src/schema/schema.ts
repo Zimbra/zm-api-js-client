@@ -277,7 +277,9 @@ export function createZimbraSchema(
 								_attrs: mapValues(variables.attrs, coerceBooleanToString)
 							}
 						}
-					})
+					}),
+				setRecoveryAccount: (_, { channel, op, recoveryAccount, recoveryAccountVerificationCode }) =>
+					client.setRecoveryAccount({ channel, op, recoveryAccount, recoveryAccountVerificationCode }),
 			}
 		}
 	});
