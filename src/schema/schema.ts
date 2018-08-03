@@ -280,18 +280,13 @@ export function createZimbraSchema(
 					}),
 				setRecoveryAccount: (
 					_,
-					{
+					{ channel, op, recoveryAccount, recoveryAccountVerificationCode }) =>
+					client.setRecoveryAccount({
 						channel,
 						op,
 						recoveryAccount,
 						recoveryAccountVerificationCode
-					}) =>
-						client.setRecoveryAccount({
-							channel,
-							op,
-							recoveryAccount,
-							recoveryAccountVerificationCode
-						})
+					})
 			}
 		}
 	});
