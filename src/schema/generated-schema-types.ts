@@ -180,7 +180,7 @@ export interface AutoCompleteResponse {
 
 export interface AutoCompleteMatch {
 	email?: string | null;
-	type?: MatchTypeGal | null;
+	type?: AutoCompleteMatchType | null;
 	ranking?: number | null;
 	isGroup?: boolean | null;
 	exp?: boolean | null;
@@ -193,7 +193,7 @@ export interface AutoCompleteMatch {
 	full?: string | null;
 	nick?: string | null;
 	company?: string | null;
-	filas?: string | null;
+	fileas?: string | null;
 }
 
 export interface Folder {
@@ -1810,7 +1810,7 @@ export enum GalSearchType {
 	group = 'group'
 }
 
-export enum MatchTypeGal {
+export enum AutoCompleteMatchType {
 	gal = 'gal',
 	contact = 'contact',
 	rankingTable = 'rankingTable'

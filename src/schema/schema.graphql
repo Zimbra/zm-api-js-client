@@ -93,7 +93,7 @@ enum InviteReplyType {
 	w #forward
 }
 
-enum MatchTypeGal {
+enum AutoCompleteMatchType {
 	gal
 	contact
 	rankingTable
@@ -1158,7 +1158,7 @@ type AutoCompleteResponse {
 
 type AutoCompleteMatch {
 	email: String
-	type: MatchTypeGal
+	type: AutoCompleteMatchType
 	ranking: Int
 	isGroup: Boolean
 	exp: Boolean
@@ -1171,7 +1171,7 @@ type AutoCompleteMatch {
 	full: String
 	nick: String
 	company: String
-	filas: String
+	fileas: String
 }
 
 input CalendarItemInput {
