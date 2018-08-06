@@ -526,6 +526,22 @@ export class ZimbraBatchClient {
 			}
 		});
 
+	public setRecoveryAccount = ({
+		op,
+		recoveryAccount,
+		recoveryAccountVerificationCode,
+		channel
+	}: SetRecoveryAccountOptions) =>
+		this.jsonRequest({
+			name: 'SetRecoveryAccount',
+			body: {
+				channel,
+				op,
+				recoveryAccount,
+				recoveryAccountVerificationCode
+			}
+		});
+
 	public shareInfos = ({ addresses }: ShareInfosOptions) =>
 		Promise.all(
 			addresses.map((address: string) =>
@@ -542,22 +558,6 @@ export class ZimbraBatchClient {
 				})
 			)
 		);
-
-	public setRecoveryAccount = ({
-		op,
-		recoveryAccount,
-		recoveryAccountVerificationCode,
-		channel
-	}: SetRecoveryAccountOptions) =>
-		this.jsonRequest({
-			name: 'SetRecoveryAccount',
-			body: {
-				channel,
-				op,
-				recoveryAccount,
-				recoveryAccountVerificationCode
-			}
-		});
 
 	public taskFolders = () =>
 		this.jsonRequest({
