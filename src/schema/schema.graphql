@@ -213,6 +213,12 @@ enum LicenseStatus {
 	ACTIVATION_GRACE_PERIOD
 }
 
+enum ZimletPresence {
+	mandatory
+	enabled
+	disabled
+}
+
 type CalOrganizer {
 	address: String
 	name: String
@@ -801,6 +807,41 @@ type AccountInfo {
 	attrs: AccountInfoAttrs
 	prefs: Preferences
 	license: License
+	zimlets: AccountZimlet
+}
+
+type AccountZimlet {
+	zimlet: [AccountZimletInfo]
+}
+
+type AccountZimletInfo {
+	zimletContext: [AccountZimletContext]
+	zimlet: [AccountZimletDesc]
+	zimletConfig: [AccountZimletConfigInfo]
+}
+
+type AccountZimletContext {
+	baseUrl: String
+	priority: Int
+	presence: ZimletPresence
+}
+
+type AccountZimletDesc {
+	name: String
+	version: String
+	description: String
+	extension: String
+	target: String
+	label: String
+}
+
+type AccountZimletConfigInfo {
+	name: String
+	version: String
+	description: String
+	extension: String
+	target: String
+	label: String
 }
 
 type AccountInfoAttrs {

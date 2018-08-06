@@ -55,6 +55,7 @@ export interface AccountInfo {
 	attrs?: AccountInfoAttrs | null;
 	prefs?: Preferences | null;
 	license?: License | null;
+	zimlets?: AccountZimlet | null;
 }
 
 export interface Identities {
@@ -170,6 +171,40 @@ export interface License {
 export interface LicenseAttrs {
 	name: string;
 	_content: boolean;
+}
+
+export interface AccountZimlet {
+	zimlet?: AccountZimletInfo[] | null;
+}
+
+export interface AccountZimletInfo {
+	zimletContext?: AccountZimletContext[] | null;
+	zimlet?: AccountZimletDesc[] | null;
+	zimletConfig?: AccountZimletConfigInfo[] | null;
+}
+
+export interface AccountZimletContext {
+	baseUrl?: string | null;
+	priority?: number | null;
+	presence?: ZimletPresence | null;
+}
+
+export interface AccountZimletDesc {
+	name?: string | null;
+	version?: string | null;
+	description?: string | null;
+	extension?: string | null;
+	target?: string | null;
+	label?: string | null;
+}
+
+export interface AccountZimletConfigInfo {
+	name?: string | null;
+	version?: string | null;
+	description?: string | null;
+	extension?: string | null;
+	target?: string | null;
+	label?: string | null;
 }
 
 export interface Folder {
@@ -1731,6 +1766,12 @@ export enum LicenseStatus {
 	INVALID = 'INVALID',
 	LICENSE_GRACE_PERIOD = 'LICENSE_GRACE_PERIOD',
 	ACTIVATION_GRACE_PERIOD = 'ACTIVATION_GRACE_PERIOD'
+}
+
+export enum ZimletPresence {
+	mandatory = 'mandatory',
+	enabled = 'enabled',
+	disabled = 'disabled'
 }
 
 /* https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/acl.md */
