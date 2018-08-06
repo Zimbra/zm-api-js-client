@@ -39,8 +39,8 @@ import {
 	LoginOptions,
 	RelatedContactsOptions,
 	SearchOptions,
-	ShareInfosOptions,
-	SetRecoveryAccountOptions
+	SetRecoveryAccountOptions,
+	ShareInfosOptions
 } from '../batch-client/types';
 import schema from './schema.graphql';
 
