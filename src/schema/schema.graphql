@@ -1123,6 +1123,7 @@ input CalendarItemMessageInput {
 input SendMessageInput {
 	id: ID #id
 	origId: ID #origid
+	attachmentId: ID #aid
 	replyType: String #rt
 	inReplyTo: String #irt
 	flags: String #f
