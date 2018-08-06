@@ -162,3 +162,21 @@ export interface CreateSearchFolderOptions {
 	query: string;
 	view?: string;
 }
+
+export enum SetRecoveryAccountOpType {
+	send = 'sendCode',
+	validate = 'validateCode',
+	resend = 'resendCode',
+	reset = 'reset'
+}
+
+export enum SetRecoveryAccountChannelType {
+	email = 'email'
+}
+
+export interface SetRecoveryAccountOptions {
+	channel: SetRecoveryAccountChannelType;
+	op: SetRecoveryAccountOpType;
+	recoveryAccount?: string;
+	recoveryAccountVerificationCode?: string;
+}

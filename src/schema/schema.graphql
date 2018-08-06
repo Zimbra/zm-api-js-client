@@ -213,6 +213,22 @@ enum LicenseStatus {
 	ACTIVATION_GRACE_PERIOD
 }
 
+enum SetRecoveryAccountOp {
+	sendCode
+	validateCode
+	resendCode
+	reset
+}
+
+enum SetRecoveryAccountChannel {
+	email
+}
+
+enum PasswordRecoveryAddressStatus {
+	verified
+	pending
+}
+
 type CalOrganizer {
 	address: String
 	name: String
@@ -809,6 +825,7 @@ type AccountInfoAttrs {
 	zimbraFeatureCalendarEnabled: Boolean
 	zimbraFeatureRelatedContactsEnabled: Boolean
 	zimbraFeatureChangePasswordEnabled: Boolean
+	zimbraFeatureResetPasswordEnabled: Boolean
 }
 
 type Identities {
@@ -909,6 +926,8 @@ type Preferences {
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
+	zimbraPrefPasswordRecoveryAddress: String
+	zimbraPrefPasswordRecoveryAddressStatus: PasswordRecoveryAddressStatus
 	zimbraPrefShowFragments: Boolean
 }
 
@@ -1796,6 +1815,12 @@ type Mutation {
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean
+	setRecoveryAccount(
+		channel: SetRecoveryAccountChannel!
+		op: SetRecoveryAccountOp!
+		recoveryAccount: String
+		recoveryAccountVerificationCode: String
+	): Boolean
 }
 
 schema {
