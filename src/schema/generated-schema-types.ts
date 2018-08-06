@@ -1374,7 +1374,7 @@ export interface SizeConditionInput {
 export interface SendMessageInput {
 	id?: string | null;
 	origId?: string | null;
-	appointmentId?: string | null;
+	attachmentId?: string | null;
 	replyType?: string | null;
 	inReplyTo?: string | null;
 	flags?: string | null;
