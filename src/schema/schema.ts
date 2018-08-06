@@ -39,7 +39,8 @@ import {
 	LoginOptions,
 	RelatedContactsOptions,
 	SearchOptions,
-	ShareInfosOptions
+	ShareInfosOptions,
+	SetRecoveryAccountOptions
 } from '../batch-client/types';
 import schema from './schema.graphql';
 
@@ -275,16 +276,8 @@ export function createZimbraSchema(
 							}
 						}
 					}),
-				setRecoveryAccount: (
-					_,
-					{ channel, op, recoveryAccount, recoveryAccountVerificationCode }
-				) =>
-					client.setRecoveryAccount({
-						channel,
-						op,
-						recoveryAccount,
-						recoveryAccountVerificationCode
-					})
+				setRecoveryAccount: (_, variables) =>
+					client.setRecoveryAccount(variables as SetRecoveryAccountOptions)
 			}
 		}
 	});

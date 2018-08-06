@@ -526,20 +526,10 @@ export class ZimbraBatchClient {
 			}
 		});
 
-	public setRecoveryAccount = ({
-		op,
-		recoveryAccount,
-		recoveryAccountVerificationCode,
-		channel
-	}: SetRecoveryAccountOptions) =>
+	public setRecoveryAccount = (options: SetRecoveryAccountOptions) =>
 		this.jsonRequest({
 			name: 'SetRecoveryAccount',
-			body: {
-				channel,
-				op,
-				recoveryAccount,
-				recoveryAccountVerificationCode
-			}
+			body: options
 		});
 
 	public shareInfos = ({ addresses }: ShareInfosOptions) =>
