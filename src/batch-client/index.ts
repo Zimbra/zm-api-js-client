@@ -571,6 +571,7 @@ export class ZimbraBatchClient {
 						return null;
 					}
 
+					// To parser server response like => 200,'null',[{"aid":"d93a252a-603e-4675-9e39-95cebe5a9332:b39a4b7c-9232-4228-9269-aa375bc1df67","ct":"message/rfc822","filename":"message.eml","s":7872}]
 					const [, status = '', err = undefined, json = ''] =
 						result.match(/^([^,]+),([^,]+),(.*)/) || [];
 
