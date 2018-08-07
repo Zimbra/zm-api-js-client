@@ -68,6 +68,7 @@ import {
 	NotificationHandler,
 	RelatedContactsOptions,
 	SearchOptions,
+	SetRecoveryAccountOptions,
 	ShareInfosOptions,
 	ZimbraClientOptions
 } from './types';
@@ -523,6 +524,12 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(ShareNotification)(body)
 			}
+		});
+
+	public setRecoveryAccount = (options: SetRecoveryAccountOptions) =>
+		this.jsonRequest({
+			name: 'SetRecoveryAccount',
+			body: options
 		});
 
 	public shareInfos = ({ addresses }: ShareInfosOptions) =>
