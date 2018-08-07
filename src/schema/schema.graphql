@@ -1799,7 +1799,7 @@ type Mutation {
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean
-	uploadMessage(messageString: String): String
+	uploadMessage(value: String!): String
 }
 
 schema {

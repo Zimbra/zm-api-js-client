@@ -551,14 +551,14 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => normalize(Folder)(res.folder[0].folder));
 
-	public uploadMessage = (messageString: string) => {
+	public uploadMessage = (message: string) => {
 		const contentDisposition = 'attachment';
 		const filename = 'message.eml';
 		const contentType = 'message/rfc822';
 
-		return fetch(`${this.origin}/service/upload?fmt=extended,raw`, {
+		return fetch(`${this.origin}/service/upload?fmt=raw`, {
 			method: 'POST',
-			body: messageString,
+			body: message,
 			headers: {
 				'Content-Disposition': `${contentDisposition}; filename="${filename}"`,
 				'Content-Type': contentType
@@ -571,8 +571,8 @@ export class ZimbraBatchClient {
 						return null;
 					}
 
-					// To parser server response like => 200,'null',[{"aid":"d93a252a-603e-4675-9e39-95cebe5a9332:b39a4b7c-9232-4228-9269-aa375bc1df67","ct":"message/rfc822","filename":"message.eml","s":7872}]
-					const [, status = '', err = undefined, json = ''] =
+					// To parser server response like => 200,'null','d93a252a-603e-4675-9e39-95cebe5a9332:b39a4b7c-9232-4228-9269-aa375bc1df67'
+					const [, status = '', err = undefined, aid = ''] =
 						result.match(/^([^,]+),([^,]+),(.*)/) || [];
 
 					if (err && err !== `'null'`) {
@@ -580,8 +580,7 @@ export class ZimbraBatchClient {
 					}
 
 					if (+status === 200) {
-						const jsonObj = JSON.parse(json)[0];
-						return jsonObj && jsonObj.aid;
+						return aid;
 					}
 				});
 			}

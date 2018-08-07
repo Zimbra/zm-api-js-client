@@ -259,8 +259,7 @@ export function createZimbraSchema(
 					client.deleteSignature(variables as NameIdInput),
 				sendMessage: (_, variables) =>
 					client.sendMessage(variables as SendMessageInput),
-				uploadMessage: (_, { messageString }) =>
-					client.uploadMessage(messageString),
+				uploadMessage: (_, { value }) => client.uploadMessage(value),
 				createTask: (_, { task }) =>
 					client.createTask(task as CalendarItemInput),
 				modifyTask: (_, { task }) =>
