@@ -214,19 +214,24 @@ enum LicenseStatus {
 }
 
 enum SetRecoveryAccountOp {
-  sendCode
-  validateCode
-  resendCode
-  reset
+	sendCode
+	validateCode
+	resendCode
+	reset
 }
 
 enum SetRecoveryAccountChannel {
-  email
+	email
 }
 
 enum RecoverAccountOp {
-  getRecoveryAccount
-  sendRecoveryCode
+	getRecoveryAccount
+	sendRecoveryCode
+}
+
+enum PasswordRecoveryAddressStatus {
+	verified
+	pending
 }
 
 type CalOrganizer {
@@ -825,6 +830,7 @@ type AccountInfoAttrs {
 	zimbraFeatureCalendarEnabled: Boolean
 	zimbraFeatureRelatedContactsEnabled: Boolean
 	zimbraFeatureChangePasswordEnabled: Boolean
+	zimbraFeatureResetPasswordEnabled: Boolean
 }
 
 type Identities {
@@ -925,6 +931,8 @@ type Preferences {
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
+	zimbraPrefPasswordRecoveryAddress: String
+	zimbraPrefPasswordRecoveryAddressStatus: PasswordRecoveryAddressStatus
 	zimbraPrefShowFragments: Boolean
 }
 
@@ -1829,6 +1837,12 @@ type Mutation {
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean
+	setRecoveryAccount(
+		channel: SetRecoveryAccountChannel!
+		op: SetRecoveryAccountOp!
+		recoveryAccount: String
+		recoveryAccountVerificationCode: String
+	): Boolean
 }
 
 schema {

@@ -137,6 +137,7 @@ export interface AccountInfoAttrs {
 	zimbraFeatureCalendarEnabled?: boolean | null;
 	zimbraFeatureRelatedContactsEnabled?: boolean | null;
 	zimbraFeatureChangePasswordEnabled?: boolean | null;
+	zimbraFeatureResetPasswordEnabled?: boolean | null;
 }
 
 export interface Preferences {
@@ -161,6 +162,8 @@ export interface Preferences {
 	zimbraPrefOutOfOfficeUntilDate?: string | null;
 	zimbraPrefReadingPaneEnabled?: boolean | null;
 	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
+	zimbraPrefPasswordRecoveryAddress?: string | null;
+	zimbraPrefPasswordRecoveryAddressStatus?: PasswordRecoveryAddressStatus | null;
 	zimbraPrefShowFragments?: boolean | null;
 }
 
@@ -886,6 +889,7 @@ export interface Mutation {
 	sendInviteReply?: InviteReplyResponse | null;
 	sendShareNotification?: boolean | null;
 	setMailboxMetadata?: boolean | null;
+	setRecoveryAccount?: boolean | null;
 }
 
 export interface SignatureResponse {
@@ -1718,6 +1722,12 @@ export interface SetMailboxMetadataMutationArgs {
 	section?: string | null;
 	attrs: MailboxMetadataSectionAttrsInput;
 }
+export interface SetRecoveryAccountMutationArgs {
+	channel: SetRecoveryAccountChannel;
+	op: SetRecoveryAccountOp;
+	recoveryAccount?: string | null;
+	recoveryAccountVerificationCode?: string | null;
+}
 
 export enum PrefCalendarInitialView {
 	day = 'day',
@@ -1738,6 +1748,11 @@ export enum ReadingPaneLocation {
 	off = 'off',
 	right = 'right',
 	bottom = 'bottom'
+}
+
+export enum PasswordRecoveryAddressStatus {
+	verified = 'verified',
+	pending = 'pending'
 }
 
 export enum LicenseStatus {
@@ -1964,4 +1979,15 @@ export enum InviteReplyVerb {
 	ACCEPT = 'ACCEPT',
 	DECLINE = 'DECLINE',
 	TENTATIVE = 'TENTATIVE'
+}
+
+export enum SetRecoveryAccountChannel {
+	email = 'email'
+}
+
+export enum SetRecoveryAccountOp {
+	sendCode = 'sendCode',
+	validateCode = 'validateCode',
+	resendCode = 'resendCode',
+	reset = 'reset'
 }
