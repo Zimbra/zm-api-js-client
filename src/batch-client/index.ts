@@ -552,7 +552,6 @@ export class ZimbraBatchClient {
 		}).then(res => normalize(Folder)(res.folder[0].folder));
 
 	public uploadMessage = (messageString: string) => {
-
 		const contentDisposition = 'attachment';
 		const filename = 'message.eml';
 		const contentType = 'message/rfc822';
@@ -565,27 +564,28 @@ export class ZimbraBatchClient {
 				'Content-Type': contentType
 			},
 			credentials: 'include'
-		})
-			.then(response => {
-				if (response.ok) {
-					return response.text().then(result => {
-						if (!result) { return null; }
+		}).then(response => {
+			if (response.ok) {
+				return response.text().then(result => {
+					if (!result) {
+						return null;
+					}
 
-						const [, status = '', err = undefined, json = ''] = result.match(/^([^,]+),([^,]+),(.*)/) || [];
+					const [, status = '', err = undefined, json = ''] =
+						result.match(/^([^,]+),([^,]+),(.*)/) || [];
 
-						if (err && err !== `'null'`) {
-							return null;
-						}
+					if (err && err !== `'null'`) {
+						return null;
+					}
 
-						if (+status === 200) {
-							const jsonObj = JSON.parse(json)[0];
-							return jsonObj && jsonObj.aid;
-						}
-					})
-				}
-			})
-
-	}
+					if (+status === 200) {
+						const jsonObj = JSON.parse(json)[0];
+						return jsonObj && jsonObj.aid;
+					}
+				});
+			}
+		});
+	};
 
 	private batchDataHandler = (requests: Array<RequestOptions>) =>
 		batchJsonRequest({
