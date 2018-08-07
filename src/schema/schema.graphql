@@ -234,6 +234,11 @@ enum PasswordRecoveryAddressStatus {
 	pending
 }
 
+enum PasswordRecoveryAddressStatus {
+	verified
+	pending
+}
+
 type CalOrganizer {
 	address: String
 	name: String
@@ -1715,12 +1720,6 @@ type Query {
 	preferences: Preferences
 	relatedContacts(email: String!): RelatedContacts
 	shareInfos(addresses: [String!]): [[ShareInfo]]
-    setRecoveryAccount(
-      channel: SetRecoveryAccountChannel!
-      op: SetRecoveryAccountOp!
-      recoveryAccount: String
-      recoveryAccountVerificationCode: String
-    ): Boolean
     recoverAccount(
       op: RecoverAccountOp!
       email: String!
