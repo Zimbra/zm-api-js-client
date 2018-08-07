@@ -25,9 +25,6 @@ const dataIdFromObject = (object: any): string | null | undefined => {
 				return `${object.__typename}:${object.id}:${new Date().valueOf()}`;
 			}
 			return defaultDataIdFromObject(object);
-		case 'SMimePublicCertsResponse':
-			// Certificates response doesn't return any specific identifier. So, using email address itself as cache key.
-			return dataIdFromPath(object, 'certs.0.email');
 		default:
 			return defaultDataIdFromObject(object);
 	}

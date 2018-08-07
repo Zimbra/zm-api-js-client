@@ -1639,8 +1639,8 @@ input SignatureContentInput {
 ##### SMIME Certificates type #####
 
 type SMimePublicCert {
-	store: String
-	field: String
+	store: String!
+	field: String!
 	_content: String
 }
 
@@ -1699,7 +1699,7 @@ type Query {
 		read: Boolean,
 		ridZ: String
 	): MessageInfo
-	getSMimePublicCerts(recipientAddr: String, store: String): SMimePublicCertsResponse
+	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
 	getSearchFolder: Folder
 	getTask(inviteId: ID!): Boolean
 	noop: Boolean

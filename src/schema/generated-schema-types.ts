@@ -1518,7 +1518,7 @@ export interface GetMessageQueryArgs {
 	ridZ?: string | null;
 }
 export interface GetSMimePublicCertsQueryArgs {
-	recipientAddr?: string | null;
+	contactAddr?: string | null;
 	store?: string | null;
 }
 export interface GetTaskQueryArgs {

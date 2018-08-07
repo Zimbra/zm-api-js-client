@@ -381,7 +381,6 @@ export class ZimbraBatchClient {
 		);
 
 	public getSMimePublicCerts = (options: GetSMimePublicCertsOptions) =>
-		options.recipientAddr &&
 		this.jsonRequest({
 			name: 'GetSMIMEPublicCerts',
 			body: {
@@ -389,11 +388,11 @@ export class ZimbraBatchClient {
 					_content: options.store
 				},
 				email: {
-					_content: options.recipientAddr
+					_content: options.contactAddr
 				}
 			},
 			namespace: Namespace.Account
-		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
+		});
 
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);
