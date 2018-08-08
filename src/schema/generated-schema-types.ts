@@ -860,8 +860,8 @@ export interface SMimePublicCerts {
 }
 
 export interface SMimePublicCert {
-	store?: string | null;
-	field?: string | null;
+	store: string;
+	field: string;
 	_content?: string | null;
 }
 
@@ -1557,8 +1557,8 @@ export interface GetMessageQueryArgs {
 	ridZ?: string | null;
 }
 export interface GetSMimePublicCertsQueryArgs {
-	contactAddr?: string | null;
-	store?: string | null;
+	contactAddr: string;
+	store: string;
 }
 export interface GetTaskQueryArgs {
 	inviteId: string;
