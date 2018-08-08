@@ -213,6 +213,29 @@ enum LicenseStatus {
 	ACTIVATION_GRACE_PERIOD
 }
 
+enum SetRecoveryAccountOp {
+	sendCode
+	validateCode
+	resendCode
+	reset
+}
+
+enum SetRecoveryAccountChannel {
+	email
+}
+
+enum PasswordRecoveryAddressStatus {
+	verified
+	pending
+}
+
+enum ZimletPresence {
+	mandatory
+	enabled
+	disabled
+}
+
+
 type CalOrganizer {
 	address: String
 	name: String
@@ -801,6 +824,41 @@ type AccountInfo {
 	attrs: AccountInfoAttrs
 	prefs: Preferences
 	license: License
+	zimlets: AccountZimlet
+}
+
+type AccountZimlet {
+	zimlet: [AccountZimletInfo]
+}
+
+type AccountZimletInfo {
+	zimletContext: [AccountZimletContext]
+	zimlet: [AccountZimletDesc]
+	zimletConfig: [AccountZimletConfigInfo]
+}
+
+type AccountZimletContext {
+	baseUrl: String
+	priority: Int
+	presence: ZimletPresence
+}
+
+type AccountZimletDesc {
+	name: String
+	version: String
+	description: String
+	extension: String
+	target: String
+	label: String
+}
+
+type AccountZimletConfigInfo {
+	name: String
+	version: String
+	description: String
+	extension: String
+	target: String
+	label: String
 }
 
 type AccountInfoAttrs {
@@ -809,6 +867,7 @@ type AccountInfoAttrs {
 	zimbraFeatureCalendarEnabled: Boolean
 	zimbraFeatureRelatedContactsEnabled: Boolean
 	zimbraFeatureChangePasswordEnabled: Boolean
+	zimbraFeatureResetPasswordEnabled: Boolean
 }
 
 type Identities {
@@ -909,6 +968,8 @@ type Preferences {
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
+	zimbraPrefPasswordRecoveryAddress: String
+	zimbraPrefPasswordRecoveryAddressStatus: PasswordRecoveryAddressStatus
 	zimbraPrefShowFragments: Boolean
 }
 
@@ -1816,6 +1877,12 @@ type Mutation {
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean
+	setRecoveryAccount(
+		channel: SetRecoveryAccountChannel!
+		op: SetRecoveryAccountOp!
+		recoveryAccount: String
+		recoveryAccountVerificationCode: String
+	): Boolean
 }
 
 schema {
