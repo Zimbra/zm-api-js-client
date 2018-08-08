@@ -23,6 +23,7 @@ export interface MailItem {
 /* Zimbra GraphQL Queries- [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)- [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)- [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap) */
 export interface Query {
 	accountInfo?: AccountInfo | null;
+	autoComplete?: AutoCompleteResponse | null;
 	folder?: Folder | null;
 	freeBusy?: FreeBusy[] | null;
 	getContact?: Contact | null;
@@ -209,6 +210,29 @@ export interface AccountZimletConfigInfo {
 	extension?: string | null;
 	target?: string | null;
 	label?: string | null;
+}
+
+export interface AutoCompleteResponse {
+	canBeCached?: boolean | null;
+	match?: AutoCompleteMatch[] | null;
+}
+
+export interface AutoCompleteMatch {
+	email?: string | null;
+	type?: AutoCompleteMatchType | null;
+	ranking?: number | null;
+	isGroup?: boolean | null;
+	exp?: boolean | null;
+	id?: string | null;
+	folderId?: string | null;
+	display?: string | null;
+	first?: string | null;
+	middle?: string | null;
+	last?: string | null;
+	full?: string | null;
+	nick?: string | null;
+	company?: string | null;
+	fileas?: string | null;
 }
 
 export interface Folder {
@@ -929,7 +953,8 @@ export interface Mutation {
 	prefOutOfOfficeFromDate?: string | null;
 	prefOutOfOfficeReply?: string | null;
 	prefOutOfOfficeUntilDate?: string | null;
-	sendMessage?: boolean | null;
+	saveDraft?: SaveDraftResponse | null;
+	sendMessage?: SendMessageResponse | null;
 	sendInviteReply?: InviteReplyResponse | null;
 	sendShareNotification?: boolean | null;
 	setMailboxMetadata?: boolean | null;
@@ -943,6 +968,41 @@ export interface SignatureResponse {
 export interface NameId {
 	id?: string | null;
 	name?: string | null;
+}
+
+export interface SaveDraftResponse {
+	message?: MessageInfo[] | null;
+}
+
+export interface SendMessageResponse {
+	message?: MsgWithGroupInfo[] | null;
+}
+
+export interface MsgWithGroupInfo extends MailItem {
+	id?: string | null;
+	i4uid?: number | null;
+	cif?: string | null;
+	origid?: string | null;
+	entityId?: string | null;
+	forAcct?: string | null;
+	autoSendTime?: number | null;
+	size?: number | null;
+	date?: number | null;
+	folderId?: string | null;
+	subject?: string | null;
+	emailAddresses?: EmailAddress[] | null;
+	excerpt?: string | null;
+	conversationId?: string | null;
+	flags?: string | null;
+	tags?: string | null;
+	tagNames?: string | null;
+	revision?: number | null;
+	changeDate?: number | null;
+	modifiedSequence?: number | null;
+	invitations?: InviteInfo[] | null;
+	sortField?: string | null;
+	share?: ShareNotification[] | null;
+	replyType?: string | null;
 }
 
 export interface InviteReplyResponse {
@@ -1509,6 +1569,13 @@ export interface FolderQueryInput {
 	id?: string | null;
 	view?: FolderView | null;
 }
+export interface AutoCompleteQueryArgs {
+	name?: string | null;
+	type?: GalSearchType | null;
+	needExp?: boolean | null;
+	folders?: string | null;
+	includeGal?: boolean | null;
+}
 export interface FolderQueryArgs {
 	id: string;
 }
@@ -1746,6 +1813,9 @@ export interface PrefOutOfOfficeReplyMutationArgs {
 export interface PrefOutOfOfficeUntilDateMutationArgs {
 	value: string;
 }
+export interface SaveDraftMutationArgs {
+	message: SendMessageInput;
+}
 export interface SendMessageMutationArgs {
 	message: SendMessageInput;
 }
@@ -1807,6 +1877,19 @@ export enum ZimletPresence {
 	mandatory = 'mandatory',
 	enabled = 'enabled',
 	disabled = 'disabled'
+}
+
+export enum GalSearchType {
+	all = 'all',
+	account = 'account',
+	resource = 'resource',
+	group = 'group'
+}
+
+export enum AutoCompleteMatchType {
+	gal = 'gal',
+	contact = 'contact',
+	rankingTable = 'rankingTable'
 }
 
 /* https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/acl.md */

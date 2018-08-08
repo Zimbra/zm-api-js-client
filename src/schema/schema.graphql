@@ -93,6 +93,12 @@ enum InviteReplyType {
 	w #forward
 }
 
+enum AutoCompleteMatchType {
+	gal
+	contact
+	rankingTable
+}
+
 enum ParticipationStatus {
 	NE # needs-action
 	AC # accept
@@ -178,6 +184,13 @@ enum FolderView {
 	chat
 	note
 	comment
+}
+
+enum GalSearchType {
+	all
+	account
+	resource
+	group
 }
 
 enum ReadingPaneLocation {
@@ -362,6 +375,34 @@ type Conversation implements MailItem {
 	share: [ShareNotification] # shr
 	replyType: String #rt
 }
+
+type MsgWithGroupInfo implements MailItem {
+	id: ID
+	i4uid: Int
+	cif: String
+	origid: String
+	entityId: String # idnt
+	forAcct: String
+	autoSendTime: Float
+	size: Float # s
+	date: Float # d
+	folderId: ID # l
+	subject: String # su
+	emailAddresses: [EmailAddress]
+	excerpt: String # fr
+	conversationId: String # cid
+	flags: String # f
+	tags: String # t
+	tagNames: String # tn
+	revision: Int # rev
+	changeDate: Float # md
+	modifiedSequence: Int # ms
+	invitations: [InviteInfo] # inv
+	sortField: String # sf, Sort field used for cursor-based pagination
+	share: [ShareNotification] # shr
+	replyType: String #rt
+}
+
 
 enum InviteType {
 	appt # Appointment
@@ -993,6 +1034,14 @@ type SearchResponse {
 	sortBy: String
 }
 
+type SendMessageResponse {
+	message: [MsgWithGroupInfo]
+}
+
+type SaveDraftResponse {
+	message: [MessageInfo]
+}
+
 type Contact {
 	id: ID!
 	date: Float
@@ -1161,6 +1210,29 @@ input ExistingAttachmentInput {
 input AttachmentInput {
 	attachmentIds: String
 	existingAttachments: [ExistingAttachmentInput]
+}
+
+type AutoCompleteResponse {
+	canBeCached: Boolean
+	match: [AutoCompleteMatch]
+}
+
+type AutoCompleteMatch {
+	email: String
+	type: AutoCompleteMatchType
+	ranking: Int
+	isGroup: Boolean
+	exp: Boolean
+	id: String
+	folderId: String
+	display: String
+	first: String
+	middle: String
+	last: String
+	full: String
+	nick: String
+	company: String
+	fileas: String
 }
 
 input CalendarItemInput {
@@ -1722,6 +1794,13 @@ type SMimePublicCertsResponse{
 # - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
 type Query {
 	accountInfo: AccountInfo
+	autoComplete(
+		name: String
+		type: GalSearchType,
+		needExp: Boolean,
+		folders: String,
+		includeGal: Boolean
+	): AutoCompleteResponse
 	folder(id: ID!): Folder
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
 	getContact(id: ID!): Contact
@@ -1873,7 +1952,8 @@ type Mutation {
 	prefOutOfOfficeFromDate(value: String!): String
 	prefOutOfOfficeReply(value: String!): String
 	prefOutOfOfficeUntilDate(value: String!): String
-	sendMessage(message: SendMessageInput!): Boolean
+	saveDraft(message: SendMessageInput!): SaveDraftResponse
+	sendMessage(message: SendMessageInput!): SendMessageResponse
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean
