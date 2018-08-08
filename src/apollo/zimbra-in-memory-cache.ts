@@ -25,7 +25,6 @@ const dataIdFromObject = (object: any): string | null | undefined => {
 				return `${object.__typename}:${object.id}:${new Date().valueOf()}`;
 			}
 			return defaultDataIdFromObject(object);
-
 		default:
 			return defaultDataIdFromObject(object);
 	}
