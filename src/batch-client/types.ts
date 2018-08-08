@@ -163,6 +163,11 @@ export interface CreateSearchFolderOptions {
 	view?: string;
 }
 
+export interface GetSMimePublicCertsOptions {
+	contactAddr: string;
+	store: string;
+}
+
 export enum SetRecoveryAccountOpType {
 	send = 'sendCode',
 	validate = 'validateCode',

@@ -36,6 +36,7 @@ import {
 	GetFolderOptions,
 	GetMailboxMetadataOptions,
 	GetMessageOptions,
+	GetSMimePublicCertsOptions,
 	LoginOptions,
 	RelatedContactsOptions,
 	SearchOptions,
@@ -76,6 +77,8 @@ export function createZimbraSchema(
 				getMessage: (_, variables) =>
 					client.getMessage(variables as GetMessageOptions),
 				getSearchFolder: client.getSearchFolder,
+				getSMimePublicCerts: (_, variables) =>
+					client.getSMimePublicCerts(variables as GetSMimePublicCertsOptions),
 				preferences: client.preferences,
 				noop: client.noop,
 				relatedContacts: (_, variables) =>
