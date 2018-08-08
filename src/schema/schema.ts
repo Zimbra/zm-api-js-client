@@ -36,9 +36,11 @@ import {
 	GetFolderOptions,
 	GetMailboxMetadataOptions,
 	GetMessageOptions,
+	GetSMimePublicCertsOptions,
 	LoginOptions,
 	RelatedContactsOptions,
 	SearchOptions,
+	SetRecoveryAccountOptions,
 	ShareInfosOptions
 } from '../batch-client/types';
 import schema from './schema.graphql';
@@ -75,6 +77,8 @@ export function createZimbraSchema(
 				getMessage: (_, variables) =>
 					client.getMessage(variables as GetMessageOptions),
 				getSearchFolder: client.getSearchFolder,
+				getSMimePublicCerts: (_, variables) =>
+					client.getSMimePublicCerts(variables as GetSMimePublicCertsOptions),
 				preferences: client.preferences,
 				noop: client.noop,
 				relatedContacts: (_, variables) =>
@@ -275,7 +279,9 @@ export function createZimbraSchema(
 								_attrs: mapValues(variables.attrs, coerceBooleanToString)
 							}
 						}
-					})
+					}),
+				setRecoveryAccount: (_, variables) =>
+					client.setRecoveryAccount(variables as SetRecoveryAccountOptions)
 			}
 		}
 	});

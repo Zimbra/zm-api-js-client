@@ -32,6 +32,7 @@ export interface Query {
 	getFolder?: Folder | null;
 	getMailboxMetadata?: MailboxMetadata | null;
 	getMessage?: MessageInfo | null;
+	getSMimePublicCerts?: SMimePublicCertsResponse | null;
 	getSearchFolder?: Folder | null;
 	getTask?: boolean | null;
 	noop?: boolean | null;
@@ -55,6 +56,7 @@ export interface AccountInfo {
 	attrs?: AccountInfoAttrs | null;
 	prefs?: Preferences | null;
 	license?: License | null;
+	zimlets?: AccountZimlet | null;
 }
 
 export interface Identities {
@@ -135,6 +137,7 @@ export interface AccountInfoAttrs {
 	zimbraFeatureCalendarEnabled?: boolean | null;
 	zimbraFeatureRelatedContactsEnabled?: boolean | null;
 	zimbraFeatureChangePasswordEnabled?: boolean | null;
+	zimbraFeatureResetPasswordEnabled?: boolean | null;
 }
 
 export interface Preferences {
@@ -159,6 +162,8 @@ export interface Preferences {
 	zimbraPrefOutOfOfficeUntilDate?: string | null;
 	zimbraPrefReadingPaneEnabled?: boolean | null;
 	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
+	zimbraPrefPasswordRecoveryAddress?: string | null;
+	zimbraPrefPasswordRecoveryAddressStatus?: PasswordRecoveryAddressStatus | null;
 	zimbraPrefShowFragments?: boolean | null;
 }
 
@@ -170,6 +175,40 @@ export interface License {
 export interface LicenseAttrs {
 	name: string;
 	_content: boolean;
+}
+
+export interface AccountZimlet {
+	zimlet?: AccountZimletInfo[] | null;
+}
+
+export interface AccountZimletInfo {
+	zimletContext?: AccountZimletContext[] | null;
+	zimlet?: AccountZimletDesc[] | null;
+	zimletConfig?: AccountZimletConfigInfo[] | null;
+}
+
+export interface AccountZimletContext {
+	baseUrl?: string | null;
+	priority?: number | null;
+	presence?: ZimletPresence | null;
+}
+
+export interface AccountZimletDesc {
+	name?: string | null;
+	version?: string | null;
+	description?: string | null;
+	extension?: string | null;
+	target?: string | null;
+	label?: string | null;
+}
+
+export interface AccountZimletConfigInfo {
+	name?: string | null;
+	version?: string | null;
+	description?: string | null;
+	extension?: string | null;
+	target?: string | null;
+	label?: string | null;
 }
 
 export interface Folder {
@@ -811,6 +850,21 @@ export interface MailboxMetadataAttrs {
 	zimbraPrefSMIMEDefaultSetting?: string | null;
 }
 
+export interface SMimePublicCertsResponse {
+	certs?: SMimePublicCerts[] | null;
+}
+
+export interface SMimePublicCerts {
+	email?: string | null;
+	cert?: SMimePublicCert[] | null;
+}
+
+export interface SMimePublicCert {
+	store: string;
+	field: string;
+	_content?: string | null;
+}
+
 export interface RelatedContacts {
 	relatedContacts?: RelatedContact[] | null;
 }
@@ -879,6 +933,7 @@ export interface Mutation {
 	sendInviteReply?: InviteReplyResponse | null;
 	sendShareNotification?: boolean | null;
 	setMailboxMetadata?: boolean | null;
+	setRecoveryAccount?: boolean | null;
 }
 
 export interface SignatureResponse {
@@ -1502,6 +1557,10 @@ export interface GetMessageQueryArgs {
 	read?: boolean | null;
 	ridZ?: string | null;
 }
+export interface GetSMimePublicCertsQueryArgs {
+	contactAddr: string;
+	store: string;
+}
 export interface GetTaskQueryArgs {
 	inviteId: string;
 }
@@ -1701,6 +1760,12 @@ export interface SetMailboxMetadataMutationArgs {
 	section?: string | null;
 	attrs: MailboxMetadataSectionAttrsInput;
 }
+export interface SetRecoveryAccountMutationArgs {
+	channel: SetRecoveryAccountChannel;
+	op: SetRecoveryAccountOp;
+	recoveryAccount?: string | null;
+	recoveryAccountVerificationCode?: string | null;
+}
 
 export enum PrefCalendarInitialView {
 	day = 'day',
@@ -1723,6 +1788,11 @@ export enum ReadingPaneLocation {
 	bottom = 'bottom'
 }
 
+export enum PasswordRecoveryAddressStatus {
+	verified = 'verified',
+	pending = 'pending'
+}
+
 export enum LicenseStatus {
 	OK = 'OK',
 	NOT_INSTALLED = 'NOT_INSTALLED',
@@ -1732,6 +1802,12 @@ export enum LicenseStatus {
 	INVALID = 'INVALID',
 	LICENSE_GRACE_PERIOD = 'LICENSE_GRACE_PERIOD',
 	ACTIVATION_GRACE_PERIOD = 'ACTIVATION_GRACE_PERIOD'
+}
+
+export enum ZimletPresence {
+	mandatory = 'mandatory',
+	enabled = 'enabled',
+	disabled = 'disabled'
 }
 
 /* https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/acl.md */
@@ -1931,4 +2007,15 @@ export enum InviteReplyVerb {
 	ACCEPT = 'ACCEPT',
 	DECLINE = 'DECLINE',
 	TENTATIVE = 'TENTATIVE'
+}
+
+export enum SetRecoveryAccountChannel {
+	email = 'email'
+}
+
+export enum SetRecoveryAccountOp {
+	sendCode = 'sendCode',
+	validateCode = 'validateCode',
+	resendCode = 'resendCode',
+	reset = 'reset'
 }
