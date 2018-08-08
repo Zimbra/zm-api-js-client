@@ -67,10 +67,12 @@ import {
 	GetFolderOptions,
 	GetMailboxMetadataOptions,
 	GetMessageOptions,
+	GetSMimePublicCertsOptions,
 	LoginOptions,
 	NotificationHandler,
 	RelatedContactsOptions,
 	SearchOptions,
+	SetRecoveryAccountOptions,
 	ShareInfosOptions,
 	ZimbraClientOptions
 } from './types';
@@ -388,6 +390,20 @@ export class ZimbraBatchClient {
 			res => (res.search ? { folders: normalize(Folder)(res.search) } : {})
 		);
 
+	public getSMimePublicCerts = (options: GetSMimePublicCertsOptions) =>
+		this.jsonRequest({
+			name: 'GetSMIMEPublicCerts',
+			body: {
+				store: {
+					_content: options.store
+				},
+				email: {
+					_content: options.contactAddr
+				}
+			},
+			namespace: Namespace.Account
+		});
+
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);
 
@@ -541,6 +557,12 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(ShareNotification)(body)
 			}
+		});
+
+	public setRecoveryAccount = (options: SetRecoveryAccountOptions) =>
+		this.jsonRequest({
+			name: 'SetRecoveryAccount',
+			body: options
 		});
 
 	public shareInfos = ({ addresses }: ShareInfosOptions) =>
