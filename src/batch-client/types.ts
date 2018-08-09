@@ -115,6 +115,7 @@ export interface ChangePasswordOptions {
 
 export interface LoginOptions {
 	password: string;
+	recoveryCode: string;
 	username: string;
 }
 
@@ -190,4 +191,8 @@ export interface RecoverAccountOptions {
 	channel: SetRecoveryAccountChannelType;
 	email: string;
 	op: RecoverAccountOpType;
+}
+
+export interface ResetPasswordOptions {
+	password: string;
 }

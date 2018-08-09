@@ -68,6 +68,7 @@ import {
 	NotificationHandler,
 	RecoverAccountOptions,
 	RelatedContactsOptions,
+	ResetPasswordOptions,
 	SearchOptions,
 	SetRecoveryAccountChannelType,
 	SetRecoveryAccountOptions,
@@ -394,20 +395,30 @@ export class ZimbraBatchClient {
 			: this.batchDataLoader.load(options);
 	};
 
-	public login = (options: LoginOptions) =>
-		this.jsonRequest({
+	public login = ({ username, password, recoveryCode }: LoginOptions) => {
+		let body: any;
+		body = {};
+		body.account = {
+			by: 'name',
+			_content: username
+		};
+
+		if (password) {
+			body.password = password;
+		}
+		if (recoveryCode) {
+			body.recoveryCode = {
+				verifyAccount: '1',
+				_content: recoveryCode
+			};
+		}
+
+		return this.jsonRequest({
 			name: 'Auth',
-			body: {
-				account: {
-					by: 'name',
-					_content: options.username
-				},
-				password: options.password
-				// prefs: [],
-				// attrs: []
-			},
+			body,
 			namespace: Namespace.Account
 		});
+	};
 
 	public logout = () =>
 		this.jsonRequest({
@@ -477,11 +488,15 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		}).then(res => mapValuesDeep(res._attrs, coerceStringToBoolean));
 
-	public recoverAccount = ({ email, op }: RecoverAccountOptions) =>
+	public recoverAccount = ({
+		channel = SetRecoveryAccountChannelType.email,
+		email,
+		op
+	}: RecoverAccountOptions) =>
 		this.jsonRequest({
 			name: 'RecoverAccount',
 			body: {
-				channel: SetRecoveryAccountChannelType.email,
+				channel,
 				email,
 				op
 			}
@@ -495,6 +510,13 @@ export class ZimbraBatchClient {
 					cn: email
 				}
 			}
+		});
+
+	public resetPassword = (body: ResetPasswordOptions) =>
+		this.jsonRequest({
+			name: 'ResetPassword',
+			namespace: Namespace.Account,
+			body
 		});
 
 	public resolve = (path: string) => `${this.origin}${path}`;

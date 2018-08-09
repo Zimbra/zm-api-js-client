@@ -39,6 +39,7 @@ import {
 	LoginOptions,
 	RecoverAccountOptions,
 	RelatedContactsOptions,
+	ResetPasswordOptions,
 	SearchOptions,
 	SetRecoveryAccountOptions,
 	ShareInfosOptions
@@ -269,6 +270,8 @@ export function createZimbraSchema(
 					client.modifyTask(task as CalendarItemInput),
 				sendInviteReply: (_, { inviteReply }) =>
 					client.sendInviteReply(inviteReply as InviteReplyInput),
+				resetPassword: (_, variables) =>
+					client.resetPassword(variables as ResetPasswordOptions),
 				setMailboxMetadata: (_: any, variables: any) =>
 					client.jsonRequest({
 						name: 'SetMailboxMetadata',
