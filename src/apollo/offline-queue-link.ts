@@ -25,7 +25,7 @@ export class OfflineQueueLink extends ApolloLink {
 				'Storage can be window.localStorage or AsyncStorage but was not set'
 			);
 		this.storage = storage;
-		this.storeKey = storeKey; // TODO: Stop assuming this is the same both here and in sync-offline-mutation.
+		this.storeKey = storeKey;
 		this.mutationQueue = [];
 		this.queryQueue = [];
 		this.isOpen = isOpen;
