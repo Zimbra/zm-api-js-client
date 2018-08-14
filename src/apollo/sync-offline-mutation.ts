@@ -55,14 +55,12 @@ export class SyncOfflineMutation {
 		const uncommittedOfflineMutation: Array<any> = [];
 
 		Promise.all(
-			this.offlineData.map(item => {
-				try {
-					return this.apolloClient.mutate(item);
-				} catch (e) {
+			this.offlineData.map(item =>
+				this.apolloClient.mutate(item).catch(e => {
 					//set the errored mutation to the stash
 					uncommittedOfflineMutation.push(item);
-				}
-			})
+				})
+			)
 		)
 			.catch(e => console.warn('SyncOfflineMutation::sync ERR:', e))
 			.then(this.clearOfflineData) //wait before it was cleared
