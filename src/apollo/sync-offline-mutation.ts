@@ -56,7 +56,7 @@ export class SyncOfflineMutation {
 
 		Promise.all(
 			this.offlineData.map(item =>
-				this.apolloClient.mutate(item).catch(e => {
+				this.apolloClient.mutate(item).catch(() => {
 					//set the errored mutation to the stash
 					uncommittedOfflineMutation.push(item);
 				})
