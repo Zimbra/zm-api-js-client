@@ -5,6 +5,21 @@ import {
 	SortBy
 } from '../schema/generated-schema-types';
 
+export enum GalSearchType {
+	all = 'all',
+	account = 'account',
+	resource = 'resource',
+	group = 'group'
+}
+
+export interface AutoCompleteOptions {
+	folders?: string;
+	includeGal?: boolean;
+	name: string;
+	needExp?: boolean;
+	type?: GalSearchType;
+}
+
 export interface Notification {
 	created?: any;
 	deleted?: any;
@@ -162,6 +177,11 @@ export interface CreateSearchFolderOptions {
 	parentFolderId?: string;
 	query: string;
 	view?: string;
+}
+
+export interface GetSMimePublicCertsOptions {
+	contactAddr: string;
+	store: string;
 }
 
 export enum SetRecoveryAccountOpType {

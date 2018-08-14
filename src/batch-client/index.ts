@@ -4,6 +4,8 @@ import { get, isError, mapValues } from 'lodash';
 import { denormalize, normalize } from '../normalize';
 import {
 	ActionOptions as ActionOptionsEntity,
+	AutoComplete as AutoCompleteEntity,
+	AutoCompleteResponse as AutoCompleteResponseEntity,
 	CalendarItemCreateModifyRequest,
 	CalendarItemHitInfo,
 	Conversation,
@@ -52,6 +54,7 @@ import { normalizeMimeParts } from '../utils/normalize-mime-parts';
 import {
 	ActionOptions,
 	ActionType,
+	AutoCompleteOptions,
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
@@ -64,6 +67,7 @@ import {
 	GetFolderOptions,
 	GetMailboxMetadataOptions,
 	GetMessageOptions,
+	GetSMimePublicCertsOptions,
 	LoginOptions,
 	NotificationHandler,
 	RecoverAccountOptions,
@@ -136,6 +140,12 @@ export class ZimbraBatchClient {
 			}
 		});
 	};
+
+	public autoComplete = (options: AutoCompleteOptions) =>
+		this.jsonRequest({
+			name: 'AutoComplete',
+			body: denormalize(AutoCompleteEntity)(options)
+		}).then(normalize(AutoCompleteResponseEntity));
 
 	public cancelTask = ({ inviteId }: any) =>
 		this.jsonRequest({
@@ -383,6 +393,20 @@ export class ZimbraBatchClient {
 			res => (res.search ? { folders: normalize(Folder)(res.search) } : {})
 		);
 
+	public getSMimePublicCerts = (options: GetSMimePublicCertsOptions) =>
+		this.jsonRequest({
+			name: 'GetSMIMEPublicCerts',
+			body: {
+				store: {
+					_content: options.store
+				},
+				email: {
+					_content: options.contactAddr
+				}
+			},
+			namespace: Namespace.Account
+		});
+
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);
 
@@ -521,6 +545,15 @@ export class ZimbraBatchClient {
 
 	public resolve = (path: string) => `${this.origin}${path}`;
 
+	public saveDraft = (options: SendMessageInput) =>
+		this.jsonRequest({
+			name: 'SaveDraft',
+			body: denormalize(SendMessageInfo)(options)
+		}).then(({ m: messages }) => ({
+			message:
+				messages && messages.map((m: any) => normalizeMessage(m, this.origin))
+		}));
+
 	public search = (options: SearchOptions) =>
 		this.jsonRequest({
 			name: 'Search',
@@ -550,7 +583,7 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'SendMsg',
 			body: denormalize(SendMessageInfo)(body)
-		});
+		}).then(normalize(SendMessageInfo));
 
 	public sendShareNotification = (body: ShareNotificationInput) =>
 		this.jsonRequest({

@@ -289,6 +289,18 @@ export const ActionOptions = new Entity({
 	grant: ACLGrant
 });
 
+export const AutoComplete = new Entity({
+	t: 'type'
+});
+
+export const AutoCompleteMatch = new Entity({
+	l: 'folderId'
+});
+
+export const AutoCompleteResponse = new Entity({
+	match: AutoCompleteMatch
+});
+
 export const ShareNotification = new Entity({
 	e: ['address', ShareNotificationAddress]
 });
