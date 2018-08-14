@@ -3,7 +3,7 @@ import {
 	defaultDataIdFromObject,
 	InMemoryCache
 } from 'apollo-cache-inmemory';
-import { get } from 'lodash';
+import get from 'lodash/get';
 
 const dataIdFromPath = (result: any, path: string) => {
 	if (result.__typename) {
@@ -20,9 +20,8 @@ const dataIdFromObject = (object: any): string | null | undefined => {
 			return dataIdFromPath(object, 'meta.0.section');
 		case 'Folder':
 			if (object.id === '1') {
-				// Do not cache the root folder based on the ID because of
-				// different views (message, contacts) can be fetched.
-				return `${object.__typename}:${object.id}:${new Date().valueOf()}`;
+				// Cache the root folder based on both ID and UUID from server
+				return `${object.__typename}:${object.id}:${object.uuid}`;
 			}
 			return defaultDataIdFromObject(object);
 		default:
