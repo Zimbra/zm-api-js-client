@@ -1357,8 +1357,8 @@ type CalendarItemAlarm {
 }
 
 type RecoverAccount {
-  recoveryAccount: String
-  recoveryAttemptsLeft: String
+	recoveryAccount: String
+	recoveryAttemptsLeft: String
 }
 
 input CalendarItemAlarmInput {
@@ -1856,11 +1856,11 @@ type Query {
 	preferences: Preferences
 	relatedContacts(email: String!): RelatedContacts
 	shareInfos(addresses: [String!]): [[ShareInfo]]
-    recoverAccount(
-      op: RecoverAccountOp!
-      email: String!
-      channel: SetRecoveryAccountChannel!
-    ): RecoverAccount
+	recoverAccount(
+		op: RecoverAccountOp!
+		email: String!
+		channel: SetRecoveryAccountChannel!
+	): RecoverAccount
 
 
 
