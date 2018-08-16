@@ -445,8 +445,10 @@ export class ZimbraBatchClient {
 				},
 				...(password && { password }),
 				...(recoveryCode && {
-					verifyAccount: true,
-					_content: recoveryCode
+					recoveryCode: {
+						verifyAccount: true,
+						_content: recoveryCode
+					}
 				})
 			},
 			namespace: Namespace.Account
