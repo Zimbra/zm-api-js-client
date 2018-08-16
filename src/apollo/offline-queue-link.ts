@@ -1,6 +1,11 @@
 /** see: github:iamrommel/offline-demo/web */
 import { ApolloLink, Observable } from 'apollo-link';
-import { SyncOfflineMutation } from './sync-offline-mutation';
+import {
+	OfflineOperationEntry,
+	OfflineQueueLinkOptions,
+	OperationEntry,
+	StorageProvider
+} from './types';
 
 /**
  * A link to queue Mutations and save them to some backing storage.
@@ -8,16 +13,19 @@ import { SyncOfflineMutation } from './sync-offline-mutation';
  */
 export class OfflineQueueLink extends ApolloLink {
 	public isOpen: boolean;
-	public storage: any;
-	private mutationQueue: Array<any>;
-	private queryQueue: Array<any>;
+	public storage: StorageProvider;
+
+	// Maintain two queues: one for non-serializable operations, and another
+	// with serializable operations
+	private offlineQueue: Array<OfflineOperationEntry>;
+	private onlineQueue: Array<OperationEntry>;
 	private storeKey: string;
 
 	constructor({
 		storage,
 		storeKey = '@offlineQueueKey',
 		isOpen = true
-	}: any = {}) {
+	}: OfflineQueueLinkOptions) {
 		super();
 
 		if (!storage)
@@ -26,42 +34,44 @@ export class OfflineQueueLink extends ApolloLink {
 			);
 		this.storage = storage;
 		this.storeKey = storeKey;
-		this.mutationQueue = [];
-		this.queryQueue = [];
+		this.offlineQueue = [];
+		this.onlineQueue = [];
 		this.isOpen = isOpen;
 	}
-
-	clearMutationQueue = () => {
-		this.mutationQueue = [];
-	};
 
 	close = () => {
 		this.isOpen = false;
 	};
 
-	enqueue = (entry: any) => {
+	dequeue = (entry: OperationEntry) => {
+		const index = this.onlineQueue.indexOf(entry);
+		this.onlineQueue = [
+			...this.onlineQueue.slice(0, index),
+			...this.onlineQueue.slice(index + 1)
+		];
+	};
+
+	enqueue = (entry: OperationEntry) => {
 		const item = { ...entry };
 		const { operation } = item;
 		const { query, variables }: { query: any; variables: any } =
 			operation || {};
-		let definitions = [];
+		let isMutation =
+			query &&
+			query.definitions &&
+			query.definitions.filter((e: any) => e.operation === 'mutation').length >
+				0;
 
-		if (query && query.definitions)
-			definitions = query.definitions.filter(
-				(e: any) => e.operation === 'mutation'
-			);
+		// Add the actual operation to the onlineQueue
+		this.onlineQueue.push(entry);
 
-		//store only if there are values for query.definitions
-		if (definitions.length > 0) {
-			// query.definitions = definitions; // TODO: This line takes away needed Fragments
-			this.mutationQueue.push({ mutation: query, variables });
+		// Add a serialized copy of the operation to the offlineQueue
+		this.offlineQueue.push({
+			[isMutation ? 'mutation' : 'query']: query,
+			variables
+		});
 
-			//update the value of local storage
-			this.storage.setItem(this.storeKey, JSON.stringify(this.mutationQueue));
-		} else {
-			// Queue queries in a non-persistent queue
-			this.queryQueue.push(item);
-		}
+		this.persist();
 	};
 
 	open = ({ apolloClient }: { apolloClient?: any } = {}) => {
@@ -70,8 +80,10 @@ export class OfflineQueueLink extends ApolloLink {
 		this.isOpen = true;
 
 		this.retry();
+	};
 
-		this.resync({ apolloClient });
+	persist = () => {
+		this.storage.setItem(this.storeKey, JSON.stringify(this.offlineQueue));
 	};
 
 	request(operation: any, forward: any) {
@@ -86,38 +98,20 @@ export class OfflineQueueLink extends ApolloLink {
 		return new Observable(observer => {
 			const entry = { operation, forward, observer };
 			this.enqueue(entry);
-			return () => ({ isOffline: true });
+			return () => this.dequeue(entry);
 		});
 	}
 
-	/** sync offline mutations back to the server */
-	resync = ({
-		apolloClient,
-		syncOfflineMutation
-	}: {
-		apolloClient: any;
-		syncOfflineMutation?: any;
-	}) => {
-		syncOfflineMutation =
-			syncOfflineMutation ||
-			new SyncOfflineMutation({
-				apolloClient,
-				storage: this.storage,
-				storeKey: this.storeKey
-			});
-
-		syncOfflineMutation
-			.init()
-			.then(syncOfflineMutation.sync)
-			.then(this.clearMutationQueue);
-	};
-
 	/** retry queries made while offline like apollo-link-queue */
 	retry = () => {
-		this.queryQueue.forEach(({ operation, forward, observer }) => {
+		this.onlineQueue.forEach(({ operation, forward, observer }) => {
+			// TODO: Remove items from offlineQueue one at a time as they resolve
 			forward(operation).subscribe(observer);
 		});
 
-		this.queryQueue = [];
+		this.onlineQueue = this.offlineQueue = [];
+
+		// Right now this assumes that all operations from the onlineQueue are successful.
+		this.persist();
 	};
 }

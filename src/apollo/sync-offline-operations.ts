@@ -1,15 +1,21 @@
 /** see: github:iamrommel/offline-demo/web */
-export class SyncOfflineMutation {
+import {
+	OfflineOperationEntry,
+	StorageProvider,
+	SyncOfflineOperationsOptions
+} from './types';
+
+export class SyncOfflineOperations {
 	public apolloClient: any;
-	public storage: any;
-	private offlineData: Array<any>;
+	public storage: StorageProvider;
+	private offlineData: Array<OfflineOperationEntry>;
 	private storeKey: string;
 
 	constructor({
 		apolloClient,
 		storage,
 		storeKey = '@offlineQueueKey'
-	}: any = {}) {
+	}: SyncOfflineOperationsOptions) {
 		if (!apolloClient)
 			throw new Error(
 				'Apollo Client instance is required when syncing data, please assign value to it'
@@ -25,7 +31,7 @@ export class SyncOfflineMutation {
 		this.offlineData = [];
 	}
 
-	addOfflineData = (queue: Array<any> = []) => {
+	addOfflineData = (queue: Array<OfflineOperationEntry> = []) => {
 		//add only if there is a value
 		if (queue && queue.length > 0)
 			this.storage.setItem(this.storeKey, JSON.stringify(queue));
@@ -51,22 +57,23 @@ export class SyncOfflineMutation {
 		//if there is no offline data  then just exit
 		if (!this.hasOfflineData()) return;
 
-		//return as promise, but in the end clear the storage
-		const uncommittedOfflineMutation: Array<any> = [];
+		const uncommitted: Array<OfflineOperationEntry> = [];
 
 		Promise.all(
 			this.offlineData.map(item =>
-				this.apolloClient.mutate(item).catch(() => {
-					//set the errored mutation to the stash
-					uncommittedOfflineMutation.push(item);
-				})
+				this.apolloClient['mutation' in item ? 'mutate' : 'query'](item).catch(
+					() => {
+						//set the errored item back to the stash
+						uncommitted.push(item);
+					}
+				)
 			)
 		)
-			.catch(e => console.warn('SyncOfflineMutation::sync ERR:', e))
+			.catch(e => console.warn('SyncOfflineOperations::sync ERR:', e))
 			.then(this.clearOfflineData) //wait before it was cleared
 			.then(() => {
 				//then add again the uncommited storage
-				this.addOfflineData(uncommittedOfflineMutation);
+				this.addOfflineData(uncommitted);
 			});
 	};
 }
