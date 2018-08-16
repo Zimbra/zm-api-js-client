@@ -64,6 +64,7 @@ export function createZimbraSchema(
 				autoComplete: (_, variables) =>
 					client.autoComplete(variables as AutoCompleteOptions),
 				folder: (_, variables) => client.folder(variables as FolderOptions),
+				downloadMessage: (_, variables) => client.downloadMessage(variables),
 				freeBusy: (_, variables) =>
 					client.freeBusy(variables as FreeBusyOptions),
 				getContact: (_, variables) =>

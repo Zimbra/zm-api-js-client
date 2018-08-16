@@ -254,6 +254,25 @@ export class ZimbraBatchClient {
 			body: options
 		});
 
+	public downloadMessage = ({ id }: any) => {
+		return fetch(`${this.origin}/service/home/~/?auth=co&id=${id}`, {
+			method: 'GET',
+			credentials: 'include'
+		}).then(response => {
+			if (response.ok) {
+				return response.text().then(content => {
+					if (!content) {
+						return undefined;
+					}
+					return {
+						id,
+						content
+					};
+				});
+			}
+		});
+	};
+
 	public folder = ({ id, uuid, view }: FolderOptions) =>
 		this.jsonRequest({
 			name: 'GetFolder',
