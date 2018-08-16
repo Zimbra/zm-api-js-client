@@ -74,7 +74,6 @@ import {
 	RelatedContactsOptions,
 	ResetPasswordOptions,
 	SearchOptions,
-	SetRecoveryAccountChannelType,
 	SetRecoveryAccountOptions,
 	ShareInfosOptions,
 	ZimbraClientOptions
@@ -439,7 +438,17 @@ export class ZimbraBatchClient {
 
 		return this.jsonRequest({
 			name: 'Auth',
-			body,
+			body: {
+				account: {
+					by: 'name',
+					_content: username
+				},
+				...(password && { password }),
+				...(recoveryCode && {
+					verifyAccount: true,
+					_content: recoveryCode
+				})
+			},
 			namespace: Namespace.Account
 		});
 	};
@@ -512,11 +521,7 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		}).then(res => mapValuesDeep(res._attrs, coerceStringToBoolean));
 
-	public recoverAccount = ({
-		channel = SetRecoveryAccountChannelType.email,
-		email,
-		op
-	}: RecoverAccountOptions) =>
+	public recoverAccount = ({ channel, email, op }: RecoverAccountOptions) =>
 		this.jsonRequest({
 			name: 'RecoverAccount',
 			body: {
@@ -536,11 +541,13 @@ export class ZimbraBatchClient {
 			}
 		});
 
-	public resetPassword = (body: ResetPasswordOptions) =>
+	public resetPassword = ({ password }: ResetPasswordOptions) =>
 		this.jsonRequest({
 			name: 'ResetPassword',
 			namespace: Namespace.Account,
-			body
+			body: {
+				password
+			}
 		});
 
 	public resolve = (path: string) => `${this.origin}${path}`;

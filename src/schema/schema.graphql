@@ -1358,7 +1358,7 @@ type CalendarItemAlarm {
 
 type RecoverAccount {
 	recoveryAccount: String
-	recoveryAttemptsLeft: String
+	recoveryAttemptsLeft: Int
 }
 
 input CalendarItemAlarmInput {
