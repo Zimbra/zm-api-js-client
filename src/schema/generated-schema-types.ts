@@ -138,6 +138,7 @@ export interface AccountInfoAttrs {
 	zimbraFeatureRelatedContactsEnabled?: boolean | null;
 	zimbraFeatureChangePasswordEnabled?: boolean | null;
 	zimbraFeatureResetPasswordEnabled?: boolean | null;
+	zimbraFeatureWebClientOfflineAccessEnabled?: boolean | null;
 }
 
 export interface Preferences {

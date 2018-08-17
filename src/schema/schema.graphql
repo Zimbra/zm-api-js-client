@@ -909,6 +909,7 @@ type AccountInfoAttrs {
 	zimbraFeatureRelatedContactsEnabled: Boolean
 	zimbraFeatureChangePasswordEnabled: Boolean
 	zimbraFeatureResetPasswordEnabled: Boolean
+	zimbraFeatureWebClientOfflineAccessEnabled: Boolean
 }
 
 type Identities {
