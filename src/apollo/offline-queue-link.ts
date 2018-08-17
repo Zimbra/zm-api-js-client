@@ -8,8 +8,9 @@ import {
 } from './types';
 
 /**
- * A link to queue Mutations and save them to some backing storage.
- * Also queues Queries and refires them when opened; see apollo-link-queue.
+ * Queue operations and refire them at later time, see apollo-link-queue.
+ * This link also maintains a persisted copy of the queue to be consumed by a
+ * third party.
  */
 export class OfflineQueueLink extends ApolloLink {
 	public isOpen: boolean;
@@ -45,10 +46,12 @@ export class OfflineQueueLink extends ApolloLink {
 
 	dequeue = (entry: OperationEntry) => {
 		const index = this.onlineQueue.indexOf(entry);
-		this.onlineQueue = [
-			...this.onlineQueue.slice(0, index),
-			...this.onlineQueue.slice(index + 1)
-		];
+		if (index !== -1) {
+			this.onlineQueue = [
+				...this.onlineQueue.slice(0, index),
+				...this.onlineQueue.slice(index + 1)
+			];
+		}
 	};
 
 	enqueue = (entry: OperationEntry) => {
