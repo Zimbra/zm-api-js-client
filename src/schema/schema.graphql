@@ -205,6 +205,11 @@ enum PrefMailSelectAfterDelete {
 	adaptive
 }
 
+enum PrefClientType {
+	standard
+	advanced
+}
+
 enum ActionTypeName {
 	ContactAction
 	ConvAction
@@ -994,6 +999,7 @@ type Preferences {
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
 	zimbraPrefCalendarWorkingHours: String
+	zimbraPrefClientType: PrefClientType
 	zimbraPrefDefaultCalendarId: Int
 	zimbraPrefDeleteInviteOnReply: Boolean
 	zimbraPrefDisplayExternalImages: Boolean
@@ -1461,6 +1467,7 @@ input PreferencesInput {
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
 	zimbraPrefCalendarWorkingHours: String
+	zimbraPrefClientType: PrefClientType
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete

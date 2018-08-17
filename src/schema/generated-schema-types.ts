@@ -148,6 +148,7 @@ export interface Preferences {
 	zimbraPrefCalendarInitialView?: PrefCalendarInitialView | null;
 	zimbraPrefCalendarReminderEmail?: string | null;
 	zimbraPrefCalendarWorkingHours?: string | null;
+	zimbraPrefClientType?: PrefClientType | null;
 	zimbraPrefDefaultCalendarId?: number | null;
 	zimbraPrefDeleteInviteOnReply?: boolean | null;
 	zimbraPrefDisplayExternalImages?: boolean | null;
@@ -873,7 +874,6 @@ export interface MailboxMetadataAttrs {
 	zimbraPrefUndoSendTimeout?: number | null;
 	archivedFolder?: string | null;
 	zimbraPrefSMIMEDefaultSetting?: string | null;
-	zimbraPrefSMIMELastOperation?: string | null;
 }
 
 export interface SMimePublicCertsResponse {
@@ -960,7 +960,6 @@ export interface Mutation {
 	sendInviteReply?: InviteReplyResponse | null;
 	sendShareNotification?: boolean | null;
 	setMailboxMetadata?: boolean | null;
-	uploadMessage?: string | null;
 	setRecoveryAccount?: boolean | null;
 }
 
@@ -1300,6 +1299,7 @@ export interface PreferencesInput {
 	zimbraPrefCalendarInitialView?: PrefCalendarInitialView | null;
 	zimbraPrefCalendarReminderEmail?: string | null;
 	zimbraPrefCalendarWorkingHours?: string | null;
+	zimbraPrefClientType?: PrefClientType | null;
 	zimbraPrefDisplayExternalImages?: boolean | null;
 	zimbraPrefGroupMailBy?: string | null;
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
@@ -1544,7 +1544,6 @@ export interface MailboxMetadataSectionAttrsInput {
 	zimbraPrefUndoSendTimeout?: number | null;
 	archivedFolder?: string | null;
 	zimbraPrefSMIMEDefaultSetting?: string | null;
-	zimbraPrefSMIMELastOperation?: string | null;
 }
 
 export interface ExternalAccount {
@@ -1834,9 +1833,6 @@ export interface SetMailboxMetadataMutationArgs {
 	section?: string | null;
 	attrs: MailboxMetadataSectionAttrsInput;
 }
-export interface UploadMessageMutationArgs {
-	value: string;
-}
 export interface SetRecoveryAccountMutationArgs {
 	channel: SetRecoveryAccountChannel;
 	op: SetRecoveryAccountOp;
@@ -1851,6 +1847,11 @@ export enum PrefCalendarInitialView {
 	week = 'week',
 	workWeek = 'workWeek',
 	year = 'year'
+}
+
+export enum PrefClientType {
+	standard = 'standard',
+	advanced = 'advanced'
 }
 
 export enum PrefMailSelectAfterDelete {
