@@ -1000,6 +1000,7 @@ type Preferences {
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
+	zimbraPrefMailToasterEnabled: Boolean
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
 	zimbraPrefOutOfOfficeFromDate: String
@@ -1463,6 +1464,7 @@ input PreferencesInput {
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
+	zimbraPrefMailToasterEnabled: Boolean
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
 	zimbraPrefOutOfOfficeFromDate: String

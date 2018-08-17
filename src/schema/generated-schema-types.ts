@@ -154,6 +154,7 @@ export interface Preferences {
 	zimbraPrefGroupMailBy?: string | null;
 	zimbraPrefMailPollingInterval?: string | null;
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
+	zimbraPrefMailToasterEnabled?: boolean | null;
 	zimbraPrefMailTrustedSenderList?: string[] | null;
 	zimbraPrefMarkMsgRead?: number | null;
 	zimbraPrefOutOfOfficeFromDate?: string | null;
@@ -872,6 +873,7 @@ export interface MailboxMetadataAttrs {
 	zimbraPrefUndoSendTimeout?: number | null;
 	archivedFolder?: string | null;
 	zimbraPrefSMIMEDefaultSetting?: string | null;
+	zimbraPrefSMIMELastOperation?: string | null;
 }
 
 export interface SMimePublicCertsResponse {
@@ -958,6 +960,7 @@ export interface Mutation {
 	sendInviteReply?: InviteReplyResponse | null;
 	sendShareNotification?: boolean | null;
 	setMailboxMetadata?: boolean | null;
+	uploadMessage?: string | null;
 	setRecoveryAccount?: boolean | null;
 }
 
@@ -1300,6 +1303,7 @@ export interface PreferencesInput {
 	zimbraPrefDisplayExternalImages?: boolean | null;
 	zimbraPrefGroupMailBy?: string | null;
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
+	zimbraPrefMailToasterEnabled?: boolean | null;
 	zimbraPrefMailTrustedSenderList?: string[] | null;
 	zimbraPrefMarkMsgRead?: number | null;
 	zimbraPrefOutOfOfficeFromDate?: string | null;
@@ -1540,6 +1544,7 @@ export interface MailboxMetadataSectionAttrsInput {
 	zimbraPrefUndoSendTimeout?: number | null;
 	archivedFolder?: string | null;
 	zimbraPrefSMIMEDefaultSetting?: string | null;
+	zimbraPrefSMIMELastOperation?: string | null;
 }
 
 export interface ExternalAccount {
@@ -1828,6 +1833,9 @@ export interface SendShareNotificationMutationArgs {
 export interface SetMailboxMetadataMutationArgs {
 	section?: string | null;
 	attrs: MailboxMetadataSectionAttrsInput;
+}
+export interface UploadMessageMutationArgs {
+	value: string;
 }
 export interface SetRecoveryAccountMutationArgs {
 	channel: SetRecoveryAccountChannel;
