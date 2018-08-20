@@ -174,6 +174,7 @@ const SendMessageFields = new Entity({
 	...commonMailItemFields,
 	id: 'id',
 	origid: 'origId',
+	aid: 'attachmentId',
 	irt: 'inReplyTo',
 	rt: 'replyType',
 	autoSendTime: 'autoSendTime',

@@ -1154,6 +1154,7 @@ type MailboxMetadataAttrs {
 	zimbraPrefUndoSendTimeout: Int
 	archivedFolder: String
 	zimbraPrefSMIMEDefaultSetting: String
+	zimbraPrefSMIMELastOperation: String
 }
 
 input MailboxMetadataSectionAttrsInput {
@@ -1171,6 +1172,7 @@ input MailboxMetadataSectionAttrsInput {
 	zimbraPrefUndoSendTimeout: Int
 	archivedFolder: String
 	zimbraPrefSMIMEDefaultSetting: String
+	zimbraPrefSMIMELastOperation: String
 }
 
 type MimePart {
@@ -1256,6 +1258,7 @@ input CalendarItemMessageInput {
 input SendMessageInput {
 	id: ID #id
 	origId: ID #origid
+	attachmentId: ID #aid
 	replyType: String #rt
 	inReplyTo: String #irt
 	flags: String #f
@@ -1957,6 +1960,7 @@ type Mutation {
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean
+	uploadMessage(value: String!): String
 	setRecoveryAccount(
 		channel: SetRecoveryAccountChannel!
 		op: SetRecoveryAccountOp!
