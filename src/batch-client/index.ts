@@ -257,6 +257,9 @@ export class ZimbraBatchClient {
 	public downloadMessage = ({ id }: any) => {
 		return fetch(`${this.origin}/service/home/~/?auth=co&id=${id}`, {
 			method: 'GET',
+			headers: {
+				'X-Zimbra-Encoding': 'x-base64'
+			},
 			credentials: 'include'
 		}).then(response => {
 			if (response.ok) {
