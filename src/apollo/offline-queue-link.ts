@@ -1,11 +1,17 @@
 /** see: github:iamrommel/offline-demo/web */
 import { ApolloLink, Observable } from 'apollo-link';
+import get from 'lodash/get';
 import {
 	OfflineOperationEntry,
 	OfflineQueueLinkOptions,
+	Operation,
 	OperationEntry,
 	StorageProvider
 } from './types';
+
+function hasSensitiveVariables(operation: Operation) {
+	return !!get(operation, 'variables.password');
+}
 
 /**
  * Queue operations and refire them at later time, see apollo-link-queue.
@@ -55,8 +61,7 @@ export class OfflineQueueLink extends ApolloLink {
 	};
 
 	enqueue = (entry: OperationEntry) => {
-		const item = { ...entry };
-		const { operation } = item;
+		const { operation } = entry;
 		const { query, variables }: { query: any; variables: any } =
 			operation || {};
 		let isMutation =
@@ -89,12 +94,13 @@ export class OfflineQueueLink extends ApolloLink {
 		this.storage.setItem(this.storeKey, JSON.stringify(this.offlineQueue));
 	};
 
-	request(operation: any, forward: any) {
-		if (this.isOpen) {
-			return forward(operation);
-		}
+	request(operation: Operation, forward: any) {
+		const isForwarding =
+			this.isOpen ||
+			operation.getContext().skipQueue ||
+			hasSensitiveVariables(operation);
 
-		if (operation.getContext().skipQueue) {
+		if (isForwarding) {
 			return forward(operation);
 		}
 

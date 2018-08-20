@@ -24,10 +24,19 @@ export interface SyncOfflineOperationsOptions {
 	storeKey?: string;
 }
 
+export type Operation = {
+	extensions: any;
+	operationName: string;
+	query: any;
+	variables: any;
+	getContext(): any;
+	setContext(context: any): any;
+};
+
 export type OperationEntry = {
 	forward: any;
 	observer: any;
-	operation: any;
+	operation: Operation;
 };
 
 export type OfflineOperationEntry = {
