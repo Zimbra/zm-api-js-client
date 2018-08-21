@@ -531,7 +531,7 @@ export class ZimbraBatchClient {
 				email,
 				op
 			}
-		}).catch(() => ({ error: true }));
+		});
 
 	public relatedContacts = ({ email }: RelatedContactsOptions) =>
 		this.jsonRequest({

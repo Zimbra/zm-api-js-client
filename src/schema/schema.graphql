@@ -1854,13 +1854,13 @@ type Query {
 	getTask(inviteId: ID!): Boolean
 	noop: Boolean
 	preferences: Preferences
-	relatedContacts(email: String!): RelatedContacts
-	shareInfos(addresses: [String!]): [[ShareInfo]]
 	recoverAccount(
 		op: RecoverAccountOp!
 		email: String!
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
+	relatedContacts(email: String!): RelatedContacts
+	shareInfos(addresses: [String!]): [[ShareInfo]]
 
 
 
@@ -1968,6 +1968,11 @@ type Mutation {
 	prefOutOfOfficeFromDate(value: String!): String
 	prefOutOfOfficeReply(value: String!): String
 	prefOutOfOfficeUntilDate(value: String!): String
+	recoverAccount(
+		op: RecoverAccountOp!
+		email: String!
+		channel: SetRecoveryAccountChannel!
+	): RecoverAccount
 	resetPassword(password: String!): String
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse

@@ -278,6 +278,8 @@ export function createZimbraSchema(
 					client.modifyTask(task as CalendarItemInput),
 				sendInviteReply: (_, { inviteReply }) =>
 					client.sendInviteReply(inviteReply as InviteReplyInput),
+				recoverAccount: (_, variables) =>
+					client.recoverAccount(variables as RecoverAccountOptions),
 				resetPassword: (_, variables) =>
 					client.resetPassword(variables as ResetPasswordOptions),
 				setMailboxMetadata: (_: any, variables: any) =>
