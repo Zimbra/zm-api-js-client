@@ -35,16 +35,6 @@ export interface ZimbraClientOptions {
 	zimbraOrigin?: string;
 }
 
-export interface FolderOptions {
-	id?: string;
-	uuid?: string;
-	view: FolderView;
-}
-
-export interface FoldersOptions {
-	ids: Array<string>;
-}
-
 export interface FreeBusyOptions {
 	end: number;
 	names: Array<string>;
