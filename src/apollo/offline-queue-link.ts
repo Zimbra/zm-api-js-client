@@ -12,6 +12,24 @@ function hasSensitiveVariables(operation: Operation) {
 	return !!get(operation, 'variables.password');
 }
 
+function deriveOfflineQueue(
+	operationQueue: Array<OperationEntry>
+): Array<OfflineOperationEntry> {
+	return operationQueue.map(({ operation }: OperationEntry) => {
+		const { query, variables }: Operation = operation || {};
+		let isMutation =
+			query &&
+			query.definitions &&
+			query.definitions.filter((e: any) => e.operation === 'mutation').length >
+				0;
+
+		return {
+			[isMutation ? 'mutation' : 'query']: query,
+			variables
+		};
+	});
+}
+
 /**
  * Queue operations and refire them at later time, see apollo-link-queue.
  * This link also maintains a persisted copy of the queue to be consumed by a
@@ -21,10 +39,8 @@ export class OfflineQueueLink extends ApolloLink {
 	public isOpen: boolean;
 	public storage: StorageProvider;
 
-	// Maintain two queues: one for non-serializable operations, and another
-	// with serializable operations
-	private offlineQueue: Array<OfflineOperationEntry>;
-	private onlineQueue: Array<OperationEntry>;
+	// Maintain a queue for all operations.
+	private operationQueue: Array<OperationEntry>;
 	private storeKey: string;
 
 	constructor({
@@ -40,8 +56,7 @@ export class OfflineQueueLink extends ApolloLink {
 			);
 		this.storage = storage;
 		this.storeKey = storeKey;
-		this.offlineQueue = [];
-		this.onlineQueue = [];
+		this.operationQueue = [];
 		this.isOpen = isOpen;
 	}
 
@@ -50,34 +65,19 @@ export class OfflineQueueLink extends ApolloLink {
 	};
 
 	dequeue = (entry: OperationEntry) => {
-		const index = this.onlineQueue.indexOf(entry);
+		const index = this.operationQueue.indexOf(entry);
 		if (index !== -1) {
-			this.onlineQueue = [
-				...this.onlineQueue.slice(0, index),
-				...this.onlineQueue.slice(index + 1)
+			this.operationQueue = [
+				...this.operationQueue.slice(0, index),
+				...this.operationQueue.slice(index + 1)
 			];
 		}
+
+		this.persist();
 	};
 
 	enqueue = (entry: OperationEntry) => {
-		const { operation } = entry;
-		const { query, variables }: { query: any; variables: any } =
-			operation || {};
-		let isMutation =
-			query &&
-			query.definitions &&
-			query.definitions.filter((e: any) => e.operation === 'mutation').length >
-				0;
-
-		// Add the actual operation to the onlineQueue
-		this.onlineQueue.push(entry);
-
-		// Add a serialized copy of the operation to the offlineQueue
-		this.offlineQueue.push({
-			[isMutation ? 'mutation' : 'query']: query,
-			variables
-		});
-
+		this.operationQueue.push(entry);
 		this.persist();
 	};
 
@@ -90,7 +90,10 @@ export class OfflineQueueLink extends ApolloLink {
 	};
 
 	persist = () => {
-		this.storage.setItem(this.storeKey, JSON.stringify(this.offlineQueue));
+		this.storage.setItem(
+			this.storeKey,
+			JSON.stringify(deriveOfflineQueue(this.operationQueue))
+		);
 	};
 
 	request(operation: Operation, forward: NextLink) {
@@ -112,14 +115,13 @@ export class OfflineQueueLink extends ApolloLink {
 
 	/** retry queries made while offline like apollo-link-queue */
 	retry = () => {
-		this.onlineQueue.forEach(({ operation, forward, observer }) => {
-			// TODO: Remove items from offlineQueue one at a time as they resolve
+		this.operationQueue.forEach(({ operation, forward, observer }) => {
+			// TODO: Remove items from queue one at a time as they resolve
 			forward(operation).subscribe(observer);
 		});
 
-		this.onlineQueue = this.offlineQueue = [];
-
-		// Right now this assumes that all operations from the onlineQueue are successful.
+		// Right now this assumes that all operations from the operationQueue are successful.
+		this.operationQueue = [];
 		this.persist();
 	};
 }
