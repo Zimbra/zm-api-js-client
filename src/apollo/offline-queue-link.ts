@@ -1,10 +1,9 @@
 /** see: github:iamrommel/offline-demo/web */
-import { ApolloLink, Observable } from 'apollo-link';
+import { ApolloLink, NextLink, Observable, Operation } from 'apollo-link';
 import get from 'lodash/get';
 import {
 	OfflineOperationEntry,
 	OfflineQueueLinkOptions,
-	Operation,
 	OperationEntry,
 	StorageProvider
 } from './types';
@@ -94,7 +93,7 @@ export class OfflineQueueLink extends ApolloLink {
 		this.storage.setItem(this.storeKey, JSON.stringify(this.offlineQueue));
 	};
 
-	request(operation: Operation, forward: any) {
+	request(operation: Operation, forward: NextLink) {
 		const isForwarding =
 			this.isOpen ||
 			operation.getContext().skipQueue ||
