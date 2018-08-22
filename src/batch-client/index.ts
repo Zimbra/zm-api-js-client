@@ -14,6 +14,7 @@ import {
 	Filter,
 	Folder,
 	FreeBusy,
+	GetFolderRequest as GetFolderRequestEntity,
 	InviteReply,
 	MessageInfo,
 	SearchResponse,
@@ -58,8 +59,6 @@ import {
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
-	FolderOptions,
-	FoldersOptions,
 	FreeBusyOptions,
 	GetContactFrequencyOptions,
 	GetContactOptions,
@@ -254,32 +253,8 @@ export class ZimbraBatchClient {
 			body: options
 		});
 
-	public folder = ({ id, uuid, view }: FolderOptions) =>
-		this.jsonRequest({
-			name: 'GetFolder',
-			body: {
-				view,
-				tr: true,
-				folder: id || uuid ? { id, uuid } : undefined
-			}
-		}).then(res => normalize(Folder)(res.folder[0].folder));
-
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);
-
-	public folders = ({ ids }: FoldersOptions) =>
-		Promise.all(
-			ids.map((id: String) =>
-				this.jsonRequest({
-					name: 'GetFolder',
-					body: {
-						view: FolderView.appointment,
-						tr: true,
-						folder: id
-					}
-				}).then(normalize(Folder))
-			)
-		);
 
 	public freeBusy = ({ start, end, names }: FreeBusyOptions) =>
 		this.jsonRequest({
@@ -324,15 +299,10 @@ export class ZimbraBatchClient {
 			normalize(Filter)(get(res, 'filterRules.0.filterRule') || [])
 		);
 
-	public getFolder = (_options: GetFolderOptions) => {
-		const { traverseMountpoints, ...options } = _options;
-
+	public getFolder = (options: GetFolderOptions) => {
 		return this.jsonRequest({
 			name: 'GetFolder',
-			body: {
-				...options,
-				tr: traverseMountpoints
-			}
+			body: denormalize(GetFolderRequestEntity)(options)
 		}).then(normalize(Folder));
 	};
 

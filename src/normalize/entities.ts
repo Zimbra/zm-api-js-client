@@ -404,3 +404,12 @@ const Signature = new Entity({
 export const CreateSignatureRequest = new Entity({
 	signature: Signature
 });
+
+const GetFolderSpec = new Entity({
+	l: 'parentFolderId'
+});
+
+export const GetFolderRequest = new Entity({
+	tr: 'traverseMountpoints',
+	folder: GetFolderSpec
+});
