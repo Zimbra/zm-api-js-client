@@ -871,6 +871,7 @@ export interface MailboxMetadataAttrs {
 	zimbraPrefUndoSendTimeout?: number | null;
 	archivedFolder?: string | null;
 	zimbraPrefSMIMEDefaultSetting?: string | null;
+	zimbraPrefSMIMELastOperation?: string | null;
 }
 
 export interface SMimePublicCertsResponse {
@@ -957,6 +958,7 @@ export interface Mutation {
 	sendInviteReply?: InviteReplyResponse | null;
 	sendShareNotification?: boolean | null;
 	setMailboxMetadata?: boolean | null;
+	uploadMessage?: string | null;
 	setRecoveryAccount?: boolean | null;
 }
 
@@ -1540,6 +1542,7 @@ export interface MailboxMetadataSectionAttrsInput {
 	zimbraPrefUndoSendTimeout?: number | null;
 	archivedFolder?: string | null;
 	zimbraPrefSMIMEDefaultSetting?: string | null;
+	zimbraPrefSMIMELastOperation?: string | null;
 }
 
 export interface ExternalAccount {
@@ -1825,6 +1828,9 @@ export interface SendShareNotificationMutationArgs {
 export interface SetMailboxMetadataMutationArgs {
 	section?: string | null;
 	attrs: MailboxMetadataSectionAttrsInput;
+}
+export interface UploadMessageMutationArgs {
+	value: string;
 }
 export interface SetRecoveryAccountMutationArgs {
 	channel: SetRecoveryAccountChannel;
