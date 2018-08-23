@@ -275,16 +275,6 @@ export class ZimbraBatchClient {
 		});
 	};
 
-	public folder = ({ id, uuid, view }: FolderOptions) =>
-		this.jsonRequest({
-			name: 'GetFolder',
-			body: {
-				view,
-				tr: true,
-				folder: id || uuid ? { id, uuid } : undefined
-			}
-		}).then(res => normalize(Folder)(res.folder[0].folder));
-
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);
 
