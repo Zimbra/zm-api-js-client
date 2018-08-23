@@ -1746,7 +1746,7 @@ input ExternalAccountModifyAttrsInput {
 # Include one of these fields to query for a folder
 input GetFolderFolderInput {
 	uuid: ID
-	l: ID # Folder ID
+	parentFolderId: ID # Folder ID
 	path: String # Fully qualifed folder path
 }
 

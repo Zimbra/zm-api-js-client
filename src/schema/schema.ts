@@ -29,7 +29,6 @@ import {
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
-	FolderOptions,
 	FreeBusyOptions,
 	GetContactFrequencyOptions,
 	GetContactOptions,
