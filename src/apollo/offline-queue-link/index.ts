@@ -6,7 +6,7 @@ import {
 	OfflineQueueLinkOptions,
 	OperationEntry,
 	StorageProvider
-} from './types';
+} from '../types';
 
 export class DedupedByQueueError extends Error {
 	constructor() {
