@@ -33,13 +33,14 @@ function deriveOfflineQueue(
 /**
  * Queue operations and refire them at later time, see apollo-link-queue.
  * This link also maintains a persisted copy of the queue to be consumed by a
- * third party.
+ * third party. Further, the link maintains a map of keyed queries to be used
+ * to deduplicate or cancel queries queued while the link is closed.
  */
 export class OfflineQueueLink extends ApolloLink {
 	public isOpen: boolean;
 	public storage: StorageProvider;
 
-	// Maintain a queue for all operations.
+	private namedQueues: any;
 	private operationQueue: Array<OperationEntry>;
 	private storeKey: string;
 
@@ -56,9 +57,17 @@ export class OfflineQueueLink extends ApolloLink {
 			);
 		this.storage = storage;
 		this.storeKey = storeKey;
+		this.namedQueues = {};
 		this.operationQueue = [];
 		this.isOpen = isOpen;
 	}
+
+	cancelNamedQueue = (offlineQueueName: string) => {
+		if (this.namedQueues[offlineQueueName]) {
+			this.dequeue(this.namedQueues[offlineQueueName]);
+			this.namedQueues[offlineQueueName] = undefined;
+		}
+	};
 
 	close = () => {
 		this.isOpen = false;
@@ -97,10 +106,10 @@ export class OfflineQueueLink extends ApolloLink {
 	};
 
 	request(operation: Operation, forward: NextLink) {
+		const { skipQueue, cancelQueue, offlineQueueName } = operation.getContext();
+
 		const isForwarding =
-			this.isOpen ||
-			operation.getContext().skipQueue ||
-			hasSensitiveVariables(operation);
+			this.isOpen || skipQueue || hasSensitiveVariables(operation);
 
 		if (isForwarding) {
 			return forward(operation);
@@ -108,6 +117,15 @@ export class OfflineQueueLink extends ApolloLink {
 
 		return new Observable(observer => {
 			const entry = { operation, forward, observer };
+
+			if (offlineQueueName) {
+				this.cancelNamedQueue(offlineQueueName);
+
+				if (!cancelQueue) {
+					this.namedQueues[offlineQueueName] = entry;
+				}
+			}
+
 			this.enqueue(entry);
 			return () => this.dequeue(entry);
 		});
