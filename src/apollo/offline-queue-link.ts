@@ -8,6 +8,13 @@ import {
 	StorageProvider
 } from './types';
 
+export class DedupedByQueueError extends Error {
+	constructor() {
+		super('Operation got deduplicated by apollo-link-queue.');
+		Object.defineProperty(this, 'name', { value: 'DedupedByQueueError' });
+	}
+}
+
 function hasSensitiveVariables(operation: Operation) {
 	return !!get(operation, 'variables.password');
 }
@@ -119,6 +126,13 @@ export class OfflineQueueLink extends ApolloLink {
 			const entry = { operation, forward, observer };
 
 			if (offlineQueueName) {
+				const prevEntry = this.namedQueues[offlineQueueName];
+				if (prevEntry) {
+					// TODO(pl12133): Ideally this is `observer.complete(query.optimisticResponse)`
+					//   but I'm not sure how to get at the optimisticResponse
+					prevEntry.observer.error(new DedupedByQueueError());
+				}
+
 				this.cancelNamedQueue(offlineQueueName);
 
 				if (!cancelQueue) {
