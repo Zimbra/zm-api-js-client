@@ -1,5 +1,6 @@
 /** see: github:iamrommel/offline-demo/web */
 import { ApolloLink, NextLink, Observable, Operation } from 'apollo-link';
+import castArray from 'lodash/castArray';
 import get from 'lodash/get';
 import {
 	OfflineOperationEntry,
@@ -106,6 +107,7 @@ export class OfflineQueueLink extends ApolloLink {
 	};
 
 	persist = () => {
+		// TODO: Make safe for async
 		this.storage.setItem(
 			this.storeKey,
 			JSON.stringify(deriveOfflineQueue(this.operationQueue))
@@ -113,7 +115,11 @@ export class OfflineQueueLink extends ApolloLink {
 	};
 
 	request(operation: Operation, forward: NextLink) {
-		const { skipQueue, cancelQueue, offlineQueueName } = operation.getContext();
+		const {
+			skipQueue,
+			cancelQueues,
+			offlineQueueName
+		} = operation.getContext();
 
 		const isForwarding =
 			this.isOpen || skipQueue || hasSensitiveVariables(operation);
@@ -135,9 +141,13 @@ export class OfflineQueueLink extends ApolloLink {
 
 				this.cancelNamedQueue(offlineQueueName);
 
-				if (!cancelQueue) {
+				if (!~castArray(cancelQueues).indexOf(offlineQueueName)) {
 					this.namedQueues[offlineQueueName] = entry;
 				}
+			}
+
+			if (cancelQueues) {
+				castArray(cancelQueues).forEach(this.cancelNamedQueue);
 			}
 
 			this.enqueue(entry);

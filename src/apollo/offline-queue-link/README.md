@@ -56,8 +56,8 @@ Control over the queue is achieved using context arguments. Queued operations ca
 
 | Property | Type | Description |
 | ------------- | ------------- | ------------- |
-| `offlineQueueName?` | `string` | A name for deduplicating operations. Only the final operation of any given name will be executed. Recommended value: `${operation.operationName}:${operation.variables.id}`. |
-| `cancelQueue?` | `boolean` | When true, cancels the operation named by `offlineQueueName`. |
+| `offlineQueueName?` | `string` | A unique name for deduplicating and cancelling operations. Only the final operation of any given name will be executed. Recommended value: `${operation.operationName}:${operation.variables.id}`. |
+| `cancelQueues?` | `string \| string[]` | A list of `offlineQueueName` that should be cancelled by this operation. |
 | `skipQueue?` | `boolean` | When true, the operation will not be queued. **Operations with sensitive data (passwords, personally identifiable information) MUST skip the queue because they are not safe to be persisted in plain text. Operations with a value set for `variables.password` will automatically skip the queue.** |
 
 
@@ -99,8 +99,7 @@ Example of a mutation operation that cancels outstanding operations.
 		sendMessage: (message) => mutate({
 			context: {
 				// This operation will CANCEL the operation associated with `saveDraft:${message.id}`
-				offlineQueueName: `saveDraft:${message.id}`,
-				cancelQueue: true
+				cancelQueue: `saveDraft:${message.id}`
 			},
 			variables: {
 				message
