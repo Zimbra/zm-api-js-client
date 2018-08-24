@@ -13,6 +13,7 @@ export enum PrefMailSelectAfterDelete {
 }
 
 export enum ActionOps {
+	update = 'update',
 	delete = 'delete',
 	read = 'read',
 	unread = '!read',
