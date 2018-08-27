@@ -12,6 +12,22 @@ export enum PrefMailSelectAfterDelete {
 	adaptive = 'adaptive'
 }
 
+export enum MessageFlags {
+	unread = 'u',
+	flagged = 'f',
+	hasAttachment = 'a',
+	replied = 'r',
+	sentByMe = 's',
+	forwarded = 'w',
+	calendarInvite = 'v',
+	draft = 'd',
+	imapDeleted = 'x',
+	notificationSent = 'n',
+	urgent = '!',
+	lowPriority = '?',
+	priority = '+'
+}
+
 export enum ActionOps {
 	update = 'update',
 	delete = 'delete',
