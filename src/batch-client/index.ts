@@ -418,25 +418,8 @@ export class ZimbraBatchClient {
 			: this.batchDataLoader.load(options);
 	};
 
-	public login = ({ username, password, recoveryCode }: LoginOptions) => {
-		let body: any;
-		body = {};
-		body.account = {
-			by: 'name',
-			_content: username
-		};
-
-		if (password) {
-			body.password = password;
-		}
-		if (recoveryCode) {
-			body.recoveryCode = {
-				verifyAccount: '1',
-				_content: recoveryCode
-			};
-		}
-
-		return this.jsonRequest({
+	public login = ({ username, password, recoveryCode }: LoginOptions) =>
+		this.jsonRequest({
 			name: 'Auth',
 			body: {
 				account: {
@@ -453,7 +436,6 @@ export class ZimbraBatchClient {
 			},
 			namespace: Namespace.Account
 		});
-	};
 
 	public logout = () =>
 		this.jsonRequest({
