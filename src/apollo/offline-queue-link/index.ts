@@ -157,13 +157,29 @@ export class OfflineQueueLink extends ApolloLink {
 
 	/** retry queries made while offline like apollo-link-queue */
 	retry = () => {
-		this.operationQueue.forEach(({ operation, forward, observer }) => {
-			// TODO: Remove items from queue one at a time as they resolve
-			forward(operation).subscribe(observer);
-		});
+		this.operationQueue.forEach(entry => {
+			const { operation, forward, observer } = entry;
 
-		// Right now this assumes that all operations from the operationQueue are successful.
-		this.operationQueue = [];
-		this.persist();
+			// Wrap the observer to call dequeue on error/complete
+			forward(operation).subscribe({
+				...observer,
+				error: (err: any) => {
+					this.dequeue(entry);
+					if (observer.error) {
+						console.error(
+							'[OfflineQueueLink] Could not sync operation to server:',
+							operation
+						);
+						observer.error(err);
+					}
+				},
+				complete: () => {
+					this.dequeue(entry);
+					if (observer.complete) {
+						observer.complete();
+					}
+				}
+			});
+		});
 	};
 }
