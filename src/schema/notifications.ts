@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
-import { get, omitBy } from 'lodash';
+import get from 'lodash/get';
+import omitBy from 'lodash/omitBy';
 import { ZimbraInMemoryCache } from '../apollo/zimbra-in-memory-cache';
 import { Notification } from '../batch-client/types';
 import { normalize } from '../normalize';
