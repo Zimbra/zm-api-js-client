@@ -70,6 +70,7 @@ import {
 	LoginOptions,
 	NotificationHandler,
 	RelatedContactsOptions,
+	SearchConversationOptions,
 	SearchOptions,
 	SetRecoveryAccountOptions,
 	ShareInfosOptions,
@@ -505,6 +506,82 @@ export class ZimbraBatchClient {
 				);
 			}
 			return normalized;
+		});
+
+	public searchConversation = ({
+		allowableTaskStatus,
+		calExpandInstEnd,
+		calExpandInstStart,
+		conversationId,
+		cursor,
+		fetch,
+		field,
+		fullConversation,
+		header,
+		html,
+		includeTagDeleted,
+		includeTagMuted,
+		inDumpster,
+		limit,
+		locale,
+		max,
+		needExp,
+		nest,
+		neuter,
+		offset,
+		prefetch,
+		query,
+		quick,
+		read,
+		recip,
+		resultMode,
+		sortBy,
+		timezone,
+		types,
+		wantContent
+	}: SearchConversationOptions) =>
+		this.jsonRequest({
+			name: 'SearchConversation',
+			body: {
+				cid: conversationId,
+				...(nest && { nest }),
+				...(includeTagDeleted && { includeTagDeleted }),
+				...(includeTagMuted && { includeTagMuted }),
+				...(allowableTaskStatus && {
+					allowableTaskStatus: allowableTaskStatus.join(',')
+				}),
+				...(calExpandInstStart && { calExpandInstStart }),
+				...(calExpandInstEnd && { calExpandInstEnd }),
+				...(inDumpster && { inDumpster }),
+				...(types && {
+					types: types.join(',')
+				}),
+				...(quick && { quick }),
+				...(sortBy && { sortBy }),
+				...(fetch && { fetch }),
+				...(read && { read }),
+				...(max && { max }),
+				...(html && { html }),
+				...(needExp && { needExp }),
+				...(neuter && { neuter }),
+				...(recip && { recip }),
+				...(prefetch && { prefetch }),
+				...(resultMode && { resultMode }),
+				...(fullConversation && { fullConversation }),
+				...(field && { field }),
+				...(limit && { limit }),
+				...(offset && { offset }),
+				...(wantContent && { wantContent }),
+				...{
+					_content: {
+						...(query && { query }),
+						...(header && { header }),
+						...(timezone && { tz: timezone }),
+						...(locale && { locale }),
+						...(cursor && { cursor })
+					}
+				}
+			}
 		});
 
 	public sendInviteReply = (requestOptions: InviteReplyInput) =>

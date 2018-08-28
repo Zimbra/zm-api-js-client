@@ -226,6 +226,43 @@ enum LicenseStatus {
 	ACTIVATION_GRACE_PERIOD
 }
 
+enum SearchConversationTaskStatus {
+	COMP
+	DEFERRED
+	INPR
+	NEED
+	WAITING
+}
+
+enum SearchConversationResultMode {
+	IDS
+	NORMAL
+}
+
+enum SearchConversationSortBy {
+	attachAsc
+	attachDesc
+	dateAsc
+	dateDesc
+	flagAsc
+	flagDesc
+	nameAsc
+	nameDesc
+	none
+	priorityAsc
+	priorityDesc
+	rcptAsc
+	rcptDesc
+	subjAsc
+	subjDesc
+}
+
+export enum SearchConversationWantContent {
+	both
+	full
+	original
+}
+
 enum SetRecoveryAccountOp {
 	sendCode
 	validateCode
@@ -1757,6 +1794,26 @@ input NameIdInput {
 	name: String
 }
 
+input TimezoneStandard {
+	hour: Int
+	minute: Int
+	month: Int
+	monthday: Int
+	second: Int
+	week: Int
+	weekday: Int
+}
+
+input Timezone {
+	daylight: TimezoneStandard
+	dayname: String
+	dayoffset: Int
+	id: String
+	name: String
+	offset: Int
+	standard: TimezoneStandard
+}
+
 input SignatureInput {
 	id: ID
 	name: String
@@ -1863,6 +1920,38 @@ type Query {
 		sortBy: SortBy,
 		types: SearchType
 	): SearchResponse
+	searchConversation(
+		allowableTaskStatus: [SearchConversationTaskStatus],
+		calExpandInstEnd: Int,
+		calExpandInstStart: Int,
+		conversationId: String,
+		cursor: Cursor,
+		fetch: String,
+		field: String,
+		fullConversation: Boolean,
+		header: [MailItemHeaderInput],
+		html: Boolean,
+		includeTagDeleted: Boolean,
+		includeTagMuted: Boolean,
+		inDumpster: Boolean,
+		limit: Int,
+		locale: String,
+		max: Int,
+		needExp: Boolean,
+		nest: Boolean,
+		neuter: Boolean,
+		offset: Int,
+		prefetch: Boolean,
+		query: String,
+		quick: Boolean,
+		read: Boolean,
+		recip: Int,
+		resultMode: SearchConversationResultMode,
+		sortBy: SearchConversationSortBy,
+		timezone: Timezone,
+		types: [SearchType],
+		wantContent: SearchConversationWantContent,
+	): SearchResponse,
 	taskFolders: [Folder]
 }
 

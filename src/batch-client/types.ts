@@ -91,6 +91,98 @@ export interface GetConversationOptions extends GetMailItemOptions {
 	fetch?: string;
 }
 
+// Time/rule for transitioning from daylight time to standard time.
+// Either specify week/weekday combo, or monthday.
+export interface TimezoneStandard {
+	hour: number;
+	minute: number;
+	month: number;
+	monthday?: number;
+	second: number;
+	week?: number;
+	weekday?: number;
+}
+
+export interface Timezone {
+	daylight?: TimezoneStandard;
+	dayname?: string;
+	dayoffset: number;
+	id: string;
+	name?: string;
+	offset: number;
+	standard?: TimezoneStandard;
+}
+
+export enum SearchConversationTaskStatus {
+	COMP = 'COMP',
+	DEFERRED = 'DEFERRED',
+	INPR = 'INPR',
+	NEED = 'NEED',
+	WAITING = 'WAITING'
+}
+
+export enum SearchConversationSortBy {
+	attachAsc = 'attachAsc',
+	attachDesc = 'attachDesc',
+	dateAsc = 'dateAsc',
+	dateDesc = 'dateDesc',
+	flagAsc = 'flagAsc',
+	flagDesc = 'flagDesc',
+	nameAsc = 'nameAsc',
+	nameDesc = 'nameDesc',
+	none = 'none',
+	priorityAsc = 'priorityAsc',
+	priorityDesc = 'priorityDesc',
+	rcptAsc = 'rcptAsc',
+	rcptDesc = 'rcptDesc',
+	subjAsc = 'subjAsc',
+	subjDesc = 'subjDesc'
+}
+
+export enum SearchConversationResultMode {
+	ids = 'IDS',
+	normal = 'NORMAL'
+}
+
+export enum SearchConversationWantContent {
+	both = 'both',
+	full = 'full',
+	original = 'original'
+}
+
+export interface SearchConversationOptions {
+	allowableTaskStatus?: [SearchConversationTaskStatus];
+	calExpandInstEnd?: number;
+	calExpandInstStart?: number;
+	conversationId: string;
+	cursor?: Cursor;
+	fetch?: string;
+	field?: string;
+	fullConversation?: boolean;
+	header?: [MailItemHeader];
+	html?: boolean;
+	includeTagDeleted?: boolean;
+	includeTagMuted?: boolean;
+	inDumpster?: boolean;
+	limit?: number;
+	locale?: string;
+	max?: number;
+	needExp?: boolean;
+	nest?: boolean;
+	neuter?: boolean;
+	offset?: number;
+	prefetch?: boolean;
+	query?: string;
+	quick?: boolean;
+	read?: boolean;
+	recip?: number;
+	resultMode?: SearchConversationResultMode;
+	sortBy?: SearchConversationSortBy;
+	timezone?: Timezone;
+	types?: [SearchType];
+	wantContent?: SearchConversationWantContent;
+}
+
 export interface RelatedContactsOptions {
 	email: string;
 }

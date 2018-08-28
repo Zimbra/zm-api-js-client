@@ -85,6 +85,8 @@ export function createZimbraSchema(
 				relatedContacts: (_, variables) =>
 					client.relatedContacts(variables as RelatedContactsOptions),
 				search: (_, variables) => client.search(variables as SearchOptions),
+				searchConversation: (_, variables) =>
+					client.searchConversation(variables as SearchConversationOptions),
 				shareInfos: (_, variables) =>
 					client.shareInfos(variables as ShareInfosOptions),
 				taskFolders: client.taskFolders
