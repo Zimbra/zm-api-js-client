@@ -103,7 +103,7 @@ export class OfflineQueueLink extends ApolloLink {
 
 		this.isOpen = true;
 
-		this.retry();
+		return this.retry();
 	};
 
 	persist = () => {
@@ -155,31 +155,49 @@ export class OfflineQueueLink extends ApolloLink {
 		});
 	}
 
-	/** retry queries made while offline like apollo-link-queue */
-	retry = () => {
-		this.operationQueue.forEach(entry => {
-			const { operation, forward, observer } = entry;
+	// Retry queries made while offline like apollo-link-queue
+	// Returns a Promise that resolves after all operations are processed
+	// regardless of success
+	retry = () =>
+		new Promise(resolve => {
+			let outstandingReqs = this.operationQueue.length;
+			if (!outstandingReqs) {
+				return resolve();
+			}
 
-			// Wrap the observer to call dequeue on error/complete
-			forward(operation).subscribe({
-				...observer,
-				error: (err: any) => {
-					this.dequeue(entry);
-					if (observer.error) {
-						console.error(
-							'[OfflineQueueLink] Could not sync operation to server:',
-							operation
-						);
-						observer.error(err);
-					}
-				},
-				complete: () => {
-					this.dequeue(entry);
-					if (observer.complete) {
-						observer.complete();
-					}
+			const done = () => {
+				if (--outstandingReqs === 0) {
+					resolve();
 				}
+			};
+
+			this.operationQueue.forEach(entry => {
+				const { operation, forward, observer } = entry;
+
+				// Wrap the observer to call dequeue on error/complete
+				forward(operation).subscribe({
+					...observer,
+					error: (err: any) => {
+						this.dequeue(entry);
+						if (observer.error) {
+							console.error(
+								'[OfflineQueueLink] Could not sync operation to server:',
+								operation
+							);
+							observer.error(err);
+
+							done();
+						}
+					},
+					complete: () => {
+						this.dequeue(entry);
+						if (observer.complete) {
+							observer.complete();
+						}
+
+						done();
+					}
+				});
 			});
 		});
-	};
 }
