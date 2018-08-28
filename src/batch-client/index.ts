@@ -1,5 +1,7 @@
 import DataLoader from 'dataloader';
-import { get, isError, mapValues } from 'lodash';
+import get from 'lodash/get';
+import isError from 'lodash/isError';
+import mapValues from 'lodash/mapValues';
 
 import { denormalize, normalize } from '../normalize';
 import {
