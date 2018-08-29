@@ -1844,7 +1844,7 @@ type Query {
 	getMailboxMetadata(section: String): MailboxMetadata
 	getMessage(
 		id: ID!,
-		headers: [MailItemHeaderInput],
+		header: [MailItemHeaderInput],
 		html: Boolean,
 		max: Int,
 		needExp: Boolean,

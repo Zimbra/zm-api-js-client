@@ -357,7 +357,7 @@ export class ZimbraBatchClient {
 		id,
 		html,
 		raw,
-		headers,
+		header,
 		read,
 		max,
 		ridZ
@@ -368,7 +368,7 @@ export class ZimbraBatchClient {
 				m: {
 					id,
 					html: html !== false && raw !== true ? 1 : 0,
-					header: headers && headers.map((n: any) => ({ n })),
+					header,
 					read: read === true ? 1 : undefined,
 					// expand available expansions
 					needExp: 1,
