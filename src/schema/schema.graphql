@@ -1013,6 +1013,7 @@ type Preferences {
 	zimbraPrefPasswordRecoveryAddress: String
 	zimbraPrefPasswordRecoveryAddressStatus: PasswordRecoveryAddressStatus
 	zimbraPrefShowFragments: Boolean
+	zimbraPrefWebClientOfflineBrowserKey: String
 }
 
 type NameId {

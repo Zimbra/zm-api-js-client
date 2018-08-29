@@ -166,6 +166,7 @@ export interface Preferences {
 	zimbraPrefPasswordRecoveryAddress?: string | null;
 	zimbraPrefPasswordRecoveryAddressStatus?: PasswordRecoveryAddressStatus | null;
 	zimbraPrefShowFragments?: boolean | null;
+	zimbraPrefWebClientOfflineBrowserKey?: string | null;
 }
 
 export interface License {
