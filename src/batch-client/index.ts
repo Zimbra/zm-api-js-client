@@ -85,10 +85,9 @@ function normalizeMessage(
 	zimbraOrigin?: string
 ) {
 	const normalizedMessage = normalize(MessageInfo)(message);
-	normalizedMessage.attributes = mapValuesDeep(
-		normalizedMessage.attributes,
-		coerceStringToBoolean
-	);
+	normalizedMessage.attributes =
+		normalizedMessage.attributes &&
+		mapValuesDeep(normalizedMessage.attributes, coerceStringToBoolean);
 
 	return normalizeEmailAddresses(
 		normalizeMimeParts(normalizedMessage, zimbraOrigin)
@@ -263,7 +262,6 @@ export class ZimbraBatchClient {
 
 	public downloadMessage = ({ id }: any) => {
 		return fetch(`${this.origin}/service/home/~/?auth=co&id=${id}`, {
-			method: 'GET',
 			headers: {
 				'X-Zimbra-Encoding': 'x-base64'
 			},
