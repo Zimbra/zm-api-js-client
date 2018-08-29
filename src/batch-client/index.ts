@@ -84,8 +84,14 @@ function normalizeMessage(
 	message: { [key: string]: any },
 	zimbraOrigin?: string
 ) {
+	const normalizedMessage = normalize(MessageInfo)(message);
+	normalizedMessage.attributes = mapValuesDeep(
+		normalizedMessage.attributes,
+		coerceStringToBoolean
+	);
+
 	return normalizeEmailAddresses(
-		normalizeMimeParts(normalize(MessageInfo)(message), zimbraOrigin)
+		normalizeMimeParts(normalizedMessage, zimbraOrigin)
 	);
 }
 

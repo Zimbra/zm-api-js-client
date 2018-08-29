@@ -301,8 +301,8 @@ type ShareNotification {
 }
 
 type MessageAttributes {
-	isEncrypted: String
-	isSigned: String
+	isEncrypted: Boolean
+	isSigned: Boolean
 }
 
 interface MailItem {
