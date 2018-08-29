@@ -534,8 +534,8 @@ export interface MimePart {
 }
 
 export interface MessageAttributes {
-	isEncrypted?: string | null;
-	isSigned?: string | null;
+	isEncrypted?: boolean | null;
+	isSigned?: boolean | null;
 }
 
 export interface Conversation extends MailItem {
