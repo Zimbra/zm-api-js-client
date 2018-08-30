@@ -1,4 +1,4 @@
-import { mapValues } from 'lodash';
+import mapValues from 'lodash/mapValues';
 
 export function mapValuesDeep(obj: {}, callback: (v: any) => any): {} {
 	if (typeof obj !== 'object') {

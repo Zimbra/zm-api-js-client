@@ -1747,7 +1747,7 @@ input ExternalAccountModifyAttrsInput {
 # Include one of these fields to query for a folder
 input GetFolderFolderInput {
 	uuid: ID
-	l: ID # Folder ID
+	parentFolderId: ID # Folder ID
 	path: String # Fully qualifed folder path
 }
 
@@ -1811,7 +1811,6 @@ type Query {
 		folders: String,
 		includeGal: Boolean
 	): AutoCompleteResponse
-	folder(id: ID!): Folder
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
 	getContact(id: ID!): Contact
 	getContactFrequency(
