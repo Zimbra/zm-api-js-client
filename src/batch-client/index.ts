@@ -392,6 +392,7 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'Auth',
 			body: {
+				tokenType: options.tokenType,
 				account: {
 					by: 'name',
 					_content: options.username

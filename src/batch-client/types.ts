@@ -120,6 +120,7 @@ export interface ChangePasswordOptions {
 
 export interface LoginOptions {
 	password: string;
+	tokenType: string;
 	username: string;
 }
 

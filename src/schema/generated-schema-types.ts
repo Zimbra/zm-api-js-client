@@ -935,7 +935,7 @@ export interface Mutation {
 	folderAction?: boolean | null;
 	itemAction?: boolean | null;
 	logout?: boolean | null;
-	login?: boolean | null;
+	login?: AuthResponse | null;
 	messageAction?: boolean | null;
 	modifyExternalAccount?: string | null;
 	modifyAppointment?: boolean | null;
@@ -967,6 +967,26 @@ export interface SignatureResponse {
 export interface NameId {
 	id?: string | null;
 	name?: string | null;
+}
+
+export interface AuthResponse {
+	authToken?: AuthToken[] | null;
+	lifetime?: number | null;
+	session?: Session | null;
+	skin?: Skin[] | null;
+}
+
+export interface AuthToken {
+	_content?: string | null;
+}
+
+export interface Session {
+	id?: string | null;
+	_content?: string | null;
+}
+
+export interface Skin {
+	_content?: string | null;
 }
 
 export interface SaveDraftResponse {
@@ -1754,6 +1774,7 @@ export interface ItemActionMutationArgs {
 export interface LoginMutationArgs {
 	username: string;
 	password: string;
+	tokenType?: string | null;
 }
 export interface MessageActionMutationArgs {
 	ids: string[];
