@@ -1816,7 +1816,6 @@ type Query {
 		includeGal: Boolean
 	): AutoCompleteResponse
 	downloadMessage(id: ID!): SMimeMessage
-	folder(id: ID!): Folder
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
 	getContact(id: ID!): Contact
 	getContactFrequency(
