@@ -1090,6 +1090,7 @@ type ContactAttributes {
 	workPostal: String
 	workState: String
 	workStreet: String
+	userCertificate: String
 }
 
 type RelatedContact {
