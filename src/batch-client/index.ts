@@ -42,6 +42,7 @@ import {
 	FolderView,
 	InviteReplyInput,
 	PreferencesInput,
+	SearchFolderInput,
 	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput
@@ -452,6 +453,12 @@ export class ZimbraBatchClient {
 			body: {
 				_attrs: mapValuesDeep(prefs, coerceBooleanToString)
 			}
+		});
+
+	public modifySearchQuery = (options: SearchFolderInput) =>
+		this.jsonRequest({
+			name: 'ModifySearchFolder',
+			body: options
 		});
 
 	public modifySignature = (options: SignatureInput) =>

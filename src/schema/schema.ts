@@ -9,6 +9,7 @@ import {
 	InviteReplyInput,
 	NameIdInput,
 	PreferencesInput,
+	SearchFolderInput,
 	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput,
@@ -264,6 +265,8 @@ export function createZimbraSchema(
 					client.createSignature(variables as SignatureInput),
 				modifySignature: (_, variables) =>
 					client.modifySignature(variables as SignatureInput),
+				modifySearchQuery: (_, variables) =>
+					client.modifySearchQuery(variables as SearchFolderInput),
 				deleteSignature: (_, variables) =>
 					client.deleteSignature(variables as NameIdInput),
 				saveDraft: (_, variables) =>
