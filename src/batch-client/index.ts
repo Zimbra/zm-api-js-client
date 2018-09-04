@@ -71,7 +71,9 @@ import {
 	GetSMimePublicCertsOptions,
 	LoginOptions,
 	NotificationHandler,
+	RecoverAccountOptions,
 	RelatedContactsOptions,
+	ResetPasswordOptions,
 	SearchOptions,
 	SetRecoveryAccountOptions,
 	ShareInfosOptions,
@@ -388,18 +390,27 @@ export class ZimbraBatchClient {
 			: this.batchDataLoader.load(options);
 	};
 
-	public login = (options: LoginOptions) =>
+	public login = ({
+		username,
+		password,
+		recoveryCode,
+		tokenType
+	}: LoginOptions) =>
 		this.jsonRequest({
 			name: 'Auth',
 			body: {
-				tokenType: options.tokenType,
+				tokenType,
 				account: {
 					by: 'name',
-					_content: options.username
+					_content: username
 				},
-				password: options.password
-				// prefs: [],
-				// attrs: []
+				...(password && { password }),
+				...(recoveryCode && {
+					recoveryCode: {
+						verifyAccount: true,
+						_content: recoveryCode
+					}
+				})
 			},
 			namespace: Namespace.Account
 		});
@@ -472,6 +483,16 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		}).then(res => mapValuesDeep(res._attrs, coerceStringToBoolean));
 
+	public recoverAccount = ({ channel, email, op }: RecoverAccountOptions) =>
+		this.jsonRequest({
+			name: 'RecoverAccount',
+			body: {
+				channel,
+				email,
+				op
+			}
+		});
+
 	public relatedContacts = ({ email }: RelatedContactsOptions) =>
 		this.jsonRequest({
 			name: 'GetRelatedContacts',
@@ -479,6 +500,15 @@ export class ZimbraBatchClient {
 				targetContact: {
 					cn: email
 				}
+			}
+		});
+
+	public resetPassword = ({ password }: ResetPasswordOptions) =>
+		this.jsonRequest({
+			name: 'ResetPassword',
+			namespace: Namespace.Account,
+			body: {
+				password
 			}
 		});
 

@@ -37,6 +37,7 @@ export interface Query {
 	getTask?: boolean | null;
 	noop?: boolean | null;
 	preferences?: Preferences | null;
+	recoverAccount?: RecoverAccount | null;
 	relatedContacts?: RelatedContacts | null;
 	shareInfos?: ShareInfo[] | null;
 	search?: SearchResponse | null /* Perform a search for a variety types using a flexible query interface.[[SOAP Search API Documentation]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/zimbraMail/Search.html)[[Query Tips]](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips) */;
@@ -888,6 +889,11 @@ export interface SMimePublicCert {
 	_content?: string | null;
 }
 
+export interface RecoverAccount {
+	recoveryAccount?: string | null;
+	recoveryAttemptsLeft?: number | null;
+}
+
 export interface RelatedContacts {
 	relatedContacts?: RelatedContact[] | null;
 }
@@ -952,6 +958,8 @@ export interface Mutation {
 	prefOutOfOfficeFromDate?: string | null;
 	prefOutOfOfficeReply?: string | null;
 	prefOutOfOfficeUntilDate?: string | null;
+	recoverAccount?: RecoverAccount | null;
+	resetPassword?: string | null;
 	saveDraft?: SaveDraftResponse | null;
 	sendMessage?: SendMessageResponse | null;
 	sendInviteReply?: InviteReplyResponse | null;
@@ -1646,6 +1654,11 @@ export interface GetSMimePublicCertsQueryArgs {
 export interface GetTaskQueryArgs {
 	inviteId: string;
 }
+export interface RecoverAccountQueryArgs {
+	op: RecoverAccountOp;
+	email: string;
+	channel: SetRecoveryAccountChannel;
+}
 export interface RelatedContactsQueryArgs {
 	email: string;
 }
@@ -1773,7 +1786,8 @@ export interface ItemActionMutationArgs {
 }
 export interface LoginMutationArgs {
 	username: string;
-	password: string;
+	password?: string | null;
+	recoveryCode?: string | null;
 	tokenType?: string | null;
 }
 export interface MessageActionMutationArgs {
@@ -1829,6 +1843,14 @@ export interface PrefOutOfOfficeReplyMutationArgs {
 }
 export interface PrefOutOfOfficeUntilDateMutationArgs {
 	value: string;
+}
+export interface RecoverAccountMutationArgs {
+	op: RecoverAccountOp;
+	email: string;
+	channel: SetRecoveryAccountChannel;
+}
+export interface ResetPasswordMutationArgs {
+	password: string;
 }
 export interface SaveDraftMutationArgs {
 	message: SendMessageInput;
@@ -2032,6 +2054,15 @@ export enum GranteeType {
 	cos = 'cos'
 }
 
+export enum RecoverAccountOp {
+	getRecoveryAccount = 'getRecoveryAccount',
+	sendRecoveryCode = 'sendRecoveryCode'
+}
+
+export enum SetRecoveryAccountChannel {
+	email = 'email'
+}
+
 export enum SortBy {
 	none = 'none',
 	dateAsc = 'dateAsc',
@@ -2106,10 +2137,6 @@ export enum InviteReplyVerb {
 	ACCEPT = 'ACCEPT',
 	DECLINE = 'DECLINE',
 	TENTATIVE = 'TENTATIVE'
-}
-
-export enum SetRecoveryAccountChannel {
-	email = 'email'
 }
 
 export enum SetRecoveryAccountOp {
