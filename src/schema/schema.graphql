@@ -410,7 +410,7 @@ enum InviteType {
 }
 
 type InviteInfo {
-	type: InviteType!
+	type: InviteType #though type is a required value on the response, outdated invites come back as empty InviteInfo objects
 	components: [InviteComponent] #comp
 }
 
