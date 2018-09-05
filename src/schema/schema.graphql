@@ -257,7 +257,7 @@ enum SearchConversationSortBy {
 	subjDesc
 }
 
-export enum SearchConversationWantContent {
+enum SearchConversationWantContent {
 	both
 	full
 	original
@@ -1924,7 +1924,7 @@ type Query {
 		allowableTaskStatus: [SearchConversationTaskStatus],
 		calExpandInstEnd: Int,
 		calExpandInstStart: Int,
-		conversationId: String,
+		conversationId: String!,
 		cursor: Cursor,
 		fetch: String,
 		field: String,

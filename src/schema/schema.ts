@@ -39,6 +39,7 @@ import {
 	GetSMimePublicCertsOptions,
 	LoginOptions,
 	RelatedContactsOptions,
+	SearchConversationOptions,
 	SearchOptions,
 	SetRecoveryAccountOptions,
 	ShareInfosOptions

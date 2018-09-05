@@ -541,50 +541,60 @@ export class ZimbraBatchClient {
 		timezone,
 		types,
 		wantContent
-	}: SearchConversationOptions) =>
-		this.jsonRequest({
-			name: 'SearchConversation',
-			body: {
-				cid: conversationId,
-				...(nest && { nest }),
-				...(includeTagDeleted && { includeTagDeleted }),
-				...(includeTagMuted && { includeTagMuted }),
-				...(allowableTaskStatus && {
-					allowableTaskStatus: allowableTaskStatus.join(',')
-				}),
-				...(calExpandInstStart && { calExpandInstStart }),
-				...(calExpandInstEnd && { calExpandInstEnd }),
-				...(inDumpster && { inDumpster }),
-				...(types && {
-					types: types.join(',')
-				}),
-				...(quick && { quick }),
-				...(sortBy && { sortBy }),
-				...(fetch && { fetch }),
-				...(read && { read }),
-				...(max && { max }),
-				...(html && { html }),
-				...(needExp && { needExp }),
-				...(neuter && { neuter }),
-				...(recip && { recip }),
-				...(prefetch && { prefetch }),
-				...(resultMode && { resultMode }),
-				...(fullConversation && { fullConversation }),
-				...(field && { field }),
-				...(limit && { limit }),
-				...(offset && { offset }),
-				...(wantContent && { wantContent }),
-				...{
-					_content: {
-						...(query && { query }),
-						...(header && { header }),
-						...(timezone && { tz: timezone }),
-						...(locale && { locale }),
-						...(cursor && { cursor })
-					}
+	}: SearchConversationOptions) => {
+		let body: any;
+		body = {
+			cid: conversationId,
+			...{
+				_content: {
+					...(query && { query }),
+					...(header && { header }),
+					...(timezone && { tz: timezone }),
+					...(locale && { locale }),
+					...(cursor && { cursor })
 				}
 			}
+		};
+
+		if (nest) body.nest = nest;
+		if (includeTagDeleted) body.includeTagDeleted = includeTagDeleted;
+		if (includeTagMuted) body.includeTagMuted = includeTagMuted;
+		if (allowableTaskStatus)
+			body.allowableTaskStatus = allowableTaskStatus.join(',');
+		if (calExpandInstStart) body.calExpandInstStart = calExpandInstStart;
+		if (calExpandInstEnd) body.calExpandInstEnd = calExpandInstEnd;
+		if (inDumpster) body.inDumpster = inDumpster;
+		if (types) body.types = types.join(',');
+		if (quick) body.quick = quick;
+		if (sortBy) body.sortBy = sortBy;
+		if (fetch) body.fetch = fetch;
+		if (read) body.read = read;
+		if (max) body.max = max;
+		if (html) body.html = html;
+		if (needExp) body.needExp = needExp;
+		if (neuter) body.neuter = neuter;
+		if (recip) body.recip = recip;
+		if (prefetch) body.prefetch = prefetch;
+		if (resultMode) body.resultMode = resultMode;
+		if (fullConversation) body.fullConversation = fullConversation;
+		if (field) body.field = field;
+		if (limit) body.limit = limit;
+		if (offset) body.offset = offset;
+		if (wantContent) body.wantContent = wantContent;
+
+		return this.jsonRequest({
+			name: 'SearchConv',
+			body: body
+		}).then(res => {
+			const normalized = normalize(SearchResponse)(res);
+			if (normalized.messages) {
+				normalized.messages = normalized.messages.map((m: any) =>
+					normalizeMessage(m, this.origin)
+				);
+			}
+			return normalized;
 		});
+	};
 
 	public sendInviteReply = (requestOptions: InviteReplyInput) =>
 		this.jsonRequest({
