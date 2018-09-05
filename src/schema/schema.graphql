@@ -55,6 +55,7 @@ enum AlarmAction {
 	PROCEDURE
 	X_YAHOO_CALENDAR_ACTION_IM
 	X_YAHOO_CALENDAR_ACTION_MOBILE
+	NONE
 }
 
 enum AlarmRelatedTo {
