@@ -394,7 +394,7 @@ export interface CalendarItemAlarmTriggerRelative {
 	hours?: number | null;
 	minutes?: number | null;
 	seconds?: number | null;
-	relatedTo: AlarmRelatedTo;
+	relatedTo?: AlarmRelatedTo | null;
 	negative: boolean;
 }
 

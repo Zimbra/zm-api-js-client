@@ -1340,7 +1340,7 @@ type CalendarItemAlarmTriggerRelative {
 	hours: Int
 	minutes: Int
 	seconds: Int
-	relatedTo: AlarmRelatedTo!
+	relatedTo: AlarmRelatedTo
 	negative: Boolean!
 }
 
