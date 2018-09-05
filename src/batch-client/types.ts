@@ -120,6 +120,8 @@ export interface ChangePasswordOptions {
 
 export interface LoginOptions {
 	password: string;
+	recoveryCode: string;
+	tokenType: string;
 	username: string;
 }
 
@@ -189,4 +191,19 @@ export interface SetRecoveryAccountOptions {
 	op: SetRecoveryAccountOpType;
 	recoveryAccount?: string;
 	recoveryAccountVerificationCode?: string;
+}
+
+export enum RecoverAccountOpType {
+	get = 'getRecoveryAccount',
+	send = 'sendRecoveryCode'
+}
+
+export interface RecoverAccountOptions {
+	channel: SetRecoveryAccountChannelType;
+	email: string;
+	op: RecoverAccountOpType;
+}
+
+export interface ResetPasswordOptions {
+	password: string;
 }

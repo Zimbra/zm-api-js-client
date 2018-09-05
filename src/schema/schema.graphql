@@ -237,6 +237,11 @@ enum SetRecoveryAccountChannel {
 	email
 }
 
+enum RecoverAccountOp {
+	getRecoveryAccount
+	sendRecoveryCode
+}
+
 enum PasswordRecoveryAddressStatus {
 	verified
 	pending
@@ -248,6 +253,25 @@ enum ZimletPresence {
 	disabled
 }
 
+type AuthResponse {
+	authToken: [AuthToken]
+	lifetime: Int
+	session: Session
+	skin: [Skin]
+}
+
+type AuthToken {
+	_content: String
+}
+
+type Session {
+	id: ID
+	_content: String
+}
+
+type Skin {
+	_content: String
+}
 
 type CalOrganizer {
 	address: String
@@ -1360,6 +1384,11 @@ type CalendarItemAlarm {
 	trigger: [CalendarItemAlarmTrigger]
 }
 
+type RecoverAccount {
+	recoveryAccount: String
+	recoveryAttemptsLeft: Int
+}
+
 input CalendarItemAlarmInput {
 	action: AlarmAction!
 	trigger: CalendarItemAlarmTriggerInput!
@@ -1858,8 +1887,14 @@ type Query {
 	getTask(inviteId: ID!): Boolean
 	noop: Boolean
 	preferences: Preferences
+	recoverAccount(
+		op: RecoverAccountOp!
+		email: String!
+		channel: SetRecoveryAccountChannel!
+	): RecoverAccount
 	relatedContacts(email: String!): RelatedContacts
 	shareInfos(addresses: [String!]): [[ShareInfo]]
+
 
 
 	# Perform a search for a variety types using a flexible query interface.
@@ -1940,7 +1975,7 @@ type Mutation {
 	folderAction(action: FolderActionInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	logout: Boolean
-	login(username: String!, password: String!): Boolean
+	login(username: String!, password: String, recoveryCode: String, tokenType: String): AuthResponse
 	messageAction(
 		ids: [ID!]!
 		op: String!
@@ -1966,6 +2001,12 @@ type Mutation {
 	prefOutOfOfficeFromDate(value: String!): String
 	prefOutOfOfficeReply(value: String!): String
 	prefOutOfOfficeUntilDate(value: String!): String
+	recoverAccount(
+		op: RecoverAccountOp!
+		email: String!
+		channel: SetRecoveryAccountChannel!
+	): RecoverAccount
+	resetPassword(password: String!): String
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
