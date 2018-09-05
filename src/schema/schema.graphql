@@ -300,6 +300,11 @@ type ShareNotification {
 	content: String
 }
 
+type MessageAttributes {
+	isEncrypted: Boolean
+	isSigned: Boolean
+}
+
 interface MailItem {
 	id: ID
 	size: Float # s
@@ -350,6 +355,7 @@ type MessageInfo implements MailItem {
 	inlineAttachments: [MimePart]
 	share: [ShareNotification] # shr
 	replyType: String #rt
+	attributes: MessageAttributes
 }
 
 type Conversation implements MailItem {
@@ -1789,6 +1795,11 @@ type SMimePublicCertsResponse{
 	certs: [SMimePublicCerts]
 }
 
+type SMimeMessage {
+	id: ID
+	content: String
+}
+
 ##### End Of SMIME Certificates type #####
 
 # Zimbra GraphQL Queries
@@ -1804,6 +1815,7 @@ type Query {
 		folders: String,
 		includeGal: Boolean
 	): AutoCompleteResponse
+	downloadMessage(id: ID!): SMimeMessage
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
 	getContact(id: ID!): Contact
 	getContactFrequency(
@@ -1813,7 +1825,7 @@ type Query {
 	): ContactFrequencyResponse
 	getConversation(
 		id: ID!,
-		headers: [MailItemHeaderInput],
+		header: [MailItemHeaderInput],
 		html: Boolean,
 		max: Int,
 		needExp: Boolean,
@@ -1831,7 +1843,7 @@ type Query {
 	getMailboxMetadata(section: String): MailboxMetadata
 	getMessage(
 		id: ID!,
-		headers: [MailItemHeaderInput],
+		header: [MailItemHeaderInput],
 		html: Boolean,
 		max: Int,
 		needExp: Boolean,
