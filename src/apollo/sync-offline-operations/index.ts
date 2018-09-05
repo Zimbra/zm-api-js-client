@@ -49,9 +49,9 @@ export class SyncOfflineOperations {
 	};
 
 	init = () =>
-		this.getOfflineData().then(stored => {
-			this.offlineData = JSON.parse(stored) || [];
-		});
+		this.getOfflineData().then(
+			stored => (this.offlineData = JSON.parse(stored) || [])
+		);
 
 	sync = () => {
 		//if there is no offline data  then just exit
@@ -59,7 +59,7 @@ export class SyncOfflineOperations {
 
 		const uncommitted: Array<OfflineOperationEntry> = [];
 
-		Promise.all(
+		return Promise.all(
 			this.offlineData.map(item =>
 				this.apolloClient['mutation' in item ? 'mutate' : 'query'](item).catch(
 					() => {
