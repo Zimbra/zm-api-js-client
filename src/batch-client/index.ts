@@ -1,8 +1,8 @@
 import DataLoader from 'dataloader';
+import castArray from 'lodash/castArray';
 import get from 'lodash/get';
 import isError from 'lodash/isError';
 import mapValues from 'lodash/mapValues';
-import castArray from 'lodash/castArray';
 
 import { denormalize, normalize } from '../normalize';
 import {
@@ -118,9 +118,12 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		}).then(res => {
 			let prefs: any = mapValuesDeep(res.prefs._attrs, coerceStringToBoolean);
-			prefs.zimbraPrefMailTrustedSenderList = typeof prefs.zimbraPrefMailTrustedSenderList === 'string' && castArray(prefs.zimbraPrefMailTrustedSenderList) || prefs.zimbraPrefMailTrustedSenderList;
-			
-			return ({
+			prefs.zimbraPrefMailTrustedSenderList =
+				typeof prefs.zimbraPrefMailTrustedSenderList === 'string'
+					? castArray(prefs.zimbraPrefMailTrustedSenderList)
+					: prefs.zimbraPrefMailTrustedSenderList;
+
+			return {
 				...res,
 				attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
 				prefs,
@@ -130,9 +133,8 @@ export class ZimbraBatchClient {
 						attr: mapValuesDeep(res.license.attr, coerceStringToBoolean)
 					}
 				})
-			});
-		}
-	);
+			};
+		});
 
 	public action = (type: ActionType, options: ActionOptions) => {
 		const { ids, id, ...rest } = options;
