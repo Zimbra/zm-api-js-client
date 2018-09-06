@@ -2,6 +2,7 @@ import DataLoader from 'dataloader';
 import get from 'lodash/get';
 import isError from 'lodash/isError';
 import mapValues from 'lodash/mapValues';
+import castArray from 'lodash/castArray';
 
 import { denormalize, normalize } from '../normalize';
 import {
@@ -115,17 +116,23 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetInfo',
 			namespace: Namespace.Account
-		}).then(res => ({
-			...res,
-			attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
-			prefs: mapValuesDeep(res.prefs._attrs, coerceStringToBoolean),
-			...(get(res, 'license.attr') && {
-				license: {
-					status: res.license.status,
-					attr: mapValuesDeep(res.license.attr, coerceStringToBoolean)
-				}
-			})
-		}));
+		}).then(res => {
+			let prefs: any = mapValuesDeep(res.prefs._attrs, coerceStringToBoolean);
+			prefs.zimbraPrefMailTrustedSenderList = typeof prefs.zimbraPrefMailTrustedSenderList === 'string' && castArray(prefs.zimbraPrefMailTrustedSenderList) || prefs.zimbraPrefMailTrustedSenderList;
+			
+			return ({
+				...res,
+				attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
+				prefs,
+				...(get(res, 'license.attr') && {
+					license: {
+						status: res.license.status,
+						attr: mapValuesDeep(res.license.attr, coerceStringToBoolean)
+					}
+				})
+			});
+		}
+	);
 
 	public action = (type: ActionType, options: ActionOptions) => {
 		const { ids, id, ...rest } = options;

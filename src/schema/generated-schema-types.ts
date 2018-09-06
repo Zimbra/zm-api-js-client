@@ -139,6 +139,7 @@ export interface AccountInfoAttrs {
 	zimbraFeatureRelatedContactsEnabled?: boolean | null;
 	zimbraFeatureChangePasswordEnabled?: boolean | null;
 	zimbraFeatureResetPasswordEnabled?: boolean | null;
+	zimbraMailBlacklistMaxNumEntries?: number | null;
 }
 
 export interface Preferences {
