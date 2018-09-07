@@ -1962,7 +1962,7 @@ type Mutation {
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyFilterRules(filters: [FilterInput!]): Boolean
 	modifySignature(signature: SignatureInput!): String
-	modifySearchQuery(search: SearchFolderInput!): Boolean
+	modifySearchFolder(search: SearchFolderInput!): Boolean
 	modifyTask(task: CalendarItemInput!): Boolean
 	moveTask(inviteId: ID!, destFolderId: ID!): String
 	prefAutoAddAppointmentToCalendar(value: Boolean!): Boolean

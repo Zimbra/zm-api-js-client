@@ -265,8 +265,8 @@ export function createZimbraSchema(
 					client.createSignature(variables as SignatureInput),
 				modifySignature: (_, variables) =>
 					client.modifySignature(variables as SignatureInput),
-				modifySearchQuery: (_, variables) =>
-					client.modifySearchQuery(variables as SearchFolderInput),
+				modifySearchFolder: (_, variables) =>
+					client.modifySearchFolder(variables as SearchFolderInput),
 				deleteSignature: (_, variables) =>
 					client.deleteSignature(variables as NameIdInput),
 				saveDraft: (_, variables) =>

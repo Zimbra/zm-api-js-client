@@ -949,7 +949,7 @@ export interface Mutation {
 	modifyPrefs?: boolean | null;
 	modifyFilterRules?: boolean | null;
 	modifySignature?: string | null;
-	modifySearchQuery?: boolean | null;
+	modifySearchFolder?: boolean | null;
 	modifyTask?: boolean | null;
 	moveTask?: string | null;
 	prefAutoAddAppointmentToCalendar?: boolean | null;
@@ -1802,7 +1802,7 @@ export interface ModifyFilterRulesMutationArgs {
 export interface ModifySignatureMutationArgs {
 	signature: SignatureInput;
 }
-export interface ModifySearchQueryMutationArgs {
+export interface ModifySearchFolderMutationArgs {
 	search: SearchFolderInput;
 }
 export interface ModifyTaskMutationArgs {

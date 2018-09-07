@@ -455,7 +455,7 @@ export class ZimbraBatchClient {
 			}
 		});
 
-	public modifySearchQuery = (options: SearchFolderInput) =>
+	public modifySearchFolder = (options: SearchFolderInput) =>
 		this.jsonRequest({
 			name: 'ModifySearchFolder',
 			body: options
