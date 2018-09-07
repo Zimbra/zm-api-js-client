@@ -21,6 +21,7 @@ import {
 	GetFolderRequest as GetFolderRequestEntity,
 	InviteReply,
 	MessageInfo,
+	ModifyContactRequest,
 	SearchResponse,
 	SendMessageInfo,
 	ShareNotification
@@ -44,6 +45,7 @@ import {
 	FilterInput,
 	FolderView,
 	InviteReplyInput,
+	ModifyContactInput,
 	PreferencesInput,
 	SendMessageInput,
 	ShareNotificationInput,
@@ -487,6 +489,30 @@ export class ZimbraBatchClient {
 			},
 			accountName: accountName
 		});
+
+	public modifyContact = (_options: ModifyContactInput) => {
+		const { id, attrs } = _options;
+		const modifiedAttrs = <Object[]>[];
+
+		forEach(attrs, (val, key) =>
+			modifiedAttrs.push({
+				name: key,
+				content: val
+			})
+		);
+
+		return this.jsonRequest({
+			name: 'ModifyContact',
+			body: {
+				cn: {
+					...denormalize(ModifyContactRequest)({
+						id,
+						attrs: modifiedAttrs
+					})
+				}
+			}
+		}).then(res => res.cn[0]);
+	};
 
 	public modifyFilterRules = (filters: Array<FilterInput>) =>
 		this.jsonRequest({

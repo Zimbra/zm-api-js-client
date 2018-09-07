@@ -944,6 +944,7 @@ export interface Mutation {
 	createAppointmentException?: boolean | null;
 	createCalendar?: boolean | null;
 	createContact?: Contact | null;
+	modifyContact?: Contact | null;
 	createFolder?: Folder | null;
 	createMountpoint?: boolean | null;
 	createSharedCalendar?: boolean | null;
@@ -1238,7 +1239,9 @@ export interface MailItemEmailAddressInput {
 
 export interface CreateContactInput {
 	firstName?: string | null;
+	lastName?: string | null;
 	email?: string | null;
+	userCertificate?: string | null;
 }
 
 export interface NewMountpointSpec {
@@ -1604,6 +1607,11 @@ export interface ExternalAccount {
 	password: string;
 }
 
+export interface ModifyContactInput {
+	id: string;
+	attrs: CreateContactInput;
+}
+
 export interface EmailAddressInput {
 	email: string;
 	name: string;
@@ -1766,6 +1774,10 @@ export interface CreateCalendarMutationArgs {
 	url?: string | null;
 }
 export interface CreateContactMutationArgs {
+	attrs: CreateContactInput;
+}
+export interface ModifyContactMutationArgs {
+	id: string;
 	attrs: CreateContactInput;
 }
 export interface CreateFolderMutationArgs {

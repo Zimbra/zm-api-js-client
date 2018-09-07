@@ -8,6 +8,7 @@ import {
 	FilterInput,
 	FolderView,
 	InviteReplyInput,
+	ModifyContactInput,
 	NameIdInput,
 	PreferencesInput,
 	SendMessageInput,
@@ -158,6 +159,8 @@ export function createZimbraSchema(
 					client.createSearchFolder(variables as CreateSearchFolderOptions),
 				createContact: (_, variables) =>
 					client.createContact(variables as CreateContactInput),
+				modifyContact: (_, variables) =>
+					client.modifyContact(variables as ModifyContactInput),
 				createAppointment: (_, { accountName, appointment }) =>
 					client.createAppointment(
 						accountName,

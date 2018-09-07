@@ -430,3 +430,8 @@ const ContactInputAttributes = new Entity({
 export const CreateContactRequest = new Entity({
 	a: ['attrs', ContactInputAttributes]
 });
+
+export const ModifyContactRequest = new Entity({
+	id: 'id',
+	a: ['attrs', ContactInputAttributes]
+});
