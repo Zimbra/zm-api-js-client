@@ -421,3 +421,12 @@ export const GetFolderRequest = new Entity({
 	tr: 'traverseMountpoints',
 	folder: GetFolderSpec
 });
+
+const ContactInputAttributes = new Entity({
+	n: 'name',
+	_content: 'content'
+});
+
+export const CreateContactRequest = new Entity({
+	a: ['attrs', ContactInputAttributes]
+});

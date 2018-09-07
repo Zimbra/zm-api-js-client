@@ -1117,6 +1117,11 @@ type ContactAttributes {
 	userCertificate: String
 }
 
+input CreateContactInput {
+	firstName: String
+	email: String
+}
+
 type RelatedContact {
 	email: String
 	scope: Int
@@ -1947,6 +1952,7 @@ type Mutation {
 	createAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
 	createAppointmentException(accountName: String, appointment: CalendarItemInput!): Boolean
 	createCalendar(name: String!, color: Int!, url: String): Boolean
+	createContact(attrs: CreateContactInput!): Contact
 	createFolder(
 		color: Int
 		fetchIfExists: Boolean

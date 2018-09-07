@@ -1,4 +1,5 @@
 import DataLoader from 'dataloader';
+import forEach from 'lodash/forEach';
 import get from 'lodash/get';
 import isError from 'lodash/isError';
 import mapValues from 'lodash/mapValues';
@@ -11,6 +12,7 @@ import {
 	CalendarItemCreateModifyRequest,
 	CalendarItemHitInfo,
 	Conversation,
+	CreateContactRequest,
 	CreateMountpointRequest,
 	CreateSignatureRequest,
 	Filter,
@@ -37,6 +39,7 @@ import {
 } from '../request/types';
 import {
 	CalendarItemInput,
+	CreateContactInput,
 	CreateMountpointInput,
 	FilterInput,
 	FolderView,
@@ -205,6 +208,26 @@ export class ZimbraBatchClient {
 			},
 			accountName: accountName
 		});
+
+	public createContact = (_options: CreateContactInput) => {
+		const attr = <Object[]>[];
+
+		forEach((<any>_options)['attrs'], (val, key) =>
+			attr.push({
+				name: key,
+				content: val
+			})
+		);
+
+		return this.jsonRequest({
+			name: 'CreateContact',
+			body: {
+				cn: {
+					...denormalize(CreateContactRequest)({ attrs: attr })
+				}
+			}
+		}).then(res => res.cn[0]);
+	};
 
 	public createFolder = (_options: CreateFolderOptions) => {
 		const { flags, fetchIfExists, parentFolderId, ...options } = _options;
