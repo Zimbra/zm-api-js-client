@@ -390,10 +390,16 @@ export class ZimbraBatchClient {
 			: this.batchDataLoader.load(options);
 	};
 
-	public login = ({ username, password, recoveryCode }: LoginOptions) =>
+	public login = ({
+		username,
+		password,
+		recoveryCode,
+		tokenType
+	}: LoginOptions) =>
 		this.jsonRequest({
 			name: 'Auth',
 			body: {
+				tokenType,
 				account: {
 					by: 'name',
 					_content: username

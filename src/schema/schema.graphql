@@ -253,6 +253,25 @@ enum ZimletPresence {
 	disabled
 }
 
+type AuthResponse {
+	authToken: [AuthToken]
+	lifetime: Int
+	session: Session
+	skin: [Skin]
+}
+
+type AuthToken {
+	_content: String
+}
+
+type Session {
+	id: ID
+	_content: String
+}
+
+type Skin {
+	_content: String
+}
 
 type CalOrganizer {
 	address: String
@@ -1943,7 +1962,7 @@ type Mutation {
 	folderAction(action: FolderActionInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	logout: Boolean
-	login(username: String!, password: String, recoveryCode: String): Boolean
+	login(username: String!, password: String, recoveryCode: String, tokenType: String): AuthResponse
 	messageAction(
 		ids: [ID!]!
 		op: String!
