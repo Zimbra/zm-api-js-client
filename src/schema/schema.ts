@@ -157,10 +157,10 @@ export function createZimbraSchema(
 					client.createFolder(variables as CreateFolderOptions),
 				createSearchFolder: (_, variables) =>
 					client.createSearchFolder(variables as CreateSearchFolderOptions),
-				createContact: (_, variables) =>
-					client.createContact(variables as CreateContactInput),
-				modifyContact: (_, variables) =>
-					client.modifyContact(variables as ModifyContactInput),
+				createContact: (_, { contact }) =>
+					client.createContact(contact as CreateContactInput),
+				modifyContact: (_, { contact }) =>
+					client.modifyContact(contact as ModifyContactInput),
 				createAppointment: (_, { accountName, appointment }) =>
 					client.createAppointment(
 						accountName,

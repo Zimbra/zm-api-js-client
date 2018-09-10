@@ -1078,6 +1078,7 @@ type Contact {
 	folderId: ID
 	revision: Int
 	sortField: String
+	fileAsStr: String
 	attributes: ContactAttributes
 }
 
@@ -1128,7 +1129,7 @@ type ContactAttributes {
 	userCertificate: String
 }
 
-input CreateContactInput {
+input ContactAttrsInput {
 	firstName: String
 	middleName: String
 	lastName: String
@@ -1175,9 +1176,16 @@ input CreateContactInput {
 	userCertificate: String
 }
 
+input CreateContactInput {
+	folderId: ID
+	tagNames: String
+	attributes: ContactAttrsInput!
+}
+
 input ModifyContactInput {
-	id: String!
-	attrs: CreateContactInput!
+	id: ID!
+	tagNames: String
+	attributes: ContactAttrsInput!
 }
 
 type RelatedContact {
@@ -2010,8 +2018,8 @@ type Mutation {
 	createAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
 	createAppointmentException(accountName: String, appointment: CalendarItemInput!): Boolean
 	createCalendar(name: String!, color: Int!, url: String): Boolean
-	createContact(attrs: CreateContactInput!): Contact
-	modifyContact(id: String!, attrs: CreateContactInput!): Contact
+	createContact(contact: CreateContactInput!): Contact
+	modifyContact(contact: ModifyContactInput!): Contact
 	createFolder(
 		color: Int
 		fetchIfExists: Boolean

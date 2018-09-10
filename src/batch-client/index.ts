@@ -11,8 +11,9 @@ import {
 	AutoCompleteResponse as AutoCompleteResponseEntity,
 	CalendarItemCreateModifyRequest,
 	CalendarItemHitInfo,
+	Contact,
+	ContactInputRequest,
 	Conversation,
-	CreateContactRequest,
 	CreateMountpointRequest,
 	CreateSignatureRequest,
 	Filter,
@@ -21,7 +22,6 @@ import {
 	GetFolderRequest as GetFolderRequestEntity,
 	InviteReply,
 	MessageInfo,
-	ModifyContactRequest,
 	SearchResponse,
 	SendMessageInfo,
 	ShareNotification
@@ -211,11 +211,12 @@ export class ZimbraBatchClient {
 			accountName: accountName
 		});
 
-	public createContact = (_options: CreateContactInput) => {
-		const attr = <Object[]>[];
+	public createContact = (contact: CreateContactInput) => {
+		const { attributes, ...rest } = contact;
+		const contactAttrs = <Object[]>[];
 
-		forEach((<any>_options)['attrs'], (val, key) =>
-			attr.push({
+		forEach(attributes, (val, key) =>
+			contactAttrs.push({
 				name: key,
 				content: val
 			})
@@ -225,10 +226,13 @@ export class ZimbraBatchClient {
 			name: 'CreateContact',
 			body: {
 				cn: {
-					...denormalize(CreateContactRequest)({ attrs: attr })
+					...denormalize(ContactInputRequest)({
+						...rest,
+						attributes: contactAttrs
+					})
 				}
 			}
-		}).then(res => res.cn[0]);
+		}).then(res => normalize(Contact)(res.cn[0]));
 	};
 
 	public createFolder = (_options: CreateFolderOptions) => {
@@ -490,11 +494,11 @@ export class ZimbraBatchClient {
 			accountName: accountName
 		});
 
-	public modifyContact = (_options: ModifyContactInput) => {
-		const { id, attrs } = _options;
+	public modifyContact = (options: ModifyContactInput) => {
+		const { attributes, ...rest } = options;
 		const modifiedAttrs = <Object[]>[];
 
-		forEach(attrs, (val, key) =>
+		forEach(attributes, (val, key) =>
 			modifiedAttrs.push({
 				name: key,
 				content: val
@@ -505,13 +509,13 @@ export class ZimbraBatchClient {
 			name: 'ModifyContact',
 			body: {
 				cn: {
-					...denormalize(ModifyContactRequest)({
-						id,
-						attrs: modifiedAttrs
+					...denormalize(ContactInputRequest)({
+						...rest,
+						attributes: modifiedAttrs
 					})
 				}
 			}
-		}).then(res => res.cn[0]);
+		}).then(res => normalize(Contact)(res.cn[0]));
 	};
 
 	public modifyFilterRules = (filters: Array<FilterInput>) =>

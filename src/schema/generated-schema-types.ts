@@ -261,6 +261,7 @@ export interface Contact {
 	folderId?: string | null;
 	revision?: number | null;
 	sortField?: string | null;
+	fileAsStr?: string | null;
 	attributes?: ContactAttributes | null;
 }
 
@@ -1249,6 +1250,12 @@ export interface MailItemEmailAddressInput {
 }
 
 export interface CreateContactInput {
+	folderId?: string | null;
+	tagNames?: string | null;
+	attributes: ContactAttrsInput;
+}
+
+export interface ContactAttrsInput {
 	firstName?: string | null;
 	middleName?: string | null;
 	lastName?: string | null;
@@ -1293,6 +1300,12 @@ export interface CreateContactInput {
 	website?: string | null;
 	notes?: string | null;
 	userCertificate?: string | null;
+}
+
+export interface ModifyContactInput {
+	id: string;
+	tagNames?: string | null;
+	attributes: ContactAttrsInput;
 }
 
 export interface NewMountpointSpec {
@@ -1658,11 +1671,6 @@ export interface ExternalAccount {
 	password: string;
 }
 
-export interface ModifyContactInput {
-	id: string;
-	attrs: CreateContactInput;
-}
-
 export interface EmailAddressInput {
 	email: string;
 	name: string;
@@ -1825,11 +1833,10 @@ export interface CreateCalendarMutationArgs {
 	url?: string | null;
 }
 export interface CreateContactMutationArgs {
-	attrs: CreateContactInput;
+	contact: CreateContactInput;
 }
 export interface ModifyContactMutationArgs {
-	id: string;
-	attrs: CreateContactInput;
+	contact: ModifyContactInput;
 }
 export interface CreateFolderMutationArgs {
 	color?: number | null;

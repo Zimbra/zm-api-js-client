@@ -319,7 +319,7 @@ export const ExternalCalendar = new Entity({
 	l: 'folderId'
 });
 
-const Contact = new Entity({
+export const Contact = new Entity({
 	d: 'date',
 	l: 'folderId',
 	rev: 'revision',
@@ -427,11 +427,8 @@ const ContactInputAttributes = new Entity({
 	_content: 'content'
 });
 
-export const CreateContactRequest = new Entity({
-	a: ['attrs', ContactInputAttributes]
-});
-
-export const ModifyContactRequest = new Entity({
-	id: 'id',
-	a: ['attrs', ContactInputAttributes]
+export const ContactInputRequest = new Entity({
+	l: 'folderId',
+	tn: 'tagNames',
+	a: ['attributes', ContactInputAttributes]
 });
