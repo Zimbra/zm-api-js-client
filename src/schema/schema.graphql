@@ -1127,6 +1127,10 @@ type ContactAttributes {
 	website: String
 	notes: String
 	userCertificate: String
+
+	# Used for contact lists
+	fileAs: String
+	type: String
 }
 
 input ContactAttrsInput {
@@ -1174,6 +1178,10 @@ input ContactAttrsInput {
 	website: String
 	notes: String
 	userCertificate: String
+
+	# Used for contact lists
+	fileAs: String
+	type: String
 }
 
 input CreateContactInput {
@@ -1184,6 +1192,7 @@ input CreateContactInput {
 
 input ModifyContactInput {
 	id: ID!
+	folderId: ID
 	tagNames: String
 	attributes: ContactAttrsInput!
 }
