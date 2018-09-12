@@ -55,6 +55,7 @@ enum AlarmAction {
 	PROCEDURE
 	X_YAHOO_CALENDAR_ACTION_IM
 	X_YAHOO_CALENDAR_ACTION_MOBILE
+	NONE
 }
 
 enum AlarmRelatedTo {
@@ -440,7 +441,7 @@ enum InviteType {
 }
 
 type InviteInfo {
-	type: InviteType!
+	type: InviteType #though type is a required value on the response, outdated invites come back as empty InviteInfo objects
 	components: [InviteComponent] #comp
 }
 
@@ -1367,7 +1368,7 @@ type CalendarItemAlarmTriggerRelative {
 	hours: Int
 	minutes: Int
 	seconds: Int
-	relatedTo: AlarmRelatedTo!
+	relatedTo: AlarmRelatedTo
 	negative: Boolean!
 }
 

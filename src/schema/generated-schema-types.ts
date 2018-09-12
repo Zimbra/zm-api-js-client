@@ -345,7 +345,7 @@ export interface EmailAddress {
 }
 
 export interface InviteInfo {
-	type: InviteType;
+	type?: InviteType | null;
 	components?: InviteComponent[] | null;
 }
 
@@ -400,7 +400,7 @@ export interface CalendarItemAlarmTriggerRelative {
 	hours?: number | null;
 	minutes?: number | null;
 	seconds?: number | null;
-	relatedTo: AlarmRelatedTo;
+	relatedTo?: AlarmRelatedTo | null;
 	negative: boolean;
 }
 
@@ -1964,7 +1964,8 @@ export enum AlarmAction {
 	EMAIL = 'EMAIL',
 	PROCEDURE = 'PROCEDURE',
 	X_YAHOO_CALENDAR_ACTION_IM = 'X_YAHOO_CALENDAR_ACTION_IM',
-	X_YAHOO_CALENDAR_ACTION_MOBILE = 'X_YAHOO_CALENDAR_ACTION_MOBILE'
+	X_YAHOO_CALENDAR_ACTION_MOBILE = 'X_YAHOO_CALENDAR_ACTION_MOBILE',
+	NONE = 'NONE'
 }
 
 export enum AlarmRelatedTo {
