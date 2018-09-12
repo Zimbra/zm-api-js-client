@@ -13,10 +13,10 @@ export function coerceBooleanToString<T>(
 export function coerceStringToBoolean<T>(
 	val: string | T
 ): boolean | string | T {
-	if (val === 'TRUE') {
+	if (val === 'true' || val === 'TRUE') {
 		return true;
 	}
-	if (val === 'FALSE') {
+	if (val === 'false' || val === 'FALSE') {
 		return false;
 	}
 	return val;
