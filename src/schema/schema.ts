@@ -65,6 +65,7 @@ export function createZimbraSchema(
 				accountInfo: client.accountInfo,
 				autoComplete: (_, variables) =>
 					client.autoComplete(variables as AutoCompleteOptions),
+				downloadMessage: (_, variables) => client.downloadMessage(variables),
 				freeBusy: (_, variables) =>
 					client.freeBusy(variables as FreeBusyOptions),
 				getContact: (_, variables) =>
@@ -273,6 +274,7 @@ export function createZimbraSchema(
 					client.saveDraft(variables as SendMessageInput),
 				sendMessage: (_, variables) =>
 					client.sendMessage(variables as SendMessageInput),
+				uploadMessage: (_, { value }) => client.uploadMessage(value),
 				createTask: (_, { task }) =>
 					client.createTask(task as CalendarItemInput),
 				modifyTask: (_, { task }) =>
