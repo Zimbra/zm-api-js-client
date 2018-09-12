@@ -55,6 +55,7 @@ enum AlarmAction {
 	PROCEDURE
 	X_YAHOO_CALENDAR_ACTION_IM
 	X_YAHOO_CALENDAR_ACTION_MOBILE
+	NONE
 }
 
 enum AlarmRelatedTo {
@@ -324,6 +325,11 @@ type ShareNotification {
 	content: String
 }
 
+type MessageAttributes {
+	isEncrypted: Boolean
+	isSigned: Boolean
+}
+
 interface MailItem {
 	id: ID
 	size: Float # s
@@ -374,6 +380,7 @@ type MessageInfo implements MailItem {
 	inlineAttachments: [MimePart]
 	share: [ShareNotification] # shr
 	replyType: String #rt
+	attributes: MessageAttributes
 }
 
 type Conversation implements MailItem {
@@ -434,7 +441,7 @@ enum InviteType {
 }
 
 type InviteInfo {
-	type: InviteType!
+	type: InviteType #though type is a required value on the response, outdated invites come back as empty InviteInfo objects
 	components: [InviteComponent] #comp
 }
 
@@ -1179,6 +1186,7 @@ type MailboxMetadataAttrs {
 	zimbraPrefUndoSendTimeout: Int
 	archivedFolder: String
 	zimbraPrefSMIMEDefaultSetting: String
+	zimbraPrefSMIMELastOperation: String
 }
 
 input MailboxMetadataSectionAttrsInput {
@@ -1196,6 +1204,7 @@ input MailboxMetadataSectionAttrsInput {
 	zimbraPrefUndoSendTimeout: Int
 	archivedFolder: String
 	zimbraPrefSMIMEDefaultSetting: String
+	zimbraPrefSMIMELastOperation: String
 }
 
 type MimePart {
@@ -1281,6 +1290,7 @@ input CalendarItemMessageInput {
 input SendMessageInput {
 	id: ID #id
 	origId: ID #origid
+	attachmentId: ID #aid
 	replyType: String #rt
 	inReplyTo: String #irt
 	flags: String #f
@@ -1359,7 +1369,7 @@ type CalendarItemAlarmTriggerRelative {
 	hours: Int
 	minutes: Int
 	seconds: Int
-	relatedTo: AlarmRelatedTo!
+	relatedTo: AlarmRelatedTo
 	negative: Boolean!
 }
 
@@ -1816,6 +1826,11 @@ type SMimePublicCertsResponse{
 	certs: [SMimePublicCerts]
 }
 
+type SMimeMessage {
+	id: ID
+	content: String
+}
+
 ##### End Of SMIME Certificates type #####
 
 # Zimbra GraphQL Queries
@@ -1831,6 +1846,7 @@ type Query {
 		folders: String,
 		includeGal: Boolean
 	): AutoCompleteResponse
+	downloadMessage(id: ID!): SMimeMessage
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
 	getContact(id: ID!): Contact
 	getContactFrequency(
@@ -1840,7 +1856,7 @@ type Query {
 	): ContactFrequencyResponse
 	getConversation(
 		id: ID!,
-		headers: [MailItemHeaderInput],
+		header: [MailItemHeaderInput],
 		html: Boolean,
 		max: Int,
 		needExp: Boolean,
@@ -1858,7 +1874,7 @@ type Query {
 	getMailboxMetadata(section: String): MailboxMetadata
 	getMessage(
 		id: ID!,
-		headers: [MailItemHeaderInput],
+		header: [MailItemHeaderInput],
 		html: Boolean,
 		max: Int,
 		needExp: Boolean,
@@ -1998,6 +2014,7 @@ type Mutation {
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean
+	uploadMessage(value: String!): String
 	setRecoveryAccount(
 		channel: SetRecoveryAccountChannel!
 		op: SetRecoveryAccountOp!

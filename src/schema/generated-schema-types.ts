@@ -24,6 +24,7 @@ export interface MailItem {
 export interface Query {
 	accountInfo?: AccountInfo | null;
 	autoComplete?: AutoCompleteResponse | null;
+	downloadMessage?: SMimeMessage | null;
 	freeBusy?: FreeBusy[] | null;
 	getContact?: Contact | null;
 	getContactFrequency?: ContactFrequencyResponse | null;
@@ -236,6 +237,11 @@ export interface AutoCompleteMatch {
 	fileas?: string | null;
 }
 
+export interface SMimeMessage {
+	id?: string | null;
+	content?: string | null;
+}
+
 export interface FreeBusy {
 	id: string;
 	tentative?: FreeBusyInstance[] | null;
@@ -340,7 +346,7 @@ export interface EmailAddress {
 }
 
 export interface InviteInfo {
-	type: InviteType;
+	type?: InviteType | null;
 	components?: InviteComponent[] | null;
 }
 
@@ -395,7 +401,7 @@ export interface CalendarItemAlarmTriggerRelative {
 	hours?: number | null;
 	minutes?: number | null;
 	seconds?: number | null;
-	relatedTo: AlarmRelatedTo;
+	relatedTo?: AlarmRelatedTo | null;
 	negative: boolean;
 }
 
@@ -513,6 +519,7 @@ export interface MessageInfo extends MailItem {
 	inlineAttachments?: MimePart[] | null;
 	share?: ShareNotification[] | null;
 	replyType?: string | null;
+	attributes?: MessageAttributes | null;
 }
 
 export interface MimePart {
@@ -527,6 +534,11 @@ export interface MimePart {
 	mimeParts?: MimePart[] | null;
 	url?: string | null;
 	messageId?: string | null;
+}
+
+export interface MessageAttributes {
+	isEncrypted?: boolean | null;
+	isSigned?: boolean | null;
 }
 
 export interface Filter {
@@ -873,6 +885,7 @@ export interface MailboxMetadataAttrs {
 	zimbraPrefUndoSendTimeout?: number | null;
 	archivedFolder?: string | null;
 	zimbraPrefSMIMEDefaultSetting?: string | null;
+	zimbraPrefSMIMELastOperation?: string | null;
 }
 
 export interface SMimePublicCertsResponse {
@@ -966,6 +979,7 @@ export interface Mutation {
 	sendInviteReply?: InviteReplyResponse | null;
 	sendShareNotification?: boolean | null;
 	setMailboxMetadata?: boolean | null;
+	uploadMessage?: string | null;
 	setRecoveryAccount?: boolean | null;
 }
 
@@ -1517,6 +1531,7 @@ export interface SizeConditionInput {
 export interface SendMessageInput {
 	id?: string | null;
 	origId?: string | null;
+	attachmentId?: string | null;
 	replyType?: string | null;
 	inReplyTo?: string | null;
 	flags?: string | null;
@@ -1568,6 +1583,7 @@ export interface MailboxMetadataSectionAttrsInput {
 	zimbraPrefUndoSendTimeout?: number | null;
 	archivedFolder?: string | null;
 	zimbraPrefSMIMEDefaultSetting?: string | null;
+	zimbraPrefSMIMELastOperation?: string | null;
 }
 
 export interface ExternalAccount {
@@ -1604,6 +1620,9 @@ export interface AutoCompleteQueryArgs {
 	folders?: string | null;
 	includeGal?: boolean | null;
 }
+export interface DownloadMessageQueryArgs {
+	id: string;
+}
 export interface FreeBusyQueryArgs {
 	names?: string[] | null;
 	start?: number | null;
@@ -1619,7 +1638,7 @@ export interface GetContactFrequencyQueryArgs {
 }
 export interface GetConversationQueryArgs {
 	id: string;
-	headers?: MailItemHeaderInput[] | null;
+	header?: MailItemHeaderInput[] | null;
 	html?: boolean | null;
 	max?: number | null;
 	needExp?: boolean | null;
@@ -1638,7 +1657,7 @@ export interface GetMailboxMetadataQueryArgs {
 }
 export interface GetMessageQueryArgs {
 	id: string;
-	headers?: MailItemHeaderInput[] | null;
+	header?: MailItemHeaderInput[] | null;
 	html?: boolean | null;
 	max?: number | null;
 	needExp?: boolean | null;
@@ -1869,6 +1888,9 @@ export interface SetMailboxMetadataMutationArgs {
 	section?: string | null;
 	attrs: MailboxMetadataSectionAttrsInput;
 }
+export interface UploadMessageMutationArgs {
+	value: string;
+}
 export interface SetRecoveryAccountMutationArgs {
 	channel: SetRecoveryAccountChannel;
 	op: SetRecoveryAccountOp;
@@ -1943,7 +1965,8 @@ export enum AlarmAction {
 	EMAIL = 'EMAIL',
 	PROCEDURE = 'PROCEDURE',
 	X_YAHOO_CALENDAR_ACTION_IM = 'X_YAHOO_CALENDAR_ACTION_IM',
-	X_YAHOO_CALENDAR_ACTION_MOBILE = 'X_YAHOO_CALENDAR_ACTION_MOBILE'
+	X_YAHOO_CALENDAR_ACTION_MOBILE = 'X_YAHOO_CALENDAR_ACTION_MOBILE',
+	NONE = 'NONE'
 }
 
 export enum AlarmRelatedTo {
