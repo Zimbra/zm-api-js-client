@@ -1294,6 +1294,7 @@ input SendMessageInput {
 
 input CalendarItemInviteInput {
 	components: [CalendarItemInviteComponentInput]!
+	uid: String
 }
 
 input MailItemEmailAddressInput {
@@ -1319,7 +1320,8 @@ input CalendarItemInviteComponentInput {
 	percentComplete: String
 	status: InviteCompletionStatus
 	noBlob: Boolean
-	description: [CalendarItemInviteComponentDescriptionInput]
+	description: [CalendarItemInviteComponentDescriptionInput],
+	transp: String
 }
 
 input CalendarItemInviteComponentDescriptionInput {

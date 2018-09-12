@@ -1092,6 +1092,7 @@ export interface CalendarItemMessageInput {
 
 export interface CalendarItemInviteInput {
 	components: CalendarItemInviteComponentInput[];
+	uid?: string | null;
 }
 
 export interface CalendarItemInviteComponentInput {
@@ -1112,6 +1113,7 @@ export interface CalendarItemInviteComponentInput {
 	status?: InviteCompletionStatus | null;
 	noBlob?: boolean | null;
 	description?: CalendarItemInviteComponentDescriptionInput[] | null;
+	transp?: string | null;
 }
 
 export interface CalendarItemDateTimeInput {
