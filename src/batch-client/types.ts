@@ -72,7 +72,7 @@ export interface MailItemHeader {
 }
 
 export interface GetMailItemOptions {
-	headers?: Array<MailItemHeader>;
+	header?: Array<MailItemHeader>;
 	html?: boolean;
 	id: string;
 	max?: number;
