@@ -80,7 +80,10 @@ export function normalizeMimeParts(
 			if (!isBody && type.split('/')[0] !== 'multipart') {
 				let mode =
 					disposition === 'inline' ? 'inlineAttachments' : 'attachments';
-				(acc[mode] || (acc[mode] = [])).push(processAttachment(part));
+
+				part.contentType !== 'application/pkcs7-mime' &&
+					part.contentType !== 'application/pkcs7-signature' &&
+					(acc[mode] || (acc[mode] = [])).push(processAttachment(part));
 			}
 
 			return acc;
