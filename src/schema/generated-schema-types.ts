@@ -345,7 +345,7 @@ export interface EmailAddress {
 }
 
 export interface InviteInfo {
-	type: InviteType;
+	type?: InviteType | null;
 	components?: InviteComponent[] | null;
 }
 
