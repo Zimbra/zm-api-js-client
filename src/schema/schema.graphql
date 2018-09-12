@@ -440,7 +440,7 @@ enum InviteType {
 }
 
 type InviteInfo {
-	type: InviteType!
+	type: InviteType
 	components: [InviteComponent] #comp
 }
 
