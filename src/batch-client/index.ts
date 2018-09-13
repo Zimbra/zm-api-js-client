@@ -587,9 +587,9 @@ export class ZimbraBatchClient {
 			body: body
 		}).then(res => {
 			const normalized = normalize(SearchResponse)(res);
-			if (normalized.messages) {
-				normalized.messages = normalized.messages.map((m: any) =>
-					normalizeMessage(m, this.origin)
+			if (get(normalized, 'conversations.0.messages')) {
+				normalized.conversations[0].messages = normalized.conversations[0].messages.map(
+					(m: any) => normalizeMessage(m, this.origin)
 				);
 			}
 			return normalized;

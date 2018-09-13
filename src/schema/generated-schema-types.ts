@@ -40,6 +40,7 @@ export interface Query {
 	relatedContacts?: RelatedContacts | null;
 	shareInfos?: ShareInfo[] | null;
 	search?: SearchResponse | null /* Perform a search for a variety types using a flexible query interface.[[SOAP Search API Documentation]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/zimbraMail/Search.html)[[Query Tips]](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips) */;
+	searchConversation?: SearchResponse | null;
 	taskFolders?: Folder[] | null;
 }
 
@@ -1030,6 +1031,26 @@ export interface Cursor {
 	includeOffset?: boolean | null;
 }
 
+export interface Timezone {
+	daylight?: TimezoneStandard | null;
+	dayname?: string | null;
+	dayoffset?: number | null;
+	id?: string | null;
+	name?: string | null;
+	offset?: number | null;
+	standard?: TimezoneStandard | null;
+}
+
+export interface TimezoneStandard {
+	hour?: number | null;
+	minute?: number | null;
+	month?: number | null;
+	monthday?: number | null;
+	second?: number | null;
+	week?: number | null;
+	weekday?: number | null;
+}
+
 export interface ExternalAccountAddInput {
 	accountType?: AccountType | null;
 	connectionType?: ConnectionType | null;
@@ -1645,6 +1666,38 @@ export interface SearchQueryArgs {
 	sortBy?: SortBy | null;
 	types?: SearchType | null;
 }
+export interface SearchConversationQueryArgs {
+	allowableTaskStatus?: SearchConversationTaskStatus[] | null;
+	calExpandInstEnd?: number | null;
+	calExpandInstStart?: number | null;
+	conversationId: string;
+	cursor?: Cursor | null;
+	fetch?: string | null;
+	field?: string | null;
+	fullConversation?: boolean | null;
+	header?: MailItemHeaderInput[] | null;
+	html?: boolean | null;
+	includeTagDeleted?: boolean | null;
+	includeTagMuted?: boolean | null;
+	inDumpster?: boolean | null;
+	limit?: number | null;
+	locale?: string | null;
+	max?: number | null;
+	needExp?: boolean | null;
+	nest?: boolean | null;
+	neuter?: boolean | null;
+	offset?: number | null;
+	prefetch?: boolean | null;
+	query?: string | null;
+	quick?: boolean | null;
+	read?: boolean | null;
+	recip?: number | null;
+	resultMode?: SearchConversationResultMode | null;
+	sortBy?: SearchConversationSortBy | null;
+	timezone?: Timezone | null;
+	types?: SearchType[] | null;
+	wantContent?: SearchConversationWantContent | null;
+}
 export interface AppointmentsFolderArgs {
 	start?: number | null;
 	end?: number | null;
@@ -2041,6 +2094,43 @@ export enum SearchType {
 	task = 'task',
 	wiki = 'wiki',
 	document = 'document'
+}
+
+export enum SearchConversationTaskStatus {
+	COMP = 'COMP',
+	DEFERRED = 'DEFERRED',
+	INPR = 'INPR',
+	NEED = 'NEED',
+	WAITING = 'WAITING'
+}
+
+export enum SearchConversationResultMode {
+	IDS = 'IDS',
+	NORMAL = 'NORMAL'
+}
+
+export enum SearchConversationSortBy {
+	attachAsc = 'attachAsc',
+	attachDesc = 'attachDesc',
+	dateAsc = 'dateAsc',
+	dateDesc = 'dateDesc',
+	flagAsc = 'flagAsc',
+	flagDesc = 'flagDesc',
+	nameAsc = 'nameAsc',
+	nameDesc = 'nameDesc',
+	none = 'none',
+	priorityAsc = 'priorityAsc',
+	priorityDesc = 'priorityDesc',
+	rcptAsc = 'rcptAsc',
+	rcptDesc = 'rcptDesc',
+	subjAsc = 'subjAsc',
+	subjDesc = 'subjDesc'
+}
+
+export enum SearchConversationWantContent {
+	both = 'both',
+	full = 'full',
+	original = 'original'
 }
 
 export enum ActionTypeName {
