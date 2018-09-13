@@ -38,7 +38,9 @@ import {
 	GetMessageOptions,
 	GetSMimePublicCertsOptions,
 	LoginOptions,
+	RecoverAccountOptions,
 	RelatedContactsOptions,
+	ResetPasswordOptions,
 	SearchConversationOptions,
 	SearchOptions,
 	SetRecoveryAccountOptions,
@@ -63,6 +65,7 @@ export function createZimbraSchema(
 				accountInfo: client.accountInfo,
 				autoComplete: (_, variables) =>
 					client.autoComplete(variables as AutoCompleteOptions),
+				downloadMessage: (_, variables) => client.downloadMessage(variables),
 				freeBusy: (_, variables) =>
 					client.freeBusy(variables as FreeBusyOptions),
 				getContact: (_, variables) =>
@@ -83,6 +86,8 @@ export function createZimbraSchema(
 					client.getSMimePublicCerts(variables as GetSMimePublicCertsOptions),
 				preferences: client.preferences,
 				noop: client.noop,
+				recoverAccount: (_, variables) =>
+					client.recoverAccount(variables as RecoverAccountOptions),
 				relatedContacts: (_, variables) =>
 					client.relatedContacts(variables as RelatedContactsOptions),
 				search: (_, variables) => client.search(variables as SearchOptions),
@@ -269,12 +274,17 @@ export function createZimbraSchema(
 					client.saveDraft(variables as SendMessageInput),
 				sendMessage: (_, variables) =>
 					client.sendMessage(variables as SendMessageInput),
+				uploadMessage: (_, { value }) => client.uploadMessage(value),
 				createTask: (_, { task }) =>
 					client.createTask(task as CalendarItemInput),
 				modifyTask: (_, { task }) =>
 					client.modifyTask(task as CalendarItemInput),
 				sendInviteReply: (_, { inviteReply }) =>
 					client.sendInviteReply(inviteReply as InviteReplyInput),
+				recoverAccount: (_, variables) =>
+					client.recoverAccount(variables as RecoverAccountOptions),
+				resetPassword: (_, variables) =>
+					client.resetPassword(variables as ResetPasswordOptions),
 				setMailboxMetadata: (_: any, variables: any) =>
 					client.jsonRequest({
 						name: 'SetMailboxMetadata',

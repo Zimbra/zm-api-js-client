@@ -55,6 +55,7 @@ enum AlarmAction {
 	PROCEDURE
 	X_YAHOO_CALENDAR_ACTION_IM
 	X_YAHOO_CALENDAR_ACTION_MOBILE
+	NONE
 }
 
 enum AlarmRelatedTo {
@@ -274,6 +275,11 @@ enum SetRecoveryAccountChannel {
 	email
 }
 
+enum RecoverAccountOp {
+	getRecoveryAccount
+	sendRecoveryCode
+}
+
 enum PasswordRecoveryAddressStatus {
 	verified
 	pending
@@ -285,6 +291,25 @@ enum ZimletPresence {
 	disabled
 }
 
+type AuthResponse {
+	authToken: [AuthToken]
+	lifetime: Int
+	session: Session
+	skin: [Skin]
+}
+
+type AuthToken {
+	_content: String
+}
+
+type Session {
+	id: ID
+	_content: String
+}
+
+type Skin {
+	_content: String
+}
 
 type CalOrganizer {
 	address: String
@@ -337,6 +362,11 @@ type ShareNotification {
 	content: String
 }
 
+type MessageAttributes {
+	isEncrypted: Boolean
+	isSigned: Boolean
+}
+
 interface MailItem {
 	id: ID
 	size: Float # s
@@ -387,6 +417,7 @@ type MessageInfo implements MailItem {
 	inlineAttachments: [MimePart]
 	share: [ShareNotification] # shr
 	replyType: String #rt
+	attributes: MessageAttributes
 }
 
 type Conversation implements MailItem {
@@ -447,7 +478,7 @@ enum InviteType {
 }
 
 type InviteInfo {
-	type: InviteType!
+	type: InviteType #though type is a required value on the response, outdated invites come back as empty InviteInfo objects
 	components: [InviteComponent] #comp
 }
 
@@ -1191,6 +1222,7 @@ type MailboxMetadataAttrs {
 	zimbraPrefUndoSendTimeout: Int
 	archivedFolder: String
 	zimbraPrefSMIMEDefaultSetting: String
+	zimbraPrefSMIMELastOperation: String
 }
 
 input MailboxMetadataSectionAttrsInput {
@@ -1208,6 +1240,7 @@ input MailboxMetadataSectionAttrsInput {
 	zimbraPrefUndoSendTimeout: Int
 	archivedFolder: String
 	zimbraPrefSMIMEDefaultSetting: String
+	zimbraPrefSMIMELastOperation: String
 }
 
 type MimePart {
@@ -1293,6 +1326,7 @@ input CalendarItemMessageInput {
 input SendMessageInput {
 	id: ID #id
 	origId: ID #origid
+	attachmentId: ID #aid
 	replyType: String #rt
 	inReplyTo: String #irt
 	flags: String #f
@@ -1371,7 +1405,7 @@ type CalendarItemAlarmTriggerRelative {
 	hours: Int
 	minutes: Int
 	seconds: Int
-	relatedTo: AlarmRelatedTo!
+	relatedTo: AlarmRelatedTo
 	negative: Boolean!
 }
 
@@ -1386,6 +1420,11 @@ type CalendarItemAlarmTrigger {
 type CalendarItemAlarm {
 	action: AlarmAction!
 	trigger: [CalendarItemAlarmTrigger]
+}
+
+type RecoverAccount {
+	recoveryAccount: String
+	recoveryAttemptsLeft: Int
 }
 
 input CalendarItemAlarmInput {
@@ -1843,6 +1882,11 @@ type SMimePublicCertsResponse{
 	certs: [SMimePublicCerts]
 }
 
+type SMimeMessage {
+	id: ID
+	content: String
+}
+
 ##### End Of SMIME Certificates type #####
 
 # Zimbra GraphQL Queries
@@ -1858,6 +1902,7 @@ type Query {
 		folders: String,
 		includeGal: Boolean
 	): AutoCompleteResponse
+	downloadMessage(id: ID!): SMimeMessage
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
 	getContact(id: ID!): Contact
 	getContactFrequency(
@@ -1867,7 +1912,7 @@ type Query {
 	): ContactFrequencyResponse
 	getConversation(
 		id: ID!,
-		headers: [MailItemHeaderInput],
+		header: [MailItemHeaderInput],
 		html: Boolean,
 		max: Int,
 		needExp: Boolean,
@@ -1885,7 +1930,7 @@ type Query {
 	getMailboxMetadata(section: String): MailboxMetadata
 	getMessage(
 		id: ID!,
-		headers: [MailItemHeaderInput],
+		header: [MailItemHeaderInput],
 		html: Boolean,
 		max: Int,
 		needExp: Boolean,
@@ -1900,8 +1945,14 @@ type Query {
 	getTask(inviteId: ID!): Boolean
 	noop: Boolean
 	preferences: Preferences
+	recoverAccount(
+		op: RecoverAccountOp!
+		email: String!
+		channel: SetRecoveryAccountChannel!
+	): RecoverAccount
 	relatedContacts(email: String!): RelatedContacts
 	shareInfos(addresses: [String!]): [[ShareInfo]]
+
 
 
 	# Perform a search for a variety types using a flexible query interface.
@@ -2014,7 +2065,7 @@ type Mutation {
 	folderAction(action: FolderActionInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	logout: Boolean
-	login(username: String!, password: String!): Boolean
+	login(username: String!, password: String, recoveryCode: String, tokenType: String): AuthResponse
 	messageAction(
 		ids: [ID!]!
 		op: String!
@@ -2040,11 +2091,18 @@ type Mutation {
 	prefOutOfOfficeFromDate(value: String!): String
 	prefOutOfOfficeReply(value: String!): String
 	prefOutOfOfficeUntilDate(value: String!): String
+	recoverAccount(
+		op: RecoverAccountOp!
+		email: String!
+		channel: SetRecoveryAccountChannel!
+	): RecoverAccount
+	resetPassword(password: String!): String
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean
+	uploadMessage(value: String!): String
 	setRecoveryAccount(
 		channel: SetRecoveryAccountChannel!
 		op: SetRecoveryAccountOp!

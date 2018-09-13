@@ -24,6 +24,7 @@ export interface MailItem {
 export interface Query {
 	accountInfo?: AccountInfo | null;
 	autoComplete?: AutoCompleteResponse | null;
+	downloadMessage?: SMimeMessage | null;
 	freeBusy?: FreeBusy[] | null;
 	getContact?: Contact | null;
 	getContactFrequency?: ContactFrequencyResponse | null;
@@ -37,6 +38,7 @@ export interface Query {
 	getTask?: boolean | null;
 	noop?: boolean | null;
 	preferences?: Preferences | null;
+	recoverAccount?: RecoverAccount | null;
 	relatedContacts?: RelatedContacts | null;
 	shareInfos?: ShareInfo[] | null;
 	search?: SearchResponse | null /* Perform a search for a variety types using a flexible query interface.[[SOAP Search API Documentation]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/zimbraMail/Search.html)[[Query Tips]](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips) */;
@@ -235,6 +237,11 @@ export interface AutoCompleteMatch {
 	fileas?: string | null;
 }
 
+export interface SMimeMessage {
+	id?: string | null;
+	content?: string | null;
+}
+
 export interface FreeBusy {
 	id: string;
 	tentative?: FreeBusyInstance[] | null;
@@ -339,7 +346,7 @@ export interface EmailAddress {
 }
 
 export interface InviteInfo {
-	type: InviteType;
+	type?: InviteType | null;
 	components?: InviteComponent[] | null;
 }
 
@@ -394,7 +401,7 @@ export interface CalendarItemAlarmTriggerRelative {
 	hours?: number | null;
 	minutes?: number | null;
 	seconds?: number | null;
-	relatedTo: AlarmRelatedTo;
+	relatedTo?: AlarmRelatedTo | null;
 	negative: boolean;
 }
 
@@ -512,6 +519,7 @@ export interface MessageInfo extends MailItem {
 	inlineAttachments?: MimePart[] | null;
 	share?: ShareNotification[] | null;
 	replyType?: string | null;
+	attributes?: MessageAttributes | null;
 }
 
 export interface MimePart {
@@ -526,6 +534,11 @@ export interface MimePart {
 	mimeParts?: MimePart[] | null;
 	url?: string | null;
 	messageId?: string | null;
+}
+
+export interface MessageAttributes {
+	isEncrypted?: boolean | null;
+	isSigned?: boolean | null;
 }
 
 export interface Filter {
@@ -872,6 +885,7 @@ export interface MailboxMetadataAttrs {
 	zimbraPrefUndoSendTimeout?: number | null;
 	archivedFolder?: string | null;
 	zimbraPrefSMIMEDefaultSetting?: string | null;
+	zimbraPrefSMIMELastOperation?: string | null;
 }
 
 export interface SMimePublicCertsResponse {
@@ -887,6 +901,11 @@ export interface SMimePublicCert {
 	store: string;
 	field: string;
 	_content?: string | null;
+}
+
+export interface RecoverAccount {
+	recoveryAccount?: string | null;
+	recoveryAttemptsLeft?: number | null;
 }
 
 export interface RelatedContacts {
@@ -936,7 +955,7 @@ export interface Mutation {
 	folderAction?: boolean | null;
 	itemAction?: boolean | null;
 	logout?: boolean | null;
-	login?: boolean | null;
+	login?: AuthResponse | null;
 	messageAction?: boolean | null;
 	modifyExternalAccount?: string | null;
 	modifyAppointment?: boolean | null;
@@ -953,11 +972,14 @@ export interface Mutation {
 	prefOutOfOfficeFromDate?: string | null;
 	prefOutOfOfficeReply?: string | null;
 	prefOutOfOfficeUntilDate?: string | null;
+	recoverAccount?: RecoverAccount | null;
+	resetPassword?: string | null;
 	saveDraft?: SaveDraftResponse | null;
 	sendMessage?: SendMessageResponse | null;
 	sendInviteReply?: InviteReplyResponse | null;
 	sendShareNotification?: boolean | null;
 	setMailboxMetadata?: boolean | null;
+	uploadMessage?: string | null;
 	setRecoveryAccount?: boolean | null;
 }
 
@@ -968,6 +990,26 @@ export interface SignatureResponse {
 export interface NameId {
 	id?: string | null;
 	name?: string | null;
+}
+
+export interface AuthResponse {
+	authToken?: AuthToken[] | null;
+	lifetime?: number | null;
+	session?: Session | null;
+	skin?: Skin[] | null;
+}
+
+export interface AuthToken {
+	_content?: string | null;
+}
+
+export interface Session {
+	id?: string | null;
+	_content?: string | null;
+}
+
+export interface Skin {
+	_content?: string | null;
 }
 
 export interface SaveDraftResponse {
@@ -1509,6 +1551,7 @@ export interface SizeConditionInput {
 export interface SendMessageInput {
 	id?: string | null;
 	origId?: string | null;
+	attachmentId?: string | null;
 	replyType?: string | null;
 	inReplyTo?: string | null;
 	flags?: string | null;
@@ -1560,6 +1603,7 @@ export interface MailboxMetadataSectionAttrsInput {
 	zimbraPrefUndoSendTimeout?: number | null;
 	archivedFolder?: string | null;
 	zimbraPrefSMIMEDefaultSetting?: string | null;
+	zimbraPrefSMIMELastOperation?: string | null;
 }
 
 export interface ExternalAccount {
@@ -1596,6 +1640,9 @@ export interface AutoCompleteQueryArgs {
 	folders?: string | null;
 	includeGal?: boolean | null;
 }
+export interface DownloadMessageQueryArgs {
+	id: string;
+}
 export interface FreeBusyQueryArgs {
 	names?: string[] | null;
 	start?: number | null;
@@ -1611,7 +1658,7 @@ export interface GetContactFrequencyQueryArgs {
 }
 export interface GetConversationQueryArgs {
 	id: string;
-	headers?: MailItemHeaderInput[] | null;
+	header?: MailItemHeaderInput[] | null;
 	html?: boolean | null;
 	max?: number | null;
 	needExp?: boolean | null;
@@ -1630,7 +1677,7 @@ export interface GetMailboxMetadataQueryArgs {
 }
 export interface GetMessageQueryArgs {
 	id: string;
-	headers?: MailItemHeaderInput[] | null;
+	header?: MailItemHeaderInput[] | null;
 	html?: boolean | null;
 	max?: number | null;
 	needExp?: boolean | null;
@@ -1646,6 +1693,11 @@ export interface GetSMimePublicCertsQueryArgs {
 }
 export interface GetTaskQueryArgs {
 	inviteId: string;
+}
+export interface RecoverAccountQueryArgs {
+	op: RecoverAccountOp;
+	email: string;
+	channel: SetRecoveryAccountChannel;
 }
 export interface RelatedContactsQueryArgs {
 	email: string;
@@ -1806,7 +1858,9 @@ export interface ItemActionMutationArgs {
 }
 export interface LoginMutationArgs {
 	username: string;
-	password: string;
+	password?: string | null;
+	recoveryCode?: string | null;
+	tokenType?: string | null;
 }
 export interface MessageActionMutationArgs {
 	ids: string[];
@@ -1862,6 +1916,14 @@ export interface PrefOutOfOfficeReplyMutationArgs {
 export interface PrefOutOfOfficeUntilDateMutationArgs {
 	value: string;
 }
+export interface RecoverAccountMutationArgs {
+	op: RecoverAccountOp;
+	email: string;
+	channel: SetRecoveryAccountChannel;
+}
+export interface ResetPasswordMutationArgs {
+	password: string;
+}
 export interface SaveDraftMutationArgs {
 	message: SendMessageInput;
 }
@@ -1877,6 +1939,9 @@ export interface SendShareNotificationMutationArgs {
 export interface SetMailboxMetadataMutationArgs {
 	section?: string | null;
 	attrs: MailboxMetadataSectionAttrsInput;
+}
+export interface UploadMessageMutationArgs {
+	value: string;
 }
 export interface SetRecoveryAccountMutationArgs {
 	channel: SetRecoveryAccountChannel;
@@ -1952,7 +2017,8 @@ export enum AlarmAction {
 	EMAIL = 'EMAIL',
 	PROCEDURE = 'PROCEDURE',
 	X_YAHOO_CALENDAR_ACTION_IM = 'X_YAHOO_CALENDAR_ACTION_IM',
-	X_YAHOO_CALENDAR_ACTION_MOBILE = 'X_YAHOO_CALENDAR_ACTION_MOBILE'
+	X_YAHOO_CALENDAR_ACTION_MOBILE = 'X_YAHOO_CALENDAR_ACTION_MOBILE',
+	NONE = 'NONE'
 }
 
 export enum AlarmRelatedTo {
@@ -2062,6 +2128,15 @@ export enum GranteeType {
 	guest = 'guest',
 	key = 'key',
 	cos = 'cos'
+}
+
+export enum RecoverAccountOp {
+	getRecoveryAccount = 'getRecoveryAccount',
+	sendRecoveryCode = 'sendRecoveryCode'
+}
+
+export enum SetRecoveryAccountChannel {
+	email = 'email'
 }
 
 export enum SortBy {
@@ -2175,10 +2250,6 @@ export enum InviteReplyVerb {
 	ACCEPT = 'ACCEPT',
 	DECLINE = 'DECLINE',
 	TENTATIVE = 'TENTATIVE'
-}
-
-export enum SetRecoveryAccountChannel {
-	email = 'email'
 }
 
 export enum SetRecoveryAccountOp {
