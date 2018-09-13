@@ -20,22 +20,23 @@ function hasSensitiveVariables(operation: Operation) {
 	return !!get(operation, 'variables.password');
 }
 
+function isMutationOperation({ query }: Operation) {
+	return (
+		query &&
+		query.definitions &&
+		query.definitions.filter((e: any) => e.operation === 'mutation').length > 0
+	);
+}
+
 function deriveOfflineQueue(
 	operationQueue: Array<OperationEntry>
 ): Array<OfflineOperationEntry> {
-	return operationQueue.map(({ operation }: OperationEntry) => {
-		const { query, variables }: Operation = operation || {};
-		let isMutation =
-			query &&
-			query.definitions &&
-			query.definitions.filter((e: any) => e.operation === 'mutation').length >
-				0;
-
-		return {
-			[isMutation ? 'mutation' : 'query']: query,
+	return operationQueue.map(
+		({ operation: { query, variables } }: OperationEntry) => ({
+			[isMutationOperation(<Operation>{ query }) ? 'mutation' : 'query']: query,
 			variables
-		};
-	});
+		})
+	);
 }
 
 /**
@@ -112,6 +113,10 @@ export class OfflineQueueLink extends ApolloLink {
 			this.storeKey,
 			JSON.stringify(deriveOfflineQueue(this.operationQueue))
 		);
+	};
+
+	purge = () => {
+		this.storage.removeItem(this.storeKey);
 	};
 
 	request(operation: Operation, forward: NextLink) {
