@@ -418,7 +418,7 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetWhiteBlackList',
 			namespace: Namespace.Account
-		})
+		});
 
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);
