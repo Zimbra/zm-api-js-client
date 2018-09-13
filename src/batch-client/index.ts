@@ -45,7 +45,8 @@ import {
 	PreferencesInput,
 	SendMessageInput,
 	ShareNotificationInput,
-	SignatureInput
+	SignatureInput,
+	WhiteBlackListInput
 } from '../schema/generated-schema-types';
 import {
 	coerceBooleanToInt,
@@ -413,6 +414,12 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		});
 
+	public getWhiteBlackList = () =>
+		this.jsonRequest({
+			name: 'GetWhiteBlackList',
+			namespace: Namespace.Account
+		})
+
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);
 
@@ -507,6 +514,16 @@ export class ZimbraBatchClient {
 			name: 'ModifyTask',
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(task)
+			}
+		});
+
+	public modifyWhiteBlackList = (whiteBlackList: WhiteBlackListInput) =>
+		this.jsonRequest({
+			name: 'ModifyWhiteBlackList',
+			namespace: Namespace.Account,
+			body: {
+				blackList: whiteBlackList.blackList,
+				whiteList: whiteBlackList.whiteList
 			}
 		});
 
