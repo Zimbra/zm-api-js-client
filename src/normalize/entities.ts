@@ -102,6 +102,14 @@ const commonInviteFields = {
 	ridZ: 'utcRecurrenceId'
 };
 
+export const ModifyAppointmentRes = new Entity({
+	ms: 'modifiedSequence',
+	rev: 'revision',
+	apptId: 'appointmentId',
+	calItemId: 'calendarItemId',
+	invId: 'inviteId'
+});
+
 const InviteComponent = new Entity({
 	...commonMessageFields,
 	...commonInviteFields,
