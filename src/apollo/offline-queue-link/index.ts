@@ -160,9 +160,9 @@ export class OfflineQueueLink extends ApolloLink {
 		});
 	}
 
-	// Retry queries made while offline like apollo-link-queue
+	// Retry queries made while offline like apollo-link-queue.
 	// Returns a Promise that resolves after all operations are processed
-	// regardless of success
+	// regardless of success.
 	retry = () =>
 		new Promise(resolve => {
 			let outstandingReqs = this.operationQueue.length;
