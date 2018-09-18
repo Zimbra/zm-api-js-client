@@ -940,6 +940,7 @@ type AccountInfoAttrs {
 	zimbraFeatureRelatedContactsEnabled: Boolean
 	zimbraFeatureChangePasswordEnabled: Boolean
 	zimbraFeatureResetPasswordEnabled: Boolean
+	zimbraMailBlacklistMaxNumEntries: Int
 }
 
 type Identities {
