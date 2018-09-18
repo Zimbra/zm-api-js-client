@@ -1885,6 +1885,12 @@ input SignatureInput {
 	contentId: String
 }
 
+input SearchFolderInput {
+	id: ID!
+	query: String!
+	types: FolderView!
+}
+
 input SignatureContentInput {
 	type: String
 	_content: String
@@ -2075,6 +2081,7 @@ type Mutation {
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyFilterRules(filters: [FilterInput!]): Boolean
 	modifySignature(signature: SignatureInput!): String
+	modifySearchFolder(search: SearchFolderInput!): Boolean
 	modifyTask(task: CalendarItemInput!): Boolean
 	moveTask(inviteId: ID!, destFolderId: ID!): String
 	prefAutoAddAppointmentToCalendar(value: Boolean!): Boolean

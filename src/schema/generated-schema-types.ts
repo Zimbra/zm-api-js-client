@@ -978,6 +978,7 @@ export interface Mutation {
 	modifyPrefs?: boolean | null;
 	modifyFilterRules?: boolean | null;
 	modifySignature?: string | null;
+	modifySearchFolder?: boolean | null;
 	modifyTask?: boolean | null;
 	moveTask?: string | null;
 	prefAutoAddAppointmentToCalendar?: boolean | null;
@@ -1602,6 +1603,12 @@ export interface SizeConditionInput {
 	negative?: boolean | null;
 }
 
+export interface SearchFolderInput {
+	id: string;
+	query: string;
+	types: FolderView;
+}
+
 export interface SendMessageInput {
 	id?: string | null;
 	origId?: string | null;
@@ -1915,6 +1922,9 @@ export interface ModifyFilterRulesMutationArgs {
 }
 export interface ModifySignatureMutationArgs {
 	signature: SignatureInput;
+}
+export interface ModifySearchFolderMutationArgs {
+	search: SearchFolderInput;
 }
 export interface ModifyTaskMutationArgs {
 	task: CalendarItemInput;
