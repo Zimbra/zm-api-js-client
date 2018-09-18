@@ -1,4 +1,5 @@
 import DataLoader from 'dataloader';
+import castArray from 'lodash/castArray';
 import get from 'lodash/get';
 import isError from 'lodash/isError';
 import mapValues from 'lodash/mapValues';
@@ -43,6 +44,7 @@ import {
 	FolderView,
 	InviteReplyInput,
 	PreferencesInput,
+	SearchFolderInput,
 	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput
@@ -87,8 +89,13 @@ function normalizeMessage(
 	message: { [key: string]: any },
 	zimbraOrigin?: string
 ) {
+	const normalizedMessage = normalize(MessageInfo)(message);
+	normalizedMessage.attributes =
+		normalizedMessage.attributes &&
+		mapValuesDeep(normalizedMessage.attributes, coerceStringToBoolean);
+
 	return normalizeEmailAddresses(
-		normalizeMimeParts(normalize(MessageInfo)(message), zimbraOrigin)
+		normalizeMimeParts(normalizedMessage, zimbraOrigin)
 	);
 }
 
@@ -116,17 +123,25 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetInfo',
 			namespace: Namespace.Account
-		}).then(res => ({
-			...res,
-			attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
-			prefs: mapValuesDeep(res.prefs._attrs, coerceStringToBoolean),
-			...(get(res, 'license.attr') && {
-				license: {
-					status: res.license.status,
-					attr: mapValuesDeep(res.license.attr, coerceStringToBoolean)
-				}
-			})
-		}));
+		}).then(res => {
+			let prefs: any = mapValuesDeep(res.prefs._attrs, coerceStringToBoolean);
+			prefs.zimbraPrefMailTrustedSenderList =
+				typeof prefs.zimbraPrefMailTrustedSenderList === 'string'
+					? castArray(prefs.zimbraPrefMailTrustedSenderList)
+					: prefs.zimbraPrefMailTrustedSenderList;
+
+			return {
+				...res,
+				attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
+				prefs,
+				...(get(res, 'license.attr') && {
+					license: {
+						status: res.license.status,
+						attr: mapValuesDeep(res.license.attr, coerceStringToBoolean)
+					}
+				})
+			};
+		});
 
 	public action = (type: ActionType, options: ActionOptions) => {
 		const { ids, id, ...rest } = options;
@@ -258,6 +273,27 @@ export class ZimbraBatchClient {
 			body: options
 		});
 
+	public downloadMessage = ({ id }: any) => {
+		return fetch(`${this.origin}/service/home/~/?auth=co&id=${id}`, {
+			headers: {
+				'X-Zimbra-Encoding': 'x-base64'
+			},
+			credentials: 'include'
+		}).then(response => {
+			if (response.ok) {
+				return response.text().then(content => {
+					if (!content) {
+						return undefined;
+					}
+					return {
+						id,
+						content
+					};
+				});
+			}
+		});
+	};
+
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);
 
@@ -332,7 +368,7 @@ export class ZimbraBatchClient {
 		id,
 		html,
 		raw,
-		headers,
+		header,
 		read,
 		max,
 		ridZ
@@ -343,7 +379,7 @@ export class ZimbraBatchClient {
 				m: {
 					id,
 					html: html !== false && raw !== true ? 1 : 0,
-					header: headers && headers.map((n: any) => ({ n })),
+					header,
 					read: read === true ? 1 : undefined,
 					// expand available expansions
 					needExp: 1,
@@ -459,6 +495,12 @@ export class ZimbraBatchClient {
 			body: {
 				_attrs: mapValuesDeep(prefs, coerceBooleanToString)
 			}
+		});
+
+	public modifySearchFolder = (options: SearchFolderInput) =>
+		this.jsonRequest({
+			name: 'ModifySearchFolder',
+			body: options
 		});
 
 	public modifySignature = (options: SignatureInput) =>
@@ -594,6 +636,42 @@ export class ZimbraBatchClient {
 				tr: true
 			}
 		}).then(res => normalize(Folder)(res.folder[0].folder));
+
+	public uploadMessage = (message: string) => {
+		const contentDisposition = 'attachment';
+		const filename = 'message.eml';
+		const contentType = 'message/rfc822';
+
+		return fetch(`${this.origin}/service/upload?fmt=raw`, {
+			method: 'POST',
+			body: message,
+			headers: {
+				'Content-Disposition': `${contentDisposition}; filename="${filename}"`,
+				'Content-Type': contentType
+			},
+			credentials: 'include'
+		}).then(response => {
+			if (response.ok) {
+				return response.text().then(result => {
+					if (!result) {
+						return null;
+					}
+
+					// To parser server response like => 200,'null','d93a252a-603e-4675-9e39-95cebe5a9332:b39a4b7c-9232-4228-9269-aa375bc1df67'
+					const [, status = '', err = undefined, aid = ''] =
+						result.match(/^([^,]+),([^,]+),'(.*)'/) || [];
+
+					if (err && err !== `'null'`) {
+						return null;
+					}
+
+					if (+status === 200) {
+						return aid;
+					}
+				});
+			}
+		});
+	};
 
 	private batchDataHandler = (requests: Array<RequestOptions>) =>
 		batchJsonRequest({

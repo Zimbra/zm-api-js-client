@@ -167,6 +167,11 @@ MimePart.addMapping({
 	attach: ['attachments', AttachmentsInfo]
 });
 
+const MessageAttributes = new Entity({
+	'X-Zimbra-SMIME-DRAFT-ENCRYPT': 'isEncrypted',
+	'X-Zimbra-SMIME-DRAFT-SIGN': 'isSigned'
+});
+
 const commonMailItemFields = {
 	...commonMessageFields,
 	e: ['emailAddresses', MailItemEmailAddress],
@@ -182,6 +187,7 @@ const SendMessageFields = new Entity({
 	...commonMailItemFields,
 	id: 'id',
 	origid: 'origId',
+	aid: 'attachmentId',
 	irt: 'inReplyTo',
 	rt: 'replyType',
 	autoSendTime: 'autoSendTime',
@@ -193,7 +199,10 @@ export const SendMessageInfo = new Entity({
 	m: ['message', SendMessageFields]
 });
 
-export const MessageInfo = new Entity(commonMailItemFields);
+export const MessageInfo = new Entity({
+	...commonMailItemFields,
+	_attrs: ['attributes', MessageAttributes]
+});
 
 export const Conversation = new Entity({
 	...commonMailItemFields,

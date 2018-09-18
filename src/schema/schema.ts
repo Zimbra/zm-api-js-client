@@ -9,6 +9,7 @@ import {
 	InviteReplyInput,
 	NameIdInput,
 	PreferencesInput,
+	SearchFolderInput,
 	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput,
@@ -64,6 +65,7 @@ export function createZimbraSchema(
 				accountInfo: client.accountInfo,
 				autoComplete: (_, variables) =>
 					client.autoComplete(variables as AutoCompleteOptions),
+				downloadMessage: (_, variables) => client.downloadMessage(variables),
 				freeBusy: (_, variables) =>
 					client.freeBusy(variables as FreeBusyOptions),
 				getContact: (_, variables) =>
@@ -264,12 +266,15 @@ export function createZimbraSchema(
 					client.createSignature(variables as SignatureInput),
 				modifySignature: (_, variables) =>
 					client.modifySignature(variables as SignatureInput),
+				modifySearchFolder: (_, variables) =>
+					client.modifySearchFolder(variables as SearchFolderInput),
 				deleteSignature: (_, variables) =>
 					client.deleteSignature(variables as NameIdInput),
 				saveDraft: (_, variables) =>
 					client.saveDraft(variables as SendMessageInput),
 				sendMessage: (_, variables) =>
 					client.sendMessage(variables as SendMessageInput),
+				uploadMessage: (_, { value }) => client.uploadMessage(value),
 				createTask: (_, { task }) =>
 					client.createTask(task as CalendarItemInput),
 				modifyTask: (_, { task }) =>
