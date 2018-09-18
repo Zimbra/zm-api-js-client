@@ -1,6 +1,6 @@
 import DataLoader from 'dataloader';
-import forEach from 'lodash/forEach';
 import castArray from 'lodash/castArray';
+import forEach from 'lodash/forEach';
 import get from 'lodash/get';
 import isError from 'lodash/isError';
 import mapValues from 'lodash/mapValues';
