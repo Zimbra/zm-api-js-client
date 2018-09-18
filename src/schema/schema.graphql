@@ -1302,7 +1302,6 @@ input SendMessageInput {
 
 input CalendarItemInviteInput {
 	components: [CalendarItemInviteComponentInput]!
-	uid: String
 }
 
 input MailItemEmailAddressInput {

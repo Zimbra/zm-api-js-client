@@ -1100,7 +1100,6 @@ export interface CalendarItemMessageInput {
 
 export interface CalendarItemInviteInput {
 	components: CalendarItemInviteComponentInput[];
-	uid?: string | null;
 }
 
 export interface CalendarItemInviteComponentInput {
