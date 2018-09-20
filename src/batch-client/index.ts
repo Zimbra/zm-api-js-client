@@ -104,9 +104,11 @@ export class ZimbraBatchClient {
 	public soapPathname: string;
 	private batchDataLoader: DataLoader<RequestOptions, RequestBody>;
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
+	private jwtToken?: string;
 	private notificationHandler?: NotificationHandler;
 
 	constructor(options: ZimbraClientOptions = {}) {
+		this.jwtToken = options.jwtToken;
 		this.origin = options.zimbraOrigin || DEFAULT_HOSTNAME;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
 		this.notificationHandler = options.notificationHandler;
@@ -417,14 +419,9 @@ export class ZimbraBatchClient {
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);
 
-	public jsonRequest = (options: JsonRequestOptions) => {
-		const { accountName } = options;
-
+	public jsonRequest = (options: JsonRequestOptions) =>
 		// If account name is present that means we will not be able to batch requests
-		return accountName
-			? this.dataLoader.load(options)
-			: this.batchDataLoader.load(options);
-	};
+		this[options.accountName ? 'dataLoader' : 'batchDataLoader'].load(options);
 
 	public login = ({
 		username,
@@ -604,6 +601,10 @@ export class ZimbraBatchClient {
 			}
 		});
 
+	public setJwtToken = (jwtToken: string) => {
+		this.jwtToken = jwtToken;
+	};
+
 	public setRecoveryAccount = (options: SetRecoveryAccountOptions) =>
 		this.jsonRequest({
 			name: 'SetRecoveryAccount',
@@ -675,6 +676,7 @@ export class ZimbraBatchClient {
 	private batchDataHandler = (requests: Array<RequestOptions>) =>
 		batchJsonRequest({
 			requests,
+			jwtToken: this.jwtToken,
 			sessionId: this.sessionId,
 			origin: this.origin
 		}).then(response => {
