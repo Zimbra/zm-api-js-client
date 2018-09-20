@@ -20,7 +20,6 @@ import {
 	GetFolderRequest as GetFolderRequestEntity,
 	InviteReply,
 	MessageInfo,
-	ModifyAppointmentRes,
 	SearchResponse,
 	SendMessageInfo,
 	ShareNotification
@@ -474,7 +473,7 @@ export class ZimbraBatchClient {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
 			accountName: accountName
-		}).then(res => normalize(ModifyAppointmentRes)(res));
+		}).then(res => normalize(CalendarItemCreateModifyRequest)(res));
 
 	public modifyFilterRules = (filters: Array<FilterInput>) =>
 		this.jsonRequest({
