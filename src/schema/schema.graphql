@@ -1080,42 +1080,123 @@ type Contact {
 	folderId: ID
 	revision: Int
 	sortField: String
+	fileAsStr: String
 	attributes: ContactAttributes
 }
 
 type ContactAttributes {
-	anniversary: String
-	birthday: String
-	company: String
+	firstName: String
+	middleName: String
+	lastName: String
+	fullName: String
 	email: String
 	email2: String
-	fax: String
-	firstName: String
-	fullName: String
-	homeCity: String
+	workEmail: String
+	workEmail2: String
 	homeEmail: String
+	homeEmail2: String
+	phone: String
+	phone2: String
+	mobile: String
+	mobile2: String
 	homePhone: String
-	homePostal: String
-	homeState: String
-	homeStreet: String
+	homePhone2: String
+	workPhone: String
+	workPhone2: String
+	pager: String
+	pager2: String
+	fax: String
+	fax2: String
 	im: String
 	im2: String
 	im3: String
 	im4: String
-	jobTitle: String
-	lastName: String
-	middleName: String
-	mobile: String
 	nickname: String
-	pager: String
-	phone: String
-	website: String
-	workCity: String
-	workEmail: String
-	workPhone: String
-	workPostal: String
-	workState: String
+	homeStreet: String
+	homeCity: String
+	homeState: String
+	homePostal: String
+	homeCountry: String
 	workStreet: String
+	workCity: String
+	workState: String
+	workPostal: String
+	workCountry: String
+	jobTitle: String
+	company: String
+	birthday: String
+	anniversary: String
+	website: String
+	notes: String
+	userCertificate: String
+
+	# Used for contact lists
+	fileAs: String
+	type: String
+}
+
+input ContactAttrsInput {
+	firstName: String
+	middleName: String
+	lastName: String
+	fullName: String
+	email: String
+	email2: String
+	workEmail: String
+	workEmail2: String
+	homeEmail: String
+	homeEmail2: String
+	phone: String
+	phone2: String
+	mobile: String
+	mobile2: String
+	homePhone: String
+	homePhone2: String
+	workPhone: String
+	workPhone2: String
+	pager: String
+	pager2: String
+	fax: String
+	fax2: String
+	im: String
+	im2: String
+	im3: String
+	im4: String
+	nickname: String
+	homeStreet: String
+	homeCity: String
+	homeState: String
+	homePostal: String
+	homeCountry: String
+	workStreet: String
+	workCity: String
+	workState: String
+	workPostal: String
+	workCountry: String
+	jobTitle: String
+	company: String
+	birthday: String
+	anniversary: String
+	website: String
+	notes: String
+	userCertificate: String
+
+	# Used for contact lists
+	fileAs: String
+	type: String
+}
+
+input CreateContactInput {
+	folderId: ID
+	tagNames: String
+	attributes: ContactAttrsInput!
+}
+
+input ModifyContactInput {
+	id: ID!
+	folderId: ID
+	tagNames: String
+	attributes: ContactAttrsInput!
 }
 
 type RelatedContact {
@@ -1954,6 +2035,8 @@ type Mutation {
 	createAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
 	createAppointmentException(accountName: String, appointment: CalendarItemInput!): Boolean
 	createCalendar(name: String!, color: Int!, url: String): Boolean
+	createContact(contact: CreateContactInput!): Contact
+	modifyContact(contact: ModifyContactInput!): Contact
 	createFolder(
 		color: Int
 		fetchIfExists: Boolean

@@ -3,10 +3,12 @@ import mapValues from 'lodash/mapValues';
 
 import {
 	CalendarItemInput,
+	CreateContactInput,
 	CreateMountpointInput,
 	FilterInput,
 	FolderView,
 	InviteReplyInput,
+	ModifyContactInput,
 	NameIdInput,
 	PreferencesInput,
 	SearchFolderInput,
@@ -156,6 +158,10 @@ export function createZimbraSchema(
 					client.createFolder(variables as CreateFolderOptions),
 				createSearchFolder: (_, variables) =>
 					client.createSearchFolder(variables as CreateSearchFolderOptions),
+				createContact: (_, { contact }) =>
+					client.createContact(contact as CreateContactInput),
+				modifyContact: (_, { contact }) =>
+					client.modifyContact(contact as ModifyContactInput),
 				createAppointment: (_, { accountName, appointment }) =>
 					client.createAppointment(
 						accountName,

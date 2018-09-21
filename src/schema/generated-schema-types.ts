@@ -262,42 +262,55 @@ export interface Contact {
 	folderId?: string | null;
 	revision?: number | null;
 	sortField?: string | null;
+	fileAsStr?: string | null;
 	attributes?: ContactAttributes | null;
 }
 
 export interface ContactAttributes {
-	anniversary?: string | null;
-	birthday?: string | null;
-	company?: string | null;
+	firstName?: string | null;
+	middleName?: string | null;
+	lastName?: string | null;
+	fullName?: string | null;
 	email?: string | null;
 	email2?: string | null;
-	fax?: string | null;
-	firstName?: string | null;
-	fullName?: string | null;
-	homeCity?: string | null;
+	workEmail?: string | null;
+	workEmail2?: string | null;
 	homeEmail?: string | null;
+	homeEmail2?: string | null;
+	phone?: string | null;
+	phone2?: string | null;
+	mobile?: string | null;
+	mobile2?: string | null;
 	homePhone?: string | null;
-	homePostal?: string | null;
-	homeState?: string | null;
-	homeStreet?: string | null;
+	homePhone2?: string | null;
+	workPhone?: string | null;
+	workPhone2?: string | null;
+	pager?: string | null;
+	pager2?: string | null;
+	fax?: string | null;
+	fax2?: string | null;
 	im?: string | null;
 	im2?: string | null;
 	im3?: string | null;
 	im4?: string | null;
-	jobTitle?: string | null;
-	lastName?: string | null;
-	middleName?: string | null;
-	mobile?: string | null;
 	nickname?: string | null;
-	pager?: string | null;
-	phone?: string | null;
-	website?: string | null;
-	workCity?: string | null;
-	workEmail?: string | null;
-	workPhone?: string | null;
-	workPostal?: string | null;
-	workState?: string | null;
+	homeStreet?: string | null;
+	homeCity?: string | null;
+	homeState?: string | null;
+	homePostal?: string | null;
+	homeCountry?: string | null;
 	workStreet?: string | null;
+	workCity?: string | null;
+	workState?: string | null;
+	workPostal?: string | null;
+	workCountry?: string | null;
+	jobTitle?: string | null;
+	company?: string | null;
+	birthday?: string | null;
+	anniversary?: string | null;
+	website?: string | null;
+	notes?: string | null;
+	userCertificate?: string | null;
 }
 
 export interface ContactFrequencyResponse {
@@ -943,6 +956,8 @@ export interface Mutation {
 	createAppointment?: boolean | null;
 	createAppointmentException?: boolean | null;
 	createCalendar?: boolean | null;
+	createContact?: Contact | null;
+	modifyContact?: Contact | null;
 	createFolder?: Folder | null;
 	createMountpoint?: boolean | null;
 	createSharedCalendar?: boolean | null;
@@ -1234,6 +1249,65 @@ export interface MailItemEmailAddressInput {
 	address: string;
 	name?: string | null;
 	type: AddressType;
+}
+
+export interface CreateContactInput {
+	folderId?: string | null;
+	tagNames?: string | null;
+	attributes: ContactAttrsInput;
+}
+
+export interface ContactAttrsInput {
+	firstName?: string | null;
+	middleName?: string | null;
+	lastName?: string | null;
+	fullName?: string | null;
+	email?: string | null;
+	email2?: string | null;
+	workEmail?: string | null;
+	workEmail2?: string | null;
+	homeEmail?: string | null;
+	homeEmail2?: string | null;
+	phone?: string | null;
+	phone2?: string | null;
+	mobile?: string | null;
+	mobile2?: string | null;
+	homePhone?: string | null;
+	homePhone2?: string | null;
+	workPhone?: string | null;
+	workPhone2?: string | null;
+	pager?: string | null;
+	pager2?: string | null;
+	fax?: string | null;
+	fax2?: string | null;
+	im?: string | null;
+	im2?: string | null;
+	im3?: string | null;
+	im4?: string | null;
+	nickname?: string | null;
+	homeStreet?: string | null;
+	homeCity?: string | null;
+	homeState?: string | null;
+	homePostal?: string | null;
+	homeCountry?: string | null;
+	workStreet?: string | null;
+	workCity?: string | null;
+	workState?: string | null;
+	workPostal?: string | null;
+	workCountry?: string | null;
+	jobTitle?: string | null;
+	company?: string | null;
+	birthday?: string | null;
+	anniversary?: string | null;
+	website?: string | null;
+	notes?: string | null;
+	userCertificate?: string | null;
+}
+
+export interface ModifyContactInput {
+	id: string;
+	tagNames?: string | null;
+	attributes: ContactAttrsInput;
 }
 
 export interface NewMountpointSpec {
@@ -1765,6 +1839,12 @@ export interface CreateCalendarMutationArgs {
 	name: string;
 	color: number;
 	url?: string | null;
+}
+export interface CreateContactMutationArgs {
+	contact: CreateContactInput;
+}
+export interface ModifyContactMutationArgs {
+	contact: ModifyContactInput;
 }
 export interface CreateFolderMutationArgs {
 	color?: number | null;
