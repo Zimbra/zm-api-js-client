@@ -311,6 +311,8 @@ export interface ContactAttributes {
 	website?: string | null;
 	notes?: string | null;
 	userCertificate?: string | null;
+	fileAs?: string | null /* Used for contact lists */;
+	type?: string | null;
 }
 
 export interface ContactFrequencyResponse {
@@ -957,7 +959,9 @@ export interface Mutation {
 	createAppointmentException?: boolean | null;
 	createCalendar?: boolean | null;
 	createContact?: Contact | null;
+	createContactList?: Contact | null;
 	modifyContact?: Contact | null;
+	modifyContactList?: Contact | null;
 	createFolder?: Folder | null;
 	createMountpoint?: boolean | null;
 	createSharedCalendar?: boolean | null;
@@ -1302,10 +1306,13 @@ export interface ContactAttrsInput {
 	website?: string | null;
 	notes?: string | null;
 	userCertificate?: string | null;
+	fileAs?: string | null /* Used for contact lists */;
+	type?: string | null;
 }
 
 export interface ModifyContactInput {
 	id: string;
+	folderId?: string | null;
 	tagNames?: string | null;
 	attributes: ContactAttrsInput;
 }
@@ -1843,7 +1850,13 @@ export interface CreateCalendarMutationArgs {
 export interface CreateContactMutationArgs {
 	contact: CreateContactInput;
 }
+export interface CreateContactListMutationArgs {
+	contact: CreateContactInput;
+}
 export interface ModifyContactMutationArgs {
+	contact: ModifyContactInput;
+}
+export interface ModifyContactListMutationArgs {
 	contact: ModifyContactInput;
 }
 export interface CreateFolderMutationArgs {
