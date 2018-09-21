@@ -2028,6 +2028,12 @@ type Mutation {
 		username: String!
 	): String
 	checkCalendar(calendarId: ID!, value: Boolean!): Boolean
+	contactAction(
+		id: ID
+		ids: [ID!]
+		folderId: ID!
+		op: String!
+	): Boolean
 	conversationAction(
 		ids: [ID!]!
 		op: String!

@@ -194,6 +194,9 @@ export class ZimbraBatchClient {
 			}
 		});
 
+	public contactAction = (options: ActionOptions) =>
+		this.action(ActionType.contact, options);
+
 	public conversationAction = (options: ActionOptions) =>
 		this.action(ActionType.conversation, options);
 

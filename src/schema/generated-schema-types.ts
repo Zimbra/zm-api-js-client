@@ -954,6 +954,7 @@ export interface Mutation {
 	changeCalendarColor?: boolean | null;
 	changePassword?: string | null;
 	checkCalendar?: boolean | null;
+	contactAction?: boolean | null;
 	conversationAction?: boolean | null;
 	createAppointment?: boolean | null;
 	createAppointmentException?: boolean | null;
@@ -1829,6 +1830,12 @@ export interface ChangePasswordMutationArgs {
 export interface CheckCalendarMutationArgs {
 	calendarId: string;
 	value: boolean;
+}
+export interface ContactActionMutationArgs {
+	id?: string | null;
+	ids?: string[] | null;
+	folderId: string;
+	op: string;
 }
 export interface ConversationActionMutationArgs {
 	ids: string[];
