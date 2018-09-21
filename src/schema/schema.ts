@@ -161,11 +161,11 @@ export function createZimbraSchema(
 				createContact: (_, { contact }) =>
 					client.createContact(contact as CreateContactInput),
 				createContactList: (_, { contact }) =>
-					client.createContactList(contact as CreateContactInput),
+					client.createContact(contact as CreateContactInput),
 				modifyContact: (_, { contact }) =>
 					client.modifyContact(contact as ModifyContactInput),
 				modifyContactList: (_, { contact }) =>
-					client.modifyContactList(contact as ModifyContactInput),
+					client.modifyContact(contact as ModifyContactInput),
 				createAppointment: (_, { accountName, appointment }) =>
 					client.createAppointment(
 						accountName,

@@ -221,13 +221,7 @@ export class ZimbraBatchClient {
 			accountName: accountName
 		});
 
-	public createContact = (contact: CreateContactInput) =>
-		this.createContactOrContactList(contact);
-
-	public createContactList = (contactList: CreateContactInput) =>
-		this.createContactOrContactList(contactList);
-
-	public createContactOrContactList = (data: CreateContactInput) => {
+	public createContact = (data: CreateContactInput) => {
 		const { attributes, ...rest } = data;
 		const contactAttrs = <Object[]>[];
 
@@ -510,13 +504,7 @@ export class ZimbraBatchClient {
 			accountName: accountName
 		});
 
-	public modifyContact = (contact: ModifyContactInput) =>
-		this.modifyContactOrContactList(contact);
-
-	public modifyContactList = (contactList: ModifyContactInput) =>
-		this.modifyContactOrContactList(contactList);
-
-	public modifyContactOrContactList = (data: ModifyContactInput) => {
+	public modifyContact = (data: ModifyContactInput) => {
 		const { attributes, ...rest } = data;
 		const modifiedAttrs = <Object[]>[];
 
