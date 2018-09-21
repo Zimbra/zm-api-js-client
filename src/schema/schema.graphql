@@ -2036,7 +2036,9 @@ type Mutation {
 	createAppointmentException(accountName: String, appointment: CalendarItemInput!): Boolean
 	createCalendar(name: String!, color: Int!, url: String): Boolean
 	createContact(contact: CreateContactInput!): Contact
+	createContactList(contact: CreateContactInput!): Contact
 	modifyContact(contact: ModifyContactInput!): Contact
+	modifyContactList(contact: ModifyContactInput!): Contact
 	createFolder(
 		color: Int
 		fetchIfExists: Boolean
