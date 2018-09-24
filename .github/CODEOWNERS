@@ -1,8 +1,2 @@
 # Global owners
-*                          @silentsakky @pl12133
-
-# Anything which is not testcafe, used for all devs
-!tests/testcafe/           @itsmeprashant @jkester1986 @lavegupta @panditsavitags @sachinpatel88 @SantoshKShetty @Sigafoos @yashrajpchavda
-
-# Test cafe owners, used for qa team
-tests/testcafe/            @jiteshsojitra @miteshsavani @pasch-synacor @shubhamvitec @ycai-synacor
+*                          @silentsakky @pl12133 @itsmeprashant @jkester1986 @lavegupta @panditsavitags @sachinpatel88 @SantoshKShetty @Sigafoos @yashrajpchavda
