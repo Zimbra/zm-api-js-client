@@ -162,7 +162,11 @@ export class OfflineQueueLink extends ApolloLink {
 
 			// Wrap the observer to call dequeue on error/complete
 			forward(operation).subscribe({
-				...observer,
+				next: (value: any) => {
+					if (observer.next) {
+						observer.next(value);
+					}
+				},
 				error: (err: any) => {
 					this.dequeue(entry);
 					if (observer.error) {
