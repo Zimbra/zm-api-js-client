@@ -582,8 +582,7 @@ export class ZimbraBatchClient {
 			name: 'ModifyWhiteBlackList',
 			namespace: Namespace.Account,
 			body: {
-				blackList: whiteBlackList.blackList,
-				whiteList: whiteBlackList.whiteList
+				...whiteBlackList
 			}
 		});
 

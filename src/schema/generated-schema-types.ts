@@ -36,6 +36,7 @@ export interface Query {
 	getSMimePublicCerts?: SMimePublicCertsResponse | null;
 	getSearchFolder?: Folder | null;
 	getTask?: boolean | null;
+	getWhiteBlackList?: WhiteBlackList | null;
 	noop?: boolean | null;
 	preferences?: Preferences | null;
 	recoverAccount?: RecoverAccount | null;
@@ -918,6 +919,20 @@ export interface SMimePublicCert {
 	_content?: string | null;
 }
 
+export interface WhiteBlackList {
+	whiteList: WhiteBlackListArr[];
+	blackList: WhiteBlackListArr[];
+}
+
+export interface WhiteBlackListArr {
+	addr?: WhiteBlackAddress[] | null;
+}
+
+export interface WhiteBlackAddress {
+	_content: string;
+	op?: string | null;
+}
+
 export interface RecoverAccount {
 	recoveryAccount?: string | null;
 	recoveryAttemptsLeft?: number | null;
@@ -984,6 +999,7 @@ export interface Mutation {
 	modifySignature?: string | null;
 	modifySearchFolder?: boolean | null;
 	modifyTask?: boolean | null;
+	modifyWhiteBlackList?: boolean | null;
 	moveTask?: string | null;
 	prefAutoAddAppointmentToCalendar?: boolean | null;
 	prefCalendarInitialView?: PrefCalendarInitialView | null;
@@ -1616,6 +1632,20 @@ export interface SearchFolderInput {
 	types: FolderView;
 }
 
+export interface WhiteBlackListInput {
+	whiteList?: WhiteBlackListArrInput | null;
+	blackList?: WhiteBlackListArrInput | null;
+}
+
+export interface WhiteBlackListArrInput {
+	addr?: WhiteBlackAddressOpts[] | null;
+}
+
+export interface WhiteBlackAddressOpts {
+	_content: string;
+	op?: string | null;
+}
+
 export interface SendMessageInput {
 	id?: string | null;
 	origId?: string | null;
@@ -1941,6 +1971,9 @@ export interface ModifySearchFolderMutationArgs {
 }
 export interface ModifyTaskMutationArgs {
 	task: CalendarItemInput;
+}
+export interface ModifyWhiteBlackListMutationArgs {
+	whiteBlackList: WhiteBlackListInput;
 }
 export interface MoveTaskMutationArgs {
 	inviteId: string;
