@@ -80,6 +80,8 @@ export function createZimbraSchema(
 				getFilterRules: client.getFilterRules,
 				getFolder: (_: any, variables) =>
 					client.getFolder(variables as GetFolderOptions),
+				getAppointments: (_: any, variables) =>
+					client.searchAppointments(variables as SearchOptions),
 				getMailboxMetadata: (_: any, variables) =>
 					client.getMailboxMetadata(variables as GetMailboxMetadataOptions),
 				getMessage: (_, variables) =>
@@ -173,6 +175,10 @@ export function createZimbraSchema(
 						accountName,
 						appointment as CalendarItemInput
 					),
+				snoozeCalendarItem: (_, { appointment, task }) =>
+					client.snoozeCalendarItem(appointment, task),
+				dismissCalendarItem: (_, { appointment, task }) =>
+					client.dismissCalendarItem(appointment, task),
 				createAppointmentException: (_, { accountName, appointment }) =>
 					client.createAppointmentException(
 						accountName,

@@ -27,6 +27,7 @@ export interface Query {
 	downloadMessage?: SMimeMessage | null;
 	freeBusy?: FreeBusy[] | null;
 	getContact?: Contact | null;
+	getAppointments?: SearchResponse | null;
 	getContactFrequency?: ContactFrequencyResponse | null;
 	getConversation?: Conversation | null;
 	getFilterRules?: Filter[] | null;
@@ -318,28 +319,25 @@ export interface ContactAttributes {
 	type?: string | null;
 }
 
-export interface ContactFrequencyResponse {
-	data?: ContactFrequencyData[] | null;
+export interface SearchResponse {
+	contacts?: Contact[] | null;
+	messages?: MessageInfo[] | null;
+	conversations?: Conversation[] | null;
+	tasks?: CalendarItemHitInfo[] | null;
+	appointments?: CalendarItemHitInfo[] | null;
+	more?: boolean | null;
+	offset?: number | null;
+	sortBy?: string | null;
 }
 
-export interface ContactFrequencyData {
-	by?: string | null;
-	dataPoint?: ContactFrequencyDataPoints[] | null;
-}
-
-export interface ContactFrequencyDataPoints {
-	label?: number | null;
-	value?: number | null;
-}
-
-export interface Conversation extends MailItem {
+export interface MessageInfo extends MailItem {
 	id?: string | null;
 	size?: number | null;
 	date?: number | null;
 	folderId?: string | null;
 	subject?: string | null;
-	excerpt?: string | null;
 	emailAddresses?: EmailAddress[] | null;
+	excerpt?: string | null;
 	conversationId?: string | null;
 	flags?: string | null;
 	tags?: string | null;
@@ -349,11 +347,19 @@ export interface Conversation extends MailItem {
 	modifiedSequence?: number | null;
 	invitations?: InviteInfo[] | null;
 	sortField?: string | null;
-	messages?: MessageInfo[] | null;
-	numMessages?: number | null;
-	unread?: number | null;
+	mimeParts?: MimePart[] | null;
+	to?: EmailAddress[] | null;
+	from?: EmailAddress[] | null;
+	cc?: EmailAddress[] | null;
+	bcc?: EmailAddress[] | null;
+	sender?: EmailAddress[] | null;
+	html?: string | null;
+	text?: string | null;
+	attachments?: MimePart[] | null;
+	inlineAttachments?: MimePart[] | null;
 	share?: ShareNotification[] | null;
 	replyType?: string | null;
+	attributes?: MessageAttributes | null;
 }
 
 export interface EmailAddress {
@@ -508,38 +514,6 @@ export interface ShareNotification {
 	content?: string | null;
 }
 
-export interface MessageInfo extends MailItem {
-	id?: string | null;
-	size?: number | null;
-	date?: number | null;
-	folderId?: string | null;
-	subject?: string | null;
-	emailAddresses?: EmailAddress[] | null;
-	excerpt?: string | null;
-	conversationId?: string | null;
-	flags?: string | null;
-	tags?: string | null;
-	tagNames?: string | null;
-	revision?: number | null;
-	changeDate?: number | null;
-	modifiedSequence?: number | null;
-	invitations?: InviteInfo[] | null;
-	sortField?: string | null;
-	mimeParts?: MimePart[] | null;
-	to?: EmailAddress[] | null;
-	from?: EmailAddress[] | null;
-	cc?: EmailAddress[] | null;
-	bcc?: EmailAddress[] | null;
-	sender?: EmailAddress[] | null;
-	html?: string | null;
-	text?: string | null;
-	attachments?: MimePart[] | null;
-	inlineAttachments?: MimePart[] | null;
-	share?: ShareNotification[] | null;
-	replyType?: string | null;
-	attributes?: MessageAttributes | null;
-}
-
 export interface MimePart {
 	body?: boolean | null;
 	filename?: string | null;
@@ -557,6 +531,140 @@ export interface MimePart {
 export interface MessageAttributes {
 	isEncrypted?: boolean | null;
 	isSigned?: boolean | null;
+}
+
+export interface Conversation extends MailItem {
+	id?: string | null;
+	size?: number | null;
+	date?: number | null;
+	folderId?: string | null;
+	subject?: string | null;
+	excerpt?: string | null;
+	emailAddresses?: EmailAddress[] | null;
+	conversationId?: string | null;
+	flags?: string | null;
+	tags?: string | null;
+	tagNames?: string | null;
+	revision?: number | null;
+	changeDate?: number | null;
+	modifiedSequence?: number | null;
+	invitations?: InviteInfo[] | null;
+	sortField?: string | null;
+	messages?: MessageInfo[] | null;
+	numMessages?: number | null;
+	unread?: number | null;
+	share?: ShareNotification[] | null;
+	replyType?: string | null;
+}
+
+export interface CalendarItemHitInfo {
+	alarm?: boolean | null;
+	allDay?: boolean | null;
+	changeDate?: number | null;
+	class: CalendarItemClass;
+	componentNum?: number | null;
+	date?: number | null;
+	duration?: number | null;
+	excerpt?: string | null;
+	flags?: string | null;
+	folderId: string;
+	freeBusy?: FreeBusyStatus | null;
+	freeBusyActual?: FreeBusyStatus | null;
+	id: string;
+	instances?: Instance[] | null;
+	invitations?: Invitation[] | null;
+	inviteId: string;
+	isOrganizer?: boolean | null;
+	isRecurring?: boolean | null;
+	location?: string | null;
+	modifiedSequence?: number | null;
+	name?: string | null;
+	organizer?: CalOrganizer | null;
+	participationStatus?: ParticipationStatus | null;
+	percentComplete?: string | null;
+	priority?: number | null;
+	revision?: number | null;
+	utcRecurrenceId?: string | null;
+	size?: number | null;
+	sortField?: string | null;
+	status?: InviteCompletionStatus | null;
+	tagNames?: string | null;
+	tags?: string | null;
+	uid?: string | null;
+	x_uid?: string | null;
+	aid?: string | null;
+}
+
+export interface Instance {
+	start?: number | null;
+	dueDate?: number | null;
+	tzoDue?: number | null;
+	utcRecurrenceId?: string | null;
+	isException?: boolean | null;
+	alarm?: boolean | null;
+	allDay?: boolean | null;
+	changeDate?: number | null;
+	class?: CalendarItemClass | null;
+	componentNum?: number | null;
+	date?: number | null;
+	duration?: number | null;
+	excerpt?: string | null;
+	flags?: string | null;
+	freeBusy?: FreeBusyStatus | null;
+	freeBusyActual?: FreeBusyStatus | null;
+	inviteId?: string | null;
+	location?: string | null;
+	modifiedSequence?: number | null;
+	name?: string | null;
+	organizer?: CalOrganizer | null;
+	participationStatus?: ParticipationStatus | null;
+	revision?: number | null;
+	status?: InviteCompletionStatus | null;
+}
+
+export interface Invitation {
+	type: string;
+	sequenceNumber: number;
+	id: number;
+	componentNum: number;
+	recurrenceId?: string | null;
+	tz?: CalTZInfo | null;
+	components: InviteComponent[];
+	mimeParts?: MimePart | null;
+}
+
+export interface CalTZInfo {
+	id?: string | null;
+	timezoneStdOffset?: number | null;
+	timezoneDaylightOffset?: number | null;
+	stdname?: string | null;
+	dayname?: string | null;
+	standard?: TzOnsetInfo | null;
+	daylight?: TzOnsetInfo | null;
+}
+
+export interface TzOnsetInfo {
+	week?: number | null;
+	wkday?: number | null;
+	mon?: number | null;
+	mday?: number | null;
+	hour?: number | null;
+	min?: number | null;
+	sec?: number | null;
+}
+
+export interface ContactFrequencyResponse {
+	data?: ContactFrequencyData[] | null;
+}
+
+export interface ContactFrequencyData {
+	by?: string | null;
+	dataPoint?: ContactFrequencyDataPoints[] | null;
+}
+
+export interface ContactFrequencyDataPoints {
+	label?: number | null;
+	value?: number | null;
 }
 
 export interface Filter {
@@ -772,113 +880,6 @@ export interface ACLGrant {
 	key?: string | null;
 }
 
-export interface SearchResponse {
-	contacts?: Contact[] | null;
-	messages?: MessageInfo[] | null;
-	conversations?: Conversation[] | null;
-	tasks?: CalendarItemHitInfo[] | null;
-	appointments?: CalendarItemHitInfo[] | null;
-	more?: boolean | null;
-	offset?: number | null;
-	sortBy?: string | null;
-}
-
-export interface CalendarItemHitInfo {
-	alarm?: boolean | null;
-	allDay?: boolean | null;
-	changeDate?: number | null;
-	class: CalendarItemClass;
-	componentNum?: number | null;
-	date?: number | null;
-	duration?: number | null;
-	excerpt?: string | null;
-	flags?: string | null;
-	folderId: string;
-	freeBusy?: FreeBusyStatus | null;
-	freeBusyActual?: FreeBusyStatus | null;
-	id: string;
-	instances?: Instance[] | null;
-	invitations?: Invitation[] | null;
-	inviteId: string;
-	isOrganizer?: boolean | null;
-	isRecurring?: boolean | null;
-	location?: string | null;
-	modifiedSequence?: number | null;
-	name?: string | null;
-	organizer?: CalOrganizer | null;
-	participationStatus?: ParticipationStatus | null;
-	percentComplete?: string | null;
-	priority?: number | null;
-	revision?: number | null;
-	utcRecurrenceId?: string | null;
-	size?: number | null;
-	sortField?: string | null;
-	status?: InviteCompletionStatus | null;
-	tagNames?: string | null;
-	tags?: string | null;
-	uid?: string | null;
-	x_uid?: string | null;
-	aid?: string | null;
-}
-
-export interface Instance {
-	start?: number | null;
-	dueDate?: number | null;
-	tzoDue?: number | null;
-	utcRecurrenceId?: string | null;
-	isException?: boolean | null;
-	alarm?: boolean | null;
-	allDay?: boolean | null;
-	changeDate?: number | null;
-	class?: CalendarItemClass | null;
-	componentNum?: number | null;
-	date?: number | null;
-	duration?: number | null;
-	excerpt?: string | null;
-	flags?: string | null;
-	freeBusy?: FreeBusyStatus | null;
-	freeBusyActual?: FreeBusyStatus | null;
-	inviteId?: string | null;
-	location?: string | null;
-	modifiedSequence?: number | null;
-	name?: string | null;
-	organizer?: CalOrganizer | null;
-	participationStatus?: ParticipationStatus | null;
-	revision?: number | null;
-	status?: InviteCompletionStatus | null;
-}
-
-export interface Invitation {
-	type: string;
-	sequenceNumber: number;
-	id: number;
-	componentNum: number;
-	recurrenceId?: string | null;
-	tz?: CalTZInfo | null;
-	components: InviteComponent[];
-	mimeParts?: MimePart | null;
-}
-
-export interface CalTZInfo {
-	id?: string | null;
-	timezoneStdOffset?: number | null;
-	timezoneDaylightOffset?: number | null;
-	stdname?: string | null;
-	dayname?: string | null;
-	standard?: TzOnsetInfo | null;
-	daylight?: TzOnsetInfo | null;
-}
-
-export interface TzOnsetInfo {
-	week?: number | null;
-	wkday?: number | null;
-	mon?: number | null;
-	mday?: number | null;
-	hour?: number | null;
-	min?: number | null;
-	sec?: number | null;
-}
-
 export interface MailboxMetadata {
 	meta?: MailboxMetadataMeta[] | null;
 }
@@ -1017,6 +1018,8 @@ export interface Mutation {
 	sendInviteReply?: InviteReplyResponse | null;
 	sendShareNotification?: boolean | null;
 	setMailboxMetadata?: boolean | null;
+	snoozeCalendarItem?: boolean | null;
+	dismissCalendarItem?: boolean | null;
 	uploadMessage?: string | null;
 	setRecoveryAccount?: boolean | null;
 }
@@ -1714,6 +1717,16 @@ export interface MailboxMetadataSectionAttrsInput {
 	zimbraPrefSMIMELastOperation?: string | null;
 }
 
+export interface SnoozeInput {
+	id: string;
+	until: number;
+}
+
+export interface DismissInput {
+	id: string;
+	dismissedAt: number;
+}
+
 export interface ExternalAccount {
 	id: string;
 	name: string;
@@ -1758,6 +1771,14 @@ export interface FreeBusyQueryArgs {
 }
 export interface GetContactQueryArgs {
 	id: string;
+}
+export interface GetAppointmentsQueryArgs {
+	calExpandInstStart: number;
+	calExpandInstEnd: number;
+	query: string;
+	limit: number;
+	offset: number;
+	types?: SearchType | null;
 }
 export interface GetContactFrequencyQueryArgs {
 	email: string;
@@ -2034,6 +2055,14 @@ export interface SetMailboxMetadataMutationArgs {
 	section?: string | null;
 	attrs: MailboxMetadataSectionAttrsInput;
 }
+export interface SnoozeCalendarItemMutationArgs {
+	appointment?: SnoozeInput | null;
+	task?: SnoozeInput | null;
+}
+export interface DismissCalendarItemMutationArgs {
+	appointment?: DismissInput | null;
+	task?: DismissInput | null;
+}
 export interface UploadMessageMutationArgs {
 	value: string;
 }
@@ -2098,6 +2127,16 @@ export enum AutoCompleteMatchType {
 	gal = 'gal',
 	contact = 'contact',
 	rankingTable = 'rankingTable'
+}
+
+export enum SearchType {
+	conversation = 'conversation',
+	message = 'message',
+	contact = 'contact',
+	appointment = 'appointment',
+	task = 'task',
+	wiki = 'wiki',
+	document = 'document'
 }
 
 export enum InviteType {
@@ -2253,16 +2292,6 @@ export enum SortBy {
 	readDesc = 'readDesc',
 	sizeAsc = 'sizeAsc',
 	sizeDesc = 'sizeDesc'
-}
-
-export enum SearchType {
-	conversation = 'conversation',
-	message = 'message',
-	contact = 'contact',
-	appointment = 'appointment',
-	task = 'task',
-	wiki = 'wiki',
-	document = 'document'
 }
 
 export enum ActionTypeName {

@@ -329,10 +329,16 @@ export const Contact = new Entity({
 	_attrs: 'attributes'
 });
 
+export const Appointment = new Entity({
+	alarm: 'alarm',
+	inst: ['instances', Instance]
+});
+
 export const SearchResponse = new Entity({
 	m: ['messages', MessageInfo],
 	c: ['conversations', Conversation],
-	cn: ['contacts', Contact]
+	cn: ['contacts', Contact],
+	appt: ['appointments', Appointment]
 });
 
 const RedirectAction = new Entity({
