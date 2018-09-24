@@ -99,6 +99,11 @@ export class OfflineQueueLink extends ApolloLink {
 		this.persist();
 	};
 
+	getSize = () =>
+		Promise.resolve(this.storage.getItem(this.storeKey)).then(
+			d => (d || '').length
+		);
+
 	open = ({ apolloClient }: { apolloClient?: any } = {}) => {
 		if (!apolloClient) return;
 
@@ -107,17 +112,15 @@ export class OfflineQueueLink extends ApolloLink {
 		return this.retry();
 	};
 
-	persist = () => {
-		// TODO: Make safe for async
-		this.storage.setItem(
-			this.storeKey,
-			JSON.stringify(deriveOfflineQueue(this.operationQueue))
+	persist = () =>
+		Promise.resolve(
+			this.storage.setItem(
+				this.storeKey,
+				JSON.stringify(deriveOfflineQueue(this.operationQueue))
+			)
 		);
-	};
 
-	purge = () => {
-		this.storage.removeItem(this.storeKey);
-	};
+	purge = () => Promise.resolve(this.storage.removeItem(this.storeKey));
 
 	request(operation: Operation, forward: NextLink) {
 		const {
