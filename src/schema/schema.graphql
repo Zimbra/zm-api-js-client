@@ -2031,7 +2031,7 @@ type Mutation {
 	contactAction(
 		id: ID
 		ids: [ID!]
-		folderId: ID!
+		folderId: ID
 		op: String!
 	): Boolean
 	conversationAction(
