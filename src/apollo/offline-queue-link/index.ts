@@ -178,14 +178,10 @@ export class OfflineQueueLink extends ApolloLink {
 					error: (err: any) => {
 						this.dequeue(entry);
 						if (observer.error) {
-							console.error(
-								'[OfflineQueueLink] Could not sync operation to server:',
-								operation
-							);
 							observer.error(err);
-
-							done();
 						}
+
+						done();
 					},
 					complete: () => {
 						this.dequeue(entry);
