@@ -24,6 +24,9 @@ const dataIdFromObject = (object: any): string | null | undefined => {
 				return `${object.__typename}:${object.id}:${object.uuid}`;
 			}
 			return defaultDataIdFromObject(object);
+		case 'AutoCompleteMatch':
+			// AutoCompleteMatch is not guarenteed to have an `id`
+			return `${defaultDataIdFromObject(object)}:${object.email}`;
 		default:
 			return defaultDataIdFromObject(object);
 	}
