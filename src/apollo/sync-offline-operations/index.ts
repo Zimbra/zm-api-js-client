@@ -1,9 +1,9 @@
-/** see: github:iamrommel/offline-demo/web */
 import {
 	OfflineOperationEntry,
-	StorageProvider,
-	SyncOfflineOperationsOptions
-} from '../types';
+	StorageProvider
+} from '../offline-queue-link/types';
+
+import { SyncOfflineOperationsOptions } from './types';
 
 export class SyncOfflineOperations {
 	public apolloClient: any;

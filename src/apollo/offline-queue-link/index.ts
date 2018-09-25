@@ -1,67 +1,35 @@
-/** see: github:iamrommel/offline-demo/web */
 import { ApolloLink, NextLink, Observable, Operation } from 'apollo-link';
 import castArray from 'lodash/castArray';
-import get from 'lodash/get';
+import { DedupedByQueueError } from './errors';
 import {
-	OfflineOperationEntry,
 	OfflineQueueLinkOptions,
 	OperationEntry,
 	StorageProvider
-} from '../types';
-
-function errorFactory(name: string, message: string) {
-	return class extends Error {
-		constructor() {
-			super(message);
-			Object.defineProperty(this, 'name', { value: name });
-		}
-	};
-}
-
-const DedupedByQueueError = errorFactory(
-	'DedupedByQueueError',
-	'Operation was deduplicated by apollo-link-queue.'
-);
-const CancelledByQueueError = errorFactory(
-	'CancelledByQueueError',
-	'Operation was cancelled by apollo-link-queue.'
-);
-
-function hasSensitiveVariables(operation: Operation) {
-	return !!get(operation, 'variables.password');
-}
-
-function isMutationOperation({ query }: Operation) {
-	return (
-		query &&
-		query.definitions &&
-		query.definitions.filter((e: any) => e.operation === 'mutation').length > 0
-	);
-}
-
-function deriveOfflineQueue(
-	operationQueue: Array<OperationEntry>
-): Array<OfflineOperationEntry> {
-	return operationQueue.map(
-		({ operation: { query, variables } }: OperationEntry) => ({
-			[isMutationOperation(<Operation>{ query }) ? 'mutation' : 'query']: query,
-			variables
-		})
-	);
-}
+} from './types';
+import { deriveOfflineQueue, hasSensitiveVariables } from './util';
 
 /**
  * Queue operations and refire them at later time, see apollo-link-queue.
  * This link also maintains a persisted copy of the queue to be consumed by a
  * third party. Further, the link maintains a map of keyed queries to be used
- * to deduplicate or cancel queries queued while the link is closed.
+ * to deduplicate or cancel operations queued while the link is closed.
  */
 export class OfflineQueueLink extends ApolloLink {
 	public isOpen: boolean;
+
+	// Backing storage: localStorage or AsyncStore works out of the box.
 	public storage: StorageProvider;
 
-	private namedQueues: any;
+	// Queues are named in order to be deduplicated or cancelled, such that an
+	// operation can cancel other operations in the queue. Useful for mutating an
+	// entity that only exists in the offline queue.
+	private namedQueues: { [key: string]: OperationEntry | undefined };
+
+	// All operations are queued when the link is closed. The queue is persisted
+	// to storage on any change.
 	private operationQueue: Array<OperationEntry>;
+
+	// The key used to store the persisted operations in storage.
 	private storeKey: string;
 
 	constructor({
@@ -83,11 +51,13 @@ export class OfflineQueueLink extends ApolloLink {
 	}
 
 	cancelNamedQueue = (offlineQueueName: string) => {
-		const entry: OperationEntry = this.namedQueues[offlineQueueName];
+		const entry: OperationEntry | undefined = this.namedQueues[
+			offlineQueueName
+		];
 		if (entry) {
 			this.dequeue(entry);
 			if (entry.observer && entry.observer.error) {
-				entry.observer.error(new CancelledByQueueError());
+				entry.observer.error(new DedupedByQueueError());
 			}
 
 			this.namedQueues[offlineQueueName] = undefined;
@@ -149,6 +119,8 @@ export class OfflineQueueLink extends ApolloLink {
 			this.isOpen || skipQueue || hasSensitiveVariables(operation);
 
 		if (isForwarding) {
+			// This link does nothing if the link is open, the operation skips the
+			// queue, or the operation has sensitive information.
 			return forward(operation);
 		}
 
@@ -156,20 +128,18 @@ export class OfflineQueueLink extends ApolloLink {
 			const entry = { operation, forward, observer };
 
 			if (offlineQueueName) {
-				const prevEntry = this.namedQueues[offlineQueueName];
-				if (prevEntry) {
-					// TODO(pl12133): Ideally this is `observer.complete(query.optimisticResponse)`
-					//   but I'm not sure how to get at the optimisticResponse
-					prevEntry.observer.error(new DedupedByQueueError());
-				}
-
+				// Deduplication: Any queue with the same name is errored out when a newer
+				// operation with the same name is queued.
 				this.cancelNamedQueue(offlineQueueName);
 
+				// If the provided offlineQueueName is not self-cancelled, set this entry as
+				// the head of the given named queue.
 				if (!~castArray(cancelQueues).indexOf(offlineQueueName)) {
 					this.namedQueues[offlineQueueName] = entry;
 				}
 			}
 
+			// An operation can cancel multiple other operations.
 			if (cancelQueues) {
 				castArray(cancelQueues).forEach(this.cancelNamedQueue);
 			}
@@ -179,7 +149,7 @@ export class OfflineQueueLink extends ApolloLink {
 		});
 	}
 
-	// Retry queries made while offline like apollo-link-queue.
+	// Retry operations made while offline like apollo-link-queue.
 	// Returns a Promise that resolves after all operations are processed
 	// regardless of success.
 	retry = () =>
