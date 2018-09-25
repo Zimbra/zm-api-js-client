@@ -954,7 +954,7 @@ export interface Mutation {
 	changeCalendarColor?: boolean | null;
 	changePassword?: string | null;
 	checkCalendar?: boolean | null;
-	contactAction?: boolean | null;
+	contactAction?: ActionOpResponse | null;
 	conversationAction?: boolean | null;
 	createAppointment?: boolean | null;
 	createAppointmentException?: boolean | null;
@@ -1002,6 +1002,15 @@ export interface Mutation {
 	setMailboxMetadata?: boolean | null;
 	uploadMessage?: string | null;
 	setRecoveryAccount?: boolean | null;
+}
+
+export interface ActionOpResponse {
+	action?: ActionOpResponseData | null;
+}
+
+export interface ActionOpResponseData {
+	id: string;
+	op: string;
 }
 
 export interface SignatureResponse {

@@ -298,6 +298,15 @@ export const ActionOptions = new Entity({
 	grant: ACLGrant
 });
 
+const ActionOpResponseData = new Entity({
+	id: 'id',
+	op: 'op'
+});
+
+export const ActionOpResponse = new Entity({
+	action: ['action', ActionOpResponseData]
+});
+
 export const AutoComplete = new Entity({
 	t: 'type'
 });

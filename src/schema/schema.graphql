@@ -1920,6 +1920,15 @@ type SMimeMessage {
 
 ##### End Of SMIME Certificates type #####
 
+type ActionOpResponseData {
+	id: String!
+	op: String!
+}
+
+type ActionOpResponse {
+	action: ActionOpResponseData
+}
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2033,7 +2042,7 @@ type Mutation {
 		ids: [ID!]
 		folderId: ID
 		op: String!
-	): Boolean
+	): ActionOpResponse
 	conversationAction(
 		ids: [ID!]!
 		op: String!

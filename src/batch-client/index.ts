@@ -7,6 +7,7 @@ import mapValues from 'lodash/mapValues';
 
 import { denormalize, normalize } from '../normalize';
 import {
+	ActionOpResponse,
 	ActionOptions as ActionOptionsEntity,
 	AutoComplete as AutoCompleteEntity,
 	AutoCompleteResponse as AutoCompleteResponseEntity,
@@ -195,7 +196,7 @@ export class ZimbraBatchClient {
 		});
 
 	public contactAction = (options: ActionOptions) =>
-		this.action(ActionType.contact, options);
+		this.action(ActionType.contact, options).then(normalize(ActionOpResponse));
 
 	public conversationAction = (options: ActionOptions) =>
 		this.action(ActionType.conversation, options);
