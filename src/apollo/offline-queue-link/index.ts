@@ -9,12 +9,23 @@ import {
 	StorageProvider
 } from '../types';
 
-export class DedupedByQueueError extends Error {
-	constructor() {
-		super('Operation got deduplicated by apollo-link-queue.');
-		Object.defineProperty(this, 'name', { value: 'DedupedByQueueError' });
-	}
+function errorFactory(name: string, message: string) {
+	return class extends Error {
+		constructor() {
+			super(message);
+			Object.defineProperty(this, 'name', { value: name });
+		}
+	};
 }
+
+const DedupedByQueueError = errorFactory(
+	'DedupedByQueueError',
+	'Operation was deduplicated by apollo-link-queue.'
+);
+const CancelledByQueueError = errorFactory(
+	'CancelledByQueueError',
+	'Operation was cancelled by apollo-link-queue.'
+);
 
 function hasSensitiveVariables(operation: Operation) {
 	return !!get(operation, 'variables.password');
@@ -72,8 +83,13 @@ export class OfflineQueueLink extends ApolloLink {
 	}
 
 	cancelNamedQueue = (offlineQueueName: string) => {
-		if (this.namedQueues[offlineQueueName]) {
-			this.dequeue(this.namedQueues[offlineQueueName]);
+		const entry: OperationEntry = this.namedQueues[offlineQueueName];
+		if (entry) {
+			this.dequeue(entry);
+			if (entry.observer && entry.observer.error) {
+				entry.observer.error(new CancelledByQueueError());
+			}
+
 			this.namedQueues[offlineQueueName] = undefined;
 		}
 	};
