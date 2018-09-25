@@ -1834,7 +1834,7 @@ export interface CheckCalendarMutationArgs {
 export interface ContactActionMutationArgs {
 	id?: string | null;
 	ids?: string[] | null;
-	folderId: string;
+	folderId?: string | null;
 	op: string;
 }
 export interface ConversationActionMutationArgs {
