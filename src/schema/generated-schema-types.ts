@@ -140,6 +140,7 @@ export interface AccountInfoAttrs {
 	zimbraFeatureRelatedContactsEnabled?: boolean | null;
 	zimbraFeatureChangePasswordEnabled?: boolean | null;
 	zimbraFeatureResetPasswordEnabled?: boolean | null;
+	zimbraFeatureWebClientOfflineAccessEnabled?: boolean | null;
 	zimbraMailBlacklistMaxNumEntries?: number | null;
 }
 
@@ -168,6 +169,7 @@ export interface Preferences {
 	zimbraPrefPasswordRecoveryAddress?: string | null;
 	zimbraPrefPasswordRecoveryAddressStatus?: PasswordRecoveryAddressStatus | null;
 	zimbraPrefShowFragments?: boolean | null;
+	zimbraPrefWebClientOfflineBrowserKey?: string | null;
 }
 
 export interface License {

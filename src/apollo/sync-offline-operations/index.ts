@@ -3,7 +3,7 @@ import {
 	OfflineOperationEntry,
 	StorageProvider,
 	SyncOfflineOperationsOptions
-} from './types';
+} from '../types';
 
 export class SyncOfflineOperations {
 	public apolloClient: any;

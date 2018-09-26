@@ -940,6 +940,7 @@ type AccountInfoAttrs {
 	zimbraFeatureRelatedContactsEnabled: Boolean
 	zimbraFeatureChangePasswordEnabled: Boolean
 	zimbraFeatureResetPasswordEnabled: Boolean
+	zimbraFeatureWebClientOfflineAccessEnabled: Boolean
 	zimbraMailBlacklistMaxNumEntries: Int
 }
 
@@ -1044,6 +1045,7 @@ type Preferences {
 	zimbraPrefPasswordRecoveryAddress: String
 	zimbraPrefPasswordRecoveryAddressStatus: PasswordRecoveryAddressStatus
 	zimbraPrefShowFragments: Boolean
+	zimbraPrefWebClientOfflineBrowserKey: String
 }
 
 type NameId {
