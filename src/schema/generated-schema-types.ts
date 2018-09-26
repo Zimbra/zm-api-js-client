@@ -1730,6 +1730,7 @@ export interface FreeBusyQueryArgs {
 }
 export interface GetContactQueryArgs {
 	id: string;
+	derefGroupMember?: boolean | null;
 }
 export interface GetContactFrequencyQueryArgs {
 	email: string;

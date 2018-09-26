@@ -1946,7 +1946,7 @@ type Query {
 	): AutoCompleteResponse
 	downloadMessage(id: ID!): SMimeMessage
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
-	getContact(id: ID!): Contact
+	getContact(id: ID!, derefGroupMember: Boolean): Contact
 	getContactFrequency(
 		email: String!
 		by: String!

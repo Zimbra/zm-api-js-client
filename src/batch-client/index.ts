@@ -338,13 +338,14 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => normalize(FreeBusy)(res.usr));
 
-	public getContact = ({ id }: GetContactOptions) =>
+	public getContact = ({ id, ...rest }: GetContactOptions) =>
 		this.jsonRequest({
 			name: 'GetContacts',
 			body: {
-				cn: { id }
+				cn: { id },
+				...rest
 			}
-		});
+		}).then(res => normalize(Contact)(res.cn[0]));
 
 	public getContactFrequency = (options: GetContactFrequencyOptions) =>
 		this.jsonRequest({

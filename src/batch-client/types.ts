@@ -42,6 +42,7 @@ export interface FreeBusyOptions {
 }
 
 export interface GetContactOptions {
+	derefGroupMember: string;
 	id: string;
 }
 
