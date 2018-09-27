@@ -227,7 +227,7 @@ enum LicenseStatus {
 	ACTIVATION_GRACE_PERIOD
 }
 
-enum SearchConversationTaskStatus {
+enum TaskStatus {
 	COMP
 	DEFERRED
 	INPR
@@ -238,24 +238,6 @@ enum SearchConversationTaskStatus {
 enum SearchConversationResultMode {
 	IDS
 	NORMAL
-}
-
-enum SearchConversationSortBy {
-	attachAsc
-	attachDesc
-	dateAsc
-	dateDesc
-	flagAsc
-	flagDesc
-	nameAsc
-	nameDesc
-	none
-	priorityAsc
-	priorityDesc
-	rcptAsc
-	rcptDesc
-	subjAsc
-	subjDesc
 }
 
 enum SearchConversationWantContent {
@@ -1972,7 +1954,7 @@ type Query {
 		types: SearchType
 	): SearchResponse
 	searchConversation(
-		allowableTaskStatus: [SearchConversationTaskStatus],
+		allowableTaskStatus: [TaskStatus],
 		calExpandInstEnd: Int,
 		calExpandInstStart: Int,
 		conversationId: String!,
@@ -1998,7 +1980,7 @@ type Query {
 		read: Boolean,
 		recip: Int,
 		resultMode: SearchConversationResultMode,
-		sortBy: SearchConversationSortBy,
+		sortBy: SortBy,
 		timezone: Timezone,
 		types: [SearchType],
 		wantContent: SearchConversationWantContent,

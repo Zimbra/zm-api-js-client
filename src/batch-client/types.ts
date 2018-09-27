@@ -113,30 +113,12 @@ export interface Timezone {
 	standard?: TimezoneStandard;
 }
 
-export enum SearchConversationTaskStatus {
+export enum TaskStatus {
 	COMP = 'COMP',
 	DEFERRED = 'DEFERRED',
 	INPR = 'INPR',
 	NEED = 'NEED',
 	WAITING = 'WAITING'
-}
-
-export enum SearchConversationSortBy {
-	attachAsc = 'attachAsc',
-	attachDesc = 'attachDesc',
-	dateAsc = 'dateAsc',
-	dateDesc = 'dateDesc',
-	flagAsc = 'flagAsc',
-	flagDesc = 'flagDesc',
-	nameAsc = 'nameAsc',
-	nameDesc = 'nameDesc',
-	none = 'none',
-	priorityAsc = 'priorityAsc',
-	priorityDesc = 'priorityDesc',
-	rcptAsc = 'rcptAsc',
-	rcptDesc = 'rcptDesc',
-	subjAsc = 'subjAsc',
-	subjDesc = 'subjDesc'
 }
 
 export enum SearchConversationResultMode {
@@ -151,7 +133,7 @@ export enum SearchConversationWantContent {
 }
 
 export interface SearchConversationOptions {
-	allowableTaskStatus?: [SearchConversationTaskStatus];
+	allowableTaskStatus?: [TaskStatus];
 	calExpandInstEnd?: number;
 	calExpandInstStart?: number;
 	conversationId: string;
@@ -177,7 +159,7 @@ export interface SearchConversationOptions {
 	read?: boolean;
 	recip?: number;
 	resultMode?: SearchConversationResultMode;
-	sortBy?: SearchConversationSortBy;
+	sortBy?: SortBy;
 	timezone?: Timezone;
 	types?: [SearchType];
 	wantContent?: SearchConversationWantContent;

@@ -1,4 +1,5 @@
 import DataLoader from 'dataloader';
+import forEach from 'lodash/forEach';
 import get from 'lodash/get';
 import isError from 'lodash/isError';
 import mapValues from 'lodash/mapValues';
@@ -568,76 +569,36 @@ export class ZimbraBatchClient {
 		});
 
 	public searchConversation = ({
-		allowableTaskStatus,
-		calExpandInstEnd,
-		calExpandInstStart,
 		conversationId,
-		cursor,
-		fetch,
-		field,
-		fullConversation,
-		header,
-		html,
-		includeTagDeleted,
-		includeTagMuted,
-		inDumpster,
-		limit,
-		locale,
-		max,
-		needExp,
-		nest,
-		neuter,
-		offset,
-		prefetch,
 		query,
-		quick,
-		read,
-		recip,
-		resultMode,
-		sortBy,
+		header,
 		timezone,
-		types,
-		wantContent
+		locale,
+		cursor,
+		...options
 	}: SearchConversationOptions) => {
 		let body: any;
 		body = {
 			cid: conversationId,
-			...{
-				_content: {
-					...(query && { query }),
-					...(header && { header }),
-					...(timezone && { tz: timezone }),
-					...(locale && { locale }),
-					...(cursor && { cursor })
-				}
+			_content: {
+				...(query && { query }),
+				...(header && { header }),
+				...(timezone && { tz: timezone }),
+				...(locale && { locale }),
+				...(cursor && { cursor })
 			}
 		};
 
-		if (nest) body.nest = nest;
-		if (includeTagDeleted) body.includeTagDeleted = includeTagDeleted;
-		if (includeTagMuted) body.includeTagMuted = includeTagMuted;
-		if (allowableTaskStatus)
-			body.allowableTaskStatus = allowableTaskStatus.join(',');
-		if (calExpandInstStart) body.calExpandInstStart = calExpandInstStart;
-		if (calExpandInstEnd) body.calExpandInstEnd = calExpandInstEnd;
-		if (inDumpster) body.inDumpster = inDumpster;
-		if (types) body.types = types.join(',');
-		if (quick) body.quick = quick;
-		if (sortBy) body.sortBy = sortBy;
-		if (fetch) body.fetch = fetch;
-		if (read) body.read = read;
-		if (max) body.max = max;
-		if (html) body.html = html;
-		if (needExp) body.needExp = needExp;
-		if (neuter) body.neuter = neuter;
-		if (recip) body.recip = recip;
-		if (prefetch) body.prefetch = prefetch;
-		if (resultMode) body.resultMode = resultMode;
-		if (fullConversation) body.fullConversation = fullConversation;
-		if (field) body.field = field;
-		if (limit) body.limit = limit;
-		if (offset) body.offset = offset;
-		if (wantContent) body.wantContent = wantContent;
+		// conditionally include the rest of the parameters
+		forEach(options, (value: any, key: string) => {
+			if (value) {
+				if (key === 'allowableTaskStatus' || key === 'types') {
+					body[key] = value.join(',');
+				} else {
+					body[key] = value;
+				}
+			}
+		});
 
 		return this.jsonRequest({
 			name: 'SearchConv',
