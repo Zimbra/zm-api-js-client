@@ -1,4 +1,5 @@
 import DataLoader from 'dataloader';
+import castArray from 'lodash/castArray';
 import forEach from 'lodash/forEach';
 import get from 'lodash/get';
 import isError from 'lodash/isError';
@@ -11,6 +12,8 @@ import {
 	AutoCompleteResponse as AutoCompleteResponseEntity,
 	CalendarItemCreateModifyRequest,
 	CalendarItemHitInfo,
+	Contact,
+	ContactInputRequest,
 	Conversation,
 	CreateMountpointRequest,
 	CreateSignatureRequest,
@@ -38,11 +41,14 @@ import {
 } from '../request/types';
 import {
 	CalendarItemInput,
+	CreateContactInput,
 	CreateMountpointInput,
 	FilterInput,
 	FolderView,
 	InviteReplyInput,
+	ModifyContactInput,
 	PreferencesInput,
+	SearchFolderInput,
 	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput
@@ -122,17 +128,25 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetInfo',
 			namespace: Namespace.Account
-		}).then(res => ({
-			...res,
-			attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
-			prefs: mapValuesDeep(res.prefs._attrs, coerceStringToBoolean),
-			...(get(res, 'license.attr') && {
-				license: {
-					status: res.license.status,
-					attr: mapValuesDeep(res.license.attr, coerceStringToBoolean)
-				}
-			})
-		}));
+		}).then(res => {
+			let prefs: any = mapValuesDeep(res.prefs._attrs, coerceStringToBoolean);
+			prefs.zimbraPrefMailTrustedSenderList =
+				typeof prefs.zimbraPrefMailTrustedSenderList === 'string'
+					? castArray(prefs.zimbraPrefMailTrustedSenderList)
+					: prefs.zimbraPrefMailTrustedSenderList;
+
+			return {
+				...res,
+				attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
+				prefs,
+				...(get(res, 'license.attr') && {
+					license: {
+						status: res.license.status,
+						attr: mapValuesDeep(res.license.attr, coerceStringToBoolean)
+					}
+				})
+			};
+		});
 
 	public action = (type: ActionType, options: ActionOptions) => {
 		const { ids, id, ...rest } = options;
@@ -207,6 +221,30 @@ export class ZimbraBatchClient {
 			},
 			accountName: accountName
 		});
+
+	public createContact = (data: CreateContactInput) => {
+		const { attributes, ...rest } = data;
+		const contactAttrs = <Object[]>[];
+
+		forEach(attributes, (val, key) =>
+			contactAttrs.push({
+				name: key,
+				content: val
+			})
+		);
+
+		return this.jsonRequest({
+			name: 'CreateContact',
+			body: {
+				cn: {
+					...denormalize(ContactInputRequest)({
+						...rest,
+						attributes: contactAttrs
+					})
+				}
+			}
+		}).then(res => normalize(Contact)(res.cn[0]));
+	};
 
 	public createFolder = (_options: CreateFolderOptions) => {
 		const { flags, fetchIfExists, parentFolderId, ...options } = _options;
@@ -467,6 +505,30 @@ export class ZimbraBatchClient {
 			accountName: accountName
 		});
 
+	public modifyContact = (data: ModifyContactInput) => {
+		const { attributes, ...rest } = data;
+		const modifiedAttrs = <Object[]>[];
+
+		forEach(attributes, (val, key) =>
+			modifiedAttrs.push({
+				name: key,
+				content: val
+			})
+		);
+
+		return this.jsonRequest({
+			name: 'ModifyContact',
+			body: {
+				cn: {
+					...denormalize(ContactInputRequest)({
+						...rest,
+						attributes: modifiedAttrs
+					})
+				}
+			}
+		}).then(res => normalize(Contact)(res.cn[0]));
+	};
+
 	public modifyFilterRules = (filters: Array<FilterInput>) =>
 		this.jsonRequest({
 			name: 'ModifyFilterRules',
@@ -486,6 +548,12 @@ export class ZimbraBatchClient {
 			body: {
 				_attrs: mapValuesDeep(prefs, coerceBooleanToString)
 			}
+		});
+
+	public modifySearchFolder = (options: SearchFolderInput) =>
+		this.jsonRequest({
+			name: 'ModifySearchFolder',
+			body: options
 		});
 
 	public modifySignature = (options: SignatureInput) =>
