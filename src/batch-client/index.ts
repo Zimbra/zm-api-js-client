@@ -729,9 +729,7 @@ export class ZimbraBatchClient {
 	private batchDataHandler = (requests: Array<RequestOptions>) =>
 		batchJsonRequest({
 			requests,
-			jwtToken: this.jwtToken,
-			sessionId: this.sessionId,
-			origin: this.origin
+			...this.getAdditionalRequestOptions()
 		}).then(response => {
 			const sessionId = get(response, 'header.context.session.id');
 			const notifications = get(response, 'header.context.notify.0');
@@ -759,8 +757,7 @@ export class ZimbraBatchClient {
 	private dataHandler = (requests: Array<JsonRequestOptions>) =>
 		jsonRequest({
 			...requests[0],
-			sessionId: this.sessionId,
-			origin: this.origin
+			...this.getAdditionalRequestOptions()
 		}).then(response => {
 			const sessionId = get(response, 'header.context.session.id');
 			const notifications = get(response, 'header.context.notify.0');
@@ -775,4 +772,13 @@ export class ZimbraBatchClient {
 
 			return isError(response) ? [response] : [response.body];
 		});
+
+	/**
+	 * These options are included on every request.
+	 */
+	private getAdditionalRequestOptions = () => ({
+		jwtToken: this.jwtToken,
+		sessionId: this.sessionId,
+		origin: this.origin
+	});
 }
