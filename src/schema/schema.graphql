@@ -1084,6 +1084,7 @@ type Contact {
 	sortField: String
 	fileAsStr: String
 	attributes: ContactAttributes
+	members: [ContactListMember]
 }
 
 type ContactAttributes {
@@ -1135,6 +1136,11 @@ type ContactAttributes {
 	# Used for contact lists
 	fileAs: String
 	type: String
+}
+
+type ContactListMember {
+	contact: [Contact]
+	type: String!
 }
 
 input ContactAttrsInput {

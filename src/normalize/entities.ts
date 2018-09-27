@@ -319,12 +319,21 @@ export const ExternalCalendar = new Entity({
 	l: 'folderId'
 });
 
-export const Contact = new Entity({
+const contactFields = {
 	d: 'date',
 	l: 'folderId',
 	rev: 'revision',
 	sf: 'sortField',
 	_attrs: 'attributes'
+};
+
+const contactListMembers = new Entity({
+	cn: ['contact', new Entity({ ...contactFields })]
+});
+
+export const Contact = new Entity({
+	...contactFields,
+	m: ['members', contactListMembers]
 });
 
 export const SearchResponse = new Entity({

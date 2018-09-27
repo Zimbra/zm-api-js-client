@@ -266,6 +266,7 @@ export interface Contact {
 	sortField?: string | null;
 	fileAsStr?: string | null;
 	attributes?: ContactAttributes | null;
+	members?: ContactListMember[] | null;
 }
 
 export interface ContactAttributes {
@@ -315,6 +316,11 @@ export interface ContactAttributes {
 	userCertificate?: string | null;
 	fileAs?: string | null /* Used for contact lists */;
 	type?: string | null;
+}
+
+export interface ContactListMember {
+	contact?: Contact[] | null;
+	type: string;
 }
 
 export interface ContactFrequencyResponse {
