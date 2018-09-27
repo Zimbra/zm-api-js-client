@@ -1,5 +1,7 @@
+import { FetchResult, NextLink, Operation } from 'apollo-link';
 import { BatchLink } from 'apollo-link-batch';
 import { GraphQLSchema } from 'graphql/type';
+import { Observer } from 'zen-observable-ts';
 
 export interface LocalBatchLinkOptions extends BatchLink.Options {
 	context?: any;
@@ -24,18 +26,9 @@ export interface SyncOfflineOperationsOptions {
 	storeKey?: string;
 }
 
-export type Operation = {
-	extensions: any;
-	operationName: string;
-	query: any;
-	variables: any;
-	getContext(): any;
-	setContext(context: any): any;
-};
-
 export type OperationEntry = {
-	forward: any;
-	observer: any;
+	forward: NextLink;
+	observer: Observer<FetchResult>;
 	operation: Operation;
 };
 
