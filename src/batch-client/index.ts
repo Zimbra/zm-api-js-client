@@ -43,6 +43,7 @@ import {
 	CalendarItemInput,
 	CreateContactInput,
 	CreateMountpointInput,
+	ExternalAccountAddInput,
 	FilterInput,
 	FolderView,
 	InviteReplyInput,
@@ -68,6 +69,8 @@ import {
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
+	ExternalAccountDeleteInput,
+	ExternalAccountModifyInput,
 	FreeBusyOptions,
 	GetContactFrequencyOptions,
 	GetContactOptions,
@@ -160,6 +163,17 @@ export class ZimbraBatchClient {
 			}
 		});
 	};
+
+	public addExternalAccount = ({
+		accountType,
+		...accountInfo
+	}: ExternalAccountAddInput) =>
+		this.jsonRequest({
+			name: 'CreateDataSource',
+			body: {
+				[<string>accountType]: mapValuesDeep(accountInfo, coerceBooleanToString)
+			}
+		}).then(res => get(res, '0.id'));
 
 	public autoComplete = (options: AutoCompleteOptions) =>
 		this.jsonRequest({
@@ -291,6 +305,14 @@ export class ZimbraBatchClient {
 			name: 'CreateTask',
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(task)
+			}
+		});
+
+	public deleteExternalAccount = ({ id }: ExternalAccountDeleteInput) =>
+		this.jsonRequest({
+			name: 'DeleteDataSource',
+			body: {
+				dsrc: { id }
 			}
 		});
 
@@ -527,6 +549,21 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => normalize(Contact)(res.cn[0]));
 	};
+
+	public modifyExternalAccount = ({
+		id,
+		type: accountType,
+		attrs
+	}: ExternalAccountModifyInput) =>
+		this.jsonRequest({
+			name: 'ModifyDataSource',
+			body: {
+				[<string>accountType]: {
+					id,
+					...mapValuesDeep(attrs, coerceBooleanToString)
+				}
+			}
+		}).then(res => get(res, '0.id'));
 
 	public modifyFilterRules = (filters: Array<FilterInput>) =>
 		this.jsonRequest({
