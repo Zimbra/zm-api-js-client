@@ -2070,7 +2070,13 @@ type Mutation {
 	folderAction(action: FolderActionInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	logout: Boolean
-	login(username: String!, password: String, recoveryCode: String, tokenType: String): AuthResponse
+	login(
+		username: String!,
+		password: String,
+		recoveryCode: String,
+		tokenType: String,
+		persistAuthTokenCookie: Boolean
+	): AuthResponse
 	messageAction(
 		ids: [ID!]!
 		op: String!
