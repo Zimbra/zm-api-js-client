@@ -173,7 +173,7 @@ export class ZimbraBatchClient {
 			body: {
 				[<string>accountType]: mapValuesDeep(accountInfo, coerceBooleanToString)
 			}
-		}).then(res => get(res, '0.id'));
+		}).then(res => get(res, `${accountType}.0.id`));
 
 	public autoComplete = (options: AutoCompleteOptions) =>
 		this.jsonRequest({
@@ -563,7 +563,7 @@ export class ZimbraBatchClient {
 					...mapValuesDeep(attrs, coerceBooleanToString)
 				}
 			}
-		}).then(res => get(res, '0.id'));
+		});
 
 	public modifyFilterRules = (filters: Array<FilterInput>) =>
 		this.jsonRequest({

@@ -2021,7 +2021,7 @@ type Mutation {
 		tagNames: String,
 		name: String
 	): Boolean
-	addExternalAccount(externalAccount: ExternalAccountAddInput!): String
+	addExternalAccount(externalAccount: ExternalAccountAddInput!): ID
 	cancelTask(inviteId: ID!): Boolean
 	changeCalendarColor(id: String!, color: Int!): Boolean
 	changePassword(
@@ -2065,7 +2065,7 @@ type Mutation {
 	): SignatureResponse
 	createTask(task: CalendarItemInput!): Boolean
 	deleteAppointment(inviteId: String!): Boolean
-	deleteExternalAccount(id: ID!): String
+	deleteExternalAccount(id: ID!): Boolean
 	deleteSignature(signature: NameIdInput!): String
 	folderAction(action: FolderActionInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
@@ -2079,7 +2079,7 @@ type Mutation {
 		id: ID!
 		type: AccountType
 		attrs: ExternalAccountModifyAttrsInput!
-	): String
+	): Boolean
 	modifyAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
