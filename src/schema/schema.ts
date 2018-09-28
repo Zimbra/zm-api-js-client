@@ -5,6 +5,7 @@ import {
 	CalendarItemInput,
 	CreateContactInput,
 	CreateMountpointInput,
+	ExternalAccountAddInput,
 	FilterInput,
 	FolderView,
 	InviteReplyInput,
@@ -32,6 +33,8 @@ import {
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
+	ExternalAccountDeleteInput,
+	ExternalAccountModifyInput,
 	FreeBusyOptions,
 	GetContactFrequencyOptions,
 	GetContactOptions,
@@ -222,18 +225,16 @@ export function createZimbraSchema(
 					client.sendShareNotification(
 						shareNotification as ShareNotificationInput
 					),
-				addExternalAccount: (_, { externalAccount }, { zimbra }) =>
-					zimbra.account
-						.addExternal({
-							externalAccount
-						})
-						.then((id?: string) => {
-							if (id !== undefined) return id;
-						}),
-				modifyExternalAccount: (_, { id, type, attrs }, { zimbra }) =>
-					zimbra.account.modifyExternal(id, type, attrs),
-				deleteExternalAccount: (_, { id }, { zimbra }) =>
-					zimbra.account.deleteExternal({ id }),
+				addExternalAccount: (_, { externalAccount }) =>
+					client.addExternalAccount(externalAccount as ExternalAccountAddInput),
+				modifyExternalAccount: (_, { id, type, attrs }) =>
+					client.modifyExternalAccount({
+						id,
+						type,
+						attrs
+					} as ExternalAccountModifyInput),
+				deleteExternalAccount: (_, { id }) =>
+					client.deleteExternalAccount({ id } as ExternalAccountDeleteInput),
 				prefEnableOutOfOfficeAlertOnLogin: (_, { value }) =>
 					client
 						.modifyPrefs({
