@@ -265,6 +265,7 @@ export interface Contact {
 	revision?: number | null;
 	sortField?: string | null;
 	fileAsStr?: string | null;
+	memberOf?: string | null;
 	attributes?: ContactAttributes | null;
 	members?: ContactListMember[] | null;
 }
@@ -1799,6 +1800,7 @@ export interface SearchQueryArgs {
 	fullConversation?: boolean | null;
 	limit?: number | null;
 	needExp?: boolean | null;
+	memberOf?: boolean | null;
 	offset?: number | null;
 	query?: string | null;
 	recip?: number | null;

@@ -1083,6 +1083,7 @@ type Contact {
 	revision: Int
 	sortField: String
 	fileAsStr: String
+	memberOf: String
 	attributes: ContactAttributes
 	members: [ContactListMember]
 }
@@ -2013,6 +2014,7 @@ type Query {
 		fullConversation: Boolean,
 		limit: Int,
 		needExp: Boolean,
+		memberOf: Boolean,
 		offset: Int,
 		query: String,
 		recip: Int,
