@@ -971,14 +971,15 @@ export interface Mutation {
 	createSignature?: SignatureResponse | null;
 	createTask?: boolean | null;
 	deleteAppointment?: boolean | null;
-	deleteExternalAccount?: string | null;
+	deleteExternalAccount?: boolean | null;
 	deleteSignature?: string | null;
 	folderAction?: boolean | null;
 	itemAction?: boolean | null;
+	importExternalAccount?: boolean | null;
 	logout?: boolean | null;
 	login?: AuthResponse | null;
 	messageAction?: boolean | null;
-	modifyExternalAccount?: string | null;
+	modifyExternalAccount?: boolean | null;
 	modifyAppointment?: boolean | null;
 	modifyIdentity?: string | null;
 	modifyPrefs?: boolean | null;
@@ -1372,6 +1373,11 @@ export interface GrantInput {
 	password?: string | null;
 	permissions: string;
 	zimbraId?: string | null;
+}
+
+export interface ExternalAccountImportInput {
+	accountType?: AccountType | null;
+	id: string;
 }
 
 export interface ExternalAccountModifyAttrsInput {
@@ -1905,6 +1911,9 @@ export interface ItemActionMutationArgs {
 	ids?: string[] | null;
 	folderId?: string | null;
 	op: string;
+}
+export interface ImportExternalAccountMutationArgs {
+	externalAccount: ExternalAccountImportInput;
 }
 export interface LoginMutationArgs {
 	username: string;

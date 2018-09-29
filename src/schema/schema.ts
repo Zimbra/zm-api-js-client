@@ -6,6 +6,7 @@ import {
 	CreateContactInput,
 	CreateMountpointInput,
 	ExternalAccountAddInput,
+	ExternalAccountImportInput,
 	FilterInput,
 	FolderView,
 	InviteReplyInput,
@@ -227,14 +228,14 @@ export function createZimbraSchema(
 					),
 				addExternalAccount: (_, { externalAccount }) =>
 					client.addExternalAccount(externalAccount as ExternalAccountAddInput),
-				modifyExternalAccount: (_, { id, type, attrs }) =>
-					client.modifyExternalAccount({
-						id,
-						type,
-						attrs
-					} as ExternalAccountModifyInput),
-				deleteExternalAccount: (_, { id }) =>
-					client.deleteExternalAccount({ id } as ExternalAccountDeleteInput),
+				modifyExternalAccount: (_, variables) =>
+					client.modifyExternalAccount(variables as ExternalAccountModifyInput),
+				deleteExternalAccount: (_, variables) =>
+					client.deleteExternalAccount(variables as ExternalAccountDeleteInput),
+				importExternalAccount: (_, { externalAccount }) =>
+					client.importExternalAccount(
+						externalAccount as ExternalAccountImportInput
+					),
 				prefEnableOutOfOfficeAlertOnLogin: (_, { value }) =>
 					client
 						.modifyPrefs({

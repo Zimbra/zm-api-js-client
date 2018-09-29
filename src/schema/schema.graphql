@@ -1857,6 +1857,11 @@ input ExternalAccountModifyAttrsInput {
 	smtpPort: String
 }
 
+input ExternalAccountImportInput {
+	accountType: AccountType
+	id: ID!
+}
+
 # Include one of these fields to query for a folder
 input GetFolderFolderInput {
 	uuid: ID
@@ -2069,6 +2074,7 @@ type Mutation {
 	deleteSignature(signature: NameIdInput!): String
 	folderAction(action: FolderActionInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
+	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
 	logout: Boolean
 	login(username: String!, password: String, recoveryCode: String, tokenType: String): AuthResponse
 	messageAction(
