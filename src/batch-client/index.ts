@@ -44,6 +44,7 @@ import {
 	CreateContactInput,
 	CreateMountpointInput,
 	ExternalAccountAddInput,
+	ExternalAccountImportInput,
 	FilterInput,
 	FolderView,
 	InviteReplyInput,
@@ -463,6 +464,19 @@ export class ZimbraBatchClient {
 				}
 			},
 			namespace: Namespace.Account
+		});
+
+	public importExternalAccount = ({
+		accountType,
+		id
+	}: ExternalAccountImportInput) =>
+		this.jsonRequest({
+			name: 'ImportData',
+			body: {
+				[<string>accountType]: {
+					id
+				}
+			}
 		});
 
 	public itemAction = (options: ActionOptions) =>
