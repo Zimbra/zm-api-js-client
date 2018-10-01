@@ -509,7 +509,7 @@ export class ZimbraBatchClient {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
 			accountName: accountName
-		});
+		}).then(res => normalize(CalendarItemCreateModifyRequest)(res));
 
 	public modifyContact = (data: ModifyContactInput) => {
 		const { attributes, ...rest } = data;
