@@ -313,6 +313,14 @@ type InviteReplyResponse {
 	calendarItemId: ID #calItemId
 }
 
+type ModifyAppointmentResponse {
+	appointmentId: ID #appointmentId
+	calendarItemId: ID #calItemId
+	inviteId: ID #invId
+	modifiedSequence: Int # ms
+	revision: Int # rev
+}
+
 type EmailAddress {
 	address: String
 	name: String
@@ -2107,7 +2115,7 @@ type Mutation {
 		type: AccountType
 		attrs: ExternalAccountModifyAttrsInput!
 	): String
-	modifyAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
+	modifyAppointment(accountName: String, appointment: CalendarItemInput!): ModifyAppointmentResponse
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyFilterRules(filters: [FilterInput!]): Boolean

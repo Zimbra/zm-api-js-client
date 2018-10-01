@@ -204,10 +204,12 @@ export const Conversation = new Entity({
 });
 
 export const CalendarItemCreateModifyRequest = new Entity({
-	ms: 'modifiedSequence',
 	rev: 'revision',
 	comp: 'componentNum',
-	m: ['message', MessageInfo]
+	m: ['message', MessageInfo],
+	apptId: 'appointmentId',
+	calItemId: 'calendarItemId',
+	invId: 'inviteId'
 });
 
 const NewMountpointSpec = new Entity({

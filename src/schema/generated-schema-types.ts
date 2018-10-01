@@ -994,7 +994,7 @@ export interface Mutation {
 	login?: AuthResponse | null;
 	messageAction?: boolean | null;
 	modifyExternalAccount?: string | null;
-	modifyAppointment?: boolean | null;
+	modifyAppointment?: ModifyAppointmentResponse | null;
 	modifyIdentity?: string | null;
 	modifyPrefs?: boolean | null;
 	modifyFilterRules?: boolean | null;
@@ -1048,6 +1048,14 @@ export interface Session {
 
 export interface Skin {
 	_content?: string | null;
+}
+
+export interface ModifyAppointmentResponse {
+	appointmentId?: string | null;
+	calendarItemId?: string | null;
+	inviteId?: string | null;
+	modifiedSequence?: number | null;
+	revision?: number | null;
 }
 
 export interface SaveDraftResponse {
