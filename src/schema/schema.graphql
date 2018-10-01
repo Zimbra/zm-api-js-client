@@ -1474,6 +1474,20 @@ type RecoverAccount {
 	recoveryAttemptsLeft: Int
 }
 
+type WhiteBlackAddress {
+	_content: String!
+	op: String
+}
+
+type WhiteBlackListArr {
+	addr: [WhiteBlackAddress]
+}
+
+type WhiteBlackList {
+	whiteList: [WhiteBlackListArr]!
+	blackList: [WhiteBlackListArr]!
+}
+
 input CalendarItemAlarmInput {
 	action: AlarmAction!
 	trigger: CalendarItemAlarmTriggerInput!
@@ -1898,6 +1912,20 @@ input SignatureContentInput {
 	_content: String
 }
 
+input WhiteBlackAddressOpts {
+	_content: String!
+	op: String
+}
+
+input WhiteBlackListArrInput {
+	addr: [WhiteBlackAddressOpts]
+}
+
+input WhiteBlackListInput {
+	whiteList: WhiteBlackListArrInput
+	blackList: WhiteBlackListArrInput
+}
+
 ##### SMIME Certificates type #####
 
 type SMimePublicCert {
@@ -1976,6 +2004,7 @@ type Query {
 	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
 	getSearchFolder: Folder
 	getTask(inviteId: ID!): Boolean
+	getWhiteBlackList: WhiteBlackList
 	noop: Boolean
 	preferences: Preferences
 	recoverAccount(
@@ -1985,8 +2014,6 @@ type Query {
 	): RecoverAccount
 	relatedContacts(email: String!): RelatedContacts
 	shareInfos(addresses: [String!]): [[ShareInfo]]
-
-
 
 	# Perform a search for a variety types using a flexible query interface.
 	# [[SOAP Search API Documentation]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/zimbraMail/Search.html)
@@ -2087,6 +2114,7 @@ type Mutation {
 	modifySignature(signature: SignatureInput!): String
 	modifySearchFolder(search: SearchFolderInput!): Boolean
 	modifyTask(task: CalendarItemInput!): Boolean
+	modifyWhiteBlackList(whiteBlackList: WhiteBlackListInput!): Boolean
 	moveTask(inviteId: ID!, destFolderId: ID!): String
 	prefAutoAddAppointmentToCalendar(value: Boolean!): Boolean
 	prefCalendarInitialView(

@@ -15,7 +15,8 @@ import {
 	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput,
-	SortBy
+	SortBy,
+	WhiteBlackListInput
 } from './generated-schema-types';
 import { ZimbraSchemaOptions } from './types';
 
@@ -95,7 +96,8 @@ export function createZimbraSchema(
 				search: (_, variables) => client.search(variables as SearchOptions),
 				shareInfos: (_, variables) =>
 					client.shareInfos(variables as ShareInfosOptions),
-				taskFolders: client.taskFolders
+				taskFolders: client.taskFolders,
+				getWhiteBlackList: client.getWhiteBlackList
 			},
 			//resolveType is necessary to differentiate for any Union or Interfaces
 			MailItem: {
@@ -306,7 +308,9 @@ export function createZimbraSchema(
 						}
 					}),
 				setRecoveryAccount: (_, variables) =>
-					client.setRecoveryAccount(variables as SetRecoveryAccountOptions)
+					client.setRecoveryAccount(variables as SetRecoveryAccountOptions),
+				modifyWhiteBlackList: (_, { whiteBlackList }) =>
+					client.modifyWhiteBlackList(whiteBlackList as WhiteBlackListInput)
 			}
 		}
 	});
