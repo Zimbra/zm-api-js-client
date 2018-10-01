@@ -321,7 +321,7 @@ export const ExternalCalendar = new Entity({
 	l: 'folderId'
 });
 
-const Contact = new Entity({
+export const Contact = new Entity({
 	d: 'date',
 	l: 'folderId',
 	rev: 'revision',
@@ -422,4 +422,15 @@ const GetFolderSpec = new Entity({
 export const GetFolderRequest = new Entity({
 	tr: 'traverseMountpoints',
 	folder: GetFolderSpec
+});
+
+const ContactInputAttributes = new Entity({
+	n: 'name',
+	_content: 'content'
+});
+
+export const ContactInputRequest = new Entity({
+	l: 'folderId',
+	tn: 'tagNames',
+	a: ['attributes', ContactInputAttributes]
 });

@@ -3,17 +3,20 @@ import mapValues from 'lodash/mapValues';
 
 import {
 	CalendarItemInput,
+	CreateContactInput,
 	CreateMountpointInput,
 	FilterInput,
 	FolderView,
 	InviteReplyInput,
+	ModifyContactInput,
 	NameIdInput,
 	PreferencesInput,
 	SearchFolderInput,
 	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput,
-	SortBy
+	SortBy,
+	WhiteBlackListInput
 } from './generated-schema-types';
 import { ZimbraSchemaOptions } from './types';
 
@@ -93,7 +96,8 @@ export function createZimbraSchema(
 				search: (_, variables) => client.search(variables as SearchOptions),
 				shareInfos: (_, variables) =>
 					client.shareInfos(variables as ShareInfosOptions),
-				taskFolders: client.taskFolders
+				taskFolders: client.taskFolders,
+				getWhiteBlackList: client.getWhiteBlackList
 			},
 			//resolveType is necessary to differentiate for any Union or Interfaces
 			MailItem: {
@@ -156,6 +160,14 @@ export function createZimbraSchema(
 					client.createFolder(variables as CreateFolderOptions),
 				createSearchFolder: (_, variables) =>
 					client.createSearchFolder(variables as CreateSearchFolderOptions),
+				createContact: (_, { contact }) =>
+					client.createContact(contact as CreateContactInput),
+				createContactList: (_, { contact }) =>
+					client.createContact(contact as CreateContactInput),
+				modifyContact: (_, { contact }) =>
+					client.modifyContact(contact as ModifyContactInput),
+				modifyContactList: (_, { contact }) =>
+					client.modifyContact(contact as ModifyContactInput),
 				createAppointment: (_, { accountName, appointment }) =>
 					client.createAppointment(
 						accountName,
@@ -296,7 +308,9 @@ export function createZimbraSchema(
 						}
 					}),
 				setRecoveryAccount: (_, variables) =>
-					client.setRecoveryAccount(variables as SetRecoveryAccountOptions)
+					client.setRecoveryAccount(variables as SetRecoveryAccountOptions),
+				modifyWhiteBlackList: (_, { whiteBlackList }) =>
+					client.modifyWhiteBlackList(whiteBlackList as WhiteBlackListInput)
 			}
 		}
 	});
