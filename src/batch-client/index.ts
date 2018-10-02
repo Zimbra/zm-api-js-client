@@ -660,15 +660,6 @@ export class ZimbraBatchClient {
 			return normalized;
 		});
 
-	public searchAppointments = (options: SearchOptions) =>
-		this.jsonRequest({
-			name: 'Search',
-			body: {
-				...options
-				// fullConversation: options.fullConversation ? 1 : 0
-			}
-		}).then(normalize(SearchResponse));
-
 	public sendInviteReply = (requestOptions: InviteReplyInput) =>
 		this.jsonRequest({
 			name: 'SendInviteReply',

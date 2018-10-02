@@ -81,7 +81,7 @@ export function createZimbraSchema(
 				getFolder: (_: any, variables) =>
 					client.getFolder(variables as GetFolderOptions),
 				getAppointments: (_: any, variables) =>
-					client.searchAppointments(variables as SearchOptions),
+					client.search(variables as SearchOptions),
 				getMailboxMetadata: (_: any, variables) =>
 					client.getMailboxMetadata(variables as GetMailboxMetadataOptions),
 				getMessage: (_, variables) =>
