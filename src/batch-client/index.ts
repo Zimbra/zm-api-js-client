@@ -302,6 +302,15 @@ export class ZimbraBatchClient {
 			body: options
 		});
 
+	public dismissCalendarItem = (appointment: any, task: any) =>
+		this.jsonRequest({
+			name: 'DismissCalendarItemAlarm',
+			body: {
+				appt: appointment,
+				task
+			}
+		}).then(Boolean);
+
 	public downloadMessage = ({ id }: any) => {
 		return fetch(`${this.origin}/service/home/~/?auth=co&id=${id}`, {
 			headers: {
@@ -342,7 +351,7 @@ export class ZimbraBatchClient {
 			body: {
 				cn: { id }
 			}
-		});
+		}).then(res => normalize(Contact)(res.cn[0]));
 
 	public getContactFrequency = (options: GetContactFrequencyOptions) =>
 		this.jsonRequest({
@@ -695,6 +704,15 @@ export class ZimbraBatchClient {
 				})
 			)
 		);
+
+	public snoozeCalendarItem = (appointment: any, task: any) =>
+		this.jsonRequest({
+			name: 'SnoozeCalendarItemAlarm',
+			body: {
+				appt: appointment,
+				task
+			}
+		}).then(Boolean);
 
 	public taskFolders = () =>
 		this.jsonRequest({

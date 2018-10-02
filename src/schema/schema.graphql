@@ -1934,6 +1934,16 @@ input WhiteBlackListInput {
 	blackList: WhiteBlackListArrInput
 }
 
+input SnoozeInput {
+	id: ID!
+	until: Float!
+}
+
+input DismissInput {
+	id: ID!
+	dismissedAt: Float!
+}
+
 ##### SMIME Certificates type #####
 
 type SMimePublicCert {
@@ -1974,6 +1984,14 @@ type Query {
 	downloadMessage(id: ID!): SMimeMessage
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
 	getContact(id: ID!): Contact
+	getAppointments(
+		calExpandInstStart: Float!,
+		calExpandInstEnd: Float!,
+		query: String!,
+		limit: Int!,
+		offset: Int!,
+		types: SearchType
+	): SearchResponse
 	getContactFrequency(
 		email: String!
 		by: String!
@@ -2144,6 +2162,8 @@ type Mutation {
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean
+	snoozeCalendarItem(appointment: SnoozeInput, task: SnoozeInput): Boolean,
+	dismissCalendarItem(appointment: DismissInput, task: DismissInput): Boolean,
 	uploadMessage(value: String!): String
 	setRecoveryAccount(
 		channel: SetRecoveryAccountChannel!
