@@ -309,7 +309,7 @@ export class ZimbraBatchClient {
 				appt: appointment,
 				task
 			}
-		}).then(res => !!res);
+		}).then(Boolean);
 
 	public downloadMessage = ({ id }: any) => {
 		return fetch(`${this.origin}/service/home/~/?auth=co&id=${id}`, {
@@ -721,7 +721,7 @@ export class ZimbraBatchClient {
 				appt: appointment,
 				task
 			}
-		}).then(res => !!res);
+		}).then(Boolean);
 
 	public taskFolders = () =>
 		this.jsonRequest({
