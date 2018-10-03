@@ -26,7 +26,7 @@ export interface Query {
 	autoComplete?: AutoCompleteResponse | null;
 	downloadMessage?: SMimeMessage | null;
 	freeBusy?: FreeBusy[] | null;
-	getContact?: Contact | null;
+	getContact?: Contact[] | null;
 	getAppointments?: SearchResponse | null;
 	getContactFrequency?: ContactFrequencyResponse | null;
 	getConversation?: Conversation | null;
@@ -322,7 +322,7 @@ export interface ContactAttributes {
 }
 
 export interface ContactListMember {
-	contact?: Contact[] | null;
+	contacts?: Contact[] | null;
 	type: string;
 }
 
@@ -1787,7 +1787,8 @@ export interface FreeBusyQueryArgs {
 	end?: number | null;
 }
 export interface GetContactQueryArgs {
-	id: string;
+	id?: string | null;
+	ids?: string[] | null;
 	derefGroupMember?: boolean | null;
 }
 export interface GetAppointmentsQueryArgs {

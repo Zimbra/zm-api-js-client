@@ -42,8 +42,9 @@ export interface FreeBusyOptions {
 }
 
 export interface GetContactOptions {
-	derefGroupMember: string;
+	derefGroupMember: boolean;
 	id: string;
+	ids: Array<string>;
 }
 
 export interface GetContactFrequencyOptions {

@@ -330,7 +330,7 @@ const contactFields = {
 };
 
 const contactListMembers = new Entity({
-	cn: ['contact', new Entity({ ...contactFields })]
+	cn: ['contacts', new Entity({ ...contactFields })]
 });
 
 export const Contact = new Entity({

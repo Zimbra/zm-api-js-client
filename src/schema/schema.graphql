@@ -1148,7 +1148,7 @@ type ContactAttributes {
 }
 
 type ContactListMember {
-	contact: [Contact]
+	contacts: [Contact]
 	type: String!
 }
 
@@ -1999,7 +1999,11 @@ type Query {
 	): AutoCompleteResponse
 	downloadMessage(id: ID!): SMimeMessage
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
-	getContact(id: ID!, derefGroupMember: Boolean): Contact
+	getContact(
+		id: ID,
+		ids: [ID!],
+		derefGroupMember: Boolean
+	): [Contact]
 	getAppointments(
 		calExpandInstStart: Float!,
 		calExpandInstEnd: Float!,
