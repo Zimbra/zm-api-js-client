@@ -98,6 +98,8 @@ export interface RelatedContactsOptions {
 }
 
 export interface SearchOptions {
+	calExpandInstEnd?: Number;
+	calExpandInstStart?: Number;
 	cursor?: Cursor;
 	fetch?: string;
 	fullConversation?: boolean;
