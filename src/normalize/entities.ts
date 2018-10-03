@@ -204,10 +204,12 @@ export const Conversation = new Entity({
 });
 
 export const CalendarItemCreateModifyRequest = new Entity({
-	ms: 'modifiedSequence',
 	rev: 'revision',
 	comp: 'componentNum',
-	m: ['message', MessageInfo]
+	m: ['message', MessageInfo],
+	apptId: 'appointmentId',
+	calItemId: 'calendarItemId',
+	invId: 'inviteId'
 });
 
 const NewMountpointSpec = new Entity({
@@ -336,10 +338,16 @@ export const Contact = new Entity({
 	m: ['members', contactListMembers]
 });
 
+export const Appointment = new Entity({
+	alarm: 'alarm',
+	inst: ['instances', Instance]
+});
+
 export const SearchResponse = new Entity({
 	m: ['messages', MessageInfo],
 	c: ['conversations', Conversation],
-	cn: ['contacts', Contact]
+	cn: ['contacts', Contact],
+	appt: ['appointments', Appointment]
 });
 
 const RedirectAction = new Entity({

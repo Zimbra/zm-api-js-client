@@ -51,7 +51,8 @@ import {
 	SearchFolderInput,
 	SendMessageInput,
 	ShareNotificationInput,
-	SignatureInput
+	SignatureInput,
+	WhiteBlackListInput
 } from '../schema/generated-schema-types';
 import {
 	coerceBooleanToInt,
@@ -304,6 +305,15 @@ export class ZimbraBatchClient {
 			body: options
 		});
 
+	public dismissCalendarItem = (appointment: any, task: any) =>
+		this.jsonRequest({
+			name: 'DismissCalendarItemAlarm',
+			body: {
+				appt: appointment,
+				task
+			}
+		}).then(Boolean);
+
 	public downloadMessage = ({ id }: any) => {
 		return fetch(`${this.origin}/service/home/~/?auth=co&id=${id}`, {
 			headers: {
@@ -447,6 +457,12 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		});
 
+	public getWhiteBlackList = () =>
+		this.jsonRequest({
+			name: 'GetWhiteBlackList',
+			namespace: Namespace.Account
+		});
+
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);
 
@@ -506,7 +522,7 @@ export class ZimbraBatchClient {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
 			accountName: accountName
-		});
+		}).then(res => normalize(CalendarItemCreateModifyRequest)(res));
 
 	public modifyContact = (data: ModifyContactInput) => {
 		const { attributes, ...rest } = data;
@@ -571,6 +587,15 @@ export class ZimbraBatchClient {
 			name: 'ModifyTask',
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(task)
+			}
+		});
+
+	public modifyWhiteBlackList = (whiteBlackList: WhiteBlackListInput) =>
+		this.jsonRequest({
+			name: 'ModifyWhiteBlackList',
+			namespace: Namespace.Account,
+			body: {
+				...whiteBlackList
 			}
 		});
 
@@ -683,6 +708,15 @@ export class ZimbraBatchClient {
 				})
 			)
 		);
+
+	public snoozeCalendarItem = (appointment: any, task: any) =>
+		this.jsonRequest({
+			name: 'SnoozeCalendarItemAlarm',
+			body: {
+				appt: appointment,
+				task
+			}
+		}).then(Boolean);
 
 	public taskFolders = () =>
 		this.jsonRequest({

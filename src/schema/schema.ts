@@ -15,7 +15,8 @@ import {
 	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput,
-	SortBy
+	SortBy,
+	WhiteBlackListInput
 } from './generated-schema-types';
 import { ZimbraSchemaOptions } from './types';
 
@@ -79,6 +80,8 @@ export function createZimbraSchema(
 				getFilterRules: client.getFilterRules,
 				getFolder: (_: any, variables) =>
 					client.getFolder(variables as GetFolderOptions),
+				getAppointments: (_: any, variables) =>
+					client.search(variables as SearchOptions),
 				getMailboxMetadata: (_: any, variables) =>
 					client.getMailboxMetadata(variables as GetMailboxMetadataOptions),
 				getMessage: (_, variables) =>
@@ -95,7 +98,8 @@ export function createZimbraSchema(
 				search: (_, variables) => client.search(variables as SearchOptions),
 				shareInfos: (_, variables) =>
 					client.shareInfos(variables as ShareInfosOptions),
-				taskFolders: client.taskFolders
+				taskFolders: client.taskFolders,
+				getWhiteBlackList: client.getWhiteBlackList
 			},
 			//resolveType is necessary to differentiate for any Union or Interfaces
 			MailItem: {
@@ -173,6 +177,10 @@ export function createZimbraSchema(
 						accountName,
 						appointment as CalendarItemInput
 					),
+				snoozeCalendarItem: (_, { appointment, task }) =>
+					client.snoozeCalendarItem(appointment, task),
+				dismissCalendarItem: (_, { appointment, task }) =>
+					client.dismissCalendarItem(appointment, task),
 				createAppointmentException: (_, { accountName, appointment }) =>
 					client.createAppointmentException(
 						accountName,
@@ -308,7 +316,9 @@ export function createZimbraSchema(
 						}
 					}),
 				setRecoveryAccount: (_, variables) =>
-					client.setRecoveryAccount(variables as SetRecoveryAccountOptions)
+					client.setRecoveryAccount(variables as SetRecoveryAccountOptions),
+				modifyWhiteBlackList: (_, { whiteBlackList }) =>
+					client.modifyWhiteBlackList(whiteBlackList as WhiteBlackListInput)
 			}
 		}
 	});
