@@ -45,6 +45,7 @@ import {
 	CreateMountpointInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
+	ExternalAccountTestInput,
 	FilterInput,
 	FolderView,
 	InviteReplyInput,
@@ -773,6 +774,19 @@ export class ZimbraBatchClient {
 				tr: true
 			}
 		}).then(res => normalize(Folder)(res.folder[0].folder));
+
+	public testExternalAccount = ({
+		accountType,
+		...accountInfo
+	}: ExternalAccountTestInput) =>
+		this.jsonRequest({
+			name: 'TestDataSource',
+			body: {
+				[<string>accountType]: mapValuesDeep(accountInfo, coerceBooleanToString)
+			}
+		}).then(res =>
+			mapValuesDeep(get(res, `${accountType}.0`), coerceStringToBoolean)
+		);
 
 	public uploadMessage = (message: string) => {
 		const contentDisposition = 'attachment';

@@ -625,6 +625,11 @@ type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	aid: String
 }
 
+type ExternalAccountTestResponse {
+	success: Boolean!
+	error: String
+}
+
 input ExternalAccount {
 	id: ID!
 	name: String!
@@ -1855,6 +1860,17 @@ input ExternalAccountAddInput {
 	username: String!
 }
 
+input ExternalAccountTestInput {
+	accountType: AccountType
+	connectionType: ConnectionType
+	emailAddress: String
+	host: String!
+	leaveOnServer: Boolean
+	port: String!
+	username: String!
+	password: String!
+}
+
 input ExternalAccountModifyAttrsInput {
 	id: ID
 	accountType: AccountType
@@ -2079,6 +2095,7 @@ type Mutation {
 		tagNames: String,
 		name: String
 	): Boolean
+	testExternalAccount(externalAccount: ExternalAccountTestInput!): ExternalAccountTestResponse
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): ID
 	cancelTask(inviteId: ID!): Boolean
 	changeCalendarColor(id: String!, color: Int!): Boolean

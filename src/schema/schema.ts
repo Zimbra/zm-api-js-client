@@ -7,6 +7,7 @@ import {
 	CreateMountpointInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
+	ExternalAccountTestInput,
 	FilterInput,
 	FolderView,
 	InviteReplyInput,
@@ -233,6 +234,10 @@ export function createZimbraSchema(
 				sendShareNotification: (_, { shareNotification }) =>
 					client.sendShareNotification(
 						shareNotification as ShareNotificationInput
+					),
+				testExternalAccount: (_, { externalAccount }) =>
+					client.testExternalAccount(
+						externalAccount as ExternalAccountTestInput
 					),
 				addExternalAccount: (_, { externalAccount }) =>
 					client.addExternalAccount(externalAccount as ExternalAccountAddInput),

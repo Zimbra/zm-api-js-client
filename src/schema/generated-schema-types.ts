@@ -967,6 +967,7 @@ export interface ShareInfo {
 
 export interface Mutation {
 	action?: boolean | null;
+	testExternalAccount?: ExternalAccountTestResponse | null;
 	addExternalAccount?: string | null;
 	cancelTask?: boolean | null;
 	changeCalendarColor?: boolean | null;
@@ -1023,6 +1024,11 @@ export interface Mutation {
 	dismissCalendarItem?: boolean | null;
 	uploadMessage?: string | null;
 	setRecoveryAccount?: boolean | null;
+}
+
+export interface ExternalAccountTestResponse {
+	success: boolean;
+	error?: string | null;
 }
 
 export interface SignatureResponse {
@@ -1121,6 +1127,17 @@ export interface Cursor {
 	sortVal?: string | null;
 	endSortVal?: string | null;
 	includeOffset?: boolean | null;
+}
+
+export interface ExternalAccountTestInput {
+	accountType?: AccountType | null;
+	connectionType?: ConnectionType | null;
+	emailAddress?: string | null;
+	host: string;
+	leaveOnServer?: boolean | null;
+	port: string;
+	username: string;
+	password: string;
 }
 
 export interface ExternalAccountAddInput {
@@ -1877,6 +1894,9 @@ export interface ActionMutationArgs {
 	rgb?: string | null;
 	tagNames?: string | null;
 	name?: string | null;
+}
+export interface TestExternalAccountMutationArgs {
+	externalAccount: ExternalAccountTestInput;
 }
 export interface AddExternalAccountMutationArgs {
 	externalAccount: ExternalAccountAddInput;
