@@ -432,8 +432,7 @@ export const GetFolderRequest = new Entity({
 
 const ContactInputAttributes = new Entity({
 	n: 'name',
-	_content: 'content',
-	aid: 'aid'
+	_content: 'content'
 });
 
 export const ContactInputRequest = new Entity({
