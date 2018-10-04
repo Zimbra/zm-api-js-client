@@ -226,12 +226,19 @@ export class ZimbraBatchClient {
 		const { attributes, ...rest } = data;
 		const contactAttrs = <Object[]>[];
 
-		forEach(attributes, (val, key) =>
-			contactAttrs.push({
-				name: key,
-				content: val
-			})
-		);
+		forEach(attributes, (val, key) =>{
+			if (key === 'image') {
+				contactAttrs.push({
+					name: key,
+					aid: val
+				})
+			} else {
+				contactAttrs.push({
+					name: key,
+					content: val
+				})
+			}
+		});
 
 		return this.jsonRequest({
 			name: 'CreateContact',
@@ -524,12 +531,19 @@ export class ZimbraBatchClient {
 		const { attributes, ...rest } = data;
 		const modifiedAttrs = <Object[]>[];
 
-		forEach(attributes, (val, key) =>
-			modifiedAttrs.push({
-				name: key,
-				content: val
-			})
-		);
+		forEach(attributes, (val, key) =>{
+			if (key === 'image') {
+				modifiedAttrs.push({
+					name: key,
+					aid: val
+				})
+			} else{
+				modifiedAttrs.push({
+					name: key,
+					content: val
+				})
+			}
+		});
 
 		return this.jsonRequest({
 			name: 'ModifyContact',
