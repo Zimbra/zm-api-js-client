@@ -1361,6 +1361,13 @@ export interface ModifyContactInput {
 	folderId?: string | null;
 	tagNames?: string | null;
 	attributes: ContactAttrsInput;
+	memberOps?: ContactListOps[] | null;
+}
+
+export interface ContactListOps {
+	op: string;
+	type: string;
+	value: string;
 }
 
 export interface NewMountpointSpec {

@@ -1209,11 +1209,18 @@ input CreateContactInput {
 	attributes: ContactAttrsInput!
 }
 
+input ContactListOps {
+	op: String!
+	type: String!
+	value: String!
+}
+
 input ModifyContactInput {
 	id: ID!
 	folderId: ID
 	tagNames: String
 	attributes: ContactAttrsInput!
+	memberOps: [ContactListOps]
 }
 
 type RelatedContact {

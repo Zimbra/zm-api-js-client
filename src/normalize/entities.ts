@@ -447,5 +447,6 @@ const ContactInputAttributes = new Entity({
 export const ContactInputRequest = new Entity({
 	l: 'folderId',
 	tn: 'tagNames',
-	a: ['attributes', ContactInputAttributes]
+	a: ['attributes', ContactInputAttributes],
+	m: 'memberOps'
 });
