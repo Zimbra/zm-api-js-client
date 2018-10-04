@@ -2003,6 +2003,7 @@ type Query {
 		id: ID,
 		ids: [ID!],
 		derefGroupMember: Boolean
+		memberOf: Boolean
 	): [Contact]
 	getAppointments(
 		calExpandInstStart: Float!,

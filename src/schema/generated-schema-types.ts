@@ -1790,6 +1790,7 @@ export interface GetContactQueryArgs {
 	id?: string | null;
 	ids?: string[] | null;
 	derefGroupMember?: boolean | null;
+	memberOf?: boolean | null;
 }
 export interface GetAppointmentsQueryArgs {
 	calExpandInstStart: number;

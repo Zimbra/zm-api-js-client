@@ -45,6 +45,7 @@ export interface GetContactOptions {
 	derefGroupMember: boolean;
 	id: string;
 	ids: Array<string>;
+	memberOf: boolean;
 }
 
 export interface GetContactFrequencyOptions {
