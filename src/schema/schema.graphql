@@ -364,6 +364,7 @@ type MessageInfo implements MailItem {
 	size: Float # s
 	date: Float # d
 	folderId: ID # l
+	origId: ID #origid
 	subject: String # su
 	emailAddresses: [EmailAddress]
 	excerpt: String # fr

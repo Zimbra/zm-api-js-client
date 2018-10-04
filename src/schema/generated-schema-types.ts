@@ -335,6 +335,7 @@ export interface MessageInfo extends MailItem {
 	size?: number | null;
 	date?: number | null;
 	folderId?: string | null;
+	origId?: string | null;
 	subject?: string | null;
 	emailAddresses?: EmailAddress[] | null;
 	excerpt?: string | null;
