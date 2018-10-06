@@ -974,6 +974,7 @@ export interface ShareInfo {
 
 export interface Mutation {
 	action?: boolean | null;
+	testExternalAccount?: ExternalAccountTestResponse | null;
 	addExternalAccount?: string | null;
 	cancelTask?: boolean | null;
 	changeCalendarColor?: boolean | null;
@@ -995,14 +996,15 @@ export interface Mutation {
 	createSignature?: SignatureResponse | null;
 	createTask?: boolean | null;
 	deleteAppointment?: boolean | null;
-	deleteExternalAccount?: string | null;
+	deleteExternalAccount?: boolean | null;
 	deleteSignature?: string | null;
 	folderAction?: boolean | null;
 	itemAction?: boolean | null;
+	importExternalAccount?: boolean | null;
 	logout?: boolean | null;
 	login?: AuthResponse | null;
 	messageAction?: boolean | null;
-	modifyExternalAccount?: string | null;
+	modifyExternalAccount?: boolean | null;
 	modifyAppointment?: ModifyAppointmentResponse | null;
 	modifyIdentity?: string | null;
 	modifyPrefs?: boolean | null;
@@ -1030,6 +1032,11 @@ export interface Mutation {
 	dismissCalendarItem?: boolean | null;
 	uploadMessage?: string | null;
 	setRecoveryAccount?: boolean | null;
+}
+
+export interface ExternalAccountTestResponse {
+	success: boolean;
+	error?: string | null;
 }
 
 export interface ActionOpResponse {
@@ -1137,6 +1144,17 @@ export interface Cursor {
 	sortVal?: string | null;
 	endSortVal?: string | null;
 	includeOffset?: boolean | null;
+}
+
+export interface ExternalAccountTestInput {
+	accountType?: AccountType | null;
+	connectionType?: ConnectionType | null;
+	emailAddress?: string | null;
+	host: string;
+	leaveOnServer?: boolean | null;
+	port: string;
+	username: string;
+	password: string;
 }
 
 export interface ExternalAccountAddInput {
@@ -1423,6 +1441,11 @@ export interface GrantInput {
 	password?: string | null;
 	permissions: string;
 	zimbraId?: string | null;
+}
+
+export interface ExternalAccountImportInput {
+	accountType?: AccountType | null;
+	id: string;
 }
 
 export interface ExternalAccountModifyAttrsInput {
@@ -1900,6 +1923,9 @@ export interface ActionMutationArgs {
 	tagNames?: string | null;
 	name?: string | null;
 }
+export interface TestExternalAccountMutationArgs {
+	externalAccount: ExternalAccountTestInput;
+}
 export interface AddExternalAccountMutationArgs {
 	externalAccount: ExternalAccountAddInput;
 }
@@ -1998,6 +2024,9 @@ export interface ItemActionMutationArgs {
 	ids?: string[] | null;
 	folderId?: string | null;
 	op: string;
+}
+export interface ImportExternalAccountMutationArgs {
+	externalAccount: ExternalAccountImportInput;
 }
 export interface LoginMutationArgs {
 	username: string;

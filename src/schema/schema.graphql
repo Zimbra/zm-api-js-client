@@ -625,6 +625,11 @@ type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	aid: String
 }
 
+type ExternalAccountTestResponse {
+	success: Boolean!
+	error: String
+}
+
 input ExternalAccount {
 	id: ID!
 	name: String!
@@ -1869,6 +1874,17 @@ input ExternalAccountAddInput {
 	username: String!
 }
 
+input ExternalAccountTestInput {
+	accountType: AccountType
+	connectionType: ConnectionType
+	emailAddress: String
+	host: String!
+	leaveOnServer: Boolean
+	port: String!
+	username: String!
+	password: String!
+}
+
 input ExternalAccountModifyAttrsInput {
 	id: ID
 	accountType: AccountType
@@ -1891,6 +1907,11 @@ input ExternalAccountModifyAttrsInput {
 	isEnabled: Boolean
 	port: String
 	smtpPort: String
+}
+
+input ExternalAccountImportInput {
+	accountType: AccountType
+	id: ID!
 }
 
 # Include one of these fields to query for a folder
@@ -2103,7 +2124,8 @@ type Mutation {
 		tagNames: String,
 		name: String
 	): Boolean
-	addExternalAccount(externalAccount: ExternalAccountAddInput!): String
+	testExternalAccount(externalAccount: ExternalAccountTestInput!): ExternalAccountTestResponse
+	addExternalAccount(externalAccount: ExternalAccountAddInput!): ID
 	cancelTask(inviteId: ID!): Boolean
 	changeCalendarColor(id: String!, color: Int!): Boolean
 	changePassword(
@@ -2153,10 +2175,11 @@ type Mutation {
 	): SignatureResponse
 	createTask(task: CalendarItemInput!): Boolean
 	deleteAppointment(inviteId: String!): Boolean
-	deleteExternalAccount(id: ID!): String
+	deleteExternalAccount(id: ID!): Boolean
 	deleteSignature(signature: NameIdInput!): String
 	folderAction(action: FolderActionInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
+	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
 	logout: Boolean
 	login(username: String!, password: String, recoveryCode: String, tokenType: String): AuthResponse
 	messageAction(
@@ -2167,7 +2190,7 @@ type Mutation {
 		id: ID!
 		type: AccountType
 		attrs: ExternalAccountModifyAttrsInput!
-	): String
+	): Boolean
 	modifyAppointment(accountName: String, appointment: CalendarItemInput!): ModifyAppointmentResponse
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
