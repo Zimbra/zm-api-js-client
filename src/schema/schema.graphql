@@ -1347,6 +1347,19 @@ type AutoCompleteResponse {
 	match: [AutoCompleteMatch]
 }
 
+type AutoCompleteGALResponse {
+	cn: [AutoCompleteCN]
+}
+
+type AutoCompleteCN {
+	_attrs: [AutoCompleteGALAttr]
+}
+
+type AutoCompleteGALAttr {
+	zimbraCalResType: String
+	fullName: String
+}
+
 type AutoCompleteMatch {
 	email: String
 	type: AutoCompleteMatchType
@@ -2002,6 +2015,12 @@ type Query {
 		folders: String,
 		includeGal: Boolean
 	): AutoCompleteResponse
+	autoCompleteGAL(
+		limit: Int
+		name: String
+		type: String
+		needExp: Int
+	): AutoCompleteGALResponse
 	downloadMessage(id: ID!): SMimeMessage
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
 	getContact(id: ID!): Contact

@@ -68,6 +68,7 @@ import { normalizeMimeParts } from '../utils/normalize-mime-parts';
 import {
 	ActionOptions,
 	ActionType,
+	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
 	CreateFolderOptions,
@@ -183,6 +184,13 @@ export class ZimbraBatchClient {
 			name: 'AutoComplete',
 			body: denormalize(AutoCompleteEntity)(options)
 		}).then(normalize(AutoCompleteResponseEntity));
+
+	public autoCompleteGAL = (options: AutoCompleteGALOptions) =>
+		this.jsonRequest({
+			name: 'AutoCompleteGal',
+			namespace: Namespace.Account,
+			body: options
+		}).then(res => res.cn);
 
 	public cancelTask = ({ inviteId }: any) =>
 		this.jsonRequest({
