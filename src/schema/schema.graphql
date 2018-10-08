@@ -1348,11 +1348,11 @@ type AutoCompleteResponse {
 }
 
 type AutoCompleteGALResponse {
-	cn: [AutoCompleteCN]
+	contacts: [AutoCompleteCN]
 }
 
 type AutoCompleteCN {
-	_attrs: [AutoCompleteGALAttr]
+	attributes: AutoCompleteGALAttr
 }
 
 type AutoCompleteGALAttr {
