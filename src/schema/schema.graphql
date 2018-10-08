@@ -1194,6 +1194,7 @@ input ContactAttrsInput {
 	anniversary: String
 	website: String
 	notes: String
+	image: String
 	userCertificate: String
 
 	# Used for contact lists

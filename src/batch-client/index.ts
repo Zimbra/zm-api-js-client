@@ -245,7 +245,7 @@ export class ZimbraBatchClient {
 		forEach(attributes, (val, key) =>
 			contactAttrs.push({
 				name: key,
-				content: val
+				[key === 'image' ? 'aid' : 'content']: val
 			})
 		);
 
@@ -564,7 +564,7 @@ export class ZimbraBatchClient {
 		forEach(attributes, (val, key) =>
 			modifiedAttrs.push({
 				name: key,
-				content: val
+				[key === 'image' ? 'aid' : 'content']: val
 			})
 		);
 

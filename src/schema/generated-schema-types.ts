@@ -1352,6 +1352,7 @@ export interface ContactAttrsInput {
 	anniversary?: string | null;
 	website?: string | null;
 	notes?: string | null;
+	image?: string | null;
 	userCertificate?: string | null;
 	fileAs?: string | null /* Used for contact lists */;
 	type?: string | null;
