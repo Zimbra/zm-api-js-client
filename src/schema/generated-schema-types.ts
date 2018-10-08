@@ -324,6 +324,7 @@ export interface ContactAttributes {
 export interface ContactListMember {
 	contacts?: Contact[] | null;
 	type: string;
+	value: string;
 }
 
 export interface SearchResponse {

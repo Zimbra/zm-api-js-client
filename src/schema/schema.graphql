@@ -1155,6 +1155,7 @@ type ContactAttributes {
 type ContactListMember {
 	contacts: [Contact]
 	type: String!
+	value: ID!
 }
 
 input ContactAttrsInput {
