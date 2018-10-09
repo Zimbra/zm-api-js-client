@@ -192,7 +192,6 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account,
 			body: options
 		}).then(res => {
-			console.log(res);
 			return normalize(AutoCompleteGALResponseEntity)(res);
 		});
 

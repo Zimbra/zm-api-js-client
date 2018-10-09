@@ -1352,12 +1352,14 @@ type AutoCompleteGALResponse {
 }
 
 type AutoCompleteCN {
+	id: String
 	attributes: AutoCompleteGALAttr
 }
 
 type AutoCompleteGALAttr {
 	zimbraCalResType: String
 	fullName: String
+	email: String
 }
 
 type AutoCompleteMatch {
