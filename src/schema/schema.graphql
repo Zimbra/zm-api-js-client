@@ -332,6 +332,14 @@ type InviteReplyResponse {
 	calendarItemId: ID #calItemId
 }
 
+type ModifyAppointmentResponse {
+	appointmentId: ID #appointmentId
+	calendarItemId: ID #calItemId
+	inviteId: ID #invId
+	modifiedSequence: Int # ms
+	revision: Int # rev
+}
+
 type EmailAddress {
 	address: String
 	name: String
@@ -634,6 +642,11 @@ type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	uid: String
 	x_uid: String
 	aid: String
+}
+
+type ExternalAccountTestResponse {
+	success: Boolean!
+	error: String
 }
 
 input ExternalAccount {
@@ -1493,6 +1506,20 @@ type RecoverAccount {
 	recoveryAttemptsLeft: Int
 }
 
+type WhiteBlackAddress {
+	_content: String!
+	op: String
+}
+
+type WhiteBlackListArr {
+	addr: [WhiteBlackAddress]
+}
+
+type WhiteBlackList {
+	whiteList: [WhiteBlackListArr]!
+	blackList: [WhiteBlackListArr]!
+}
+
 input CalendarItemAlarmInput {
 	action: AlarmAction!
 	trigger: CalendarItemAlarmTriggerInput!
@@ -1852,6 +1879,17 @@ input ExternalAccountAddInput {
 	username: String!
 }
 
+input ExternalAccountTestInput {
+	accountType: AccountType
+	connectionType: ConnectionType
+	emailAddress: String
+	host: String!
+	leaveOnServer: Boolean
+	port: String!
+	username: String!
+	password: String!
+}
+
 input ExternalAccountModifyAttrsInput {
 	id: ID
 	accountType: AccountType
@@ -1874,6 +1912,11 @@ input ExternalAccountModifyAttrsInput {
 	isEnabled: Boolean
 	port: String
 	smtpPort: String
+}
+
+input ExternalAccountImportInput {
+	accountType: AccountType
+	id: ID!
 }
 
 # Include one of these fields to query for a folder
@@ -1937,6 +1980,30 @@ input SignatureContentInput {
 	_content: String
 }
 
+input WhiteBlackAddressOpts {
+	_content: String!
+	op: String
+}
+
+input WhiteBlackListArrInput {
+	addr: [WhiteBlackAddressOpts]
+}
+
+input WhiteBlackListInput {
+	whiteList: WhiteBlackListArrInput
+	blackList: WhiteBlackListArrInput
+}
+
+input SnoozeInput {
+	id: ID!
+	until: Float!
+}
+
+input DismissInput {
+	id: ID!
+	dismissedAt: Float!
+}
+
 ##### SMIME Certificates type #####
 
 type SMimePublicCert {
@@ -1977,6 +2044,14 @@ type Query {
 	downloadMessage(id: ID!): SMimeMessage
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
 	getContact(id: ID!): Contact
+	getAppointments(
+		calExpandInstStart: Float!,
+		calExpandInstEnd: Float!,
+		query: String!,
+		limit: Int!,
+		offset: Int!,
+		types: SearchType
+	): SearchResponse
 	getContactFrequency(
 		email: String!
 		by: String!
@@ -2015,6 +2090,7 @@ type Query {
 	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
 	getSearchFolder: Folder
 	getTask(inviteId: ID!): Boolean
+	getWhiteBlackList: WhiteBlackList
 	noop: Boolean
 	preferences: Preferences
 	recoverAccount(
@@ -2024,8 +2100,6 @@ type Query {
 	): RecoverAccount
 	relatedContacts(email: String!): RelatedContacts
 	shareInfos(addresses: [String!]): [[ShareInfo]]
-
-
 
 	# Perform a search for a variety types using a flexible query interface.
 	# [[SOAP Search API Documentation]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/zimbraMail/Search.html)
@@ -2092,7 +2166,8 @@ type Mutation {
 		tagNames: String,
 		name: String
 	): Boolean
-	addExternalAccount(externalAccount: ExternalAccountAddInput!): String
+	testExternalAccount(externalAccount: ExternalAccountTestInput!): ExternalAccountTestResponse
+	addExternalAccount(externalAccount: ExternalAccountAddInput!): ID
 	cancelTask(inviteId: ID!): Boolean
 	changeCalendarColor(id: String!, color: Int!): Boolean
 	changePassword(
@@ -2136,10 +2211,11 @@ type Mutation {
 	): SignatureResponse
 	createTask(task: CalendarItemInput!): Boolean
 	deleteAppointment(inviteId: String!): Boolean
-	deleteExternalAccount(id: ID!): String
+	deleteExternalAccount(id: ID!): Boolean
 	deleteSignature(signature: NameIdInput!): String
 	folderAction(action: FolderActionInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
+	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
 	logout: Boolean
 	login(username: String!, password: String, recoveryCode: String, tokenType: String): AuthResponse
 	messageAction(
@@ -2150,14 +2226,15 @@ type Mutation {
 		id: ID!
 		type: AccountType
 		attrs: ExternalAccountModifyAttrsInput!
-	): String
-	modifyAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
+	): Boolean
+	modifyAppointment(accountName: String, appointment: CalendarItemInput!): ModifyAppointmentResponse
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyFilterRules(filters: [FilterInput!]): Boolean
 	modifySignature(signature: SignatureInput!): String
 	modifySearchFolder(search: SearchFolderInput!): Boolean
 	modifyTask(task: CalendarItemInput!): Boolean
+	modifyWhiteBlackList(whiteBlackList: WhiteBlackListInput!): Boolean
 	moveTask(inviteId: ID!, destFolderId: ID!): String
 	prefAutoAddAppointmentToCalendar(value: Boolean!): Boolean
 	prefCalendarInitialView(
@@ -2179,6 +2256,8 @@ type Mutation {
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean
+	snoozeCalendarItem(appointment: SnoozeInput, task: SnoozeInput): Boolean,
+	dismissCalendarItem(appointment: DismissInput, task: DismissInput): Boolean,
 	uploadMessage(value: String!): String
 	setRecoveryAccount(
 		channel: SetRecoveryAccountChannel!

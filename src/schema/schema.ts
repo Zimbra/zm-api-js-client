@@ -5,6 +5,9 @@ import {
 	CalendarItemInput,
 	CreateContactInput,
 	CreateMountpointInput,
+	ExternalAccountAddInput,
+	ExternalAccountImportInput,
+	ExternalAccountTestInput,
 	FilterInput,
 	FolderView,
 	InviteReplyInput,
@@ -15,7 +18,8 @@ import {
 	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput,
-	SortBy
+	SortBy,
+	WhiteBlackListInput
 } from './generated-schema-types';
 import { ZimbraSchemaOptions } from './types';
 
@@ -32,6 +36,8 @@ import {
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
+	ExternalAccountDeleteInput,
+	ExternalAccountModifyInput,
 	FreeBusyOptions,
 	GetContactFrequencyOptions,
 	GetContactOptions,
@@ -80,6 +86,8 @@ export function createZimbraSchema(
 				getFilterRules: client.getFilterRules,
 				getFolder: (_: any, variables) =>
 					client.getFolder(variables as GetFolderOptions),
+				getAppointments: (_: any, variables) =>
+					client.search(variables as SearchOptions),
 				getMailboxMetadata: (_: any, variables) =>
 					client.getMailboxMetadata(variables as GetMailboxMetadataOptions),
 				getMessage: (_, variables) =>
@@ -98,7 +106,8 @@ export function createZimbraSchema(
 					client.searchConversation(variables as SearchConversationOptions),
 				shareInfos: (_, variables) =>
 					client.shareInfos(variables as ShareInfosOptions),
-				taskFolders: client.taskFolders
+				taskFolders: client.taskFolders,
+				getWhiteBlackList: client.getWhiteBlackList
 			},
 			//resolveType is necessary to differentiate for any Union or Interfaces
 			MailItem: {
@@ -174,6 +183,10 @@ export function createZimbraSchema(
 						accountName,
 						appointment as CalendarItemInput
 					),
+				snoozeCalendarItem: (_, { appointment, task }) =>
+					client.snoozeCalendarItem(appointment, task),
+				dismissCalendarItem: (_, { appointment, task }) =>
+					client.dismissCalendarItem(appointment, task),
 				createAppointmentException: (_, { accountName, appointment }) =>
 					client.createAppointmentException(
 						accountName,
@@ -225,18 +238,20 @@ export function createZimbraSchema(
 					client.sendShareNotification(
 						shareNotification as ShareNotificationInput
 					),
-				addExternalAccount: (_, { externalAccount }, { zimbra }) =>
-					zimbra.account
-						.addExternal({
-							externalAccount
-						})
-						.then((id?: string) => {
-							if (id !== undefined) return id;
-						}),
-				modifyExternalAccount: (_, { id, type, attrs }, { zimbra }) =>
-					zimbra.account.modifyExternal(id, type, attrs),
-				deleteExternalAccount: (_, { id }, { zimbra }) =>
-					zimbra.account.deleteExternal({ id }),
+				testExternalAccount: (_, { externalAccount }) =>
+					client.testExternalAccount(
+						externalAccount as ExternalAccountTestInput
+					),
+				addExternalAccount: (_, { externalAccount }) =>
+					client.addExternalAccount(externalAccount as ExternalAccountAddInput),
+				modifyExternalAccount: (_, variables) =>
+					client.modifyExternalAccount(variables as ExternalAccountModifyInput),
+				deleteExternalAccount: (_, variables) =>
+					client.deleteExternalAccount(variables as ExternalAccountDeleteInput),
+				importExternalAccount: (_, { externalAccount }) =>
+					client.importExternalAccount(
+						externalAccount as ExternalAccountImportInput
+					),
 				prefEnableOutOfOfficeAlertOnLogin: (_, { value }) =>
 					client
 						.modifyPrefs({
@@ -309,7 +324,9 @@ export function createZimbraSchema(
 						}
 					}),
 				setRecoveryAccount: (_, variables) =>
-					client.setRecoveryAccount(variables as SetRecoveryAccountOptions)
+					client.setRecoveryAccount(variables as SetRecoveryAccountOptions),
+				modifyWhiteBlackList: (_, { whiteBlackList }) =>
+					client.modifyWhiteBlackList(whiteBlackList as WhiteBlackListInput)
 			}
 		}
 	});
