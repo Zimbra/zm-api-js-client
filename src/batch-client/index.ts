@@ -518,9 +518,6 @@ export class ZimbraBatchClient {
 			name: 'Auth',
 			body: {
 				tokenType,
-				authTokenControl: {
-					voidOnExpired: true
-				},
 				account: {
 					by: 'name',
 					_content: username
