@@ -66,7 +66,8 @@ const CalendarItemDateTime = new Entity({
 const CalendarItemAttendees = new Entity({
 	ptst: 'participationStatus',
 	a: 'address',
-	d: 'name'
+	d: 'name',
+	cutype: 'calendarUserType'
 });
 
 const CalendarItemOrganizer = new Entity({

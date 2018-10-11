@@ -1464,6 +1464,7 @@ type CalendarItemAttendee {
 	rsvp: Boolean
 	address: String
 	name: String
+	calendarUserType: String
 }
 
 input CalendarItemAttendeesInput {
@@ -1471,7 +1472,8 @@ input CalendarItemAttendeesInput {
 	participationStatus: ParticipationStatus
 	rsvp: Boolean
 	address: String!
-	name: String
+	name: String,
+	calendarUserType: String
 }
 
 type CalendarItemAlarmTriggerRelative {
