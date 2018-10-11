@@ -64,7 +64,10 @@ import {
 } from '../utils/coerce-boolean';
 import { mapValuesDeep } from '../utils/map-values-deep';
 import { normalizeEmailAddresses } from '../utils/normalize-email-addresses';
-import { normalizeMimeParts } from '../utils/normalize-mime-parts';
+import {
+	getAttachmentUrl,
+	normalizeMimeParts
+} from '../utils/normalize-mime-parts';
 import {
 	ActionOptions,
 	ActionType,
@@ -97,7 +100,7 @@ const DEBUG = false;
 
 function normalizeMessage(
 	message: { [key: string]: any },
-	zimbraOrigin?: string
+	{ origin, jwtToken }: { jwtToken?: string; origin?: string }
 ) {
 	const normalizedMessage = normalize(MessageInfo)(message);
 	normalizedMessage.attributes =
@@ -105,7 +108,7 @@ function normalizeMessage(
 		mapValuesDeep(normalizedMessage.attributes, coerceStringToBoolean);
 
 	return normalizeEmailAddresses(
-		normalizeMimeParts(normalizedMessage, zimbraOrigin)
+		normalizeMimeParts(normalizedMessage, { origin, jwtToken })
 	);
 }
 
@@ -371,6 +374,12 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => normalize(FreeBusy)(res.usr));
 
+	public getAttachmentUrl = (attachment: any) =>
+		getAttachmentUrl(attachment, {
+			origin: this.origin,
+			jwtToken: this.jwtToken
+		});
+
 	public getContact = ({ id }: GetContactOptions) =>
 		this.jsonRequest({
 			name: 'GetContacts',
@@ -393,7 +402,7 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => {
 			const c = normalize(Conversation)(res.c[0]);
-			c.messages = c.messages.map((m: any) => normalizeMessage(m, this.origin));
+			c.messages = c.messages.map(this.normalizeMessage);
 			return c;
 		});
 
@@ -454,9 +463,7 @@ export class ZimbraBatchClient {
 					...(ridZ && { ridZ: ridZ })
 				}
 			}
-		}).then(
-			res => (res && res.m ? normalizeMessage(res.m[0], this.origin) : null)
-		);
+		}).then(res => (res && res.m ? this.normalizeMessage(res.m[0]) : null));
 
 	public getSearchFolder = () =>
 		this.jsonRequest({
@@ -688,8 +695,7 @@ export class ZimbraBatchClient {
 			name: 'SaveDraft',
 			body: denormalize(SendMessageInfo)(options)
 		}).then(({ m: messages }) => ({
-			message:
-				messages && messages.map((m: any) => normalizeMessage(m, this.origin))
+			message: messages && messages.map(this.normalizeMessage)
 		}));
 
 	public search = (options: SearchOptions) =>
@@ -702,9 +708,7 @@ export class ZimbraBatchClient {
 		}).then(res => {
 			const normalized = normalize(SearchResponse)(res);
 			if (normalized.messages) {
-				normalized.messages = normalized.messages.map((m: any) =>
-					normalizeMessage(m, this.origin)
-				);
+				normalized.messages = normalized.messages.map(this.normalizeMessage);
 			}
 			return normalized;
 		});
@@ -880,4 +884,10 @@ export class ZimbraBatchClient {
 		sessionId: this.sessionId,
 		origin: this.origin
 	});
+
+	private normalizeMessage = (message: any) =>
+		normalizeMessage(message, {
+			origin: this.origin,
+			jwtToken: this.jwtToken
+		});
 }
