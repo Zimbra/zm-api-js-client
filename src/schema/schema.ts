@@ -34,6 +34,7 @@ import {
 	ActionOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
+	ModifyProfileImageOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
 	ExternalAccountDeleteInput,
@@ -161,6 +162,8 @@ export function createZimbraSchema(
 					client.messageAction(variables as ActionOptions),
 				changePassword: (_, variables) =>
 					client.changePassword(variables as ChangePasswordOptions),
+				modifyProfileImage: (_, variables) =>
+					client.modifyProfileImage(variables as ModifyProfileImageOptions),
 				conversationAction: (_, variables) =>
 					client.conversationAction(variables as ActionOptions),
 				createFolder: (_, variables) =>

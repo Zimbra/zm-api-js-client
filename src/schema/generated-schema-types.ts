@@ -973,6 +973,7 @@ export interface Mutation {
 	cancelTask?: boolean | null;
 	changeCalendarColor?: boolean | null;
 	changePassword?: string | null;
+	modifyProfileImage?: string | null;
 	checkCalendar?: boolean | null;
 	conversationAction?: boolean | null;
 	createAppointment?: boolean | null;
@@ -1914,6 +1915,9 @@ export interface ChangePasswordMutationArgs {
 	loginNewPassword: string;
 	password: string;
 	username: string;
+}
+export interface ModifyProfileImageMutationArgs {
+	uid: string;
 }
 export interface CheckCalendarMutationArgs {
 	calendarId: string;

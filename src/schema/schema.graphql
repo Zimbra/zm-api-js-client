@@ -2106,6 +2106,7 @@ type Mutation {
 		password: String!
 		username: String!
 	): String
+	modifyProfileImage(uid: String!): String
 	checkCalendar(calendarId: ID!, value: Boolean!): Boolean
 	conversationAction(
 		ids: [ID!]!

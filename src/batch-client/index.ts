@@ -70,6 +70,7 @@ import {
 	ActionType,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
+	ModifyProfileImageOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
 	ExternalAccountDeleteInput,
@@ -193,23 +194,34 @@ export class ZimbraBatchClient {
 			}
 		});
 
-	public changePassword = ({
-		loginNewPassword,
-		password,
-		username
-	}: ChangePasswordOptions) =>
-		this.jsonRequest({
-			name: 'ChangePassword',
-			namespace: Namespace.Account,
-			body: {
-				account: {
-					by: 'name',
-					_content: username
-				},
-				oldPassword: password,
-				password: loginNewPassword
-			}
-		});
+		public changePassword = ({
+			loginNewPassword,
+			password,
+			username
+		}: ChangePasswordOptions) =>
+			this.jsonRequest({
+				name: 'ChangePassword',
+				namespace: Namespace.Account,
+				body: {
+					account: {
+						by: 'name',
+						_content: username
+					},
+					oldPassword: password,
+					password: loginNewPassword
+				}
+			});
+
+		public modifyProfileImage = ({
+			uid
+		}: ModifyProfileImageOptions) =>{
+			this.jsonRequest({
+				name: 'ModifyProfileImage',
+				body: {
+					uid
+				}
+			});
+		}
 
 	public conversationAction = (options: ActionOptions) =>
 		this.action(ActionType.conversation, options);
