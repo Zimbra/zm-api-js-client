@@ -43,6 +43,9 @@ import {
 	CalendarItemInput,
 	CreateContactInput,
 	CreateMountpointInput,
+	ExternalAccountAddInput,
+	ExternalAccountImportInput,
+	ExternalAccountTestInput,
 	FilterInput,
 	FolderView,
 	InviteReplyInput,
@@ -69,6 +72,8 @@ import {
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
+	ExternalAccountDeleteInput,
+	ExternalAccountModifyInput,
 	FreeBusyOptions,
 	GetContactFrequencyOptions,
 	GetContactOptions,
@@ -161,6 +166,17 @@ export class ZimbraBatchClient {
 			}
 		});
 	};
+
+	public addExternalAccount = ({
+		accountType,
+		...accountInfo
+	}: ExternalAccountAddInput) =>
+		this.jsonRequest({
+			name: 'CreateDataSource',
+			body: {
+				[<string>accountType]: mapValuesDeep(accountInfo, coerceBooleanToString)
+			}
+		}).then(res => get(res, `${accountType}.0.id`));
 
 	public autoComplete = (options: AutoCompleteOptions) =>
 		this.jsonRequest({
@@ -292,6 +308,14 @@ export class ZimbraBatchClient {
 			name: 'CreateTask',
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(task)
+			}
+		});
+
+	public deleteExternalAccount = ({ id }: ExternalAccountDeleteInput) =>
+		this.jsonRequest({
+			name: 'DeleteDataSource',
+			body: {
+				dsrc: { id }
 			}
 		});
 
@@ -459,6 +483,19 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		});
 
+	public importExternalAccount = ({
+		accountType,
+		id
+	}: ExternalAccountImportInput) =>
+		this.jsonRequest({
+			name: 'ImportData',
+			body: {
+				[<string>accountType]: {
+					id
+				}
+			}
+		});
+
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);
 
@@ -543,6 +580,21 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => normalize(Contact)(res.cn[0]));
 	};
+
+	public modifyExternalAccount = ({
+		id,
+		type: accountType,
+		attrs
+	}: ExternalAccountModifyInput) =>
+		this.jsonRequest({
+			name: 'ModifyDataSource',
+			body: {
+				[<string>accountType]: {
+					id,
+					...mapValuesDeep(attrs, coerceBooleanToString)
+				}
+			}
+		});
 
 	public modifyFilterRules = (filters: Array<FilterInput>) =>
 		this.jsonRequest({
@@ -722,6 +774,19 @@ export class ZimbraBatchClient {
 				tr: true
 			}
 		}).then(res => normalize(Folder)(res.folder[0].folder));
+
+	public testExternalAccount = ({
+		accountType,
+		...accountInfo
+	}: ExternalAccountTestInput) =>
+		this.jsonRequest({
+			name: 'TestDataSource',
+			body: {
+				[<string>accountType]: mapValuesDeep(accountInfo, coerceBooleanToString)
+			}
+		}).then(res =>
+			mapValuesDeep(get(res, `${accountType}.0`), coerceStringToBoolean)
+		);
 
 	public uploadMessage = (message: string) => {
 		const contentDisposition = 'attachment';
