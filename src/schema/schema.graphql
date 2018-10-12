@@ -1044,7 +1044,6 @@ type Preferences {
 	zimbraPrefDeleteInviteOnReply: Boolean
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
-	zimbraPrefTimeZoneId: String
 	zimbraPrefMailPollingInterval: String
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
 	zimbraPrefMailTrustedSenderList: [String]
