@@ -212,6 +212,16 @@ export const CalendarItemCreateModifyRequest = new Entity({
 	invId: 'inviteId'
 });
 
+export const InstanceDate = new Entity({
+	d: 'date'
+});
+
+export const CalendarItemDeleteRequest = new Entity({
+	inst: ['instanceDate', InstanceDate],
+	id: 'inviteId',
+	comp: 'componentNumber'
+});
+
 const NewMountpointSpec = new Entity({
 	f: 'flags',
 	l: 'parentFolderId'

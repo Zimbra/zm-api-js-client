@@ -33,6 +33,7 @@ import { GraphQLSchema } from 'graphql';
 import {
 	ActionOptions,
 	AutoCompleteOptions,
+	CancelAppointment,
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
@@ -196,8 +197,12 @@ export function createZimbraSchema(
 					),
 				createMountpoint: (_, variables) =>
 					client.createMountpoint(variables as CreateMountpointInput),
-				deleteAppointment: (_, { inviteId }, { zimbra }) =>
-					zimbra.appointments.delete({ inviteId }),
+				deleteAppointment: (_, variables) => {
+					console.log('In graphql acema.ts..........', variables.variable);
+					return client.cancelAppointment(
+						variables.appointment as CancelAppointment
+					);
+				},
 				checkCalendar: (_, { calendarId, value }, { zimbra }) =>
 					zimbra.calendars.check({ calendarId, value }),
 				prefCalendarInitialView: (_, { value }) =>

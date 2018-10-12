@@ -642,6 +642,7 @@ input ExternalAccount {
 	password: String!
 }
 
+
 type FreeBusyInstance {
 	start: Float
 	end: Float
@@ -1922,7 +1923,14 @@ input NameIdInput {
 	id: ID
 	name: String
 }
-
+input InstanceDate {
+	date: String
+}
+input DeleteAppointmentInput {
+	instanceDate: InstanceDate
+	inviteId: String!
+	componentNumber: String!
+}
 input SignatureInput {
 	id: ID
 	name: String
@@ -2139,7 +2147,7 @@ type Mutation {
 		signature: SignatureInput!
 	): SignatureResponse
 	createTask(task: CalendarItemInput!): Boolean
-	deleteAppointment(inviteId: String!): Boolean
+	deleteAppointment(appointment: DeleteAppointmentInput): Boolean
 	deleteExternalAccount(id: ID!): Boolean
 	deleteSignature(signature: NameIdInput!): String
 	folderAction(action: FolderActionInput!): Boolean

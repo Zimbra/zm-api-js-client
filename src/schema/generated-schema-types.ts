@@ -1396,6 +1396,16 @@ export interface SignatureContentInput {
 	_content?: string | null;
 }
 
+export interface DeleteAppointmentInput {
+	instanceDate?: InstanceDate | null;
+	inviteId: string;
+	componentNumber: string;
+}
+
+export interface InstanceDate {
+	date?: string | null;
+}
+
 export interface NameIdInput {
 	id?: string | null;
 	name?: string | null;
@@ -1974,7 +1984,7 @@ export interface CreateTaskMutationArgs {
 	task: CalendarItemInput;
 }
 export interface DeleteAppointmentMutationArgs {
-	inviteId: string;
+	variable?: DeleteAppointmentInput | null;
 }
 export interface DeleteExternalAccountMutationArgs {
 	id: string;

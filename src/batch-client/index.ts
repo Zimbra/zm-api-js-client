@@ -11,6 +11,7 @@ import {
 	AutoComplete as AutoCompleteEntity,
 	AutoCompleteResponse as AutoCompleteResponseEntity,
 	CalendarItemCreateModifyRequest,
+	CalendarItemDeleteRequest,
 	CalendarItemHitInfo,
 	Contact,
 	ContactInputRequest,
@@ -69,6 +70,7 @@ import {
 	ActionOptions,
 	ActionType,
 	AutoCompleteOptions,
+	CancelAppointment,
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
@@ -183,6 +185,17 @@ export class ZimbraBatchClient {
 			name: 'AutoComplete',
 			body: denormalize(AutoCompleteEntity)(options)
 		}).then(normalize(AutoCompleteResponseEntity));
+
+	public cancelAppointment = (variables: CancelAppointment) => {
+		let body = { ...denormalize(CalendarItemDeleteRequest)(variables) };
+		console.log('I am here...body1........................', body);
+		return this.jsonRequest({
+			name: 'CancelAppointment',
+			body: {
+				...denormalize(CalendarItemDeleteRequest)(variables)
+			}
+		}).then(res => res);
+	};
 
 	public cancelTask = ({ inviteId }: any) =>
 		this.jsonRequest({
