@@ -901,6 +901,7 @@ type AccountInfo {
 	name: String
 	publicURL: String
 	rest: String
+	profileImageId: Int
 	soapURL: String
 	version: String
 	identities: Identities

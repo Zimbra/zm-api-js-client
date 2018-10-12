@@ -52,6 +52,7 @@ export interface AccountInfo {
 	name?: string | null;
 	publicURL?: string | null;
 	rest?: string | null;
+	profileImageId?: number | null;
 	soapURL?: string | null;
 	version?: string | null;
 	identities?: Identities | null;
