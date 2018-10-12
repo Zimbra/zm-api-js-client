@@ -5,6 +5,7 @@ import {
 	CalendarItemInput,
 	CreateContactInput,
 	CreateMountpointInput,
+	DeleteAppointmentInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
@@ -33,7 +34,6 @@ import { GraphQLSchema } from 'graphql';
 import {
 	ActionOptions,
 	AutoCompleteOptions,
-	CancelAppointment,
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
@@ -197,12 +197,8 @@ export function createZimbraSchema(
 					),
 				createMountpoint: (_, variables) =>
 					client.createMountpoint(variables as CreateMountpointInput),
-				deleteAppointment: (_, variables) => {
-					console.log('In graphql acema.ts..........', variables.variable);
-					return client.cancelAppointment(
-						variables.appointment as CancelAppointment
-					);
-				},
+				deleteAppointment: (_, { appointment }) =>
+					client.deleteAppointment(appointment as DeleteAppointmentInput),
 				checkCalendar: (_, { calendarId, value }, { zimbra }) =>
 					zimbra.calendars.check({ calendarId, value }),
 				prefCalendarInitialView: (_, { value }) =>

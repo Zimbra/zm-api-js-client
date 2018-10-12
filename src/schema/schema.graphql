@@ -2147,7 +2147,7 @@ type Mutation {
 		signature: SignatureInput!
 	): SignatureResponse
 	createTask(task: CalendarItemInput!): Boolean
-	deleteAppointment(appointment: DeleteAppointmentInput): Boolean
+	deleteAppointment(appointment: DeleteAppointmentInput!): Boolean
 	deleteExternalAccount(id: ID!): Boolean
 	deleteSignature(signature: NameIdInput!): String
 	folderAction(action: FolderActionInput!): Boolean

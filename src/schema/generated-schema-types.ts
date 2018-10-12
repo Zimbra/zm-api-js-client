@@ -1984,7 +1984,7 @@ export interface CreateTaskMutationArgs {
 	task: CalendarItemInput;
 }
 export interface DeleteAppointmentMutationArgs {
-	variable?: DeleteAppointmentInput | null;
+	appointment?: DeleteAppointmentInput | null;
 }
 export interface DeleteExternalAccountMutationArgs {
 	id: string;
