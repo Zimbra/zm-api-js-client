@@ -1,5 +1,7 @@
 import {
+	AccountType,
 	Cursor,
+	ExternalAccountModifyAttrsInput,
 	FolderView,
 	SearchType,
 	SortBy
@@ -96,6 +98,8 @@ export interface RelatedContactsOptions {
 }
 
 export interface SearchOptions {
+	calExpandInstEnd?: Number;
+	calExpandInstStart?: Number;
 	cursor?: Cursor;
 	fetch?: string;
 	fullConversation?: boolean;
@@ -207,4 +211,14 @@ export interface RecoverAccountOptions {
 
 export interface ResetPasswordOptions {
 	password: string;
+}
+
+export interface ExternalAccountModifyInput {
+	attrs: ExternalAccountModifyAttrsInput;
+	id: string;
+	type?: AccountType;
+}
+
+export interface ExternalAccountDeleteInput {
+	id: string;
 }
