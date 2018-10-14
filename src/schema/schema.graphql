@@ -2021,7 +2021,7 @@ type Query {
 	): AutoCompleteResponse
 	autoCompleteGAL(
 		limit: Int
-		name: String
+		name: String!
 		type: GalSearchType
 		needExp: Int
 	): AutoCompleteGALResponse
