@@ -22,10 +22,10 @@ export interface AutoCompleteOptions {
 	type?: GalSearchType;
 }
 export interface AutoCompleteGALOptions {
-	limit: number;
+	limit?: number;
 	name: string;
-	needExp: number;
-	type: GalSearchType;
+	needExp?: number;
+	type?: GalSearchType;
 }
 
 export interface Notification {
