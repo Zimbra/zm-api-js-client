@@ -2022,7 +2022,7 @@ type Query {
 	autoCompleteGAL(
 		limit: Int
 		name: String
-		type: String
+		type: GalSearchType
 		needExp: Int
 	): AutoCompleteGALResponse
 	downloadMessage(id: ID!): SMimeMessage
