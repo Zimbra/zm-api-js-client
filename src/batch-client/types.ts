@@ -25,7 +25,7 @@ export interface AutoCompleteGALOptions {
 	limit: number;
 	name: string;
 	needExp: number;
-	type: string;
+	type: GalSearchType;
 }
 
 export interface Notification {
