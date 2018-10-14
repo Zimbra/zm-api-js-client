@@ -9,7 +9,7 @@ import { denormalize, normalize } from '../normalize';
 import {
 	ActionOptions as ActionOptionsEntity,
 	AutoComplete as AutoCompleteEntity,
-	AutoCompleteGALResponse as AutoCompleteGALResponseEntity,
+	AutoCompleteGALResponse,
 	AutoCompleteResponse as AutoCompleteResponseEntity,
 	CalendarItemCreateModifyRequest,
 	CalendarItemHitInfo,
@@ -192,7 +192,7 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account,
 			body: options
 		}).then(res => {
-			return normalize(AutoCompleteGALResponseEntity)(res);
+			return normalize(AutoCompleteGALResponse)(res);
 		});
 
 	public cancelTask = ({ inviteId }: any) =>
