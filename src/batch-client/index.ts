@@ -191,9 +191,7 @@ export class ZimbraBatchClient {
 			name: 'AutoCompleteGal',
 			namespace: Namespace.Account,
 			body: options
-		}).then(res => {
-			return normalize(AutoCompleteGALResponse)(res);
-		});
+		}).then(res => normalize(AutoCompleteGALResponse)(res));
 
 	public cancelTask = ({ inviteId }: any) =>
 		this.jsonRequest({
