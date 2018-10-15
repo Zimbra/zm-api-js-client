@@ -2013,7 +2013,7 @@ type Query {
 		limit: Int
 		name: String!
 		type: GalSearchType
-		needExp: Int
+		needExp: Boolean
 	): AutoCompleteGALResponse
 	downloadMessage(id: ID!): SMimeMessage
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]

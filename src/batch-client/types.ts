@@ -24,7 +24,7 @@ export interface AutoCompleteOptions {
 export interface AutoCompleteGALOptions {
 	limit?: number;
 	name: string;
-	needExp?: number;
+	needExp?: boolean;
 	type?: GalSearchType;
 }
 
