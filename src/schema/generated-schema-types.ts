@@ -989,7 +989,7 @@ export interface Mutation {
 	createContact?: Contact | null;
 	createContactList?: Contact | null;
 	modifyContact?: Contact | null;
-	modifyContactList?: Contact | null;
+	modifyContactList?: boolean | null;
 	createFolder?: Folder | null;
 	createMountpoint?: boolean | null;
 	createSharedCalendar?: boolean | null;

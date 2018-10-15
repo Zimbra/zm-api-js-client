@@ -2151,7 +2151,7 @@ type Mutation {
 	createContact(contact: CreateContactInput!): Contact
 	createContactList(contact: CreateContactInput!): Contact
 	modifyContact(contact: ModifyContactInput!): Contact
-	modifyContactList(contact: ModifyContactInput!): Contact
+	modifyContactList(contact: ModifyContactInput!): Boolean
 	createFolder(
 		color: Int
 		fetchIfExists: Boolean
