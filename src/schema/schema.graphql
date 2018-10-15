@@ -1144,6 +1144,7 @@ type ContactAttributes {
 	website: String
 	notes: String
 	userCertificate: String
+	zimbraCalResType: String
 
 	# Used for contact lists
 	fileAs: String
@@ -1348,18 +1349,7 @@ type AutoCompleteResponse {
 }
 
 type AutoCompleteGALResponse {
-	contacts: [AutoCompleteCN]
-}
-
-type AutoCompleteCN {
-	id: String
-	attributes: AutoCompleteGALAttr
-}
-
-type AutoCompleteGALAttr {
-	zimbraCalResType: String
-	fullName: String
-	email: String
+	contacts: [Contact]
 }
 
 type AutoCompleteMatch {
