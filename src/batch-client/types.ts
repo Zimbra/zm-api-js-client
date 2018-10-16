@@ -32,6 +32,7 @@ export interface Notification {
 export type NotificationHandler = (notificaton: Notification) => void;
 
 export interface ZimbraClientOptions {
+	jwtToken?: string;
 	notificationHandler?: NotificationHandler;
 	soapPathname?: string;
 	zimbraOrigin?: string;
