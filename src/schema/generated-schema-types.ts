@@ -2000,6 +2000,7 @@ export interface LoginMutationArgs {
 	password?: string | null;
 	recoveryCode?: string | null;
 	tokenType?: string | null;
+	persistAuthTokenCookie?: boolean | null;
 }
 export interface MessageActionMutationArgs {
 	ids: string[];

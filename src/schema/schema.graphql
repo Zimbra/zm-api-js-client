@@ -2147,7 +2147,13 @@ type Mutation {
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
 	logout: Boolean
-	login(username: String!, password: String, recoveryCode: String, tokenType: String): AuthResponse
+	login(
+		username: String!,
+		password: String,
+		recoveryCode: String,
+		tokenType: String,
+		persistAuthTokenCookie: Boolean
+	): AuthResponse
 	messageAction(
 		ids: [ID!]!
 		op: String!
