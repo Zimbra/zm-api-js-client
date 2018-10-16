@@ -383,6 +383,7 @@ type MessageInfo implements MailItem {
 	size: Float # s
 	date: Float # d
 	folderId: ID # l
+	origId: ID #origid
 	subject: String # su
 	emailAddresses: [EmailAddress]
 	excerpt: String # fr
@@ -2217,7 +2218,13 @@ type Mutation {
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
 	logout: Boolean
-	login(username: String!, password: String, recoveryCode: String, tokenType: String): AuthResponse
+	login(
+		username: String!,
+		password: String,
+		recoveryCode: String,
+		tokenType: String,
+		persistAuthTokenCookie: Boolean
+	): AuthResponse
 	messageAction(
 		ids: [ID!]!
 		op: String!

@@ -13,6 +13,7 @@ export interface BaseRequestOptions {
 	accountName?: string | null;
 	credentials?: RequestCredentials;
 	headers?: any;
+	jwtToken?: string | null;
 	origin?: string;
 	sessionId?: SessionId;
 	sessionSeq?: SessionSeq;
@@ -82,6 +83,9 @@ export interface SOAPHeader {
 			by: 'name' | 'id'; // name is the account's email address
 		};
 		csrfToken?: string;
+		jwtToken?: {
+			_content: string;
+		};
 		notify?: {
 			seq: SessionSeq;
 		};
