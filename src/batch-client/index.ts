@@ -516,12 +516,14 @@ export class ZimbraBatchClient {
 		username,
 		password,
 		recoveryCode,
-		tokenType
+		tokenType,
+		persistAuthTokenCookie = true
 	}: LoginOptions) =>
 		this.jsonRequest({
 			name: 'Auth',
 			body: {
 				tokenType,
+				persistAuthTokenCookie,
 				account: {
 					by: 'name',
 					_content: username
