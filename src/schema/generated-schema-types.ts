@@ -24,6 +24,7 @@ export interface MailItem {
 export interface Query {
 	accountInfo?: AccountInfo | null;
 	autoComplete?: AutoCompleteResponse | null;
+	autoCompleteGAL?: AutoCompleteGALResponse | null;
 	downloadMessage?: SMimeMessage | null;
 	freeBusy?: FreeBusy[] | null;
 	getContact?: Contact | null;
@@ -241,23 +242,8 @@ export interface AutoCompleteMatch {
 	fileas?: string | null;
 }
 
-export interface SMimeMessage {
-	id?: string | null;
-	content?: string | null;
-}
-
-export interface FreeBusy {
-	id: string;
-	tentative?: FreeBusyInstance[] | null;
-	busy?: FreeBusyInstance[] | null;
-	unavailable?: FreeBusyInstance[] | null;
-	nodata?: FreeBusyInstance[] | null;
-	free?: FreeBusyInstance[] | null;
-}
-
-export interface FreeBusyInstance {
-	start?: number | null;
-	end?: number | null;
+export interface AutoCompleteGALResponse {
+	contacts?: Contact[] | null;
 }
 
 export interface Contact {
@@ -315,8 +301,28 @@ export interface ContactAttributes {
 	website?: string | null;
 	notes?: string | null;
 	userCertificate?: string | null;
+	zimbraCalResType?: string | null;
 	fileAs?: string | null /* Used for contact lists */;
 	type?: string | null;
+}
+
+export interface SMimeMessage {
+	id?: string | null;
+	content?: string | null;
+}
+
+export interface FreeBusy {
+	id: string;
+	tentative?: FreeBusyInstance[] | null;
+	busy?: FreeBusyInstance[] | null;
+	unavailable?: FreeBusyInstance[] | null;
+	nodata?: FreeBusyInstance[] | null;
+	free?: FreeBusyInstance[] | null;
+}
+
+export interface FreeBusyInstance {
+	start?: number | null;
+	end?: number | null;
 }
 
 export interface SearchResponse {
@@ -492,6 +498,7 @@ export interface CalendarItemAttendee {
 	rsvp?: boolean | null;
 	address?: string | null;
 	name?: string | null;
+	calendarUserType?: string | null;
 }
 
 export interface StringContent {
@@ -1237,6 +1244,7 @@ export interface CalendarItemAttendeesInput {
 	rsvp?: boolean | null;
 	address: string;
 	name?: string | null;
+	calendarUserType?: string | null;
 }
 
 export interface CalendarItemAlarmInput {
@@ -1784,6 +1792,12 @@ export interface AutoCompleteQueryArgs {
 	needExp?: boolean | null;
 	folders?: string | null;
 	includeGal?: boolean | null;
+}
+export interface AutoCompleteGalQueryArgs {
+	limit?: number | null;
+	name: string;
+	type?: GalSearchType | null;
+	needExp?: boolean | null;
 }
 export interface DownloadMessageQueryArgs {
 	id: string;
