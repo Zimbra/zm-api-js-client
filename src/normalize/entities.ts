@@ -66,7 +66,8 @@ const CalendarItemDateTime = new Entity({
 const CalendarItemAttendees = new Entity({
 	ptst: 'participationStatus',
 	a: 'address',
-	d: 'name'
+	d: 'name',
+	cutype: 'calendarUserType'
 });
 
 const CalendarItemOrganizer = new Entity({
@@ -336,6 +337,10 @@ const contactListMembers = new Entity({
 export const Contact = new Entity({
 	...contactFields,
 	m: ['members', contactListMembers]
+});
+
+export const AutoCompleteGALResponse = new Entity({
+	cn: ['contacts', Contact]
 });
 
 export const Appointment = new Entity({
