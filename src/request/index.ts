@@ -198,6 +198,12 @@ export function jsonRequest(
 		};
 	}
 
+	if (requestOptions.jwtToken) {
+		header.context.jwtToken = {
+			_content: requestOptions.jwtToken
+		};
+	}
+
 	const body = {
 		[soapRequestName]: soapCommandBody(options)
 	};
