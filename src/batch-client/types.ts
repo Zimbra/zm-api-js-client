@@ -21,6 +21,12 @@ export interface AutoCompleteOptions {
 	needExp?: boolean;
 	type?: GalSearchType;
 }
+export interface AutoCompleteGALOptions {
+	limit?: number;
+	name: string;
+	needExp?: boolean;
+	type?: GalSearchType;
+}
 
 export interface Notification {
 	created?: any;

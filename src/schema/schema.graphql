@@ -1145,6 +1145,7 @@ type ContactAttributes {
 	website: String
 	notes: String
 	userCertificate: String
+	zimbraCalResType: String
 
 	# Used for contact lists
 	fileAs: String
@@ -1348,6 +1349,10 @@ type AutoCompleteResponse {
 	match: [AutoCompleteMatch]
 }
 
+type AutoCompleteGALResponse {
+	contacts: [Contact]
+}
+
 type AutoCompleteMatch {
 	email: String
 	type: AutoCompleteMatchType
@@ -1450,6 +1455,7 @@ type CalendarItemAttendee {
 	rsvp: Boolean
 	address: String
 	name: String
+	calendarUserType: String
 }
 
 input CalendarItemAttendeesInput {
@@ -1457,7 +1463,8 @@ input CalendarItemAttendeesInput {
 	participationStatus: ParticipationStatus
 	rsvp: Boolean
 	address: String!
-	name: String
+	name: String,
+	calendarUserType: String
 }
 
 type CalendarItemAlarmTriggerRelative {
@@ -2003,6 +2010,12 @@ type Query {
 		folders: String,
 		includeGal: Boolean
 	): AutoCompleteResponse
+	autoCompleteGAL(
+		limit: Int
+		name: String!
+		type: GalSearchType
+		needExp: Boolean
+	): AutoCompleteGALResponse
 	downloadMessage(id: ID!): SMimeMessage
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
 	getContact(id: ID!): Contact
