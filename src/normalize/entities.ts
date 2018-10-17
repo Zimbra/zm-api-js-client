@@ -172,6 +172,7 @@ const commonMailItemFields = {
 	mp: ['mimeParts', MimePart],
 	shr: 'share',
 	su: 'subject',
+	origid: 'origId',
 	attach: ['attachments', AttachmentsInfo],
 	rt: 'replyType'
 };
@@ -179,7 +180,6 @@ const commonMailItemFields = {
 const SendMessageFields = new Entity({
 	...commonMailItemFields,
 	id: 'id',
-	origid: 'origId',
 	aid: 'attachmentId',
 	irt: 'inReplyTo',
 	rt: 'replyType',

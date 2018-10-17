@@ -38,6 +38,7 @@ export interface Notification {
 export type NotificationHandler = (notificaton: Notification) => void;
 
 export interface ZimbraClientOptions {
+	jwtToken?: string;
 	notificationHandler?: NotificationHandler;
 	soapPathname?: string;
 	zimbraOrigin?: string;
@@ -130,8 +131,9 @@ export interface ChangePasswordOptions {
 
 export interface LoginOptions {
 	password: string;
-	recoveryCode: string;
-	tokenType: string;
+	persistAuthTokenCookie?: boolean;
+	recoveryCode?: string;
+	tokenType?: string;
 	username: string;
 }
 

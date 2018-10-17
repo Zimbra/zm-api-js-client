@@ -335,6 +335,7 @@ export interface MessageInfo extends MailItem {
 	size?: number | null;
 	date?: number | null;
 	folderId?: string | null;
+	origId?: string | null;
 	subject?: string | null;
 	emailAddresses?: EmailAddress[] | null;
 	excerpt?: string | null;
@@ -1999,6 +2000,7 @@ export interface LoginMutationArgs {
 	password?: string | null;
 	recoveryCode?: string | null;
 	tokenType?: string | null;
+	persistAuthTokenCookie?: boolean | null;
 }
 export interface MessageActionMutationArgs {
 	ids: string[];
