@@ -66,7 +66,8 @@ const CalendarItemDateTime = new Entity({
 const CalendarItemAttendees = new Entity({
 	ptst: 'participationStatus',
 	a: 'address',
-	d: 'name'
+	d: 'name',
+	cutype: 'calendarUserType'
 });
 
 const CalendarItemOrganizer = new Entity({
@@ -300,6 +301,14 @@ export const ActionOptions = new Entity({
 	grant: ACLGrant
 });
 
+export const Contact = new Entity({
+	d: 'date',
+	l: 'folderId',
+	rev: 'revision',
+	sf: 'sortField',
+	_attrs: 'attributes'
+});
+
 export const AutoComplete = new Entity({
 	t: 'type'
 });
@@ -312,6 +321,10 @@ export const AutoCompleteResponse = new Entity({
 	match: AutoCompleteMatch
 });
 
+export const AutoCompleteGALResponse = new Entity({
+	cn: ['contacts', Contact]
+});
+
 export const ShareNotification = new Entity({
 	e: ['address', ShareNotificationAddress]
 });
@@ -319,14 +332,6 @@ export const ShareNotification = new Entity({
 export const ExternalCalendar = new Entity({
 	name: 'accountName',
 	l: 'folderId'
-});
-
-export const Contact = new Entity({
-	d: 'date',
-	l: 'folderId',
-	rev: 'revision',
-	sf: 'sortField',
-	_attrs: 'attributes'
 });
 
 export const Appointment = new Entity({
