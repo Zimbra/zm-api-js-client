@@ -991,7 +991,7 @@ export interface Mutation {
 	checkCalendar?: boolean | null;
 	contactAction?: ActionOpResponse | null;
 	conversationAction?: boolean | null;
-	createAppointment?: boolean | null;
+	createAppointment?: createAppointmentResponse | null;
 	createAppointmentException?: boolean | null;
 	createCalendar?: boolean | null;
 	createContact?: Contact | null;
@@ -1055,6 +1055,11 @@ export interface ActionOpResponse {
 export interface ActionOpResponseData {
 	id: string;
 	op: string;
+}
+
+export interface createAppointmentResponse {
+	created?: boolean | null;
+	inviteId?: string | null;
 }
 
 export interface SignatureResponse {

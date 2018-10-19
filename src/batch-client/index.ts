@@ -241,7 +241,7 @@ export class ZimbraBatchClient {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
 			accountName: accountName
-		});
+		}).then(({ invId }) => ({ inviteId: invId, created: !!invId }));
 
 	public createAppointmentException = (
 		accountName: string,
