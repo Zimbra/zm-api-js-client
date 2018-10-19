@@ -1104,7 +1104,9 @@ type Contact {
 	revision: Int
 	sortField: String
 	fileAsStr: String
+	memberOf: String
 	attributes: ContactAttributes
+	members: [ContactListMember]
 }
 
 type ContactAttributes {
@@ -1157,6 +1159,12 @@ type ContactAttributes {
 	# Used for contact lists
 	fileAs: String
 	type: String
+}
+
+type ContactListMember {
+	contacts: [Contact]
+	type: String!
+	value: ID!
 }
 
 input ContactAttrsInput {
@@ -1216,11 +1224,18 @@ input CreateContactInput {
 	attributes: ContactAttrsInput!
 }
 
+input ContactListOps {
+	op: String!
+	type: String!
+	value: String!
+}
+
 input ModifyContactInput {
 	id: ID!
 	folderId: ID
 	tagNames: String
 	attributes: ContactAttrsInput!
+	memberOps: [ContactListOps]
 }
 
 type RelatedContact {
@@ -2004,6 +2019,15 @@ type SMimeMessage {
 
 ##### End Of SMIME Certificates type #####
 
+type ActionOpResponseData {
+	id: String!
+	op: String!
+}
+
+type ActionOpResponse {
+	action: ActionOpResponseData
+}
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2025,7 +2049,12 @@ type Query {
 	): AutoCompleteGALResponse
 	downloadMessage(id: ID!): SMimeMessage
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
-	getContact(id: ID!): Contact
+	getContact(
+		id: ID,
+		ids: [ID!],
+		derefGroupMember: Boolean
+		memberOf: Boolean
+	): [Contact]
 	getAppointments(
 		calExpandInstStart: Float!,
 		calExpandInstEnd: Float!,
@@ -2093,6 +2122,7 @@ type Query {
 		fullConversation: Boolean,
 		limit: Int,
 		needExp: Boolean,
+		memberOf: Boolean,
 		offset: Int,
 		query: String,
 		recip: Int,
@@ -2139,6 +2169,12 @@ type Mutation {
 		username: String!
 	): String
 	checkCalendar(calendarId: ID!, value: Boolean!): Boolean
+	contactAction(
+		id: ID
+		ids: [ID!]
+		folderId: ID
+		op: String!
+	): ActionOpResponse
 	conversationAction(
 		ids: [ID!]!
 		op: String!
@@ -2149,7 +2185,7 @@ type Mutation {
 	createContact(contact: CreateContactInput!): Contact
 	createContactList(contact: CreateContactInput!): Contact
 	modifyContact(contact: ModifyContactInput!): Contact
-	modifyContactList(contact: ModifyContactInput!): Contact
+	modifyContactList(contact: ModifyContactInput!): Boolean
 	createFolder(
 		color: Int
 		fetchIfExists: Boolean
