@@ -82,6 +82,9 @@ export interface SOAPHeader {
 			_content: string;
 			by: 'name' | 'id'; // name is the account's email address
 		};
+		authTokenControl?: {
+			voidOnExpired: boolean;
+		};
 		csrfToken?: string;
 		jwtToken?: {
 			_content: string;
