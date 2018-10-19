@@ -194,6 +194,12 @@ enum GalSearchType {
 	group
 }
 
+enum NeedIsMemberType {
+	all
+	directOnly
+	none
+}
+
 enum ReadingPaneLocation {
 	off
 	right
@@ -1080,6 +1086,7 @@ type SearchResponse {
 	more: Boolean
 	offset: Int
 	sortBy: String
+	paginationSupported: Boolean
 }
 
 type SendMessageResponse {
@@ -2092,6 +2099,19 @@ type Query {
 		sortBy: SortBy,
 		types: SearchType
 	): SearchResponse
+
+	searchGal(
+		needIsOwner: Boolean,
+		needIsMember: NeedIsMemberType,
+		type: String,
+		name: String,
+		offset: Int,
+		limit: Int,
+		locale: String,
+		sortBy: String,
+		needExp: Boolean
+	): SearchResponse
+
 	taskFolders: [Folder]
 }
 

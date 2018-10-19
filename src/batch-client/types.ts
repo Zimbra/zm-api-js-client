@@ -21,6 +21,12 @@ export interface AutoCompleteOptions {
 	needExp?: boolean;
 	type?: GalSearchType;
 }
+
+export enum NeedIsMemberType {
+	all = 'all',
+	directOnly = 'directOnly',
+	none = 'none'
+}
 export interface AutoCompleteGALOptions {
 	limit?: number;
 	name: string;
@@ -112,6 +118,8 @@ export interface SearchOptions {
 	fullConversation?: boolean;
 	limit?: number;
 	needExp?: boolean;
+	needIsMember?: NeedIsMemberType;
+	needIsOwner?: boolean;
 	offset?: number;
 	query?: string;
 	recip?: number;
