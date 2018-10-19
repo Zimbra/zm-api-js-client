@@ -2010,11 +2010,6 @@ type SMimeMessage {
 	content: String
 }
 
-type createAppointmentResponse {
-	created: Boolean
-	inviteId: String
-}
-
 ##### End Of SMIME Certificates type #####
 
 type ActionOpResponseData {
@@ -2164,7 +2159,7 @@ type Mutation {
 		ids: [ID!]!
 		op: String!
 	): Boolean
-	createAppointment(accountName: String, appointment: CalendarItemInput!): createAppointmentResponse
+	createAppointment(accountName: String, appointment: CalendarItemInput!): CalendarItemHitInfo
 	createAppointmentException(accountName: String, appointment: CalendarItemInput!): Boolean
 	createCalendar(name: String!, color: Int!, url: String): Boolean
 	createContact(contact: CreateContactInput!): Contact
