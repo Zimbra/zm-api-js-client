@@ -935,6 +935,7 @@ type AccountZimletDesc {
 	description: String
 	extension: String
 	label: String
+	zimbraXZimletCompatibleSemVer: String
 }
 
 type AccountZimletConfigInfo {
@@ -944,7 +945,6 @@ type AccountZimletConfigInfo {
 	extension: String
 	target: String
 	label: String
-	zimbraXZimletCompatibleSemVer: String
 }
 
 type AccountInfoAttrs {
