@@ -1300,6 +1300,7 @@ type MailboxMetadataAttrs {
 	archivedFolder: String
 	zimbraPrefSMIMEDefaultSetting: String
 	zimbraPrefSMIMELastOperation: String
+	zimbraPrefContactSourceFolderID: String
 }
 
 input MailboxMetadataSectionAttrsInput {
@@ -1318,6 +1319,7 @@ input MailboxMetadataSectionAttrsInput {
 	archivedFolder: String
 	zimbraPrefSMIMEDefaultSetting: String
 	zimbraPrefSMIMELastOperation: String
+	zimbraPrefContactSourceFolderID: String
 }
 
 type MimePart {
