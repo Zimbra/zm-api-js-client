@@ -21,6 +21,12 @@ export interface AutoCompleteOptions {
 	needExp?: boolean;
 	type?: GalSearchType;
 }
+export interface AutoCompleteGALOptions {
+	limit?: number;
+	name: string;
+	needExp?: boolean;
+	type?: GalSearchType;
+}
 
 export interface Notification {
 	created?: any;
@@ -45,7 +51,10 @@ export interface FreeBusyOptions {
 }
 
 export interface GetContactOptions {
+	derefGroupMember: boolean;
 	id: string;
+	ids: Array<string>;
+	memberOf: boolean;
 }
 
 export interface GetContactFrequencyOptions {
