@@ -663,12 +663,12 @@ export class ZimbraBatchClient {
 			}
 		});
 
-	public modifyZimletPrefs = (zimletPrefs: Array<ZimletPreferenceInput>) =>
+	public modifyZimletPrefs = (zimlet: Array<ZimletPreferenceInput>) =>
 		this.jsonRequest({
 			name: 'ModifyZimletPrefs',
 			namespace: Namespace.Account,
 			body: {
-				zimletPrefs
+				zimlet
 			}
 		});
 

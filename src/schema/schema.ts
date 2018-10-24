@@ -289,8 +289,8 @@ export function createZimbraSchema(
 					zimbra.account.modifyIdentity(id, attrs),
 				modifyPrefs: (_, { prefs }) =>
 					client.modifyPrefs(prefs as PreferencesInput),
-				modifyZimletPrefs: (_, { zimletPrefs }) =>
-					client.modifyZimletPrefs(zimletPrefs as Array<ZimletPreferenceInput>),
+				modifyZimletPrefs: (_, { zimlet }) =>
+					client.modifyZimletPrefs(zimlet as Array<ZimletPreferenceInput>),
 				modifyFilterRules: (_, { filters }) =>
 					client.modifyFilterRules(filters as Array<FilterInput>),
 				createSignature: (_, variables) =>
