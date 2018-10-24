@@ -35,20 +35,25 @@ function reduceMimeParts(
 	return accumulator;
 }
 
-function getUrl(attachment: { [key: string]: any }, origin: string = '') {
+export function getAttachmentUrl(
+	attachment: { [key: string]: any },
+	{ origin = '', jwtToken }: { jwtToken?: string; origin?: string }
+) {
 	let { messageId, mid, part } = attachment;
-	return `${origin}/service/home/~/?auth=co&id=${encodeURIComponent(
-		messageId || mid
-	)}&part=${encodeURIComponent(part)}`;
+	return `${origin}/service/home/~/?auth=${
+		jwtToken ? 'jwt' : 'co'
+	}&id=${encodeURIComponent(messageId || mid)}&part=${encodeURIComponent(
+		part
+	)}${jwtToken ? `&zjwt=${jwtToken}` : ''}`;
 }
 
 export function normalizeMimeParts(
 	message: { [key: string]: any },
-	origin?: string
+	{ origin, jwtToken }: { jwtToken?: string; origin?: string }
 ) {
 	const processAttachment = ({ ...attachment }) => {
 		attachment.messageId = attachment.messageId || message.id;
-		attachment.url = getUrl(attachment, origin);
+		attachment.url = getAttachmentUrl(attachment, { origin, jwtToken });
 		if (attachment.contentId) {
 			attachment.contentId = normalizeCid(attachment.contentId);
 		}

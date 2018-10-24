@@ -167,7 +167,10 @@ export function jsonRequest(
 	let header: SOAPHeader;
 	header = {
 		context: {
-			_jsns: Namespace.All
+			_jsns: Namespace.All,
+			authTokenControl: {
+				voidOnExpired: true
+			}
 		}
 	};
 
@@ -195,6 +198,12 @@ export function jsonRequest(
 		header.context.account = {
 			by: 'id',
 			_content: requestOptions.accountId
+		};
+	}
+
+	if (requestOptions.jwtToken) {
+		header.context.jwtToken = {
+			_content: requestOptions.jwtToken
 		};
 	}
 
