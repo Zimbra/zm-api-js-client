@@ -301,14 +301,6 @@ export const ActionOptions = new Entity({
 	grant: ACLGrant
 });
 
-export const Contact = new Entity({
-	d: 'date',
-	l: 'folderId',
-	rev: 'revision',
-	sf: 'sortField',
-	_attrs: 'attributes'
-});
-
 export const AutoComplete = new Entity({
 	t: 'type'
 });
@@ -321,10 +313,6 @@ export const AutoCompleteResponse = new Entity({
 	match: AutoCompleteMatch
 });
 
-export const AutoCompleteGALResponse = new Entity({
-	cn: ['contacts', Contact]
-});
-
 export const ShareNotification = new Entity({
 	e: ['address', ShareNotificationAddress]
 });
@@ -332,6 +320,27 @@ export const ShareNotification = new Entity({
 export const ExternalCalendar = new Entity({
 	name: 'accountName',
 	l: 'folderId'
+});
+
+const contactFields = {
+	d: 'date',
+	l: 'folderId',
+	rev: 'revision',
+	sf: 'sortField',
+	_attrs: 'attributes'
+};
+
+const contactListMembers = new Entity({
+	cn: ['contacts', new Entity({ ...contactFields })]
+});
+
+export const Contact = new Entity({
+	...contactFields,
+	m: ['members', contactListMembers]
+});
+
+export const AutoCompleteGALResponse = new Entity({
+	cn: ['contacts', Contact]
 });
 
 export const Appointment = new Entity({
@@ -443,5 +452,6 @@ const ContactInputAttributes = new Entity({
 export const ContactInputRequest = new Entity({
 	l: 'folderId',
 	tn: 'tagNames',
-	a: ['attributes', ContactInputAttributes]
+	a: ['attributes', ContactInputAttributes],
+	m: 'memberOps'
 });

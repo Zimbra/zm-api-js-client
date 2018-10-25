@@ -27,7 +27,7 @@ export interface Query {
 	autoCompleteGAL?: AutoCompleteGALResponse | null;
 	downloadMessage?: SMimeMessage | null;
 	freeBusy?: FreeBusy[] | null;
-	getContact?: Contact | null;
+	getContact?: Contact[] | null;
 	getAppointments?: SearchResponse | null;
 	getContactFrequency?: ContactFrequencyResponse | null;
 	getConversation?: Conversation | null;
@@ -254,7 +254,9 @@ export interface Contact {
 	revision?: number | null;
 	sortField?: string | null;
 	fileAsStr?: string | null;
+	memberOf?: string | null;
 	attributes?: ContactAttributes | null;
+	members?: ContactListMember[] | null;
 }
 
 export interface ContactAttributes {
@@ -305,6 +307,12 @@ export interface ContactAttributes {
 	zimbraCalResType?: string | null;
 	fileAs?: string | null /* Used for contact lists */;
 	type?: string | null;
+}
+
+export interface ContactListMember {
+	contacts?: Contact[] | null;
+	type: string;
+	value: string;
 }
 
 export interface SMimeMessage {
@@ -983,6 +991,7 @@ export interface Mutation {
 	changeCalendarColor?: boolean | null;
 	changePassword?: string | null;
 	checkCalendar?: boolean | null;
+	contactAction?: ActionOpResponse | null;
 	conversationAction?: boolean | null;
 	createAppointment?: boolean | null;
 	createAppointmentException?: boolean | null;
@@ -990,7 +999,7 @@ export interface Mutation {
 	createContact?: Contact | null;
 	createContactList?: Contact | null;
 	modifyContact?: Contact | null;
-	modifyContactList?: Contact | null;
+	modifyContactList?: boolean | null;
 	createFolder?: Folder | null;
 	createMountpoint?: boolean | null;
 	createSharedCalendar?: boolean | null;
@@ -1039,6 +1048,15 @@ export interface Mutation {
 export interface ExternalAccountTestResponse {
 	success: boolean;
 	error?: string | null;
+}
+
+export interface ActionOpResponse {
+	action?: ActionOpResponseData | null;
+}
+
+export interface ActionOpResponseData {
+	id: string;
+	op: string;
 }
 
 export interface SignatureResponse {
@@ -1373,6 +1391,13 @@ export interface ModifyContactInput {
 	folderId?: string | null;
 	tagNames?: string | null;
 	attributes: ContactAttrsInput;
+	memberOps?: ContactListOps[] | null;
+}
+
+export interface ContactListOps {
+	op: string;
+	type: string;
+	value: string;
 }
 
 export interface NewMountpointSpec {
@@ -1810,7 +1835,10 @@ export interface FreeBusyQueryArgs {
 	end?: number | null;
 }
 export interface GetContactQueryArgs {
-	id: string;
+	id?: string | null;
+	ids?: string[] | null;
+	derefGroupMember?: boolean | null;
+	memberOf?: boolean | null;
 }
 export interface GetAppointmentsQueryArgs {
 	calExpandInstStart: number;
@@ -1881,6 +1909,7 @@ export interface SearchQueryArgs {
 	fullConversation?: boolean | null;
 	limit?: number | null;
 	needExp?: boolean | null;
+	memberOf?: boolean | null;
 	offset?: number | null;
 	query?: string | null;
 	recip?: number | null;
@@ -1944,6 +1973,12 @@ export interface ChangePasswordMutationArgs {
 export interface CheckCalendarMutationArgs {
 	calendarId: string;
 	value: boolean;
+}
+export interface ContactActionMutationArgs {
+	id?: string | null;
+	ids?: string[] | null;
+	folderId?: string | null;
+	op: string;
 }
 export interface ConversationActionMutationArgs {
 	ids: string[];
