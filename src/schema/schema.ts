@@ -165,6 +165,8 @@ export function createZimbraSchema(
 					client.messageAction(variables as ActionOptions),
 				changePassword: (_, variables) =>
 					client.changePassword(variables as ChangePasswordOptions),
+				contactAction: (_, variables) =>
+					client.contactAction(variables as ActionOptions),
 				conversationAction: (_, variables) =>
 					client.conversationAction(variables as ActionOptions),
 				createFolder: (_, variables) =>

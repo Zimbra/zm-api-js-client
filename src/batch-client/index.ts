@@ -226,6 +226,9 @@ export class ZimbraBatchClient {
 			}
 		});
 
+	public contactAction = (options: ActionOptions) =>
+		this.action(ActionType.contact, options);
+
 	public conversationAction = (options: ActionOptions) =>
 		this.action(ActionType.conversation, options);
 
@@ -390,13 +393,16 @@ export class ZimbraBatchClient {
 			jwtToken: this.jwtToken
 		});
 
-	public getContact = ({ id }: GetContactOptions) =>
+	public getContact = ({ id, ids, ...rest }: GetContactOptions) =>
 		this.jsonRequest({
 			name: 'GetContacts',
 			body: {
-				cn: { id }
+				cn: {
+					id: id || (ids || []).join(',')
+				},
+				...rest
 			}
-		}).then(res => normalize(Contact)(res.cn[0]));
+		}).then(res => res.cn.map((contact: any) => normalize(Contact)(contact)));
 
 	public getContactFrequency = (options: GetContactFrequencyOptions) =>
 		this.jsonRequest({
