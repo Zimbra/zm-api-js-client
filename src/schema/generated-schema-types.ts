@@ -1400,6 +1400,8 @@ export interface DeleteAppointmentInput {
 	instanceDate?: InstanceDate | null;
 	inviteId: string;
 	componentNumber: string;
+	start?: number | null;
+	message?: CalendarItemMessageInput
 }
 
 export interface InstanceDate {
@@ -1714,6 +1716,7 @@ export interface InviteReplyInput {
 	verb: InviteReplyVerb;
 	updateOrganizer?: boolean | null;
 	message?: CalendarItemMessageInput | null;
+	specificInvite?: InstanceDate | null
 }
 
 export interface ShareNotificationInput {

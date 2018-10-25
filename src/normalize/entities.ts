@@ -219,7 +219,9 @@ export const InstanceDate = new Entity({
 export const CalendarItemDeleteRequest = new Entity({
 	inst: ['instanceDate', InstanceDate],
 	id: 'inviteId',
-	comp: 'componentNumber'
+	comp: 'componentNumber',
+	s: 'start',
+	m: ['message', MessageInfo]
 });
 
 const NewMountpointSpec = new Entity({
@@ -420,7 +422,8 @@ export const Filter = new Entity({
 export const InviteReply = new Entity({
 	compNum: 'componentNum',
 	m: ['message', MessageInfo],
-	rt: 'replyType'
+	rt: 'replyType',
+	exceptId: ['specificInvite', InstanceDate]
 });
 
 const Signature = new Entity({

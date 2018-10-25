@@ -1601,6 +1601,7 @@ input InviteReplyInput {
 	verb: InviteReplyVerb!
 	updateOrganizer: Boolean
 	message: CalendarItemMessageInput
+	specificInvite: InstanceDate
 }
 
 input PreferencesInput {
@@ -1930,6 +1931,8 @@ input DeleteAppointmentInput {
 	instanceDate: InstanceDate
 	inviteId: String!
 	componentNumber: String!
+	start: Int,
+	message: CalendarItemMessageInput
 }
 input SignatureInput {
 	id: ID
