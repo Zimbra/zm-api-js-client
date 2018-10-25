@@ -9,17 +9,31 @@ import { ZimbraNotificationsOptions } from './types';
 import {
 	Conversation,
 	Folder as FolderEntity,
-	MessageInfo
+	MessageInfo,
+	Contact
 } from '../normalize/entities';
 
 const normalizeConversation = normalize(Conversation);
 const normalizeFolder = normalize(FolderEntity);
 const normalizeMessage = normalize(MessageInfo);
+const normalizeContact = normalize(Contact);
 
 function itemsForKey(notification: any, key: string) {
 	const modifiedItems = get(notification, `modified.${key}`, []);
 	const createdItems = get(notification, `created.${key}`, []);
 	return [...modifiedItems, ...createdItems];
+}
+
+function findDataId(client: ZimbraInMemoryCache, partialDataId: string = '$ROOT_QUERY', predicate: (d: string) => any) {
+	const data = client && get(client, 'cache.data.data', get(client, 'data.data'));
+	if (!data) {
+		return;
+	}
+
+	return Object.keys(data).filter((dataId: string) =>
+		dataId.indexOf(partialDataId) !== -1 && predicate(dataId)
+	)[0];
+
 }
 
 /**
@@ -49,6 +63,7 @@ export class ZimbraNotifications {
 		this.handleFolderNotifications(notification);
 		this.handleConversationNotifications(notification);
 		this.handleMessageNotifications(notification);
+		this.handleContactNotifications(notification);
 	};
 
 	private handleConversationNotifications = (notification: Notification) => {
@@ -92,6 +107,58 @@ export class ZimbraNotifications {
 						...item
 					}
 				});
+			});
+		}
+	};
+
+	private handleContactNotifications = (notification: Notification) => {
+		const items = itemsForKey(notification, 'cn');
+		if (items) {
+			const searchContactResponse:any = this.cache.readFragment({
+				id: `${findDataId(this.cache, '$ROOT_QUERY.search', (dataId) => /in:\\"Contacts\\" NOT #type:group/.test(dataId))}`,
+				fragment: gql`
+					fragment ${generateFragmentName(
+						'searchResults'
+					)} on SearchResponse {
+						contacts
+					}
+				`
+			})
+			let newContacts:any[] = [];
+			items.forEach((i: any) => {
+				const item = normalizeContact(i);
+				this.cache.writeFragment({
+					id: `Contact:${item.id}`,
+					fragment: gql`
+						fragment ${generateFragmentName(
+							'contactNotification',
+							item.id
+						)} on Contact {
+							${attributeKeys(item)}
+						}
+					`,
+					data: {
+						__typename: 'Contact',
+						...item
+					}
+				});
+				if (searchContactResponse.contacts && !searchContactResponse.contacts.some((contact:any) => contact.id === `Contact:${item.id}`)) {
+					newContacts = [{generated: false, id: `Contact:${item.id}`, type: "id", typename: "Contact"}].concat(newContacts);
+				}
+			});
+			this.cache.writeFragment({
+				id: `${findDataId(this.cache, '$ROOT_QUERY.search', (dataId) => /in:\\"Contacts\\" NOT #type:group/.test(dataId))}`,
+				fragment: gql`
+					fragment ${generateFragmentName(
+						'searchResults'
+					)} on SearchResponse {
+						contacts
+					}
+				`,
+				data: {
+					__typename: 'SearchResponse',
+					contacts: [...newContacts, ...searchContactResponse.contacts]
+				}
 			});
 		}
 	};
