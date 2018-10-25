@@ -24,9 +24,10 @@ export interface MailItem {
 export interface Query {
 	accountInfo?: AccountInfo | null;
 	autoComplete?: AutoCompleteResponse | null;
+	autoCompleteGAL?: AutoCompleteGALResponse | null;
 	downloadMessage?: SMimeMessage | null;
 	freeBusy?: FreeBusy[] | null;
-	getContact?: Contact | null;
+	getContact?: Contact[] | null;
 	getAppointments?: SearchResponse | null;
 	getContactFrequency?: ContactFrequencyResponse | null;
 	getConversation?: Conversation | null;
@@ -241,23 +242,8 @@ export interface AutoCompleteMatch {
 	fileas?: string | null;
 }
 
-export interface SMimeMessage {
-	id?: string | null;
-	content?: string | null;
-}
-
-export interface FreeBusy {
-	id: string;
-	tentative?: FreeBusyInstance[] | null;
-	busy?: FreeBusyInstance[] | null;
-	unavailable?: FreeBusyInstance[] | null;
-	nodata?: FreeBusyInstance[] | null;
-	free?: FreeBusyInstance[] | null;
-}
-
-export interface FreeBusyInstance {
-	start?: number | null;
-	end?: number | null;
+export interface AutoCompleteGALResponse {
+	contacts?: Contact[] | null;
 }
 
 export interface Contact {
@@ -267,7 +253,9 @@ export interface Contact {
 	revision?: number | null;
 	sortField?: string | null;
 	fileAsStr?: string | null;
+	memberOf?: string | null;
 	attributes?: ContactAttributes | null;
+	members?: ContactListMember[] | null;
 }
 
 export interface ContactAttributes {
@@ -315,8 +303,34 @@ export interface ContactAttributes {
 	website?: string | null;
 	notes?: string | null;
 	userCertificate?: string | null;
+	zimbraCalResType?: string | null;
 	fileAs?: string | null /* Used for contact lists */;
 	type?: string | null;
+}
+
+export interface ContactListMember {
+	contacts?: Contact[] | null;
+	type: string;
+	value: string;
+}
+
+export interface SMimeMessage {
+	id?: string | null;
+	content?: string | null;
+}
+
+export interface FreeBusy {
+	id: string;
+	tentative?: FreeBusyInstance[] | null;
+	busy?: FreeBusyInstance[] | null;
+	unavailable?: FreeBusyInstance[] | null;
+	nodata?: FreeBusyInstance[] | null;
+	free?: FreeBusyInstance[] | null;
+}
+
+export interface FreeBusyInstance {
+	start?: number | null;
+	end?: number | null;
 }
 
 export interface SearchResponse {
@@ -492,6 +506,7 @@ export interface CalendarItemAttendee {
 	rsvp?: boolean | null;
 	address?: string | null;
 	name?: string | null;
+	calendarUserType?: string | null;
 }
 
 export interface StringContent {
@@ -974,6 +989,7 @@ export interface Mutation {
 	changeCalendarColor?: boolean | null;
 	changePassword?: string | null;
 	checkCalendar?: boolean | null;
+	contactAction?: ActionOpResponse | null;
 	conversationAction?: boolean | null;
 	createAppointment?: boolean | null;
 	createAppointmentException?: boolean | null;
@@ -981,7 +997,7 @@ export interface Mutation {
 	createContact?: Contact | null;
 	createContactList?: Contact | null;
 	modifyContact?: Contact | null;
-	modifyContactList?: Contact | null;
+	modifyContactList?: boolean | null;
 	createFolder?: Folder | null;
 	createMountpoint?: boolean | null;
 	createSharedCalendar?: boolean | null;
@@ -1030,6 +1046,15 @@ export interface Mutation {
 export interface ExternalAccountTestResponse {
 	success: boolean;
 	error?: string | null;
+}
+
+export interface ActionOpResponse {
+	action?: ActionOpResponseData | null;
+}
+
+export interface ActionOpResponseData {
+	id: string;
+	op: string;
 }
 
 export interface SignatureResponse {
@@ -1237,6 +1262,7 @@ export interface CalendarItemAttendeesInput {
 	rsvp?: boolean | null;
 	address: string;
 	name?: string | null;
+	calendarUserType?: string | null;
 }
 
 export interface CalendarItemAlarmInput {
@@ -1363,6 +1389,13 @@ export interface ModifyContactInput {
 	folderId?: string | null;
 	tagNames?: string | null;
 	attributes: ContactAttrsInput;
+	memberOps?: ContactListOps[] | null;
+}
+
+export interface ContactListOps {
+	op: string;
+	type: string;
+	value: string;
 }
 
 export interface NewMountpointSpec {
@@ -1785,6 +1818,12 @@ export interface AutoCompleteQueryArgs {
 	folders?: string | null;
 	includeGal?: boolean | null;
 }
+export interface AutoCompleteGalQueryArgs {
+	limit?: number | null;
+	name: string;
+	type?: GalSearchType | null;
+	needExp?: boolean | null;
+}
 export interface DownloadMessageQueryArgs {
 	id: string;
 }
@@ -1794,7 +1833,10 @@ export interface FreeBusyQueryArgs {
 	end?: number | null;
 }
 export interface GetContactQueryArgs {
-	id: string;
+	id?: string | null;
+	ids?: string[] | null;
+	derefGroupMember?: boolean | null;
+	memberOf?: boolean | null;
 }
 export interface GetAppointmentsQueryArgs {
 	calExpandInstStart: number;
@@ -1865,6 +1907,7 @@ export interface SearchQueryArgs {
 	fullConversation?: boolean | null;
 	limit?: number | null;
 	needExp?: boolean | null;
+	memberOf?: boolean | null;
 	offset?: number | null;
 	query?: string | null;
 	recip?: number | null;
@@ -1917,6 +1960,12 @@ export interface ChangePasswordMutationArgs {
 export interface CheckCalendarMutationArgs {
 	calendarId: string;
 	value: boolean;
+}
+export interface ContactActionMutationArgs {
+	id?: string | null;
+	ids?: string[] | null;
+	folderId?: string | null;
+	op: string;
 }
 export interface ConversationActionMutationArgs {
 	ids: string[];
