@@ -991,7 +991,7 @@ export interface Mutation {
 	checkCalendar?: boolean | null;
 	contactAction?: ActionOpResponse | null;
 	conversationAction?: boolean | null;
-	createAppointment?: CalendarItemHitInfo | null;
+	createAppointment?: boolean | null;
 	createAppointmentException?: boolean | null;
 	createCalendar?: boolean | null;
 	createContact?: Contact | null;

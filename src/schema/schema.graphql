@@ -2159,7 +2159,7 @@ type Mutation {
 		ids: [ID!]!
 		op: String!
 	): Boolean
-	createAppointment(accountName: String, appointment: CalendarItemInput!): CalendarItemHitInfo
+	createAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
 	createAppointmentException(accountName: String, appointment: CalendarItemInput!): Boolean
 	createCalendar(name: String!, color: Int!, url: String): Boolean
 	createContact(contact: CreateContactInput!): Contact
