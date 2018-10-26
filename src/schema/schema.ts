@@ -32,6 +32,7 @@ import { ZimbraNotifications } from './notifications';
 import { GraphQLSchema } from 'graphql';
 import {
 	ActionOptions,
+	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
 	ModifyProfileImageOptions,
@@ -74,6 +75,8 @@ export function createZimbraSchema(
 				accountInfo: client.accountInfo,
 				autoComplete: (_, variables) =>
 					client.autoComplete(variables as AutoCompleteOptions),
+				autoCompleteGAL: (_, variables) =>
+					client.autoCompleteGAL(variables as AutoCompleteGALOptions),
 				downloadMessage: (_, variables) => client.downloadMessage(variables),
 				freeBusy: (_, variables) =>
 					client.freeBusy(variables as FreeBusyOptions),
@@ -164,6 +167,8 @@ export function createZimbraSchema(
 					client.changePassword(variables as ChangePasswordOptions),
 				modifyProfileImage: (_, variables) =>
 					client.modifyProfileImage(variables as ModifyProfileImageOptions),
+				contactAction: (_, variables) =>
+					client.contactAction(variables as ActionOptions),
 				conversationAction: (_, variables) =>
 					client.conversationAction(variables as ActionOptions),
 				createFolder: (_, variables) =>
