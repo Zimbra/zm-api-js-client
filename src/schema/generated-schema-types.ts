@@ -923,6 +923,7 @@ export interface MailboxMetadataAttrs {
 	archivedFolder?: string | null;
 	zimbraPrefSMIMEDefaultSetting?: string | null;
 	zimbraPrefSMIMELastOperation?: string | null;
+	zimbraPrefContactSourceFolderID?: string | null;
 }
 
 export interface SMimePublicCertsResponse {
@@ -1774,6 +1775,7 @@ export interface MailboxMetadataSectionAttrsInput {
 	archivedFolder?: string | null;
 	zimbraPrefSMIMEDefaultSetting?: string | null;
 	zimbraPrefSMIMELastOperation?: string | null;
+	zimbraPrefContactSourceFolderID?: string | null;
 }
 
 export interface SnoozeInput {
