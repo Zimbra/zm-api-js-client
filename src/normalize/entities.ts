@@ -151,7 +151,7 @@ const ExistingAttachmentsInfo = new Entity({
 });
 
 const AttachmentsInfo = new Entity({
-	aid: 'attachmentIds',
+	aid: 'attachmentId',
 	mp: ['existingAttachments', ExistingAttachmentsInfo]
 });
 

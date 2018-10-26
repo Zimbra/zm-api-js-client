@@ -1355,7 +1355,7 @@ input ExistingAttachmentInput {
 }
 
 input AttachmentInput {
-	attachmentIds: String
+	attachmentId: String
 	existingAttachments: [ExistingAttachmentInput]
 }
 
@@ -1404,9 +1404,14 @@ input CalendarItemMessageInput {
 	replyType: InviteReplyType #rt
 }
 
+input NewAttachmentInput {
+	attachmentId: ID
+}
+
 input SendMessageInput {
 	id: ID #id
 	origId: ID #origid
+	attach: [NewAttachmentInput]
 	attachmentId: ID #aid
 	replyType: String #rt
 	inReplyTo: String #irt
