@@ -2134,8 +2134,8 @@ type Query {
 
 	searchGal(
 		needIsOwner: Boolean,
-		needIsMember: enum,
-		type: String,
+		needIsMember: NeedIsMemberType,
+		type: SearchType,
 		name: String,
 		offset: Int,
 		limit: Int,
