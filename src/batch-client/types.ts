@@ -127,6 +127,7 @@ export interface SearchOptions {
 	query?: string;
 	recip?: number;
 	sortBy?: SortBy;
+	type?: GalSearchType;
 	types?: SearchType;
 }
 
