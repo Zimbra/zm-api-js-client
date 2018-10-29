@@ -208,34 +208,31 @@ export class ZimbraBatchClient {
 			}
 		});
 
-		public changePassword = ({
-			loginNewPassword,
-			password,
-			username
-		}: ChangePasswordOptions) =>
-			this.jsonRequest({
-				name: 'ChangePassword',
-				namespace: Namespace.Account,
-				body: {
-					account: {
-						by: 'name',
-						_content: username
-					},
-					oldPassword: password,
-					password: loginNewPassword
-				}
-			});
+	public changePassword = ({
+		loginNewPassword,
+		password,
+		username
+	}: ChangePasswordOptions) =>
+		this.jsonRequest({
+			name: 'ChangePassword',
+			namespace: Namespace.Account,
+			body: {
+				account: {
+					by: 'name',
+					_content: username
+				},
+				oldPassword: password,
+				password: loginNewPassword
+			}
+		});
 
-		public modifyProfileImage = ({
-			uid
-		}: ModifyProfileImageOptions) =>{
-			this.jsonRequest({
-				name: 'ModifyProfileImage',
-				body: {
-					uid
-				}
-			});
-		}
+	public modifyProfileImage = ({ uid }: ModifyProfileImageOptions) =>
+		this.jsonRequest({
+			name: 'ModifyProfileImage',
+			body: {
+				uid
+			}
+		});
 
 	public contactAction = (options: ActionOptions) =>
 		this.action(ActionType.contact, options);
