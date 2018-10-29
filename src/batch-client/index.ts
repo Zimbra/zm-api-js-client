@@ -740,32 +740,27 @@ export class ZimbraBatchClient {
 		cursor,
 		...options
 	}: SearchConversationOptions) => {
-		let body: any;
-		body = {
+		let body: any = {
 			cid: conversationId,
 			_content: {
-				...(query && { query }),
-				...(header && { header }),
-				...(timezone && { tz: timezone }),
-				...(locale && { locale }),
-				...(cursor && { cursor })
-			}
+				query,
+				header,
+				tz: timezone,
+				locale,
+				cursor
+			},
+			...options
 		};
 
-		// conditionally include the rest of the parameters
-		forEach(options, (value: any, key: string) => {
-			if (value) {
-				if (key === 'allowableTaskStatus' || key === 'types') {
-					body[key] = value.join(',');
-				} else {
-					body[key] = value;
-				}
+		[ 'allowableTaskStatus', 'types' ].forEach((key) => {
+			if (key in body) {
+				body[key] = (body[key] as Array<any>).join(',');
 			}
 		});
 
 		return this.jsonRequest({
 			name: 'SearchConv',
-			body: body
+			body
 		}).then(res => {
 			const normalized = normalize(SearchResponse)(res);
 			if (get(normalized, 'conversations.0.messages')) {
