@@ -735,7 +735,7 @@ export class ZimbraBatchClient {
 			name: 'SearchGal',
 			body: options,
 			namespace: Namespace.Account
-		}).then(res => normalize(SearchResponse)(res));
+		}).then(res => normalize(SearchResponse));
 
 	public sendInviteReply = (requestOptions: InviteReplyInput) =>
 		this.jsonRequest({
