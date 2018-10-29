@@ -321,6 +321,15 @@ type ModifyAppointmentResponse {
 	revision: Int # rev
 }
 
+type ZimletPref {
+	name: String
+	presence: String
+}
+
+type ModifyZimletPrefsResponse {
+	zimlet: [ZimletPref]
+}
+
 type EmailAddress {
 	address: String
 	name: String
@@ -2220,7 +2229,7 @@ type Mutation {
 	modifyAppointment(accountName: String, appointment: CalendarItemInput!): ModifyAppointmentResponse
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
-	modifyZimletPrefs(zimlets: [ZimletPreferenceInput!]): Boolean
+	modifyZimletPrefs(zimlets: [ZimletPreferenceInput!]): ModifyZimletPrefsResponse
 	modifyFilterRules(filters: [FilterInput!]): Boolean
 	modifySignature(signature: SignatureInput!): String
 	modifySearchFolder(search: SearchFolderInput!): Boolean
