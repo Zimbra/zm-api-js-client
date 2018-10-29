@@ -1,35 +1,107 @@
 version: 2
+
+############################################################################
+
+config: &config
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:8
+
+persist-workspace: &persist-workspace
+  persist_to_workspace:
+    root: ~/
+    paths:
+      - repo
+
+attach-workspace: &attach-workspace
+  attach_workspace:
+    at: ~/
+
+############################################################################
+
 jobs:
   build:
-    docker:
-      - image: circleci/node:8
-
-    working_directory: ~/repo
-
+    <<: *config
     steps:
-      - checkout
+        - checkout
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+        # Download node_modules dependencies
+        - restore_cache:
+            keys:
+              - v1-dependencies-{{ checksum "package.json" }}
+              # fallback to using the cache from the same branch
+              - v1-dependencies-{{ .Branch }}
+              # fallback to using the latest cache if no exact match is found
+              - v1-dependencies-
 
-      - run: npm install
+        # install dependencies - do this AFTER we do the optional branch checkout of the api client
+        - run:
+            name: Install npm modules
+            command: npm install
 
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+        # Save node_modules dependencies
+        - save_cache:
+            paths:
+              - node_modules
+            key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: npm test
+        - run:
+            name: Build application code
+            command: npm run build
 
-      - store_test_results:
-          path: test-reports
+        - *persist-workspace
 
-      - store_artifacts:
-          path: test-reports
+  unit:
+    <<: *config
+    steps:
+      - *attach-workspace
+      - run:
+          name: Run karma unit tests
+          command: npm run test:unit
 
-      - run: npm run build
+  lint:
+    <<: *config
+    steps:
+      - *attach-workspace
+      - run:
+          name: Lint typescript source code
+          command: npm run lint
 
+  eslint:
+    <<: *config
+    steps:
+      - *attach-workspace
+      - run:
+          name: Lint javascript source code
+          command: npm run eslint
+
+  validate-package-lock:
+    <<: *config
+    steps:
+      - *attach-workspace
+      - run:
+          name: Check for synacor related npm refs in package-lock.json
+          command: npm run test:no-synacor-npm-refs
+
+
+############################################################################
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - build
+      - validate-package-lock:
+          requires:
+            - build
+      - eslint:
+          requires:
+            - build
+      - lint:
+          requires:
+            - build
+      - unit:
+          requires:
+            - build
+
+############################################################################
