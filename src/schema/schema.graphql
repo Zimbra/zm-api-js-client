@@ -1649,8 +1649,8 @@ input PreferencesInput {
 }
 
 input ZimletPreferenceInput {
-	name: String
-	presence: String
+	name: String!
+	presence: String!
 }
 
 ##### FilterInput #####
@@ -2220,7 +2220,7 @@ type Mutation {
 	modifyAppointment(accountName: String, appointment: CalendarItemInput!): ModifyAppointmentResponse
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
-	modifyZimletPrefs(zimlet: [ZimletPreferenceInput!]): Boolean
+	modifyZimletPrefs(zimlets: [ZimletPreferenceInput!]): Boolean
 	modifyFilterRules(filters: [FilterInput!]): Boolean
 	modifySignature(signature: SignatureInput!): String
 	modifySearchFolder(search: SearchFolderInput!): Boolean
