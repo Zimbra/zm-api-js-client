@@ -1399,7 +1399,7 @@ export interface SignatureContentInput {
 export interface DeleteAppointmentInput {
 	instanceDate?: InstanceDate | null;
 	inviteId: string;
-	componentNumber: string;
+	componentNum: string;
 	start?: number | null;
 	message?: CalendarItemMessageInput
 }
@@ -1716,7 +1716,7 @@ export interface InviteReplyInput {
 	verb: InviteReplyVerb;
 	updateOrganizer?: boolean | null;
 	message?: CalendarItemMessageInput | null;
-	specificInvite?: InstanceDate | null
+	exceptId?: InstanceDate | null
 }
 
 export interface ShareNotificationInput {

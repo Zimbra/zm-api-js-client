@@ -219,7 +219,7 @@ export const InstanceDate = new Entity({
 export const CalendarItemDeleteRequest = new Entity({
 	inst: ['instanceDate', InstanceDate],
 	id: 'inviteId',
-	comp: 'componentNumber',
+	comp: 'componentNum',
 	s: 'start',
 	m: ['message', MessageInfo]
 });
@@ -423,7 +423,7 @@ export const InviteReply = new Entity({
 	compNum: 'componentNum',
 	m: ['message', MessageInfo],
 	rt: 'replyType',
-	exceptId: ['specificInvite', InstanceDate]
+	exceptId: ['exceptId', InstanceDate]
 });
 
 const Signature = new Entity({
