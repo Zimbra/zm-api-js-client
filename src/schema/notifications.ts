@@ -73,19 +73,35 @@ export class ZimbraNotifications {
 	private handleContactNotifications = (notification: Notification) => {
 		const items = itemsForKey(notification, 'cn');
 		if (items) {
-			const searchContactResponse: any = this.cache.readFragment({
-				id: `${findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
-					/in:\\"Contacts\\" NOT #type:group/.test(dataId)
-				)}`,
-				fragment: gql`
-					fragment ${generateFragmentName('searchResults')} on SearchResponse {
-						contacts
-					}
-				`
-			});
-			let newContacts: any[] = [];
+			let searchResponse: any = {};
 			items.forEach((i: any) => {
 				const item = normalizeContact(i);
+				const foldersMap: any = {
+					'7': 'Contacts',
+					'3': 'Trash',
+					'13': 'Emailed Contacts'
+				};
+				const folder = foldersMap[item.folderId];
+				const group =
+					folder === 'Trash'
+						? ''
+						: item.attributes.type === 'group'
+							? ' #type:group'
+							: ' NOT #type:group';
+				const query = `in:\\\\"${folder}\\\\"${group}`;
+				const r = new RegExp(query);
+				if (!searchResponse[query]) {
+					searchResponse[query] = this.cache.readFragment({
+						id: `${findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
+							r.test(dataId)
+						)}`,
+						fragment: gql`
+							fragment ${generateFragmentName('searchResults')} on SearchResponse {
+								contacts
+							}
+						`
+					});
+				}
 				this.cache.writeFragment({
 					id: `Contact:${item.id}`,
 					fragment: gql`
@@ -99,34 +115,37 @@ export class ZimbraNotifications {
 					}
 				});
 				if (
-					searchContactResponse.contacts &&
-					!searchContactResponse.contacts.some(
+					searchResponse[query].contacts &&
+					!searchResponse[query].contacts.some(
 						(contact: any) => contact.id === `Contact:${item.id}`
 					)
 				) {
-					newContacts = [
+					searchResponse[query].contacts = [
 						{
 							generated: false,
 							id: `Contact:${item.id}`,
 							type: 'id',
 							typename: 'Contact'
 						}
-					].concat(newContacts);
+					].concat(searchResponse[query].contacts);
 				}
 			});
-			this.cache.writeFragment({
-				id: `${findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
-					/in:\\"Contacts\\" NOT #type:group/.test(dataId)
-				)}`,
-				fragment: gql`
+			Object.keys(searchResponse).forEach(q => {
+				const r = new RegExp(q);
+				this.cache.writeFragment({
+					id: `${findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
+						r.test(dataId)
+					)}`,
+					fragment: gql`
 					fragment ${generateFragmentName('searchResults')} on SearchResponse {
 						contacts
 					}
-				`,
-				data: {
-					__typename: 'SearchResponse',
-					contacts: [...newContacts, ...searchContactResponse.contacts]
-				}
+					`,
+					data: {
+						__typename: 'SearchResponse',
+						contacts: searchResponse[q].contacts
+					}
+				});
 			});
 		}
 	};
