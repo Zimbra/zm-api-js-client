@@ -76,19 +76,23 @@ export class ZimbraNotifications {
 			let searchResponse: any = {};
 			items.forEach((i: any) => {
 				const item = normalizeContact(i);
-				const foldersMap: any = {
-					'7': 'Contacts',
-					'3': 'Trash',
-					'13': 'Emailed Contacts'
-				};
-				const folder = foldersMap[item.folderId];
+				const defaultFolderName = 'Contacts';
+				const folder = this.cache.readFragment({
+					id: `Folder:${item.folderId}`,
+					fragment: gql`
+					fragment folderName${item.folderId} on Folder {
+						name
+					}
+					`
+				});
+				const folderName = folder && folder.name || defaultFolderName;
 				const group =
-					folder === 'Trash'
+					folderName === 'Trash'
 						? ''
 						: item.attributes.type === 'group'
 							? ' #type:group'
 							: ' NOT #type:group';
-				const query = `in:\\\\"${folder}\\\\"${group}`;
+				const query = `in:\\\\"${folderName}\\\\"${group}`;
 				const r = new RegExp(query);
 				if (!searchResponse[query]) {
 					searchResponse[query] = this.cache.readFragment({
