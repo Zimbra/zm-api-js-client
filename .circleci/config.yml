@@ -45,6 +45,11 @@ jobs:
               - node_modules
             key: v1-dependencies-{{ checksum "package.json" }}
 
+         - save_cache:
+            paths:
+              - node_modules
+            key: v1-dependencies-{{ .Branch }}
+
         - run:
             name: Build application code
             command: npm run build
@@ -91,15 +96,19 @@ workflows:
   main:
     jobs:
       - build
+
       - validate-package-lock:
           requires:
             - build
+
       - eslint:
           requires:
             - build
+
       - lint:
           requires:
             - build
+
       - unit:
           requires:
             - build
