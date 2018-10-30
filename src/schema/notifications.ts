@@ -77,7 +77,7 @@ export class ZimbraNotifications {
 			items.forEach((i: any) => {
 				const item = normalizeContact(i);
 				const defaultFolderName = 'Contacts';
-				const folder = this.cache.readFragment({
+				const folder: any = this.cache.readFragment({
 					id: `Folder:${item.folderId}`,
 					fragment: gql`
 					fragment folderName${item.folderId} on Folder {
@@ -94,11 +94,12 @@ export class ZimbraNotifications {
 							: ' NOT #type:group';
 				const query = `in:\\\\"${folderName}\\\\"${group}`;
 				const r = new RegExp(query);
-				if (!searchResponse[query]) {
+				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
+					r.test(dataId)
+				);
+				if (!searchResponse[query] && id) {
 					searchResponse[query] = this.cache.readFragment({
-						id: findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
-							r.test(dataId)
-						),
+						id: id,
 						fragment: gql`
 							fragment ${generateFragmentName('searchResults')} on SearchResponse {
 								contacts
@@ -136,20 +137,23 @@ export class ZimbraNotifications {
 			});
 			Object.keys(searchResponse).forEach(q => {
 				const r = new RegExp(q);
-				this.cache.writeFragment({
-					id: findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
-						r.test(dataId)
-					),
-					fragment: gql`
-					fragment ${generateFragmentName('searchResults')} on SearchResponse {
-						contacts
-					}
-					`,
-					data: {
-						__typename: 'SearchResponse',
-						contacts: searchResponse[q].contacts
-					}
-				});
+				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
+					r.test(dataId)
+				);
+				if (id) {
+					this.cache.writeFragment({
+						id: id,
+						fragment: gql`
+						fragment ${generateFragmentName('searchResults')} on SearchResponse {
+							contacts
+						}
+						`,
+						data: {
+							__typename: 'SearchResponse',
+							contacts: searchResponse[q].contacts
+						}
+					});
+				}
 			});
 		}
 	};
