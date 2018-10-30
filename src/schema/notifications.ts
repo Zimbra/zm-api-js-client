@@ -85,7 +85,7 @@ export class ZimbraNotifications {
 					}
 					`
 				});
-				const folderName = folder && folder.name || defaultFolderName;
+				const folderName = (folder && folder.name) || defaultFolderName;
 				const group =
 					folderName === 'Trash'
 						? ''
