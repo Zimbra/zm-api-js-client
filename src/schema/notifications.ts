@@ -96,9 +96,9 @@ export class ZimbraNotifications {
 				const r = new RegExp(query);
 				if (!searchResponse[query]) {
 					searchResponse[query] = this.cache.readFragment({
-						id: `${findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
+						id: findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
 							r.test(dataId)
-						)}`,
+						),
 						fragment: gql`
 							fragment ${generateFragmentName('searchResults')} on SearchResponse {
 								contacts
@@ -137,9 +137,9 @@ export class ZimbraNotifications {
 			Object.keys(searchResponse).forEach(q => {
 				const r = new RegExp(q);
 				this.cache.writeFragment({
-					id: `${findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
+					id: findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
 						r.test(dataId)
-					)}`,
+					),
 					fragment: gql`
 					fragment ${generateFragmentName('searchResults')} on SearchResponse {
 						contacts
