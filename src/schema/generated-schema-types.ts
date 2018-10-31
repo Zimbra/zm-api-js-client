@@ -1921,7 +1921,7 @@ export interface SearchQueryArgs {
 export interface SearchGalQueryArgs {
 	needIsOwner?: boolean | null;
 	needIsMember?: NeedIsMemberType | null;
-	type?: string | null;
+	type?: GalSearchType | null;
 	name?: string | null;
 	offset?: number | null;
 	limit?: number | null;
