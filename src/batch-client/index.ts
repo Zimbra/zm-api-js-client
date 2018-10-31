@@ -75,7 +75,6 @@ import {
 	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
-	ModifyProfileImageOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
 	ExternalAccountDeleteInput,
@@ -89,6 +88,7 @@ import {
 	GetMessageOptions,
 	GetSMimePublicCertsOptions,
 	LoginOptions,
+	ModifyProfileImageOptions,
 	NotificationHandler,
 	RecoverAccountOptions,
 	RelatedContactsOptions,
@@ -223,14 +223,6 @@ export class ZimbraBatchClient {
 				},
 				oldPassword: password,
 				password: loginNewPassword
-			}
-		});
-
-	public modifyProfileImage = ({ uid }: ModifyProfileImageOptions) =>
-		this.jsonRequest({
-			name: 'ModifyProfileImage',
-			body: {
-				uid
 			}
 		});
 
@@ -644,6 +636,14 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account,
 			body: {
 				_attrs: mapValuesDeep(prefs, coerceBooleanToString)
+			}
+		});
+
+	public modifyProfileImage = ({ uid }: ModifyProfileImageOptions) =>
+		this.jsonRequest({
+			name: 'ModifyProfileImage',
+			body: {
+				uid
 			}
 		});
 
