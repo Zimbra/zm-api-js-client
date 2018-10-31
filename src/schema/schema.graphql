@@ -2016,7 +2016,9 @@ type Query {
 	getContactFrequency(
 		email: String!
 		by: String!
-		offsetInMinutes: Int
+		offsetInMinutes: String
+		interval: String!
+		range: String!
 	): ContactFrequencyResponse
 	getConversation(
 		id: ID!,

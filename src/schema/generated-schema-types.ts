@@ -1806,7 +1806,9 @@ export interface GetAppointmentsQueryArgs {
 export interface GetContactFrequencyQueryArgs {
 	email: string;
 	by: string;
-	offsetInMinutes?: number | null;
+	offsetInMinutes?: string | null;
+	interval: string;
+	range: string;
 }
 export interface GetConversationQueryArgs {
 	id: string;

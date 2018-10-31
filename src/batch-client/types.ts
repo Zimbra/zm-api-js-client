@@ -50,6 +50,9 @@ export interface GetContactOptions {
 export interface GetContactFrequencyOptions {
 	by: string;
 	email: string;
+	offsetInMinutes: string;
+	range: string;
+	interval: string;
 }
 
 export interface GetFolderOptions {

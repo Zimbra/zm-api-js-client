@@ -377,12 +377,33 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => normalize(Contact)(res.cn[0]));
 
-	public getContactFrequency = (options: GetContactFrequencyOptions) =>
+	public getContactFrequency = (options: GetContactFrequencyOptions) =>{
+
+		console.log({
+			name: 'GetContactFrequency',
+			body: {
+				email: options.email,
+				offsetInMinutes: options.offsetInMinutes,
+				spec: {
+					range: options.range,
+					interval: options.interval
+				}
+			}
+
+		});
 		this.jsonRequest({
 			name: 'GetContactFrequency',
-			body: options
-		});
+			body: {
+				email: options.email,
+				offsetInMinutes: options.offsetInMinutes,
+				spec: {
+					range: options.range,
+					interval: options.interval
+				}
+			}
 
+		});
+	}
 	public getConversation = (options: GetConversationOptions) =>
 		this.jsonRequest({
 			name: 'GetConv',
