@@ -730,6 +730,13 @@ export class ZimbraBatchClient {
 			return normalized;
 		});
 
+	public searchGal = (options: SearchOptions) =>
+		this.jsonRequest({
+			name: 'SearchGal',
+			body: options,
+			namespace: Namespace.Account
+		}).then(normalize(SearchResponse));
+
 	public sendInviteReply = (requestOptions: InviteReplyInput) =>
 		this.jsonRequest({
 			name: 'SendInviteReply',
