@@ -45,6 +45,7 @@ export interface Query {
 	relatedContacts?: RelatedContacts | null;
 	shareInfos?: ShareInfo[] | null;
 	search?: SearchResponse | null /* Perform a search for a variety types using a flexible query interface.[[SOAP Search API Documentation]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/zimbraMail/Search.html)[[Query Tips]](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips) */;
+	searchGal?: SearchResponse | null;
 	taskFolders?: Folder[] | null;
 }
 
@@ -343,6 +344,7 @@ export interface SearchResponse {
 	more?: boolean | null;
 	offset?: number | null;
 	sortBy?: string | null;
+	paginationSupported?: boolean | null;
 }
 
 export interface MessageInfo extends MailItem {
@@ -922,6 +924,7 @@ export interface MailboxMetadataAttrs {
 	archivedFolder?: string | null;
 	zimbraPrefSMIMEDefaultSetting?: string | null;
 	zimbraPrefSMIMELastOperation?: string | null;
+	zimbraPrefContactSourceFolderID?: string | null;
 }
 
 export interface SMimePublicCertsResponse {
@@ -993,7 +996,7 @@ export interface Mutation {
 	checkCalendar?: boolean | null;
 	contactAction?: ActionOpResponse | null;
 	conversationAction?: boolean | null;
-	createAppointment?: CalendarItemHitInfo | null;
+	createAppointment?: boolean | null;
 	createAppointmentException?: boolean | null;
 	createCalendar?: boolean | null;
 	createContact?: Contact | null;
@@ -1775,6 +1778,7 @@ export interface MailboxMetadataSectionAttrsInput {
 	archivedFolder?: string | null;
 	zimbraPrefSMIMEDefaultSetting?: string | null;
 	zimbraPrefSMIMELastOperation?: string | null;
+	zimbraPrefContactSourceFolderID?: string | null;
 }
 
 export interface SnoozeInput {
@@ -1916,6 +1920,17 @@ export interface SearchQueryArgs {
 	recip?: number | null;
 	sortBy?: SortBy | null;
 	types?: SearchType | null;
+}
+export interface SearchGalQueryArgs {
+	needIsOwner?: boolean | null;
+	needIsMember?: NeedIsMemberType | null;
+	type?: GalSearchType | null;
+	name?: string | null;
+	offset?: number | null;
+	limit?: number | null;
+	locale?: string | null;
+	sortBy?: string | null;
+	needExp?: boolean | null;
 }
 export interface AppointmentsFolderArgs {
 	start?: number | null;
@@ -2378,6 +2393,12 @@ export enum SortBy {
 	readDesc = 'readDesc',
 	sizeAsc = 'sizeAsc',
 	sizeDesc = 'sizeDesc'
+}
+
+export enum NeedIsMemberType {
+	all = 'all',
+	directOnly = 'directOnly',
+	none = 'none'
 }
 
 export enum ActionTypeName {

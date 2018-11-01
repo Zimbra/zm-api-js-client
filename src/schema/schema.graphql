@@ -194,6 +194,12 @@ enum GalSearchType {
 	group
 }
 
+enum NeedIsMemberType {
+	all
+	directOnly
+	none
+}
+
 enum ReadingPaneLocation {
 	off
 	right
@@ -1081,6 +1087,7 @@ type SearchResponse {
 	more: Boolean
 	offset: Int
 	sortBy: String
+	paginationSupported: Boolean
 }
 
 type SendMessageResponse {
@@ -1302,6 +1309,7 @@ type MailboxMetadataAttrs {
 	archivedFolder: String
 	zimbraPrefSMIMEDefaultSetting: String
 	zimbraPrefSMIMELastOperation: String
+	zimbraPrefContactSourceFolderID: String
 }
 
 input MailboxMetadataSectionAttrsInput {
@@ -1320,6 +1328,7 @@ input MailboxMetadataSectionAttrsInput {
 	archivedFolder: String
 	zimbraPrefSMIMEDefaultSetting: String
 	zimbraPrefSMIMELastOperation: String
+	zimbraPrefContactSourceFolderID: String
 }
 
 type MimePart {
@@ -2124,6 +2133,19 @@ type Query {
 		sortBy: SortBy,
 		types: SearchType
 	): SearchResponse
+
+	searchGal(
+		needIsOwner: Boolean,
+		needIsMember: NeedIsMemberType,
+		type: GalSearchType,
+		name: String,
+		offset: Int,
+		limit: Int,
+		locale: String,
+		sortBy: String,
+		needExp: Boolean
+	): SearchResponse
+
 	taskFolders: [Folder]
 }
 
@@ -2162,7 +2184,7 @@ type Mutation {
 		ids: [ID!]!
 		op: String!
 	): Boolean
-	createAppointment(accountName: String, appointment: CalendarItemInput!): CalendarItemHitInfo
+	createAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
 	createAppointmentException(accountName: String, appointment: CalendarItemInput!): Boolean
 	createCalendar(name: String!, color: Int!, url: String): Boolean
 	createContact(contact: CreateContactInput!): Contact
