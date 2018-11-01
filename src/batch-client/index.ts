@@ -381,6 +381,12 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetContactFrequency',
 			body: options
+		}).then(res => {
+			res.data = res.data.map((item :any) =>{
+				item.by = item.spec[0].range;
+				return item;
+			});
+			return res;
 		});
 
 	public getConversation = (options: GetConversationOptions) =>
