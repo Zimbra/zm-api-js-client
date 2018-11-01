@@ -380,14 +380,7 @@ export class ZimbraBatchClient {
 	public getContactFrequency = (options: GetContactFrequencyOptions) =>
 		this.jsonRequest({
 			name: 'GetContactFrequency',
-			body: {
-				email: options.email,
-				offsetInMinutes: options.offsetInMinutes,
-				spec: {
-					range: options.range,
-					interval: options.interval
-				}
-			}
+			body: options
 		});
 
 	public getConversation = (options: GetConversationOptions) =>

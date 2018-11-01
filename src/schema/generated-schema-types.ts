@@ -1112,6 +1112,11 @@ export interface CalendarItemAlarmAttendees {
 	email: string;
 }
 
+export interface ContactFrequencySpec {
+	range: string;
+	interval: string;
+}
+
 export interface MailItemHeaderInput {
 	n: string;
 }
@@ -1807,8 +1812,7 @@ export interface GetContactFrequencyQueryArgs {
 	email: string;
 	by: string;
 	offsetInMinutes?: string | null;
-	interval: string;
-	range: string;
+	spec?: ContactFrequencySpec[] | null;
 }
 export interface GetConversationQueryArgs {
 	id: string;

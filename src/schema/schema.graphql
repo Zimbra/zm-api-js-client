@@ -1585,6 +1585,11 @@ input FolderActionInput {
 	zimbraId: ID
 }
 
+input ContactFrequencySpec {
+	range: String!
+	interval: String!
+}
+
 input GrantInput {
 	address: String
 	granteeType: GranteeType!
@@ -2017,8 +2022,7 @@ type Query {
 		email: String!
 		by: String!
 		offsetInMinutes: String
-		interval: String!
-		range: String!
+		spec: [ContactFrequencySpec!]
 	): ContactFrequencyResponse
 	getConversation(
 		id: ID!,
