@@ -908,6 +908,7 @@ type AccountInfo {
 	name: String
 	publicURL: String
 	rest: String
+	profileImageId: Int
 	soapURL: String
 	version: String
 	identities: Identities
@@ -1211,6 +1212,7 @@ input ContactAttrsInput {
 	anniversary: String
 	website: String
 	notes: String
+	image: String
 	userCertificate: String
 
 	# Used for contact lists
@@ -2170,6 +2172,7 @@ type Mutation {
 		password: String!
 		username: String!
 	): String
+	modifyProfileImage(uid: String!): String
 	checkCalendar(calendarId: ID!, value: Boolean!): Boolean
 	contactAction(
 		id: ID

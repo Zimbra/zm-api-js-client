@@ -141,6 +141,9 @@ export interface ChangePasswordOptions {
 	username: string;
 }
 
+export interface ModifyProfileImageOptions {
+	uid: string;
+}
 export interface LoginOptions {
 	password: string;
 	persistAuthTokenCookie?: boolean;
