@@ -22,6 +22,18 @@ export interface AutoCompleteOptions {
 	type?: GalSearchType;
 }
 
+export enum NeedIsMemberType {
+	all = 'all',
+	directOnly = 'directOnly',
+	none = 'none'
+}
+export interface AutoCompleteGALOptions {
+	limit?: number;
+	name: string;
+	needExp?: boolean;
+	type?: GalSearchType;
+}
+
 export interface Notification {
 	created?: any;
 	deleted?: any;
@@ -32,6 +44,7 @@ export interface Notification {
 export type NotificationHandler = (notificaton: Notification) => void;
 
 export interface ZimbraClientOptions {
+	jwtToken?: string;
 	notificationHandler?: NotificationHandler;
 	soapPathname?: string;
 	zimbraOrigin?: string;
@@ -44,7 +57,10 @@ export interface FreeBusyOptions {
 }
 
 export interface GetContactOptions {
+	derefGroupMember: boolean;
 	id: string;
+	ids: Array<string>;
+	memberOf: boolean;
 }
 
 export interface GetContactFrequencyOptions {
@@ -111,10 +127,13 @@ export interface SearchOptions {
 	fullConversation?: boolean;
 	limit?: number;
 	needExp?: boolean;
+	needIsMember?: NeedIsMemberType;
+	needIsOwner?: boolean;
 	offset?: number;
 	query?: string;
 	recip?: number;
 	sortBy?: SortBy;
+	type?: GalSearchType;
 	types?: SearchType;
 }
 
@@ -128,10 +147,14 @@ export interface ChangePasswordOptions {
 	username: string;
 }
 
+export interface ModifyProfileImageOptions {
+	uid: string;
+}
 export interface LoginOptions {
 	password: string;
-	recoveryCode: string;
-	tokenType: string;
+	persistAuthTokenCookie?: boolean;
+	recoveryCode?: string;
+	tokenType?: string;
 	username: string;
 }
 
