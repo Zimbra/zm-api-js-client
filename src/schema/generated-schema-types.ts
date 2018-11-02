@@ -304,10 +304,18 @@ export interface ContactAttributes {
 	anniversary?: string | null;
 	website?: string | null;
 	notes?: string | null;
+	image?: ContactImage | null;
 	userCertificate?: string | null;
 	zimbraCalResType?: string | null;
 	fileAs?: string | null /* Used for contact lists */;
 	type?: string | null;
+}
+
+export interface ContactImage {
+	ct?: string | null;
+	filename?: string | null;
+	part?: string | null;
+	s?: string | null;
 }
 
 export interface ContactListMember {
