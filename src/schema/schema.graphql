@@ -1406,14 +1406,10 @@ input CalendarItemMessageInput {
 	replyType: InviteReplyType #rt
 }
 
-input NewAttachmentInput {
-	attachmentId: ID
-}
-
 input SendMessageInput {
 	id: ID #id
 	origId: ID #origid
-	attach: [NewAttachmentInput]
+	attach: [AttachmentInput]
 	attachmentId: ID #aid
 	replyType: String #rt
 	inReplyTo: String #irt
