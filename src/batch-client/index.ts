@@ -709,6 +709,8 @@ export class ZimbraBatchClient {
 					cn: email
 				}
 			}
+		}).then( resp => {
+			return resp.relatedContacts.relatedContact;
 		});
 
 	public resetPassword = ({ password }: ResetPasswordOptions) =>

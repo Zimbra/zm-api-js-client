@@ -1246,10 +1246,6 @@ type RelatedContact {
 	p: String
 }
 
-type RelatedContacts {
-	relatedContacts: [RelatedContact]
-}
-
 type ContactFrequencyResponse {
 	data: [ContactFrequencyData]
 }
@@ -2119,7 +2115,7 @@ type Query {
 		email: String!
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
-	relatedContacts(email: String!): RelatedContacts
+	relatedContacts(email: String!): [RelatedContact]
 	shareInfos(addresses: [String!]): [[ShareInfo]]
 
 	# Perform a search for a variety types using a flexible query interface.
