@@ -174,6 +174,7 @@ export interface Preferences {
 	zimbraPrefPasswordRecoveryAddressStatus?: PasswordRecoveryAddressStatus | null;
 	zimbraPrefShowFragments?: boolean | null;
 	zimbraPrefWebClientOfflineBrowserKey?: string | null;
+	zimbraPrefTimeZoneId?: string | null;
 }
 
 export interface License {
@@ -1523,6 +1524,7 @@ export interface PreferencesInput {
 	zimbraPrefReadingPaneEnabled?: boolean | null;
 	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
 	zimbraPrefShowFragments?: boolean | null;
+	zimbraPrefTimeZoneId?: string | null;
 }
 
 export interface FilterInput {
