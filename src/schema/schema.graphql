@@ -1154,12 +1154,20 @@ type ContactAttributes {
 	anniversary: String
 	website: String
 	notes: String
+	image: ContactImage
 	userCertificate: String
 	zimbraCalResType: String
 
 	# Used for contact lists
 	fileAs: String
 	type: String
+}
+
+type ContactImage{
+	ct: String
+	filename: String
+	part: String
+	s: String
 }
 
 type ContactListMember {
