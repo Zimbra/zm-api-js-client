@@ -45,6 +45,7 @@ export interface Query {
 	relatedContacts?: RelatedContacts | null;
 	shareInfos?: ShareInfo[] | null;
 	search?: SearchResponse | null /* Perform a search for a variety types using a flexible query interface.[[SOAP Search API Documentation]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/zimbraMail/Search.html)[[Query Tips]](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips) */;
+	searchGal?: SearchResponse | null;
 	taskFolders?: Folder[] | null;
 }
 
@@ -53,6 +54,7 @@ export interface AccountInfo {
 	name?: string | null;
 	publicURL?: string | null;
 	rest?: string | null;
+	profileImageId?: number | null;
 	soapURL?: string | null;
 	version?: string | null;
 	identities?: Identities | null;
@@ -342,6 +344,7 @@ export interface SearchResponse {
 	more?: boolean | null;
 	offset?: number | null;
 	sortBy?: string | null;
+	paginationSupported?: boolean | null;
 }
 
 export interface MessageInfo extends MailItem {
@@ -921,6 +924,7 @@ export interface MailboxMetadataAttrs {
 	archivedFolder?: string | null;
 	zimbraPrefSMIMEDefaultSetting?: string | null;
 	zimbraPrefSMIMELastOperation?: string | null;
+	zimbraPrefContactSourceFolderID?: string | null;
 }
 
 export interface SMimePublicCertsResponse {
@@ -988,6 +992,7 @@ export interface Mutation {
 	cancelTask?: boolean | null;
 	changeCalendarColor?: boolean | null;
 	changePassword?: string | null;
+	modifyProfileImage?: string | null;
 	checkCalendar?: boolean | null;
 	contactAction?: ActionOpResponse | null;
 	conversationAction?: boolean | null;
@@ -1379,6 +1384,7 @@ export interface ContactAttrsInput {
 	anniversary?: string | null;
 	website?: string | null;
 	notes?: string | null;
+	image?: string | null;
 	userCertificate?: string | null;
 	fileAs?: string | null /* Used for contact lists */;
 	type?: string | null;
@@ -1777,6 +1783,7 @@ export interface MailboxMetadataSectionAttrsInput {
 	archivedFolder?: string | null;
 	zimbraPrefSMIMEDefaultSetting?: string | null;
 	zimbraPrefSMIMELastOperation?: string | null;
+	zimbraPrefContactSourceFolderID?: string | null;
 }
 
 export interface SnoozeInput {
@@ -1919,6 +1926,17 @@ export interface SearchQueryArgs {
 	sortBy?: SortBy | null;
 	types?: SearchType | null;
 }
+export interface SearchGalQueryArgs {
+	needIsOwner?: boolean | null;
+	needIsMember?: NeedIsMemberType | null;
+	type?: GalSearchType | null;
+	name?: string | null;
+	offset?: number | null;
+	limit?: number | null;
+	locale?: string | null;
+	sortBy?: string | null;
+	needExp?: boolean | null;
+}
 export interface AppointmentsFolderArgs {
 	start?: number | null;
 	end?: number | null;
@@ -1961,6 +1979,9 @@ export interface ChangePasswordMutationArgs {
 	loginNewPassword: string;
 	password: string;
 	username: string;
+}
+export interface ModifyProfileImageMutationArgs {
+	uid: string;
 }
 export interface CheckCalendarMutationArgs {
 	calendarId: string;
@@ -2377,6 +2398,12 @@ export enum SortBy {
 	readDesc = 'readDesc',
 	sizeAsc = 'sizeAsc',
 	sizeDesc = 'sizeDesc'
+}
+
+export enum NeedIsMemberType {
+	all = 'all',
+	directOnly = 'directOnly',
+	none = 'none'
 }
 
 export enum ActionTypeName {

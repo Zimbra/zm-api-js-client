@@ -49,6 +49,7 @@ import {
 	GetMessageOptions,
 	GetSMimePublicCertsOptions,
 	LoginOptions,
+	ModifyProfileImageOptions,
 	RecoverAccountOptions,
 	RelatedContactsOptions,
 	ResetPasswordOptions,
@@ -105,6 +106,8 @@ export function createZimbraSchema(
 				relatedContacts: (_, variables) =>
 					client.relatedContacts(variables as RelatedContactsOptions),
 				search: (_, variables) => client.search(variables as SearchOptions),
+				searchGal: (_, variables) =>
+					client.searchGal(variables as SearchOptions),
 				shareInfos: (_, variables) =>
 					client.shareInfos(variables as ShareInfosOptions),
 				taskFolders: client.taskFolders,
@@ -165,6 +168,8 @@ export function createZimbraSchema(
 					client.messageAction(variables as ActionOptions),
 				changePassword: (_, variables) =>
 					client.changePassword(variables as ChangePasswordOptions),
+				modifyProfileImage: (_, variables) =>
+					client.modifyProfileImage(variables as ModifyProfileImageOptions),
 				contactAction: (_, variables) =>
 					client.contactAction(variables as ActionOptions),
 				conversationAction: (_, variables) =>

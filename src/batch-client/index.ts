@@ -89,6 +89,7 @@ import {
 	GetMessageOptions,
 	GetSMimePublicCertsOptions,
 	LoginOptions,
+	ModifyProfileImageOptions,
 	NotificationHandler,
 	RecoverAccountOptions,
 	RelatedContactsOptions,
@@ -263,7 +264,7 @@ export class ZimbraBatchClient {
 		forEach(attributes, (val, key) =>
 			contactAttrs.push({
 				name: key,
-				content: val
+				[key === 'image' ? 'aid' : 'content']: val
 			})
 		);
 
@@ -586,7 +587,7 @@ export class ZimbraBatchClient {
 		forEach(attributes, (val, key) =>
 			modifiedAttrs.push({
 				name: key,
-				content: val
+				[key === 'image' ? 'aid' : 'content']: val
 			})
 		);
 
@@ -636,6 +637,14 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account,
 			body: {
 				_attrs: mapValuesDeep(prefs, coerceBooleanToString)
+			}
+		});
+
+	public modifyProfileImage = ({ uid }: ModifyProfileImageOptions) =>
+		this.jsonRequest({
+			name: 'ModifyProfileImage',
+			body: {
+				uid
 			}
 		});
 
@@ -739,6 +748,13 @@ export class ZimbraBatchClient {
 			}
 			return normalized;
 		});
+
+	public searchGal = (options: SearchOptions) =>
+		this.jsonRequest({
+			name: 'SearchGal',
+			body: options,
+			namespace: Namespace.Account
+		}).then(normalize(SearchResponse));
 
 	public sendInviteReply = (requestOptions: InviteReplyInput) =>
 		this.jsonRequest({
