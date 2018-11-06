@@ -68,6 +68,7 @@ import { normalizeEmailAddresses } from '../utils/normalize-email-addresses';
 import {
 	getAttachmentUrl,
 	getProfileImageUrl,
+	getContactProfileImageUrl,
 	normalizeMimeParts
 } from '../utils/normalize-mime-parts';
 import {
@@ -390,6 +391,12 @@ export class ZimbraBatchClient {
 
 	public getAttachmentUrl = (attachment: any) =>
 		getAttachmentUrl(attachment, {
+			origin: this.origin,
+			jwtToken: this.jwtToken
+		});
+
+	public getContactProfileImageUrl = (attachment: any) =>
+		getContactProfileImageUrl(attachment, {
 			origin: this.origin,
 			jwtToken: this.jwtToken
 		});
