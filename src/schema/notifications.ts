@@ -7,6 +7,7 @@ import { normalize } from '../normalize';
 import { ZimbraNotificationsOptions } from './types';
 
 import {
+	Contact,
 	Conversation,
 	Folder as FolderEntity,
 	MessageInfo
@@ -15,11 +16,28 @@ import {
 const normalizeConversation = normalize(Conversation);
 const normalizeFolder = normalize(FolderEntity);
 const normalizeMessage = normalize(MessageInfo);
+const normalizeContact = normalize(Contact);
 
 function itemsForKey(notification: any, key: string) {
 	const modifiedItems = get(notification, `modified.${key}`, []);
 	const createdItems = get(notification, `created.${key}`, []);
 	return [...modifiedItems, ...createdItems];
+}
+
+function findDataId(
+	client: ZimbraInMemoryCache,
+	partialDataId: string = '$ROOT_QUERY',
+	predicate: (d: string) => any
+) {
+	const data =
+		client && get(client, 'cache.data.data', get(client, 'data.data'));
+	if (!data) {
+		return;
+	}
+	return Object.keys(data).filter(
+		(dataId: string) =>
+			dataId.indexOf(partialDataId) !== -1 && predicate(dataId)
+	)[0];
 }
 
 /**
