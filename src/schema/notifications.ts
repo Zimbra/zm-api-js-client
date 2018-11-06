@@ -107,6 +107,10 @@ export class ZimbraNotifications {
 						`
 					});
 				}
+				searchResponse[query] =
+					searchResponse[query] && searchResponse[query].contacts
+						? searchResponse[query]
+						: { contacts: [] };
 				this.cache.writeFragment({
 					id: `Contact:${item.id}`,
 					fragment: gql`
