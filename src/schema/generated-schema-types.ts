@@ -54,6 +54,7 @@ export interface AccountInfo {
 	name?: string | null;
 	publicURL?: string | null;
 	rest?: string | null;
+	profileImageId?: number | null;
 	soapURL?: string | null;
 	version?: string | null;
 	identities?: Identities | null;
@@ -303,10 +304,18 @@ export interface ContactAttributes {
 	anniversary?: string | null;
 	website?: string | null;
 	notes?: string | null;
+	image?: ContactImage | null;
 	userCertificate?: string | null;
 	zimbraCalResType?: string | null;
 	fileAs?: string | null /* Used for contact lists */;
 	type?: string | null;
+}
+
+export interface ContactImage {
+	ct?: string | null;
+	filename?: string | null;
+	part?: string | null;
+	s?: string | null;
 }
 
 export interface ContactListMember {
@@ -991,6 +1000,7 @@ export interface Mutation {
 	cancelTask?: boolean | null;
 	changeCalendarColor?: boolean | null;
 	changePassword?: string | null;
+	modifyProfileImage?: string | null;
 	checkCalendar?: boolean | null;
 	contactAction?: ActionOpResponse | null;
 	conversationAction?: boolean | null;
@@ -1382,6 +1392,7 @@ export interface ContactAttrsInput {
 	anniversary?: string | null;
 	website?: string | null;
 	notes?: string | null;
+	image?: string | null;
 	userCertificate?: string | null;
 	fileAs?: string | null /* Used for contact lists */;
 	type?: string | null;
@@ -1971,6 +1982,9 @@ export interface ChangePasswordMutationArgs {
 	loginNewPassword: string;
 	password: string;
 	username: string;
+}
+export interface ModifyProfileImageMutationArgs {
+	uid: string;
 }
 export interface CheckCalendarMutationArgs {
 	calendarId: string;

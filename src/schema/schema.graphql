@@ -908,6 +908,7 @@ type AccountInfo {
 	name: String
 	publicURL: String
 	rest: String
+	profileImageId: Int
 	soapURL: String
 	version: String
 	identities: Identities
@@ -1153,12 +1154,20 @@ type ContactAttributes {
 	anniversary: String
 	website: String
 	notes: String
+	image: ContactImage
 	userCertificate: String
 	zimbraCalResType: String
 
 	# Used for contact lists
 	fileAs: String
 	type: String
+}
+
+type ContactImage{
+	ct: String
+	filename: String
+	part: String
+	s: String
 }
 
 type ContactListMember {
@@ -1211,6 +1220,7 @@ input ContactAttrsInput {
 	anniversary: String
 	website: String
 	notes: String
+	image: String
 	userCertificate: String
 
 	# Used for contact lists
@@ -2170,6 +2180,7 @@ type Mutation {
 		password: String!
 		username: String!
 	): String
+	modifyProfileImage(uid: String!): String
 	checkCalendar(calendarId: ID!, value: Boolean!): Boolean
 	contactAction(
 		id: ID
