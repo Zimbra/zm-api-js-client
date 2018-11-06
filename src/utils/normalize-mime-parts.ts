@@ -47,6 +47,15 @@ export function getAttachmentUrl(
 	)}${jwtToken ? `&zjwt=${jwtToken}` : ''}`;
 }
 
+export function getProfileImageUrl(
+	profileImageId: string,
+	{ origin = '', jwtToken }: { jwtToken?: string; origin?: string }
+) {
+	return `${origin}/service/home/~/?auth=${
+		jwtToken ? 'jwt' : 'co'
+	}&id=${encodeURIComponent(profileImageId)}&t=${Date.now()}${jwtToken ? `&zjwt=${jwtToken}` : ''}`;
+}
+
 export function normalizeMimeParts(
 	message: { [key: string]: any },
 	{ origin, jwtToken }: { jwtToken?: string; origin?: string }

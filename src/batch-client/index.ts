@@ -67,6 +67,7 @@ import { mapValuesDeep } from '../utils/map-values-deep';
 import { normalizeEmailAddresses } from '../utils/normalize-email-addresses';
 import {
 	getAttachmentUrl,
+	getProfileImageUrl,
 	normalizeMimeParts
 } from '../utils/normalize-mime-parts';
 import {
@@ -389,6 +390,12 @@ export class ZimbraBatchClient {
 
 	public getAttachmentUrl = (attachment: any) =>
 		getAttachmentUrl(attachment, {
+			origin: this.origin,
+			jwtToken: this.jwtToken
+		});
+
+	public getProfileImageUrl = (profileImageId: any) =>
+		getProfileImageUrl(profileImageId, {
 			origin: this.origin,
 			jwtToken: this.jwtToken
 		});
