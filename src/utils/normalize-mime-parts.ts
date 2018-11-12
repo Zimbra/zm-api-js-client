@@ -88,7 +88,15 @@ export function normalizeMimeParts(
 
 				part.contentType !== 'application/pkcs7-mime' &&
 					part.contentType !== 'application/pkcs7-signature' &&
+					part.contentType !== 'application/x-pkcs7-signature' &&
 					(acc[mode] || (acc[mode] = [])).push(processAttachment(part));
+
+				message.attributes = message.attributes || {};
+				message.attributes.isEncrypted =
+					part.contentType === 'application/pkcs7-mime';
+				message.attributes.isSigned =
+					part.contentType === 'application/pkcs7-signature' ||
+					part.contentType === 'application/x-pkcs7-signature';
 			}
 
 			return acc;
