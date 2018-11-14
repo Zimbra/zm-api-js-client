@@ -66,7 +66,8 @@ const CalendarItemDateTime = new Entity({
 const CalendarItemAttendees = new Entity({
 	ptst: 'participationStatus',
 	a: 'address',
-	d: 'name'
+	d: 'name',
+	cutype: 'calendarUserType'
 });
 
 const CalendarItemOrganizer = new Entity({
@@ -171,6 +172,7 @@ const commonMailItemFields = {
 	mp: ['mimeParts', MimePart],
 	shr: 'share',
 	su: 'subject',
+	origid: 'origId',
 	attach: ['attachments', AttachmentsInfo],
 	rt: 'replyType'
 };
@@ -178,7 +180,6 @@ const commonMailItemFields = {
 const SendMessageFields = new Entity({
 	...commonMailItemFields,
 	id: 'id',
-	origid: 'origId',
 	aid: 'attachmentId',
 	irt: 'inReplyTo',
 	rt: 'replyType',
@@ -333,12 +334,25 @@ export const ExternalCalendar = new Entity({
 	l: 'folderId'
 });
 
-export const Contact = new Entity({
+const contactFields = {
 	d: 'date',
 	l: 'folderId',
 	rev: 'revision',
 	sf: 'sortField',
 	_attrs: 'attributes'
+};
+
+const contactListMembers = new Entity({
+	cn: ['contacts', new Entity({ ...contactFields })]
+});
+
+export const Contact = new Entity({
+	...contactFields,
+	m: ['members', contactListMembers]
+});
+
+export const AutoCompleteGALResponse = new Entity({
+	cn: ['contacts', Contact]
 });
 
 export const Appointment = new Entity({
@@ -451,5 +465,6 @@ const ContactInputAttributes = new Entity({
 export const ContactInputRequest = new Entity({
 	l: 'folderId',
 	tn: 'tagNames',
-	a: ['attributes', ContactInputAttributes]
+	a: ['attributes', ContactInputAttributes],
+	m: 'memberOps'
 });

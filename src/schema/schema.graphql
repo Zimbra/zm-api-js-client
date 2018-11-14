@@ -194,6 +194,12 @@ enum GalSearchType {
 	group
 }
 
+enum NeedIsMemberType {
+	all
+	directOnly
+	none
+}
+
 enum ReadingPaneLocation {
 	off
 	right
@@ -321,6 +327,15 @@ type ModifyAppointmentResponse {
 	revision: Int # rev
 }
 
+type ZimletPref {
+	name: String
+	presence: String
+}
+
+type ModifyZimletPrefsResponse {
+	zimlet: [ZimletPref]
+}
+
 type EmailAddress {
 	address: String
 	name: String
@@ -364,6 +379,7 @@ type MessageInfo implements MailItem {
 	size: Float # s
 	date: Float # d
 	folderId: ID # l
+	origId: ID #origid
 	subject: String # su
 	emailAddresses: [EmailAddress]
 	excerpt: String # fr
@@ -902,6 +918,7 @@ type AccountInfo {
 	name: String
 	publicURL: String
 	rest: String
+	profileImageId: Int
 	soapURL: String
 	version: String
 	identities: Identities
@@ -934,8 +951,8 @@ type AccountZimletDesc {
 	version: String
 	description: String
 	extension: String
-	target: String
 	label: String
+	zimbraXZimletCompatibleSemVer: String
 }
 
 type AccountZimletConfigInfo {
@@ -1060,6 +1077,7 @@ type Preferences {
 	zimbraPrefPasswordRecoveryAddressStatus: PasswordRecoveryAddressStatus
 	zimbraPrefShowFragments: Boolean
 	zimbraPrefWebClientOfflineBrowserKey: String
+	zimbraPrefTimeZoneId: String
 }
 
 type NameId {
@@ -1080,6 +1098,7 @@ type SearchResponse {
 	more: Boolean
 	offset: Int
 	sortBy: String
+	paginationSupported: Boolean
 }
 
 type SendMessageResponse {
@@ -1097,7 +1116,9 @@ type Contact {
 	revision: Int
 	sortField: String
 	fileAsStr: String
+	memberOf: String
 	attributes: ContactAttributes
+	members: [ContactListMember]
 }
 
 type ContactAttributes {
@@ -1144,11 +1165,26 @@ type ContactAttributes {
 	anniversary: String
 	website: String
 	notes: String
+	image: ContactImage
 	userCertificate: String
+	zimbraCalResType: String
 
 	# Used for contact lists
 	fileAs: String
 	type: String
+}
+
+type ContactImage{
+	ct: String
+	filename: String
+	part: String
+	s: String
+}
+
+type ContactListMember {
+	contacts: [Contact]
+	type: String!
+	value: ID!
 }
 
 input ContactAttrsInput {
@@ -1195,6 +1231,7 @@ input ContactAttrsInput {
 	anniversary: String
 	website: String
 	notes: String
+	image: String
 	userCertificate: String
 
 	# Used for contact lists
@@ -1208,11 +1245,18 @@ input CreateContactInput {
 	attributes: ContactAttrsInput!
 }
 
+input ContactListOps {
+	op: String!
+	type: String!
+	value: String!
+}
+
 input ModifyContactInput {
 	id: ID!
 	folderId: ID
 	tagNames: String
 	attributes: ContactAttrsInput!
+	memberOps: [ContactListOps]
 }
 
 type RelatedContact {
@@ -1284,6 +1328,7 @@ type MailboxMetadataAttrs {
 	archivedFolder: String
 	zimbraPrefSMIMEDefaultSetting: String
 	zimbraPrefSMIMELastOperation: String
+	zimbraPrefContactSourceFolderID: String
 }
 
 input MailboxMetadataSectionAttrsInput {
@@ -1302,6 +1347,7 @@ input MailboxMetadataSectionAttrsInput {
 	archivedFolder: String
 	zimbraPrefSMIMEDefaultSetting: String
 	zimbraPrefSMIMELastOperation: String
+	zimbraPrefContactSourceFolderID: String
 }
 
 type MimePart {
@@ -1346,6 +1392,10 @@ input AttachmentInput {
 type AutoCompleteResponse {
 	canBeCached: Boolean
 	match: [AutoCompleteMatch]
+}
+
+type AutoCompleteGALResponse {
+	contacts: [Contact]
 }
 
 type AutoCompleteMatch {
@@ -1450,6 +1500,7 @@ type CalendarItemAttendee {
 	rsvp: Boolean
 	address: String
 	name: String
+	calendarUserType: String
 }
 
 input CalendarItemAttendeesInput {
@@ -1457,7 +1508,8 @@ input CalendarItemAttendeesInput {
 	participationStatus: ParticipationStatus
 	rsvp: Boolean
 	address: String!
-	name: String
+	name: String,
+	calendarUserType: String
 }
 
 type CalendarItemAlarmTriggerRelative {
@@ -1625,6 +1677,12 @@ input PreferencesInput {
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
 	zimbraPrefShowFragments: Boolean
+	zimbraPrefTimeZoneId: String
+}
+
+input ZimletPreferenceInput {
+	name: String!
+	presence: String!
 }
 
 ##### FilterInput #####
@@ -2000,6 +2058,15 @@ type SMimeMessage {
 
 ##### End Of SMIME Certificates type #####
 
+type ActionOpResponseData {
+	id: String!
+	op: String!
+}
+
+type ActionOpResponse {
+	action: ActionOpResponseData
+}
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2013,9 +2080,20 @@ type Query {
 		folders: String,
 		includeGal: Boolean
 	): AutoCompleteResponse
+	autoCompleteGAL(
+		limit: Int
+		name: String!
+		type: GalSearchType
+		needExp: Boolean
+	): AutoCompleteGALResponse
 	downloadMessage(id: ID!): SMimeMessage
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
-	getContact(id: ID!): Contact
+	getContact(
+		id: ID,
+		ids: [ID!],
+		derefGroupMember: Boolean
+		memberOf: Boolean
+	): [Contact]
 	getAppointments(
 		calExpandInstStart: Float!,
 		calExpandInstEnd: Float!,
@@ -2083,12 +2161,26 @@ type Query {
 		fullConversation: Boolean,
 		limit: Int,
 		needExp: Boolean,
+		memberOf: Boolean,
 		offset: Int,
 		query: String,
 		recip: Int,
 		sortBy: SortBy,
 		types: SearchType
 	): SearchResponse
+
+	searchGal(
+		needIsOwner: Boolean,
+		needIsMember: NeedIsMemberType,
+		type: GalSearchType,
+		name: String,
+		offset: Int,
+		limit: Int,
+		locale: String,
+		sortBy: String,
+		needExp: Boolean
+	): SearchResponse
+
 	taskFolders: [Folder]
 }
 
@@ -2115,7 +2207,14 @@ type Mutation {
 		password: String!
 		username: String!
 	): String
+	modifyProfileImage(uid: String!): String
 	checkCalendar(calendarId: ID!, value: Boolean!): Boolean
+	contactAction(
+		id: ID
+		ids: [ID!]
+		folderId: ID
+		op: String!
+	): ActionOpResponse
 	conversationAction(
 		ids: [ID!]!
 		op: String!
@@ -2126,7 +2225,7 @@ type Mutation {
 	createContact(contact: CreateContactInput!): Contact
 	createContactList(contact: CreateContactInput!): Contact
 	modifyContact(contact: ModifyContactInput!): Contact
-	modifyContactList(contact: ModifyContactInput!): Contact
+	modifyContactList(contact: ModifyContactInput!): Boolean
 	createFolder(
 		color: Int
 		fetchIfExists: Boolean
@@ -2157,7 +2256,13 @@ type Mutation {
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
 	logout: Boolean
-	login(username: String!, password: String, recoveryCode: String, tokenType: String): AuthResponse
+	login(
+		username: String!,
+		password: String,
+		recoveryCode: String,
+		tokenType: String,
+		persistAuthTokenCookie: Boolean
+	): AuthResponse
 	messageAction(
 		ids: [ID!]!
 		op: String!
@@ -2170,6 +2275,7 @@ type Mutation {
 	modifyAppointment(accountName: String, appointment: CalendarItemInput!): ModifyAppointmentResponse
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
+	modifyZimletPrefs(zimlets: [ZimletPreferenceInput!]): ModifyZimletPrefsResponse
 	modifyFilterRules(filters: [FilterInput!]): Boolean
 	modifySignature(signature: SignatureInput!): String
 	modifySearchFolder(search: SearchFolderInput!): Boolean

@@ -1,7 +1,8 @@
 import {
 	ApolloReducerConfig,
 	defaultDataIdFromObject,
-	InMemoryCache
+	InMemoryCache,
+	IntrospectionFragmentMatcher
 } from 'apollo-cache-inmemory';
 import get from 'lodash/get';
 
@@ -32,6 +33,28 @@ const dataIdFromObject = (object: any): string | null | undefined => {
 	}
 };
 
+function createFragmentMatcher(fragmentMatcherFactory = Object) {
+	return new IntrospectionFragmentMatcher(
+		fragmentMatcherFactory({
+			introspectionQueryResultData: {
+				__schema: {
+					types: [
+						{
+							kind: 'INTERFACE',
+							name: 'MailItem',
+							possibleTypes: [
+								{ name: 'Conversation' },
+								{ name: 'MessageInfo' },
+								{ name: 'MsgWithGroupInfo' }
+							]
+						}
+					]
+				}
+			}
+		})
+	);
+}
+
 /**
  * Provide a light wrapper over Apollo's inmemory cache with
  * special optimizations for identifying Zimbra object types via
@@ -39,6 +62,13 @@ const dataIdFromObject = (object: any): string | null | undefined => {
  */
 export class ZimbraInMemoryCache extends InMemoryCache {
 	constructor(config: ApolloReducerConfig = {}) {
+		if (
+			!config.fragmentMatcher ||
+			typeof config.fragmentMatcher === 'function'
+		) {
+			config.fragmentMatcher = createFragmentMatcher(config.fragmentMatcher);
+		}
+
 		super({
 			dataIdFromObject,
 			...config

@@ -24,9 +24,10 @@ export interface MailItem {
 export interface Query {
 	accountInfo?: AccountInfo | null;
 	autoComplete?: AutoCompleteResponse | null;
+	autoCompleteGAL?: AutoCompleteGALResponse | null;
 	downloadMessage?: SMimeMessage | null;
 	freeBusy?: FreeBusy[] | null;
-	getContact?: Contact | null;
+	getContact?: Contact[] | null;
 	getAppointments?: SearchResponse | null;
 	getContactFrequency?: ContactFrequencyResponse | null;
 	getConversation?: Conversation | null;
@@ -44,6 +45,7 @@ export interface Query {
 	relatedContacts?: RelatedContacts | null;
 	shareInfos?: ShareInfo[] | null;
 	search?: SearchResponse | null /* Perform a search for a variety types using a flexible query interface.[[SOAP Search API Documentation]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/zimbraMail/Search.html)[[Query Tips]](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips) */;
+	searchGal?: SearchResponse | null;
 	taskFolders?: Folder[] | null;
 }
 
@@ -52,6 +54,7 @@ export interface AccountInfo {
 	name?: string | null;
 	publicURL?: string | null;
 	rest?: string | null;
+	profileImageId?: number | null;
 	soapURL?: string | null;
 	version?: string | null;
 	identities?: Identities | null;
@@ -172,6 +175,7 @@ export interface Preferences {
 	zimbraPrefPasswordRecoveryAddressStatus?: PasswordRecoveryAddressStatus | null;
 	zimbraPrefShowFragments?: boolean | null;
 	zimbraPrefWebClientOfflineBrowserKey?: string | null;
+	zimbraPrefTimeZoneId?: string | null;
 }
 
 export interface License {
@@ -241,23 +245,8 @@ export interface AutoCompleteMatch {
 	fileas?: string | null;
 }
 
-export interface SMimeMessage {
-	id?: string | null;
-	content?: string | null;
-}
-
-export interface FreeBusy {
-	id: string;
-	tentative?: FreeBusyInstance[] | null;
-	busy?: FreeBusyInstance[] | null;
-	unavailable?: FreeBusyInstance[] | null;
-	nodata?: FreeBusyInstance[] | null;
-	free?: FreeBusyInstance[] | null;
-}
-
-export interface FreeBusyInstance {
-	start?: number | null;
-	end?: number | null;
+export interface AutoCompleteGALResponse {
+	contacts?: Contact[] | null;
 }
 
 export interface Contact {
@@ -267,7 +256,9 @@ export interface Contact {
 	revision?: number | null;
 	sortField?: string | null;
 	fileAsStr?: string | null;
+	memberOf?: string | null;
 	attributes?: ContactAttributes | null;
+	members?: ContactListMember[] | null;
 }
 
 export interface ContactAttributes {
@@ -314,9 +305,43 @@ export interface ContactAttributes {
 	anniversary?: string | null;
 	website?: string | null;
 	notes?: string | null;
+	image?: ContactImage | null;
 	userCertificate?: string | null;
+	zimbraCalResType?: string | null;
 	fileAs?: string | null /* Used for contact lists */;
 	type?: string | null;
+}
+
+export interface ContactImage {
+	ct?: string | null;
+	filename?: string | null;
+	part?: string | null;
+	s?: string | null;
+}
+
+export interface ContactListMember {
+	contacts?: Contact[] | null;
+	type: string;
+	value: string;
+}
+
+export interface SMimeMessage {
+	id?: string | null;
+	content?: string | null;
+}
+
+export interface FreeBusy {
+	id: string;
+	tentative?: FreeBusyInstance[] | null;
+	busy?: FreeBusyInstance[] | null;
+	unavailable?: FreeBusyInstance[] | null;
+	nodata?: FreeBusyInstance[] | null;
+	free?: FreeBusyInstance[] | null;
+}
+
+export interface FreeBusyInstance {
+	start?: number | null;
+	end?: number | null;
 }
 
 export interface SearchResponse {
@@ -328,6 +353,7 @@ export interface SearchResponse {
 	more?: boolean | null;
 	offset?: number | null;
 	sortBy?: string | null;
+	paginationSupported?: boolean | null;
 }
 
 export interface MessageInfo extends MailItem {
@@ -335,6 +361,7 @@ export interface MessageInfo extends MailItem {
 	size?: number | null;
 	date?: number | null;
 	folderId?: string | null;
+	origId?: string | null;
 	subject?: string | null;
 	emailAddresses?: EmailAddress[] | null;
 	excerpt?: string | null;
@@ -491,6 +518,7 @@ export interface CalendarItemAttendee {
 	rsvp?: boolean | null;
 	address?: string | null;
 	name?: string | null;
+	calendarUserType?: string | null;
 }
 
 export interface StringContent {
@@ -905,6 +933,7 @@ export interface MailboxMetadataAttrs {
 	archivedFolder?: string | null;
 	zimbraPrefSMIMEDefaultSetting?: string | null;
 	zimbraPrefSMIMELastOperation?: string | null;
+	zimbraPrefContactSourceFolderID?: string | null;
 }
 
 export interface SMimePublicCertsResponse {
@@ -972,7 +1001,9 @@ export interface Mutation {
 	cancelTask?: boolean | null;
 	changeCalendarColor?: boolean | null;
 	changePassword?: string | null;
+	modifyProfileImage?: string | null;
 	checkCalendar?: boolean | null;
+	contactAction?: ActionOpResponse | null;
 	conversationAction?: boolean | null;
 	createAppointment?: boolean | null;
 	createAppointmentException?: boolean | null;
@@ -980,7 +1011,7 @@ export interface Mutation {
 	createContact?: Contact | null;
 	createContactList?: Contact | null;
 	modifyContact?: Contact | null;
-	modifyContactList?: Contact | null;
+	modifyContactList?: boolean | null;
 	createFolder?: Folder | null;
 	createMountpoint?: boolean | null;
 	createSharedCalendar?: boolean | null;
@@ -1029,6 +1060,15 @@ export interface Mutation {
 export interface ExternalAccountTestResponse {
 	success: boolean;
 	error?: string | null;
+}
+
+export interface ActionOpResponse {
+	action?: ActionOpResponseData | null;
+}
+
+export interface ActionOpResponseData {
+	id: string;
+	op: string;
 }
 
 export interface SignatureResponse {
@@ -1236,6 +1276,7 @@ export interface CalendarItemAttendeesInput {
 	rsvp?: boolean | null;
 	address: string;
 	name?: string | null;
+	calendarUserType?: string | null;
 }
 
 export interface CalendarItemAlarmInput {
@@ -1352,6 +1393,7 @@ export interface ContactAttrsInput {
 	anniversary?: string | null;
 	website?: string | null;
 	notes?: string | null;
+	image?: string | null;
 	userCertificate?: string | null;
 	fileAs?: string | null /* Used for contact lists */;
 	type?: string | null;
@@ -1362,6 +1404,13 @@ export interface ModifyContactInput {
 	folderId?: string | null;
 	tagNames?: string | null;
 	attributes: ContactAttrsInput;
+	memberOps?: ContactListOps[] | null;
+}
+
+export interface ContactListOps {
+	op: string;
+	type: string;
+	value: string;
 }
 
 export interface NewMountpointSpec {
@@ -1498,6 +1547,12 @@ export interface PreferencesInput {
 	zimbraPrefReadingPaneEnabled?: boolean | null;
 	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
 	zimbraPrefShowFragments?: boolean | null;
+	zimbraPrefTimeZoneId?: string | null;
+}
+
+export interface ZimletPreferenceInput {
+	name: string;
+	presence: string;
 }
 
 export interface FilterInput {
@@ -1751,6 +1806,7 @@ export interface MailboxMetadataSectionAttrsInput {
 	archivedFolder?: string | null;
 	zimbraPrefSMIMEDefaultSetting?: string | null;
 	zimbraPrefSMIMELastOperation?: string | null;
+	zimbraPrefContactSourceFolderID?: string | null;
 }
 
 export interface SnoozeInput {
@@ -1797,6 +1853,12 @@ export interface AutoCompleteQueryArgs {
 	folders?: string | null;
 	includeGal?: boolean | null;
 }
+export interface AutoCompleteGalQueryArgs {
+	limit?: number | null;
+	name: string;
+	type?: GalSearchType | null;
+	needExp?: boolean | null;
+}
 export interface DownloadMessageQueryArgs {
 	id: string;
 }
@@ -1806,7 +1868,10 @@ export interface FreeBusyQueryArgs {
 	end?: number | null;
 }
 export interface GetContactQueryArgs {
-	id: string;
+	id?: string | null;
+	ids?: string[] | null;
+	derefGroupMember?: boolean | null;
+	memberOf?: boolean | null;
 }
 export interface GetAppointmentsQueryArgs {
 	calExpandInstStart: number;
@@ -1877,11 +1942,23 @@ export interface SearchQueryArgs {
 	fullConversation?: boolean | null;
 	limit?: number | null;
 	needExp?: boolean | null;
+	memberOf?: boolean | null;
 	offset?: number | null;
 	query?: string | null;
 	recip?: number | null;
 	sortBy?: SortBy | null;
 	types?: SearchType | null;
+}
+export interface SearchGalQueryArgs {
+	needIsOwner?: boolean | null;
+	needIsMember?: NeedIsMemberType | null;
+	type?: GalSearchType | null;
+	name?: string | null;
+	offset?: number | null;
+	limit?: number | null;
+	locale?: string | null;
+	sortBy?: string | null;
+	needExp?: boolean | null;
 }
 export interface AppointmentsFolderArgs {
 	start?: number | null;
@@ -1926,9 +2003,18 @@ export interface ChangePasswordMutationArgs {
 	password: string;
 	username: string;
 }
+export interface ModifyProfileImageMutationArgs {
+	uid: string;
+}
 export interface CheckCalendarMutationArgs {
 	calendarId: string;
 	value: boolean;
+}
+export interface ContactActionMutationArgs {
+	id?: string | null;
+	ids?: string[] | null;
+	folderId?: string | null;
+	op: string;
 }
 export interface ConversationActionMutationArgs {
 	ids: string[];
@@ -2012,6 +2098,7 @@ export interface LoginMutationArgs {
 	password?: string | null;
 	recoveryCode?: string | null;
 	tokenType?: string | null;
+	persistAuthTokenCookie?: boolean | null;
 }
 export interface MessageActionMutationArgs {
 	ids: string[];
@@ -2334,6 +2421,12 @@ export enum SortBy {
 	readDesc = 'readDesc',
 	sizeAsc = 'sizeAsc',
 	sizeDesc = 'sizeDesc'
+}
+
+export enum NeedIsMemberType {
+	all = 'all',
+	directOnly = 'directOnly',
+	none = 'none'
 }
 
 export enum ActionTypeName {

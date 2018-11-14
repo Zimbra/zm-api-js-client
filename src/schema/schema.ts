@@ -20,7 +20,8 @@ import {
 	ShareNotificationInput,
 	SignatureInput,
 	SortBy,
-	WhiteBlackListInput
+	WhiteBlackListInput,
+	ZimletPreferenceInput
 } from './generated-schema-types';
 import { ZimbraSchemaOptions } from './types';
 
@@ -33,6 +34,7 @@ import { ZimbraNotifications } from './notifications';
 import { GraphQLSchema } from 'graphql';
 import {
 	ActionOptions,
+	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
 	CreateFolderOptions,
@@ -48,6 +50,7 @@ import {
 	GetMessageOptions,
 	GetSMimePublicCertsOptions,
 	LoginOptions,
+	ModifyProfileImageOptions,
 	RecoverAccountOptions,
 	RelatedContactsOptions,
 	ResetPasswordOptions,
@@ -74,6 +77,8 @@ export function createZimbraSchema(
 				accountInfo: client.accountInfo,
 				autoComplete: (_, variables) =>
 					client.autoComplete(variables as AutoCompleteOptions),
+				autoCompleteGAL: (_, variables) =>
+					client.autoCompleteGAL(variables as AutoCompleteGALOptions),
 				downloadMessage: (_, variables) => client.downloadMessage(variables),
 				freeBusy: (_, variables) =>
 					client.freeBusy(variables as FreeBusyOptions),
@@ -102,6 +107,8 @@ export function createZimbraSchema(
 				relatedContacts: (_, variables) =>
 					client.relatedContacts(variables as RelatedContactsOptions),
 				search: (_, variables) => client.search(variables as SearchOptions),
+				searchGal: (_, variables) =>
+					client.searchGal(variables as SearchOptions),
 				shareInfos: (_, variables) =>
 					client.shareInfos(variables as ShareInfosOptions),
 				taskFolders: client.taskFolders,
@@ -162,6 +169,10 @@ export function createZimbraSchema(
 					client.messageAction(variables as ActionOptions),
 				changePassword: (_, variables) =>
 					client.changePassword(variables as ChangePasswordOptions),
+				modifyProfileImage: (_, variables) =>
+					client.modifyProfileImage(variables as ModifyProfileImageOptions),
+				contactAction: (_, variables) =>
+					client.contactAction(variables as ActionOptions),
 				conversationAction: (_, variables) =>
 					client.conversationAction(variables as ActionOptions),
 				createFolder: (_, variables) =>
@@ -286,6 +297,8 @@ export function createZimbraSchema(
 					zimbra.account.modifyIdentity(id, attrs),
 				modifyPrefs: (_, { prefs }) =>
 					client.modifyPrefs(prefs as PreferencesInput),
+				modifyZimletPrefs: (_, { zimlets }) =>
+					client.modifyZimletPrefs(zimlets as Array<ZimletPreferenceInput>),
 				modifyFilterRules: (_, { filters }) =>
 					client.modifyFilterRules(filters as Array<FilterInput>),
 				createSignature: (_, variables) =>

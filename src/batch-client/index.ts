@@ -9,6 +9,7 @@ import { denormalize, normalize } from '../normalize';
 import {
 	ActionOptions as ActionOptionsEntity,
 	AutoComplete as AutoCompleteEntity,
+	AutoCompleteGALResponse,
 	AutoCompleteResponse as AutoCompleteResponseEntity,
 	CalendarItemCreateModifyRequest,
 	CalendarItemDeleteRequest,
@@ -57,7 +58,8 @@ import {
 	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput,
-	WhiteBlackListInput
+	WhiteBlackListInput,
+	ZimletPreferenceInput
 } from '../schema/generated-schema-types';
 import {
 	coerceBooleanToInt,
@@ -66,10 +68,14 @@ import {
 } from '../utils/coerce-boolean';
 import { mapValuesDeep } from '../utils/map-values-deep';
 import { normalizeEmailAddresses } from '../utils/normalize-email-addresses';
-import { normalizeMimeParts } from '../utils/normalize-mime-parts';
+import {
+	getAttachmentUrl,
+	normalizeMimeParts
+} from '../utils/normalize-mime-parts';
 import {
 	ActionOptions,
 	ActionType,
+	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
 	CreateFolderOptions,
@@ -85,6 +91,7 @@ import {
 	GetMessageOptions,
 	GetSMimePublicCertsOptions,
 	LoginOptions,
+	ModifyProfileImageOptions,
 	NotificationHandler,
 	RecoverAccountOptions,
 	RelatedContactsOptions,
@@ -99,7 +106,7 @@ const DEBUG = false;
 
 function normalizeMessage(
 	message: { [key: string]: any },
-	zimbraOrigin?: string
+	{ origin, jwtToken }: { jwtToken?: string; origin?: string }
 ) {
 	const normalizedMessage = normalize(MessageInfo)(message);
 	normalizedMessage.attributes =
@@ -107,7 +114,7 @@ function normalizeMessage(
 		mapValuesDeep(normalizedMessage.attributes, coerceStringToBoolean);
 
 	return normalizeEmailAddresses(
-		normalizeMimeParts(normalizedMessage, zimbraOrigin)
+		normalizeMimeParts(normalizedMessage, { origin, jwtToken })
 	);
 }
 
@@ -117,9 +124,11 @@ export class ZimbraBatchClient {
 	public soapPathname: string;
 	private batchDataLoader: DataLoader<RequestOptions, RequestBody>;
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
+	private jwtToken?: string;
 	private notificationHandler?: NotificationHandler;
 
 	constructor(options: ZimbraClientOptions = {}) {
+		this.jwtToken = options.jwtToken;
 		this.origin = options.zimbraOrigin || DEFAULT_HOSTNAME;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
 		this.notificationHandler = options.notificationHandler;
@@ -186,6 +195,13 @@ export class ZimbraBatchClient {
 			body: denormalize(AutoCompleteEntity)(options)
 		}).then(normalize(AutoCompleteResponseEntity));
 
+	public autoCompleteGAL = (options: AutoCompleteGALOptions) =>
+		this.jsonRequest({
+			name: 'AutoCompleteGal',
+			namespace: Namespace.Account,
+			body: options
+		}).then(res => normalize(AutoCompleteGALResponse)(res));
+
 	public cancelTask = ({ inviteId }: any) =>
 		this.jsonRequest({
 			name: 'CancelTask',
@@ -212,6 +228,9 @@ export class ZimbraBatchClient {
 				password: loginNewPassword
 			}
 		});
+
+	public contactAction = (options: ActionOptions) =>
+		this.action(ActionType.contact, options);
 
 	public conversationAction = (options: ActionOptions) =>
 		this.action(ActionType.conversation, options);
@@ -247,7 +266,7 @@ export class ZimbraBatchClient {
 		forEach(attributes, (val, key) =>
 			contactAttrs.push({
 				name: key,
-				content: val
+				[key === 'image' ? 'aid' : 'content']: val
 			})
 		);
 
@@ -377,13 +396,22 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => normalize(FreeBusy)(res.usr));
 
-	public getContact = ({ id }: GetContactOptions) =>
+	public getAttachmentUrl = (attachment: any) =>
+		getAttachmentUrl(attachment, {
+			origin: this.origin,
+			jwtToken: this.jwtToken
+		});
+
+	public getContact = ({ id, ids, ...rest }: GetContactOptions) =>
 		this.jsonRequest({
 			name: 'GetContacts',
 			body: {
-				cn: { id }
+				cn: {
+					id: id || (ids || []).join(',')
+				},
+				...rest
 			}
-		}).then(res => normalize(Contact)(res.cn[0]));
+		}).then(res => res.cn.map((contact: any) => normalize(Contact)(contact)));
 
 	public getContactFrequency = (options: GetContactFrequencyOptions) =>
 		this.jsonRequest({
@@ -399,7 +427,7 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => {
 			const c = normalize(Conversation)(res.c[0]);
-			c.messages = c.messages.map((m: any) => normalizeMessage(m, this.origin));
+			c.messages = c.messages.map(this.normalizeMessage);
 			return c;
 		});
 
@@ -460,9 +488,7 @@ export class ZimbraBatchClient {
 					...(ridZ && { ridZ: ridZ })
 				}
 			}
-		}).then(
-			res => (res && res.m ? normalizeMessage(res.m[0], this.origin) : null)
-		);
+		}).then(res => (res && res.m ? this.normalizeMessage(res.m[0]) : null));
 
 	public getSearchFolder = () =>
 		this.jsonRequest({
@@ -507,25 +533,22 @@ export class ZimbraBatchClient {
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);
 
-	public jsonRequest = (options: JsonRequestOptions) => {
-		const { accountName } = options;
-
+	public jsonRequest = (options: JsonRequestOptions) =>
 		// If account name is present that means we will not be able to batch requests
-		return accountName
-			? this.dataLoader.load(options)
-			: this.batchDataLoader.load(options);
-	};
+		this[options.accountName ? 'dataLoader' : 'batchDataLoader'].load(options);
 
 	public login = ({
 		username,
 		password,
 		recoveryCode,
-		tokenType
+		tokenType,
+		persistAuthTokenCookie = true
 	}: LoginOptions) =>
 		this.jsonRequest({
 			name: 'Auth',
 			body: {
 				tokenType,
+				persistAuthTokenCookie,
 				account: {
 					by: 'name',
 					_content: username
@@ -572,7 +595,7 @@ export class ZimbraBatchClient {
 		forEach(attributes, (val, key) =>
 			modifiedAttrs.push({
 				name: key,
-				content: val
+				[key === 'image' ? 'aid' : 'content']: val
 			})
 		);
 
@@ -625,6 +648,14 @@ export class ZimbraBatchClient {
 			}
 		});
 
+	public modifyProfileImage = ({ uid }: ModifyProfileImageOptions) =>
+		this.jsonRequest({
+			name: 'ModifyProfileImage',
+			body: {
+				uid
+			}
+		});
+
 	public modifySearchFolder = (options: SearchFolderInput) =>
 		this.jsonRequest({
 			name: 'ModifySearchFolder',
@@ -652,6 +683,15 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account,
 			body: {
 				...whiteBlackList
+			}
+		});
+
+	public modifyZimletPrefs = (zimlet: Array<ZimletPreferenceInput>) =>
+		this.jsonRequest({
+			name: 'ModifyZimletPrefs',
+			namespace: Namespace.Account,
+			body: {
+				zimlet
 			}
 		});
 
@@ -699,8 +739,7 @@ export class ZimbraBatchClient {
 			name: 'SaveDraft',
 			body: denormalize(SendMessageInfo)(options)
 		}).then(({ m: messages }) => ({
-			message:
-				messages && messages.map((m: any) => normalizeMessage(m, this.origin))
+			message: messages && messages.map(this.normalizeMessage)
 		}));
 
 	public search = (options: SearchOptions) =>
@@ -713,12 +752,17 @@ export class ZimbraBatchClient {
 		}).then(res => {
 			const normalized = normalize(SearchResponse)(res);
 			if (normalized.messages) {
-				normalized.messages = normalized.messages.map((m: any) =>
-					normalizeMessage(m, this.origin)
-				);
+				normalized.messages = normalized.messages.map(this.normalizeMessage);
 			}
 			return normalized;
 		});
+
+	public searchGal = (options: SearchOptions) =>
+		this.jsonRequest({
+			name: 'SearchGal',
+			body: options,
+			namespace: Namespace.Account
+		}).then(normalize(SearchResponse));
 
 	public sendInviteReply = (requestOptions: InviteReplyInput) =>
 		this.jsonRequest({
@@ -741,6 +785,10 @@ export class ZimbraBatchClient {
 				...denormalize(ShareNotification)(body)
 			}
 		});
+
+	public setJwtToken = (jwtToken: string) => {
+		this.jwtToken = jwtToken;
+	};
 
 	public setRecoveryAccount = (options: SetRecoveryAccountOptions) =>
 		this.jsonRequest({
@@ -835,8 +883,7 @@ export class ZimbraBatchClient {
 	private batchDataHandler = (requests: Array<RequestOptions>) =>
 		batchJsonRequest({
 			requests,
-			sessionId: this.sessionId,
-			origin: this.origin
+			...this.getAdditionalRequestOptions()
 		}).then(response => {
 			const sessionId = get(response, 'header.context.session.id');
 			const notifications = get(response, 'header.context.notify.0');
@@ -864,8 +911,7 @@ export class ZimbraBatchClient {
 	private dataHandler = (requests: Array<JsonRequestOptions>) =>
 		jsonRequest({
 			...requests[0],
-			sessionId: this.sessionId,
-			origin: this.origin
+			...this.getAdditionalRequestOptions()
 		}).then(response => {
 			const sessionId = get(response, 'header.context.session.id');
 			const notifications = get(response, 'header.context.notify.0');
@@ -879,5 +925,20 @@ export class ZimbraBatchClient {
 			}
 
 			return isError(response) ? [response] : [response.body];
+		});
+
+	/**
+	 * These options are included on every request.
+	 */
+	private getAdditionalRequestOptions = () => ({
+		jwtToken: this.jwtToken,
+		sessionId: this.sessionId,
+		origin: this.origin
+	});
+
+	private normalizeMessage = (message: any) =>
+		normalizeMessage(message, {
+			origin: this.origin,
+			jwtToken: this.jwtToken
 		});
 }
