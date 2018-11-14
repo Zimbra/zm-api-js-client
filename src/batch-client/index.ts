@@ -70,6 +70,8 @@ import { mapValuesDeep } from '../utils/map-values-deep';
 import { normalizeEmailAddresses } from '../utils/normalize-email-addresses';
 import {
 	getAttachmentUrl,
+	getContactProfileImageUrl,
+	getProfileImageUrl,
 	normalizeMimeParts
 } from '../utils/normalize-mime-parts';
 import {
@@ -419,6 +421,12 @@ export class ZimbraBatchClient {
 			body: options
 		});
 
+	public getContactProfileImageUrl = (attachment: any) =>
+		getContactProfileImageUrl(attachment, {
+			origin: this.origin,
+			jwtToken: this.jwtToken
+		});
+
 	public getConversation = (options: GetConversationOptions) =>
 		this.jsonRequest({
 			name: 'GetConv',
@@ -489,6 +497,12 @@ export class ZimbraBatchClient {
 				}
 			}
 		}).then(res => (res && res.m ? this.normalizeMessage(res.m[0]) : null));
+
+	public getProfileImageUrl = (profileImageId: any) =>
+		getProfileImageUrl(profileImageId, {
+			origin: this.origin,
+			jwtToken: this.jwtToken
+		});
 
 	public getSearchFolder = () =>
 		this.jsonRequest({
