@@ -327,6 +327,15 @@ type ModifyAppointmentResponse {
 	revision: Int # rev
 }
 
+type ZimletPref {
+	name: String
+	presence: String
+}
+
+type ModifyZimletPrefsResponse {
+	zimlet: [ZimletPref]
+}
+
 type EmailAddress {
 	address: String
 	name: String
@@ -941,8 +950,8 @@ type AccountZimletDesc {
 	version: String
 	description: String
 	extension: String
-	target: String
 	label: String
+	zimbraXZimletCompatibleSemVer: String
 }
 
 type AccountZimletConfigInfo {
@@ -1667,6 +1676,11 @@ input PreferencesInput {
 	zimbraPrefShowFragments: Boolean
 }
 
+input ZimletPreferenceInput {
+	name: String!
+	presence: String!
+}
+
 ##### FilterInput #####
 
 input AddressConditionInput {
@@ -2248,6 +2262,7 @@ type Mutation {
 	modifyAppointment(accountName: String, appointment: CalendarItemInput!): ModifyAppointmentResponse
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
+	modifyZimletPrefs(zimlets: [ZimletPreferenceInput!]): ModifyZimletPrefsResponse
 	modifyFilterRules(filters: [FilterInput!]): Boolean
 	modifySignature(signature: SignatureInput!): String
 	modifySearchFolder(search: SearchFolderInput!): Boolean

@@ -56,7 +56,8 @@ import {
 	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput,
-	WhiteBlackListInput
+	WhiteBlackListInput,
+	ZimletPreferenceInput
 } from '../schema/generated-schema-types';
 import {
 	coerceBooleanToInt,
@@ -674,6 +675,15 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account,
 			body: {
 				...whiteBlackList
+			}
+		});
+
+	public modifyZimletPrefs = (zimlet: Array<ZimletPreferenceInput>) =>
+		this.jsonRequest({
+			name: 'ModifyZimletPrefs',
+			namespace: Namespace.Account,
+			body: {
+				zimlet
 			}
 		});
 

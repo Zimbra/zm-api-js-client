@@ -1536,6 +1536,11 @@ export interface PreferencesInput {
 	zimbraPrefShowFragments?: boolean | null;
 }
 
+export interface ZimletPreferenceInput {
+	name: string;
+	presence: string;
+}
+
 export interface FilterInput {
 	name: string;
 	active: boolean;

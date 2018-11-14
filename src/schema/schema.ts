@@ -19,7 +19,8 @@ import {
 	ShareNotificationInput,
 	SignatureInput,
 	SortBy,
-	WhiteBlackListInput
+	WhiteBlackListInput,
+	ZimletPreferenceInput
 } from './generated-schema-types';
 import { ZimbraSchemaOptions } from './types';
 
@@ -295,6 +296,8 @@ export function createZimbraSchema(
 					zimbra.account.modifyIdentity(id, attrs),
 				modifyPrefs: (_, { prefs }) =>
 					client.modifyPrefs(prefs as PreferencesInput),
+				modifyZimletPrefs: (_, { zimlets }) =>
+					client.modifyZimletPrefs(zimlets as Array<ZimletPreferenceInput>),
 				modifyFilterRules: (_, { filters }) =>
 					client.modifyFilterRules(filters as Array<FilterInput>),
 				createSignature: (_, variables) =>
