@@ -175,6 +175,7 @@ export interface Preferences {
 	zimbraPrefPasswordRecoveryAddressStatus?: PasswordRecoveryAddressStatus | null;
 	zimbraPrefShowFragments?: boolean | null;
 	zimbraPrefWebClientOfflineBrowserKey?: string | null;
+	zimbraPrefTimeZoneId?: string | null;
 }
 
 export interface License {
@@ -304,10 +305,18 @@ export interface ContactAttributes {
 	anniversary?: string | null;
 	website?: string | null;
 	notes?: string | null;
+	image?: ContactImage | null;
 	userCertificate?: string | null;
 	zimbraCalResType?: string | null;
 	fileAs?: string | null /* Used for contact lists */;
 	type?: string | null;
+}
+
+export interface ContactImage {
+	ct?: string | null;
+	filename?: string | null;
+	part?: string | null;
+	s?: string | null;
 }
 
 export interface ContactListMember {
@@ -1437,6 +1446,18 @@ export interface SignatureContentInput {
 	_content?: string | null;
 }
 
+export interface DeleteAppointmentInput {
+	instanceDate?: InstanceDate | null;
+	inviteId: string;
+	componentNum: string;
+	start?: number | null;
+	message?: CalendarItemMessageInput
+}
+
+export interface InstanceDate {
+	date?: string | null;
+}
+
 export interface NameIdInput {
 	id?: string | null;
 	name?: string | null;
@@ -1527,6 +1548,12 @@ export interface PreferencesInput {
 	zimbraPrefReadingPaneEnabled?: boolean | null;
 	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
 	zimbraPrefShowFragments?: boolean | null;
+	zimbraPrefTimeZoneId?: string | null;
+}
+
+export interface ZimletPreferenceInput {
+	name: string;
+	presence: string;
 }
 
 export interface FilterInput {
@@ -1745,6 +1772,7 @@ export interface InviteReplyInput {
 	verb: InviteReplyVerb;
 	updateOrganizer?: boolean | null;
 	message?: CalendarItemMessageInput | null;
+	exceptId?: InstanceDate | null
 }
 
 export interface ShareNotificationInput {
@@ -2047,7 +2075,7 @@ export interface CreateTaskMutationArgs {
 	task: CalendarItemInput;
 }
 export interface DeleteAppointmentMutationArgs {
-	inviteId: string;
+	appointment?: DeleteAppointmentInput | null;
 }
 export interface DeleteExternalAccountMutationArgs {
 	id: string;

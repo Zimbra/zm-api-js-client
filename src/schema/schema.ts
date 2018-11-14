@@ -5,6 +5,7 @@ import {
 	CalendarItemInput,
 	CreateContactInput,
 	CreateMountpointInput,
+	DeleteAppointmentInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
@@ -19,7 +20,8 @@ import {
 	ShareNotificationInput,
 	SignatureInput,
 	SortBy,
-	WhiteBlackListInput
+	WhiteBlackListInput,
+	ZimletPreferenceInput
 } from './generated-schema-types';
 import { ZimbraSchemaOptions } from './types';
 
@@ -206,8 +208,8 @@ export function createZimbraSchema(
 					),
 				createMountpoint: (_, variables) =>
 					client.createMountpoint(variables as CreateMountpointInput),
-				deleteAppointment: (_, { inviteId }, { zimbra }) =>
-					zimbra.appointments.delete({ inviteId }),
+				deleteAppointment: (_, { appointment }) =>
+					client.deleteAppointment(appointment as DeleteAppointmentInput),
 				checkCalendar: (_, { calendarId, value }, { zimbra }) =>
 					zimbra.calendars.check({ calendarId, value }),
 				prefCalendarInitialView: (_, { value }) =>
@@ -295,6 +297,8 @@ export function createZimbraSchema(
 					zimbra.account.modifyIdentity(id, attrs),
 				modifyPrefs: (_, { prefs }) =>
 					client.modifyPrefs(prefs as PreferencesInput),
+				modifyZimletPrefs: (_, { zimlets }) =>
+					client.modifyZimletPrefs(zimlets as Array<ZimletPreferenceInput>),
 				modifyFilterRules: (_, { filters }) =>
 					client.modifyFilterRules(filters as Array<FilterInput>),
 				createSignature: (_, variables) =>
