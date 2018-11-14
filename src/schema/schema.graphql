@@ -1076,6 +1076,7 @@ type Preferences {
 	zimbraPrefPasswordRecoveryAddressStatus: PasswordRecoveryAddressStatus
 	zimbraPrefShowFragments: Boolean
 	zimbraPrefWebClientOfflineBrowserKey: String
+	zimbraPrefTimeZoneId: String
 }
 
 type NameId {
@@ -1674,6 +1675,7 @@ input PreferencesInput {
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
 	zimbraPrefShowFragments: Boolean
+	zimbraPrefTimeZoneId: String
 }
 
 input ZimletPreferenceInput {
