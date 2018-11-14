@@ -419,6 +419,12 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetContactFrequency',
 			body: options
+		}).then(res => {
+			res.data = res.data.map((item: any) => {
+				item.by = item.spec[0].range;
+				return item;
+			});
+			return res;
 		});
 
 	public getContactProfileImageUrl = (attachment: any) =>
@@ -735,7 +741,7 @@ export class ZimbraBatchClient {
 					cn: email
 				}
 			}
-		});
+		}).then(resp => resp.relatedContacts.relatedContact);
 
 	public resetPassword = ({ password }: ResetPasswordOptions) =>
 		this.jsonRequest({

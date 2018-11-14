@@ -42,7 +42,7 @@ export interface Query {
 	noop?: boolean | null;
 	preferences?: Preferences | null;
 	recoverAccount?: RecoverAccount | null;
-	relatedContacts?: RelatedContacts | null;
+	relatedContacts?: RelatedContact[] | null;
 	shareInfos?: ShareInfo[] | null;
 	search?: SearchResponse | null /* Perform a search for a variety types using a flexible query interface.[[SOAP Search API Documentation]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/zimbraMail/Search.html)[[Query Tips]](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips) */;
 	searchGal?: SearchResponse | null;
@@ -970,10 +970,6 @@ export interface RecoverAccount {
 	recoveryAttemptsLeft?: number | null;
 }
 
-export interface RelatedContacts {
-	relatedContacts?: RelatedContact[] | null;
-}
-
 export interface RelatedContact {
 	email?: string | null;
 	scope?: number | null;
@@ -1150,6 +1146,11 @@ export interface InviteReplyResponse {
 
 export interface CalendarItemAlarmAttendees {
 	email: string;
+}
+
+export interface ContactFrequencySpec {
+	range: string;
+	interval: string;
 }
 
 export interface MailItemHeaderInput {
@@ -1884,7 +1885,8 @@ export interface GetAppointmentsQueryArgs {
 export interface GetContactFrequencyQueryArgs {
 	email: string;
 	by: string;
-	offsetInMinutes?: number | null;
+	offsetInMinutes?: string | null;
+	spec?: ContactFrequencySpec[] | null;
 }
 export interface GetConversationQueryArgs {
 	id: string;

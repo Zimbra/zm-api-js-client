@@ -1265,10 +1265,6 @@ type RelatedContact {
 	p: String
 }
 
-type RelatedContacts {
-	relatedContacts: [RelatedContact]
-}
-
 type ContactFrequencyResponse {
 	data: [ContactFrequencyData]
 }
@@ -1636,6 +1632,11 @@ input FolderActionInput {
 	name: String
 	folderId: String
 	zimbraId: ID
+}
+
+input ContactFrequencySpec {
+	range: String!
+	interval: String!
 }
 
 input GrantInput {
@@ -2105,7 +2106,8 @@ type Query {
 	getContactFrequency(
 		email: String!
 		by: String!
-		offsetInMinutes: Int
+		offsetInMinutes: String
+		spec: [ContactFrequencySpec!]
 	): ContactFrequencyResponse
 	getConversation(
 		id: ID!,
@@ -2148,7 +2150,7 @@ type Query {
 		email: String!
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
-	relatedContacts(email: String!): RelatedContacts
+	relatedContacts(email: String!): [RelatedContact]
 	shareInfos(addresses: [String!]): [[ShareInfo]]
 
 	# Perform a search for a variety types using a flexible query interface.
