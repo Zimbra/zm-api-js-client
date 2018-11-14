@@ -67,8 +67,8 @@ import { mapValuesDeep } from '../utils/map-values-deep';
 import { normalizeEmailAddresses } from '../utils/normalize-email-addresses';
 import {
 	getAttachmentUrl,
-	getProfileImageUrl,
 	getContactProfileImageUrl,
+	getProfileImageUrl,
 	normalizeMimeParts
 } from '../utils/normalize-mime-parts';
 import {
@@ -395,18 +395,6 @@ export class ZimbraBatchClient {
 			jwtToken: this.jwtToken
 		});
 
-	public getContactProfileImageUrl = (attachment: any) =>
-		getContactProfileImageUrl(attachment, {
-			origin: this.origin,
-			jwtToken: this.jwtToken
-		});
-
-	public getProfileImageUrl = (profileImageId: any) =>
-		getProfileImageUrl(profileImageId, {
-			origin: this.origin,
-			jwtToken: this.jwtToken
-		});
-
 	public getContact = ({ id, ids, ...rest }: GetContactOptions) =>
 		this.jsonRequest({
 			name: 'GetContacts',
@@ -422,6 +410,12 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetContactFrequency',
 			body: options
+		});
+
+	public getContactProfileImageUrl = (attachment: any) =>
+		getContactProfileImageUrl(attachment, {
+			origin: this.origin,
+			jwtToken: this.jwtToken
 		});
 
 	public getConversation = (options: GetConversationOptions) =>
@@ -494,6 +488,12 @@ export class ZimbraBatchClient {
 				}
 			}
 		}).then(res => (res && res.m ? this.normalizeMessage(res.m[0]) : null));
+
+	public getProfileImageUrl = (profileImageId: any) =>
+		getProfileImageUrl(profileImageId, {
+			origin: this.origin,
+			jwtToken: this.jwtToken
+		});
 
 	public getSearchFolder = () =>
 		this.jsonRequest({
