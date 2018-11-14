@@ -71,8 +71,8 @@ export interface GetContactFrequencyOptions {
 }
 
 export interface ContactFrequencySpec {
-	range: string;
 	interval: string;
+	range: string;
 }
 export interface GetFolderOptions {
 	depth?: number;

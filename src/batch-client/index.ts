@@ -420,7 +420,7 @@ export class ZimbraBatchClient {
 			name: 'GetContactFrequency',
 			body: options
 		}).then(res => {
-			res.data = res.data.map((item :any) =>{
+			res.data = res.data.map((item: any) => {
 				item.by = item.spec[0].range;
 				return item;
 			});
@@ -741,9 +741,7 @@ export class ZimbraBatchClient {
 					cn: email
 				}
 			}
-		}).then( resp => {
-			return resp.relatedContacts.relatedContact;
-		});
+		}).then(resp => resp.relatedContacts.relatedContact);
 
 	public resetPassword = ({ password }: ResetPasswordOptions) =>
 		this.jsonRequest({
