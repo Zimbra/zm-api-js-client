@@ -213,6 +213,18 @@ export const CalendarItemCreateModifyRequest = new Entity({
 	invId: 'inviteId'
 });
 
+export const InstanceDate = new Entity({
+	d: 'date'
+});
+
+export const CalendarItemDeleteRequest = new Entity({
+	inst: ['instanceDate', InstanceDate],
+	id: 'inviteId',
+	comp: 'componentNum',
+	s: 'start',
+	m: ['message', MessageInfo]
+});
+
 const NewMountpointSpec = new Entity({
 	f: 'flags',
 	l: 'parentFolderId'
@@ -424,7 +436,8 @@ export const Filter = new Entity({
 export const InviteReply = new Entity({
 	compNum: 'componentNum',
 	m: ['message', MessageInfo],
-	rt: 'replyType'
+	rt: 'replyType',
+	exceptId: ['exceptId', InstanceDate]
 });
 
 const Signature = new Entity({

@@ -5,6 +5,7 @@ import {
 	CalendarItemInput,
 	CreateContactInput,
 	CreateMountpointInput,
+	DeleteAppointmentInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
@@ -207,8 +208,8 @@ export function createZimbraSchema(
 					),
 				createMountpoint: (_, variables) =>
 					client.createMountpoint(variables as CreateMountpointInput),
-				deleteAppointment: (_, { inviteId }, { zimbra }) =>
-					zimbra.appointments.delete({ inviteId }),
+				deleteAppointment: (_, { appointment }) =>
+					client.deleteAppointment(appointment as DeleteAppointmentInput),
 				checkCalendar: (_, { calendarId, value }, { zimbra }) =>
 					zimbra.calendars.check({ calendarId, value }),
 				prefCalendarInitialView: (_, { value }) =>

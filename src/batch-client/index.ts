@@ -12,6 +12,7 @@ import {
 	AutoCompleteGALResponse,
 	AutoCompleteResponse as AutoCompleteResponseEntity,
 	CalendarItemCreateModifyRequest,
+	CalendarItemDeleteRequest,
 	CalendarItemHitInfo,
 	Contact,
 	ContactInputRequest,
@@ -44,6 +45,7 @@ import {
 	CalendarItemInput,
 	CreateContactInput,
 	CreateMountpointInput,
+	DeleteAppointmentInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
@@ -328,6 +330,12 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(task)
 			}
+		});
+
+	public deleteAppointment = (appointment: DeleteAppointmentInput) =>
+		this.jsonRequest({
+			name: 'CancelAppointment',
+			body: denormalize(CalendarItemDeleteRequest)(appointment)
 		});
 
 	public deleteExternalAccount = ({ id }: ExternalAccountDeleteInput) =>
