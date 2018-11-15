@@ -209,8 +209,8 @@ export interface AccountZimletDesc {
 	version?: string | null;
 	description?: string | null;
 	extension?: string | null;
-	target?: string | null;
 	label?: string | null;
+	zimbraXZimletCompatibleSemVer?: string | null;
 }
 
 export interface AccountZimletConfigInfo {
@@ -1027,6 +1027,7 @@ export interface Mutation {
 	modifyAppointment?: ModifyAppointmentResponse | null;
 	modifyIdentity?: string | null;
 	modifyPrefs?: boolean | null;
+	modifyZimletPrefs?: ModifyZimletPrefsResponse | null;
 	modifyFilterRules?: boolean | null;
 	modifySignature?: string | null;
 	modifySearchFolder?: boolean | null;
@@ -1102,6 +1103,15 @@ export interface ModifyAppointmentResponse {
 	inviteId?: string | null;
 	modifiedSequence?: number | null;
 	revision?: number | null;
+}
+
+export interface ModifyZimletPrefsResponse {
+	zimlet?: ZimletPref[] | null;
+}
+
+export interface ZimletPref {
+	name?: string | null;
+	presence?: string | null;
 }
 
 export interface SaveDraftResponse {
@@ -1451,7 +1461,7 @@ export interface DeleteAppointmentInput {
 	inviteId: string;
 	componentNum: string;
 	start?: number | null;
-	message?: CalendarItemMessageInput
+	message?: CalendarItemMessageInput | null;
 }
 
 export interface InstanceDate {
@@ -1772,7 +1782,7 @@ export interface InviteReplyInput {
 	verb: InviteReplyVerb;
 	updateOrganizer?: boolean | null;
 	message?: CalendarItemMessageInput | null;
-	exceptId?: InstanceDate | null
+	exceptId?: InstanceDate | null;
 }
 
 export interface ShareNotificationInput {
@@ -2075,7 +2085,7 @@ export interface CreateTaskMutationArgs {
 	task: CalendarItemInput;
 }
 export interface DeleteAppointmentMutationArgs {
-	appointment?: DeleteAppointmentInput | null;
+	appointment: DeleteAppointmentInput;
 }
 export interface DeleteExternalAccountMutationArgs {
 	id: string;
@@ -2121,6 +2131,9 @@ export interface ModifyIdentityMutationArgs {
 }
 export interface ModifyPrefsMutationArgs {
 	prefs: PreferencesInput;
+}
+export interface ModifyZimletPrefsMutationArgs {
+	zimlets?: ZimletPreferenceInput[] | null;
 }
 export interface ModifyFilterRulesMutationArgs {
 	filters?: FilterInput[] | null;
