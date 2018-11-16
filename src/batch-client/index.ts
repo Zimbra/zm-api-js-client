@@ -12,6 +12,7 @@ import {
 	AutoCompleteGALResponse,
 	AutoCompleteResponse as AutoCompleteResponseEntity,
 	CalendarItemCreateModifyRequest,
+	CalendarItemDeleteRequest,
 	CalendarItemHitInfo,
 	Contact,
 	ContactInputRequest,
@@ -44,6 +45,7 @@ import {
 	CalendarItemInput,
 	CreateContactInput,
 	CreateMountpointInput,
+	DeleteAppointmentInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
@@ -56,7 +58,8 @@ import {
 	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput,
-	WhiteBlackListInput
+	WhiteBlackListInput,
+	ZimletPreferenceInput
 } from '../schema/generated-schema-types';
 import {
 	coerceBooleanToInt,
@@ -67,6 +70,8 @@ import { mapValuesDeep } from '../utils/map-values-deep';
 import { normalizeEmailAddresses } from '../utils/normalize-email-addresses';
 import {
 	getAttachmentUrl,
+	getContactProfileImageUrl,
+	getProfileImageUrl,
 	normalizeMimeParts
 } from '../utils/normalize-mime-parts';
 import {
@@ -329,6 +334,12 @@ export class ZimbraBatchClient {
 			}
 		});
 
+	public deleteAppointment = (appointment: DeleteAppointmentInput) =>
+		this.jsonRequest({
+			name: 'CancelAppointment',
+			body: denormalize(CalendarItemDeleteRequest)(appointment)
+		});
+
 	public deleteExternalAccount = ({ id }: ExternalAccountDeleteInput) =>
 		this.jsonRequest({
 			name: 'DeleteDataSource',
@@ -408,6 +419,18 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetContactFrequency',
 			body: options
+		}).then(res => {
+			res.data = res.data.map((item: any) => {
+				item.by = item.spec[0].range;
+				return item;
+			});
+			return res;
+		});
+
+	public getContactProfileImageUrl = (attachment: any) =>
+		getContactProfileImageUrl(attachment, {
+			origin: this.origin,
+			jwtToken: this.jwtToken
 		});
 
 	public getConversation = (options: GetConversationOptions) =>
@@ -480,6 +503,12 @@ export class ZimbraBatchClient {
 				}
 			}
 		}).then(res => (res && res.m ? this.normalizeMessage(res.m[0]) : null));
+
+	public getProfileImageUrl = (profileImageId: any) =>
+		getProfileImageUrl(profileImageId, {
+			origin: this.origin,
+			jwtToken: this.jwtToken
+		});
 
 	public getSearchFolder = () =>
 		this.jsonRequest({
@@ -677,6 +706,15 @@ export class ZimbraBatchClient {
 			}
 		});
 
+	public modifyZimletPrefs = (zimlet: Array<ZimletPreferenceInput>) =>
+		this.jsonRequest({
+			name: 'ModifyZimletPrefs',
+			namespace: Namespace.Account,
+			body: {
+				zimlet
+			}
+		});
+
 	public noop = () => this.jsonRequest({ name: 'NoOp' });
 
 	public preferences = () =>
@@ -703,7 +741,7 @@ export class ZimbraBatchClient {
 					cn: email
 				}
 			}
-		});
+		}).then(resp => resp.relatedContacts.relatedContact);
 
 	public resetPassword = ({ password }: ResetPasswordOptions) =>
 		this.jsonRequest({

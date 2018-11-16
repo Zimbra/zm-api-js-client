@@ -42,7 +42,7 @@ export interface Query {
 	noop?: boolean | null;
 	preferences?: Preferences | null;
 	recoverAccount?: RecoverAccount | null;
-	relatedContacts?: RelatedContacts | null;
+	relatedContacts?: RelatedContact[] | null;
 	shareInfos?: ShareInfo[] | null;
 	search?: SearchResponse | null /* Perform a search for a variety types using a flexible query interface.[[SOAP Search API Documentation]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/zimbraMail/Search.html)[[Query Tips]](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips) */;
 	searchGal?: SearchResponse | null;
@@ -175,6 +175,7 @@ export interface Preferences {
 	zimbraPrefPasswordRecoveryAddressStatus?: PasswordRecoveryAddressStatus | null;
 	zimbraPrefShowFragments?: boolean | null;
 	zimbraPrefWebClientOfflineBrowserKey?: string | null;
+	zimbraPrefTimeZoneId?: string | null;
 }
 
 export interface License {
@@ -208,8 +209,8 @@ export interface AccountZimletDesc {
 	version?: string | null;
 	description?: string | null;
 	extension?: string | null;
-	target?: string | null;
 	label?: string | null;
+	zimbraXZimletCompatibleSemVer?: string | null;
 }
 
 export interface AccountZimletConfigInfo {
@@ -304,10 +305,18 @@ export interface ContactAttributes {
 	anniversary?: string | null;
 	website?: string | null;
 	notes?: string | null;
+	image?: ContactImage | null;
 	userCertificate?: string | null;
 	zimbraCalResType?: string | null;
 	fileAs?: string | null /* Used for contact lists */;
 	type?: string | null;
+}
+
+export interface ContactImage {
+	ct?: string | null;
+	filename?: string | null;
+	part?: string | null;
+	s?: string | null;
 }
 
 export interface ContactListMember {
@@ -961,10 +970,6 @@ export interface RecoverAccount {
 	recoveryAttemptsLeft?: number | null;
 }
 
-export interface RelatedContacts {
-	relatedContacts?: RelatedContact[] | null;
-}
-
 export interface RelatedContact {
 	email?: string | null;
 	scope?: number | null;
@@ -1022,6 +1027,7 @@ export interface Mutation {
 	modifyAppointment?: ModifyAppointmentResponse | null;
 	modifyIdentity?: string | null;
 	modifyPrefs?: boolean | null;
+	modifyZimletPrefs?: ModifyZimletPrefsResponse | null;
 	modifyFilterRules?: boolean | null;
 	modifySignature?: string | null;
 	modifySearchFolder?: boolean | null;
@@ -1099,6 +1105,15 @@ export interface ModifyAppointmentResponse {
 	revision?: number | null;
 }
 
+export interface ModifyZimletPrefsResponse {
+	zimlet?: ZimletPref[] | null;
+}
+
+export interface ZimletPref {
+	name?: string | null;
+	presence?: string | null;
+}
+
 export interface SaveDraftResponse {
 	message?: MessageInfo[] | null;
 }
@@ -1141,6 +1156,11 @@ export interface InviteReplyResponse {
 
 export interface CalendarItemAlarmAttendees {
 	email: string;
+}
+
+export interface ContactFrequencySpec {
+	range: string;
+	interval: string;
 }
 
 export interface MailItemHeaderInput {
@@ -1436,6 +1456,18 @@ export interface SignatureContentInput {
 	_content?: string | null;
 }
 
+export interface DeleteAppointmentInput {
+	instanceDate?: InstanceDate | null;
+	inviteId: string;
+	componentNum: string;
+	start?: number | null;
+	message?: CalendarItemMessageInput | null;
+}
+
+export interface InstanceDate {
+	date?: string | null;
+}
+
 export interface NameIdInput {
 	id?: string | null;
 	name?: string | null;
@@ -1526,6 +1558,12 @@ export interface PreferencesInput {
 	zimbraPrefReadingPaneEnabled?: boolean | null;
 	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
 	zimbraPrefShowFragments?: boolean | null;
+	zimbraPrefTimeZoneId?: string | null;
+}
+
+export interface ZimletPreferenceInput {
+	name: string;
+	presence: string;
 }
 
 export interface FilterInput {
@@ -1745,6 +1783,7 @@ export interface InviteReplyInput {
 	verb: InviteReplyVerb;
 	updateOrganizer?: boolean | null;
 	message?: CalendarItemMessageInput | null;
+	exceptId?: InstanceDate | null;
 }
 
 export interface ShareNotificationInput {
@@ -1857,7 +1896,8 @@ export interface GetAppointmentsQueryArgs {
 export interface GetContactFrequencyQueryArgs {
 	email: string;
 	by: string;
-	offsetInMinutes?: number | null;
+	offsetInMinutes?: string | null;
+	spec?: ContactFrequencySpec[] | null;
 }
 export interface GetConversationQueryArgs {
 	id: string;
@@ -2046,7 +2086,7 @@ export interface CreateTaskMutationArgs {
 	task: CalendarItemInput;
 }
 export interface DeleteAppointmentMutationArgs {
-	inviteId: string;
+	appointment: DeleteAppointmentInput;
 }
 export interface DeleteExternalAccountMutationArgs {
 	id: string;
@@ -2092,6 +2132,9 @@ export interface ModifyIdentityMutationArgs {
 }
 export interface ModifyPrefsMutationArgs {
 	prefs: PreferencesInput;
+}
+export interface ModifyZimletPrefsMutationArgs {
+	zimlets?: ZimletPreferenceInput[] | null;
 }
 export interface ModifyFilterRulesMutationArgs {
 	filters?: FilterInput[] | null;
