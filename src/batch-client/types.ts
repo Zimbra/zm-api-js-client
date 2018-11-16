@@ -66,8 +66,14 @@ export interface GetContactOptions {
 export interface GetContactFrequencyOptions {
 	by: string;
 	email: string;
+	offsetInMinutes: string;
+	spec: Array<ContactFrequencySpec>;
 }
 
+export interface ContactFrequencySpec {
+	interval: string;
+	range: string;
+}
 export interface GetFolderOptions {
 	depth?: number;
 	folder?: {
