@@ -93,6 +93,7 @@ import {
 	GetMessageOptions,
 	GetSMimePublicCertsOptions,
 	LoginOptions,
+	MailListOptions,
 	ModifyProfileImageOptions,
 	NotificationHandler,
 	RecoverAccountOptions,
@@ -591,6 +592,26 @@ export class ZimbraBatchClient {
 				logoff: true
 			},
 			namespace: Namespace.Account
+		});
+
+
+	// A special case of SearchResponse that is easier to manipulate in cache
+	public mailList = ({ folderName, ...options }: MailListOptions) =>
+		this.jsonRequest({
+			name: 'Search',
+			body: {
+				...options,
+				limit: 50,
+				recip: 2,
+				query: `in:"${folderName}"`
+			}
+		}).then(res => {
+			const normalized = normalize(SearchResponse)(res);
+			if (normalized.messages) {
+				normalized.messages = normalized.messages.map(this.normalizeMessage);
+			}
+			normalized.id = `${folderName}:${options.types}:${options.sortBy}`;
+			return normalized;
 		});
 
 	public messageAction = (options: ActionOptions) =>

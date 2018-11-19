@@ -119,6 +119,14 @@ export interface RelatedContactsOptions {
 	email: string;
 }
 
+export interface MailListOptions {
+	cursor: Cursor;
+	offset: number;
+	folderName: string;
+	sortBy: SortBy;
+	types: SearchType;
+
+}
 export interface SearchOptions {
 	calExpandInstEnd?: Number;
 	calExpandInstStart?: Number;

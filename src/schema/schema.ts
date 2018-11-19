@@ -50,6 +50,7 @@ import {
 	GetMessageOptions,
 	GetSMimePublicCertsOptions,
 	LoginOptions,
+	MailListOptions,
 	ModifyProfileImageOptions,
 	RecoverAccountOptions,
 	RelatedContactsOptions,
@@ -101,6 +102,7 @@ export function createZimbraSchema(
 				getSMimePublicCerts: (_, variables) =>
 					client.getSMimePublicCerts(variables as GetSMimePublicCertsOptions),
 				preferences: client.preferences,
+				mailList: (_, variables) => console.log('variables:', variables) || client.mailList(variables as MailListOptions),
 				noop: client.noop,
 				recoverAccount: (_, variables) =>
 					client.recoverAccount(variables as RecoverAccountOptions),

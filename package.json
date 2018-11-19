@@ -17,7 +17,7 @@
     "test:watch": "npm run test:unit -- --watch",
     "test:no-synacor-npm-refs": "node ./scripts/synacor-npm-refs.js",
     "clean": "rimraf dist",
-    "build": "npm-run-all clean generateSchemaTypes rollup:* -p build:ts minify:* copySchema",
+    "build": "npm-run-all generateSchemaTypes rollup:esm -p build:ts copySchema",
     "build:ts": "tsc --emitDeclarationOnly --declaration",
     "copySchema": "copyfiles -f src/schema/schema.graphql dist",
     "rollup:cjs": "cross-var rollup -c rollup.config.js -m -f cjs -n $npm_package_amdName $npm_package_source -o $npm_package_main",

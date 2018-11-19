@@ -1101,6 +1101,17 @@ type SearchResponse {
 	paginationSupported: Boolean
 }
 
+# A special case of SearchResponse that is easier to cache
+type MailList {
+	id: ID # allow resolvers to add custom ids
+	messages: [MessageInfo]
+	conversations: [Conversation]
+	more: Boolean
+	offset: Int
+	sortBy: String
+	paginationSupported: Boolean
+}
+
 type SendMessageResponse {
 	message: [MsgWithGroupInfo]
 }
@@ -2143,6 +2154,13 @@ type Query {
 	getSearchFolder: Folder
 	getTask(inviteId: ID!): Boolean
 	getWhiteBlackList: WhiteBlackList
+	mailList(
+		cursor: Cursor,
+		offset: Int,
+		folderName: String,
+		sortBy: SortBy,
+		types: SearchType
+	): MailList
 	noop: Boolean
 	preferences: Preferences
 	recoverAccount(

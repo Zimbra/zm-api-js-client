@@ -39,6 +39,7 @@ export interface Query {
 	getSearchFolder?: Folder | null;
 	getTask?: boolean | null;
 	getWhiteBlackList?: WhiteBlackList | null;
+	mailList?: MailList | null;
 	noop?: boolean | null;
 	preferences?: Preferences | null;
 	recoverAccount?: RecoverAccount | null;
@@ -963,6 +964,16 @@ export interface WhiteBlackListArr {
 export interface WhiteBlackAddress {
 	_content: string;
 	op?: string | null;
+}
+/* A special case of SearchResponse */
+export interface MailList {
+	id?: string | null;
+	messages?: MessageInfo[] | null;
+	conversations?: Conversation[] | null;
+	more?: boolean | null;
+	offset?: number | null;
+	sortBy?: string | null;
+	paginationSupported?: boolean | null;
 }
 
 export interface RecoverAccount {
@@ -1936,6 +1947,13 @@ export interface GetSMimePublicCertsQueryArgs {
 export interface GetTaskQueryArgs {
 	inviteId: string;
 }
+export interface MailListQueryArgs {
+	cursor?: Cursor | null;
+	offset?: number | null;
+	folderName?: string | null;
+	sortBy?: SortBy | null;
+	types?: SearchType | null;
+}
 export interface RecoverAccountQueryArgs {
 	op: RecoverAccountOp;
 	email: string;
@@ -2407,15 +2425,6 @@ export enum GranteeType {
 	cos = 'cos'
 }
 
-export enum RecoverAccountOp {
-	getRecoveryAccount = 'getRecoveryAccount',
-	sendRecoveryCode = 'sendRecoveryCode'
-}
-
-export enum SetRecoveryAccountChannel {
-	email = 'email'
-}
-
 export enum SortBy {
 	none = 'none',
 	dateAsc = 'dateAsc',
@@ -2436,6 +2445,15 @@ export enum SortBy {
 	readDesc = 'readDesc',
 	sizeAsc = 'sizeAsc',
 	sizeDesc = 'sizeDesc'
+}
+
+export enum RecoverAccountOp {
+	getRecoveryAccount = 'getRecoveryAccount',
+	sendRecoveryCode = 'sendRecoveryCode'
+}
+
+export enum SetRecoveryAccountChannel {
+	email = 'email'
 }
 
 export enum NeedIsMemberType {
