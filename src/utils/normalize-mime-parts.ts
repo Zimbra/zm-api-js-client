@@ -47,6 +47,28 @@ export function getAttachmentUrl(
 	)}${jwtToken ? `&zjwt=${jwtToken}` : ''}`;
 }
 
+export function getContactProfileImageUrl(
+	attachment: { [key: string]: any },
+	{ origin = '', jwtToken }: { jwtToken?: string; origin?: string }
+) {
+	const imageURL = getAttachmentUrl(attachment, {
+		origin: origin,
+		jwtToken: jwtToken
+	});
+	return imageURL ? `${imageURL}&t=${Date.now()}` : '';
+}
+
+export function getProfileImageUrl(
+	profileImageId: string,
+	{ origin = '', jwtToken }: { jwtToken?: string; origin?: string }
+) {
+	return `${origin}/service/home/~/?auth=${
+		jwtToken ? 'jwt' : 'co'
+	}&id=${encodeURIComponent(profileImageId)}&t=${Date.now()}${
+		jwtToken ? `&zjwt=${jwtToken}` : ''
+	}`;
+}
+
 export function normalizeMimeParts(
 	message: { [key: string]: any },
 	{ origin, jwtToken }: { jwtToken?: string; origin?: string }
@@ -88,7 +110,15 @@ export function normalizeMimeParts(
 
 				part.contentType !== 'application/pkcs7-mime' &&
 					part.contentType !== 'application/pkcs7-signature' &&
+					part.contentType !== 'application/x-pkcs7-signature' &&
 					(acc[mode] || (acc[mode] = [])).push(processAttachment(part));
+
+				message.attributes = message.attributes || {};
+				message.attributes.isEncrypted =
+					part.contentType === 'application/pkcs7-mime';
+				message.attributes.isSigned =
+					part.contentType === 'application/pkcs7-signature' ||
+					part.contentType === 'application/x-pkcs7-signature';
 			}
 
 			return acc;
