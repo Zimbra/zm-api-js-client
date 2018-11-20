@@ -1381,7 +1381,7 @@ input ExistingAttachmentInput {
 }
 
 input AttachmentInput {
-	attachmentIds: String
+	attachmentId: String
 	existingAttachments: [ExistingAttachmentInput]
 }
 
@@ -1433,6 +1433,7 @@ input CalendarItemMessageInput {
 input SendMessageInput {
 	id: ID #id
 	origId: ID #origid
+	attach: [AttachmentInput]
 	attachmentId: ID #aid
 	replyType: String #rt
 	inReplyTo: String #irt

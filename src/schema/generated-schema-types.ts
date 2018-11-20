@@ -1339,7 +1339,7 @@ export interface MimePartInput {
 }
 
 export interface AttachmentInput {
-	attachmentIds?: string | null;
+	attachmentId?: string | null;
 	existingAttachments?: ExistingAttachmentInput[] | null;
 }
 
@@ -1763,6 +1763,7 @@ export interface WhiteBlackAddressOpts {
 export interface SendMessageInput {
 	id?: string | null;
 	origId?: string | null;
+	attach?: AttachmentInput[] | null;
 	attachmentId?: string | null;
 	replyType?: string | null;
 	inReplyTo?: string | null;
