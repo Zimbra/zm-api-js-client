@@ -89,7 +89,7 @@ export class ZimbraNotifications {
 				const group =
 					folderName === 'Trash'
 						? ''
-						: item.attributes.type === 'group'
+						: item.attributes && item.attributes.type === 'group'
 							? ' #type:group'
 							: ' NOT #type:group';
 				const query = `in:\\\\"${folderName}\\\\"${group}`;
