@@ -50,7 +50,7 @@ export class SyncOfflineOperations {
 
 	init = () =>
 		this.getOfflineData().then(
-			stored => (this.offlineData = JSON.parse(stored) || [])
+			stored => (this.offlineData = (stored && JSON.parse(stored)) || [])
 		);
 
 	sync = () => {
