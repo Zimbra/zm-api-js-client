@@ -1558,6 +1558,7 @@ export interface PreferencesInput {
 	zimbraPrefReadingPaneEnabled?: boolean | null;
 	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
 	zimbraPrefShowFragments?: boolean | null;
+	zimbraPrefWebClientOfflineBrowserKey?: string | null;
 	zimbraPrefTimeZoneId?: string | null;
 }
 

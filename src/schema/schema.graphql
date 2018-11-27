@@ -1679,6 +1679,7 @@ input PreferencesInput {
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
 	zimbraPrefShowFragments: Boolean
+	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
 }
 
