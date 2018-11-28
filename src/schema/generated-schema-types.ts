@@ -592,6 +592,7 @@ export interface CalendarItemHitInfo {
 	class: CalendarItemClass;
 	componentNum?: number | null;
 	date?: number | null;
+	tzo?: number | null;
 	duration?: number | null;
 	excerpt?: string | null;
 	flags?: string | null;
