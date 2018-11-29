@@ -610,6 +610,7 @@ type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	class: CalendarItemClass!
 	componentNum: Int # compNum
 	date: Float # d
+	timezoneOffset: Int
 	duration: Float # dur
 	excerpt: String # fr
 	flags: String # f

@@ -261,6 +261,7 @@ export const CalendarItemHitInfo = new Entity({
 	recur: 'isRecurring',
 	ptst: 'participationStatus',
 	dur: 'duration',
+	tzo: 'timezoneOffset',
 	inst: ['instances', Instance],
 	inv: ['invitations', Invitation],
 	sf: 'sortField'
