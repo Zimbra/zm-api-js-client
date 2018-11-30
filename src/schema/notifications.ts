@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 import get from 'lodash/get';
 import omitBy from 'lodash/omitBy';
+import uniqBy from 'lodash/uniqBy';
 import { ZimbraInMemoryCache } from '../apollo/zimbra-in-memory-cache';
 import { Notification } from '../batch-client/types';
 import { normalize } from '../normalize';
@@ -102,7 +103,9 @@ export class ZimbraNotifications {
 						id: id,
 						fragment: gql`
 							fragment ${generateFragmentName('searchResults')} on SearchResponse {
-								contacts
+								contacts {
+									id
+								}
 							}
 						`
 					});
@@ -123,21 +126,15 @@ export class ZimbraNotifications {
 						...item
 					}
 				});
-				if (
-					searchResponse[query].contacts &&
-					!searchResponse[query].contacts.some(
-						(contact: any) => contact.id === `Contact:${item.id}`
-					)
-				) {
-					searchResponse[query].contacts = [
-						{
-							generated: false,
-							id: `Contact:${item.id}`,
-							type: 'id',
-							typename: 'Contact'
-						}
-					].concat(searchResponse[query].contacts);
-				}
+				searchResponse[query].contacts = uniqBy(
+					[item].concat(searchResponse[query].contacts),
+					'id'
+				).map(contact => ({
+					generated: false,
+					id: `Contact:${contact.id}`,
+					type: 'id',
+					typename: 'Contact'
+				}));
 			});
 			Object.keys(searchResponse).forEach(q => {
 				const r = new RegExp(q);
