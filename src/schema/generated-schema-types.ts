@@ -1875,6 +1875,7 @@ export interface AutoCompleteGalQueryArgs {
 }
 export interface DownloadMessageQueryArgs {
 	id: string;
+	isSecure?: boolean | null;
 }
 export interface FreeBusyQueryArgs {
 	names?: string[] | null;
