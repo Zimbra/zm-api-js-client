@@ -12,6 +12,7 @@ import {
 	AutoCompleteGALResponse,
 	AutoCompleteResponse as AutoCompleteResponseEntity,
 	CalendarItemCreateModifyRequest,
+	CalendarItemDeleteRequest,
 	CalendarItemHitInfo,
 	Contact,
 	ContactInputRequest,
@@ -44,6 +45,7 @@ import {
 	CalendarItemInput,
 	CreateContactInput,
 	CreateMountpointInput,
+	DeleteAppointmentInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
@@ -56,7 +58,8 @@ import {
 	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput,
-	WhiteBlackListInput
+	WhiteBlackListInput,
+	ZimletPreferenceInput
 } from '../schema/generated-schema-types';
 import {
 	coerceBooleanToInt,
@@ -67,6 +70,8 @@ import { mapValuesDeep } from '../utils/map-values-deep';
 import { normalizeEmailAddresses } from '../utils/normalize-email-addresses';
 import {
 	getAttachmentUrl,
+	getContactProfileImageUrl,
+	getProfileImageUrl,
 	normalizeMimeParts
 } from '../utils/normalize-mime-parts';
 import {
@@ -88,6 +93,7 @@ import {
 	GetMessageOptions,
 	GetSMimePublicCertsOptions,
 	LoginOptions,
+	ModifyProfileImageOptions,
 	NotificationHandler,
 	RecoverAccountOptions,
 	RelatedContactsOptions,
@@ -225,6 +231,9 @@ export class ZimbraBatchClient {
 			}
 		});
 
+	public contactAction = (options: ActionOptions) =>
+		this.action(ActionType.contact, options);
+
 	public conversationAction = (options: ActionOptions) =>
 		this.action(ActionType.conversation, options);
 
@@ -259,7 +268,7 @@ export class ZimbraBatchClient {
 		forEach(attributes, (val, key) =>
 			contactAttrs.push({
 				name: key,
-				content: val
+				[key === 'image' ? 'aid' : 'content']: val
 			})
 		);
 
@@ -323,6 +332,12 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(task)
 			}
+		});
+
+	public deleteAppointment = (appointment: DeleteAppointmentInput) =>
+		this.jsonRequest({
+			name: 'CancelAppointment',
+			body: denormalize(CalendarItemDeleteRequest)(appointment)
 		});
 
 	public deleteExternalAccount = ({ id }: ExternalAccountDeleteInput) =>
@@ -389,18 +404,33 @@ export class ZimbraBatchClient {
 			jwtToken: this.jwtToken
 		});
 
-	public getContact = ({ id }: GetContactOptions) =>
+	public getContact = ({ id, ids, ...rest }: GetContactOptions) =>
 		this.jsonRequest({
 			name: 'GetContacts',
 			body: {
-				cn: { id }
+				cn: {
+					id: id || (ids || []).join(',')
+				},
+				...rest
 			}
-		}).then(res => normalize(Contact)(res.cn[0]));
+		}).then(res => res.cn.map((contact: any) => normalize(Contact)(contact)));
 
 	public getContactFrequency = (options: GetContactFrequencyOptions) =>
 		this.jsonRequest({
 			name: 'GetContactFrequency',
 			body: options
+		}).then(res => {
+			res.data = res.data.map((item: any) => {
+				item.by = item.spec[0].range;
+				return item;
+			});
+			return res;
+		});
+
+	public getContactProfileImageUrl = (attachment: any) =>
+		getContactProfileImageUrl(attachment, {
+			origin: this.origin,
+			jwtToken: this.jwtToken
 		});
 
 	public getConversation = (options: GetConversationOptions) =>
@@ -473,6 +503,12 @@ export class ZimbraBatchClient {
 				}
 			}
 		}).then(res => (res && res.m ? this.normalizeMessage(res.m[0]) : null));
+
+	public getProfileImageUrl = (profileImageId: any) =>
+		getProfileImageUrl(profileImageId, {
+			origin: this.origin,
+			jwtToken: this.jwtToken
+		});
 
 	public getSearchFolder = () =>
 		this.jsonRequest({
@@ -579,7 +615,7 @@ export class ZimbraBatchClient {
 		forEach(attributes, (val, key) =>
 			modifiedAttrs.push({
 				name: key,
-				content: val
+				[key === 'image' ? 'aid' : 'content']: val
 			})
 		);
 
@@ -632,6 +668,14 @@ export class ZimbraBatchClient {
 			}
 		});
 
+	public modifyProfileImage = ({ uid }: ModifyProfileImageOptions) =>
+		this.jsonRequest({
+			name: 'ModifyProfileImage',
+			body: {
+				uid
+			}
+		});
+
 	public modifySearchFolder = (options: SearchFolderInput) =>
 		this.jsonRequest({
 			name: 'ModifySearchFolder',
@@ -662,6 +706,15 @@ export class ZimbraBatchClient {
 			}
 		});
 
+	public modifyZimletPrefs = (zimlet: Array<ZimletPreferenceInput>) =>
+		this.jsonRequest({
+			name: 'ModifyZimletPrefs',
+			namespace: Namespace.Account,
+			body: {
+				zimlet
+			}
+		});
+
 	public noop = () => this.jsonRequest({ name: 'NoOp' });
 
 	public preferences = () =>
@@ -688,7 +741,7 @@ export class ZimbraBatchClient {
 					cn: email
 				}
 			}
-		});
+		}).then(resp => resp.relatedContacts.relatedContact);
 
 	public resetPassword = ({ password }: ResetPasswordOptions) =>
 		this.jsonRequest({
@@ -723,6 +776,13 @@ export class ZimbraBatchClient {
 			}
 			return normalized;
 		});
+
+	public searchGal = (options: SearchOptions) =>
+		this.jsonRequest({
+			name: 'SearchGal',
+			body: options,
+			namespace: Namespace.Account
+		}).then(normalize(SearchResponse));
 
 	public sendInviteReply = (requestOptions: InviteReplyInput) =>
 		this.jsonRequest({

@@ -21,6 +21,12 @@ export interface AutoCompleteOptions {
 	needExp?: boolean;
 	type?: GalSearchType;
 }
+
+export enum NeedIsMemberType {
+	all = 'all',
+	directOnly = 'directOnly',
+	none = 'none'
+}
 export interface AutoCompleteGALOptions {
 	limit?: number;
 	name: string;
@@ -51,14 +57,23 @@ export interface FreeBusyOptions {
 }
 
 export interface GetContactOptions {
+	derefGroupMember: boolean;
 	id: string;
+	ids: Array<string>;
+	memberOf: boolean;
 }
 
 export interface GetContactFrequencyOptions {
 	by: string;
 	email: string;
+	offsetInMinutes: string;
+	spec: Array<ContactFrequencySpec>;
 }
 
+export interface ContactFrequencySpec {
+	interval: string;
+	range: string;
+}
 export interface GetFolderOptions {
 	depth?: number;
 	folder?: {
@@ -112,10 +127,13 @@ export interface SearchOptions {
 	fullConversation?: boolean;
 	limit?: number;
 	needExp?: boolean;
+	needIsMember?: NeedIsMemberType;
+	needIsOwner?: boolean;
 	offset?: number;
 	query?: string;
 	recip?: number;
 	sortBy?: SortBy;
+	type?: GalSearchType;
 	types?: SearchType;
 }
 
@@ -129,6 +147,9 @@ export interface ChangePasswordOptions {
 	username: string;
 }
 
+export interface ModifyProfileImageOptions {
+	uid: string;
+}
 export interface LoginOptions {
 	password: string;
 	persistAuthTokenCookie?: boolean;

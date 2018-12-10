@@ -1,12 +1,14 @@
 import gql from 'graphql-tag';
 import get from 'lodash/get';
 import omitBy from 'lodash/omitBy';
+import uniqBy from 'lodash/uniqBy';
 import { ZimbraInMemoryCache } from '../apollo/zimbra-in-memory-cache';
 import { Notification } from '../batch-client/types';
 import { normalize } from '../normalize';
 import { ZimbraNotificationsOptions } from './types';
 
 import {
+	Contact,
 	Conversation,
 	Folder as FolderEntity,
 	MessageInfo
@@ -15,11 +17,28 @@ import {
 const normalizeConversation = normalize(Conversation);
 const normalizeFolder = normalize(FolderEntity);
 const normalizeMessage = normalize(MessageInfo);
+const normalizeContact = normalize(Contact);
 
 function itemsForKey(notification: any, key: string) {
 	const modifiedItems = get(notification, `modified.${key}`, []);
 	const createdItems = get(notification, `created.${key}`, []);
 	return [...modifiedItems, ...createdItems];
+}
+
+function findDataId(
+	client: ZimbraInMemoryCache,
+	partialDataId: string = '$ROOT_QUERY',
+	predicate: (d: string) => any
+) {
+	const data =
+		client && get(client, 'cache.data.data', get(client, 'data.data'));
+	if (!data) {
+		return;
+	}
+	return Object.keys(data).filter(
+		(dataId: string) =>
+			dataId.indexOf(partialDataId) !== -1 && predicate(dataId)
+	)[0];
 }
 
 /**
@@ -49,6 +68,95 @@ export class ZimbraNotifications {
 		this.handleFolderNotifications(notification);
 		this.handleConversationNotifications(notification);
 		this.handleMessageNotifications(notification);
+		this.handleContactNotifications(notification);
+	};
+
+	private handleContactNotifications = (notification: Notification) => {
+		const items = itemsForKey(notification, 'cn');
+		if (items) {
+			let searchResponse: any = {};
+			items.forEach((i: any) => {
+				const item = normalizeContact(i);
+				const defaultFolderName = 'Contacts';
+				const folder: any = this.cache.readFragment({
+					id: `Folder:${item.folderId}`,
+					fragment: gql`
+					fragment folderName${item.folderId} on Folder {
+						name
+					}
+					`
+				});
+				const folderName = (folder && folder.name) || defaultFolderName;
+				const group =
+					folderName === 'Trash'
+						? ''
+						: item.attributes && item.attributes.type === 'group'
+							? ' #type:group'
+							: ' NOT #type:group';
+				const query = `in:\\\\"${folderName}\\\\"${group}`;
+				const r = new RegExp(query);
+				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
+					r.test(dataId)
+				);
+				if (!searchResponse[query] && id) {
+					searchResponse[query] = this.cache.readFragment({
+						id: id,
+						fragment: gql`
+							fragment ${generateFragmentName('searchResults')} on SearchResponse {
+								contacts {
+									id
+								}
+							}
+						`
+					});
+				}
+				searchResponse[query] =
+					searchResponse[query] && searchResponse[query].contacts
+						? searchResponse[query]
+						: { contacts: [] };
+				this.cache.writeFragment({
+					id: `Contact:${item.id}`,
+					fragment: gql`
+						fragment ${generateFragmentName('contactNotification', item.id)} on Contact {
+							${attributeKeys(item)}
+						}
+					`,
+					data: {
+						__typename: 'Contact',
+						...item
+					}
+				});
+				searchResponse[query].contacts = uniqBy(
+					[item].concat(searchResponse[query].contacts),
+					'id'
+				).map(contact => ({
+					generated: false,
+					id: `Contact:${contact.id}`,
+					type: 'id',
+					typename: 'Contact'
+				}));
+			});
+			Object.keys(searchResponse).forEach(q => {
+				const r = new RegExp(q);
+				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
+					r.test(dataId)
+				);
+				if (id) {
+					this.cache.writeFragment({
+						id: id,
+						fragment: gql`
+						fragment ${generateFragmentName('searchResults')} on SearchResponse {
+							contacts
+						}
+						`,
+						data: {
+							__typename: 'SearchResponse',
+							contacts: searchResponse[q].contacts
+						}
+					});
+				}
+			});
+		}
 	};
 
 	private handleConversationNotifications = (notification: Notification) => {

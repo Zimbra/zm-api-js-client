@@ -167,7 +167,10 @@ export function jsonRequest(
 	let header: SOAPHeader;
 	header = {
 		context: {
-			_jsns: Namespace.All
+			_jsns: Namespace.All,
+			authTokenControl: {
+				voidOnExpired: true
+			}
 		}
 	};
 
