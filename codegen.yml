@@ -1,0 +1,8 @@
+schema:
+  - ".tmp/introspected-schema.json"
+overwrite: true
+generates:
+  src/schema/generated-schema-types.ts:
+    plugins:
+      - "typescript-common"
+      - "typescript-client"
