@@ -5,6 +5,7 @@ import {
 	CalendarItemInput,
 	CreateContactInput,
 	CreateMountpointInput,
+	DeleteAppointmentInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
@@ -19,7 +20,8 @@ import {
 	ShareNotificationInput,
 	SignatureInput,
 	SortBy,
-	WhiteBlackListInput
+	WhiteBlackListInput,
+	ZimletPreferenceInput
 } from './generated-schema-types';
 import { ZimbraSchemaOptions } from './types';
 
@@ -48,6 +50,7 @@ import {
 	GetMessageOptions,
 	GetSMimePublicCertsOptions,
 	LoginOptions,
+	ModifyProfileImageOptions,
 	RecoverAccountOptions,
 	RelatedContactsOptions,
 	ResetPasswordOptions,
@@ -107,6 +110,8 @@ export function createZimbraSchema(
 				search: (_, variables) => client.search(variables as SearchOptions),
 				searchConversation: (_, variables) =>
 					client.searchConversation(variables as SearchConversationOptions),
+				searchGal: (_, variables) =>
+					client.searchGal(variables as SearchOptions),
 				shareInfos: (_, variables) =>
 					client.shareInfos(variables as ShareInfosOptions),
 				taskFolders: client.taskFolders,
@@ -167,6 +172,8 @@ export function createZimbraSchema(
 					client.messageAction(variables as ActionOptions),
 				changePassword: (_, variables) =>
 					client.changePassword(variables as ChangePasswordOptions),
+				modifyProfileImage: (_, variables) =>
+					client.modifyProfileImage(variables as ModifyProfileImageOptions),
 				contactAction: (_, variables) =>
 					client.contactAction(variables as ActionOptions),
 				conversationAction: (_, variables) =>
@@ -204,8 +211,8 @@ export function createZimbraSchema(
 					),
 				createMountpoint: (_, variables) =>
 					client.createMountpoint(variables as CreateMountpointInput),
-				deleteAppointment: (_, { inviteId }, { zimbra }) =>
-					zimbra.appointments.delete({ inviteId }),
+				deleteAppointment: (_, { appointment }) =>
+					client.deleteAppointment(appointment as DeleteAppointmentInput),
 				checkCalendar: (_, { calendarId, value }, { zimbra }) =>
 					zimbra.calendars.check({ calendarId, value }),
 				prefCalendarInitialView: (_, { value }) =>
@@ -293,6 +300,8 @@ export function createZimbraSchema(
 					zimbra.account.modifyIdentity(id, attrs),
 				modifyPrefs: (_, { prefs }) =>
 					client.modifyPrefs(prefs as PreferencesInput),
+				modifyZimletPrefs: (_, { zimlets }) =>
+					client.modifyZimletPrefs(zimlets as Array<ZimletPreferenceInput>),
 				modifyFilterRules: (_, { filters }) =>
 					client.modifyFilterRules(filters as Array<FilterInput>),
 				createSignature: (_, variables) =>

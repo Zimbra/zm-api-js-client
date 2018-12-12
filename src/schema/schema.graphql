@@ -194,6 +194,12 @@ enum GalSearchType {
 	group
 }
 
+enum NeedIsMemberType {
+	all
+	directOnly
+	none
+}
+
 enum ReadingPaneLocation {
 	off
 	right
@@ -338,6 +344,15 @@ type ModifyAppointmentResponse {
 	inviteId: ID #invId
 	modifiedSequence: Int # ms
 	revision: Int # rev
+}
+
+type ZimletPref {
+	name: String
+	presence: String
+}
+
+type ModifyZimletPrefsResponse {
+	zimlet: [ZimletPref]
 }
 
 type EmailAddress {
@@ -614,6 +629,7 @@ type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	class: CalendarItemClass!
 	componentNum: Int # compNum
 	date: Float # d
+	timezoneOffset: Int
 	duration: Float # dur
 	excerpt: String # fr
 	flags: String # f
@@ -661,6 +677,7 @@ input ExternalAccount {
 	username: String!
 	password: String!
 }
+
 
 type FreeBusyInstance {
 	start: Float
@@ -891,6 +908,7 @@ type Folder {
 	permissions: String # It will be available on linked folders only
 	ownerZimbraId: ID
 	sharedItemId: ID
+	url: String
 }
 
 type ACL {
@@ -921,6 +939,7 @@ type AccountInfo {
 	name: String
 	publicURL: String
 	rest: String
+	profileImageId: Int
 	soapURL: String
 	version: String
 	identities: Identities
@@ -953,8 +972,8 @@ type AccountZimletDesc {
 	version: String
 	description: String
 	extension: String
-	target: String
 	label: String
+	zimbraXZimletCompatibleSemVer: String
 }
 
 type AccountZimletConfigInfo {
@@ -1079,6 +1098,7 @@ type Preferences {
 	zimbraPrefPasswordRecoveryAddressStatus: PasswordRecoveryAddressStatus
 	zimbraPrefShowFragments: Boolean
 	zimbraPrefWebClientOfflineBrowserKey: String
+	zimbraPrefTimeZoneId: String
 }
 
 type NameId {
@@ -1099,6 +1119,7 @@ type SearchResponse {
 	more: Boolean
 	offset: Int
 	sortBy: String
+	paginationSupported: Boolean
 }
 
 type SendMessageResponse {
@@ -1165,12 +1186,20 @@ type ContactAttributes {
 	anniversary: String
 	website: String
 	notes: String
+	image: ContactImage
 	userCertificate: String
 	zimbraCalResType: String
 
 	# Used for contact lists
 	fileAs: String
 	type: String
+}
+
+type ContactImage{
+	ct: String
+	filename: String
+	part: String
+	s: String
 }
 
 type ContactListMember {
@@ -1223,6 +1252,7 @@ input ContactAttrsInput {
 	anniversary: String
 	website: String
 	notes: String
+	image: String
 	userCertificate: String
 
 	# Used for contact lists
@@ -1254,10 +1284,6 @@ type RelatedContact {
 	email: String
 	scope: Int
 	p: String
-}
-
-type RelatedContacts {
-	relatedContacts: [RelatedContact]
 }
 
 type ContactFrequencyResponse {
@@ -1319,6 +1345,7 @@ type MailboxMetadataAttrs {
 	archivedFolder: String
 	zimbraPrefSMIMEDefaultSetting: String
 	zimbraPrefSMIMELastOperation: String
+	zimbraPrefContactSourceFolderID: String
 }
 
 input MailboxMetadataSectionAttrsInput {
@@ -1337,6 +1364,7 @@ input MailboxMetadataSectionAttrsInput {
 	archivedFolder: String
 	zimbraPrefSMIMEDefaultSetting: String
 	zimbraPrefSMIMELastOperation: String
+	zimbraPrefContactSourceFolderID: String
 }
 
 type MimePart {
@@ -1374,7 +1402,7 @@ input ExistingAttachmentInput {
 }
 
 input AttachmentInput {
-	attachmentIds: String
+	attachmentId: String
 	existingAttachments: [ExistingAttachmentInput]
 }
 
@@ -1426,6 +1454,7 @@ input CalendarItemMessageInput {
 input SendMessageInput {
 	id: ID #id
 	origId: ID #origid
+	attach: [AttachmentInput]
 	attachmentId: ID #aid
 	replyType: String #rt
 	inReplyTo: String #irt
@@ -1627,6 +1656,11 @@ input FolderActionInput {
 	zimbraId: ID
 }
 
+input ContactFrequencySpec {
+	range: String!
+	interval: String!
+}
+
 input GrantInput {
 	address: String
 	granteeType: GranteeType!
@@ -1642,6 +1676,7 @@ input InviteReplyInput {
 	verb: InviteReplyVerb!
 	updateOrganizer: Boolean
 	message: CalendarItemMessageInput
+	exceptId: InstanceDate
 }
 
 input PreferencesInput {
@@ -1665,6 +1700,13 @@ input PreferencesInput {
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
 	zimbraPrefShowFragments: Boolean
+	zimbraPrefWebClientOfflineBrowserKey: String
+	zimbraPrefTimeZoneId: String
+}
+
+input ZimletPreferenceInput {
+	name: String!
+	presence: String!
 }
 
 ##### FilterInput #####
@@ -1985,6 +2027,18 @@ input Timezone {
 	standard: TimezoneStandard
 }
 
+input InstanceDate {
+	date: String
+}
+
+input DeleteAppointmentInput {
+	instanceDate: InstanceDate
+	inviteId: String!
+	componentNum: String!
+	start: Int,
+	message: CalendarItemMessageInput
+}
+
 input SignatureInput {
 	id: ID
 	name: String
@@ -2098,7 +2152,8 @@ type Query {
 	getContactFrequency(
 		email: String!
 		by: String!
-		offsetInMinutes: Int
+		offsetInMinutes: String
+		spec: [ContactFrequencySpec!]
 	): ContactFrequencyResponse
 	getConversation(
 		id: ID!,
@@ -2141,7 +2196,7 @@ type Query {
 		email: String!
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
-	relatedContacts(email: String!): RelatedContacts
+	relatedContacts(email: String!): [RelatedContact]
 	shareInfos(addresses: [String!]): [[ShareInfo]]
 
 	# Perform a search for a variety types using a flexible query interface.
@@ -2192,7 +2247,18 @@ type Query {
 		timezone: Timezone,
 		types: [SearchType],
 		wantContent: SearchConversationWantContent,
-	): SearchResponse,
+	): SearchResponse
+	searchGal(
+		needIsOwner: Boolean,
+		needIsMember: NeedIsMemberType,
+		type: GalSearchType,
+		name: String,
+		offset: Int,
+		limit: Int,
+		locale: String,
+		sortBy: String,
+		needExp: Boolean
+	): SearchResponse
 	taskFolders: [Folder]
 }
 
@@ -2219,6 +2285,7 @@ type Mutation {
 		password: String!
 		username: String!
 	): String
+	modifyProfileImage(uid: String!): String
 	checkCalendar(calendarId: ID!, value: Boolean!): Boolean
 	contactAction(
 		id: ID
@@ -2260,7 +2327,7 @@ type Mutation {
 		signature: SignatureInput!
 	): SignatureResponse
 	createTask(task: CalendarItemInput!): Boolean
-	deleteAppointment(inviteId: String!): Boolean
+	deleteAppointment(appointment: DeleteAppointmentInput!): Boolean
 	deleteExternalAccount(id: ID!): Boolean
 	deleteSignature(signature: NameIdInput!): String
 	folderAction(action: FolderActionInput!): Boolean
@@ -2286,6 +2353,7 @@ type Mutation {
 	modifyAppointment(accountName: String, appointment: CalendarItemInput!): ModifyAppointmentResponse
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
 	modifyPrefs(prefs: PreferencesInput!): Boolean
+	modifyZimletPrefs(zimlets: [ZimletPreferenceInput!]): ModifyZimletPrefsResponse
 	modifyFilterRules(filters: [FilterInput!]): Boolean
 	modifySignature(signature: SignatureInput!): String
 	modifySearchFolder(search: SearchFolderInput!): Boolean

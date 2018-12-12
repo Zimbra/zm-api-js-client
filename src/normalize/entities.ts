@@ -151,18 +151,13 @@ const ExistingAttachmentsInfo = new Entity({
 });
 
 const AttachmentsInfo = new Entity({
-	aid: 'attachmentIds',
+	aid: 'attachmentId',
 	mp: ['existingAttachments', ExistingAttachmentsInfo]
 });
 
 MimePart.addMapping({
 	mp: ['mimeParts', MimePart],
 	attach: ['attachments', AttachmentsInfo]
-});
-
-const MessageAttributes = new Entity({
-	'X-Zimbra-SMIME-DRAFT-ENCRYPT': 'isEncrypted',
-	'X-Zimbra-SMIME-DRAFT-SIGN': 'isSigned'
 });
 
 const commonMailItemFields = {
@@ -193,8 +188,7 @@ export const SendMessageInfo = new Entity({
 });
 
 export const MessageInfo = new Entity({
-	...commonMailItemFields,
-	_attrs: ['attributes', MessageAttributes]
+	...commonMailItemFields
 });
 
 export const Conversation = new Entity({
@@ -211,6 +205,18 @@ export const CalendarItemCreateModifyRequest = new Entity({
 	apptId: 'appointmentId',
 	calItemId: 'calendarItemId',
 	invId: 'inviteId'
+});
+
+export const InstanceDate = new Entity({
+	d: 'date'
+});
+
+export const CalendarItemDeleteRequest = new Entity({
+	inst: ['instanceDate', InstanceDate],
+	id: 'inviteId',
+	comp: 'componentNum',
+	s: 'start',
+	m: ['message', MessageInfo]
 });
 
 const NewMountpointSpec = new Entity({
@@ -255,6 +261,7 @@ export const CalendarItemHitInfo = new Entity({
 	recur: 'isRecurring',
 	ptst: 'participationStatus',
 	dur: 'duration',
+	tzo: 'timezoneOffset',
 	inst: ['instances', Instance],
 	inv: ['invitations', Invitation],
 	sf: 'sortField'
@@ -424,7 +431,8 @@ export const Filter = new Entity({
 export const InviteReply = new Entity({
 	compNum: 'componentNum',
 	m: ['message', MessageInfo],
-	rt: 'replyType'
+	rt: 'replyType',
+	exceptId: ['exceptId', InstanceDate]
 });
 
 const Signature = new Entity({
