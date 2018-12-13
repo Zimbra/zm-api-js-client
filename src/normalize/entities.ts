@@ -73,7 +73,7 @@ const CalendarItemAttendees = new Entity({
 const CalendarItemReply = new Entity({
 	ptst: 'participationStatus',
 	at: 'attendee'
-  });
+});
 
 const CalendarItemOrganizer = new Entity({
 	a: 'address',
@@ -125,10 +125,10 @@ const InviteComponent = new Entity({
 });
 
 const InviteReplies = new Entity({
-	...commonMessageFields, 
-	...commonInviteFields, 
-	reply: ['reply', CalendarItemReply],
-  });
+	...commonMessageFields,
+	...commonInviteFields,
+	reply: ['reply', CalendarItemReply]
+});
 
 const CalTZInfo = new Entity({
 	stdoff: 'timezoneStdOffset',
