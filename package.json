@@ -28,7 +28,8 @@
     "minify:umd": "cross-var uglifyjs $npm_package_umd_main -c pure_getters,pure_funcs=classCallCheck -m toplevel,reserved=['_createClass'] --keep-fnames -o $npm_package_umd_main --source-map content=$npm_package_umd_main.map,url=zm-api-js-client.umd.js.map,filename=$npm_package_umd_main.map",
     "size": "echo \"Gzipped Size: $(gzip-size $npm_package_main | pretty-bytes)\"",
     "prepublishOnly": "npm test && npm run build && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags",
-    "publish:beta": "npm publish --tag=beta"
+    "publish:beta": "npm publish --tag=beta",
+    "security:audit": "audit-ci --moderate --critical --high"
   },
   "keywords": [
     "zimbra",
@@ -67,6 +68,7 @@
     "@types/recompose": "^0.24.6",
     "@types/whatwg-fetch": "0.0.33",
     "apollo-codegen": "^0.19.1",
+    "audit-ci": "^1.1.0",
     "babel-plugin-lodash": "^3.3.2",
     "chai": "^4.1.2",
     "copyfiles": "^2.0.0",
