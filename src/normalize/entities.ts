@@ -70,6 +70,11 @@ const CalendarItemAttendees = new Entity({
 	cutype: 'calendarUserType'
 });
 
+const CalendarItemReply = new Entity({
+	ptst: 'participationStatus',
+	at: 'attendee'
+  });
+
 const CalendarItemOrganizer = new Entity({
 	a: 'address',
 	d: 'name'
@@ -119,6 +124,12 @@ const InviteComponent = new Entity({
 	seq: 'sequence'
 });
 
+const InviteReplies = new Entity({
+	...commonMessageFields, 
+	...commonInviteFields, 
+	reply: ['reply', CalendarItemReply],
+  });
+
 const CalTZInfo = new Entity({
 	stdoff: 'timezoneStdOffset',
 	dayoff: 'timezoneDaylightOffset'
@@ -130,11 +141,13 @@ const Invitation = new Entity({
 	recurId: 'recurrenceId',
 	tz: ['tz', CalTZInfo],
 	comp: ['components', InviteComponent],
+	replies: ['replies', InviteReplies],
 	mp: ['mimeParts', MimePart]
 });
 
 const InviteInfo = new Entity({
 	comp: ['components', InviteComponent],
+	replies: ['replies', InviteReplies],
 	mp: ['mimeParts', MimePart]
 });
 

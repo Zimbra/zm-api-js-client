@@ -467,7 +467,8 @@ enum InviteType {
 type InviteInfo {
 	type: InviteType #though type is a required value on the response, outdated invites come back as empty InviteInfo objects
 	components: [InviteComponent] #comp
-}
+	replies: [InviteReplies] #replies
+ }
 
 type AddRecurrenceInfo { # <add>
 	add: [AddRecurrenceInfo]
@@ -530,6 +531,10 @@ type RecurrenceInfo { # <recur>
 	rule: [SimpleRepeatingRule]
 }
 
+type InviteReplies {
+	reply: [CalendarItemReply]
+}
+
 type InviteComponent {
 	# duration: DurationInfo # dur - TODO
 	alarms: [CalendarItemAlarm]
@@ -580,6 +585,7 @@ type Invitation { # <inv>
 	recurrenceId: String # recurId
 	tz: CalTZInfo
 	components: [InviteComponent]! # comp
+	replies: [InviteReplies]! # replies
 	mimeParts: MimePart
 }
 
@@ -1500,6 +1506,11 @@ type CalendarItemAttendee {
 	address: String
 	name: String
 	calendarUserType: String
+}
+
+type CalendarItemReply {
+	participationStatus: ParticipationStatus
+	attendee: String
 }
 
 input CalendarItemAttendeesInput {

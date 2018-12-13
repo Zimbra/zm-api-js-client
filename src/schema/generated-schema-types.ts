@@ -399,6 +399,7 @@ export interface EmailAddress {
 export interface InviteInfo {
 	type?: InviteType | null;
 	components?: InviteComponent[] | null;
+	replies?: InviteReplies[] | null;
 }
 
 export interface InviteComponent {
@@ -537,6 +538,15 @@ export interface CalOrganizer {
 	sentBy?: string | null;
 }
 
+export interface InviteReplies {
+	reply?: CalendarItemReply[] | null;
+}
+
+export interface CalendarItemReply {
+	participationStatus?: ParticipationStatus | null;
+	attendee?: string | null;
+}
+
 export interface ShareNotification {
 	truncated?: boolean | null;
 	content?: string | null;
@@ -659,6 +669,7 @@ export interface Invitation {
 	recurrenceId?: string | null;
 	tz?: CalTZInfo | null;
 	components: InviteComponent[];
+	replies: InviteReplies[];
 	mimeParts?: MimePart | null;
 }
 
