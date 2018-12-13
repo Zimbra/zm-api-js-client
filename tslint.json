@@ -14,7 +14,6 @@
 	},
 	"linterOptions": {
 		"exclude": [
-			// Ignore generated file
 			"src/schema/generated-schema-types.ts"
 		]
 	}
