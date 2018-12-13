@@ -39,12 +39,18 @@ export function getAttachmentUrl(
 	attachment: { [key: string]: any },
 	{ origin = '', jwtToken }: { jwtToken?: string; origin?: string }
 ) {
-	let { messageId, mid, part } = attachment;
-	return `${origin}/service/home/~/?auth=${
-		jwtToken ? 'jwt' : 'co'
-	}&id=${encodeURIComponent(messageId || mid)}&part=${encodeURIComponent(
-		part
-	)}${jwtToken ? `&zjwt=${jwtToken}` : ''}`;
+	if (attachment.messageId) {
+		let { messageId, mid, part } = attachment;
+		return `${origin}/service/home/~/?auth=${
+			jwtToken ? 'jwt' : 'co'
+		}&id=${encodeURIComponent(messageId || mid)}&part=${encodeURIComponent(
+			part
+		)}${jwtToken ? `&zjwt=${jwtToken}` : ''}`;
+	} else {
+		return `${origin}/service/content/proxy?aid=${attachment.attachmentId}${
+			jwtToken ? `&zjwt=${jwtToken}` : ''
+		}`;
+	}
 }
 
 export function getContactProfileImageUrl(
