@@ -125,8 +125,6 @@ const InviteComponent = new Entity({
 });
 
 const InviteReplies = new Entity({
-	...commonMessageFields,
-	...commonInviteFields,
 	reply: ['reply', CalendarItemReply]
 });
 
