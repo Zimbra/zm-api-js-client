@@ -894,6 +894,7 @@ export interface Folder {
 	permissions?: string | null;
 	ownerZimbraId?: string | null;
 	sharedItemId?: string | null;
+	url?: string | null;
 }
 
 export interface ACL {

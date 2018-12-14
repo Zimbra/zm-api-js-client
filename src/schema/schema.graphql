@@ -889,6 +889,7 @@ type Folder {
 	permissions: String # It will be available on linked folders only
 	ownerZimbraId: ID
 	sharedItemId: ID
+	url: String
 }
 
 type ACL {
