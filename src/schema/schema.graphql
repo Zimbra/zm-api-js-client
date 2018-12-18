@@ -2174,6 +2174,21 @@ type Query {
 		sortBy: SortBy,
 		types: SearchType
 	): SearchResponse
+	
+	attachmentsSearch(
+		contact: String
+		cursor: Cursor,
+		fetch: String,
+		fullConversation: Boolean,
+		limit: Int,
+		needExp: Boolean,
+		memberOf: Boolean,
+		offset: Int,
+		query: String,
+		recip: Int,
+		sortBy: SortBy,
+		types: SearchType
+	): SearchResponse
 
 	searchGal(
 		needIsOwner: Boolean,
