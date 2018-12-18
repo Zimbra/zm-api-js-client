@@ -29,7 +29,7 @@
     "size": "echo \"Gzipped Size: $(gzip-size $npm_package_main | pretty-bytes)\"",
     "prepublishOnly": "npm test && npm run build && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags",
     "publish:beta": "npm publish --tag=beta",
-    "security:audit": "audit-ci --moderate --critical --high"
+    "security:audit": "audit-ci --moderate"
   },
   "keywords": [
     "zimbra",
