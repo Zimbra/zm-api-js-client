@@ -888,7 +888,7 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetFolder',
 			body: {
-				view: FolderView.task,
+				view: FolderView.Task,
 				tr: true
 			}
 		}).then(res => normalize(Folder)(res.folder[0].folder));
