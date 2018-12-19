@@ -789,8 +789,8 @@ export class ZimbraBatchClient {
 	}: SearchConversationOptions) => {
 		let body: any = {
 			cid: conversationId,
+			query,
 			_content: {
-				query,
 				header,
 				tz: timezone,
 				locale,
