@@ -107,8 +107,6 @@ export function createZimbraSchema(
 				relatedContacts: (_, variables) =>
 					client.relatedContacts(variables as RelatedContactsOptions),
 				search: (_, variables) => client.search(variables as SearchOptions),
-				attachmentsSearch: (_, variables) =>
-					client.search(variables as SearchOptions),
 				searchGal: (_, variables) =>
 					client.searchGal(variables as SearchOptions),
 				shareInfos: (_, variables) =>

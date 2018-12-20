@@ -59,7 +59,6 @@ export interface Query {
 	relatedContacts?: RelatedContact[] | null;
 	shareInfos?: ShareInfo[] | null;
 	search?: SearchResponse | null /* Perform a search for a variety types using a flexible query interface.[[SOAP Search API Documentation]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/zimbraMail/Search.html)[[Query Tips]](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips) */;
-	attachmentsSearch?: SearchResponse | null;
 	searchGal?: SearchResponse | null;
 	taskFolders?: Folder[] | null;
 }
@@ -1995,20 +1994,6 @@ export interface ShareInfosQueryArgs {
 	addresses?: string[] | null;
 }
 export interface SearchQueryArgs {
-	contact?: string | null;
-	cursor?: Cursor | null;
-	fetch?: string | null;
-	fullConversation?: boolean | null;
-	limit?: number | null;
-	needExp?: boolean | null;
-	memberOf?: boolean | null;
-	offset?: number | null;
-	query?: string | null;
-	recip?: number | null;
-	sortBy?: SortBy | null;
-	types?: SearchType | null;
-}
-export interface AttachmentsSearchQueryArgs {
 	contact?: string | null;
 	cursor?: Cursor | null;
 	fetch?: string | null;
