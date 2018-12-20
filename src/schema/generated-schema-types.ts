@@ -20,6 +20,20 @@ export interface MailItem {
 	share?: ShareNotification[] | null;
 	replyType?: string | null;
 }
+
+export interface Mime {
+	body?: boolean | null;
+	filename?: string | null;
+	part?: string | null;
+	content?: string | null;
+	contentId?: string | null;
+	contentType?: string | null;
+	contentDisposition?: string | null;
+	size?: number | null;
+	mimeParts?: MimePart[] | null;
+	url?: string | null;
+	messageId?: string | null;
+}
 /* Zimbra GraphQL Queries- [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)- [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)- [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap) */
 export interface Query {
 	accountInfo?: AccountInfo | null;
@@ -383,8 +397,8 @@ export interface MessageInfo extends MailItem {
 	sender?: EmailAddress[] | null;
 	html?: string | null;
 	text?: string | null;
-	attachments?: MimePart[] | null;
-	inlineAttachments?: MimePart[] | null;
+	attachments?: AttachmentMime[] | null;
+	inlineAttachments?: InlineAttachmentMime[] | null;
 	share?: ShareNotification[] | null;
 	replyType?: string | null;
 	attributes?: MessageAttributes | null;
@@ -543,7 +557,35 @@ export interface ShareNotification {
 	content?: string | null;
 }
 
-export interface MimePart {
+export interface MimePart extends Mime {
+	body?: boolean | null;
+	filename?: string | null;
+	part?: string | null;
+	content?: string | null;
+	contentId?: string | null;
+	contentType?: string | null;
+	contentDisposition?: string | null;
+	size?: number | null;
+	mimeParts?: MimePart[] | null;
+	url?: string | null;
+	messageId?: string | null;
+}
+
+export interface AttachmentMime extends Mime {
+	body?: boolean | null;
+	filename?: string | null;
+	part?: string | null;
+	content?: string | null;
+	contentId?: string | null;
+	contentType?: string | null;
+	contentDisposition?: string | null;
+	size?: number | null;
+	mimeParts?: MimePart[] | null;
+	url?: string | null;
+	messageId?: string | null;
+}
+
+export interface InlineAttachmentMime extends Mime {
 	body?: boolean | null;
 	filename?: string | null;
 	part?: string | null;
