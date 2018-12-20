@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 ############################################################################
 
@@ -28,27 +28,22 @@ jobs:
       # Download node_modules dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
             # fallback to using the cache from the same branch
-            - v1-dependencies-{{ .Branch }}
+            - v1-dependencies-{{ .Branch }}-
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
       # install dependencies - do this AFTER we do the optional branch checkout of the api client
       - run:
           name: Install npm modules
-          command: npm install
+          command: npm install --no-audit
 
       # Save node_modules dependencies
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ .Branch }}
+          key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
 
       - run:
           name: Build application code
@@ -88,6 +83,28 @@ jobs:
           name: Check for synacor related npm refs in package-lock.json
           command: npm run test:no-synacor-npm-refs
 
+  security-audit:
+    <<: *config
+    steps:
+        - checkout
+
+        # Download node_modules dependencies
+        - restore_cache:
+            keys:
+              - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+              # fallback to using the cache from the same branch
+              - v1-dependencies-{{ .Branch }}-
+              # fallback to using the latest cache if no exact match is found
+              - v1-dependencies-
+
+        # Install dependencies - do this AFTER we do the optional branch checkout of the api client
+        - run:
+            name: Install npm modules
+            command: npm install --no-audit
+
+        - run:
+            name: Run security audit
+            command: npm run security:audit
 
 ############################################################################
 
@@ -96,6 +113,8 @@ workflows:
   main:
     jobs:
       - build
+
+      - security-audit
 
       - validate-package-lock:
           requires:

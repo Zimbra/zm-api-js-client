@@ -11,5 +11,10 @@
 		"prefer-array-literal": false,
 		"prettier": [true, "."],
 		"variable-name": false
+	},
+	"linterOptions": {
+		"exclude": [
+			"src/schema/generated-schema-types.ts"
+		]
 	}
 }
