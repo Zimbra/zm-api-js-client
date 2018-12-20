@@ -400,8 +400,8 @@ type MessageInfo implements MailItem {
 	sender: [EmailAddress]
 	html: String
 	text: String
-	attachments: [AttachmentMime]
-	inlineAttachments: [InlineAttachmentMime]
+	attachments: [MimePart]
+	inlineAttachments: [MimePart]
 	share: [ShareNotification] # shr
 	replyType: String #rt
 	attributes: MessageAttributes
@@ -1348,7 +1348,7 @@ input MailboxMetadataSectionAttrsInput {
 	zimbraPrefContactSourceFolderID: String
 }
 
-type MimePart implements Mime {
+type MimePart {
 	body: Boolean
 	filename: String
 	part: String # Mime part name
@@ -1361,49 +1361,6 @@ type MimePart implements Mime {
 	url: String
 	messageId: ID
 }
-
-interface Mime {
-	body: Boolean
-	filename: String
-	part: String # Mime part name
-	content: String
-	contentId: String
-	contentType: String
-	contentDisposition: String
-	size: Int # Size in bytes
-	mimeParts: [MimePart]
-	url: String
-	messageId: ID
-}
-
-type AttachmentMime implements Mime {
-	body: Boolean
-	filename: String
-	part: String # Mime part name
-	content: String
-	contentId: String
-	contentType: String
-	contentDisposition: String
-	size: Int # Size in bytes
-	mimeParts: [MimePart]
-	url: String
-	messageId: ID
-}
-
-type InlineAttachmentMime implements Mime {
-	body: Boolean
-	filename: String
-	part: String # Mime part name
-	content: String
-	contentId: String
-	contentType: String
-	contentDisposition: String
-	size: Int # Size in bytes
-	mimeParts: [MimePart]
-	url: String
-	messageId: ID
-}
-
 
 input MimePartInput {
 	body: Boolean
@@ -2217,6 +2174,23 @@ type Query {
 		sortBy: SortBy,
 		types: SearchType
 	): SearchResponse
+
+	attachmentsSearch(
+		contact: String
+		cursor: Cursor,
+		fetch: String,
+		fullConversation: Boolean,
+		limit: Int,
+		needExp: Boolean,
+		memberOf: Boolean,
+		offset: Int,
+		query: String,
+		recip: Int,
+		sortBy: SortBy,
+		types: SearchType
+	): SearchResponse
+
+	
 	
 	searchGal(
 		needIsOwner: Boolean,
