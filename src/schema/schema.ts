@@ -126,7 +126,7 @@ export function createZimbraSchema(
 						.jsonRequest({
 							name: 'Search',
 							body: {
-								types: FolderView.appointment,
+								types: FolderView.Appointment,
 								calExpandInstStart: start,
 								calExpandInstEnd: end,
 								query: `inid:"${root.id}"`,
@@ -138,7 +138,7 @@ export function createZimbraSchema(
 							...rest,
 							appointments: appt.map(normalize(CalendarItemHitInfo))
 						})),
-				tasks: (root, { offset, sortBy = SortBy.dateDesc, limit = 1000 }) =>
+				tasks: (root, { offset, sortBy = SortBy.DateDesc, limit = 1000 }) =>
 					client
 						.jsonRequest({
 							name: 'Search',
@@ -146,7 +146,7 @@ export function createZimbraSchema(
 								offset,
 								limit,
 								sortBy,
-								types: FolderView.task,
+								types: FolderView.Task,
 								query: `inid:"${root.id}"`
 							}
 						})
