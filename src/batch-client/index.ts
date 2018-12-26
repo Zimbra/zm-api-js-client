@@ -768,8 +768,7 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'Search',
 			body: {
-				...options,
-				fullConversation: options.fullConversation ? 1 : 0
+				...options
 			}
 		}).then(res => {
 			const normalized = normalize(SearchResponse)(res);
