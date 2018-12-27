@@ -425,6 +425,7 @@ type Conversation implements MailItem {
 	invitations: [InviteInfo] # inv
 	sortField: String # sf, Sort field used for cursor-based pagination
 	messages: [MessageInfo]
+	messagesMetaData: [MessageInfo]
 	numMessages: Int # n, Number of messages in this conversation
 	unread: Int # u
 	share: [ShareNotification] # shr
