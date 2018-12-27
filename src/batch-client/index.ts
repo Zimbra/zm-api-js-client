@@ -366,11 +366,13 @@ export class ZimbraBatchClient {
 			}
 		}).then(Boolean);
 
-	public downloadMessage = ({ id }: any) => {
+	public downloadMessage = ({ id, isSecure }: any) => {
 		return fetch(`${this.origin}/service/home/~/?auth=co&id=${id}`, {
-			headers: {
-				'X-Zimbra-Encoding': 'x-base64'
-			},
+			...(isSecure && {
+				headers: {
+					'X-Zimbra-Encoding': 'x-base64'
+				}
+			}),
 			credentials: 'include'
 		}).then(response => {
 			if (response.ok) {
@@ -854,7 +856,7 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetFolder',
 			body: {
-				view: FolderView.task,
+				view: FolderView.Task,
 				tr: true
 			}
 		}).then(res => normalize(Folder)(res.folder[0].folder));

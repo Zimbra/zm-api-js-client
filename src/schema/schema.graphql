@@ -889,6 +889,7 @@ type Folder {
 	permissions: String # It will be available on linked folders only
 	ownerZimbraId: ID
 	sharedItemId: ID
+	url: String
 }
 
 type ACL {
@@ -2090,7 +2091,7 @@ type Query {
 		type: GalSearchType
 		needExp: Boolean
 	): AutoCompleteGALResponse
-	downloadMessage(id: ID!): SMimeMessage
+	downloadMessage(id: ID!, isSecure: Boolean): SMimeMessage
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
 	getContact(
 		id: ID,
