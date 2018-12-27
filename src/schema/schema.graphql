@@ -444,6 +444,7 @@ type Conversation implements MailItem {
 	invitations: [InviteInfo] # inv
 	sortField: String # sf, Sort field used for cursor-based pagination
 	messages: [MessageInfo]
+	messagesMetaData: [MessageInfo]
 	numMessages: Int # n, Number of messages in this conversation
 	unread: Int # u
 	share: [ShareNotification] # shr
@@ -1375,7 +1376,7 @@ type MimePart {
 	contentId: String
 	contentType: String
 	contentDisposition: String
-	size: Int # Size in bytes
+	size: Float # Size in bytes
 	mimeParts: [MimePart]
 	url: String
 	messageId: ID
@@ -1389,7 +1390,7 @@ input MimePartInput {
 	contentId: String
 	contentType: String
 	contentDisposition: String
-	size: Int # Size in bytes
+	size: Float # Size in bytes
 	mimeParts: [MimePartInput]
 	url: String
 	messageId: ID
@@ -2133,7 +2134,7 @@ type Query {
 		type: GalSearchType
 		needExp: Boolean
 	): AutoCompleteGALResponse
-	downloadMessage(id: ID!): SMimeMessage
+	downloadMessage(id: ID!, isSecure: Boolean): SMimeMessage
 	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
 	getContact(
 		id: ID,
