@@ -21,6 +21,7 @@ import {
 	CreateSignatureRequest,
 	Filter,
 	Folder,
+	ForwardAppointmentInviteInfo,
 	FreeBusy,
 	GetFolderRequest as GetFolderRequestEntity,
 	InviteReply,
@@ -51,6 +52,7 @@ import {
 	ExternalAccountTestInput,
 	FilterInput,
 	FolderView,
+	ForwardAppointmentInviteInput,
 	InviteReplyInput,
 	ModifyContactInput,
 	PreferencesInput,
@@ -387,6 +389,12 @@ export class ZimbraBatchClient {
 
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);
+
+	public forwardAppointmentInvite = (body: ForwardAppointmentInviteInput) =>
+		this.jsonRequest({
+			name: 'ForwardAppointmentInvite',
+			body: denormalize(ForwardAppointmentInviteInfo)(body)
+		});
 
 	public freeBusy = ({ start, end, names }: FreeBusyOptions) =>
 		this.jsonRequest({

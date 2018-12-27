@@ -11,6 +11,7 @@ import {
 	ExternalAccountTestInput,
 	FilterInput,
 	FolderView,
+	ForwardAppointmentInviteInput,
 	InviteReplyInput,
 	ModifyContactInput,
 	NameIdInput,
@@ -243,6 +244,8 @@ export function createZimbraSchema(
 						color
 					}),
 				folderAction: (_, { action }) => client.folderAction(action),
+				forwardAppointmentInvite: (_, variables) =>
+					client.forwardAppointmentInvite(variables as ForwardAppointmentInviteInput),
 				sendShareNotification: (_, { shareNotification }) =>
 					client.sendShareNotification(
 						shareNotification as ShareNotificationInput

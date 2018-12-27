@@ -2099,6 +2099,10 @@ export interface DeleteSignatureMutationArgs {
 export interface FolderActionMutationArgs {
 	action: FolderActionInput;
 }
+export interface ForwardAppointmentInviteInput {
+	id: string;
+	message: SendMessageInput;
+}
 export interface ItemActionMutationArgs {
 	id?: string | null;
 	ids?: string[] | null;

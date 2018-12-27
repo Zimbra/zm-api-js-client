@@ -286,6 +286,11 @@ Folder.addMapping({
 });
 export { Folder };
 
+export const ForwardAppointmentInviteInfo = new Entity({
+	id: 'id',
+	m: ['message', SendMessageFields]
+});
+
 const FreeBusyInstance = new Entity({
 	s: 'start',
 	e: 'end'
