@@ -2289,10 +2289,6 @@ type Mutation {
 	modifyTask(task: CalendarItemInput!): Boolean
 	modifyWhiteBlackList(whiteBlackList: WhiteBlackListInput!): Boolean
 	moveTask(inviteId: ID!, destFolderId: ID!): String
-	prefAutoAddAppointmentToCalendar(value: Boolean!): Boolean
-	prefCalendarInitialView(
-		value: PrefCalendarInitialView!
-	): PrefCalendarInitialView
 	prefEnableOutOfOfficeAlertOnLogin(value: Boolean!): Boolean
 	prefEnableOutOfOfficeReply(value: Boolean!): Boolean
 	prefOutOfOfficeFromDate(value: String!): String

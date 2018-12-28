@@ -68,16 +68,21 @@ export const CacheType = {
 export class ZimbraInMemoryCache extends InMemoryCache {
 	public name: string;
 	constructor(config: ApolloReducerConfig = {}, name: string) {
-		if (
-			!config.fragmentMatcher ||
-			typeof config.fragmentMatcher === 'function'
-		) {
-			config.fragmentMatcher = createFragmentMatcher(config.fragmentMatcher);
+		if (name === CacheType.local) {
+			super(config);
+		} else {
+			if (
+				!config.fragmentMatcher ||
+				typeof config.fragmentMatcher === 'function'
+			) {
+				config.fragmentMatcher = createFragmentMatcher(config.fragmentMatcher);
+			}
+			super({
+				dataIdFromObject,
+				...config
+			});
 		}
-		super({
-			dataIdFromObject,
-			...config
-		});
+
 		this.name = name;
 	}
 }
