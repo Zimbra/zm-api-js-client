@@ -25,6 +25,7 @@ import {
 	GetFolderRequest as GetFolderRequestEntity,
 	InviteReply,
 	MessageInfo,
+	SearchConvRequest,
 	SearchResponse,
 	SendMessageInfo,
 	ShareNotification
@@ -779,36 +780,10 @@ export class ZimbraBatchClient {
 			return normalized;
 		});
 
-	public searchConversation = ({
-		conversationId,
-		query,
-		header,
-		timezone,
-		locale,
-		cursor,
-		...options
-	}: SearchConversationOptions) => {
-		let body: any = {
-			cid: conversationId,
-			query,
-			_content: {
-				header,
-				tz: timezone,
-				locale,
-				cursor
-			},
-			...options
-		};
-
-		['allowableTaskStatus', 'types'].forEach(key => {
-			if (key in body) {
-				body[key] = (body[key] as Array<any>).join(',');
-			}
-		});
-
+	public searchConversation = (options: SearchConversationOptions) => {
 		return this.jsonRequest({
 			name: 'SearchConv',
-			body
+			body: denormalize(SearchConvRequest)(options)
 		}).then(res => {
 			const normalized = normalize(SearchResponse)(res);
 			if (get(normalized, 'conversations.0.messages')) {

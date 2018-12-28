@@ -369,6 +369,11 @@ export const SearchResponse = new Entity({
 	appt: ['appointments', Appointment]
 });
 
+export const SearchConvRequest = new Entity({
+	cid: 'conversationId',
+	tz: 'timezone'
+});
+
 const RedirectAction = new Entity({
 	a: 'address'
 });
