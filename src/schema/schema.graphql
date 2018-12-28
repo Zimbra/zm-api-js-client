@@ -233,14 +233,6 @@ enum LicenseStatus {
 	ACTIVATION_GRACE_PERIOD
 }
 
-enum TaskStatus {
-	COMP
-	DEFERRED
-	INPR
-	NEED
-	WAITING
-}
-
 enum SearchConversationResultMode {
 	IDS
 	NORMAL
@@ -2218,7 +2210,7 @@ type Query {
 		types: SearchType
 	): SearchResponse
 	searchConversation(
-		allowableTaskStatus: [TaskStatus],
+		allowableTaskStatus: [InviteCompletionStatus],
 		calExpandInstEnd: Int,
 		calExpandInstStart: Int,
 		conversationId: String!,

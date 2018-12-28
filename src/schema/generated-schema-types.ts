@@ -1318,14 +1318,6 @@ export enum SortBy {
 	SizeDesc = 'sizeDesc'
 }
 
-export enum TaskStatus {
-	Comp = 'COMP',
-	Deferred = 'DEFERRED',
-	Inpr = 'INPR',
-	Need = 'NEED',
-	Waiting = 'WAITING'
-}
-
 export enum SearchConversationResultMode {
 	Ids = 'IDS',
 	Normal = 'NORMAL'

@@ -3,6 +3,9 @@ import {
 	Cursor,
 	ExternalAccountModifyAttrsInput,
 	FolderView,
+	InviteCompletionStatus,
+	SearchConversationResultMode,
+	SearchConversationWantContent,
 	SearchType,
 	SortBy
 } from '../schema/generated-schema-types';
@@ -137,27 +140,8 @@ export interface Timezone {
 	standard?: TimezoneStandard;
 }
 
-export enum TaskStatus {
-	COMP = 'COMP',
-	DEFERRED = 'DEFERRED',
-	INPR = 'INPR',
-	NEED = 'NEED',
-	WAITING = 'WAITING'
-}
-
-export enum SearchConversationResultMode {
-	ids = 'IDS',
-	normal = 'NORMAL'
-}
-
-export enum SearchConversationWantContent {
-	both = 'both',
-	full = 'full',
-	original = 'original'
-}
-
 export interface SearchConversationOptions {
-	allowableTaskStatus?: [TaskStatus];
+	allowableTaskStatus?: [InviteCompletionStatus];
 	calExpandInstEnd?: number;
 	calExpandInstStart?: number;
 	conversationId: string;
