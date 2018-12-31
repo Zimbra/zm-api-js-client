@@ -66,7 +66,7 @@ export const CacheType = {
  * `dataIdFromObject`.
  */
 export class ZimbraInMemoryCache extends InMemoryCache {
-	public name: string;
+	private _name: string;
 	constructor(config: ApolloReducerConfig = {}, name: string) {
 		if (name === CacheType.local) {
 			super(config);
@@ -83,6 +83,10 @@ export class ZimbraInMemoryCache extends InMemoryCache {
 			});
 		}
 
-		this.name = name;
+		this._name = name;
+	}
+
+	get name() {
+		return this._name;
 	}
 }
