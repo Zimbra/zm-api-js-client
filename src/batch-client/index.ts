@@ -157,6 +157,7 @@ export class ZimbraBatchClient {
 				...res,
 				attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
 				prefs,
+				identities: mapValuesDeep(res.identities, coerceStringToBoolean),
 				...(get(res, 'license.attr') && {
 					license: {
 						status: res.license.status,
