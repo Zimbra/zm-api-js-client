@@ -2193,7 +2193,7 @@ type Query {
 	# Below queries should not be present here as it is used by apollo-link-state for local data management
 	# but eslint-plugin-graphql is not able to handle those scenarios as mentioned in https://github.com/apollographql/eslint-plugin-graphql/issues/99
 	localFolderEmail(id: String!): MessageInfo
-	localFolderEmails: [MessageInfo]
+	localFolderEmails(folderName: String!): [MessageInfo]
 }
 
 type Mutation {
