@@ -1871,6 +1871,11 @@ input FilterInput {
 
 ##### End Of FilterInput #####
 
+input ForwardAppointmentInviteInput {
+	id: ID!
+	message: SendMessageInput!
+}
+
 input ShareNotificationInput {
 	item: ShareNotificationItemInput!
 	address: ShareNotificaitonEmailAddressInput!
@@ -2260,7 +2265,7 @@ type Mutation {
 	deleteExternalAccount(id: ID!): Boolean
 	deleteSignature(signature: NameIdInput!): String
 	folderAction(action: FolderActionInput!): Boolean
-	forwardAppointmentInvite(id: ID!, message: SendMessageInput!): Boolean
+	forwardAppointmentInvite(appointmentInvite:ForwardAppointmentInviteInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
 	logout: Boolean
