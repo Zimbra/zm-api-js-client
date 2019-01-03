@@ -278,12 +278,6 @@ export interface MailItemEmailAddressInput {
 	type: AddressType;
 }
 
-export interface ForwardAppointmentInviteInput {
-	id: string;
-	
-	message: SendMessageInput;
-}
-
 export interface CreateContactInput {
 	folderId?: string | null;
 
@@ -504,6 +498,42 @@ export interface GrantInput {
 	permissions: string;
 
 	zimbraId?: string | null;
+}
+
+export interface ForwardAppointmentInviteInput {
+	id: string;
+
+	message: SendMessageInput;
+}
+
+export interface SendMessageInput {
+	id?: string | null;
+
+	origId?: string | null;
+
+	attach?: (AttachmentInput | null)[] | null;
+
+	attachmentId?: string | null;
+
+	replyType?: string | null;
+
+	inReplyTo?: string | null;
+
+	flags?: string | null;
+
+	autoSendTime?: number | null;
+
+	draftId?: string | null;
+
+	entityId?: string | null;
+
+	subject?: string | null;
+
+	mimeParts?: (MimePartInput | null)[] | null;
+
+	emailAddresses?: (MailItemEmailAddressInput | null)[] | null;
+
+	attachments?: (AttachmentInput | null)[] | null;
 }
 
 export interface ExternalAccountImportInput {
@@ -920,36 +950,6 @@ export interface WhiteBlackAddressOpts {
 	_content: string;
 
 	op?: string | null;
-}
-
-export interface SendMessageInput {
-	id?: string | null;
-
-	origId?: string | null;
-
-	attach?: (AttachmentInput | null)[] | null;
-
-	attachmentId?: string | null;
-
-	replyType?: string | null;
-
-	inReplyTo?: string | null;
-
-	flags?: string | null;
-
-	autoSendTime?: number | null;
-
-	draftId?: string | null;
-
-	entityId?: string | null;
-
-	subject?: string | null;
-
-	mimeParts?: (MimePartInput | null)[] | null;
-
-	emailAddresses?: (MailItemEmailAddressInput | null)[] | null;
-
-	attachments?: (AttachmentInput | null)[] | null;
 }
 
 export interface InviteReplyInput {
