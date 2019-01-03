@@ -245,7 +245,9 @@ export function createZimbraSchema(
 					}),
 				folderAction: (_, { action }) => client.folderAction(action),
 				forwardAppointmentInvite: (_, { appointmentInvite }) =>
-					client.forwardAppointmentInvite(appointmentInvite as ForwardAppointmentInviteInput),
+					client.forwardAppointmentInvite(
+						appointmentInvite as ForwardAppointmentInviteInput
+					),
 				sendShareNotification: (_, { shareNotification }) =>
 					client.sendShareNotification(
 						shareNotification as ShareNotificationInput
