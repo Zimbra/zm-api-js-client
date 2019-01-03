@@ -217,13 +217,13 @@ export function createZimbraSchema(
 						.modifyPrefs({
 							zimbraPrefCalendarInitialView: value
 						})
-						.then(() => value),
+						.then(Boolean),
 				prefAutoAddAppointmentToCalendar: (_, { value }) =>
 					client
 						.modifyPrefs({
 							zimbraPrefCalendarAutoAddInvites: value
 						})
-						.then(() => value),
+						.then(Boolean),
 				createCalendar: (_, { name, color, url }, { zimbra }) =>
 					zimbra.folders.create({
 						name,
@@ -266,14 +266,14 @@ export function createZimbraSchema(
 						.modifyPrefs({
 							zimbraPrefOutOfOfficeStatusAlertOnLogin: value
 						})
-						.then(() => value),
+						.then(Boolean),
 
 				prefEnableOutOfOfficeReply: (_, { value }) =>
 					client
 						.modifyPrefs({
 							zimbraPrefOutOfOfficeReplyEnabled: value
 						})
-						.then(() => value),
+						.then(Boolean),
 
 				prefOutOfOfficeFromDate: (_, { value }) =>
 					client
@@ -325,15 +325,17 @@ export function createZimbraSchema(
 				resetPassword: (_, variables) =>
 					client.resetPassword(variables as ResetPasswordOptions),
 				setMailboxMetadata: (_: any, variables: any) =>
-					client.jsonRequest({
-						name: 'SetMailboxMetadata',
-						body: {
-							meta: {
-								section: variables.section,
-								_attrs: mapValues(variables.attrs, coerceBooleanToString)
+					client
+						.jsonRequest({
+							name: 'SetMailboxMetadata',
+							body: {
+								meta: {
+									section: variables.section,
+									_attrs: mapValues(variables.attrs, coerceBooleanToString)
+								}
 							}
-						}
-					}),
+						})
+						.then(Boolean),
 				setRecoveryAccount: (_, variables) =>
 					client.setRecoveryAccount(variables as SetRecoveryAccountOptions),
 				modifyWhiteBlackList: (_, { whiteBlackList }) =>

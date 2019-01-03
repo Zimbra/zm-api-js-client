@@ -2146,7 +2146,6 @@ type Query {
 	): MessageInfo
 	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
 	getSearchFolder: Folder
-	getTask(inviteId: ID!): Boolean
 	getWhiteBlackList: WhiteBlackList
 	noop: Boolean
 	preferences: Preferences
