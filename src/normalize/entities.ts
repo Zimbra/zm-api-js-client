@@ -209,6 +209,13 @@ export const Conversation = new Entity({
 	u: 'unread'
 });
 
+export const SearchConversation = new Entity({
+	...commonMailItemFields,
+	n: 'numMessages',
+	m: ['messagesMetaData', MessageInfo],
+	u: 'unread'
+});
+
 export const CalendarItemCreateModifyRequest = new Entity({
 	rev: 'revision',
 	comp: 'componentNum',
@@ -368,7 +375,7 @@ export const Appointment = new Entity({
 
 export const SearchResponse = new Entity({
 	m: ['messages', MessageInfo],
-	c: ['conversations', Conversation],
+	c: ['conversations', SearchConversation],
 	cn: ['contacts', Contact],
 	appt: ['appointments', Appointment]
 });

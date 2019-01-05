@@ -364,11 +364,13 @@ export class ZimbraBatchClient {
 			}
 		}).then(Boolean);
 
-	public downloadMessage = ({ id }: any) => {
+	public downloadMessage = ({ id, isSecure }: any) => {
 		return fetch(`${this.origin}/service/home/~/?auth=co&id=${id}`, {
-			headers: {
-				'X-Zimbra-Encoding': 'x-base64'
-			},
+			...(isSecure && {
+				headers: {
+					'X-Zimbra-Encoding': 'x-base64'
+				}
+			}),
 			credentials: 'include'
 		}).then(response => {
 			if (response.ok) {
@@ -766,8 +768,7 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'Search',
 			body: {
-				...options,
-				fullConversation: options.fullConversation ? 1 : 0
+				...options
 			}
 		}).then(res => {
 			const normalized = normalize(SearchResponse)(res);
