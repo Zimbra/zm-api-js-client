@@ -241,7 +241,7 @@ export function createZimbraSchema(
 					zimbra.folders.changeColor({
 						id,
 						color
-					}),
+					}).then(Boolean),
 				folderAction: (_, { action }) => client.folderAction(action),
 				sendShareNotification: (_, { shareNotification }) =>
 					client.sendShareNotification(
