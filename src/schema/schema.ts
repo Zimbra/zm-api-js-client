@@ -238,10 +238,12 @@ export function createZimbraSchema(
 						flags: '#'
 					}),
 				changeCalendarColor: (_, { id, color }, { zimbra }) =>
-					zimbra.folders.changeColor({
-						id,
-						color
-					}).then(Boolean),
+					zimbra.folders
+						.changeColor({
+							id,
+							color
+						})
+						.then(Boolean),
 				folderAction: (_, { action }) => client.folderAction(action),
 				sendShareNotification: (_, { shareNotification }) =>
 					client.sendShareNotification(
