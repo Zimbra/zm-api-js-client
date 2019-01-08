@@ -2253,6 +2253,11 @@ type Query {
 		needExp: Boolean
 	): SearchResponse
 	taskFolders: [Folder]
+
+	# Below queries should not be present here as it is used by apollo-link-state for local data management
+	# but eslint-plugin-graphql is not able to handle those scenarios as mentioned in https://github.com/apollographql/eslint-plugin-graphql/issues/99
+	localFolderEmail(id: String!): MessageInfo
+	localFolderEmails(folderName: String!): [MessageInfo]
 }
 
 type Mutation {
@@ -2353,10 +2358,6 @@ type Mutation {
 	modifyTask(task: CalendarItemInput!): Boolean
 	modifyWhiteBlackList(whiteBlackList: WhiteBlackListInput!): Boolean
 	moveTask(inviteId: ID!, destFolderId: ID!): String
-	prefAutoAddAppointmentToCalendar(value: Boolean!): Boolean
-	prefCalendarInitialView(
-		value: PrefCalendarInitialView!
-	): PrefCalendarInitialView
 	prefEnableOutOfOfficeAlertOnLogin(value: Boolean!): Boolean
 	prefEnableOutOfOfficeReply(value: Boolean!): Boolean
 	prefOutOfOfficeFromDate(value: String!): String
@@ -2382,6 +2383,10 @@ type Mutation {
 		recoveryAccount: String
 		recoveryAccountVerificationCode: String
 	): Boolean
+
+	# Below mutations should not be present here as it is used by apollo-link-state for local data management
+	# but eslint-plugin-graphql is not able to handle those scenarios as mentioned in https://github.com/apollographql/eslint-plugin-graphql/issues/99
+	loadLocalFolderEmails(accountName: String, name: String, dataDirPath: String): [MessageInfo]
 }
 
 schema {
