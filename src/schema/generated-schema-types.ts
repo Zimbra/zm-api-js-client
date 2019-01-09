@@ -98,17 +98,8 @@ export interface CalendarItemMessageInput {
 
 export interface CalendarItemInviteInput {
 	components: (CalendarItemInviteComponentInput | null)[];
-	replies?: InviteReplies[] | null;
 }
 
-export interface InviteReplies {
-	  reply?: CalendarItemReply[] | null;
-}
-	
-export interface CalendarItemReply {
-	  participationStatus?: ParticipationStatus | null;
-	  attendee?: string | null;
-	}
 export interface CalendarItemInviteComponentInput {
 	name: string;
 
