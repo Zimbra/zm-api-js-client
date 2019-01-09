@@ -55,23 +55,38 @@ function createFragmentMatcher(fragmentMatcherFactory = Object) {
 	);
 }
 
+export const CacheType = {
+	network: 'NetworkCache',
+	local: 'LocalCache'
+};
+
 /**
  * Provide a light wrapper over Apollo's inmemory cache with
  * special optimizations for identifying Zimbra object types via
  * `dataIdFromObject`.
  */
 export class ZimbraInMemoryCache extends InMemoryCache {
-	constructor(config: ApolloReducerConfig = {}) {
-		if (
-			!config.fragmentMatcher ||
-			typeof config.fragmentMatcher === 'function'
-		) {
-			config.fragmentMatcher = createFragmentMatcher(config.fragmentMatcher);
+	private _name: string;
+	constructor(config: ApolloReducerConfig = {}, name: string) {
+		if (name === CacheType.local) {
+			super(config);
+		} else {
+			if (
+				!config.fragmentMatcher ||
+				typeof config.fragmentMatcher === 'function'
+			) {
+				config.fragmentMatcher = createFragmentMatcher(config.fragmentMatcher);
+			}
+			super({
+				dataIdFromObject,
+				...config
+			});
 		}
 
-		super({
-			dataIdFromObject,
-			...config
-		});
+		this._name = name;
+	}
+
+	get name() {
+		return this._name;
 	}
 }
