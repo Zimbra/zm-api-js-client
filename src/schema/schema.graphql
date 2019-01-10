@@ -367,25 +367,13 @@ type MessageAttributes {
 interface MailItem {
 	id: ID
 	size: Float # s
-	date: Float # d
-	folderId: ID # l
-	subject: String # su
-	emailAddresses: [EmailAddress]
-	excerpt: String # fr
-	conversationId: String # cid
+	folderId: ID
 	flags: String # f
-	tags: String # t
-	tagNames: String # tn
-	revision: Int # rev
-	changeDate: Float # md
-	modifiedSequence: Int # ms
-	invitations: [InviteInfo] # inv
-	sortField: String # sf, Sort field used for cursor-based pagination
-	share: [ShareNotification] # shr
-	replyType: String #rt
+	autoSendTime: Float
+	date: Float # d
 }
 
-type MessageInfo implements MailItem {
+type MessageHitInfo implements MailItem {
 	id: ID
 	size: Float # s
 	date: Float # d
@@ -415,17 +403,20 @@ type MessageInfo implements MailItem {
 	inlineAttachments: [MimePart]
 	share: [ShareNotification] # shr
 	replyType: String #rt
-	attributes: MessageAttributes
+	autoSendTime: Float
+	messageMatchedQuery: String
 }
 
-type Conversation implements MailItem {
+type MessageInfo implements MailItem {
 	id: ID
 	size: Float # s
 	date: Float # d
 	folderId: ID # l
+	origId: ID #origid
+	autoSendTime: Float
 	subject: String # su
-	excerpt: String # fr
 	emailAddresses: [EmailAddress]
+	excerpt: String # fr
 	conversationId: String # cid
 	flags: String # f
 	tags: String # t
@@ -435,12 +426,108 @@ type Conversation implements MailItem {
 	modifiedSequence: Int # ms
 	invitations: [InviteInfo] # inv
 	sortField: String # sf, Sort field used for cursor-based pagination
-	messages: [MessageInfo]
-	messagesMetaData: [MessageInfo]
-	numMessages: Int # n, Number of messages in this conversation
-	unread: Int # u
+	mimeParts: [MimePart]
+	to: [EmailAddress]
+	from: [EmailAddress]
+	cc: [EmailAddress]
+	bcc: [EmailAddress]
+	sender: [EmailAddress]
+	html: String
+	text: String
+	attachments: [MimePart]
+	inlineAttachments: [MimePart]
 	share: [ShareNotification] # shr
 	replyType: String #rt
+	attributes: MessageAttributes
+}
+
+# implemented by ConversationHitInfo & ConversationInfo & NestedSearchConversation
+interface ConversationBase {
+	id: ID
+	numMessages: Int # n, Number of messages in this conversation
+	total: Int # Total number of messages, included deleted.
+	flags: String # f
+	tags: String # t
+	tagNames: String # tn
+	messages: [MailItem]
+}
+
+type ConversationInfo implements ConversationBase {
+	id: ID
+	numMessages: Int # n, Number of messages in this conversation
+	total: Int # Total number of messages, included deleted.
+	flags: String # f
+	tags: String # t
+	tagNames: String # tn
+	messages: [MessageInfo]
+
+	size: Float # s
+	date: Float # d
+	folderId: ID # l
+	subject: String # su
+	excerpt: String # fr
+	emailAddresses: [EmailAddress]
+	revision: Int # rev
+	changeDate: Float # md
+	invitations: [InviteInfo] # inv
+	sortField: String # sf, Sort field used for cursor-based pagination
+	unread: Int # u
+}
+
+# TODO: normalize this one
+type ConversationMsgHitInfo implements MailItem {
+	id: ID
+	size: Float # s
+	folderId: ID
+	flags: String # f
+	autoSendTime: Float
+	date: Float # d
+}
+
+# Used in SearchResponse
+type ConversationHitInfo implements ConversationBase {
+	id: ID
+	numMessages: Int # n, Number of messages in this conversation
+	total: Int # Total number of messages, included deleted.
+	flags: String # f
+	tags: String # t
+	tagNames: String # tn
+	messages: [ConversationMsgHitInfo]
+
+	size: Float # s
+	date: Float # d
+	folderId: ID # l
+	subject: String # su
+	excerpt: String # fr
+	emailAddresses: [EmailAddress]
+	changeDate: Float # md
+	modifiedSequence: Int # ms
+	sortField: String # sf, Sort field used for cursor-based pagination
+	unread: Int # u
+}
+
+# Used in SearchConvResponse
+type NestedSearchConversation implements ConversationBase {
+	id: ID
+	numMessages: Int # n, Number of messages in this conversation
+	total: Int
+	flags: String # f
+	tags: String # t
+	tagNames: String # tn
+	messages: [MessageHitInfo]
+	info: [SearchConvInfo]
+}
+
+union SearchConvInfo = SuggestedQueryString | WildcardExpansionQueryInfo
+
+type SuggestedQueryString {
+	suggest: String
+}
+
+type WildcardExpansionQueryInfo {
+	str: String
+	expanded: Boolean
+	numExpanded: Int
 }
 
 type MsgWithGroupInfo implements MailItem {
@@ -1105,14 +1192,20 @@ type SignatureResponse {
 
 type SearchResponse {
 	contacts: [Contact]
-	messages: [MessageInfo]
-	conversations: [Conversation]
+	messages: [MessageHitInfo]
+	conversations: [ConversationHitInfo]
 	tasks: [CalendarItemHitInfo]
 	appointments: [CalendarItemHitInfo]
 	more: Boolean
 	offset: Int
 	sortBy: String
 	paginationSupported: Boolean
+}
+
+type SearchConvResponse {
+	messages: [MessageHitInfo]
+	conversations: [NestedSearchConversation]
+	info: [SearchConvInfo]
 }
 
 type SendMessageResponse {
@@ -2155,7 +2248,7 @@ type Query {
 		max: Int,
 		needExp: Boolean,
 		fetch: String
-	): Conversation
+	): ConversationInfo
 	getFilterRules: [Filter]
 	getFolder(
 		visible: Boolean,
@@ -2240,7 +2333,7 @@ type Query {
 		timezone: Timezone,
 		types: [SearchType],
 		wantContent: SearchConversationWantContent,
-	): SearchResponse
+	): SearchConvResponse
 	searchGal(
 		needIsOwner: Boolean,
 		needIsMember: NeedIsMemberType,

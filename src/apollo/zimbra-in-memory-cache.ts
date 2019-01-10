@@ -43,8 +43,8 @@ function createFragmentMatcher(fragmentMatcherFactory = Object) {
 							kind: 'INTERFACE',
 							name: 'MailItem',
 							possibleTypes: [
-								{ name: 'Conversation' },
 								{ name: 'MessageInfo' },
+								{ name: 'MessageHitInfo' },
 								{ name: 'MsgWithGroupInfo' }
 							]
 						}

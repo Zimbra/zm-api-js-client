@@ -26,6 +26,7 @@ import {
 	InviteReply,
 	MessageInfo,
 	SearchConvRequest,
+	SearchConvResponse,
 	SearchResponse,
 	SendMessageInfo,
 	ShareNotification
@@ -785,12 +786,21 @@ export class ZimbraBatchClient {
 			name: 'SearchConv',
 			body: denormalize(SearchConvRequest)(options)
 		}).then(res => {
-			const normalized = normalize(SearchResponse)(res);
-			if (get(normalized, 'conversations.0.messages')) {
-				normalized.conversations[0].messages = normalized.conversations[0].messages.map(
-					this.normalizeMessage
+			const normalized = normalize(SearchConvResponse)(res);
+			if (get(normalized, 'conversations')) {
+				normalized.conversations = normalized.conversations.map(
+					(conversation: any) =>
+						!conversation.messages
+							? conversation
+							: {
+									...conversation,
+									messages: conversation.messages.map(this.normalizeMessage)
+							  }
 				);
+			} else if (get(normalized, 'messages')) {
+				normalized.messages = normalized.messages.map(this.normalizeMessage);
 			}
+
 			return normalized;
 		});
 	};

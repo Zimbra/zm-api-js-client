@@ -187,9 +187,12 @@ export const SendMessageInfo = new Entity({
 	m: ['message', SendMessageFields]
 });
 
-export const MessageInfo = new Entity({
-	...commonMailItemFields
+export const MessageHitInfo = new Entity({
+	...commonMailItemFields,
+	cm: 'messageMatchedQuery'
 });
+
+export const MessageInfo = new Entity(commonMailItemFields);
 
 export const Conversation = new Entity({
 	...commonMailItemFields,
@@ -198,10 +201,10 @@ export const Conversation = new Entity({
 	u: 'unread'
 });
 
-export const SearchConversation = new Entity({
+export const ConversationHitInfo = new Entity({
 	...commonMailItemFields,
 	n: 'numMessages',
-	m: ['messagesMetaData', MessageInfo],
+	m: ['messages', MessageHitInfo],
 	u: 'unread'
 });
 
@@ -363,10 +366,19 @@ export const Appointment = new Entity({
 });
 
 export const SearchResponse = new Entity({
-	m: ['messages', MessageInfo],
-	c: ['conversations', SearchConversation],
+	m: ['messages', MessageHitInfo],
+	c: ['conversations', ConversationHitInfo],
 	cn: ['contacts', Contact],
 	appt: ['appointments', Appointment]
+});
+
+export const NestedSearchConversation = new Entity({
+	m: ['messages', MessageHitInfo]
+});
+
+export const SearchConvResponse = new Entity({
+	m: ['messages', MessageHitInfo],
+	c: ['conversations', NestedSearchConversation]
 });
 
 export const SearchConvRequest = new Entity({

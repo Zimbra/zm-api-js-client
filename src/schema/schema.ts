@@ -117,12 +117,13 @@ export function createZimbraSchema(
 				taskFolders: client.taskFolders,
 				getWhiteBlackList: client.getWhiteBlackList
 			},
+			// TODO: Add this back if it actually causes issues?
 			//resolveType is necessary to differentiate for any Union or Interfaces
-			MailItem: {
-				__resolveType(obj) {
-					return obj.conversationId ? 'MessageInfo' : 'Conversation';
-				}
-			},
+			//			MailItem: {
+			//				__resolveType(obj) {
+			//					return obj.conversationId ? 'MessageInfo' : 'ConversationInfo';
+			//				}
+			//			},
 			Folder: {
 				appointments: (root, { start, end, offset = 0, limit = 1000 }) =>
 					client
