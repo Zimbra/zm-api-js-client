@@ -566,7 +566,8 @@ enum InviteType {
 type InviteInfo {
 	type: InviteType #though type is a required value on the response, outdated invites come back as empty InviteInfo objects
 	components: [InviteComponent] #comp
-}
+	replies: [InviteReplies] #replies
+ }
 
 type AddRecurrenceInfo { # <add>
 	add: [AddRecurrenceInfo]
@@ -629,6 +630,10 @@ type RecurrenceInfo { # <recur>
 	rule: [SimpleRepeatingRule]
 }
 
+type InviteReplies {
+	reply: [CalendarItemReply]
+}
+
 type InviteComponent {
 	# duration: DurationInfo # dur - TODO
 	alarms: [CalendarItemAlarm]
@@ -679,6 +684,7 @@ type Invitation { # <inv>
 	recurrenceId: String # recurId
 	tz: CalTZInfo
 	components: [InviteComponent]! # comp
+	replies: [InviteReplies]! # replies
 	mimeParts: MimePart
 }
 
@@ -1607,6 +1613,11 @@ type CalendarItemAttendee {
 	calendarUserType: String
 }
 
+type CalendarItemReply {
+	participationStatus: ParticipationStatus
+	attendee: String
+}
+
 input CalendarItemAttendeesInput {
 	role: ParticipationRole
 	participationStatus: ParticipationStatus
@@ -2480,6 +2491,7 @@ type Mutation {
 	# Below mutations should not be present here as it is used by apollo-link-state for local data management
 	# but eslint-plugin-graphql is not able to handle those scenarios as mentioned in https://github.com/apollographql/eslint-plugin-graphql/issues/99
 	loadLocalFolderEmails(accountName: String, name: String, dataDirPath: String): [MessageInfo]
+	saveLocalFolderEmails(accountName: String, name: String, dataDirPath: String, data: [String]): [MessageInfo]
 }
 
 schema {
