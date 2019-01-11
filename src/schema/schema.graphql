@@ -468,7 +468,8 @@ enum InviteType {
 type InviteInfo {
 	type: InviteType #though type is a required value on the response, outdated invites come back as empty InviteInfo objects
 	components: [InviteComponent] #comp
-}
+	replies: [InviteReplies] #replies
+ }
 
 type AddRecurrenceInfo { # <add>
 	add: [AddRecurrenceInfo]
@@ -531,6 +532,10 @@ type RecurrenceInfo { # <recur>
 	rule: [SimpleRepeatingRule]
 }
 
+type InviteReplies {
+	reply: [CalendarItemReply]
+}
+
 type InviteComponent {
 	# duration: DurationInfo # dur - TODO
 	alarms: [CalendarItemAlarm]
@@ -581,6 +586,7 @@ type Invitation { # <inv>
 	recurrenceId: String # recurId
 	tz: CalTZInfo
 	components: [InviteComponent]! # comp
+	replies: [InviteReplies]! # replies
 	mimeParts: MimePart
 }
 
@@ -1503,6 +1509,11 @@ type CalendarItemAttendee {
 	calendarUserType: String
 }
 
+type CalendarItemReply {
+	participationStatus: ParticipationStatus
+	attendee: String
+}
+
 input CalendarItemAttendeesInput {
 	role: ParticipationRole
 	participationStatus: ParticipationStatus
@@ -2188,6 +2199,11 @@ type Query {
 	): SearchResponse
 
 	taskFolders: [Folder]
+
+	# Below queries should not be present here as it is used by apollo-link-state for local data management
+	# but eslint-plugin-graphql is not able to handle those scenarios as mentioned in https://github.com/apollographql/eslint-plugin-graphql/issues/99
+	localFolderEmail(id: String!): MessageInfo
+	localFolderEmails(folderName: String!): [MessageInfo]
 }
 
 type Mutation {
@@ -2288,10 +2304,6 @@ type Mutation {
 	modifyTask(task: CalendarItemInput!): Boolean
 	modifyWhiteBlackList(whiteBlackList: WhiteBlackListInput!): Boolean
 	moveTask(inviteId: ID!, destFolderId: ID!): String
-	prefAutoAddAppointmentToCalendar(value: Boolean!): Boolean
-	prefCalendarInitialView(
-		value: PrefCalendarInitialView!
-	): PrefCalendarInitialView
 	prefEnableOutOfOfficeAlertOnLogin(value: Boolean!): Boolean
 	prefEnableOutOfOfficeReply(value: Boolean!): Boolean
 	prefOutOfOfficeFromDate(value: String!): String
@@ -2317,6 +2329,11 @@ type Mutation {
 		recoveryAccount: String
 		recoveryAccountVerificationCode: String
 	): Boolean
+
+	# Below mutations should not be present here as it is used by apollo-link-state for local data management
+	# but eslint-plugin-graphql is not able to handle those scenarios as mentioned in https://github.com/apollographql/eslint-plugin-graphql/issues/99
+	loadLocalFolderEmails(accountName: String, name: String, dataDirPath: String): [MessageInfo]
+	saveLocalFolderEmails(accountName: String, name: String, dataDirPath: String, data: [String]): [MessageInfo]
 }
 
 schema {

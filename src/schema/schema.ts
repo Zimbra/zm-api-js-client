@@ -212,18 +212,6 @@ export function createZimbraSchema(
 					client.deleteAppointment(appointment as DeleteAppointmentInput),
 				checkCalendar: (_, { calendarId, value }, { zimbra }) =>
 					zimbra.calendars.check({ calendarId, value }),
-				prefCalendarInitialView: (_, { value }) =>
-					client
-						.modifyPrefs({
-							zimbraPrefCalendarInitialView: value
-						})
-						.then(Boolean),
-				prefAutoAddAppointmentToCalendar: (_, { value }) =>
-					client
-						.modifyPrefs({
-							zimbraPrefCalendarAutoAddInvites: value
-						})
-						.then(Boolean),
 				createCalendar: (_, { name, color, url }, { zimbra }) =>
 					zimbra.folders.create({
 						name,
