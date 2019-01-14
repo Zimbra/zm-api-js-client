@@ -1627,7 +1627,7 @@ input NewMountpointSpec {
 	sharedItemId: ID # rid
 	color: Int
 	reminder: Boolean
-	parentFolderId: String
+	parentFolderId: ID
 }
 
 input CreateMountpointInput {
@@ -2262,7 +2262,7 @@ type Mutation {
 		fetchIfExists: Boolean
 		flags: String
 		name: String!
-		parentFolderId: String
+		parentFolderId: ID
 		url: String
 		view: FolderView
 	): Folder
@@ -2272,7 +2272,7 @@ type Mutation {
 	createSharedCalendar(link: NewMountpointSpec!): Boolean
 	createSearchFolder(
 		name: String!
-		parentFolderId: String
+		parentFolderId: ID
 		query: String!
 		types: FolderView
 	): Folder
