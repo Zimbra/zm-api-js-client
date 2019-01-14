@@ -1000,7 +1000,7 @@ type DataSource {
 	connectionType: String
 	defaultSignature: ID
 	emailAddress: String
-	l: ID
+	l: ID # TODO: Normalize to `folderId`
 	forwardReplySignature: ID
 	fromDisplay: String
 	host: String
@@ -1938,7 +1938,7 @@ input ExternalAccountAddInput {
 	emailAddress: String
 	host: String!
 	isEnabled: Boolean
-	l: Int!
+	l: ID! # TODO: Normalize to `folderId`
 	leaveOnServer: Boolean
 	name: String!
 	password: String!

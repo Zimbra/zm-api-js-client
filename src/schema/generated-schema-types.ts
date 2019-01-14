@@ -55,7 +55,7 @@ export interface ExternalAccountAddInput {
 
 	isEnabled?: boolean | null;
 
-	l: number;
+	l: string;
 
 	leaveOnServer?: boolean | null;
 
