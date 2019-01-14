@@ -2343,6 +2343,7 @@ type Mutation {
 	# but eslint-plugin-graphql is not able to handle those scenarios as mentioned in https://github.com/apollographql/eslint-plugin-graphql/issues/99
 	loadLocalFolderEmails(accountName: String, name: String, dataDirPath: String): [MessageInfo]
 	saveLocalFolderEmails(accountName: String, name: String, dataDirPath: String, data: [String]): [MessageInfo]
+	updateLocalFolderEmailAttachmentPath(id: String, accountName: String, folderPath: String, folderName: String): [MessageInfo]
 }
 
 schema {
