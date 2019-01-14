@@ -1410,7 +1410,7 @@ type AutoCompleteMatch {
 	isGroup: Boolean
 	exp: Boolean
 	id: String
-	folderId: String
+	folderId: ID
 	display: String
 	first: String
 	middle: String
@@ -1645,7 +1645,7 @@ input FolderActionInput {
 	op: String!
 	grant: [GrantInput]
 	name: String
-	folderId: String
+	folderId: ID
 	zimbraId: ID
 }
 
@@ -2224,7 +2224,7 @@ type Mutation {
 		color: Int,
 		constraints: String,
 		flags: String,
-		folderId: String,
+		folderId: ID,
 		rgb: String,
 		tagNames: String,
 		name: String
