@@ -781,7 +781,7 @@ export class ZimbraBatchClient {
 			body: {
 				password
 			}
-		});
+		}).then(() => true);
 
 	public resolve = (path: string) => `${this.origin}${path}`;
 

@@ -2323,7 +2323,7 @@ type Mutation {
 		email: String!
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
-	resetPassword(password: String!): String
+	resetPassword(password: String!): Boolean
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
