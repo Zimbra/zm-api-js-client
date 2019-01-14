@@ -50,9 +50,12 @@ import {
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
 	FilterInput,
+	FolderActionChangeColorInput,
+	FolderActionCheckCalendarInput,
 	FolderView,
 	InviteReplyInput,
 	ModifyContactInput,
+	ModifyIdentityInput,
 	PreferencesInput,
 	SearchFolderInput,
 	SendMessageInput,
@@ -214,6 +217,13 @@ export class ZimbraBatchClient {
 			}
 		}).then(Boolean);
 
+	public changeFolderColor = ({ id, color }: FolderActionChangeColorInput) =>
+		this.action(ActionType.folder, {
+			id,
+			op: 'color',
+			color
+		});
+
 	public changePassword = ({
 		loginNewPassword,
 		password,
@@ -230,6 +240,12 @@ export class ZimbraBatchClient {
 				oldPassword: password,
 				password: loginNewPassword
 			}
+		});
+
+	public checkCalendar = ({ id, value }: FolderActionCheckCalendarInput) =>
+		this.action(ActionType.folder, {
+			id,
+			op: value ? 'check' : '!check'
 		});
 
 	public contactAction = (options: ActionOptions) =>
@@ -661,6 +677,18 @@ export class ZimbraBatchClient {
 				]
 			}
 		}).then(Boolean);
+
+	public modifyIdentity = ({ id, attrs }: ModifyIdentityInput) =>
+		this.jsonRequest({
+			name: 'ModifyIdentity',
+			namespace: Namespace.Account,
+			body: {
+				identity: {
+					id,
+					_attrs: mapValues(attrs, coerceBooleanToString)
+				}
+			}
+		});
 
 	public modifyPrefs = (prefs: PreferencesInput) =>
 		this.jsonRequest({

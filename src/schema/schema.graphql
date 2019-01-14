@@ -1620,12 +1620,12 @@ input CalendarItemRecurrenceIntervalInput {
 
 input NewMountpointSpec {
 	name: String!
-	owner: String!
+	owner: String
 	view: SearchType
 	flags: String
-	rid: ID
+	ownerZimbraId: ID # zid
+	sharedItemId: ID # rid
 	color: Int
-	zid: String
 	reminder: Boolean
 	parentFolderId: String
 }
@@ -1647,6 +1647,18 @@ input FolderActionInput {
 	name: String
 	folderId: String
 	zimbraId: ID
+}
+
+# Special case of FolderAction for `changeFolderColor` resolver
+input FolderActionChangeColorInput {
+	id: ID!
+	color: Int!
+}
+
+# Special case of FolderAction for `checkCalendar` resolver
+input FolderActionCheckCalendarInput {
+	id: ID!
+	value: Boolean
 }
 
 input ContactFrequencySpec {
@@ -1695,6 +1707,11 @@ input PreferencesInput {
 	zimbraPrefShowFragments: Boolean
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
+}
+
+input ModifyIdentityInput {
+	id: ID!
+	attrs: IdentityAttrsInput
 }
 
 input ZimletPreferenceInput {
@@ -1896,14 +1913,6 @@ input ShareNotificaitonEmailAddressInput {
 	address: String!
 	type: AddressType
 	personalName: String
-}
-
-input SharedCalendarInput {
-	ownerId: String!
-	ownerCalendarId: String!
-	name: String!
-	color: String!
-	reminder: Boolean!
 }
 
 input IdentityAttrsInput {
@@ -2223,14 +2232,14 @@ type Mutation {
 	testExternalAccount(externalAccount: ExternalAccountTestInput!): ExternalAccountTestResponse
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): ID
 	cancelTask(inviteId: ID!): Boolean
-	changeCalendarColor(id: String!, color: Int!): Boolean
+	changeFolderColor(id: ID!, color: Int!): Boolean
 	changePassword(
 		loginNewPassword: String!
 		password: String!
 		username: String!
 	): String
 	modifyProfileImage(uid: String!): String
-	checkCalendar(calendarId: ID!, value: Boolean!): Boolean
+	checkCalendar(id: ID!, value: Boolean!): Boolean
 	contactAction(
 		id: ID
 		ids: [ID!]
@@ -2243,7 +2252,7 @@ type Mutation {
 	): Boolean
 	createAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
 	createAppointmentException(accountName: String, appointment: CalendarItemInput!): Boolean
-	createCalendar(name: String!, color: Int!, url: String): Boolean
+	createCalendar(name: String!, color: Int!, url: String): Folder
 	createContact(contact: CreateContactInput!): Contact
 	createContactList(contact: CreateContactInput!): Contact
 	modifyContact(contact: ModifyContactInput!): Contact
@@ -2260,7 +2269,7 @@ type Mutation {
 	createMountpoint(
 		link: NewMountpointSpec!
 	): Boolean
-	createSharedCalendar(sharedCalendar: SharedCalendarInput!): Boolean
+	createSharedCalendar(link: NewMountpointSpec!): Boolean
 	createSearchFolder(
 		name: String!
 		parentFolderId: String
