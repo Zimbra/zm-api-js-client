@@ -457,10 +457,10 @@ export class ZimbraBatchClient {
 			normalize(Filter)(get(res, 'filterRules.0.filterRule') || [])
 		);
 
-	public getFolder = (options: GetFolderOptions) => {
+	public getFolder = (options?: GetFolderOptions) => {
 		return this.jsonRequest({
 			name: 'GetFolder',
-			body: denormalize(GetFolderRequestEntity)(options)
+			body: options && denormalize(GetFolderRequestEntity)(options)
 		}).then(normalize(Folder));
 	};
 

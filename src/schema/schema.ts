@@ -1,4 +1,5 @@
 import { makeExecutableSchema } from 'graphql-tools';
+import get from 'lodash/get';
 import mapValues from 'lodash/mapValues';
 
 import {
@@ -28,6 +29,7 @@ import { ZimbraSchemaOptions } from './types';
 import { ZimbraBatchClient } from '../batch-client';
 import { normalize } from '../normalize';
 import { CalendarItemHitInfo } from '../normalize/entities';
+import { addId } from '../utils/add-id';
 import { coerceBooleanToString } from '../utils/coerce-boolean';
 import { ZimbraNotifications } from './notifications';
 
@@ -102,6 +104,7 @@ export function createZimbraSchema(
 				getSMimePublicCerts: (_, variables) =>
 					client.getSMimePublicCerts(variables as GetSMimePublicCertsOptions),
 				preferences: client.preferences,
+				mail: () => ({ mail: { id: 'mailVerticle' } }),
 				noop: client.noop,
 				recoverAccount: (_, variables) =>
 					client.recoverAccount(variables as RecoverAccountOptions),
@@ -124,6 +127,58 @@ export function createZimbraSchema(
 			//					return obj.conversationId ? 'MessageInfo' : 'ConversationInfo';
 			//				}
 			//			},
+			MailVerticle: {
+				// Mailbox metadata
+				meta: (_, { section }) =>
+					client
+						.getMailboxMetadata({ section })
+						.then(
+							({ meta }: any) =>
+								console.log('teh meta:', meta) || (meta && meta[0])
+						),
+
+				// Folders for the mail sidebar
+				folders: () =>
+					console.log('mail.folders REQ') ||
+					client.getFolder().then(res => {
+						const folders = get(res, 'folders.0.folders');
+
+						console.log('folders:', folders);
+						if (!folders) {
+							console.error('No field `folders` on res', res);
+						}
+
+						return folders.filter(
+							(f: any) => !f.view || f.view === FolderView.Message
+						);
+					}),
+
+				// The list of messages in a given folder.
+				list: (
+					_,
+					{ folderName, type = FolderView.Message, sortBy = SortBy.DateDesc }
+				) =>
+					!folderName
+						? null
+						: client
+								.search({
+									types: type,
+									limit: 50,
+									recip: 2,
+									sortBy,
+									query: `in:"${folderName}"`,
+									fullConversation: true
+								})
+								.then(
+									({ messages, conversations }) =>
+										type === FolderView.Conversation ? conversations : messages
+								)
+								.then(addId(`${folderName}:${sortBy}:${type}`)),
+
+				// The message rendered in the MailPane Viewer
+				read: (_, { messageId }) =>
+					!messageId ? null : client.getMessage({ id: messageId })
+			},
 			Folder: {
 				appointments: (root, { start, end, offset = 0, limit = 1000 }) =>
 					client

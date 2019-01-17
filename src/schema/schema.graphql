@@ -970,6 +970,15 @@ type Filter {
 
 ##### End Of Filters ######
 
+# ($selectedFolder: MailFolder
+type MailVerticle {
+	meta(section: String = "zwc:implicit"): MailboxMetadataMeta
+	id: ID # TODO: Remove this when i get better at GraphQL
+	folders: [Folder]                                                         # returns mail folders only, includes saved searches
+	list(folderName: String, sortBy: String, type: String): [MessageInfo]   # return a list of partial messages (from `search` endpoint)
+	read(messageId: ID): MessageInfo                                        # return an entire message that can be read (from `getMessage`/`getConversation` endpoint)
+}
+
 type Folder {
 	absFolderPath: String
 	acl: ACL
@@ -2357,6 +2366,8 @@ type Query {
 		needExp: Boolean
 	): SearchResponse
 	taskFolders: [Folder]
+
+	mail: MailVerticle
 
 	# Below queries should not be present here as it is used by apollo-link-state for local data management
 	# but eslint-plugin-graphql is not able to handle those scenarios as mentioned in https://github.com/apollographql/eslint-plugin-graphql/issues/99
