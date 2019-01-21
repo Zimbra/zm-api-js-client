@@ -287,7 +287,7 @@ export function createZimbraSchema(
 						})
 						.then(() => value),
 				modifyIdentity: (_, variables) =>
-					client.modifyIdentity(variables as ModifyIdentityInput),
+					client.modifyIdentity(variables as ModifyIdentityInput).then(Boolean),
 
 				modifyPrefs: (_, { prefs }) =>
 					client.modifyPrefs(prefs as PreferencesInput),

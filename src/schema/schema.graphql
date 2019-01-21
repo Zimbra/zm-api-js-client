@@ -2304,7 +2304,7 @@ type Mutation {
 		attrs: ExternalAccountModifyAttrsInput!
 	): Boolean
 	modifyAppointment(accountName: String, appointment: CalendarItemInput!): ModifyAppointmentResponse
-	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
+	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): Boolean
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyZimletPrefs(zimlets: [ZimletPreferenceInput!]): ModifyZimletPrefsResponse
 	modifyFilterRules(filters: [FilterInput!]): Boolean
