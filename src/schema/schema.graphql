@@ -2237,7 +2237,7 @@ type Mutation {
 		loginNewPassword: String!
 		password: String!
 		username: String!
-	): String
+	): AuthResponse
 	modifyProfileImage(uid: String!): String
 	checkCalendar(id: ID!, value: Boolean!): Boolean
 	contactAction(
