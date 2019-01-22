@@ -125,7 +125,7 @@ export interface CalendarItemInviteComponentInput {
 
 	class: CalendarItemClass;
 
-	priority?: number | null;
+	priority?: string | null;
 
 	percentComplete?: string | null;
 
@@ -575,7 +575,7 @@ export interface PreferencesInput {
 
 	zimbraPrefDefaultCalendarId?: number | null;
 
-	zimbraPrefCalendarFirstDayOfWeek?: string | null;
+	zimbraPrefCalendarFirstDayOfWeek?: number | null;
 
 	zimbraPrefCalendarInitialView?: PrefCalendarInitialView | null;
 

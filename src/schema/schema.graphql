@@ -636,7 +636,7 @@ type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	organizer: CalOrganizer # or
 	participationStatus: ParticipationStatus
 	percentComplete: String
-	priority: Int
+	priority: String
 	revision: Int # rev
 	utcRecurrenceId: String # ridZ
 	size: Float # s
@@ -1063,7 +1063,7 @@ type IdentityAttrs {
 type Preferences {
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
 	zimbraPrefCalendarAutoAddInvites: Boolean
-	zimbraPrefCalendarFirstDayOfWeek: String
+	zimbraPrefCalendarFirstDayOfWeek: Int
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
 	zimbraPrefCalendarWorkingHours: String
@@ -1479,7 +1479,7 @@ input CalendarItemInviteComponentInput {
 	attendees: [CalendarItemAttendeesInput]
 	alarms: [CalendarItemAlarmInput]
 	class: CalendarItemClass!
-	priority: Int
+	priority: String
 	percentComplete: String
 	status: InviteCompletionStatus
 	noBlob: Boolean
@@ -1688,7 +1688,7 @@ input PreferencesInput {
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
 	zimbraPrefCalendarAutoAddInvites: Boolean
 	zimbraPrefDefaultCalendarId: Int
-	zimbraPrefCalendarFirstDayOfWeek: String
+	zimbraPrefCalendarFirstDayOfWeek: Int
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
 	zimbraPrefCalendarWorkingHours: String
