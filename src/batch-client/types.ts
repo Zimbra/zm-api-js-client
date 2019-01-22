@@ -3,6 +3,8 @@ import {
 	Cursor,
 	ExternalAccountModifyAttrsInput,
 	FolderView,
+	Grantee,
+	Owner,
 	SearchType,
 	SortBy
 } from '../schema/generated-schema-types';
@@ -138,7 +140,10 @@ export interface SearchOptions {
 }
 
 export interface ShareInfosOptions {
-	addresses: Array<string>;
+	grantee?: Grantee;
+	includeSelf?: Boolean;
+	internal?: Boolean;
+	owner?: Owner;
 }
 
 export interface ChangePasswordOptions {
