@@ -413,7 +413,7 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'ForwardAppointmentInvite',
 			body: denormalize(ForwardAppointmentInviteInfo)(body)
-		});
+		}).then(Boolean);
 
 	public freeBusy = ({ start, end, names }: FreeBusyOptions) =>
 		this.jsonRequest({
