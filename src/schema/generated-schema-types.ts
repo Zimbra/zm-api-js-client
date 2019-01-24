@@ -419,17 +419,17 @@ export interface ContactListOps {
 export interface NewMountpointSpec {
 	name: string;
 
-	owner: string;
+	owner?: string | null;
 
 	view?: SearchType | null;
 
 	flags?: string | null;
 
-	rid?: string | null;
+	ownerZimbraId?: string | null;
+
+	sharedItemId?: string | null;
 
 	color?: number | null;
-
-	zid?: string | null;
 
 	reminder?: boolean | null;
 

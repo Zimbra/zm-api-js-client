@@ -1622,14 +1622,14 @@ input CalendarItemRecurrenceIntervalInput {
 
 input NewMountpointSpec {
 	name: String!
-	owner: String!
+	owner: String
 	view: SearchType
 	flags: String
-	rid: ID
+	ownerZimbraId: ID # zid
+	sharedItemId: ID # rid
 	color: Int
-	zid: String
 	reminder: Boolean
-	parentFolderId: String
+	parentFolderId: ID
 }
 
 input CreateMountpointInput {

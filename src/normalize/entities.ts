@@ -239,7 +239,9 @@ export const CalendarItemDeleteRequest = new Entity({
 
 const NewMountpointSpec = new Entity({
 	f: 'flags',
-	l: 'parentFolderId'
+	l: 'parentFolderId',
+	rid: 'sharedItemId',
+	zid: 'ownerZimbraId'
 });
 
 export const CreateMountpointRequest = new Entity({
