@@ -241,9 +241,7 @@ const NewMountpointSpec = new Entity({
 	rid: 'sharedItemId',
 	zid: 'ownerZimbraId',
 	f: 'flags',
-	l: 'parentFolderId',
-	rid: 'sharedItemId',
-	zid: 'ownerZimbraId'
+	l: 'parentFolderId'
 });
 
 export const CreateMountpointRequest = new Entity({
