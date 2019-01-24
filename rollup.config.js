@@ -11,6 +11,7 @@ import * as graphqlExecution from 'graphql/execution';
 import * as graphqlSubscription from 'graphql/subscription';
 import * as graphqlError from 'graphql/error';
 import * as graphqlUtilities from 'graphql/utilities';
+import * as graphqlValidators from 'graphql/validation';
 
 let FORMAT = process.env.FORMAT;
 
@@ -44,7 +45,8 @@ export default {
 				'graphql/execution': Object.keys(graphqlExecution),
 				'graphql/subscription': Object.keys(graphqlSubscription),
 				'graphql/error': Object.keys(graphqlError),
-				'graphql/utilities': Object.keys(graphqlUtilities)
+				'graphql/utilities': Object.keys(graphqlUtilities),
+				'graphql/validation': Object.keys(graphqlValidators)
 			}
 		}),
 		typescript({
