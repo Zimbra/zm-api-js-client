@@ -139,7 +139,7 @@ export interface SearchOptions {
 	types?: SearchType;
 }
 
-export interface ShareInfosOptions {
+export interface ShareInfoOptions {
 	grantee?: Grantee;
 	includeSelf?: Boolean;
 	internal?: Boolean;

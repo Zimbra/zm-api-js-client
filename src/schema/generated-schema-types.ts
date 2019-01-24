@@ -17,11 +17,11 @@ export interface GetFolderFolderInput {
 }
 
 export interface Grantee {
-	granteeId?: string | null;
+	id?: string | null;
 
-	granteeType?: string | null;
+	type?: string | null;
 
-	granteeName?: string | null;
+	name?: string | null;
 }
 
 export interface Owner {

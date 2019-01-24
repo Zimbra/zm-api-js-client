@@ -103,7 +103,7 @@ import {
 	ResetPasswordOptions,
 	SearchOptions,
 	SetRecoveryAccountOptions,
-	ShareInfosOptions,
+	ShareInfoOptions,
 	ZimbraClientOptions
 } from './types';
 
@@ -846,7 +846,7 @@ export class ZimbraBatchClient {
 			body: options
 		}).then(Boolean);
 
-	public shareInfos = (options: ShareInfosOptions) =>
+	public shareInfo = (options: ShareInfoOptions) =>
 		this.jsonRequest({
 			name: 'GetShareInfo',
 			body: {

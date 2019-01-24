@@ -2064,9 +2064,9 @@ input DismissInput {
 
 
 input Grantee {
-	granteeId: String
-	granteeType: String
-	granteeName: String
+	id: ID
+	type: String
+	name: String
 } 
 
 input Owner {
@@ -2189,7 +2189,7 @@ type Query {
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
 	relatedContacts(email: String!): [RelatedContact]
-	shareInfos(
+	shareInfo(
 		internal: Boolean,
 		includeSelf: Boolean,
 		grantee: Grantee,
