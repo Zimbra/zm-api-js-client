@@ -238,6 +238,8 @@ export const CalendarItemDeleteRequest = new Entity({
 });
 
 const NewMountpointSpec = new Entity({
+	rid: 'sharedItemId',
+	zid: 'ownerZimbraId',
 	f: 'flags',
 	l: 'parentFolderId',
 	rid: 'sharedItemId',
