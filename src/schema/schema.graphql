@@ -1307,7 +1307,7 @@ type ShareInfo {
 	ownerName: String
 	rights: String
 	view: FolderView
-	mid: String
+	mid: ID
 }
 
 type MailboxMetadata {
