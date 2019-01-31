@@ -1015,7 +1015,7 @@ type DataSource {
 	useAddressForForwardReply: Boolean
 	username: String
 	failingSince: String
-	lastError: [String]
+	lastError: StringContent
 }
 
 type Signatures {
