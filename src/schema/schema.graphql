@@ -2060,6 +2060,11 @@ input DismissInput {
 	dismissedAt: Float!
 }
 
+input AddMsgInput {
+	folderId: ID!
+	attachmentId: String!
+}
+
 ##### SMIME Certificates type #####
 
 type SMimePublicCert {
@@ -2231,6 +2236,7 @@ type Mutation {
 	): Boolean
 	testExternalAccount(externalAccount: ExternalAccountTestInput!): ExternalAccountTestResponse
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): ID
+	addMessage(message: AddMsgInput!): MessageInfo
 	cancelTask(inviteId: ID!): Boolean
 	changeFolderColor(id: ID!, color: Int!): Boolean
 	changePassword(

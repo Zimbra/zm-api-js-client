@@ -68,6 +68,12 @@ export interface ExternalAccountAddInput {
 	username: string;
 }
 
+export interface AddMsgInput {
+	folderId: string;
+
+	attachmentId: string;
+}
+
 export interface CalendarItemInput {
 	id?: string | null;
 
