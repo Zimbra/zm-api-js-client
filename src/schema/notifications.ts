@@ -46,7 +46,9 @@ function doSort(a: any, b: any, sortByValue: any) {
 		valueOfB = b.fileAsStr;
 
 	if (valueOfA && valueOfB && sortByValue === 'nameAsc') {
-		const comparedResult = valueOfA.localeCompare(valueOfB, undefined, {sensitivity: 'base'});
+		const comparedResult = valueOfA.localeCompare(valueOfB, undefined, {
+			sensitivity: 'base'
+		});
 		return comparedResult;
 	}
 
@@ -117,7 +119,9 @@ export class ZimbraNotifications {
 				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
 					r.test(dataId)
 				);
-				const sortByValue = getVariablesFromDataId(id) ? getVariablesFromDataId(id).sortBy : null;
+				const sortByValue = getVariablesFromDataId(id)
+					? getVariablesFromDataId(id).sortBy
+					: null;
 
 				if (!searchResponse[query] && id) {
 					searchResponse[query] = this.cache.readFragment({
@@ -149,7 +153,9 @@ export class ZimbraNotifications {
 					}
 				});
 				searchResponse[query].contacts = uniqBy(
-					[item].concat(searchResponse[query].contacts).sort((a, b) => doSort(a, b, sortByValue)),
+					[item]
+						.concat(searchResponse[query].contacts)
+						.sort((a, b) => doSort(a, b, sortByValue)),
 					'id'
 				).map(contact => ({
 					generated: false,
