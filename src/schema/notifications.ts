@@ -126,10 +126,7 @@ export class ZimbraNotifications {
 				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
 					r.test(dataId)
 				);
-				const sortBy = getVariablesFromDataId(id)
-					? getVariablesFromDataId(id).sortBy
-					: undefined;
-
+				const { sortBy }: any = getVariablesFromDataId(id) || {};
 				if (!searchResponse[query] && id) {
 					searchResponse[query] = this.cache.readFragment({
 						id: id,
