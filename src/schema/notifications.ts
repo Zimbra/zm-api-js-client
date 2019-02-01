@@ -41,12 +41,12 @@ function findDataId(
 	)[0];
 }
 
-function doSort(a: any, b: any, sortByValue: any){
+function doSort(a: any, b: any, sortByValue: any) {
 	const valueOfA = a.fileAsStr,
-		  valueOfB = b.fileAsStr;
+		valueOfB = b.fileAsStr;
 
 	if (valueOfA && valueOfB && sortByValue === 'nameAsc') {
-		const comparedResult = valueOfA.localeCompare(valueOfB, undefined, { sensitivity: 'base' });
+		const comparedResult = valueOfA.localeCompare(valueOfB, undefined, {sensitivity: 'base'});
 		return comparedResult;
 	}
 
