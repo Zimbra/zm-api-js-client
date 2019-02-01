@@ -41,19 +41,26 @@ function findDataId(
 	)[0];
 }
 
-function doSort(a: any, b: any, sortByValue: any) {
-	const valueOfA = a.fileAsStr,
-		valueOfB = b.fileAsStr;
-
-	if (valueOfA && valueOfB && sortByValue === 'nameAsc') {
-		const comparedResult = valueOfA.localeCompare(valueOfB, undefined, {
-			sensitivity: 'base'
-		});
-		return comparedResult;
+function addNewContactGroupToList(array: any, item: any, sortBy: any) {
+	if (sortBy === 'nameAsc') {
+		for (let i = 0; i < array.length; i++) {
+			const comparedResult = item.fileAsStr.localeCompare(
+				array[i].fileAsStr,
+				undefined,
+				{ sensitivity: 'base' }
+			);
+			if (comparedResult === -1) {
+				array.splice(i, 0, item);
+				return array;
+			} else if (i === array.length - 1) {
+				array.push(item);
+				return array;
+			}
+		}
+	} else {
+		[item].concat(array);
+		return array;
 	}
-
-	if (valueOfA) return 1;
-	if (valueOfB) return -1;
 }
 
 function getVariablesFromDataId(dataId: any) {
@@ -119,7 +126,7 @@ export class ZimbraNotifications {
 				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
 					r.test(dataId)
 				);
-				const sortByValue = getVariablesFromDataId(id)
+				const sortBy = getVariablesFromDataId(id)
 					? getVariablesFromDataId(id).sortBy
 					: null;
 
@@ -152,12 +159,15 @@ export class ZimbraNotifications {
 						...item
 					}
 				});
+				searchResponse[query].contacts = addNewContactGroupToList(
+					searchResponse[query].contacts,
+					item,
+					sortBy
+				);
 				searchResponse[query].contacts = uniqBy(
-					[item]
-						.concat(searchResponse[query].contacts)
-						.sort((a, b) => doSort(a, b, sortByValue)),
+					searchResponse[query].contacts,
 					'id'
-				).map(contact => ({
+				).map((contact: any) => ({
 					generated: false,
 					id: `Contact:${contact.id}`,
 					type: 'id',
