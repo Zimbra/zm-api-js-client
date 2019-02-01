@@ -58,7 +58,7 @@ function addNewContactGroupToList(array: any, item: any, sortBy: any) {
 			}
 		}
 	} else {
-		[item].concat(array);
+		array = [item].concat(array);
 		return array;
 	}
 }
@@ -128,7 +128,7 @@ export class ZimbraNotifications {
 				);
 				const sortBy = getVariablesFromDataId(id)
 					? getVariablesFromDataId(id).sortBy
-					: null;
+					: undefined;
 
 				if (!searchResponse[query] && id) {
 					searchResponse[query] = this.cache.readFragment({
@@ -159,11 +159,13 @@ export class ZimbraNotifications {
 						...item
 					}
 				});
-				searchResponse[query].contacts = addNewContactGroupToList(
-					searchResponse[query].contacts,
-					item,
-					sortBy
-				);
+				if (sortBy) {
+					searchResponse[query].contacts = addNewContactGroupToList(
+						searchResponse[query].contacts,
+						item,
+						sortBy
+					);
+				}
 				searchResponse[query].contacts = uniqBy(
 					searchResponse[query].contacts,
 					'id'
