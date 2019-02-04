@@ -156,13 +156,11 @@ export class ZimbraNotifications {
 						...item
 					}
 				});
-				if (sortBy) {
-					searchResponse[query].contacts = addNewContactGroupToList(
-						searchResponse[query].contacts,
-						item,
-						sortBy
-					);
-				}
+				searchResponse[query].contacts = addNewContactGroupToList(
+					searchResponse[query].contacts,
+					item,
+					sortBy
+				);
 				searchResponse[query].contacts = uniqBy(
 					searchResponse[query].contacts,
 					'id'
