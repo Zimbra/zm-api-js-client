@@ -51,16 +51,16 @@ function addNewContactGroupToList(array: any, item: any, sortBy: any) {
 			);
 			if (comparedResult === -1) {
 				array.splice(i, 0, item);
-				return array;
+				break;
 			} else if (i === array.length - 1) {
 				array.push(item);
-				return array;
+				break;
 			}
 		}
 	} else {
 		array = [item].concat(array);
-		return array;
 	}
+	return array;
 }
 
 function getVariablesFromDataId(dataId: any) {
