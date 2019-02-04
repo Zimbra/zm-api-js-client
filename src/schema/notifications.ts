@@ -41,26 +41,23 @@ function findDataId(
 	)[0];
 }
 
-function addNewContactGroupToList(array: any, item: any, sortBy: any) {
-	if (sortBy === 'nameAsc' && array.length > 0) {
-		for (let i = 0; i < array.length; i++) {
-			const comparedResult = item.fileAsStr.localeCompare(
-				array[i].fileAsStr,
-				undefined,
-				{ sensitivity: 'base' }
-			);
-			if (comparedResult === -1) {
-				array.splice(i, 0, item);
-				break;
-			} else if (i === array.length - 1) {
-				array.push(item);
-				break;
-			}
+function addNewItemToList(itemList: any, item: any, sortBy: any) {
+	if (sortBy === 'nameAsc' && itemList.length > 0) {
+		const index = itemList.findIndex(
+			(cnt: any) =>
+				item.fileAsStr.localeCompare(cnt.fileAsStr.undefined, {
+					sensitivity: 'base'
+				}) === -1
+		);
+		if (index !== -1) {
+			itemList.splice(index + 1, 0, item);
+		} else {
+			itemList.push(item);
 		}
 	} else {
-		array = [item].concat(array);
+		itemList = [item].concat(itemList);
 	}
-	return array;
+	return itemList;
 }
 
 function getVariablesFromDataId(dataId: any) {
@@ -156,7 +153,7 @@ export class ZimbraNotifications {
 						...item
 					}
 				});
-				searchResponse[query].contacts = addNewContactGroupToList(
+				searchResponse[query].contacts = addNewItemToList(
 					searchResponse[query].contacts,
 					item,
 					sortBy
