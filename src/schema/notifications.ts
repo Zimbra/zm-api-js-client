@@ -45,12 +45,12 @@ function addNewItemToList(itemList: any, item: any, sortBy: any) {
 	if (sortBy === 'nameAsc' && itemList.length > 0) {
 		const index = itemList.findIndex(
 			(cnt: any) =>
-				item.fileAsStr.localeCompare(cnt.fileAsStr.undefined, {
+				item.fileAsStr.localeCompare(cnt.fileAsStr, undefined, {
 					sensitivity: 'base'
 				}) === -1
 		);
 		if (index !== -1) {
-			itemList.splice(index + 1, 0, item);
+			itemList.splice(index, 0, item);
 		} else {
 			itemList.push(item);
 		}
