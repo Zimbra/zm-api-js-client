@@ -42,7 +42,7 @@ function findDataId(
 }
 
 function addNewContactGroupToList(array: any, item: any, sortBy: any) {
-	if (sortBy === 'nameAsc') {
+	if (sortBy === 'nameAsc' && array.length > 0) {
 		for (let i = 0; i < array.length; i++) {
 			const comparedResult = item.fileAsStr.localeCompare(
 				array[i].fileAsStr,
