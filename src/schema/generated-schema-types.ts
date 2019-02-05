@@ -593,6 +593,8 @@ export interface PreferencesInput {
 
 	zimbraPrefGroupMailBy?: string | null;
 
+	zimbraPrefMailPollingInterval?: string | null;
+
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
 
 	zimbraPrefMailTrustedSenderList?: (string | null)[] | null;
