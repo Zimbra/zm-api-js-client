@@ -103,7 +103,7 @@ import {
 	ResetPasswordOptions,
 	SearchOptions,
 	SetRecoveryAccountOptions,
-	ShareInfosOptions,
+	ShareInfoOptions,
 	ZimbraClientOptions
 } from './types';
 
@@ -846,22 +846,14 @@ export class ZimbraBatchClient {
 			body: options
 		}).then(Boolean);
 
-	public shareInfos = ({ addresses }: ShareInfosOptions) =>
-		Promise.all(
-			addresses.map((address: string) =>
-				this.jsonRequest({
-					name: 'GetShareInfo',
-					body: {
-						includeSelf: 0,
-						owner: {
-							by: 'name',
-							_content: address
-						},
-						_jsns: 'urn:zimbraAccount'
-					}
-				})
-			)
-		);
+	public shareInfo = (options: ShareInfoOptions) =>
+		this.jsonRequest({
+			name: 'GetShareInfo',
+			body: {
+				...options,
+				_jsns: 'urn:zimbraAccount'
+			}
+		}).then(res => res.share);
 
 	public snoozeCalendarItem = (appointment: any, task: any) =>
 		this.jsonRequest({
