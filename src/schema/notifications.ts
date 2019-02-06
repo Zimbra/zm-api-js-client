@@ -41,6 +41,31 @@ function findDataId(
 	)[0];
 }
 
+function addNewItemToList(itemList: any, item: any, sortBy: any) {
+	if (sortBy === 'nameAsc' && itemList.length > 0) {
+		const index = itemList.findIndex(
+			(cnt: any) =>
+				item.fileAsStr.localeCompare(cnt.fileAsStr, undefined, {
+					sensitivity: 'base'
+				}) === -1
+		);
+		if (index !== -1) {
+			itemList.splice(index, 0, item);
+		} else {
+			itemList.push(item);
+		}
+	} else {
+		itemList = [item].concat(itemList);
+	}
+	return itemList;
+}
+
+function getVariablesFromDataId(dataId: any) {
+	try {
+		return JSON.parse(dataId.replace(/^[^(]+\((.*)\)$/, '$1'));
+	} catch (e) {}
+}
+
 /**
  * Extract the attributes (non-nested object types) from a notification
  * data object to dynamically constructing a fragment.
@@ -98,6 +123,7 @@ export class ZimbraNotifications {
 				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
 					r.test(dataId)
 				);
+				const { sortBy }: any = getVariablesFromDataId(id) || {};
 				if (!searchResponse[query] && id) {
 					searchResponse[query] = this.cache.readFragment({
 						id: id,
@@ -105,6 +131,7 @@ export class ZimbraNotifications {
 							fragment ${generateFragmentName('searchResults')} on SearchResponse {
 								contacts {
 									id
+									fileAsStr
 								}
 							}
 						`
@@ -126,10 +153,15 @@ export class ZimbraNotifications {
 						...item
 					}
 				});
+				searchResponse[query].contacts = addNewItemToList(
+					searchResponse[query].contacts,
+					item,
+					sortBy
+				);
 				searchResponse[query].contacts = uniqBy(
-					[item].concat(searchResponse[query].contacts),
+					searchResponse[query].contacts,
 					'id'
-				).map(contact => ({
+				).map((contact: any) => ({
 					generated: false,
 					id: `Contact:${contact.id}`,
 					type: 'id',

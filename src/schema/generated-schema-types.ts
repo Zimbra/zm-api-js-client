@@ -16,6 +16,20 @@ export interface GetFolderFolderInput {
 	path?: string | null;
 }
 
+export interface Grantee {
+	id?: string | null;
+
+	type?: string | null;
+
+	name?: string | null;
+}
+
+export interface Owner {
+	by?: string | null;
+
+	_content?: string | null;
+}
+
 export interface Cursor {
 	id?: string | null;
 
