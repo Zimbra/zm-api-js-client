@@ -2063,7 +2063,7 @@ input DismissInput {
 
 input AddMsgInput {
 	folderId: ID!
-	attachmentId: String!
+	attachmentId: ID!
 }
 
 ##### SMIME Certificates type #####
