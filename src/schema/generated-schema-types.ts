@@ -603,6 +603,8 @@ export interface PreferencesInput {
 
 	zimbraPrefMailPollingInterval?: string | null;
 
+	zimbraPrefMailRequestReadReceipts?: boolean | null;
+
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
 
 	zimbraPrefMailTrustedSenderList?: (string | null)[] | null;

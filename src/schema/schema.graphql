@@ -1072,6 +1072,7 @@ type Preferences {
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
+	zimbraPrefMailRequestReadReceipts: Boolean
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
@@ -1697,6 +1698,7 @@ input PreferencesInput {
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
+	zimbraPrefMailRequestReadReceipts: Boolean
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
@@ -2068,12 +2070,12 @@ input Grantee {
 	id: ID
 	type: String
 	name: String
-} 
+}
 
 input Owner {
 	by: String
 	_content: String
-} 
+}
 
 ##### SMIME Certificates type #####
 
