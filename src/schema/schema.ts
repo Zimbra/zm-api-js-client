@@ -60,7 +60,7 @@ import {
 	ResetPasswordOptions,
 	SearchOptions,
 	SetRecoveryAccountOptions,
-	ShareInfosOptions
+	ShareInfoOptions
 } from '../batch-client/types';
 import schema from './schema.graphql';
 
@@ -113,8 +113,8 @@ export function createZimbraSchema(
 				search: (_, variables) => client.search(variables as SearchOptions),
 				searchGal: (_, variables) =>
 					client.searchGal(variables as SearchOptions),
-				shareInfos: (_, variables) =>
-					client.shareInfos(variables as ShareInfosOptions),
+				shareInfo: (_, variables) =>
+					client.shareInfo(variables as ShareInfoOptions),
 				taskFolders: client.taskFolders,
 				getWhiteBlackList: client.getWhiteBlackList
 			},
