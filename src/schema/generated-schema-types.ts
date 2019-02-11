@@ -16,6 +16,20 @@ export interface GetFolderFolderInput {
 	path?: string | null;
 }
 
+export interface Grantee {
+	id?: string | null;
+
+	type?: string | null;
+
+	name?: string | null;
+}
+
+export interface Owner {
+	by?: string | null;
+
+	_content?: string | null;
+}
+
 export interface Cursor {
 	id?: string | null;
 
@@ -55,7 +69,7 @@ export interface ExternalAccountAddInput {
 
 	isEnabled?: boolean | null;
 
-	l: number;
+	l: string;
 
 	leaveOnServer?: boolean | null;
 
@@ -125,7 +139,7 @@ export interface CalendarItemInviteComponentInput {
 
 	class: CalendarItemClass;
 
-	priority?: number | null;
+	priority?: string | null;
 
 	percentComplete?: string | null;
 
@@ -405,33 +419,21 @@ export interface ContactListOps {
 export interface NewMountpointSpec {
 	name: string;
 
-	owner: string;
+	owner?: string | null;
 
 	view?: SearchType | null;
 
 	flags?: string | null;
 
-	rid?: string | null;
+	ownerZimbraId?: string | null;
+
+	sharedItemId?: string | null;
 
 	color?: number | null;
-
-	zid?: string | null;
 
 	reminder?: boolean | null;
 
 	parentFolderId?: string | null;
-}
-
-export interface SharedCalendarInput {
-	ownerId: string;
-
-	ownerCalendarId: string;
-
-	name: string;
-
-	color: string;
-
-	reminder: boolean;
 }
 
 export interface SignatureInput {
@@ -587,7 +589,7 @@ export interface PreferencesInput {
 
 	zimbraPrefDefaultCalendarId?: number | null;
 
-	zimbraPrefCalendarFirstDayOfWeek?: string | null;
+	zimbraPrefCalendarFirstDayOfWeek?: number | null;
 
 	zimbraPrefCalendarInitialView?: PrefCalendarInitialView | null;
 
@@ -598,6 +600,8 @@ export interface PreferencesInput {
 	zimbraPrefDisplayExternalImages?: boolean | null;
 
 	zimbraPrefGroupMailBy?: string | null;
+
+	zimbraPrefMailPollingInterval?: string | null;
 
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
 
@@ -1057,6 +1061,18 @@ export interface ExternalAccount {
 
 	password: string;
 }
+/** Special case of FolderAction for `changeFolderColor` resolver */
+export interface FolderActionChangeColorInput {
+	id: string;
+
+	color: number;
+}
+/** Special case of FolderAction for `checkCalendar` resolver */
+export interface FolderActionCheckCalendarInput {
+	id: string;
+
+	value?: boolean | null;
+}
 
 export interface FolderQueryInput {
 	uuid?: string | null;
@@ -1064,6 +1080,12 @@ export interface FolderQueryInput {
 	id?: string | null;
 
 	view?: FolderView | null;
+}
+
+export interface ModifyIdentityInput {
+	id: string;
+
+	attrs?: IdentityAttrsInput | null;
 }
 
 export enum PrefCalendarInitialView {

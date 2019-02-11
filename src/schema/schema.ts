@@ -10,9 +10,12 @@ import {
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
 	FilterInput,
+	FolderActionChangeColorInput,
+	FolderActionCheckCalendarInput,
 	FolderView,
 	InviteReplyInput,
 	ModifyContactInput,
+	ModifyIdentityInput,
 	NameIdInput,
 	PreferencesInput,
 	SearchFolderInput,
@@ -56,7 +59,7 @@ import {
 	ResetPasswordOptions,
 	SearchOptions,
 	SetRecoveryAccountOptions,
-	ShareInfosOptions
+	ShareInfoOptions
 } from '../batch-client/types';
 import schema from './schema.graphql';
 
@@ -109,8 +112,8 @@ export function createZimbraSchema(
 				search: (_, variables) => client.search(variables as SearchOptions),
 				searchGal: (_, variables) =>
 					client.searchGal(variables as SearchOptions),
-				shareInfos: (_, variables) =>
-					client.shareInfos(variables as ShareInfosOptions),
+				shareInfo: (_, variables) =>
+					client.shareInfo(variables as ShareInfoOptions),
 				taskFolders: client.taskFolders,
 				getWhiteBlackList: client.getWhiteBlackList
 			},
@@ -210,38 +213,28 @@ export function createZimbraSchema(
 					client.createMountpoint(variables as CreateMountpointInput),
 				deleteAppointment: (_, { appointment }) =>
 					client.deleteAppointment(appointment as DeleteAppointmentInput),
-				checkCalendar: (_, { calendarId, value }, { zimbra }) =>
-					zimbra.calendars.check({ calendarId, value }),
-				prefCalendarInitialView: (_, { value }) =>
-					client
-						.modifyPrefs({
-							zimbraPrefCalendarInitialView: value
-						})
-						.then(() => value),
-				prefAutoAddAppointmentToCalendar: (_, { value }) =>
-					client
-						.modifyPrefs({
-							zimbraPrefCalendarAutoAddInvites: value
-						})
-						.then(() => value),
-				createCalendar: (_, { name, color, url }, { zimbra }) =>
-					zimbra.folders.create({
+				checkCalendar: (_, variables) =>
+					client.checkCalendar(variables as FolderActionCheckCalendarInput),
+				createCalendar: (_, { name, color, url }) =>
+					client.createFolder({
 						name,
 						color,
 						url,
 						view: 'appointment',
 						flags: '#'
-					}),
-				createSharedCalendar: (_, { sharedCalendar }, { zimbra }) =>
-					zimbra.share.mountCalendar({
-						...sharedCalendar,
-						flags: '#'
-					}),
-				changeCalendarColor: (_, { id, color }, { zimbra }) =>
-					zimbra.folders.changeColor({
-						id,
-						color
-					}),
+					} as CreateFolderOptions),
+				createSharedCalendar: (_, { link }) =>
+					client.createMountpoint({
+						link: {
+							...link,
+							parentFolderId: 1,
+							view: 'appointment',
+							flags: '#'
+						}
+					} as CreateMountpointInput),
+
+				changeFolderColor: (_, variables) =>
+					client.changeFolderColor(variables as FolderActionChangeColorInput),
 				folderAction: (_, { action }) => client.folderAction(action),
 				sendShareNotification: (_, { shareNotification }) =>
 					client.sendShareNotification(
@@ -266,14 +259,14 @@ export function createZimbraSchema(
 						.modifyPrefs({
 							zimbraPrefOutOfOfficeStatusAlertOnLogin: value
 						})
-						.then(() => value),
+						.then(Boolean),
 
 				prefEnableOutOfOfficeReply: (_, { value }) =>
 					client
 						.modifyPrefs({
 							zimbraPrefOutOfOfficeReplyEnabled: value
 						})
-						.then(() => value),
+						.then(Boolean),
 
 				prefOutOfOfficeFromDate: (_, { value }) =>
 					client
@@ -293,8 +286,9 @@ export function createZimbraSchema(
 							zimbraPrefOutOfOfficeReply: value
 						})
 						.then(() => value),
-				modifyIdentity: (_, { id, attrs }, { zimbra }) =>
-					zimbra.account.modifyIdentity(id, attrs),
+				modifyIdentity: (_, variables) =>
+					client.modifyIdentity(variables as ModifyIdentityInput).then(Boolean),
+
 				modifyPrefs: (_, { prefs }) =>
 					client.modifyPrefs(prefs as PreferencesInput),
 				modifyZimletPrefs: (_, { zimlets }) =>
@@ -325,15 +319,17 @@ export function createZimbraSchema(
 				resetPassword: (_, variables) =>
 					client.resetPassword(variables as ResetPasswordOptions),
 				setMailboxMetadata: (_: any, variables: any) =>
-					client.jsonRequest({
-						name: 'SetMailboxMetadata',
-						body: {
-							meta: {
-								section: variables.section,
-								_attrs: mapValues(variables.attrs, coerceBooleanToString)
+					client
+						.jsonRequest({
+							name: 'SetMailboxMetadata',
+							body: {
+								meta: {
+									section: variables.section,
+									_attrs: mapValues(variables.attrs, coerceBooleanToString)
+								}
 							}
-						}
-					}),
+						})
+						.then(Boolean),
 				setRecoveryAccount: (_, variables) =>
 					client.setRecoveryAccount(variables as SetRecoveryAccountOptions),
 				modifyWhiteBlackList: (_, { whiteBlackList }) =>
