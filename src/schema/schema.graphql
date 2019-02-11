@@ -2063,21 +2063,25 @@ input DismissInput {
 	dismissedAt: Float!
 }
 
+input StringInput {
+	_content: String
+}
+
 input AddMsgInput {
 	folderId: ID!
-	attachmentId: ID!
+	content: StringInput
 }
 
 input Grantee {
 	id: ID
 	type: String
 	name: String
-} 
+}
 
 input Owner {
 	by: String
 	_content: String
-} 
+}
 
 ##### SMIME Certificates type #####
 

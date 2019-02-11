@@ -85,7 +85,7 @@ export interface ExternalAccountAddInput {
 export interface AddMsgInput {
 	folderId: string;
 
-	attachmentId: string;
+	content?: string | null;
 }
 
 export interface CalendarItemInput {
@@ -1092,6 +1092,10 @@ export interface ModifyIdentityInput {
 	id: string;
 
 	attrs?: IdentityAttrsInput | null;
+}
+
+export interface StringInput {
+	_content?: string | null;
 }
 
 export enum PrefCalendarInitialView {

@@ -484,8 +484,12 @@ export const ContactInputRequest = new Entity({
 	m: 'memberOps'
 });
 
+const contentInfo = new Entity({
+	_content: 'content'
+});
+
 const AddMsgAttributes = new Entity({
-	aid: 'attachmentId',
+	content: ['content', contentInfo],
 	l: 'folderId'
 });
 
