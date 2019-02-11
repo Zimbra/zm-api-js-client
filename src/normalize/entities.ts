@@ -60,7 +60,8 @@ const CalendarItemAlarm = new Entity({
 const CalendarItemDateTime = new Entity({
 	d: 'date',
 	tz: 'timezone',
-	tzoDue: 'timezoneDue'
+	tzoDue: 'timezoneDue',
+	u: 'utc'
 });
 
 const CalendarItemAttendees = new Entity({
