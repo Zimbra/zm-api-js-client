@@ -1444,6 +1444,7 @@ input CalendarItemMessageInput {
 input SendMessageInput {
 	id: ID #id
 	origId: ID #origid
+	folderId: ID # l
 	attach: [AttachmentInput]
 	attachmentId: ID #aid
 	replyType: String #rt
