@@ -98,7 +98,6 @@ const commonMessageFields = {
 const commonInviteFields = {
 	compNum: 'componentNum',
 	calItemId: 'calendarItemId',
-	ciFolder: 'ciFolder',
 	fb: 'freeBusy',
 	fba: 'freeBusyActual',
 	fr: 'excerpt',
