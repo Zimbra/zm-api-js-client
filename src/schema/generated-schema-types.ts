@@ -607,6 +607,8 @@ export interface PreferencesInput {
 
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
 
+	zimbraPrefMailSendReadReceipts?: PrefMailSendReadReceipts | null;
+
 	zimbraPrefMailTrustedSenderList?: (string | null)[] | null;
 
 	zimbraPrefMarkMsgRead?: number | null;
@@ -1103,6 +1105,12 @@ export enum PrefMailSelectAfterDelete {
 	Next = 'next',
 	Previous = 'previous',
 	Adaptive = 'adaptive'
+}
+
+export enum PrefMailSendReadReceipts {
+	Prompt = 'prompt',
+	Always = 'always',
+	Never = 'never'
 }
 
 export enum ReadingPaneLocation {
