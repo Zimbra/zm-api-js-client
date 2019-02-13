@@ -47,6 +47,11 @@ enum PrefCalendarInitialView {
 	workWeek
 	year
 }
+enum PrefMailSendReadReceipts {
+	prompt
+	always
+	never
+}
 
 enum AlarmAction {
 	DISPLAY
@@ -1015,7 +1020,7 @@ type DataSource {
 	useAddressForForwardReply: Boolean
 	username: String
 	failingSince: String
-	lastError: [String]
+	lastError: StringContent
 }
 
 type Signatures {
@@ -1073,7 +1078,7 @@ type Preferences {
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
-	zimbraPrefMailSendReadReceipts: String
+	zimbraPrefMailSendReadReceipts: PrefMailSendReadReceipts
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
 	zimbraPrefOutOfOfficeFromDate: String
@@ -1699,6 +1704,7 @@ input PreferencesInput {
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
+	zimbraPrefMailSendReadReceipts: PrefMailSendReadReceipts
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
 	zimbraPrefOutOfOfficeFromDate: String
