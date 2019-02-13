@@ -2075,12 +2075,12 @@ input Grantee {
 	id: ID
 	type: String
 	name: String
-} 
+}
 
 input Owner {
 	by: String
 	_content: String
-} 
+}
 
 ##### SMIME Certificates type #####
 
@@ -2189,6 +2189,7 @@ type Query {
 	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
 	getSearchFolder: Folder
 	getWhiteBlackList: WhiteBlackList
+	getWorkingHours(names: [String!], start: Float, end: Float): [FreeBusy]
 	noop: Boolean
 	preferences: Preferences
 	recoverAccount(

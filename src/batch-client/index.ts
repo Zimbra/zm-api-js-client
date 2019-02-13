@@ -556,6 +556,16 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		});
 
+	public getWorkingHours = ({ start, end, names }: FreeBusyOptions) =>
+		this.jsonRequest({
+			name: 'GetWorkingHours',
+			body: {
+				s: start,
+				e: end,
+				name: names.join(',')
+			}
+		}).then(res => normalize(FreeBusy)(res.usr));
+
 	public importExternalAccount = ({
 		accountType,
 		id
