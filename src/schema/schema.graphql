@@ -2063,13 +2063,13 @@ input DismissInput {
 	dismissedAt: Float!
 }
 
-input StringInput {
+input StringContentInput {
 	_content: String
 }
 
 input AddMsgInput {
 	folderId: ID!
-	content: StringInput
+	content: StringContentInput
 }
 
 input Grantee {
