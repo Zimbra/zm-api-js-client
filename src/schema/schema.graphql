@@ -272,6 +272,9 @@ type AuthResponse {
 	skin: [Skin]
 }
 
+type ProfileImageChangeResponse {
+	itemId: Int
+}
 type AuthToken {
 	_content: String
 }
@@ -2264,7 +2267,7 @@ type Mutation {
 		password: String!
 		username: String!
 	): AuthResponse
-	modifyProfileImage(uid: String!): String
+	modifyProfileImage(uid: String!): ProfileImageChangeResponse
 	checkCalendar(id: ID!, value: Boolean!): Boolean
 	contactAction(
 		id: ID
