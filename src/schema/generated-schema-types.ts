@@ -16,6 +16,20 @@ export interface GetFolderFolderInput {
 	path?: string | null;
 }
 
+export interface Grantee {
+	id?: string | null;
+
+	type?: string | null;
+
+	name?: string | null;
+}
+
+export interface Owner {
+	by?: string | null;
+
+	_content?: string | null;
+}
+
 export interface Cursor {
 	id?: string | null;
 
@@ -66,6 +80,16 @@ export interface ExternalAccountAddInput {
 	port: string;
 
 	username: string;
+}
+
+export interface AddMsgInput {
+	folderId: string;
+
+	content?: StringContentInput | null;
+}
+
+export interface StringContentInput {
+	_content?: string | null;
 }
 
 export interface CalendarItemInput {
@@ -623,7 +647,11 @@ export interface PreferencesInput {
 
 	zimbraPrefGroupMailBy?: string | null;
 
+	zimbraPrefMailPollingInterval?: string | null;
+
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
+
+	zimbraPrefMailSendReadReceipts?: PrefMailSendReadReceipts | null;
 
 	zimbraPrefMailTrustedSenderList?: (string | null)[] | null;
 
@@ -1091,6 +1119,12 @@ export enum PrefMailSelectAfterDelete {
 	Next = 'next',
 	Previous = 'previous',
 	Adaptive = 'adaptive'
+}
+
+export enum PrefMailSendReadReceipts {
+	Prompt = 'prompt',
+	Always = 'always',
+	Never = 'never'
 }
 
 export enum ReadingPaneLocation {

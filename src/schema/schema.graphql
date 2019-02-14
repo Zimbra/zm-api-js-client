@@ -47,6 +47,11 @@ enum PrefCalendarInitialView {
 	workWeek
 	year
 }
+enum PrefMailSendReadReceipts {
+	prompt
+	always
+	never
+}
 
 enum AlarmAction {
 	DISPLAY
@@ -1016,7 +1021,7 @@ type DataSource {
 	useAddressForForwardReply: Boolean
 	username: String
 	failingSince: String
-	lastError: [String]
+	lastError: StringContent
 }
 
 type Signatures {
@@ -1074,6 +1079,7 @@ type Preferences {
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
+	zimbraPrefMailSendReadReceipts: PrefMailSendReadReceipts
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
 	zimbraPrefOutOfOfficeFromDate: String
@@ -1299,6 +1305,7 @@ type ShareInfo {
 	folderId: ID!
 	folderPath: String
 	folderUuid: String
+	granteeName: String
 	granteeDisplayName: String
 	granteeId: String
 	granteeType: String
@@ -1307,6 +1314,7 @@ type ShareInfo {
 	ownerName: String
 	rights: String
 	view: FolderView
+	mid: ID
 }
 
 type MailboxMetadata {
@@ -1695,7 +1703,9 @@ input PreferencesInput {
 	zimbraPrefCalendarWorkingHours: String
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
+	zimbraPrefMailPollingInterval: String
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
+	zimbraPrefMailSendReadReceipts: PrefMailSendReadReceipts
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
 	zimbraPrefOutOfOfficeFromDate: String
@@ -2066,6 +2076,26 @@ input DismissInput {
 	dismissedAt: Float!
 }
 
+input StringContentInput {
+	_content: String
+}
+
+input AddMsgInput {
+	folderId: ID!
+	content: StringContentInput
+}
+
+input Grantee {
+	id: ID
+	type: String
+	name: String
+}
+
+input Owner {
+	by: String
+	_content: String
+}
+
 ##### SMIME Certificates type #####
 
 type SMimePublicCert {
@@ -2181,8 +2211,12 @@ type Query {
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
 	relatedContacts(email: String!): [RelatedContact]
-	shareInfos(addresses: [String!]): [[ShareInfo]]
-
+	shareInfo(
+		internal: Boolean,
+		includeSelf: Boolean,
+		grantee: Grantee,
+		owner: Owner
+	): [ShareInfo]
 	# Perform a search for a variety types using a flexible query interface.
 	# [[SOAP Search API Documentation]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/zimbraMail/Search.html)
 	# [[Query Tips]](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips)
@@ -2237,6 +2271,7 @@ type Mutation {
 	): Boolean
 	testExternalAccount(externalAccount: ExternalAccountTestInput!): ExternalAccountTestResponse
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): ID
+	addMessage(message: AddMsgInput!): MessageInfo
 	cancelTask(inviteId: ID!): Boolean
 	changeFolderColor(id: ID!, color: Int!): Boolean
 	changePassword(

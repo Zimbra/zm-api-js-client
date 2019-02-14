@@ -8,6 +8,7 @@ import mapValues from 'lodash/mapValues';
 import { denormalize, normalize } from '../normalize';
 import {
 	ActionOptions as ActionOptionsEntity,
+	AddMsgInfo,
 	AutoComplete as AutoCompleteEntity,
 	AutoCompleteGALResponse,
 	AutoCompleteResponse as AutoCompleteResponseEntity,
@@ -43,6 +44,7 @@ import {
 	RequestOptions
 } from '../request/types';
 import {
+	AddMsgInput,
 	CalendarItemInput,
 	CreateContactInput,
 	CreateMountpointInput,
@@ -105,7 +107,7 @@ import {
 	ResetPasswordOptions,
 	SearchOptions,
 	SetRecoveryAccountOptions,
-	ShareInfosOptions,
+	ShareInfoOptions,
 	ZimbraClientOptions
 } from './types';
 
@@ -196,6 +198,12 @@ export class ZimbraBatchClient {
 				[<string>accountType]: mapValuesDeep(accountInfo, coerceBooleanToString)
 			}
 		}).then(res => get(res, `${accountType}.0.id`));
+
+	public addMessage = (options: AddMsgInput) =>
+		this.jsonRequest({
+			name: 'AddMsg',
+			body: denormalize(AddMsgInfo)(options)
+		}).then(normalize(MessageInfo));
 
 	public autoComplete = (options: AutoCompleteOptions) =>
 		this.jsonRequest({
@@ -854,22 +862,14 @@ export class ZimbraBatchClient {
 			body: options
 		}).then(Boolean);
 
-	public shareInfos = ({ addresses }: ShareInfosOptions) =>
-		Promise.all(
-			addresses.map((address: string) =>
-				this.jsonRequest({
-					name: 'GetShareInfo',
-					body: {
-						includeSelf: 0,
-						owner: {
-							by: 'name',
-							_content: address
-						},
-						_jsns: 'urn:zimbraAccount'
-					}
-				})
-			)
-		);
+	public shareInfo = (options: ShareInfoOptions) =>
+		this.jsonRequest({
+			name: 'GetShareInfo',
+			body: {
+				...options,
+				_jsns: 'urn:zimbraAccount'
+			}
+		}).then(res => res.share);
 
 	public snoozeCalendarItem = (appointment: any, task: any) =>
 		this.jsonRequest({
