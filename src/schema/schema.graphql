@@ -2070,17 +2070,25 @@ input DismissInput {
 	dismissedAt: Float!
 }
 
+input StringContentInput {
+	_content: String
+}
+
+input AddMsgInput {
+	folderId: ID!
+	content: StringContentInput
+}
 
 input Grantee {
 	id: ID
 	type: String
 	name: String
-} 
+}
 
 input Owner {
 	by: String
 	_content: String
-} 
+}
 
 ##### SMIME Certificates type #####
 
@@ -2257,6 +2265,7 @@ type Mutation {
 	): Boolean
 	testExternalAccount(externalAccount: ExternalAccountTestInput!): ExternalAccountTestResponse
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): ID
+	addMessage(message: AddMsgInput!): MessageInfo
 	cancelTask(inviteId: ID!): Boolean
 	changeFolderColor(id: ID!, color: Int!): Boolean
 	changePassword(
