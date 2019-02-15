@@ -2,6 +2,7 @@ import { makeExecutableSchema } from 'graphql-tools';
 import mapValues from 'lodash/mapValues';
 
 import {
+	AddMsgInput,
 	CalendarItemInput,
 	CreateContactInput,
 	CreateMountpointInput,
@@ -163,6 +164,8 @@ export function createZimbraSchema(
 					const { type, ...rest } = variables;
 					return client.action(type, rest as ActionOptions);
 				},
+				addMessage: (_, variables) =>
+					client.addMessage(variables as AddMsgInput),
 				cancelTask: (_, variables) => client.cancelTask(variables),
 				itemAction: (_, variables) =>
 					client.itemAction(variables as ActionOptions),
