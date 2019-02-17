@@ -607,6 +607,8 @@ export interface PreferencesInput {
 
 	zimbraPrefCalendarWorkingHours?: string | null;
 
+	zimbraPrefDelegatedSendSaveTarget?: PrefDelegatedSendSaveTarget | null;
+
 	zimbraPrefDisplayExternalImages?: boolean | null;
 
 	zimbraPrefGroupMailBy?: string | null;
@@ -1107,6 +1109,13 @@ export enum PrefCalendarInitialView {
 	Week = 'week',
 	WorkWeek = 'workWeek',
 	Year = 'year'
+}
+
+export enum PrefDelegatedSendSaveTarget {
+	Owner = 'owner',
+	Sender = 'sender',
+	Both = 'both',
+	None = 'none'
 }
 
 export enum PrefMailSelectAfterDelete {

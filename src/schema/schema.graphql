@@ -52,6 +52,12 @@ enum PrefMailSendReadReceipts {
 	always
 	never
 }
+enum PrefDelegatedSendSaveTarget {
+	owner
+	sender
+	both
+	none
+}
 
 enum AlarmAction {
 	DISPLAY
@@ -1075,6 +1081,7 @@ type Preferences {
 	zimbraPrefCalendarWorkingHours: String
 	zimbraPrefDefaultCalendarId: Int
 	zimbraPrefDeleteInviteOnReply: Boolean
+	zimbraPrefDelegatedSendSaveTarget: PrefDelegatedSendSaveTarget
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
@@ -1701,6 +1708,7 @@ input PreferencesInput {
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
 	zimbraPrefCalendarWorkingHours: String
+	zimbraPrefDelegatedSendSaveTarget: PrefDelegatedSendSaveTarget
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
