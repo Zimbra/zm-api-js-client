@@ -827,9 +827,7 @@ export class ZimbraBatchClient {
 	public sendDeliveryReport = (message: SendDeliveryReportInput) =>
 		this.jsonRequest({
 			name: 'SendDeliveryReport',
-			body: {
-				...denormalize(SendDeliveryReportInfo)(message)
-			}
+			body: denormalize(SendDeliveryReportInfo)(message)
 		}).then(Boolean);
 
 	public sendInviteReply = (requestOptions: InviteReplyInput) =>
