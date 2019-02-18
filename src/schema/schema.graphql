@@ -1465,6 +1465,10 @@ input SendMessageInput {
 	attachments: [AttachmentInput] #attach
 }
 
+input SendDeliveryReportInput {
+	messageId: ID!
+}
+
 input CalendarItemInviteInput {
 	components: [CalendarItemInviteComponentInput]!
 }
@@ -2362,7 +2366,7 @@ type Mutation {
 	resetPassword(password: String!): Boolean
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse
-	sendDeliveryReport(messageId: ID!): Boolean
+	sendDeliveryReport(message: SendDeliveryReportInput!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean

@@ -27,6 +27,7 @@ import {
 	InviteReply,
 	MessageInfo,
 	SearchResponse,
+	SendDeliveryReportInfo,
 	SendMessageInfo,
 	ShareNotification
 } from '../normalize/entities';
@@ -60,6 +61,7 @@ import {
 	ModifyIdentityInput,
 	PreferencesInput,
 	SearchFolderInput,
+	SendDeliveryReportInput,
 	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput,
@@ -822,14 +824,13 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		}).then(normalize(SearchResponse));
 
-	public sendDeliveryReport = (messageId: string) => {
-		return this.jsonRequest({
+	public sendDeliveryReport = (message: SendDeliveryReportInput) =>
+		this.jsonRequest({
 			name: 'SendDeliveryReport',
 			body: {
-				mid: messageId
+				...denormalize(SendDeliveryReportInfo)(message)
 			}
 		}).then(Boolean);
-	};
 
 	public sendInviteReply = (requestOptions: InviteReplyInput) =>
 		this.jsonRequest({

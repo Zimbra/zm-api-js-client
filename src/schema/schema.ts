@@ -20,6 +20,7 @@ import {
 	NameIdInput,
 	PreferencesInput,
 	SearchFolderInput,
+	SendDeliveryReportInput,
 	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput,
@@ -310,8 +311,8 @@ export function createZimbraSchema(
 					client.saveDraft(variables as SendMessageInput),
 				sendMessage: (_, variables) =>
 					client.sendMessage(variables as SendMessageInput),
-				sendDeliveryReport: (_, { messageId }) =>
-					client.sendDeliveryReport(messageId),
+				sendDeliveryReport: (_, { message }) =>
+					client.sendDeliveryReport(message as SendDeliveryReportInput),
 				uploadMessage: (_, { value }) => client.uploadMessage(value),
 				createTask: (_, { task }) =>
 					client.createTask(task as CalendarItemInput),

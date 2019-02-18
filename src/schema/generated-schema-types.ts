@@ -962,6 +962,10 @@ export interface SendMessageInput {
 	attachments?: (AttachmentInput | null)[] | null;
 }
 
+export interface SendDeliveryReportInput {
+	messageId: string;
+}
+
 export interface InviteReplyInput {
 	componentNum: number;
 

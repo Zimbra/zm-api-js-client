@@ -497,3 +497,7 @@ const AddMsgAttributes = new Entity({
 export const AddMsgInfo = new Entity({
 	m: ['message', AddMsgAttributes]
 });
+
+export const SendDeliveryReportInfo = new Entity({
+	mid: 'messageId'
+});
