@@ -582,6 +582,7 @@ type InviteComponent {
 type DtTimeInfo {
 	date: String # d , of format YYYYMMDD['T'HHMMSS[Z]]
 	timezone: String # tz
+	utc: Float # u
 }
 
 type Invitation { # <inv>
@@ -1078,6 +1079,7 @@ type Preferences {
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
+	zimbraPrefMailRequestReadReceipts: Boolean
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
 	zimbraPrefMailSendReadReceipts: PrefMailSendReadReceipts
 	zimbraPrefMailTrustedSenderList: [String]
@@ -1704,6 +1706,7 @@ input PreferencesInput {
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
+	zimbraPrefMailRequestReadReceipts: Boolean
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
 	zimbraPrefMailSendReadReceipts: PrefMailSendReadReceipts
 	zimbraPrefMailTrustedSenderList: [String]

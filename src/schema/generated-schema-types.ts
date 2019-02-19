@@ -649,6 +649,8 @@ export interface PreferencesInput {
 
 	zimbraPrefMailPollingInterval?: string | null;
 
+	zimbraPrefMailRequestReadReceipts?: boolean | null;
+
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
 
 	zimbraPrefMailSendReadReceipts?: PrefMailSendReadReceipts | null;
