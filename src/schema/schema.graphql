@@ -1083,9 +1083,12 @@ type Preferences {
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
 	zimbraPrefOutOfOfficeFromDate: String
+	zimbraPrefOutOfOfficeExternalReply: String
+	zimbraPrefOutOfOfficeExternalReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeReply: String
 	zimbraPrefOutOfOfficeReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeStatusAlertOnLogin: Boolean
+	zimbraPrefOutOfOfficeSuppressExternalReply: Boolean
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
@@ -1709,9 +1712,12 @@ input PreferencesInput {
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
 	zimbraPrefOutOfOfficeFromDate: String
+	zimbraPrefOutOfOfficeExternalReply: String
+	zimbraPrefOutOfOfficeExternalReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeReply: String
 	zimbraPrefOutOfOfficeReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeStatusAlertOnLogin: Boolean
+	zimbraPrefOutOfOfficeSuppressExternalReply: Boolean
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
