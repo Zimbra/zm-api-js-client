@@ -686,6 +686,20 @@ type FreeBusy {
 	free: [FreeBusyInstance]
 }
 
+type WorkingHoursInstance {
+	start: Float
+	end: Float
+}
+
+type WorkingHours {
+	id: String!
+	tentative: [WorkingHoursInstance]
+	busy: [WorkingHoursInstance]
+	unavailable: [WorkingHoursInstance]
+	nodata: [WorkingHoursInstance]
+	free: [WorkingHoursInstance]
+}
+
 ##### Filters ######
 
 enum Importance {
@@ -2189,7 +2203,7 @@ type Query {
 	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
 	getSearchFolder: Folder
 	getWhiteBlackList: WhiteBlackList
-	getWorkingHours(names: [String!], start: Float, end: Float): [FreeBusy]
+	getWorkingHours(names: [String!], start: Float, end: Float): [WorkingHours]
 	noop: Boolean
 	preferences: Preferences
 	recoverAccount(

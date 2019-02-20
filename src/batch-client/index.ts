@@ -27,7 +27,8 @@ import {
 	MessageInfo,
 	SearchResponse,
 	SendMessageInfo,
-	ShareNotification
+	ShareNotification,
+	WorkingHours
 } from '../normalize/entities';
 import {
 	batchJsonRequest,
@@ -104,6 +105,7 @@ import {
 	SearchOptions,
 	SetRecoveryAccountOptions,
 	ShareInfoOptions,
+	WorkingHoursOptions,
 	ZimbraClientOptions
 } from './types';
 
@@ -556,7 +558,7 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		});
 
-	public getWorkingHours = ({ start, end, names }: FreeBusyOptions) =>
+	public getWorkingHours = ({ start, end, names }: WorkingHoursOptions) =>
 		this.jsonRequest({
 			name: 'GetWorkingHours',
 			body: {
@@ -564,7 +566,7 @@ export class ZimbraBatchClient {
 				e: end,
 				name: names.join(',')
 			}
-		}).then(res => normalize(FreeBusy)(res.usr));
+		}).then(res => normalize(WorkingHours)(res.usr));
 
 	public importExternalAccount = ({
 		accountType,

@@ -310,6 +310,10 @@ const FreeBusyInstance = new Entity({
 	s: 'start',
 	e: 'end'
 });
+const WorkingHourInstance = new Entity({
+	s: 'start',
+	e: 'end'
+});
 
 export const FreeBusy = new Entity({
 	t: ['tentative', FreeBusyInstance],
@@ -317,6 +321,14 @@ export const FreeBusy = new Entity({
 	b: ['busy', FreeBusyInstance],
 	u: ['unavailable', FreeBusyInstance],
 	n: ['nodata', FreeBusyInstance]
+});
+
+export const WorkingHours = new Entity({
+	t: ['tentative', WorkingHourInstance],
+	f: ['free', WorkingHourInstance],
+	b: ['busy', WorkingHourInstance],
+	u: ['unavailable', WorkingHourInstance],
+	n: ['nodata', WorkingHourInstance]
 });
 
 export const ActionOptions = new Entity({

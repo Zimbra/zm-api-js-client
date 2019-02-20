@@ -58,6 +58,12 @@ export interface FreeBusyOptions {
 	start: number;
 }
 
+export interface WorkingHoursOptions {
+	end: number;
+	names: Array<string>;
+	start: number;
+}
+
 export interface GetContactOptions {
 	derefGroupMember: boolean;
 	id: string;
