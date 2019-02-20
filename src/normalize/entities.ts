@@ -60,7 +60,8 @@ const CalendarItemAlarm = new Entity({
 const CalendarItemDateTime = new Entity({
 	d: 'date',
 	tz: 'timezone',
-	tzoDue: 'timezoneDue'
+	tzoDue: 'timezoneDue',
+	u: 'utc'
 });
 
 const CalendarItemAttendees = new Entity({
@@ -98,7 +99,6 @@ const commonMessageFields = {
 const commonInviteFields = {
 	compNum: 'componentNum',
 	calItemId: 'calendarItemId',
-	ciFolder: 'ciFolder',
 	fb: 'freeBusy',
 	fba: 'freeBusyActual',
 	fr: 'excerpt',
@@ -483,4 +483,17 @@ export const ContactInputRequest = new Entity({
 	tn: 'tagNames',
 	a: ['attributes', ContactInputAttributes],
 	m: 'memberOps'
+});
+
+const contentInfo = new Entity({
+	_content: 'content'
+});
+
+const AddMsgAttributes = new Entity({
+	content: ['content', contentInfo],
+	l: 'folderId'
+});
+
+export const AddMsgInfo = new Entity({
+	m: ['message', AddMsgAttributes]
 });

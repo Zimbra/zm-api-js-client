@@ -82,6 +82,16 @@ export interface ExternalAccountAddInput {
 	username: string;
 }
 
+export interface AddMsgInput {
+	folderId: string;
+
+	content?: StringContentInput | null;
+}
+
+export interface StringContentInput {
+	_content?: string | null;
+}
+
 export interface CalendarItemInput {
 	id?: string | null;
 
@@ -602,6 +612,8 @@ export interface PreferencesInput {
 	zimbraPrefGroupMailBy?: string | null;
 
 	zimbraPrefMailPollingInterval?: string | null;
+
+	zimbraPrefMailRequestReadReceipts?: boolean | null;
 
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
 
