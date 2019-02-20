@@ -581,6 +581,7 @@ type InviteComponent {
 type DtTimeInfo {
 	date: String # d , of format YYYYMMDD['T'HHMMSS[Z]]
 	timezone: String # tz
+	utc: Float # u
 }
 
 type Invitation { # <inv>
@@ -1091,6 +1092,7 @@ type Preferences {
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
+	zimbraPrefMailRequestReadReceipts: Boolean
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
 	zimbraPrefMailSendReadReceipts: PrefMailSendReadReceipts
 	zimbraPrefMailTrustedSenderList: [String]
@@ -1717,6 +1719,7 @@ input PreferencesInput {
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
+	zimbraPrefMailRequestReadReceipts: Boolean
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
 	zimbraPrefMailSendReadReceipts: PrefMailSendReadReceipts
 	zimbraPrefMailTrustedSenderList: [String]
@@ -2084,6 +2087,14 @@ input DismissInput {
 	dismissedAt: Float!
 }
 
+input StringContentInput {
+	_content: String
+}
+
+input AddMsgInput {
+	folderId: ID!
+	content: StringContentInput
+}
 
 input Grantee {
 	id: ID
@@ -2272,6 +2283,7 @@ type Mutation {
 	): Boolean
 	testExternalAccount(externalAccount: ExternalAccountTestInput!): ExternalAccountTestResponse
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): ID
+	addMessage(message: AddMsgInput!): MessageInfo
 	cancelTask(inviteId: ID!): Boolean
 	changeFolderColor(id: ID!, color: Int!): Boolean
 	changePassword(

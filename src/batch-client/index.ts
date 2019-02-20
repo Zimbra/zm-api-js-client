@@ -8,6 +8,7 @@ import mapValues from 'lodash/mapValues';
 import { denormalize, normalize } from '../normalize';
 import {
 	ActionOptions as ActionOptionsEntity,
+	AddMsgInfo,
 	AutoComplete as AutoCompleteEntity,
 	AutoCompleteGALResponse,
 	AutoCompleteResponse as AutoCompleteResponseEntity,
@@ -43,6 +44,7 @@ import {
 	RequestOptions
 } from '../request/types';
 import {
+	AddMsgInput,
 	CalendarItemInput,
 	CreateContactInput,
 	CreateMountpointInput,
@@ -196,6 +198,12 @@ export class ZimbraBatchClient {
 				[<string>accountType]: mapValuesDeep(accountInfo, coerceBooleanToString)
 			}
 		}).then(res => get(res, `${accountType}.0.id`));
+
+	public addMessage = (options: AddMsgInput) =>
+		this.jsonRequest({
+			name: 'AddMsg',
+			body: denormalize(AddMsgInfo)(options)
+		}).then(normalize(MessageInfo));
 
 	public autoComplete = (options: AutoCompleteOptions) =>
 		this.jsonRequest({
