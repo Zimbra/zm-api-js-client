@@ -82,6 +82,16 @@ export interface ExternalAccountAddInput {
 	username: string;
 }
 
+export interface AddMsgInput {
+	folderId: string;
+
+	content?: StringContentInput | null;
+}
+
+export interface StringContentInput {
+	_content?: string | null;
+}
+
 export interface CalendarItemInput {
 	id?: string | null;
 
@@ -603,7 +613,11 @@ export interface PreferencesInput {
 
 	zimbraPrefMailPollingInterval?: string | null;
 
+	zimbraPrefMailRequestReadReceipts?: boolean | null;
+
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
+
+	zimbraPrefMailSendReadReceipts?: PrefMailSendReadReceipts | null;
 
 	zimbraPrefMailTrustedSenderList?: (string | null)[] | null;
 
@@ -1103,6 +1117,12 @@ export enum PrefMailSelectAfterDelete {
 	Next = 'next',
 	Previous = 'previous',
 	Adaptive = 'adaptive'
+}
+
+export enum PrefMailSendReadReceipts {
+	Prompt = 'prompt',
+	Always = 'always',
+	Never = 'never'
 }
 
 export enum ReadingPaneLocation {
