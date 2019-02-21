@@ -700,7 +700,6 @@ type WorkingHours {
 	nodata: [WorkingHoursInstance]
 	free: [WorkingHoursInstance]
 }
-
 ##### Filters ######
 
 enum Importance {
