@@ -380,6 +380,22 @@ export class ZimbraBatchClient {
 			body: options
 		});
 
+	public discoverRights = () =>
+		this.jsonRequest({
+			name: 'DiscoverRights',
+			namespace: Namespace.Account,
+			body: {
+				right: [
+					{
+						_content: 'sendAs'
+					},
+					{
+						_content: 'sendOnBehalfOf'
+					}
+				]
+			}
+		}).then(res => res);
+
 	public dismissCalendarItem = (appointment: any, task: any) =>
 		this.jsonRequest({
 			name: 'DismissCalendarItemAlarm',
