@@ -1194,10 +1194,10 @@ type ContactAttributes {
 }
 
 type ContactImage{
-	ct: String
+	contentType: String
 	filename: String
 	part: String
-	s: String
+	size: String
 }
 
 type ContactListMember {
