@@ -264,6 +264,13 @@ export function createZimbraSchema(
 						})
 						.then(Boolean),
 
+				prefOutOfOfficeSuppressExternalReply: (_, { value }) =>
+					client
+						.modifyPrefs({
+							zimbraPrefOutOfOfficeReplyEnabled: value
+						})
+						.then(Boolean),
+
 				prefEnableOutOfOfficeReply: (_, { value }) =>
 					client
 						.modifyPrefs({
