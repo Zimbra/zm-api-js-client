@@ -140,12 +140,15 @@ export function batchJsonRequest(
 ): Promise<BatchRequestResponse> {
 	const { requests, ...requestOptions } = options;
 	const body = batchBody(requests);
-
+	console.log(requestOptions);
 	return jsonRequest({
 		...requestOptions,
 		name: 'Batch',
 		namespace: Namespace.All,
-		body
+		body,
+		headers: {
+			'Content-Type': 'image/png'
+		}
 	}).then(res => batchResponse(requests, res));
 }
 

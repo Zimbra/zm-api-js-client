@@ -98,7 +98,6 @@ import {
 	GetMessageOptions,
 	GetSMimePublicCertsOptions,
 	LoginOptions,
-	ModifyProfileImageOptions,
 	NotificationHandler,
 	RecoverAccountOptions,
 	RelatedContactsOptions,
@@ -707,13 +706,23 @@ export class ZimbraBatchClient {
 			}
 		}).then(Boolean);
 
-	public modifyProfileImage = ({ uid }: ModifyProfileImageOptions) =>
-		this.jsonRequest({
+	public modifyProfileImage = (content: string) => {
+		const contentType = content.match(
+			/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/
+		);
+
+		console.log(contentType);
+
+		return this.jsonRequest({
 			name: 'ModifyProfileImage',
 			body: {
-				uid
+				_content: content
+			},
+			headers: {
+				'Content-Type': contentType && contentType.length && contentType[1]
 			}
 		});
+	};
 
 	public modifySearchFolder = (options: SearchFolderInput) =>
 		this.jsonRequest({
