@@ -16,6 +16,14 @@ export interface GetFolderFolderInput {
 	path?: string | null;
 }
 
+export interface GetRightsInput {
+	access?: (Right | null)[] | null;
+}
+
+export interface Right {
+	right: string;
+}
+
 export interface Grantee {
 	id?: string | null;
 
@@ -484,6 +492,28 @@ export interface NameIdInput {
 	name?: string | null;
 }
 
+export interface GrantRightsInput {
+	access?: (AccountAceInfoInput | null)[] | null;
+}
+/** Used by GrantRightsRequest */
+export interface AccountAceInfoInput {
+	zimbraId?: string | null;
+
+	granteeType: GranteeType;
+
+	right: string;
+
+	address?: string | null;
+
+	key?: string | null;
+
+	password?: string | null;
+
+	deny?: boolean | null;
+
+	checkGrantee?: boolean | null;
+}
+
 export interface FolderActionInput {
 	id: string;
 
@@ -932,6 +962,10 @@ export interface WhiteBlackAddressOpts {
 	_content: string;
 
 	op?: string | null;
+}
+
+export interface RevokeRightsInput {
+	access?: (AccountAceInfoInput | null)[] | null;
 }
 
 export interface SendMessageInput {

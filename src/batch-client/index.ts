@@ -7,6 +7,7 @@ import mapValues from 'lodash/mapValues';
 
 import { denormalize, normalize } from '../normalize';
 import {
+	AccountRights,
 	ActionOptions as ActionOptionsEntity,
 	AddMsgInfo,
 	AutoComplete as AutoCompleteEntity,
@@ -24,6 +25,7 @@ import {
 	Folder,
 	FreeBusy,
 	GetFolderRequest as GetFolderRequestEntity,
+	GetRightsRequest,
 	InviteReply,
 	MessageInfo,
 	SearchResponse,
@@ -55,10 +57,13 @@ import {
 	FolderActionChangeColorInput,
 	FolderActionCheckCalendarInput,
 	FolderView,
+	GetRightsInput,
+	GrantRightsInput,
 	InviteReplyInput,
 	ModifyContactInput,
 	ModifyIdentityInput,
 	PreferencesInput,
+	RevokeRightsInput,
 	SearchFolderInput,
 	SendMessageInput,
 	ShareNotificationInput,
@@ -537,6 +542,13 @@ export class ZimbraBatchClient {
 			jwtToken: this.jwtToken
 		});
 
+	public getRights = (options: GetRightsInput) =>
+		this.jsonRequest({
+			name: 'GetRights',
+			namespace: Namespace.Account,
+			body: denormalize(GetRightsRequest)(options)
+		}).then(normalize(AccountRights));
+
 	public getSearchFolder = () =>
 		this.jsonRequest({
 			name: 'GetSearchFolder'
@@ -563,6 +575,13 @@ export class ZimbraBatchClient {
 			name: 'GetWhiteBlackList',
 			namespace: Namespace.Account
 		});
+
+	public grantRights = (body: GrantRightsInput) =>
+		this.jsonRequest({
+			name: 'GrantRights',
+			namespace: Namespace.Account,
+			body: denormalize(AccountRights)(body)
+		}).then(normalize(AccountRights));
 
 	public importExternalAccount = ({
 		accountType,
@@ -792,6 +811,13 @@ export class ZimbraBatchClient {
 		}).then(() => true);
 
 	public resolve = (path: string) => `${this.origin}${path}`;
+
+	public revokeRights = (body: RevokeRightsInput) =>
+		this.jsonRequest({
+			name: 'RevokeRights',
+			namespace: Namespace.Account,
+			body: denormalize(AccountRights)(body)
+		}).then(normalize(AccountRights));
 
 	public saveDraft = (options: SendMessageInput) =>
 		this.jsonRequest({
