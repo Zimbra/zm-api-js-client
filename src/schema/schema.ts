@@ -54,6 +54,7 @@ import {
 	GetMessageOptions,
 	GetSMimePublicCertsOptions,
 	LoginOptions,
+	ModifyProfileImageOptions,
 	RecoverAccountOptions,
 	RelatedContactsOptions,
 	ResetPasswordOptions,
@@ -175,7 +176,7 @@ export function createZimbraSchema(
 				changePassword: (_, variables) =>
 					client.changePassword(variables as ChangePasswordOptions),
 				modifyProfileImage: (_, variables) =>
-					client.modifyProfileImage(variables.content),
+					client.modifyProfileImage(variables as ModifyProfileImageOptions),
 				contactAction: (_, variables) =>
 					client.contactAction(variables as ActionOptions),
 				conversationAction: (_, variables) =>

@@ -98,6 +98,7 @@ import {
 	GetMessageOptions,
 	GetSMimePublicCertsOptions,
 	LoginOptions,
+	ModifyProfileImageOptions,
 	NotificationHandler,
 	RecoverAccountOptions,
 	RelatedContactsOptions,
@@ -270,7 +271,8 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
-			accountName: accountName
+			accountName: accountName,
+			singleRequest: true
 		}).then(Boolean);
 
 	public createAppointmentException = (
@@ -282,7 +284,8 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
-			accountName: accountName
+			accountName: accountName,
+			singleRequest: true
 		}).then(Boolean);
 
 	public createContact = (data: CreateContactInput) => {
@@ -581,7 +584,9 @@ export class ZimbraBatchClient {
 
 	public jsonRequest = (options: JsonRequestOptions) =>
 		// If account name is present that means we will not be able to batch requests
-		this[options.accountName ? 'dataLoader' : 'batchDataLoader'].load(options);
+		this[options.singleRequest ? 'dataLoader' : 'batchDataLoader'].load(
+			options
+		);
 
 	public login = ({
 		username,
@@ -631,7 +636,8 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
-			accountName: accountName
+			accountName: accountName,
+			singleRequest: true
 		}).then(res => normalize(CalendarItemCreateModifyRequest)(res));
 
 	public modifyContact = (data: ModifyContactInput) => {
@@ -706,18 +712,19 @@ export class ZimbraBatchClient {
 			}
 		}).then(Boolean);
 
-	public modifyProfileImage = (content: string) => {
+	public modifyProfileImage = ({ content }: ModifyProfileImageOptions) => {
 		const contentType = content.match(
 			/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/
 		);
 
-		console.log(contentType);
+		const contentString = content.split(',').pop();
 
 		return this.jsonRequest({
 			name: 'ModifyProfileImage',
 			body: {
-				_content: content
+				_content: contentString
 			},
+			singleRequest: true,
 			headers: {
 				'Content-Type': contentType && contentType.length && contentType[1]
 			}

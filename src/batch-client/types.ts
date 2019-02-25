@@ -155,6 +155,7 @@ export interface ChangePasswordOptions {
 export interface ModifyProfileImageOptions {
 	content: string;
 }
+
 export interface LoginOptions {
 	password: string;
 	persistAuthTokenCookie?: boolean;
