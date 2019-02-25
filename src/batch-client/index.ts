@@ -29,6 +29,7 @@ import {
 	SearchResponse,
 	SendMessageInfo,
 	ShareNotification,
+	WorkingHourInstance,
 	WorkingHours
 } from '../normalize/entities';
 import {
@@ -566,13 +567,12 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		});
 
-	public getWorkingHours = ({ start, end, names }: WorkingHoursOptions) =>
+	public getWorkingHours = (options: WorkingHoursOptions) =>
 		this.jsonRequest({
 			name: 'GetWorkingHours',
 			body: {
-				s: start,
-				e: end,
-				name: names.join(',')
+				...denormalize(WorkingHourInstance)(options),
+				name: get(options, 'names').join(',')
 			}
 		}).then(res => normalize(WorkingHours)(res.usr));
 

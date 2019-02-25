@@ -311,7 +311,7 @@ const FreeBusyInstance = new Entity({
 	s: 'start',
 	e: 'end'
 });
-const WorkingHourInstance = new Entity({
+export const WorkingHourInstance = new Entity({
 	s: 'start',
 	e: 'end'
 });
