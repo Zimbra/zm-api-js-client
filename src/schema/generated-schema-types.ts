@@ -597,7 +597,7 @@ export interface PreferencesInput {
 
 	zimbraPrefCalendarAutoAddInvites?: boolean | null;
 
-	zimbraPrefDefaultCalendarId?: number | null;
+	zimbraPrefDefaultCalendarId?: string | null;
 
 	zimbraPrefCalendarFirstDayOfWeek?: number | null;
 
