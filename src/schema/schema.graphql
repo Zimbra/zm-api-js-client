@@ -2278,7 +2278,10 @@ type Mutation {
 		password: String!
 		username: String!
 	): AuthResponse
-	modifyProfileImage(content: String): ProfileImageChangeResponse
+	modifyProfileImage(
+		content: String,
+		contentType: String
+	): ProfileImageChangeResponse
 	checkCalendar(id: ID!, value: Boolean!): Boolean
 	contactAction(
 		id: ID

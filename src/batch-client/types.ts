@@ -154,6 +154,7 @@ export interface ChangePasswordOptions {
 
 export interface ModifyProfileImageOptions {
 	content: string;
+	contentType: string;
 }
 
 export interface LoginOptions {

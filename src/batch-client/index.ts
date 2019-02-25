@@ -712,21 +712,18 @@ export class ZimbraBatchClient {
 			}
 		}).then(Boolean);
 
-	public modifyProfileImage = ({ content }: ModifyProfileImageOptions) => {
-		const contentType = content.match(
-			/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/
-		);
-
-		const contentString = content.split(',').pop();
-
+	public modifyProfileImage = ({
+		content,
+		contentType
+	}: ModifyProfileImageOptions) => {
 		return this.jsonRequest({
 			name: 'ModifyProfileImage',
 			body: {
-				_content: contentString
+				_content: content
 			},
 			singleRequest: true,
 			headers: {
-				'Content-Type': contentType && contentType.length && contentType[1]
+				'Content-Type': contentType && contentType
 			}
 		});
 	};
