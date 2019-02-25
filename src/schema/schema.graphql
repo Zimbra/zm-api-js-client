@@ -273,8 +273,9 @@ type AuthResponse {
 }
 
 type ProfileImageChangeResponse {
-	itemId: Int
+	itemId: ID
 }
+
 type AuthToken {
 	_content: String
 }
