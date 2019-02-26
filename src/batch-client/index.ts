@@ -567,12 +567,12 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		});
 
-	public getWorkingHours = (options: WorkingHoursOptions) =>
+	public getWorkingHours = ({ start, end, names }: WorkingHoursOptions) =>
 		this.jsonRequest({
 			name: 'GetWorkingHours',
 			body: {
-				...denormalize(WorkingHourInstance)(options),
-				name: get(options, 'names').join(',')
+				name: names.join(','),
+				...denormalize(WorkingHourInstance)({ start, end })
 			}
 		}).then(res => normalize(WorkingHours)(res.usr));
 
