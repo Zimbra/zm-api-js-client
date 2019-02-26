@@ -597,7 +597,7 @@ export interface PreferencesInput {
 
 	zimbraPrefCalendarAutoAddInvites?: boolean | null;
 
-	zimbraPrefDefaultCalendarId?: number | null;
+	zimbraPrefDefaultCalendarId?: string | null;
 
 	zimbraPrefCalendarFirstDayOfWeek?: number | null;
 
@@ -612,6 +612,8 @@ export interface PreferencesInput {
 	zimbraPrefGroupMailBy?: string | null;
 
 	zimbraPrefMailPollingInterval?: string | null;
+
+	zimbraPrefMailRequestReadReceipts?: boolean | null;
 
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
 
