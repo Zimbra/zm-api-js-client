@@ -271,7 +271,7 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
-			accountName: accountName,
+			accountName,
 			singleRequest: true
 		}).then(Boolean);
 
@@ -284,7 +284,7 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
-			accountName: accountName,
+			accountName,
 			singleRequest: true
 		}).then(Boolean);
 
@@ -292,7 +292,7 @@ export class ZimbraBatchClient {
 		const { attributes, ...rest } = data;
 		const contactAttrs = <Object[]>[];
 
-		forEach(attributes, (val, key) =>
+		forEach(attributes,>
 			contactAttrs.push({
 				name: key,
 				[key === 'image' ? 'aid' : 'content']: val
@@ -636,7 +636,7 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
-			accountName: accountName,
+			accountName,
 			singleRequest: true
 		}).then(res => normalize(CalendarItemCreateModifyRequest)(res));
 
