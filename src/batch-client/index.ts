@@ -292,7 +292,7 @@ export class ZimbraBatchClient {
 		const { attributes, ...rest } = data;
 		const contactAttrs = <Object[]>[];
 
-		forEach(attributes,>
+		forEach(attributes, (val, key) =>
 			contactAttrs.push({
 				name: key,
 				[key === 'image' ? 'aid' : 'content']: val
