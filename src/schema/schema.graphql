@@ -1092,7 +1092,7 @@ type Preferences {
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
 	zimbraPrefCalendarWorkingHours: String
-	zimbraPrefDefaultCalendarId: Int
+	zimbraPrefDefaultCalendarId: ID
 	zimbraPrefDeleteInviteOnReply: Boolean
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
@@ -1716,7 +1716,7 @@ input InviteReplyInput {
 input PreferencesInput {
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
 	zimbraPrefCalendarAutoAddInvites: Boolean
-	zimbraPrefDefaultCalendarId: Int
+	zimbraPrefDefaultCalendarId: ID
 	zimbraPrefCalendarFirstDayOfWeek: Int
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
@@ -2384,6 +2384,7 @@ type Mutation {
 	resetPassword(password: String!): Boolean
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse
+	sendDeliveryReport(messageId: ID!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean
