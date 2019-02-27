@@ -834,6 +834,14 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		}).then(normalize(SearchResponse));
 
+	public sendDeliveryReport = (messageId: string) =>
+		this.jsonRequest({
+			name: 'SendDeliveryReport',
+			body: {
+				mid: messageId
+			}
+		}).then(Boolean);
+
 	public sendInviteReply = (requestOptions: InviteReplyInput) =>
 		this.jsonRequest({
 			name: 'SendInviteReply',
