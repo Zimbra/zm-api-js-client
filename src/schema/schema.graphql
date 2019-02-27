@@ -1621,11 +1621,21 @@ input CalendarItemRecurrenceAddInput {
 input CalendarItemRecurrenceRuleInput {
 	interval: CalendarItemRecurrenceIntervalInput
 	frequency: CalendarItemRecurrenceFrequency
+	count: CalendarItemRecurrenceEndCount
+	until: CalendarItemRecurrenceEndDate
 }
 
 input CalendarItemRecurrenceIntervalInput {
 	intervalCount: Int!
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
+}
+
+input CalendarItemRecurrenceEndCount {
+	number: ID!
+}
+
+input CalendarItemRecurrenceEndDate {
+	date: String!
 }
 
 input NewMountpointSpec {

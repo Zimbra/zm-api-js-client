@@ -192,12 +192,24 @@ export interface CalendarItemRecurrenceRuleInput {
 	interval?: CalendarItemRecurrenceIntervalInput | null;
 
 	frequency?: CalendarItemRecurrenceFrequency | null;
+
+	count?: CalendarItemRecurrenceEndCount | null;
+
+	until?: CalendarItemRecurrenceEndDate | null;
 }
 
 export interface CalendarItemRecurrenceIntervalInput {
 	intervalCount: number;
 
 	zimbraPrefAutoAddAppointmentsToCalendar?: boolean | null;
+}
+
+export interface CalendarItemRecurrenceEndCount {
+	number: string;
+}
+
+export interface CalendarItemRecurrenceEndDate {
+	date: string;
 }
 
 export interface CalendarItemAttendeesInput {

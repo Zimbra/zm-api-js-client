@@ -35,9 +35,19 @@ const IntervalRule = new Entity({
 	ival: 'intervalCount'
 });
 
+const NumOfOccurences = new Entity({
+	num: 'number'
+});
+
+const UntilDate = new Entity({
+	d: 'date'
+});
+
 const SimpleRepeatingRule = new Entity({
 	freq: 'frequency',
-	interval: ['interval', IntervalRule]
+	interval: ['interval', IntervalRule],
+	count: ['count', NumOfOccurences],
+	until: ['until', UntilDate]
 });
 
 const AddRecurrenceInfo = new Entity({
