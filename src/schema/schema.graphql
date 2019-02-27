@@ -2359,11 +2359,8 @@ type Mutation {
 	moveTask(inviteId: ID!, destFolderId: ID!): String
 	prefEnableOutOfOfficeAlertOnLogin(value: Boolean!): Boolean
 	prefEnableOutOfOfficeReply(value: Boolean!): Boolean
-	prefEnableOutOfOfficeExternalReply(value: Boolean!): Boolean
-	prefOutOfOfficeSuppressExternalReply(value: Boolean!): Boolean
 	prefOutOfOfficeFromDate(value: String!): String
 	prefOutOfOfficeReply(value: String!): String
-	prefOutOfOfficeExternalReply(value: String!): String
 	prefOutOfOfficeUntilDate(value: String!): String
 	recoverAccount(
 		op: RecoverAccountOp!

@@ -264,24 +264,10 @@ export function createZimbraSchema(
 						})
 						.then(Boolean),
 
-				prefOutOfOfficeSuppressExternalReply: (_, { value }) =>
-					client
-						.modifyPrefs({
-							zimbraPrefOutOfOfficeReplyEnabled: value
-						})
-						.then(Boolean),
-
 				prefEnableOutOfOfficeReply: (_, { value }) =>
 					client
 						.modifyPrefs({
 							zimbraPrefOutOfOfficeReplyEnabled: value
-						})
-						.then(Boolean),
-
-				prefEnableOutOfOfficeExternalReply: (_, { value }) =>
-					client
-						.modifyPrefs({
-							zimbraPrefOutOfOfficeExternalReplyEnabled: value
 						})
 						.then(Boolean),
 
@@ -295,13 +281,6 @@ export function createZimbraSchema(
 				prefOutOfOfficeUntilDate: (_, { value }) =>
 					client
 						.modifyPrefs({ zimbraPrefOutOfOfficeUntilDate: value })
-						.then(() => value),
-
-				prefOutOfOfficeExternalReply: (_, { value }) =>
-					client
-						.modifyPrefs({
-							zimbraPrefOutOfOfficeExternalReply: value
-						})
 						.then(() => value),
 
 				prefOutOfOfficeReply: (_, { value }) =>
