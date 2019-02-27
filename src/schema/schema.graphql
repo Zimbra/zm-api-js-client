@@ -1631,7 +1631,7 @@ input CalendarItemRecurrenceIntervalInput {
 }
 
 input CalendarItemRecurrenceEndCount {
-	number: ID!
+	number: Int!
 }
 
 input CalendarItemRecurrenceEndDate {

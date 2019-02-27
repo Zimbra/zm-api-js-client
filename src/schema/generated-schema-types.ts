@@ -205,7 +205,7 @@ export interface CalendarItemRecurrenceIntervalInput {
 }
 
 export interface CalendarItemRecurrenceEndCount {
-	number: string;
+	number: number;
 }
 
 export interface CalendarItemRecurrenceEndDate {
