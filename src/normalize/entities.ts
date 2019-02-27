@@ -497,3 +497,20 @@ const AddMsgAttributes = new Entity({
 export const AddMsgInfo = new Entity({
 	m: ['message', AddMsgAttributes]
 });
+
+const OnlyEmailAddress = new Entity({
+	addr: 'emailAddress'
+});
+
+const Target = new Entity({
+	d: 'displayName',
+	email: ['email', OnlyEmailAddress]
+});
+
+const Targets = new Entity({
+	target: ['target', Target]
+});
+
+export const discoverRightsResponse = new Entity({
+	targets: ['targets', Targets]
+});

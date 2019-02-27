@@ -946,11 +946,11 @@ type AccountInfo {
 }
 
 type OnlyEmailAddress {
-	addr: String
+	emailAddress: String
 }
 
 type Target {
-	d: String
+	displayName: String
 	email: [OnlyEmailAddress]
 	type: String
 }
