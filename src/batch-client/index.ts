@@ -23,13 +23,13 @@ import {
 	Filter,
 	Folder,
 	FreeBusy,
+	FreeBusyInstance,
 	GetFolderRequest as GetFolderRequestEntity,
 	InviteReply,
 	MessageInfo,
 	SearchResponse,
 	SendMessageInfo,
-	ShareNotification,
-	WorkingHourInstance
+	ShareNotification
 } from '../normalize/entities';
 import {
 	batchJsonRequest,
@@ -571,7 +571,7 @@ export class ZimbraBatchClient {
 			name: 'GetWorkingHours',
 			body: {
 				name: names.join(','),
-				...denormalize(WorkingHourInstance)({ start, end })
+				...denormalize(FreeBusyInstance)({ start, end })
 			}
 		}).then(res => normalize(FreeBusy)(res.usr));
 
