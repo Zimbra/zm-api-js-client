@@ -116,8 +116,8 @@ export class ZimbraNotifications {
 					folderName === 'Trash'
 						? ''
 						: item.attributes && item.attributes.type === 'group'
-						? ' #type:group'
-						: ' NOT #type:group';
+							? ' #type:group'
+							: ' NOT #type:group';
 				const query = `in:\\\\"${folderName}\\\\"${group}`;
 				const r = new RegExp(query);
 				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId =>

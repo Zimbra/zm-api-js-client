@@ -542,8 +542,9 @@ export class ZimbraBatchClient {
 	public getSearchFolder = () =>
 		this.jsonRequest({
 			name: 'GetSearchFolder'
-		}).then(res =>
-			res.search ? { folders: normalize(Folder)(res.search) } : {}
+		}).then(
+			(res: any) =>
+				res.search ? { folders: normalize(Folder)(res.search) } : {}
 		);
 
 	public getSMimePublicCerts = (options: GetSMimePublicCertsOptions) =>
