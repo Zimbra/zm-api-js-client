@@ -324,14 +324,6 @@ export const FreeBusy = new Entity({
 	n: ['nodata', FreeBusyInstance]
 });
 
-export const WorkingHours = new Entity({
-	t: ['tentative', WorkingHourInstance],
-	f: ['free', WorkingHourInstance],
-	b: ['busy', WorkingHourInstance],
-	u: ['unavailable', WorkingHourInstance],
-	n: ['nodata', WorkingHourInstance]
-});
-
 export const ActionOptions = new Entity({
 	l: 'folderId',
 	tcon: 'constraints',

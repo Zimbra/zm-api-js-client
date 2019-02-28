@@ -29,8 +29,7 @@ import {
 	SearchResponse,
 	SendMessageInfo,
 	ShareNotification,
-	WorkingHourInstance,
-	WorkingHours
+	WorkingHourInstance
 } from '../normalize/entities';
 import {
 	batchJsonRequest,
@@ -574,7 +573,7 @@ export class ZimbraBatchClient {
 				name: names.join(','),
 				...denormalize(WorkingHourInstance)({ start, end })
 			}
-		}).then(res => normalize(WorkingHours)(res.usr));
+		}).then(res => normalize(FreeBusy)(res.usr));
 
 	public importExternalAccount = ({
 		accountType,
