@@ -311,10 +311,6 @@ const FreeBusyInstance = new Entity({
 	s: 'start',
 	e: 'end'
 });
-export const WorkingHourInstance = new Entity({
-	s: 'start',
-	e: 'end'
-});
 
 export const FreeBusy = new Entity({
 	t: ['tentative', FreeBusyInstance],
