@@ -552,8 +552,8 @@ export class ZimbraBatchClient {
 	public getSearchFolder = () =>
 		this.jsonRequest({
 			name: 'GetSearchFolder'
-		}).then(
-			res => (res.search ? { folders: normalize(Folder)(res.search) } : {})
+		}).then(res =>
+			res.search ? { folders: normalize(Folder)(res.search) } : {}
 		);
 
 	public getSMimePublicCerts = (options: GetSMimePublicCertsOptions) =>
@@ -847,6 +847,14 @@ export class ZimbraBatchClient {
 			body: options,
 			namespace: Namespace.Account
 		}).then(normalize(SearchResponse));
+
+	public sendDeliveryReport = (messageId: string) =>
+		this.jsonRequest({
+			name: 'SendDeliveryReport',
+			body: {
+				mid: messageId
+			}
+		}).then(Boolean);
 
 	public sendInviteReply = (requestOptions: InviteReplyInput) =>
 		this.jsonRequest({
