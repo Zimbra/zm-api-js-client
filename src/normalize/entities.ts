@@ -511,6 +511,6 @@ const Targets = new Entity({
 	target: ['target', Target]
 });
 
-export const discoverRightsResponse = new Entity({
+export const DiscoverRightsResponse = new Entity({
 	targets: ['targets', Targets]
 });

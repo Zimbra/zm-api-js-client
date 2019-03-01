@@ -20,7 +20,7 @@ import {
 	Conversation,
 	CreateMountpointRequest,
 	CreateSignatureRequest,
-	discoverRightsResponse,
+	DiscoverRightsResponse,
 	Filter,
 	Folder,
 	FreeBusy,
@@ -395,7 +395,7 @@ export class ZimbraBatchClient {
 					}
 				]
 			}
-		}).then(res => normalize(discoverRightsResponse)(res));
+		}).then(res => normalize(DiscoverRightsResponse)(res));
 
 	public dismissCalendarItem = (appointment: any, task: any) =>
 		this.jsonRequest({
