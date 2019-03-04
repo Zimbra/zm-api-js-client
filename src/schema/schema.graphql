@@ -998,6 +998,7 @@ type AccountInfoAttrs {
 	zimbraFeatureResetPasswordEnabled: Boolean
 	zimbraFeatureWebClientOfflineAccessEnabled: Boolean
 	zimbraMailBlacklistMaxNumEntries: Int
+	zimbraShowClientTOS: Boolean
 }
 
 type Identities {
@@ -1077,6 +1078,7 @@ type IdentityAttrs {
 }
 
 type Preferences {
+	zimbraPrefAcceptedClientTOS: Boolean
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
 	zimbraPrefCalendarAutoAddInvites: Boolean
 	zimbraPrefCalendarFirstDayOfWeek: Int
@@ -1709,6 +1711,7 @@ input InviteReplyInput {
 }
 
 input PreferencesInput {
+	zimbraPrefAcceptedClientTOS: Boolean
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
 	zimbraPrefCalendarAutoAddInvites: Boolean
 	zimbraPrefDefaultCalendarId: ID

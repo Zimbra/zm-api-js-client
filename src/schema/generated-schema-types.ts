@@ -593,6 +593,8 @@ export interface IdentityAttrsInput {
 }
 
 export interface PreferencesInput {
+	zimbraPrefAcceptedClientTOS?: boolean | null;
+
 	zimbraPrefAutoAddAppointmentsToCalendar?: boolean | null;
 
 	zimbraPrefCalendarAutoAddInvites?: boolean | null;
