@@ -693,7 +693,7 @@ type WorkingHoursInstance {
 }
 
 type WorkingHours {
-	id: String!
+	id: ID!
 	tentative: [WorkingHoursInstance]
 	busy: [WorkingHoursInstance]
 	unavailable: [WorkingHoursInstance]
@@ -2159,7 +2159,7 @@ type Query {
 		needExp: Boolean
 	): AutoCompleteGALResponse
 	downloadMessage(id: ID!, isSecure: Boolean): SMimeMessage
-	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
+	freeBusy(names: [String!]!, start: Float, end: Float): [FreeBusy]
 	getContact(
 		id: ID,
 		ids: [ID!],
@@ -2213,7 +2213,7 @@ type Query {
 	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
 	getSearchFolder: Folder
 	getWhiteBlackList: WhiteBlackList
-	getWorkingHours(names: [String!], start: Float, end: Float): [WorkingHours]
+	getWorkingHours(names: [String!]!, start: Float, end: Float): [WorkingHours]
 	noop: Boolean
 	preferences: Preferences
 	recoverAccount(
