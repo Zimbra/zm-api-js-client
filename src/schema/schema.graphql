@@ -52,6 +52,12 @@ enum PrefMailSendReadReceipts {
 	always
 	never
 }
+enum PrefDelegatedSendSaveTarget {
+	owner
+	sender
+	both
+	none
+}
 
 enum AlarmAction {
 	DISPLAY
@@ -1079,6 +1085,7 @@ type Preferences {
 	zimbraPrefCalendarWorkingHours: String
 	zimbraPrefDefaultCalendarId: ID
 	zimbraPrefDeleteInviteOnReply: Boolean
+	zimbraPrefDelegatedSendSaveTarget: PrefDelegatedSendSaveTarget
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
@@ -1088,9 +1095,12 @@ type Preferences {
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
 	zimbraPrefOutOfOfficeFromDate: String
+	zimbraPrefOutOfOfficeExternalReply: String
+	zimbraPrefOutOfOfficeExternalReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeReply: String
 	zimbraPrefOutOfOfficeReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeStatusAlertOnLogin: Boolean
+	zimbraPrefOutOfOfficeSuppressExternalReply: Boolean
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
@@ -1706,6 +1716,7 @@ input PreferencesInput {
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
 	zimbraPrefCalendarWorkingHours: String
+	zimbraPrefDelegatedSendSaveTarget: PrefDelegatedSendSaveTarget
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
@@ -1715,9 +1726,12 @@ input PreferencesInput {
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
 	zimbraPrefOutOfOfficeFromDate: String
+	zimbraPrefOutOfOfficeExternalReply: String
+	zimbraPrefOutOfOfficeExternalReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeReply: String
 	zimbraPrefOutOfOfficeReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeStatusAlertOnLogin: Boolean
+	zimbraPrefOutOfOfficeSuppressExternalReply: Boolean
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
