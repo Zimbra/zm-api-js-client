@@ -96,10 +96,7 @@ function batchBody(requests: Array<RequestOptions>) {
  * into the ordered array that was requested.
  */
 function batchResponse(requests: any, response: RequestResponse) {
-	const {
-		body: { _jsns: _, ...batchBody },
-		...res
-	} = response;
+	const { body: { _jsns: _, ...batchBody }, ...res } = response;
 
 	// For each request type, track which responses have been
 	// pulled out of the batch request body by incrementing
