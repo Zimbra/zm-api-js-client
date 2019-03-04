@@ -1091,9 +1091,12 @@ type Preferences {
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
 	zimbraPrefOutOfOfficeFromDate: String
+	zimbraPrefOutOfOfficeExternalReply: String
+	zimbraPrefOutOfOfficeExternalReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeReply: String
 	zimbraPrefOutOfOfficeReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeStatusAlertOnLogin: Boolean
+	zimbraPrefOutOfOfficeSuppressExternalReply: Boolean
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
@@ -1719,9 +1722,12 @@ input PreferencesInput {
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
 	zimbraPrefOutOfOfficeFromDate: String
+	zimbraPrefOutOfOfficeExternalReply: String
+	zimbraPrefOutOfOfficeExternalReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeReply: String
 	zimbraPrefOutOfOfficeReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeStatusAlertOnLogin: Boolean
+	zimbraPrefOutOfOfficeSuppressExternalReply: Boolean
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
@@ -2372,6 +2378,7 @@ type Mutation {
 	resetPassword(password: String!): Boolean
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse
+	sendDeliveryReport(messageId: ID!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean

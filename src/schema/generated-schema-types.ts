@@ -627,11 +627,17 @@ export interface PreferencesInput {
 
 	zimbraPrefOutOfOfficeFromDate?: string | null;
 
+	zimbraPrefOutOfOfficeExternalReply?: string | null;
+
+	zimbraPrefOutOfOfficeExternalReplyEnabled?: boolean | null;
+
 	zimbraPrefOutOfOfficeReply?: string | null;
 
 	zimbraPrefOutOfOfficeReplyEnabled?: boolean | null;
 
 	zimbraPrefOutOfOfficeStatusAlertOnLogin?: boolean | null;
+
+	zimbraPrefOutOfOfficeSuppressExternalReply?: boolean | null;
 
 	zimbraPrefOutOfOfficeUntilDate?: string | null;
 
