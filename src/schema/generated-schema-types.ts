@@ -607,6 +607,8 @@ export interface PreferencesInput {
 
 	zimbraPrefCalendarWorkingHours?: string | null;
 
+	zimbraPrefDelegatedSendSaveTarget?: PrefDelegatedSendSaveTarget | null;
+
 	zimbraPrefDisplayExternalImages?: boolean | null;
 
 	zimbraPrefGroupMailBy?: string | null;
@@ -625,11 +627,17 @@ export interface PreferencesInput {
 
 	zimbraPrefOutOfOfficeFromDate?: string | null;
 
+	zimbraPrefOutOfOfficeExternalReply?: string | null;
+
+	zimbraPrefOutOfOfficeExternalReplyEnabled?: boolean | null;
+
 	zimbraPrefOutOfOfficeReply?: string | null;
 
 	zimbraPrefOutOfOfficeReplyEnabled?: boolean | null;
 
 	zimbraPrefOutOfOfficeStatusAlertOnLogin?: boolean | null;
+
+	zimbraPrefOutOfOfficeSuppressExternalReply?: boolean | null;
 
 	zimbraPrefOutOfOfficeUntilDate?: string | null;
 
@@ -1111,6 +1119,13 @@ export enum PrefCalendarInitialView {
 	Week = 'week',
 	WorkWeek = 'workWeek',
 	Year = 'year'
+}
+
+export enum PrefDelegatedSendSaveTarget {
+	Owner = 'owner',
+	Sender = 'sender',
+	Both = 'both',
+	None = 'none'
 }
 
 export enum PrefMailSelectAfterDelete {

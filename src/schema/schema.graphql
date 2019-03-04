@@ -52,6 +52,12 @@ enum PrefMailSendReadReceipts {
 	always
 	never
 }
+enum PrefDelegatedSendSaveTarget {
+	owner
+	sender
+	both
+	none
+}
 
 enum AlarmAction {
 	DISPLAY
@@ -270,6 +276,10 @@ type AuthResponse {
 	lifetime: Int
 	session: Session
 	skin: [Skin]
+}
+
+type ProfileImageChangeResponse {
+	itemId: ID
 }
 
 type AuthToken {
@@ -1075,6 +1085,7 @@ type Preferences {
 	zimbraPrefCalendarWorkingHours: String
 	zimbraPrefDefaultCalendarId: ID
 	zimbraPrefDeleteInviteOnReply: Boolean
+	zimbraPrefDelegatedSendSaveTarget: PrefDelegatedSendSaveTarget
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
@@ -1084,9 +1095,12 @@ type Preferences {
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
 	zimbraPrefOutOfOfficeFromDate: String
+	zimbraPrefOutOfOfficeExternalReply: String
+	zimbraPrefOutOfOfficeExternalReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeReply: String
 	zimbraPrefOutOfOfficeReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeStatusAlertOnLogin: Boolean
+	zimbraPrefOutOfOfficeSuppressExternalReply: Boolean
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
@@ -1192,10 +1206,10 @@ type ContactAttributes {
 }
 
 type ContactImage{
-	ct: String
+	contentType: String
 	filename: String
 	part: String
-	s: String
+	size: String
 }
 
 type ContactListMember {
@@ -1703,6 +1717,7 @@ input PreferencesInput {
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
 	zimbraPrefCalendarWorkingHours: String
+	zimbraPrefDelegatedSendSaveTarget: PrefDelegatedSendSaveTarget
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
@@ -1712,9 +1727,12 @@ input PreferencesInput {
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
 	zimbraPrefOutOfOfficeFromDate: String
+	zimbraPrefOutOfOfficeExternalReply: String
+	zimbraPrefOutOfOfficeExternalReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeReply: String
 	zimbraPrefOutOfOfficeReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeStatusAlertOnLogin: Boolean
+	zimbraPrefOutOfOfficeSuppressExternalReply: Boolean
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
@@ -2277,7 +2295,10 @@ type Mutation {
 		password: String!
 		username: String!
 	): AuthResponse
-	modifyProfileImage(uid: String!): String
+	modifyProfileImage(
+		content: String,
+		contentType: String
+	): ProfileImageChangeResponse
 	checkCalendar(id: ID!, value: Boolean!): Boolean
 	contactAction(
 		id: ID
