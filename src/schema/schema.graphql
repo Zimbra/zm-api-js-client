@@ -278,6 +278,10 @@ type AuthResponse {
 	skin: [Skin]
 }
 
+type ProfileImageChangeResponse {
+	itemId: ID
+}
+
 type AuthToken {
 	_content: String
 }
@@ -1202,10 +1206,10 @@ type ContactAttributes {
 }
 
 type ContactImage{
-	ct: String
+	contentType: String
 	filename: String
 	part: String
-	s: String
+	size: String
 }
 
 type ContactListMember {
@@ -2290,7 +2294,10 @@ type Mutation {
 		password: String!
 		username: String!
 	): AuthResponse
-	modifyProfileImage(uid: String!): String
+	modifyProfileImage(
+		content: String,
+		contentType: String
+	): ProfileImageChangeResponse
 	checkCalendar(id: ID!, value: Boolean!): Boolean
 	contactAction(
 		id: ID
