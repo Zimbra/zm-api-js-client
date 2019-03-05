@@ -360,12 +360,21 @@ export const ExternalCalendar = new Entity({
 	l: 'folderId'
 });
 
+const ImageFields = new Entity({
+	ct: 'contentType',
+	s: 'size'
+});
+
+const ContactAttributes = new Entity({
+	image: ImageFields
+});
+
 const contactFields = {
 	d: 'date',
 	l: 'folderId',
 	rev: 'revision',
 	sf: 'sortField',
-	_attrs: 'attributes'
+	_attrs: ['attributes', ContactAttributes]
 };
 
 const contactListMembers = new Entity({

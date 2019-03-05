@@ -17,6 +17,7 @@ export interface BaseRequestOptions {
 	origin?: string;
 	sessionId?: SessionId;
 	sessionSeq?: SessionSeq;
+	singleRequest?: boolean;
 	soapPathname?: string;
 }
 
