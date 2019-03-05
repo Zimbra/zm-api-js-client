@@ -272,7 +272,8 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
-			accountName: accountName
+			accountName,
+			singleRequest: true
 		}).then(Boolean);
 
 	public createAppointmentException = (
@@ -284,7 +285,8 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
-			accountName: accountName
+			accountName,
+			singleRequest: true
 		}).then(Boolean);
 
 	public createContact = (data: CreateContactInput) => {
@@ -557,8 +559,9 @@ export class ZimbraBatchClient {
 	public getSearchFolder = () =>
 		this.jsonRequest({
 			name: 'GetSearchFolder'
-		}).then(res =>
-			res.search ? { folders: normalize(Folder)(res.search) } : {}
+		}).then(
+			(res: any) =>
+				res.search ? { folders: normalize(Folder)(res.search) } : {}
 		);
 
 	public getSMimePublicCerts = (options: GetSMimePublicCertsOptions) =>
@@ -599,7 +602,9 @@ export class ZimbraBatchClient {
 
 	public jsonRequest = (options: JsonRequestOptions) =>
 		// If account name is present that means we will not be able to batch requests
-		this[options.accountName ? 'dataLoader' : 'batchDataLoader'].load(options);
+		this[options.singleRequest ? 'dataLoader' : 'batchDataLoader'].load(
+			options
+		);
 
 	public login = ({
 		username,
@@ -649,7 +654,8 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
-			accountName: accountName
+			accountName,
+			singleRequest: true
 		}).then(res => normalize(CalendarItemCreateModifyRequest)(res));
 
 	public modifyContact = (data: ModifyContactInput) => {
@@ -724,13 +730,21 @@ export class ZimbraBatchClient {
 			}
 		}).then(Boolean);
 
-	public modifyProfileImage = ({ uid }: ModifyProfileImageOptions) =>
-		this.jsonRequest({
+	public modifyProfileImage = ({
+		content,
+		contentType
+	}: ModifyProfileImageOptions) => {
+		return this.jsonRequest({
 			name: 'ModifyProfileImage',
 			body: {
-				uid
+				_content: content
+			},
+			singleRequest: true,
+			headers: {
+				'Content-Type': contentType && contentType
 			}
 		});
+	};
 
 	public modifySearchFolder = (options: SearchFolderInput) =>
 		this.jsonRequest({
