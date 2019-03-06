@@ -63,7 +63,8 @@ import {
 	ResetPasswordOptions,
 	SearchOptions,
 	SetRecoveryAccountOptions,
-	ShareInfoOptions
+	ShareInfoOptions,
+	WorkingHoursOptions
 } from '../batch-client/types';
 import schema from './schema.graphql';
 
@@ -109,6 +110,8 @@ export function createZimbraSchema(
 				getSearchFolder: client.getSearchFolder,
 				getSMimePublicCerts: (_, variables) =>
 					client.getSMimePublicCerts(variables as GetSMimePublicCertsOptions),
+				getWorkingHours: (_, variables) =>
+					client.getWorkingHours(variables as WorkingHoursOptions),
 				preferences: client.preferences,
 				noop: client.noop,
 				recoverAccount: (_, variables) =>
