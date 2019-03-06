@@ -23,6 +23,7 @@ import {
 	Filter,
 	Folder,
 	FreeBusy,
+	FreeBusyInstance,
 	GetFolderRequest as GetFolderRequestEntity,
 	InviteReply,
 	MessageInfo,
@@ -106,6 +107,7 @@ import {
 	SearchOptions,
 	SetRecoveryAccountOptions,
 	ShareInfoOptions,
+	WorkingHoursOptions,
 	ZimbraClientOptions
 } from './types';
 
@@ -542,9 +544,8 @@ export class ZimbraBatchClient {
 	public getSearchFolder = () =>
 		this.jsonRequest({
 			name: 'GetSearchFolder'
-		}).then(
-			(res: any) =>
-				res.search ? { folders: normalize(Folder)(res.search) } : {}
+		}).then((res: any) =>
+			res.search ? { folders: normalize(Folder)(res.search) } : {}
 		);
 
 	public getSMimePublicCerts = (options: GetSMimePublicCertsOptions) =>
@@ -566,6 +567,15 @@ export class ZimbraBatchClient {
 			name: 'GetWhiteBlackList',
 			namespace: Namespace.Account
 		});
+
+	public getWorkingHours = ({ start, end, names }: WorkingHoursOptions) =>
+		this.jsonRequest({
+			name: 'GetWorkingHours',
+			body: {
+				name: names.join(','),
+				...denormalize(FreeBusyInstance)({ start, end })
+			}
+		}).then(res => normalize(FreeBusy)(res.usr));
 
 	public importExternalAccount = ({
 		accountType,
