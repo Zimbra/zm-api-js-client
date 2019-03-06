@@ -317,7 +317,7 @@ Folder.addMapping({
 });
 export { Folder };
 
-const FreeBusyInstance = new Entity({
+export const FreeBusyInstance = new Entity({
 	s: 'start',
 	e: 'end'
 });
