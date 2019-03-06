@@ -532,10 +532,20 @@ type IntervalRule { # <interval>
 	intervalCount: Int # ival
 }
 
+type CalendarItemRecurrenceEndDate {
+	date: String
+}
+
+type CalendarItemRecurrenceEndCount {
+	number: Int
+}
+
 type SimpleRepeatingRule { # <rule>
 	frequency: CalendarItemRecurrenceFrequency # freq
 	interval: [IntervalRule]
 	byday: [ByDayRule]
+	until: [CalendarItemRecurrenceEndDate]
+	count: [CalendarItemRecurrenceEndCount]
 }
 
 type RecurrenceInfo { # <recur>
@@ -1649,11 +1659,21 @@ input CalendarItemRecurrenceAddInput {
 input CalendarItemRecurrenceRuleInput {
 	interval: CalendarItemRecurrenceIntervalInput
 	frequency: CalendarItemRecurrenceFrequency
+	count: CalendarItemRecurrenceEndCountInput
+	until: CalendarItemRecurrenceEndDateInput
 }
 
 input CalendarItemRecurrenceIntervalInput {
 	intervalCount: Int!
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
+}
+
+input CalendarItemRecurrenceEndCountInput {
+	number: Int!
+}
+
+input CalendarItemRecurrenceEndDateInput {
+	date: String!
 }
 
 input NewMountpointSpec {
