@@ -1732,6 +1732,34 @@ input GrantInput {
 	zimbraId: ID
 }
 
+input Right {
+	right: String!
+}
+
+input GetRightsInput {
+	access: [Right]
+}
+input GrantRightsInput {
+	access: [AccountACEInfoInput]
+}
+
+input RevokeRightsInput {
+	access: [AccountACEInfoInput]
+}
+
+# Used by GrantRightsRequest
+input AccountACEInfoInput {
+	zimbraId: ID
+	granteeType: GranteeType!
+	right: String!
+	address: String
+	key: String
+	password: String
+	deny: Boolean
+	checkGrantee: Boolean
+}
+
+
 input InviteReplyInput {
 	componentNum: Int! #compNum
 	id: ID!
@@ -2177,6 +2205,29 @@ type ActionOpResponse {
 	action: ActionOpResponseData
 }
 
+type GetRightsResponse {
+	access: [AccountACEInfo]
+}
+
+type GrantRightsResponse {
+	access: [AccountACEInfo]
+}
+
+type RevokeRightsResponse {
+	access: [AccountACEInfo]
+}
+
+type AccountACEInfo {
+	zimbraId: ID
+	granteeType: GranteeType!
+	right: String!
+	address: String
+	key: String
+	password: String
+	deny: Boolean
+	checkGrantee: Boolean
+}
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2248,6 +2299,7 @@ type Query {
 		read: Boolean,
 		ridZ: String
 	): MessageInfo
+	getRights(input: GetRightsInput!): GetRightsResponse
 	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
 	getSearchFolder: Folder
 	getWhiteBlackList: WhiteBlackList
@@ -2376,6 +2428,7 @@ type Mutation {
 	deleteAppointment(appointment: DeleteAppointmentInput!): Boolean
 	deleteExternalAccount(id: ID!): Boolean
 	deleteSignature(signature: NameIdInput!): String
+	grantRights(input: GrantRightsInput!): GrantRightsResponse
 	folderAction(action: FolderActionInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
@@ -2417,6 +2470,7 @@ type Mutation {
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
 	resetPassword(password: String!): Boolean
+	revokeRights(input: RevokeRightsInput!): RevokeRightsResponse
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse
 	sendDeliveryReport(messageId: ID!): Boolean
