@@ -35,9 +35,19 @@ const IntervalRule = new Entity({
 	ival: 'intervalCount'
 });
 
+const NumOfOccurences = new Entity({
+	num: 'number'
+});
+
+const UntilDate = new Entity({
+	d: 'date'
+});
+
 const SimpleRepeatingRule = new Entity({
 	freq: 'frequency',
-	interval: ['interval', IntervalRule]
+	interval: ['interval', IntervalRule],
+	count: ['count', NumOfOccurences],
+	until: ['until', UntilDate]
 });
 
 const AddRecurrenceInfo = new Entity({
@@ -249,12 +259,16 @@ export const CreateMountpointRequest = new Entity({
 	link: NewMountpointSpec
 });
 
-const ACLGrant = new Entity({
+const commonAccessControlEntities = {
 	d: 'address',
 	gt: 'granteeType',
-	perm: 'permissions',
 	zid: 'zimbraId',
 	pw: 'password'
+};
+
+const ACLGrant = new Entity({
+	...commonAccessControlEntities,
+	perm: 'permissions'
 });
 
 const ACL = new Entity({
@@ -307,7 +321,7 @@ Folder.addMapping({
 });
 export { Folder };
 
-const FreeBusyInstance = new Entity({
+export const FreeBusyInstance = new Entity({
 	s: 'start',
 	e: 'end'
 });
@@ -505,4 +519,17 @@ const AddMsgAttributes = new Entity({
 
 export const AddMsgInfo = new Entity({
 	m: ['message', AddMsgAttributes]
+});
+
+export const AccountACEInfo = new Entity({
+	...commonAccessControlEntities,
+	chkgt: 'checkGrantee'
+});
+
+export const AccountRights = new Entity({
+	ace: ['access', AccountACEInfo]
+});
+
+export const GetRightsRequest = new Entity({
+	ace: 'access'
 });

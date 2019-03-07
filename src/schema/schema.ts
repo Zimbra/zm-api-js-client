@@ -14,11 +14,14 @@ import {
 	FolderActionChangeColorInput,
 	FolderActionCheckCalendarInput,
 	FolderView,
+	GetRightsInput,
+	GrantRightsInput,
 	InviteReplyInput,
 	ModifyContactInput,
 	ModifyIdentityInput,
 	NameIdInput,
 	PreferencesInput,
+	RevokeRightsInput,
 	SearchFolderInput,
 	SendMessageInput,
 	ShareNotificationInput,
@@ -60,7 +63,8 @@ import {
 	ResetPasswordOptions,
 	SearchOptions,
 	SetRecoveryAccountOptions,
-	ShareInfoOptions
+	ShareInfoOptions,
+	WorkingHoursOptions
 } from '../batch-client/types';
 import schema from './schema.graphql';
 
@@ -101,9 +105,13 @@ export function createZimbraSchema(
 					client.getMailboxMetadata(variables as GetMailboxMetadataOptions),
 				getMessage: (_, variables) =>
 					client.getMessage(variables as GetMessageOptions),
+				getRights: (_, variables) =>
+					client.getRights(variables as GetRightsInput),
 				getSearchFolder: client.getSearchFolder,
 				getSMimePublicCerts: (_, variables) =>
 					client.getSMimePublicCerts(variables as GetSMimePublicCertsOptions),
+				getWorkingHours: (_, variables) =>
+					client.getWorkingHours(variables as WorkingHoursOptions),
 				preferences: client.preferences,
 				noop: client.noop,
 				recoverAccount: (_, variables) =>
@@ -239,6 +247,8 @@ export function createZimbraSchema(
 				changeFolderColor: (_, variables) =>
 					client.changeFolderColor(variables as FolderActionChangeColorInput),
 				folderAction: (_, { action }) => client.folderAction(action),
+				grantRights: (_, variables) =>
+					client.grantRights(variables.input as GrantRightsInput),
 				sendShareNotification: (_, { shareNotification }) =>
 					client.sendShareNotification(
 						shareNotification as ShareNotificationInput
@@ -323,6 +333,8 @@ export function createZimbraSchema(
 					client.recoverAccount(variables as RecoverAccountOptions),
 				resetPassword: (_, variables) =>
 					client.resetPassword(variables as ResetPasswordOptions),
+				revokeRights: (_, variables) =>
+					client.revokeRights(variables.input as RevokeRightsInput),
 				setMailboxMetadata: (_: any, variables: any) =>
 					client
 						.jsonRequest({
