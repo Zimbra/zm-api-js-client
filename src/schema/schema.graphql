@@ -532,10 +532,20 @@ type IntervalRule { # <interval>
 	intervalCount: Int # ival
 }
 
+type CalendarItemRecurrenceEndDate {
+	date: String
+}
+
+type CalendarItemRecurrenceEndCount {
+	number: Int
+}
+
 type SimpleRepeatingRule { # <rule>
 	frequency: CalendarItemRecurrenceFrequency # freq
 	interval: [IntervalRule]
 	byday: [ByDayRule]
+	until: [CalendarItemRecurrenceEndDate]
+	count: [CalendarItemRecurrenceEndCount]
 }
 
 type RecurrenceInfo { # <recur>
@@ -697,6 +707,19 @@ type FreeBusy {
 	free: [FreeBusyInstance]
 }
 
+type WorkingHoursInstance {
+	start: Float
+	end: Float
+}
+
+type WorkingHours {
+	id: ID!
+	tentative: [WorkingHoursInstance]
+	busy: [WorkingHoursInstance]
+	unavailable: [WorkingHoursInstance]
+	nodata: [WorkingHoursInstance]
+	free: [WorkingHoursInstance]
+}
 ##### Filters ######
 
 enum Importance {
@@ -1635,11 +1658,21 @@ input CalendarItemRecurrenceAddInput {
 input CalendarItemRecurrenceRuleInput {
 	interval: CalendarItemRecurrenceIntervalInput
 	frequency: CalendarItemRecurrenceFrequency
+	count: CalendarItemRecurrenceEndCountInput
+	until: CalendarItemRecurrenceEndDateInput
 }
 
 input CalendarItemRecurrenceIntervalInput {
 	intervalCount: Int!
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
+}
+
+input CalendarItemRecurrenceEndCountInput {
+	number: Int!
+}
+
+input CalendarItemRecurrenceEndDateInput {
+	date: String!
 }
 
 input NewMountpointSpec {
@@ -1698,6 +1731,34 @@ input GrantInput {
 	permissions: String!
 	zimbraId: ID
 }
+
+input Right {
+	right: String!
+}
+
+input GetRightsInput {
+	access: [Right]
+}
+input GrantRightsInput {
+	access: [AccountACEInfoInput]
+}
+
+input RevokeRightsInput {
+	access: [AccountACEInfoInput]
+}
+
+# Used by GrantRightsRequest
+input AccountACEInfoInput {
+	zimbraId: ID
+	granteeType: GranteeType!
+	right: String!
+	address: String
+	key: String
+	password: String
+	deny: Boolean
+	checkGrantee: Boolean
+}
+
 
 input InviteReplyInput {
 	componentNum: Int! #compNum
@@ -2144,6 +2205,29 @@ type ActionOpResponse {
 	action: ActionOpResponseData
 }
 
+type GetRightsResponse {
+	access: [AccountACEInfo]
+}
+
+type GrantRightsResponse {
+	access: [AccountACEInfo]
+}
+
+type RevokeRightsResponse {
+	access: [AccountACEInfo]
+}
+
+type AccountACEInfo {
+	zimbraId: ID
+	granteeType: GranteeType!
+	right: String!
+	address: String
+	key: String
+	password: String
+	deny: Boolean
+	checkGrantee: Boolean
+}
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2164,7 +2248,7 @@ type Query {
 		needExp: Boolean
 	): AutoCompleteGALResponse
 	downloadMessage(id: ID!, isSecure: Boolean): SMimeMessage
-	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
+	freeBusy(names: [String!]!, start: Float, end: Float): [FreeBusy]
 	getContact(
 		id: ID,
 		ids: [ID!],
@@ -2215,9 +2299,11 @@ type Query {
 		read: Boolean,
 		ridZ: String
 	): MessageInfo
+	getRights(input: GetRightsInput!): GetRightsResponse
 	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
 	getSearchFolder: Folder
 	getWhiteBlackList: WhiteBlackList
+	getWorkingHours(names: [String!]!, start: Float, end: Float): [WorkingHours]
 	noop: Boolean
 	preferences: Preferences
 	recoverAccount(
@@ -2342,6 +2428,7 @@ type Mutation {
 	deleteAppointment(appointment: DeleteAppointmentInput!): Boolean
 	deleteExternalAccount(id: ID!): Boolean
 	deleteSignature(signature: NameIdInput!): String
+	grantRights(input: GrantRightsInput!): GrantRightsResponse
 	folderAction(action: FolderActionInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
@@ -2383,6 +2470,7 @@ type Mutation {
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
 	resetPassword(password: String!): Boolean
+	revokeRights(input: RevokeRightsInput!): RevokeRightsResponse
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse
 	sendDeliveryReport(messageId: ID!): Boolean
