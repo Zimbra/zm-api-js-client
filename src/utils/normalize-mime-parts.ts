@@ -78,6 +78,10 @@ export function normalizeMimeParts(
 		attachment.url = getAttachmentUrl(attachment, { origin, jwtToken });
 		if (attachment.contentId) {
 			attachment.contentId = normalizeCid(attachment.contentId);
+		} else {
+			attachment.contentId = `AUTO-GEN-CID-${attachment.messageId}-${
+				attachment.part
+			}-${attachment.size}`;
 		}
 		return attachment;
 	};
@@ -97,8 +101,24 @@ export function normalizeMimeParts(
 			if (disposition !== 'attachment') {
 				let bodyType =
 					type === 'text/html' ? 'html' : type === 'text/plain' && 'text';
-				if (bodyType && (!acc[bodyType] || disposition !== 'inline')) {
-					acc[bodyType] = content;
+
+				if (
+					~type.indexOf('image/') &&
+					disposition === 'inline' &&
+					!part.contentId
+				) {
+					const attachment = processAttachment(part);
+
+					acc['html'] = (acc['html'] || acc['text'] || '').concat(
+						`__CID_START__${attachment.contentId}__CID_END__`
+					);
+				} else if (bodyType && (!acc[bodyType] || disposition !== 'inline')) {
+					if ((bodyType === 'html' || bodyType === 'text') && acc[bodyType]) {
+						acc[bodyType] = acc[bodyType].concat(content);
+					} else {
+						acc[bodyType] = content;
+					}
+
 					isBody = true;
 				}
 			}
