@@ -995,6 +995,8 @@ export interface SendMessageInput {
 
 	origId?: string | null;
 
+	folderId?: string | null;
+
 	attach?: (AttachmentInput | null)[] | null;
 
 	attachmentId?: string | null;
