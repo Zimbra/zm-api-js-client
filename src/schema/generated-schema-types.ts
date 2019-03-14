@@ -16,6 +16,14 @@ export interface GetFolderFolderInput {
 	path?: string | null;
 }
 
+export interface GetRightsInput {
+	access?: (Right | null)[] | null;
+}
+
+export interface Right {
+	right: string;
+}
+
 export interface Grantee {
 	id?: string | null;
 
@@ -192,12 +200,24 @@ export interface CalendarItemRecurrenceRuleInput {
 	interval?: CalendarItemRecurrenceIntervalInput | null;
 
 	frequency?: CalendarItemRecurrenceFrequency | null;
+
+	count?: CalendarItemRecurrenceEndCountInput | null;
+
+	until?: CalendarItemRecurrenceEndDateInput | null;
 }
 
 export interface CalendarItemRecurrenceIntervalInput {
 	intervalCount: number;
 
 	zimbraPrefAutoAddAppointmentsToCalendar?: boolean | null;
+}
+
+export interface CalendarItemRecurrenceEndCountInput {
+	number: number;
+}
+
+export interface CalendarItemRecurrenceEndDateInput {
+	date: string;
 }
 
 export interface CalendarItemAttendeesInput {
@@ -482,6 +502,28 @@ export interface NameIdInput {
 	id?: string | null;
 
 	name?: string | null;
+}
+
+export interface GrantRightsInput {
+	access?: (AccountAceInfoInput | null)[] | null;
+}
+/** Used by GrantRightsRequest */
+export interface AccountAceInfoInput {
+	zimbraId?: string | null;
+
+	granteeType: GranteeType;
+
+	right: string;
+
+	address?: string | null;
+
+	key?: string | null;
+
+	password?: string | null;
+
+	deny?: boolean | null;
+
+	checkGrantee?: boolean | null;
 }
 
 export interface FolderActionInput {
@@ -942,10 +984,16 @@ export interface WhiteBlackAddressOpts {
 	op?: string | null;
 }
 
+export interface RevokeRightsInput {
+	access?: (AccountAceInfoInput | null)[] | null;
+}
+
 export interface SendMessageInput {
 	id?: string | null;
 
 	origId?: string | null;
+
+	folderId?: string | null;
 
 	attach?: (AttachmentInput | null)[] | null;
 
