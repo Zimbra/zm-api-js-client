@@ -35,9 +35,19 @@ const IntervalRule = new Entity({
 	ival: 'intervalCount'
 });
 
+const NumOfOccurences = new Entity({
+	num: 'number'
+});
+
+const UntilDate = new Entity({
+	d: 'date'
+});
+
 const SimpleRepeatingRule = new Entity({
 	freq: 'frequency',
-	interval: ['interval', IntervalRule]
+	interval: ['interval', IntervalRule],
+	count: ['count', NumOfOccurences],
+	until: ['until', UntilDate]
 });
 
 const AddRecurrenceInfo = new Entity({
@@ -60,7 +70,8 @@ const CalendarItemAlarm = new Entity({
 const CalendarItemDateTime = new Entity({
 	d: 'date',
 	tz: 'timezone',
-	tzoDue: 'timezoneDue'
+	tzoDue: 'timezoneDue',
+	u: 'utc'
 });
 
 const CalendarItemAttendees = new Entity({
@@ -241,6 +252,8 @@ export const CalendarItemDeleteRequest = new Entity({
 });
 
 const NewMountpointSpec = new Entity({
+	rid: 'sharedItemId',
+	zid: 'ownerZimbraId',
 	f: 'flags',
 	l: 'parentFolderId'
 });
@@ -249,12 +262,16 @@ export const CreateMountpointRequest = new Entity({
 	link: NewMountpointSpec
 });
 
-const ACLGrant = new Entity({
+const commonAccessControlEntities = {
 	d: 'address',
 	gt: 'granteeType',
-	perm: 'permissions',
 	zid: 'zimbraId',
 	pw: 'password'
+};
+
+const ACLGrant = new Entity({
+	...commonAccessControlEntities,
+	perm: 'permissions'
 });
 
 const ACL = new Entity({
@@ -307,7 +324,7 @@ Folder.addMapping({
 });
 export { Folder };
 
-const FreeBusyInstance = new Entity({
+export const FreeBusyInstance = new Entity({
 	s: 'start',
 	e: 'end'
 });
@@ -350,12 +367,21 @@ export const ExternalCalendar = new Entity({
 	l: 'folderId'
 });
 
+const ImageFields = new Entity({
+	ct: 'contentType',
+	s: 'size'
+});
+
+const ContactAttributes = new Entity({
+	image: ImageFields
+});
+
 const contactFields = {
 	d: 'date',
 	l: 'folderId',
 	rev: 'revision',
 	sf: 'sortField',
-	_attrs: 'attributes'
+	_attrs: ['attributes', ContactAttributes]
 };
 
 const contactListMembers = new Entity({
@@ -497,4 +523,30 @@ export const ContactInputRequest = new Entity({
 	tn: 'tagNames',
 	a: ['attributes', ContactInputAttributes],
 	m: 'memberOps'
+});
+
+const contentInfo = new Entity({
+	_content: 'content'
+});
+
+const AddMsgAttributes = new Entity({
+	content: ['content', contentInfo],
+	l: 'folderId'
+});
+
+export const AddMsgInfo = new Entity({
+	m: ['message', AddMsgAttributes]
+});
+
+export const AccountACEInfo = new Entity({
+	...commonAccessControlEntities,
+	chkgt: 'checkGrantee'
+});
+
+export const AccountRights = new Entity({
+	ace: ['access', AccountACEInfo]
+});
+
+export const GetRightsRequest = new Entity({
+	ace: 'access'
 });

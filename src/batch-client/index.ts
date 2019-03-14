@@ -7,7 +7,9 @@ import mapValues from 'lodash/mapValues';
 
 import { denormalize, normalize } from '../normalize';
 import {
+	AccountRights,
 	ActionOptions as ActionOptionsEntity,
+	AddMsgInfo,
 	AutoComplete as AutoCompleteEntity,
 	AutoCompleteGALResponse,
 	AutoCompleteResponse as AutoCompleteResponseEntity,
@@ -22,11 +24,11 @@ import {
 	Filter,
 	Folder,
 	FreeBusy,
+	FreeBusyInstance,
 	GetFolderRequest as GetFolderRequestEntity,
+	GetRightsRequest,
 	InviteReply,
 	MessageInfo,
-	SearchConvRequest,
-	SearchConvResponse,
 	SearchResponse,
 	SendMessageInfo,
 	ShareNotification
@@ -44,6 +46,7 @@ import {
 	RequestOptions
 } from '../request/types';
 import {
+	AddMsgInput,
 	CalendarItemInput,
 	CreateContactInput,
 	CreateMountpointInput,
@@ -52,10 +55,16 @@ import {
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
 	FilterInput,
+	FolderActionChangeColorInput,
+	FolderActionCheckCalendarInput,
 	FolderView,
+	GetRightsInput,
+	GrantRightsInput,
 	InviteReplyInput,
 	ModifyContactInput,
+	ModifyIdentityInput,
 	PreferencesInput,
+	RevokeRightsInput,
 	SearchFolderInput,
 	SendMessageInput,
 	ShareNotificationInput,
@@ -100,10 +109,10 @@ import {
 	RecoverAccountOptions,
 	RelatedContactsOptions,
 	ResetPasswordOptions,
-	SearchConversationOptions,
 	SearchOptions,
 	SetRecoveryAccountOptions,
-	ShareInfosOptions,
+	ShareInfoOptions,
+	WorkingHoursOptions,
 	ZimbraClientOptions
 } from './types';
 
@@ -160,6 +169,7 @@ export class ZimbraBatchClient {
 				...res,
 				attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
 				prefs,
+				identities: mapValuesDeep(res.identities, coerceStringToBoolean),
 				...(get(res, 'license.attr') && {
 					license: {
 						status: res.license.status,
@@ -180,7 +190,7 @@ export class ZimbraBatchClient {
 					...denormalize(ActionOptionsEntity)(rest)
 				}
 			}
-		});
+		}).then(Boolean);
 	};
 
 	public addExternalAccount = ({
@@ -193,6 +203,12 @@ export class ZimbraBatchClient {
 				[<string>accountType]: mapValuesDeep(accountInfo, coerceBooleanToString)
 			}
 		}).then(res => get(res, `${accountType}.0.id`));
+
+	public addMessage = (options: AddMsgInput) =>
+		this.jsonRequest({
+			name: 'AddMsg',
+			body: denormalize(AddMsgInfo)(options)
+		}).then(normalize(MessageInfo));
 
 	public autoComplete = (options: AutoCompleteOptions) =>
 		this.jsonRequest({
@@ -214,6 +230,13 @@ export class ZimbraBatchClient {
 				comp: '0',
 				id: inviteId
 			}
+		}).then(Boolean);
+
+	public changeFolderColor = ({ id, color }: FolderActionChangeColorInput) =>
+		this.action(ActionType.folder, {
+			id,
+			op: 'color',
+			color
 		});
 
 	public changePassword = ({
@@ -234,6 +257,12 @@ export class ZimbraBatchClient {
 			}
 		});
 
+	public checkCalendar = ({ id, value }: FolderActionCheckCalendarInput) =>
+		this.action(ActionType.folder, {
+			id,
+			op: value ? 'check' : '!check'
+		});
+
 	public contactAction = (options: ActionOptions) =>
 		this.action(ActionType.contact, options);
 
@@ -249,8 +278,9 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
-			accountName: accountName
-		});
+			accountName,
+			singleRequest: true
+		}).then(Boolean);
 
 	public createAppointmentException = (
 		accountName: string,
@@ -261,8 +291,9 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
-			accountName: accountName
-		});
+			accountName,
+			singleRequest: true
+		}).then(Boolean);
 
 	public createContact = (data: CreateContactInput) => {
 		const { attributes, ...rest } = data;
@@ -307,7 +338,7 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'CreateMountpoint',
 			body: denormalize(CreateMountpointRequest)(_options)
-		});
+		}).then(Boolean);
 
 	public createSearchFolder = (_options: CreateSearchFolderOptions) => {
 		const { parentFolderId, ...options } = _options;
@@ -335,13 +366,13 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(task)
 			}
-		});
+		}).then(Boolean);
 
 	public deleteAppointment = (appointment: DeleteAppointmentInput) =>
 		this.jsonRequest({
 			name: 'CancelAppointment',
 			body: denormalize(CalendarItemDeleteRequest)(appointment)
-		});
+		}).then(Boolean);
 
 	public deleteExternalAccount = ({ id }: ExternalAccountDeleteInput) =>
 		this.jsonRequest({
@@ -349,7 +380,7 @@ export class ZimbraBatchClient {
 			body: {
 				dsrc: { id }
 			}
-		});
+		}).then(Boolean);
 
 	public deleteSignature = (options: SignatureInput) =>
 		this.jsonRequest({
@@ -515,11 +546,18 @@ export class ZimbraBatchClient {
 			jwtToken: this.jwtToken
 		});
 
+	public getRights = (options: GetRightsInput) =>
+		this.jsonRequest({
+			name: 'GetRights',
+			namespace: Namespace.Account,
+			body: denormalize(GetRightsRequest)(options)
+		}).then(normalize(AccountRights));
+
 	public getSearchFolder = () =>
 		this.jsonRequest({
 			name: 'GetSearchFolder'
-		}).then(
-			res => (res.search ? { folders: normalize(Folder)(res.search) } : {})
+		}).then((res: any) =>
+			res.search ? { folders: normalize(Folder)(res.search) } : {}
 		);
 
 	public getSMimePublicCerts = (options: GetSMimePublicCertsOptions) =>
@@ -542,6 +580,22 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		});
 
+	public getWorkingHours = ({ start, end, names }: WorkingHoursOptions) =>
+		this.jsonRequest({
+			name: 'GetWorkingHours',
+			body: {
+				name: names.join(','),
+				...denormalize(FreeBusyInstance)({ start, end })
+			}
+		}).then(res => normalize(FreeBusy)(res.usr));
+
+	public grantRights = (body: GrantRightsInput) =>
+		this.jsonRequest({
+			name: 'GrantRights',
+			namespace: Namespace.Account,
+			body: denormalize(AccountRights)(body)
+		}).then(normalize(AccountRights));
+
 	public importExternalAccount = ({
 		accountType,
 		id
@@ -553,14 +607,16 @@ export class ZimbraBatchClient {
 					id
 				}
 			}
-		});
+		}).then(Boolean);
 
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);
 
 	public jsonRequest = (options: JsonRequestOptions) =>
 		// If account name is present that means we will not be able to batch requests
-		this[options.accountName ? 'dataLoader' : 'batchDataLoader'].load(options);
+		this[options.singleRequest ? 'dataLoader' : 'batchDataLoader'].load(
+			options
+		);
 
 	public login = ({
 		username,
@@ -596,7 +652,7 @@ export class ZimbraBatchClient {
 				logoff: true
 			},
 			namespace: Namespace.Account
-		});
+		}).then(Boolean);
 
 	public messageAction = (options: ActionOptions) =>
 		this.action(ActionType.message, options);
@@ -610,7 +666,8 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(appointment)
 			},
-			accountName: accountName
+			accountName,
+			singleRequest: true
 		}).then(res => normalize(CalendarItemCreateModifyRequest)(res));
 
 	public modifyContact = (data: ModifyContactInput) => {
@@ -662,6 +719,18 @@ export class ZimbraBatchClient {
 					}
 				]
 			}
+		}).then(Boolean);
+
+	public modifyIdentity = ({ id, attrs }: ModifyIdentityInput) =>
+		this.jsonRequest({
+			name: 'ModifyIdentity',
+			namespace: Namespace.Account,
+			body: {
+				identity: {
+					id,
+					_attrs: mapValues(attrs, coerceBooleanToString)
+				}
+			}
 		});
 
 	public modifyPrefs = (prefs: PreferencesInput) =>
@@ -671,21 +740,29 @@ export class ZimbraBatchClient {
 			body: {
 				_attrs: mapValuesDeep(prefs, coerceBooleanToString)
 			}
-		});
+		}).then(Boolean);
 
-	public modifyProfileImage = ({ uid }: ModifyProfileImageOptions) =>
-		this.jsonRequest({
+	public modifyProfileImage = ({
+		content,
+		contentType
+	}: ModifyProfileImageOptions) => {
+		return this.jsonRequest({
 			name: 'ModifyProfileImage',
 			body: {
-				uid
+				_content: content
+			},
+			singleRequest: true,
+			headers: {
+				'Content-Type': contentType && contentType
 			}
 		});
+	};
 
 	public modifySearchFolder = (options: SearchFolderInput) =>
 		this.jsonRequest({
 			name: 'ModifySearchFolder',
 			body: options
-		});
+		}).then(Boolean);
 
 	public modifySignature = (options: SignatureInput) =>
 		this.jsonRequest({
@@ -700,7 +777,7 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(CalendarItemCreateModifyRequest)(task)
 			}
-		});
+		}).then(Boolean);
 
 	public modifyWhiteBlackList = (whiteBlackList: WhiteBlackListInput) =>
 		this.jsonRequest({
@@ -709,7 +786,7 @@ export class ZimbraBatchClient {
 			body: {
 				...whiteBlackList
 			}
-		});
+		}).then(Boolean);
 
 	public modifyZimletPrefs = (zimlet: Array<ZimletPreferenceInput>) =>
 		this.jsonRequest({
@@ -720,7 +797,7 @@ export class ZimbraBatchClient {
 			}
 		});
 
-	public noop = () => this.jsonRequest({ name: 'NoOp' });
+	public noop = () => this.jsonRequest({ name: 'NoOp' }).then(Boolean);
 
 	public preferences = () =>
 		this.jsonRequest({
@@ -755,9 +832,16 @@ export class ZimbraBatchClient {
 			body: {
 				password
 			}
-		});
+		}).then(() => true);
 
 	public resolve = (path: string) => `${this.origin}${path}`;
+
+	public revokeRights = (body: RevokeRightsInput) =>
+		this.jsonRequest({
+			name: 'RevokeRights',
+			namespace: Namespace.Account,
+			body: denormalize(AccountRights)(body)
+		}).then(normalize(AccountRights));
 
 	public saveDraft = (options: SendMessageInput) =>
 		this.jsonRequest({
@@ -781,36 +865,20 @@ export class ZimbraBatchClient {
 			return normalized;
 		});
 
-	public searchConversation = (options: SearchConversationOptions) => {
-		return this.jsonRequest({
-			name: 'SearchConv',
-			body: denormalize(SearchConvRequest)(options)
-		}).then(res => {
-			const normalized = normalize(SearchConvResponse)(res);
-			if (get(normalized, 'conversations')) {
-				normalized.conversations = normalized.conversations.map(
-					(conversation: any) =>
-						!conversation.messages
-							? conversation
-							: {
-									...conversation,
-									messages: conversation.messages.map(this.normalizeMessage)
-							  }
-				);
-			} else if (get(normalized, 'messages')) {
-				normalized.messages = normalized.messages.map(this.normalizeMessage);
-			}
-
-			return normalized;
-		});
-	};
-
 	public searchGal = (options: SearchOptions) =>
 		this.jsonRequest({
 			name: 'SearchGal',
 			body: options,
 			namespace: Namespace.Account
 		}).then(normalize(SearchResponse));
+
+	public sendDeliveryReport = (messageId: string) =>
+		this.jsonRequest({
+			name: 'SendDeliveryReport',
+			body: {
+				mid: messageId
+			}
+		}).then(Boolean);
 
 	public sendInviteReply = (requestOptions: InviteReplyInput) =>
 		this.jsonRequest({
@@ -832,7 +900,7 @@ export class ZimbraBatchClient {
 			body: {
 				...denormalize(ShareNotification)(body)
 			}
-		});
+		}).then(Boolean);
 
 	public setJwtToken = (jwtToken: string) => {
 		this.jwtToken = jwtToken;
@@ -842,24 +910,16 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'SetRecoveryAccount',
 			body: options
-		});
+		}).then(Boolean);
 
-	public shareInfos = ({ addresses }: ShareInfosOptions) =>
-		Promise.all(
-			addresses.map((address: string) =>
-				this.jsonRequest({
-					name: 'GetShareInfo',
-					body: {
-						includeSelf: 0,
-						owner: {
-							by: 'name',
-							_content: address
-						},
-						_jsns: 'urn:zimbraAccount'
-					}
-				})
-			)
-		);
+	public shareInfo = (options: ShareInfoOptions) =>
+		this.jsonRequest({
+			name: 'GetShareInfo',
+			body: {
+				...options,
+				_jsns: 'urn:zimbraAccount'
+			}
+		}).then(res => res.share);
 
 	public snoozeCalendarItem = (appointment: any, task: any) =>
 		this.jsonRequest({

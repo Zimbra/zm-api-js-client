@@ -47,6 +47,17 @@ enum PrefCalendarInitialView {
 	workWeek
 	year
 }
+enum PrefMailSendReadReceipts {
+	prompt
+	always
+	never
+}
+enum PrefDelegatedSendSaveTarget {
+	owner
+	sender
+	both
+	none
+}
 
 enum AlarmAction {
 	DISPLAY
@@ -233,17 +244,6 @@ enum LicenseStatus {
 	ACTIVATION_GRACE_PERIOD
 }
 
-enum SearchConversationResultMode {
-	IDS
-	NORMAL
-}
-
-enum SearchConversationWantContent {
-	both
-	full
-	original
-}
-
 enum SetRecoveryAccountOp {
 	sendCode
 	validateCode
@@ -276,6 +276,10 @@ type AuthResponse {
 	lifetime: Int
 	session: Session
 	skin: [Skin]
+}
+
+type ProfileImageChangeResponse {
+	itemId: ID
 }
 
 type AuthToken {
@@ -367,22 +371,12 @@ type MessageAttributes {
 interface MailItem {
 	id: ID
 	size: Float # s
-	folderId: ID
-	flags: String # f
-	autoSendTime: Float
-	date: Float # d
-}
-
-type MessageHitInfo implements MailItem {
-	id: ID
-	size: Float # s
 	date: Float # d
 	folderId: ID # l
-	origId: ID #origid
 	subject: String # su
 	emailAddresses: [EmailAddress]
 	excerpt: String # fr
-	conversationId: String # cid
+	conversationId: ID # cid
 	flags: String # f
 	tags: String # t
 	tagNames: String # tn
@@ -391,20 +385,8 @@ type MessageHitInfo implements MailItem {
 	modifiedSequence: Int # ms
 	invitations: [InviteInfo] # inv
 	sortField: String # sf, Sort field used for cursor-based pagination
-	mimeParts: [MimePart]
-	to: [EmailAddress]
-	from: [EmailAddress]
-	cc: [EmailAddress]
-	bcc: [EmailAddress]
-	sender: [EmailAddress]
-	html: String
-	text: String
-	attachments: [MimePart]
-	inlineAttachments: [MimePart]
 	share: [ShareNotification] # shr
 	replyType: String #rt
-	autoSendTime: Float
-	messageMatchedQuery: String
 }
 
 type MessageInfo implements MailItem {
@@ -413,11 +395,10 @@ type MessageInfo implements MailItem {
 	date: Float # d
 	folderId: ID # l
 	origId: ID #origid
-	autoSendTime: Float
 	subject: String # su
 	emailAddresses: [EmailAddress]
 	excerpt: String # fr
-	conversationId: String # cid
+	conversationId: ID # cid
 	flags: String # f
 	tags: String # t
 	tagNames: String # tn
@@ -441,93 +422,29 @@ type MessageInfo implements MailItem {
 	attributes: MessageAttributes
 }
 
-# implemented by ConversationHitInfo & ConversationInfo & NestedSearchConversation
-interface ConversationBase {
+type Conversation implements MailItem {
 	id: ID
-	numMessages: Int # n, Number of messages in this conversation
-	total: Int # Total number of messages, included deleted.
-	flags: String # f
-	tags: String # t
-	tagNames: String # tn
-	messages: [MailItem]
-}
-
-type ConversationInfo implements ConversationBase {
-	id: ID
-	numMessages: Int # n, Number of messages in this conversation
-	total: Int # Total number of messages, included deleted.
-	flags: String # f
-	tags: String # t
-	tagNames: String # tn
-	messages: [MessageInfo]
-
 	size: Float # s
 	date: Float # d
 	folderId: ID # l
 	subject: String # su
 	excerpt: String # fr
 	emailAddresses: [EmailAddress]
+	conversationId: ID # cid
+	flags: String # f
+	tags: String # t
+	tagNames: String # tn
 	revision: Int # rev
 	changeDate: Float # md
+	modifiedSequence: Int # ms
 	invitations: [InviteInfo] # inv
 	sortField: String # sf, Sort field used for cursor-based pagination
-	unread: Int # u
-}
-
-# TODO: normalize this one
-type ConversationMsgHitInfo implements MailItem {
-	id: ID
-	size: Float # s
-	folderId: ID
-	flags: String # f
-	autoSendTime: Float
-	date: Float # d
-}
-
-# Used in SearchResponse
-type ConversationHitInfo implements ConversationBase {
-	id: ID
+	messages: [MessageInfo]
+	messagesMetaData: [MessageInfo]
 	numMessages: Int # n, Number of messages in this conversation
-	total: Int # Total number of messages, included deleted.
-	flags: String # f
-	tags: String # t
-	tagNames: String # tn
-	messages: [ConversationMsgHitInfo]
-
-	size: Float # s
-	date: Float # d
-	folderId: ID # l
-	subject: String # su
-	excerpt: String # fr
-	emailAddresses: [EmailAddress]
-	changeDate: Float # md
-	modifiedSequence: Int # ms
-	sortField: String # sf, Sort field used for cursor-based pagination
 	unread: Int # u
-}
-
-# Used in SearchConvResponse
-type NestedSearchConversation implements ConversationBase {
-	id: ID
-	numMessages: Int # n, Number of messages in this conversation
-	total: Int
-	flags: String # f
-	tags: String # t
-	tagNames: String # tn
-	messages: [MessageHitInfo]
-	info: [SearchConvInfo]
-}
-
-union SearchConvInfo = SuggestedQueryString | WildcardExpansionQueryInfo
-
-type SuggestedQueryString {
-	suggest: String
-}
-
-type WildcardExpansionQueryInfo {
-	str: String
-	expanded: Boolean
-	numExpanded: Int
+	share: [ShareNotification] # shr
+	replyType: String #rt
 }
 
 type MsgWithGroupInfo implements MailItem {
@@ -535,7 +452,7 @@ type MsgWithGroupInfo implements MailItem {
 	i4uid: Int
 	cif: String
 	origid: String
-	entityId: String # idnt
+	entityId: ID # idnt
 	forAcct: String
 	autoSendTime: Float
 	size: Float # s
@@ -544,7 +461,7 @@ type MsgWithGroupInfo implements MailItem {
 	subject: String # su
 	emailAddresses: [EmailAddress]
 	excerpt: String # fr
-	conversationId: String # cid
+	conversationId: ID # cid
 	flags: String # f
 	tags: String # t
 	tagNames: String # tn
@@ -615,10 +532,20 @@ type IntervalRule { # <interval>
 	intervalCount: Int # ival
 }
 
+type CalendarItemRecurrenceEndDate {
+	date: String
+}
+
+type CalendarItemRecurrenceEndCount {
+	number: Int
+}
+
 type SimpleRepeatingRule { # <rule>
 	frequency: CalendarItemRecurrenceFrequency # freq
 	interval: [IntervalRule]
 	byday: [ByDayRule]
+	until: [CalendarItemRecurrenceEndDate]
+	count: [CalendarItemRecurrenceEndCount]
 }
 
 type RecurrenceInfo { # <recur>
@@ -640,7 +567,7 @@ type InviteComponent {
 	recurrence: [RecurrenceInfo] # recur
 	allDay: Boolean
 	attendees: [CalendarItemAttendee]
-	calendarItemId: String
+	calendarItemId: ID
 	ciFolder: ID
 	class: CalendarItemClass
 	completedDateTime: String # completed , yyyyMMddThhmmssZ
@@ -674,6 +601,7 @@ type InviteComponent {
 type DtTimeInfo {
 	date: String # d , of format YYYYMMDD['T'HHMMSS[Z]]
 	timezone: String # tz
+	utc: Float # u
 }
 
 type Invitation { # <inv>
@@ -734,7 +662,7 @@ type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	organizer: CalOrganizer # or
 	participationStatus: ParticipationStatus
 	percentComplete: String
-	priority: Int
+	priority: String
 	revision: Int # rev
 	utcRecurrenceId: String # ridZ
 	size: Float # s
@@ -779,6 +707,19 @@ type FreeBusy {
 	free: [FreeBusyInstance]
 }
 
+type WorkingHoursInstance {
+	start: Float
+	end: Float
+}
+
+type WorkingHours {
+	id: ID!
+	tentative: [WorkingHoursInstance]
+	busy: [WorkingHoursInstance]
+	unavailable: [WorkingHoursInstance]
+	nodata: [WorkingHoursInstance]
+	free: [WorkingHoursInstance]
+}
 ##### Filters ######
 
 enum Importance {
@@ -970,7 +911,6 @@ type Filter {
 
 ##### End Of Filters ######
 
-# ($selectedFolder: MailFolder
 type MailVerticle {
 	meta(section: String = "zwc:implicit"): MailboxMetadataMeta
 	id: ID # TODO: Remove this when i get better at GraphQL
@@ -978,6 +918,8 @@ type MailVerticle {
 	list(folderName: String, sortBy: String, type: String): [MessageInfo]   # return a list of partial messages (from `search` endpoint)
 	read(messageId: ID): MessageInfo                                        # return an entire message that can be read (from `getMessage`/`getConversation` endpoint)
 }
+
+
 
 type Folder {
 	absFolderPath: String
@@ -1107,7 +1049,7 @@ type DataSource {
 	connectionType: String
 	defaultSignature: ID
 	emailAddress: String
-	l: ID
+	l: ID # TODO: Normalize to `folderId`
 	forwardReplySignature: ID
 	fromDisplay: String
 	host: String
@@ -1122,7 +1064,7 @@ type DataSource {
 	useAddressForForwardReply: Boolean
 	username: String
 	failingSince: String
-	lastError: [String]
+	lastError: StringContent
 }
 
 type Signatures {
@@ -1170,22 +1112,28 @@ type IdentityAttrs {
 type Preferences {
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
 	zimbraPrefCalendarAutoAddInvites: Boolean
-	zimbraPrefCalendarFirstDayOfWeek: String
+	zimbraPrefCalendarFirstDayOfWeek: Int
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
 	zimbraPrefCalendarWorkingHours: String
-	zimbraPrefDefaultCalendarId: Int
+	zimbraPrefDefaultCalendarId: ID
 	zimbraPrefDeleteInviteOnReply: Boolean
+	zimbraPrefDelegatedSendSaveTarget: PrefDelegatedSendSaveTarget
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
+	zimbraPrefMailRequestReadReceipts: Boolean
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
+	zimbraPrefMailSendReadReceipts: PrefMailSendReadReceipts
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
 	zimbraPrefOutOfOfficeFromDate: String
+	zimbraPrefOutOfOfficeExternalReply: String
+	zimbraPrefOutOfOfficeExternalReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeReply: String
 	zimbraPrefOutOfOfficeReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeStatusAlertOnLogin: Boolean
+	zimbraPrefOutOfOfficeSuppressExternalReply: Boolean
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
@@ -1207,20 +1155,14 @@ type SignatureResponse {
 
 type SearchResponse {
 	contacts: [Contact]
-	messages: [MessageHitInfo]
-	conversations: [ConversationHitInfo]
+	messages: [MessageInfo]
+	conversations: [Conversation]
 	tasks: [CalendarItemHitInfo]
 	appointments: [CalendarItemHitInfo]
 	more: Boolean
 	offset: Int
 	sortBy: String
 	paginationSupported: Boolean
-}
-
-type SearchConvResponse {
-	messages: [MessageHitInfo]
-	conversations: [NestedSearchConversation]
-	info: [SearchConvInfo]
 }
 
 type SendMessageResponse {
@@ -1297,10 +1239,10 @@ type ContactAttributes {
 }
 
 type ContactImage{
-	ct: String
+	contentType: String
 	filename: String
 	part: String
-	s: String
+	size: String
 }
 
 type ContactListMember {
@@ -1411,6 +1353,7 @@ type ShareInfo {
 	folderId: ID!
 	folderPath: String
 	folderUuid: String
+	granteeName: String
 	granteeDisplayName: String
 	granteeId: String
 	granteeType: String
@@ -1419,6 +1362,7 @@ type ShareInfo {
 	ownerName: String
 	rights: String
 	view: FolderView
+	mid: ID
 }
 
 type MailboxMetadata {
@@ -1471,7 +1415,7 @@ input MailboxMetadataSectionAttrsInput {
 type MimePart {
 	body: Boolean
 	filename: String
-	part: String # Mime part name
+	part: ID # Mime part name
 	content: String
 	contentId: String
 	contentType: String
@@ -1485,7 +1429,7 @@ type MimePart {
 input MimePartInput {
 	body: Boolean
 	filename: String
-	part: String # Mime part name
+	part: ID # Mime part name
 	content: String
 	contentId: String
 	contentType: String
@@ -1498,8 +1442,8 @@ input MimePartInput {
 }
 
 input ExistingAttachmentInput {
-	messageId: String
-	part: String
+	messageId: ID
+	part: ID
 }
 
 input AttachmentInput {
@@ -1522,8 +1466,8 @@ type AutoCompleteMatch {
 	ranking: Int
 	isGroup: Boolean
 	exp: Boolean
-	id: String
-	folderId: String
+	id: ID
+	folderId: ID
 	display: String
 	first: String
 	middle: String
@@ -1555,6 +1499,7 @@ input CalendarItemMessageInput {
 input SendMessageInput {
 	id: ID #id
 	origId: ID #origid
+	folderId: ID # l
 	attach: [AttachmentInput]
 	attachmentId: ID #aid
 	replyType: String #rt
@@ -1592,7 +1537,7 @@ input CalendarItemInviteComponentInput {
 	attendees: [CalendarItemAttendeesInput]
 	alarms: [CalendarItemAlarmInput]
 	class: CalendarItemClass!
-	priority: Int
+	priority: String
 	percentComplete: String
 	status: InviteCompletionStatus
 	noBlob: Boolean
@@ -1724,6 +1669,8 @@ input CalendarItemRecurrenceAddInput {
 input CalendarItemRecurrenceRuleInput {
 	interval: CalendarItemRecurrenceIntervalInput
 	frequency: CalendarItemRecurrenceFrequency
+	count: CalendarItemRecurrenceEndCountInput
+	until: CalendarItemRecurrenceEndDateInput
 }
 
 input CalendarItemRecurrenceIntervalInput {
@@ -1731,16 +1678,24 @@ input CalendarItemRecurrenceIntervalInput {
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
 }
 
+input CalendarItemRecurrenceEndCountInput {
+	number: Int!
+}
+
+input CalendarItemRecurrenceEndDateInput {
+	date: String!
+}
+
 input NewMountpointSpec {
 	name: String!
-	owner: String!
+	owner: String
 	view: SearchType
 	flags: String
-	rid: ID
+	ownerZimbraId: ID # zid
+	sharedItemId: ID # rid
 	color: Int
-	zid: String
 	reminder: Boolean
-	parentFolderId: String
+	parentFolderId: ID
 }
 
 input CreateMountpointInput {
@@ -1758,8 +1713,20 @@ input FolderActionInput {
 	op: String!
 	grant: [GrantInput]
 	name: String
-	folderId: String
+	folderId: ID
 	zimbraId: ID
+}
+
+# Special case of FolderAction for `changeFolderColor` resolver
+input FolderActionChangeColorInput {
+	id: ID!
+	color: Int!
+}
+
+# Special case of FolderAction for `checkCalendar` resolver
+input FolderActionCheckCalendarInput {
+	id: ID!
+	value: Boolean
 }
 
 input ContactFrequencySpec {
@@ -1776,6 +1743,34 @@ input GrantInput {
 	zimbraId: ID
 }
 
+input Right {
+	right: String!
+}
+
+input GetRightsInput {
+	access: [Right]
+}
+input GrantRightsInput {
+	access: [AccountACEInfoInput]
+}
+
+input RevokeRightsInput {
+	access: [AccountACEInfoInput]
+}
+
+# Used by GrantRightsRequest
+input AccountACEInfoInput {
+	zimbraId: ID
+	granteeType: GranteeType!
+	right: String!
+	address: String
+	key: String
+	password: String
+	deny: Boolean
+	checkGrantee: Boolean
+}
+
+
 input InviteReplyInput {
 	componentNum: Int! #compNum
 	id: ID!
@@ -1788,26 +1783,38 @@ input InviteReplyInput {
 input PreferencesInput {
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
 	zimbraPrefCalendarAutoAddInvites: Boolean
-	zimbraPrefDefaultCalendarId: Int
-	zimbraPrefCalendarFirstDayOfWeek: String
+	zimbraPrefDefaultCalendarId: ID
+	zimbraPrefCalendarFirstDayOfWeek: Int
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
 	zimbraPrefCalendarWorkingHours: String
+	zimbraPrefDelegatedSendSaveTarget: PrefDelegatedSendSaveTarget
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
+	zimbraPrefMailPollingInterval: String
+	zimbraPrefMailRequestReadReceipts: Boolean
 	zimbraPrefMailSelectAfterDelete: PrefMailSelectAfterDelete
+	zimbraPrefMailSendReadReceipts: PrefMailSendReadReceipts
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
 	zimbraPrefOutOfOfficeFromDate: String
+	zimbraPrefOutOfOfficeExternalReply: String
+	zimbraPrefOutOfOfficeExternalReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeReply: String
 	zimbraPrefOutOfOfficeReplyEnabled: Boolean
 	zimbraPrefOutOfOfficeStatusAlertOnLogin: Boolean
+	zimbraPrefOutOfOfficeSuppressExternalReply: Boolean
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
 	zimbraPrefShowFragments: Boolean
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
+}
+
+input ModifyIdentityInput {
+	id: ID!
+	attrs: IdentityAttrsInput
 }
 
 input ZimletPreferenceInput {
@@ -2011,14 +2018,6 @@ input ShareNotificaitonEmailAddressInput {
 	personalName: String
 }
 
-input SharedCalendarInput {
-	ownerId: String!
-	ownerCalendarId: String!
-	name: String!
-	color: String!
-	reminder: Boolean!
-}
-
 input IdentityAttrsInput {
 	zimbraPrefIdentityId: ID
 	zimbraPrefDefaultSignatureId: ID
@@ -2042,7 +2041,7 @@ input ExternalAccountAddInput {
 	emailAddress: String
 	host: String!
 	isEnabled: Boolean
-	l: Int!
+	l: ID! # TODO: Normalize to `folderId`
 	leaveOnServer: Boolean
 	name: String!
 	password: String!
@@ -2098,7 +2097,7 @@ input GetFolderFolderInput {
 }
 
 input Cursor {
-	id: String
+	id: ID
 	sortVal: String
 	endSortVal: String
 	includeOffset: Boolean
@@ -2112,31 +2111,9 @@ input NameIdInput {
 	id: ID
 	name: String
 }
-
-input TimezoneStandard {
-	hour: Int
-	minute: Int
-	month: Int
-	monthday: Int
-	second: Int
-	week: Int
-	weekday: Int
-}
-
-input Timezone {
-	daylight: TimezoneStandard
-	dayname: String
-	dayoffset: Int
-	id: String
-	name: String
-	offset: Int
-	standard: TimezoneStandard
-}
-
 input InstanceDate {
 	date: String
 }
-
 input DeleteAppointmentInput {
 	instanceDate: InstanceDate
 	inviteId: String!
@@ -2144,7 +2121,6 @@ input DeleteAppointmentInput {
 	start: Int,
 	message: CalendarItemMessageInput
 }
-
 input SignatureInput {
 	id: ID
 	name: String
@@ -2187,6 +2163,26 @@ input DismissInput {
 	dismissedAt: Float!
 }
 
+input StringContentInput {
+	_content: String
+}
+
+input AddMsgInput {
+	folderId: ID!
+	content: StringContentInput
+}
+
+input Grantee {
+	id: ID
+	type: String
+	name: String
+}
+
+input Owner {
+	by: String
+	_content: String
+}
+
 ##### SMIME Certificates type #####
 
 type SMimePublicCert {
@@ -2212,12 +2208,35 @@ type SMimeMessage {
 ##### End Of SMIME Certificates type #####
 
 type ActionOpResponseData {
-	id: String!
+	id: ID!
 	op: String!
 }
 
 type ActionOpResponse {
 	action: ActionOpResponseData
+}
+
+type GetRightsResponse {
+	access: [AccountACEInfo]
+}
+
+type GrantRightsResponse {
+	access: [AccountACEInfo]
+}
+
+type RevokeRightsResponse {
+	access: [AccountACEInfo]
+}
+
+type AccountACEInfo {
+	zimbraId: ID
+	granteeType: GranteeType!
+	right: String!
+	address: String
+	key: String
+	password: String
+	deny: Boolean
+	checkGrantee: Boolean
 }
 
 # Zimbra GraphQL Queries
@@ -2240,7 +2259,7 @@ type Query {
 		needExp: Boolean
 	): AutoCompleteGALResponse
 	downloadMessage(id: ID!, isSecure: Boolean): SMimeMessage
-	freeBusy(names: [String!], start: Float, end: Float): [FreeBusy]
+	freeBusy(names: [String!]!, start: Float, end: Float): [FreeBusy]
 	getContact(
 		id: ID,
 		ids: [ID!],
@@ -2268,7 +2287,7 @@ type Query {
 		max: Int,
 		needExp: Boolean,
 		fetch: String
-	): ConversationInfo
+	): Conversation
 	getFilterRules: [Filter]
 	getFolder(
 		visible: Boolean,
@@ -2286,15 +2305,16 @@ type Query {
 		max: Int,
 		needExp: Boolean,
 		neuter: Boolean,
-		part: String,
+		part: ID,
 		raw: Boolean,
 		read: Boolean,
 		ridZ: String
 	): MessageInfo
+	getRights(input: GetRightsInput!): GetRightsResponse
 	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
 	getSearchFolder: Folder
-	getTask(inviteId: ID!): Boolean
 	getWhiteBlackList: WhiteBlackList
+	getWorkingHours(names: [String!]!, start: Float, end: Float): [WorkingHours]
 	noop: Boolean
 	preferences: Preferences
 	recoverAccount(
@@ -2303,8 +2323,12 @@ type Query {
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
 	relatedContacts(email: String!): [RelatedContact]
-	shareInfos(addresses: [String!]): [[ShareInfo]]
-
+	shareInfo(
+		internal: Boolean,
+		includeSelf: Boolean,
+		grantee: Grantee,
+		owner: Owner
+	): [ShareInfo]
 	# Perform a search for a variety types using a flexible query interface.
 	# [[SOAP Search API Documentation]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/zimbraMail/Search.html)
 	# [[Query Tips]](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips)
@@ -2322,38 +2346,7 @@ type Query {
 		sortBy: SortBy,
 		types: SearchType
 	): SearchResponse
-	searchConversation(
-		allowableTaskStatus: [InviteCompletionStatus],
-		calExpandInstEnd: Int,
-		calExpandInstStart: Int,
-		conversationId: String!,
-		cursor: Cursor,
-		fetch: String,
-		field: String,
-		fullConversation: Boolean,
-		header: [MailItemHeaderInput],
-		html: Boolean,
-		includeTagDeleted: Boolean,
-		includeTagMuted: Boolean,
-		inDumpster: Boolean,
-		limit: Int,
-		locale: String,
-		max: Int,
-		needExp: Boolean,
-		nest: Boolean,
-		neuter: Boolean,
-		offset: Int,
-		prefetch: Boolean,
-		query: String,
-		quick: Boolean,
-		read: Boolean,
-		recip: Int,
-		resultMode: SearchConversationResultMode,
-		sortBy: SortBy,
-		timezone: Timezone,
-		types: [SearchType],
-		wantContent: SearchConversationWantContent,
-	): SearchConvResponse
+
 	searchGal(
 		needIsOwner: Boolean,
 		needIsMember: NeedIsMemberType,
@@ -2365,9 +2358,9 @@ type Query {
 		sortBy: String,
 		needExp: Boolean
 	): SearchResponse
-	taskFolders: [Folder]
 
 	mail: MailVerticle
+	taskFolders: [Folder]
 
 	# Below queries should not be present here as it is used by apollo-link-state for local data management
 	# but eslint-plugin-graphql is not able to handle those scenarios as mentioned in https://github.com/apollographql/eslint-plugin-graphql/issues/99
@@ -2384,22 +2377,26 @@ type Mutation {
 		color: Int,
 		constraints: String,
 		flags: String,
-		folderId: String,
+		folderId: ID,
 		rgb: String,
 		tagNames: String,
 		name: String
 	): Boolean
 	testExternalAccount(externalAccount: ExternalAccountTestInput!): ExternalAccountTestResponse
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): ID
+	addMessage(message: AddMsgInput!): MessageInfo
 	cancelTask(inviteId: ID!): Boolean
-	changeCalendarColor(id: String!, color: Int!): Boolean
+	changeFolderColor(id: ID!, color: Int!): Boolean
 	changePassword(
 		loginNewPassword: String!
 		password: String!
 		username: String!
-	): String
-	modifyProfileImage(uid: String!): String
-	checkCalendar(calendarId: ID!, value: Boolean!): Boolean
+	): AuthResponse
+	modifyProfileImage(
+		content: String,
+		contentType: String
+	): ProfileImageChangeResponse
+	checkCalendar(id: ID!, value: Boolean!): Boolean
 	contactAction(
 		id: ID
 		ids: [ID!]
@@ -2412,27 +2409,27 @@ type Mutation {
 	): Boolean
 	createAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
 	createAppointmentException(accountName: String, appointment: CalendarItemInput!): Boolean
-	createCalendar(name: String!, color: Int!, url: String): Boolean
+	createCalendar(name: String!, color: Int!, url: String): Folder
 	createContact(contact: CreateContactInput!): Contact
 	createContactList(contact: CreateContactInput!): Contact
 	modifyContact(contact: ModifyContactInput!): Contact
-	modifyContactList(contact: ModifyContactInput!): Boolean
+	modifyContactList(contact: ModifyContactInput!): Contact
 	createFolder(
 		color: Int
 		fetchIfExists: Boolean
 		flags: String
 		name: String!
-		parentFolderId: String
+		parentFolderId: ID
 		url: String
 		view: FolderView
 	): Folder
 	createMountpoint(
 		link: NewMountpointSpec!
 	): Boolean
-	createSharedCalendar(sharedCalendar: SharedCalendarInput!): Boolean
+	createSharedCalendar(link: NewMountpointSpec!): Boolean
 	createSearchFolder(
 		name: String!
-		parentFolderId: String
+		parentFolderId: ID
 		query: String!
 		types: FolderView
 	): Folder
@@ -2443,6 +2440,7 @@ type Mutation {
 	deleteAppointment(appointment: DeleteAppointmentInput!): Boolean
 	deleteExternalAccount(id: ID!): Boolean
 	deleteSignature(signature: NameIdInput!): String
+	grantRights(input: GrantRightsInput!): GrantRightsResponse
 	folderAction(action: FolderActionInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
@@ -2464,7 +2462,7 @@ type Mutation {
 		attrs: ExternalAccountModifyAttrsInput!
 	): Boolean
 	modifyAppointment(accountName: String, appointment: CalendarItemInput!): ModifyAppointmentResponse
-	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): String
+	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): Boolean
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyZimletPrefs(zimlets: [ZimletPreferenceInput!]): ModifyZimletPrefsResponse
 	modifyFilterRules(filters: [FilterInput!]): Boolean
@@ -2483,9 +2481,11 @@ type Mutation {
 		email: String!
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
-	resetPassword(password: String!): String
+	resetPassword(password: String!): Boolean
+	revokeRights(input: RevokeRightsInput!): RevokeRightsResponse
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse
+	sendDeliveryReport(messageId: ID!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean

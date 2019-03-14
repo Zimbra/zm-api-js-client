@@ -3,6 +3,7 @@ import get from 'lodash/get';
 import mapValues from 'lodash/mapValues';
 
 import {
+	AddMsgInput,
 	CalendarItemInput,
 	CreateContactInput,
 	CreateMountpointInput,
@@ -11,11 +12,17 @@ import {
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
 	FilterInput,
+	FolderActionChangeColorInput,
+	FolderActionCheckCalendarInput,
 	FolderView,
+	GetRightsInput,
+	GrantRightsInput,
 	InviteReplyInput,
 	ModifyContactInput,
+	ModifyIdentityInput,
 	NameIdInput,
 	PreferencesInput,
+	RevokeRightsInput,
 	SearchFolderInput,
 	SendMessageInput,
 	ShareNotificationInput,
@@ -56,10 +63,10 @@ import {
 	RecoverAccountOptions,
 	RelatedContactsOptions,
 	ResetPasswordOptions,
-	SearchConversationOptions,
 	SearchOptions,
 	SetRecoveryAccountOptions,
-	ShareInfosOptions
+	ShareInfoOptions,
+	WorkingHoursOptions
 } from '../batch-client/types';
 import schema from './schema.graphql';
 
@@ -100,9 +107,13 @@ export function createZimbraSchema(
 					client.getMailboxMetadata(variables as GetMailboxMetadataOptions),
 				getMessage: (_, variables) =>
 					client.getMessage(variables as GetMessageOptions),
+				getRights: (_, variables) =>
+					client.getRights(variables as GetRightsInput),
 				getSearchFolder: client.getSearchFolder,
 				getSMimePublicCerts: (_, variables) =>
 					client.getSMimePublicCerts(variables as GetSMimePublicCertsOptions),
+				getWorkingHours: (_, variables) =>
+					client.getWorkingHours(variables as WorkingHoursOptions),
 				preferences: client.preferences,
 				mail: () => ({ mail: { id: 'mailVerticle' } }),
 				noop: client.noop,
@@ -111,12 +122,10 @@ export function createZimbraSchema(
 				relatedContacts: (_, variables) =>
 					client.relatedContacts(variables as RelatedContactsOptions),
 				search: (_, variables) => client.search(variables as SearchOptions),
-				searchConversation: (_, variables) =>
-					client.searchConversation(variables as SearchConversationOptions),
 				searchGal: (_, variables) =>
 					client.searchGal(variables as SearchOptions),
-				shareInfos: (_, variables) =>
-					client.shareInfos(variables as ShareInfosOptions),
+				shareInfo: (_, variables) =>
+					client.shareInfo(variables as ShareInfoOptions),
 				taskFolders: client.taskFolders,
 				getWhiteBlackList: client.getWhiteBlackList
 			},
@@ -169,9 +178,8 @@ export function createZimbraSchema(
 									query: `in:"${folderName}"`,
 									fullConversation: true
 								})
-								.then(
-									({ messages, conversations }) =>
-										type === FolderView.Conversation ? conversations : messages
+								.then(({ messages, conversations }) =>
+									type === FolderView.Conversation ? conversations : messages
 								)
 								.then(addId(`${folderName}:${sortBy}:${type}`)),
 
@@ -219,6 +227,8 @@ export function createZimbraSchema(
 					const { type, ...rest } = variables;
 					return client.action(type, rest as ActionOptions);
 				},
+				addMessage: (_, variables) =>
+					client.addMessage(variables as AddMsgInput),
 				cancelTask: (_, variables) => client.cancelTask(variables),
 				itemAction: (_, variables) =>
 					client.itemAction(variables as ActionOptions),
@@ -269,27 +279,31 @@ export function createZimbraSchema(
 					client.createMountpoint(variables as CreateMountpointInput),
 				deleteAppointment: (_, { appointment }) =>
 					client.deleteAppointment(appointment as DeleteAppointmentInput),
-				checkCalendar: (_, { calendarId, value }, { zimbra }) =>
-					zimbra.calendars.check({ calendarId, value }),
-				createCalendar: (_, { name, color, url }, { zimbra }) =>
-					zimbra.folders.create({
+				checkCalendar: (_, variables) =>
+					client.checkCalendar(variables as FolderActionCheckCalendarInput),
+				createCalendar: (_, { name, color, url }) =>
+					client.createFolder({
 						name,
 						color,
 						url,
 						view: 'appointment',
 						flags: '#'
-					}),
-				createSharedCalendar: (_, { sharedCalendar }, { zimbra }) =>
-					zimbra.share.mountCalendar({
-						...sharedCalendar,
-						flags: '#'
-					}),
-				changeCalendarColor: (_, { id, color }, { zimbra }) =>
-					zimbra.folders.changeColor({
-						id,
-						color
-					}),
+					} as CreateFolderOptions),
+				createSharedCalendar: (_, { link }) =>
+					client.createMountpoint({
+						link: {
+							...link,
+							parentFolderId: 1,
+							view: 'appointment',
+							flags: '#'
+						}
+					} as CreateMountpointInput),
+
+				changeFolderColor: (_, variables) =>
+					client.changeFolderColor(variables as FolderActionChangeColorInput),
 				folderAction: (_, { action }) => client.folderAction(action),
+				grantRights: (_, variables) =>
+					client.grantRights(variables.input as GrantRightsInput),
 				sendShareNotification: (_, { shareNotification }) =>
 					client.sendShareNotification(
 						shareNotification as ShareNotificationInput
@@ -313,14 +327,14 @@ export function createZimbraSchema(
 						.modifyPrefs({
 							zimbraPrefOutOfOfficeStatusAlertOnLogin: value
 						})
-						.then(() => value),
+						.then(Boolean),
 
 				prefEnableOutOfOfficeReply: (_, { value }) =>
 					client
 						.modifyPrefs({
 							zimbraPrefOutOfOfficeReplyEnabled: value
 						})
-						.then(() => value),
+						.then(Boolean),
 
 				prefOutOfOfficeFromDate: (_, { value }) =>
 					client
@@ -340,8 +354,9 @@ export function createZimbraSchema(
 							zimbraPrefOutOfOfficeReply: value
 						})
 						.then(() => value),
-				modifyIdentity: (_, { id, attrs }, { zimbra }) =>
-					zimbra.account.modifyIdentity(id, attrs),
+				modifyIdentity: (_, variables) =>
+					client.modifyIdentity(variables as ModifyIdentityInput).then(Boolean),
+
 				modifyPrefs: (_, { prefs }) =>
 					client.modifyPrefs(prefs as PreferencesInput),
 				modifyZimletPrefs: (_, { zimlets }) =>
@@ -360,6 +375,8 @@ export function createZimbraSchema(
 					client.saveDraft(variables as SendMessageInput),
 				sendMessage: (_, variables) =>
 					client.sendMessage(variables as SendMessageInput),
+				sendDeliveryReport: (_, { messageId }) =>
+					client.sendDeliveryReport(messageId),
 				uploadMessage: (_, { value }) => client.uploadMessage(value),
 				createTask: (_, { task }) =>
 					client.createTask(task as CalendarItemInput),
@@ -371,16 +388,20 @@ export function createZimbraSchema(
 					client.recoverAccount(variables as RecoverAccountOptions),
 				resetPassword: (_, variables) =>
 					client.resetPassword(variables as ResetPasswordOptions),
+				revokeRights: (_, variables) =>
+					client.revokeRights(variables.input as RevokeRightsInput),
 				setMailboxMetadata: (_: any, variables: any) =>
-					client.jsonRequest({
-						name: 'SetMailboxMetadata',
-						body: {
-							meta: {
-								section: variables.section,
-								_attrs: mapValues(variables.attrs, coerceBooleanToString)
+					client
+						.jsonRequest({
+							name: 'SetMailboxMetadata',
+							body: {
+								meta: {
+									section: variables.section,
+									_attrs: mapValues(variables.attrs, coerceBooleanToString)
+								}
 							}
-						}
-					}),
+						})
+						.then(Boolean),
 				setRecoveryAccount: (_, variables) =>
 					client.setRecoveryAccount(variables as SetRecoveryAccountOptions),
 				modifyWhiteBlackList: (_, { whiteBlackList }) =>

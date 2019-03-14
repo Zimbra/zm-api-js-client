@@ -62,7 +62,7 @@ export function getProfileImageUrl(
 	profileImageId: string,
 	{ origin = '', jwtToken }: { jwtToken?: string; origin?: string }
 ) {
-	return `${origin}/service/home/~/?auth=${
+	return `${origin}/service/home/~/?max_width=100&max_height=100&auth=${
 		jwtToken ? 'jwt' : 'co'
 	}&id=${encodeURIComponent(profileImageId)}&t=${Date.now()}${
 		jwtToken ? `&zjwt=${jwtToken}` : ''
@@ -111,6 +111,7 @@ export function normalizeMimeParts(
 				part.contentType !== 'application/pkcs7-mime' &&
 					part.contentType !== 'application/pkcs7-signature' &&
 					part.contentType !== 'application/x-pkcs7-signature' &&
+					!(part.filename && part.filename.endsWith('.ics')) &&
 					(acc[mode] || (acc[mode] = [])).push(processAttachment(part));
 
 				message.attributes = message.attributes || {};

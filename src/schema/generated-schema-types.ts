@@ -16,6 +16,28 @@ export interface GetFolderFolderInput {
 	path?: string | null;
 }
 
+export interface GetRightsInput {
+	access?: (Right | null)[] | null;
+}
+
+export interface Right {
+	right: string;
+}
+
+export interface Grantee {
+	id?: string | null;
+
+	type?: string | null;
+
+	name?: string | null;
+}
+
+export interface Owner {
+	by?: string | null;
+
+	_content?: string | null;
+}
+
 export interface Cursor {
 	id?: string | null;
 
@@ -24,38 +46,6 @@ export interface Cursor {
 	endSortVal?: string | null;
 
 	includeOffset?: boolean | null;
-}
-
-export interface Timezone {
-	daylight?: TimezoneStandard | null;
-
-	dayname?: string | null;
-
-	dayoffset?: number | null;
-
-	id?: string | null;
-
-	name?: string | null;
-
-	offset?: number | null;
-
-	standard?: TimezoneStandard | null;
-}
-
-export interface TimezoneStandard {
-	hour?: number | null;
-
-	minute?: number | null;
-
-	month?: number | null;
-
-	monthday?: number | null;
-
-	second?: number | null;
-
-	week?: number | null;
-
-	weekday?: number | null;
 }
 
 export interface ExternalAccountTestInput {
@@ -87,7 +77,7 @@ export interface ExternalAccountAddInput {
 
 	isEnabled?: boolean | null;
 
-	l: number;
+	l: string;
 
 	leaveOnServer?: boolean | null;
 
@@ -98,6 +88,16 @@ export interface ExternalAccountAddInput {
 	port: string;
 
 	username: string;
+}
+
+export interface AddMsgInput {
+	folderId: string;
+
+	content?: StringContentInput | null;
+}
+
+export interface StringContentInput {
+	_content?: string | null;
 }
 
 export interface CalendarItemInput {
@@ -157,7 +157,7 @@ export interface CalendarItemInviteComponentInput {
 
 	class: CalendarItemClass;
 
-	priority?: number | null;
+	priority?: string | null;
 
 	percentComplete?: string | null;
 
@@ -200,12 +200,24 @@ export interface CalendarItemRecurrenceRuleInput {
 	interval?: CalendarItemRecurrenceIntervalInput | null;
 
 	frequency?: CalendarItemRecurrenceFrequency | null;
+
+	count?: CalendarItemRecurrenceEndCountInput | null;
+
+	until?: CalendarItemRecurrenceEndDateInput | null;
 }
 
 export interface CalendarItemRecurrenceIntervalInput {
 	intervalCount: number;
 
 	zimbraPrefAutoAddAppointmentsToCalendar?: boolean | null;
+}
+
+export interface CalendarItemRecurrenceEndCountInput {
+	number: number;
+}
+
+export interface CalendarItemRecurrenceEndDateInput {
+	date: string;
 }
 
 export interface CalendarItemAttendeesInput {
@@ -437,33 +449,21 @@ export interface ContactListOps {
 export interface NewMountpointSpec {
 	name: string;
 
-	owner: string;
+	owner?: string | null;
 
 	view?: SearchType | null;
 
 	flags?: string | null;
 
-	rid?: string | null;
+	ownerZimbraId?: string | null;
+
+	sharedItemId?: string | null;
 
 	color?: number | null;
-
-	zid?: string | null;
 
 	reminder?: boolean | null;
 
 	parentFolderId?: string | null;
-}
-
-export interface SharedCalendarInput {
-	ownerId: string;
-
-	ownerCalendarId: string;
-
-	name: string;
-
-	color: string;
-
-	reminder: boolean;
 }
 
 export interface SignatureInput {
@@ -502,6 +502,28 @@ export interface NameIdInput {
 	id?: string | null;
 
 	name?: string | null;
+}
+
+export interface GrantRightsInput {
+	access?: (AccountAceInfoInput | null)[] | null;
+}
+/** Used by GrantRightsRequest */
+export interface AccountAceInfoInput {
+	zimbraId?: string | null;
+
+	granteeType: GranteeType;
+
+	right: string;
+
+	address?: string | null;
+
+	key?: string | null;
+
+	password?: string | null;
+
+	deny?: boolean | null;
+
+	checkGrantee?: boolean | null;
 }
 
 export interface FolderActionInput {
@@ -617,9 +639,9 @@ export interface PreferencesInput {
 
 	zimbraPrefCalendarAutoAddInvites?: boolean | null;
 
-	zimbraPrefDefaultCalendarId?: number | null;
+	zimbraPrefDefaultCalendarId?: string | null;
 
-	zimbraPrefCalendarFirstDayOfWeek?: string | null;
+	zimbraPrefCalendarFirstDayOfWeek?: number | null;
 
 	zimbraPrefCalendarInitialView?: PrefCalendarInitialView | null;
 
@@ -627,11 +649,19 @@ export interface PreferencesInput {
 
 	zimbraPrefCalendarWorkingHours?: string | null;
 
+	zimbraPrefDelegatedSendSaveTarget?: PrefDelegatedSendSaveTarget | null;
+
 	zimbraPrefDisplayExternalImages?: boolean | null;
 
 	zimbraPrefGroupMailBy?: string | null;
 
+	zimbraPrefMailPollingInterval?: string | null;
+
+	zimbraPrefMailRequestReadReceipts?: boolean | null;
+
 	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
+
+	zimbraPrefMailSendReadReceipts?: PrefMailSendReadReceipts | null;
 
 	zimbraPrefMailTrustedSenderList?: (string | null)[] | null;
 
@@ -639,11 +669,17 @@ export interface PreferencesInput {
 
 	zimbraPrefOutOfOfficeFromDate?: string | null;
 
+	zimbraPrefOutOfOfficeExternalReply?: string | null;
+
+	zimbraPrefOutOfOfficeExternalReplyEnabled?: boolean | null;
+
 	zimbraPrefOutOfOfficeReply?: string | null;
 
 	zimbraPrefOutOfOfficeReplyEnabled?: boolean | null;
 
 	zimbraPrefOutOfOfficeStatusAlertOnLogin?: boolean | null;
+
+	zimbraPrefOutOfOfficeSuppressExternalReply?: boolean | null;
 
 	zimbraPrefOutOfOfficeUntilDate?: string | null;
 
@@ -948,10 +984,16 @@ export interface WhiteBlackAddressOpts {
 	op?: string | null;
 }
 
+export interface RevokeRightsInput {
+	access?: (AccountAceInfoInput | null)[] | null;
+}
+
 export interface SendMessageInput {
 	id?: string | null;
 
 	origId?: string | null;
+
+	folderId?: string | null;
 
 	attach?: (AttachmentInput | null)[] | null;
 
@@ -1089,6 +1131,18 @@ export interface ExternalAccount {
 
 	password: string;
 }
+/** Special case of FolderAction for `changeFolderColor` resolver */
+export interface FolderActionChangeColorInput {
+	id: string;
+
+	color: number;
+}
+/** Special case of FolderAction for `checkCalendar` resolver */
+export interface FolderActionCheckCalendarInput {
+	id: string;
+
+	value?: boolean | null;
+}
 
 export interface FolderQueryInput {
 	uuid?: string | null;
@@ -1096,6 +1150,12 @@ export interface FolderQueryInput {
 	id?: string | null;
 
 	view?: FolderView | null;
+}
+
+export interface ModifyIdentityInput {
+	id: string;
+
+	attrs?: IdentityAttrsInput | null;
 }
 
 export enum PrefCalendarInitialView {
@@ -1107,10 +1167,23 @@ export enum PrefCalendarInitialView {
 	Year = 'year'
 }
 
+export enum PrefDelegatedSendSaveTarget {
+	Owner = 'owner',
+	Sender = 'sender',
+	Both = 'both',
+	None = 'none'
+}
+
 export enum PrefMailSelectAfterDelete {
 	Next = 'next',
 	Previous = 'previous',
 	Adaptive = 'adaptive'
+}
+
+export enum PrefMailSendReadReceipts {
+	Prompt = 'prompt',
+	Always = 'always',
+	Never = 'never'
 }
 
 export enum ReadingPaneLocation {
@@ -1316,17 +1389,6 @@ export enum SortBy {
 	ReadDesc = 'readDesc',
 	SizeAsc = 'sizeAsc',
 	SizeDesc = 'sizeDesc'
-}
-
-export enum SearchConversationResultMode {
-	Ids = 'IDS',
-	Normal = 'NORMAL'
-}
-
-export enum SearchConversationWantContent {
-	Both = 'both',
-	Full = 'full',
-	Original = 'original'
 }
 
 export enum NeedIsMemberType {

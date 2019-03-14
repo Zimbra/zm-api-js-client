@@ -3,9 +3,8 @@ import {
 	Cursor,
 	ExternalAccountModifyAttrsInput,
 	FolderView,
-	InviteCompletionStatus,
-	SearchConversationResultMode,
-	SearchConversationWantContent,
+	Grantee,
+	Owner,
 	SearchType,
 	SortBy
 } from '../schema/generated-schema-types';
@@ -54,6 +53,12 @@ export interface ZimbraClientOptions {
 }
 
 export interface FreeBusyOptions {
+	end: number;
+	names: Array<string>;
+	start: number;
+}
+
+export interface WorkingHoursOptions {
 	end: number;
 	names: Array<string>;
 	start: number;
@@ -118,61 +123,6 @@ export interface GetConversationOptions extends GetMailItemOptions {
 	fetch?: string;
 }
 
-// Time/rule for transitioning from daylight time to standard time.
-// Either specify week/weekday combo, or monthday.
-export interface TimezoneStandard {
-	hour: number;
-	minute: number;
-	month: number;
-	monthday?: number;
-	second: number;
-	week?: number;
-	weekday?: number;
-}
-
-export interface Timezone {
-	daylight?: TimezoneStandard;
-	dayname?: string;
-	dayoffset: number;
-	id: string;
-	name?: string;
-	offset: number;
-	standard?: TimezoneStandard;
-}
-
-export interface SearchConversationOptions {
-	allowableTaskStatus?: [InviteCompletionStatus];
-	calExpandInstEnd?: number;
-	calExpandInstStart?: number;
-	conversationId: string;
-	cursor?: Cursor;
-	fetch?: string;
-	field?: string;
-	fullConversation?: boolean;
-	header?: [MailItemHeader];
-	html?: boolean;
-	includeTagDeleted?: boolean;
-	includeTagMuted?: boolean;
-	inDumpster?: boolean;
-	limit?: number;
-	locale?: string;
-	max?: number;
-	needExp?: boolean;
-	nest?: boolean;
-	neuter?: boolean;
-	offset?: number;
-	prefetch?: boolean;
-	query?: string;
-	quick?: boolean;
-	read?: boolean;
-	recip?: number;
-	resultMode?: SearchConversationResultMode;
-	sortBy?: SortBy;
-	timezone?: Timezone;
-	types?: [SearchType];
-	wantContent?: SearchConversationWantContent;
-}
-
 export interface RelatedContactsOptions {
 	email: string;
 }
@@ -195,8 +145,11 @@ export interface SearchOptions {
 	types?: SearchType;
 }
 
-export interface ShareInfosOptions {
-	addresses: Array<string>;
+export interface ShareInfoOptions {
+	grantee?: Grantee;
+	includeSelf?: Boolean;
+	internal?: Boolean;
+	owner?: Owner;
 }
 
 export interface ChangePasswordOptions {
@@ -206,8 +159,10 @@ export interface ChangePasswordOptions {
 }
 
 export interface ModifyProfileImageOptions {
-	uid: string;
+	content: string;
+	contentType: string;
 }
+
 export interface LoginOptions {
 	password: string;
 	persistAuthTokenCookie?: boolean;
