@@ -109,9 +109,16 @@ export function normalizeMimeParts(
 				) {
 					const attachment = processAttachment(part);
 
-					acc['html'] = (acc['html'] || acc['text'] || '').concat(
-						`__CID_START__${attachment.contentId}__CID_END__`
+					// Use `text` content, because iOS client always yield `text` part (no `html` part) when
+					// multiple attachments are present along with text content.
+					const textContent = (acc['text'] || '').concat(
+						`
+						__CID_START__${attachment.contentId}__CID_END__
+						`
 					);
+
+					acc['text'] = textContent; // Update `text` content so that we stay up-to-date on which CID placeholders were added.
+					acc['html'] = textContent.replace(/\r\n/g, '<br />'); // And then update `html` part so that we render `html` in `viewer`.
 				} else if (bodyType && (!acc[bodyType] || disposition !== 'inline')) {
 					if ((bodyType === 'html' || bodyType === 'text') && acc[bodyType]) {
 						acc[bodyType] = acc[bodyType].concat(content);
