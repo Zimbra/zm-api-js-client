@@ -3,7 +3,7 @@ export const userAgentData = {
 	mozVersion: -1,
 	webKitVersion: -1,
 	tridentVersion: -1,
-	browser: '',
+	browser: '[unknown]',
 	browserVersion: -1,
 	isMac: false,
 	isWindows: false,
@@ -70,7 +70,7 @@ export const userAgentData = {
 	isDesktop: false,
 	isDesktop2up: false,
 	isPrism: false,
-	platform: '',
+	platform: '[unknown]',
 	_inited: false,
 	isSafariNightly: false,
 
@@ -85,8 +85,8 @@ export const userAgentData = {
 };
 
 export function parseUserAgent() {
-	let agent = navigator.userAgent.toLowerCase();
-	let agentArray = agent.split(' ');
+	const agent = navigator.userAgent.toLowerCase();
+	const agentArray = agent.split(' ');
 	let isSpoofer = false;
 	let isWebTv = false;
 	let isHotJava = false;
@@ -105,9 +105,7 @@ export function parseUserAgent() {
 			userAgentData.isNav = true;
 		}
 
-		let token;
-		for (let i = 0; i < agentArray.length; ++i) {
-			token = agentArray[i];
+		agentArray.forEach((token, i) => {
 			if (token.indexOf('compatible') != -1) {
 				isCompatible = true;
 				userAgentData.isNav = false;
@@ -182,7 +180,8 @@ export function parseUserAgent() {
 				userAgentData.isDesktop = true;
 				browserVersion = parseFloat(token.substr(index + 9));
 			}
-		}
+		});
+
 		userAgentData.browserVersion = browserVersion;
 
 		// Note: Opera and WebTV spoof Navigator. We do strict client detection.
@@ -298,7 +297,6 @@ export function parseUserAgent() {
 		userAgentData.isChrome19up =
 			userAgentData.isChrome && browserVersion >= 19.0;
 
-		userAgentData.browser = '[unknown]';
 		if (userAgentData.isOpera) {
 			userAgentData.browser = 'OPERA';
 		} else if (userAgentData.isChrome) {
@@ -329,7 +327,6 @@ export function parseUserAgent() {
 			userAgentData.browser = 'ZD' + browserVersion;
 		}
 
-		userAgentData.platform = '[unknown]';
 		if (userAgentData.isWindows) {
 			userAgentData.platform = 'Win';
 		} else if (userAgentData.isMac) {
@@ -352,7 +349,7 @@ export function parseUserAgent() {
 
 	// test for safari nightly
 	if (userAgentData.isSafari) {
-		let webkit = getWebkitVersion();
+		const webkit = getWebkitVersion();
 		userAgentData.isSafariNightly = webkit && (webkit['is_nightly'] || false);
 		// if not safari v3 or the nightly, assume we're dealing with v2  :/
 		userAgentData.isSafari2 =
@@ -367,7 +364,7 @@ export function parseUserAgent() {
 
 	try {
 		// IE8 doesn't support REM units
-		let div = document.createElement('div');
+		const div = document.createElement('div');
 		div.style.fontSize = '1rem';
 		userAgentData.supportsCSS3RemUnits = div.style.fontSize == '1rem';
 	} catch (e) {
@@ -378,15 +375,13 @@ export function parseUserAgent() {
 // code provided by webkit authors to determine if nightly browser
 function getWebkitVersion() {
 	let webkit_version;
-	let regex = new RegExp('\\(.*\\) AppleWebKit/(.*) \\((.*)');
-	let matches = regex.exec(navigator.userAgent);
+	const regex = new RegExp('\\(.*\\) AppleWebKit/(.*) \\((.*)');
+	const matches = regex.exec(navigator.userAgent);
 	if (matches) {
-		let version = matches[1];
-		let bits = version.split('.');
-		let is_nightly = version[version.length - 1] == '+';
-		let minor = is_nightly ? '+' : parseInt(bits[1]);
-		// If minor is Not a Number (NaN) return an empty string
-		// if (isNaN(minor)) minor = '';
+		const version = matches[1];
+		const bits = version.split('.');
+		const is_nightly = version[version.length - 1] == '+';
+		const minor = is_nightly ? '+' : parseInt(bits[1]);
 
 		webkit_version = {
 			major: parseInt(bits[0]),
