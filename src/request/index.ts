@@ -156,7 +156,6 @@ export function batchJsonRequest(
 export function jsonRequest(
 	requestOptions: JsonRequestOptions
 ): Promise<RequestResponse> {
-	console.log('requestOptions.headers', requestOptions.headers);
 	const options = {
 		...requestOptions,
 		credentials: requestOptions.credentials || 'include',
