@@ -1,5 +1,6 @@
 import get from 'lodash/get';
 import reduce from 'lodash/reduce';
+import { userAgentData } from '../user-agent';
 import {
 	BatchRequestOptions,
 	BatchRequestResponse,
@@ -155,6 +156,7 @@ export function batchJsonRequest(
 export function jsonRequest(
 	requestOptions: JsonRequestOptions
 ): Promise<RequestResponse> {
+	console.log('requestOptions.headers', requestOptions.headers);
 	const options = {
 		...requestOptions,
 		credentials: requestOptions.credentials || 'include',
@@ -173,7 +175,8 @@ export function jsonRequest(
 			_jsns: Namespace.All,
 			authTokenControl: {
 				voidOnExpired: true
-			}
+			},
+			userAgent: userAgentData()
 		}
 	};
 

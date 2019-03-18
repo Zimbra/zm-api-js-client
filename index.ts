@@ -9,5 +9,6 @@ export {
 export { OfflineQueueLink } from './src/apollo/offline-queue-link';
 export { SyncOfflineOperations } from './src/apollo/sync-offline-operations';
 export { batchJsonRequest, jsonRequest } from './src/request';
+export { userAgentData } from './src/user-agent';
 import * as types from './types';
 export { types };
