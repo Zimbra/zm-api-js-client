@@ -175,7 +175,15 @@ export function jsonRequest(
 			authTokenControl: {
 				voidOnExpired: true
 			},
-			userAgent: userAgentData()
+			userAgent: {
+				name:
+					'ZimbraWebClient - ' +
+					userAgentData.browser +
+					' (' +
+					userAgentData.platform +
+					')',
+				version: '8.8.11_GA_3780'
+			}
 		}
 	};
 

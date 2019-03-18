@@ -73,6 +73,7 @@ import {
 	WhiteBlackListInput,
 	ZimletPreferenceInput
 } from '../schema/generated-schema-types';
+import { parseUserAgent } from '../user-agent';
 import {
 	coerceBooleanToInt,
 	coerceBooleanToString,
@@ -143,6 +144,7 @@ export class ZimbraBatchClient {
 	private notificationHandler?: NotificationHandler;
 
 	constructor(options: ZimbraClientOptions = {}) {
+		parseUserAgent();
 		this.jwtToken = options.jwtToken;
 		this.origin = options.zimbraOrigin || DEFAULT_HOSTNAME;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
