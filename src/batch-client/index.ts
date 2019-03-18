@@ -73,7 +73,7 @@ import {
 	WhiteBlackListInput,
 	ZimletPreferenceInput
 } from '../schema/generated-schema-types';
-import { parseUserAgent } from '../user-agent';
+import { parseUserAgent, userAgentData } from '../user-agent';
 import {
 	coerceBooleanToInt,
 	coerceBooleanToString,
@@ -142,6 +142,7 @@ export class ZimbraBatchClient {
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
 	private jwtToken?: string;
 	private notificationHandler?: NotificationHandler;
+	private serverVersion?: string;
 
 	constructor(options: ZimbraClientOptions = {}) {
 		parseUserAgent();
@@ -167,8 +168,7 @@ export class ZimbraBatchClient {
 				typeof prefs.zimbraPrefMailTrustedSenderList === 'string'
 					? castArray(prefs.zimbraPrefMailTrustedSenderList)
 					: prefs.zimbraPrefMailTrustedSenderList;
-
-			return {
+			const accountInfo = {
 				...res,
 				attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
 				prefs,
@@ -180,6 +180,8 @@ export class ZimbraBatchClient {
 					}
 				})
 			};
+			this.serverVersion = accountInfo.version.split(' ')[0];
+			return accountInfo;
 		});
 
 	public action = (type: ActionType, options: ActionOptions) => {
@@ -1060,7 +1062,11 @@ export class ZimbraBatchClient {
 	private getAdditionalRequestOptions = () => ({
 		jwtToken: this.jwtToken,
 		sessionId: this.sessionId,
-		origin: this.origin
+		origin: this.origin,
+		userAgent: {
+			name: userAgentData.nameForRequest,
+			version: this.serverVersion || ''
+		}
 	});
 
 	private normalizeMessage = (message: any) =>

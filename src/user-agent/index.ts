@@ -3,6 +3,7 @@ export const userAgentData = {
 	mozVersion: -1,
 	webKitVersion: -1,
 	tridentVersion: -1,
+	nameForRequest: '[unknown]',
 	browser: '[unknown]',
 	browserVersion: -1,
 	isMac: false,
@@ -370,6 +371,13 @@ export function parseUserAgent() {
 	} catch (e) {
 		userAgentData.supportsCSS3RemUnits = false;
 	}
+
+	userAgentData.nameForRequest =
+		'ZimbraWebClient - ' +
+		userAgentData.browser +
+		' (' +
+		userAgentData.platform +
+		')';
 }
 
 // code provided by webkit authors to determine if nightly browser

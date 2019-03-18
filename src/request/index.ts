@@ -1,6 +1,5 @@
 import get from 'lodash/get';
 import reduce from 'lodash/reduce';
-import { userAgentData } from '../user-agent';
 import {
 	BatchRequestOptions,
 	BatchRequestResponse,
@@ -174,18 +173,13 @@ export function jsonRequest(
 			_jsns: Namespace.All,
 			authTokenControl: {
 				voidOnExpired: true
-			},
-			userAgent: {
-				name:
-					'ZimbraWebClient - ' +
-					userAgentData.browser +
-					' (' +
-					userAgentData.platform +
-					')',
-				version: '8.8.11_GA_3780'
 			}
 		}
 	};
+
+	if (requestOptions.userAgent) {
+		header.context.userAgent = requestOptions.userAgent;
+	}
 
 	if (requestOptions.sessionId) {
 		header.context.session = {
