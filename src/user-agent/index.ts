@@ -107,6 +107,7 @@ export function parseUserAgent() {
 		}
 
 		agentArray.forEach((token, i) => {
+			console.log(token, i);
 			if (token.indexOf('compatible') != -1) {
 				isCompatible = true;
 				userAgentData.isNav = false;
@@ -177,7 +178,7 @@ export function parseUserAgent() {
 				userAgentData.isMac = true;
 			} else if (token.indexOf('linux') != -1) {
 				userAgentData.isLinux = true;
-			} else if ((index = token.indexOf('zdesktop/')) != -1) {
+			} else if ((index = token.indexOf('electron/')) != -1) {
 				userAgentData.isDesktop = true;
 				browserVersion = parseFloat(token.substr(index + 9));
 			}
@@ -239,6 +240,7 @@ export function parseUserAgent() {
 		userAgentData.isModernIE =
 			userAgentData.isModernIE ||
 			(!userAgentData.isIE && userAgentData.isMSEdge && browserVersion >= 12.0);
+
 		if (userAgentData.isModernIE) {
 			userAgentData.isSafari = false;
 			userAgentData.isChrome = false;
@@ -298,7 +300,9 @@ export function parseUserAgent() {
 		userAgentData.isChrome19up =
 			userAgentData.isChrome && browserVersion >= 19.0;
 
-		if (userAgentData.isOpera) {
+		if (userAgentData.isDesktop) {
+			userAgentData.browser = 'ZD' + browserVersion;
+		} else if (userAgentData.isOpera) {
 			userAgentData.browser = 'OPERA';
 		} else if (userAgentData.isChrome) {
 			userAgentData.browser = 'GC' + browserVersion;
@@ -324,8 +328,6 @@ export function parseUserAgent() {
 			userAgentData.browser = 'IE' + browserVersion;
 		} else if (userAgentData.isModernIE) {
 			userAgentData.browser = 'IE' + browserVersion;
-		} else if (userAgentData.isDesktop) {
-			userAgentData.browser = 'ZD' + browserVersion;
 		}
 
 		if (userAgentData.isWindows) {
