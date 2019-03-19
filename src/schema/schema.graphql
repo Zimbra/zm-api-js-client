@@ -674,6 +674,8 @@ type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	uid: String
 	x_uid: String
 	aid: String
+	draft: Boolean
+	neverSent: Boolean
 }
 
 type ExternalAccountTestResponse {
