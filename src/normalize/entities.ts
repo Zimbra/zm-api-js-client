@@ -521,6 +521,23 @@ export const AddMsgInfo = new Entity({
 	m: ['message', AddMsgAttributes]
 });
 
+const OnlyEmailAddress = new Entity({
+	addr: 'emailAddress'
+});
+
+const Target = new Entity({
+	d: 'displayName',
+	email: ['email', OnlyEmailAddress]
+});
+
+const Targets = new Entity({
+	target: ['target', Target]
+});
+
+export const DiscoverRightsResponse = new Entity({
+	targets: ['targets', Targets]
+});
+
 export const AccountACEInfo = new Entity({
 	...commonAccessControlEntities,
 	chkgt: 'checkGrantee'

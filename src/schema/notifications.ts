@@ -42,7 +42,7 @@ function findDataId(
 }
 
 function addNewItemToList(itemList: any, item: any, sortBy: any) {
-	if (sortBy === 'nameAsc' && itemList.length > 0) {
+	if (sortBy === 'nameAsc' && item.fileAsStr && itemList.length > 0) {
 		const index = itemList.findIndex(
 			(cnt: any) =>
 				item.fileAsStr.localeCompare(cnt.fileAsStr, undefined, {

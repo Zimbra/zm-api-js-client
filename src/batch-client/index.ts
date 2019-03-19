@@ -21,6 +21,7 @@ import {
 	Conversation,
 	CreateMountpointRequest,
 	CreateSignatureRequest,
+	DiscoverRightsResponse,
 	Filter,
 	Folder,
 	FreeBusy,
@@ -388,6 +389,22 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account,
 			body: options
 		});
+
+	public discoverRights = () =>
+		this.jsonRequest({
+			name: 'DiscoverRights',
+			namespace: Namespace.Account,
+			body: {
+				right: [
+					{
+						_content: 'sendAs'
+					},
+					{
+						_content: 'sendOnBehalfOf'
+					}
+				]
+			}
+		}).then(res => normalize(DiscoverRightsResponse)(res));
 
 	public dismissCalendarItem = (appointment: any, task: any) =>
 		this.jsonRequest({

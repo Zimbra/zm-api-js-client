@@ -978,6 +978,25 @@ type AccountInfo {
 	zimlets: AccountZimlet
 }
 
+type OnlyEmailAddress {
+	emailAddress: String
+}
+
+type Target {
+	displayName: String
+	email: [OnlyEmailAddress]
+	type: String
+}
+
+type Targets {
+	right: String
+	target: [Target]
+}
+
+type DiscoverRights {
+	targets: [Targets]
+}
+
 type AccountZimlet {
 	zimlet: [AccountZimletInfo]
 }
@@ -1134,6 +1153,7 @@ type Preferences {
 	zimbraPrefShowFragments: Boolean
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
+	zimbraPrefLocale: String
 }
 
 type NameId {
@@ -1491,6 +1511,7 @@ input CalendarItemMessageInput {
 input SendMessageInput {
 	id: ID #id
 	origId: ID #origid
+	folderId: ID # l
 	attach: [AttachmentInput]
 	attachmentId: ID #aid
 	replyType: String #rt
@@ -2251,6 +2272,7 @@ type Query {
 		needExp: Boolean
 	): AutoCompleteGALResponse
 	downloadMessage(id: ID!, isSecure: Boolean): SMimeMessage
+	discoverRights: DiscoverRights
 	freeBusy(names: [String!]!, start: Float, end: Float): [FreeBusy]
 	getContact(
 		id: ID,
