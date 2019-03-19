@@ -575,6 +575,7 @@ type InviteComponent {
 	date: Float # d
 	description: [StringContent] # desc
 	draft: Boolean
+	neverSent: Boolean
 	end: [DtTimeInfo] # e
 	excerpt: String # fr
 	freeBusy: FreeBusyStatus # fb
@@ -1532,6 +1533,7 @@ input CalendarItemInviteComponentInput {
 	status: InviteCompletionStatus
 	noBlob: Boolean
 	description: [CalendarItemInviteComponentDescriptionInput]
+	draft: Boolean
 }
 
 input CalendarItemInviteComponentDescriptionInput {
