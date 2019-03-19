@@ -165,7 +165,7 @@ export function parseUserAgent() {
 				browserVersion = parseFloat(token.substr(index + 7));
 			} else if ((index = token.indexOf('version/')) != -1) {
 				// this is how safari sets browser version
-				browserVersion = parseFloat(token.substr(index + 7));
+				browserVersion = parseFloat(token.substr(index + 8));
 			} else if (token.indexOf('windows') != -1) {
 				userAgentData.isWindows = true;
 			} else if (token.indexOf('win64') != -1) {
@@ -390,7 +390,6 @@ function getWebkitVersion() {
 		const bits = version.split('.');
 		const is_nightly = version[version.length - 1] == '+';
 		const minor = is_nightly ? '+' : parseInt(bits[1]);
-
 		webkit_version = {
 			major: parseInt(bits[0]),
 			minor: minor,
