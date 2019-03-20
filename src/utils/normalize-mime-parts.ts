@@ -73,16 +73,17 @@ export function normalizeMimeParts(
 	message: { [key: string]: any },
 	{ origin, jwtToken }: { jwtToken?: string; origin?: string }
 ) {
-	const processAttachment = ({ ...attachment }) => {
+	const processAttachment = ({ ...attachment }, type: string) => {
 		attachment.messageId = attachment.messageId || message.id;
 		attachment.url = getAttachmentUrl(attachment, { origin, jwtToken });
-		if (attachment.contentId) {
-			attachment.contentId = normalizeCid(attachment.contentId);
-		} else {
-			attachment.contentId = `AUTO-GEN-CID-${attachment.messageId}-${
-				attachment.part
-			}-${attachment.size}`;
-		}
+		attachment.contentId = attachment.contentId
+			? normalizeCid(attachment.contentId)
+			: ~type.indexOf('image/') && attachment.contentDisposition === 'inline'
+			? `AUTO-GEN-CID-${attachment.messageId}-${attachment.part}-${
+					attachment.size
+			  }`
+			: undefined;
+
 		return attachment;
 	};
 
@@ -107,7 +108,7 @@ export function normalizeMimeParts(
 					disposition === 'inline' &&
 					!part.contentId
 				) {
-					const attachment = processAttachment(part);
+					const attachment = processAttachment(part, type);
 
 					// Use `text` content, because iOS client always yield `text` part (no `html` part) when
 					// multiple attachments are present along with text content.
@@ -139,7 +140,7 @@ export function normalizeMimeParts(
 					part.contentType !== 'application/pkcs7-signature' &&
 					part.contentType !== 'application/x-pkcs7-signature' &&
 					!(part.filename && part.filename.endsWith('.ics')) &&
-					(acc[mode] || (acc[mode] = [])).push(processAttachment(part));
+					(acc[mode] || (acc[mode] = [])).push(processAttachment(part, type));
 
 				message.attributes = message.attributes || {};
 				message.attributes.isEncrypted =
