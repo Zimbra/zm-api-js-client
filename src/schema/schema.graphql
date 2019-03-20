@@ -1151,6 +1151,7 @@ type Preferences {
 	zimbraPrefShowFragments: Boolean
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
+	zimbraPrefLocale: String
 }
 
 type NameId {
