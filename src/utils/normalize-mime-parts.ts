@@ -113,20 +113,18 @@ export function normalizeMimeParts(
 					 * E.g. iOS email client doesn't put `contentId` for image inline attachments when there are other type (normal) of attachments as well in email body.
 					 * In such cases, iOS email client doesn't even put `image tag placeholders` for inline image attachments.
 					 * So, when parsed, ZimbraX don't understand this, so inline images gets vanished.
-					 * To fix this, this code block places arbitrary placeholders.
+					 * To fix this, this code block places placeholders with arbitrary CIDs.
 					 */
 					const attachment = processAttachment(part, type);
 
 					// Use `text` content, because iOS client always yield `text` part (no `html` part) when
 					// multiple attachments are present along with text content.
-					const textContent = (acc['text'] || '').concat(
-						`
-						__CID_START__${attachment.contentId}__CID_END__
-						`
+					// Update `text` content so that we stay up-to-date on which CID placeholders were added.
+					acc['text'] = (acc['text'] || '').concat(
+						`<br /><div><img src="cid:${attachment.contentId}" /></div><br />`
 					);
 
-					acc['text'] = textContent; // Update `text` content so that we stay up-to-date on which CID placeholders were added.
-					acc['html'] = textContent.replace(/\r\n/g, '<br />'); // And then update `html` part so that we render `html` in `viewer`.
+					acc['html'] = acc['text']; // And then update `html` part so that we render `html` in `viewer`.
 				} else if (bodyType && (!acc[bodyType] || disposition !== 'inline')) {
 					if ((bodyType === 'html' || bodyType === 'text') && acc[bodyType]) {
 						acc[bodyType] = acc[bodyType].concat(content);
