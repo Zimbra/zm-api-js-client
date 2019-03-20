@@ -108,6 +108,13 @@ export function normalizeMimeParts(
 					disposition === 'inline' &&
 					!part.contentId
 				) {
+					/**
+					 * Different email clients work in different ways.
+					 * E.g. iOS email client doesn't put `contentId` for image inline attachments when there are other type (normal) of attachments as well in email body.
+					 * In such cases, iOS email client doesn't even put `image tag placeholders` for inline image attachments.
+					 * So, when parsed, ZimbraX don't understand this, so inline images gets vanished.
+					 * To fix this, this code block places arbitrary placeholders.
+					 */
 					const attachment = processAttachment(part, type);
 
 					// Use `text` content, because iOS client always yield `text` part (no `html` part) when
