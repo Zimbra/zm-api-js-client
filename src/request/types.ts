@@ -8,9 +8,9 @@ export enum Namespace {
 export type SessionId = string;
 export type SessionSeq = number;
 
-export interface userAgent {
-	name: string;
-	version: string;
+export interface UserAgent {
+	name?: string;
+	version?: string;
 }
 export interface BaseRequestOptions {
 	accountId?: string;
@@ -23,7 +23,7 @@ export interface BaseRequestOptions {
 	sessionSeq?: SessionSeq;
 	singleRequest?: boolean;
 	soapPathname?: string;
-	userAgent?: userAgent;
+	userAgent?: UserAgent;
 }
 
 export interface RequestOptions {
@@ -102,9 +102,6 @@ export interface SOAPHeader {
 			_content: SessionId;
 			id: SessionId;
 		};
-		userAgent?: {
-			name: string;
-			version: string;
-		};
+		userAgent?: UserAgent;
 	};
 }
