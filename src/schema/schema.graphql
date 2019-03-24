@@ -545,7 +545,7 @@ type ByMonthDayRule {
 }
 
 type ByMonthRule {
-	monthList: String
+	monthList: Int
 }
 
 type BySetPosRule {
@@ -1730,7 +1730,7 @@ input CalendarItemRecurrenceByMonthDayInput {
 }
 
 input CalendarItemRecurrenceByMonthInput {
-	monthList: String
+	monthList: Int!
 }
 
 input CalendarItemRecurrenceBySetPosInput {
