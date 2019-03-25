@@ -49,7 +49,7 @@ const ByMonthDayRule = new Entity({
 
 const ByMonthRule = new Entity({
 	molist: 'monthList'
-})
+});
 
 const SimpleRepeatingRule = new Entity({
 	freq: 'frequency',
