@@ -73,12 +73,13 @@ export function normalizeMimeParts(
 	message: { [key: string]: any },
 	{ origin, jwtToken }: { jwtToken?: string; origin?: string }
 ) {
-	const processAttachment = ({ ...attachment }, type: string) => {
+	const processAttachment = ({ ...attachment }) => {
 		attachment.messageId = attachment.messageId || message.id;
 		attachment.url = getAttachmentUrl(attachment, { origin, jwtToken });
 		attachment.contentId = attachment.contentId
 			? normalizeCid(attachment.contentId)
-			: ~type.indexOf('image/') && attachment.contentDisposition === 'inline'
+			: ~normalizeType(attachment.contentType).indexOf('image/') &&
+			  attachment.contentDisposition === 'inline'
 			? `AUTO-GEN-CID-${attachment.messageId}-${attachment.part}-${
 					attachment.size
 			  }`
@@ -115,7 +116,7 @@ export function normalizeMimeParts(
 					 * So, when parsed, ZimbraX don't understand this, so inline images gets vanished.
 					 * To fix this, this code block places placeholders with arbitrary CIDs.
 					 */
-					const attachment = processAttachment(part, type);
+					const attachment = processAttachment(part);
 
 					// Use `text` content, because iOS client always yield `text` part (no `html` part) when multiple attachments are present along with text content.
 					// In cases of forwarded msg from iOS client, there wouldn't be `text` part, instead `html` parts.
@@ -145,7 +146,7 @@ export function normalizeMimeParts(
 					part.contentType !== 'application/pkcs7-signature' &&
 					part.contentType !== 'application/x-pkcs7-signature' &&
 					!(part.filename && part.filename.endsWith('.ics')) &&
-					(acc[mode] || (acc[mode] = [])).push(processAttachment(part, type));
+					(acc[mode] || (acc[mode] = [])).push(processAttachment(part));
 
 				message.attributes = message.attributes || {};
 				message.attributes.isEncrypted =
