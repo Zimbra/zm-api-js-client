@@ -1453,7 +1453,7 @@ input MimePartInput {
 
 input ExistingAttachmentInput {
 	messageId: ID
-	part: ID
+	part: String
 }
 
 input AttachmentInput {
