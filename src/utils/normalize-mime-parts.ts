@@ -117,10 +117,10 @@ export function normalizeMimeParts(
 					 */
 					const attachment = processAttachment(part, type);
 
-					// Use `text` content, because iOS client always yield `text` part (no `html` part) when
-					// multiple attachments are present along with text content.
+					// Use `text` content, because iOS client always yield `text` part (no `html` part) when multiple attachments are present along with text content.
+					// In cases of forwarded msg from iOS client, there wouldn't be `text` part, instead `html` parts.
 					// Update `text` content so that we stay up-to-date on which CID placeholders were added.
-					acc['text'] = (acc['text'] || '').concat(
+					acc['text'] = (acc['text'] || acc['html'] || '').concat(
 						`<br /><div><img src="cid:${attachment.contentId}" /></div><br />`
 					);
 
