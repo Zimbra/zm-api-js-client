@@ -128,6 +128,13 @@ function normalizeMessage(
 		normalizedMessage.attributes &&
 		mapValuesDeep(normalizedMessage.attributes, coerceStringToBoolean);
 
+	const { flags } = normalizedMessage;
+
+	normalizedMessage.flags = {
+		id: normalizedMessage.id,
+		value: flags
+	};
+
 	return normalizeEmailAddresses(
 		normalizeMimeParts(normalizedMessage, { origin, jwtToken })
 	);
