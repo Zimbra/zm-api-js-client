@@ -204,6 +204,14 @@ export interface CalendarItemRecurrenceRuleInput {
 	count?: CalendarItemRecurrenceEndCountInput | null;
 
 	until?: CalendarItemRecurrenceEndDateInput | null;
+
+	byday?: CalendarItemRecurrenceByDayInput | null;
+
+	bymonthday?: CalendarItemRecurrenceByMonthDayInput | null;
+
+	bymonth?: CalendarItemRecurrenceByMonthInput | null;
+
+	bysetpos?: CalendarItemRecurrenceBySetPosInput | null;
 }
 
 export interface CalendarItemRecurrenceIntervalInput {
@@ -218,6 +226,28 @@ export interface CalendarItemRecurrenceEndCountInput {
 
 export interface CalendarItemRecurrenceEndDateInput {
 	date: string;
+}
+
+export interface CalendarItemRecurrenceByDayInput {
+	wkday?: (WkDayInput | null)[] | null;
+}
+
+export interface WkDayInput {
+	day: Weekday;
+
+	ordwk?: number | null;
+}
+
+export interface CalendarItemRecurrenceByMonthDayInput {
+	dayList: string;
+}
+
+export interface CalendarItemRecurrenceByMonthInput {
+	monthList: number;
+}
+
+export interface CalendarItemRecurrenceBySetPosInput {
+	poslist: number;
 }
 
 export interface CalendarItemAttendeesInput {
