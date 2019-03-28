@@ -457,6 +457,13 @@ export class ZimbraBatchClient {
 			jwtToken: this.jwtToken
 		});
 
+	public getAvailableLocales = () => {
+		this.jsonRequest({
+			name: 'GetAvailableLocales',
+			namespace: Namespace.Account
+		});
+	};
+
 	public getContact = ({ id, ids, ...rest }: GetContactOptions) =>
 		this.jsonRequest({
 			name: 'GetContacts',
