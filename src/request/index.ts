@@ -177,6 +177,10 @@ export function jsonRequest(
 		}
 	};
 
+	if (requestOptions.userAgent) {
+		header.context.userAgent = requestOptions.userAgent;
+	}
+
 	if (requestOptions.sessionId) {
 		header.context.session = {
 			id: requestOptions.sessionId,
