@@ -76,9 +76,15 @@ export function normalizeMimeParts(
 	const processAttachment = ({ ...attachment }) => {
 		attachment.messageId = attachment.messageId || message.id;
 		attachment.url = getAttachmentUrl(attachment, { origin, jwtToken });
-		if (attachment.contentId) {
-			attachment.contentId = normalizeCid(attachment.contentId);
-		}
+		attachment.contentId = attachment.contentId
+			? normalizeCid(attachment.contentId)
+			: ~normalizeType(attachment.contentType).indexOf('image/') &&
+			  attachment.contentDisposition === 'inline'
+			? `AUTO-GEN-CID-${attachment.messageId}-${attachment.part}-${
+					attachment.size
+			  }`
+			: undefined;
+
 		return attachment;
 	};
 
@@ -97,8 +103,36 @@ export function normalizeMimeParts(
 			if (disposition !== 'attachment') {
 				let bodyType =
 					type === 'text/html' ? 'html' : type === 'text/plain' && 'text';
-				if (bodyType && (!acc[bodyType] || disposition !== 'inline')) {
-					acc[bodyType] = content;
+
+				if (
+					~type.indexOf('image/') &&
+					disposition === 'inline' &&
+					!part.contentId
+				) {
+					/**
+					 * Different email clients work in different ways.
+					 * E.g. iOS email client doesn't put `contentId` for image inline attachments when there are other type (normal) of attachments as well in email body.
+					 * In such cases, iOS email client doesn't even put `image tag placeholders` for inline image attachments.
+					 * So, when parsed, ZimbraX don't understand this, so inline images gets vanished.
+					 * To fix this, this code block places placeholders with arbitrary CIDs.
+					 */
+					const attachment = processAttachment(part);
+
+					// Use `text` content, because iOS client always yield `text` part (no `html` part) when multiple attachments are present along with text content.
+					// In cases of forwarded msg from iOS client, there wouldn't be `text` part, instead `html` parts.
+					// Update `text` content so that we stay up-to-date on which CID placeholders were added.
+					acc['text'] = (acc['text'] || acc['html'] || '').concat(
+						`<br /><div><img src="cid:${attachment.contentId}" /></div><br />`
+					);
+
+					acc['html'] = acc['text']; // And then update `html` part so that we render `html` in `viewer`.
+				} else if (bodyType && (!acc[bodyType] || disposition !== 'inline')) {
+					if ((bodyType === 'html' || bodyType === 'text') && acc[bodyType]) {
+						acc[bodyType] = acc[bodyType].concat(content);
+					} else {
+						acc[bodyType] = content;
+					}
+
 					isBody = true;
 				}
 			}
