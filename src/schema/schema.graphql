@@ -596,6 +596,7 @@ type InviteComponent {
 	uid: String
 	x_uid: String
 	aid: String
+	method: String
 }
 
 type DtTimeInfo {
