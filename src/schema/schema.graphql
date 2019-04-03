@@ -575,6 +575,7 @@ type InviteComponent {
 	date: Float # d
 	description: [StringContent] # desc
 	draft: Boolean
+	neverSent: Boolean
 	end: [DtTimeInfo] # e
 	excerpt: String # fr
 	freeBusy: FreeBusyStatus # fb
@@ -673,6 +674,8 @@ type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	uid: String
 	x_uid: String
 	aid: String
+	draft: Boolean
+	neverSent: Boolean
 }
 
 type ExternalAccountTestResponse {
@@ -1552,6 +1555,7 @@ input CalendarItemInviteComponentInput {
 	status: InviteCompletionStatus
 	noBlob: Boolean
 	description: [CalendarItemInviteComponentDescriptionInput]
+	draft: Boolean
 }
 
 input CalendarItemInviteComponentDescriptionInput {
