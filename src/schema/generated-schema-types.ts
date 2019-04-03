@@ -166,6 +166,8 @@ export interface CalendarItemInviteComponentInput {
 	noBlob?: boolean | null;
 
 	description?: (CalendarItemInviteComponentDescriptionInput | null)[] | null;
+
+	draft?: boolean | null;
 }
 
 export interface CalendarItemDateTimeInput {
