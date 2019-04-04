@@ -1059,6 +1059,7 @@ type AccountInfoAttrs {
 	zimbraFeatureResetPasswordEnabled: Boolean
 	zimbraFeatureWebClientOfflineAccessEnabled: Boolean
 	zimbraMailBlacklistMaxNumEntries: Int
+	zimbraFeatureOutOfOfficeReplyEnabled: Boolean
 }
 
 type Identities {
