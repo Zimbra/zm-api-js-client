@@ -88,6 +88,7 @@ export function createZimbraSchema(
 				autoCompleteGAL: (_, variables) =>
 					client.autoCompleteGAL(variables as AutoCompleteGALOptions),
 				discoverRights: client.discoverRights,
+				downloadAttachment: (_, variables) => client.downloadAttachment(variables),
 				downloadMessage: (_, variables) => client.downloadMessage(variables),
 				freeBusy: (_, variables) =>
 					client.freeBusy(variables as FreeBusyOptions),

@@ -439,6 +439,25 @@ export class ZimbraBatchClient {
 		});
 	};
 
+	public downloadAttachment = ({ id, part }: any) => {
+		return fetch(`${this.origin}/service/home/~/?auth=co&id=${id}&part=${part}`, {
+			credentials: 'include'
+		}).then(response => {
+			if (response.ok) {
+				return response.text().then(content => {
+					if (!content) {
+						return undefined;
+					}
+					console.log(content);
+					return {
+						id:`${id}_${part}`,
+						content
+					};
+				});
+			}
+		});
+	};
+
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);
 
