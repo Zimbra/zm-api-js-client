@@ -141,8 +141,10 @@ export class ZimbraBatchClient {
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
 	private jwtToken?: string;
 	private notificationHandler?: NotificationHandler;
+	private userAgent?: {};
 
 	constructor(options: ZimbraClientOptions = {}) {
+		this.userAgent = options.userAgent;
 		this.jwtToken = options.jwtToken;
 		this.origin = options.zimbraOrigin || DEFAULT_HOSTNAME;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
@@ -165,7 +167,6 @@ export class ZimbraBatchClient {
 				typeof prefs.zimbraPrefMailTrustedSenderList === 'string'
 					? castArray(prefs.zimbraPrefMailTrustedSenderList)
 					: prefs.zimbraPrefMailTrustedSenderList;
-
 			return {
 				...res,
 				attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
@@ -1064,7 +1065,8 @@ export class ZimbraBatchClient {
 	private getAdditionalRequestOptions = () => ({
 		jwtToken: this.jwtToken,
 		sessionId: this.sessionId,
-		origin: this.origin
+		origin: this.origin,
+		userAgent: this.userAgent
 	});
 
 	private normalizeMessage = (message: any) =>
