@@ -78,6 +78,8 @@ export function createZimbraSchema(
 		notificationHandler: notifications && notifications.notificationHandler
 	});
 
+	const localStoreClient = options.localStoreClient;
+
 	const executableSchema = makeExecutableSchema({
 		typeDefs: schema,
 		resolvers: {
@@ -125,7 +127,9 @@ export function createZimbraSchema(
 				shareInfo: (_, variables) =>
 					client.shareInfo(variables as ShareInfoOptions),
 				taskFolders: client.taskFolders,
-				getWhiteBlackList: client.getWhiteBlackList
+				getWhiteBlackList: client.getWhiteBlackList,
+				getMailLocalFolders: (_, variables) =>
+					localStoreClient.getFolders(variables)
 			},
 			//resolveType is necessary to differentiate for any Union or Interfaces
 			MailItem: {

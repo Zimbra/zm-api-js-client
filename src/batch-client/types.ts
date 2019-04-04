@@ -52,6 +52,7 @@ export type UserAgent = {
 
 export interface ZimbraClientOptions {
 	jwtToken?: string;
+	localStoreClient?: any;
 	notificationHandler?: NotificationHandler;
 	soapPathname?: string;
 	userAgent?: UserAgent;
