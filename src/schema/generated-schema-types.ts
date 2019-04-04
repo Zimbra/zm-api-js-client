@@ -724,8 +724,6 @@ export interface PreferencesInput {
 	zimbraPrefWebClientOfflineBrowserKey?: string | null;
 
 	zimbraPrefTimeZoneId?: string | null;
-
-	zimbraPrefLocale?: string | null;
 }
 
 export interface ZimletPreferenceInput {
