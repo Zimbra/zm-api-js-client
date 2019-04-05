@@ -417,13 +417,13 @@ export class ZimbraBatchClient {
 		}).then(Boolean);
 
 	public downloadAttachment = ({ id, part }: any) =>
-		this.downlaod({ id, part }).then((data: any) => ({
+		this.download({ id, part }).then((data: any) => ({
 			id: `${data.id}_${data.part}`,
 			content: data.content
 		}));
 
 	public downloadMessage = ({ id, isSecure }: any) =>
-		this.downlaod({ id, isSecure }).then((data: any) => ({
+		this.download({ id, isSecure }).then((data: any) => ({
 			id: data.id,
 			content: data.id
 		}));
@@ -1042,7 +1042,7 @@ export class ZimbraBatchClient {
 			return isError(response) ? [response] : [response.body];
 		});
 
-	private downlaod = ({ id, part, isSecure }: any) =>
+	private download = ({ id, part, isSecure }: any) =>
 		fetch(
 			`${this.origin}/service/home/~/?auth=co&id=${id}${
 				part ? `&part=${part}` : ''
