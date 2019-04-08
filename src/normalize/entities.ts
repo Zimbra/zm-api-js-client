@@ -43,11 +43,21 @@ const UntilDate = new Entity({
 	d: 'date'
 });
 
+const ByMonthDayRule = new Entity({
+	modaylist: 'dayList'
+});
+
+const ByMonthRule = new Entity({
+	molist: 'monthList'
+});
+
 const SimpleRepeatingRule = new Entity({
 	freq: 'frequency',
 	interval: ['interval', IntervalRule],
 	count: ['count', NumOfOccurences],
-	until: ['until', UntilDate]
+	until: ['until', UntilDate],
+	bymonthday: ['bymonthday', ByMonthDayRule],
+	bymonth: ['bymonth', ByMonthRule]
 });
 
 const AddRecurrenceInfo = new Entity({
