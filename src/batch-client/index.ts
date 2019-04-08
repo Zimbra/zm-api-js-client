@@ -443,7 +443,7 @@ export class ZimbraBatchClient {
 
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);
-	
+
 	public forwardAppointmentInvite = (body: ForwardAppointmentInviteInput) =>
 		this.jsonRequest({
 			name: 'ForwardAppointmentInvite',
