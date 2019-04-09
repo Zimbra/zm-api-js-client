@@ -141,8 +141,10 @@ export class ZimbraBatchClient {
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
 	private jwtToken?: string;
 	private notificationHandler?: NotificationHandler;
+	private userAgent?: {};
 
 	constructor(options: ZimbraClientOptions = {}) {
+		this.userAgent = options.userAgent;
 		this.jwtToken = options.jwtToken;
 		this.origin = options.zimbraOrigin || DEFAULT_HOSTNAME;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
@@ -165,7 +167,6 @@ export class ZimbraBatchClient {
 				typeof prefs.zimbraPrefMailTrustedSenderList === 'string'
 					? castArray(prefs.zimbraPrefMailTrustedSenderList)
 					: prefs.zimbraPrefMailTrustedSenderList;
-
 			return {
 				...res,
 				attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
@@ -415,28 +416,17 @@ export class ZimbraBatchClient {
 			}
 		}).then(Boolean);
 
-	public downloadMessage = ({ id, isSecure }: any) => {
-		return fetch(`${this.origin}/service/home/~/?auth=co&id=${id}`, {
-			...(isSecure && {
-				headers: {
-					'X-Zimbra-Encoding': 'x-base64'
-				}
-			}),
-			credentials: 'include'
-		}).then(response => {
-			if (response.ok) {
-				return response.text().then(content => {
-					if (!content) {
-						return undefined;
-					}
-					return {
-						id,
-						content
-					};
-				});
-			}
-		});
-	};
+	public downloadAttachment = ({ id, part }: any) =>
+		this.download({ id, part }).then((data: any) => ({
+			id: `${data.id}_${data.part}`,
+			content: data.content
+		}));
+
+	public downloadMessage = ({ id, isSecure }: any) =>
+		this.download({ id, isSecure }).then((data: any) => ({
+			id: data.id,
+			content: data.id
+		}));
 
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);
@@ -1052,13 +1042,43 @@ export class ZimbraBatchClient {
 			return isError(response) ? [response] : [response.body];
 		});
 
+	private download = ({ id, part, isSecure }: any) =>
+		fetch(
+			`${this.origin}/service/home/~/?auth=co&id=${id}${
+				part ? `&part=${part}` : ''
+			}`,
+			{
+				...(isSecure && {
+					headers: {
+						'X-Zimbra-Encoding': 'x-base64'
+					}
+				}),
+				credentials: 'include'
+			}
+		).then(response => {
+			if (response.ok) {
+				return response.text().then(content => {
+					if (!content) {
+						return undefined;
+					}
+
+					return {
+						id,
+						part,
+						content
+					};
+				});
+			}
+		});
+
 	/**
 	 * These options are included on every request.
 	 */
 	private getAdditionalRequestOptions = () => ({
 		jwtToken: this.jwtToken,
 		sessionId: this.sessionId,
-		origin: this.origin
+		origin: this.origin,
+		userAgent: this.userAgent
 	});
 
 	private normalizeMessage = (message: any) =>
