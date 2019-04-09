@@ -540,12 +540,28 @@ type CalendarItemRecurrenceEndCount {
 	number: Int
 }
 
+type ByMonthDayRule {
+	dayList: String
+}
+
+type ByMonthRule {
+	monthList: Int
+}
+
+type BySetPosRule {
+	poslist: Int
+}
+
 type SimpleRepeatingRule { # <rule>
 	frequency: CalendarItemRecurrenceFrequency # freq
 	interval: [IntervalRule]
 	byday: [ByDayRule]
 	until: [CalendarItemRecurrenceEndDate]
 	count: [CalendarItemRecurrenceEndCount]
+	bymonthday: [ByMonthDayRule]
+	bymonth: [ByMonthRule]
+	bysetpos: [BySetPosRule]
+
 }
 
 type RecurrenceInfo { # <recur>
@@ -575,6 +591,7 @@ type InviteComponent {
 	date: Float # d
 	description: [StringContent] # desc
 	draft: Boolean
+	neverSent: Boolean
 	end: [DtTimeInfo] # e
 	excerpt: String # fr
 	freeBusy: FreeBusyStatus # fb
@@ -673,6 +690,8 @@ type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	uid: String
 	x_uid: String
 	aid: String
+	draft: Boolean
+	neverSent: Boolean
 }
 
 type ExternalAccountTestResponse {
@@ -1041,6 +1060,8 @@ type AccountInfoAttrs {
 	zimbraFeatureWebClientOfflineAccessEnabled: Boolean
 	zimbraMailBlacklistMaxNumEntries: Int
 	zimbraShowClientTOS: Boolean
+	zimbraFeatureOutOfOfficeReplyEnabled: Boolean
+	zimbraFeatureFiltersEnabled: Boolean
 }
 
 type Identities {
@@ -1554,6 +1575,7 @@ input CalendarItemInviteComponentInput {
 	status: InviteCompletionStatus
 	noBlob: Boolean
 	description: [CalendarItemInviteComponentDescriptionInput]
+	draft: Boolean
 }
 
 input CalendarItemInviteComponentDescriptionInput {
@@ -1683,6 +1705,10 @@ input CalendarItemRecurrenceRuleInput {
 	frequency: CalendarItemRecurrenceFrequency
 	count: CalendarItemRecurrenceEndCountInput
 	until: CalendarItemRecurrenceEndDateInput
+	byday: CalendarItemRecurrenceByDayInput
+	bymonthday: CalendarItemRecurrenceByMonthDayInput
+	bymonth: CalendarItemRecurrenceByMonthInput
+	bysetpos: CalendarItemRecurrenceBySetPosInput
 }
 
 input CalendarItemRecurrenceIntervalInput {
@@ -1696,6 +1722,27 @@ input CalendarItemRecurrenceEndCountInput {
 
 input CalendarItemRecurrenceEndDateInput {
 	date: String!
+}
+
+input CalendarItemRecurrenceByDayInput {
+	wkday: [WkDayInput]
+}
+
+input WkDayInput {
+	day: Weekday!
+	ordwk: Int
+}
+
+input CalendarItemRecurrenceByMonthDayInput {
+	dayList: String!
+}
+
+input CalendarItemRecurrenceByMonthInput {
+	monthList: Int!
+}
+
+input CalendarItemRecurrenceBySetPosInput {
+	poslist: Int!
 }
 
 input NewMountpointSpec {
@@ -2218,6 +2265,12 @@ type SMimeMessage {
 	content: String
 }
 
+type Attachment {
+	id: ID
+	content: String
+}
+
+
 ##### End Of SMIME Certificates type #####
 
 type ActionOpResponseData {
@@ -2272,6 +2325,7 @@ type Query {
 		needExp: Boolean
 	): AutoCompleteGALResponse
 	downloadMessage(id: ID!, isSecure: Boolean): SMimeMessage
+	downloadAttachment(id: ID!, part: ID!): Attachment
 	discoverRights: DiscoverRights
 	freeBusy(names: [String!]!, start: Float, end: Float): [FreeBusy]
 	getContact(
