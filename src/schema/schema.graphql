@@ -1061,6 +1061,8 @@ type AccountInfoAttrs {
 	zimbraMailBlacklistMaxNumEntries: Int
 	zimbraFeatureGalEnabled: Boolean
 	zimbraFeatureGalAutoCompleteEnabled: Boolean
+	zimbraFeatureOutOfOfficeReplyEnabled: Boolean
+	zimbraFeatureFiltersEnabled: Boolean
 }
 
 type Identities {
@@ -2262,6 +2264,12 @@ type SMimeMessage {
 	content: String
 }
 
+type Attachment {
+	id: ID
+	content: String
+}
+
+
 ##### End Of SMIME Certificates type #####
 
 type ActionOpResponseData {
@@ -2316,6 +2324,7 @@ type Query {
 		needExp: Boolean
 	): AutoCompleteGALResponse
 	downloadMessage(id: ID!, isSecure: Boolean): SMimeMessage
+	downloadAttachment(id: ID!, part: ID!): Attachment
 	discoverRights: DiscoverRights
 	freeBusy(names: [String!]!, start: Float, end: Float): [FreeBusy]
 	getContact(
