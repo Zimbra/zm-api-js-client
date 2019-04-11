@@ -1867,6 +1867,7 @@ input PreferencesInput {
 	zimbraPrefShowFragments: Boolean
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
+	zimbraPrefLocale: String
 }
 
 input ModifyIdentityInput {
@@ -2302,6 +2303,12 @@ type AccountACEInfo {
 	checkGrantee: Boolean
 }
 
+type Locale {
+	id: ID
+	name: String
+	localName: String
+}
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2339,6 +2346,7 @@ type Query {
 		offset: Int!,
 		types: SearchType
 	): SearchResponse
+	getAvailableLocales: [Locale]
 	getContactFrequency(
 		email: String!
 		by: String!
