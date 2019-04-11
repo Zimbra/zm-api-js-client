@@ -416,28 +416,17 @@ export class ZimbraBatchClient {
 			}
 		}).then(Boolean);
 
-	public downloadMessage = ({ id, isSecure }: any) => {
-		return fetch(`${this.origin}/service/home/~/?auth=co&id=${id}`, {
-			...(isSecure && {
-				headers: {
-					'X-Zimbra-Encoding': 'x-base64'
-				}
-			}),
-			credentials: 'include'
-		}).then(response => {
-			if (response.ok) {
-				return response.text().then(content => {
-					if (!content) {
-						return undefined;
-					}
-					return {
-						id,
-						content
-					};
-				});
-			}
-		});
-	};
+	public downloadAttachment = ({ id, part }: any) =>
+		this.download({ id, part }).then((data: any) => ({
+			id: `${data.id}_${data.part}`,
+			content: data.content
+		}));
+
+	public downloadMessage = ({ id, isSecure }: any) =>
+		this.download({ id, isSecure }).then((data: any) => ({
+			id: data.id,
+			content: data.id
+		}));
 
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);
@@ -457,6 +446,12 @@ export class ZimbraBatchClient {
 			origin: this.origin,
 			jwtToken: this.jwtToken
 		});
+
+	public getAvailableLocales = () =>
+		this.jsonRequest({
+			name: 'GetAvailableLocales',
+			namespace: Namespace.Account
+		}).then(res => res.locale);
 
 	public getContact = ({ id, ids, ...rest }: GetContactOptions) =>
 		this.jsonRequest({
@@ -1051,6 +1046,35 @@ export class ZimbraBatchClient {
 			}
 
 			return isError(response) ? [response] : [response.body];
+		});
+
+	private download = ({ id, part, isSecure }: any) =>
+		fetch(
+			`${this.origin}/service/home/~/?auth=co&id=${id}${
+				part ? `&part=${part}` : ''
+			}`,
+			{
+				...(isSecure && {
+					headers: {
+						'X-Zimbra-Encoding': 'x-base64'
+					}
+				}),
+				credentials: 'include'
+			}
+		).then(response => {
+			if (response.ok) {
+				return response.text().then(content => {
+					if (!content) {
+						return undefined;
+					}
+
+					return {
+						id,
+						part,
+						content
+					};
+				});
+			}
 		});
 
 	/**
