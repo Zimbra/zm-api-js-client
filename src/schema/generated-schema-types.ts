@@ -725,6 +725,8 @@ export interface PreferencesInput {
 
 	zimbraPrefTimeZoneId?: string | null;
 
+	zimbraPrefLocale?: string | null;
+
 	zimbraPrefAppleIcalDelegationEnabled?: boolean | null;
 }
 
