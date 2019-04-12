@@ -102,8 +102,15 @@ export function createZimbraSchema(
 				getConversation: (_, variables) =>
 					client.getConversation(variables as GetConversationOptions),
 				getFilterRules: client.getFilterRules,
-				getFolder: (_: any, variables) =>
-					client.getFolder(variables as GetFolderOptions),
+				getFolder: (_: any, variables, context = {}) => {
+					const { local } = context;
+
+					if (local) {
+						return localStoreClient.getFolder(variables as GetFolderOptions);
+					}
+
+					return client.getFolder(variables as GetFolderOptions);
+				},
 				getAppointments: (_: any, variables) =>
 					client.search(variables as SearchOptions),
 				getAvailableLocales: (_: any) => client.getAvailableLocales(),
