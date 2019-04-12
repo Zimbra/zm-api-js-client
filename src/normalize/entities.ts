@@ -338,7 +338,6 @@ const ForwardMessageInput = new Entity({
 });
 
 export const ForwardAppointmentInviteInfo = new Entity({
-	id: 'id',
 	m: ['message', ForwardMessageInput]
 });
 
