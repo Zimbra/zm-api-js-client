@@ -417,15 +417,15 @@ export class ZimbraBatchClient {
 		}).then(Boolean);
 
 	public downloadAttachment = ({ id, part }: any) =>
-		this.download({ id, part }).then((data: any) => ({
-			id: `${data.id}_${data.part}`,
-			content: data.content
+		this.download({ id, part }).then(({ id, part, content }: any) => ({
+			id: `${id}_${part}`,
+			content
 		}));
 
 	public downloadMessage = ({ id, isSecure }: any) =>
-		this.download({ id, isSecure }).then((data: any) => ({
-			id: data.id,
-			content: data.id
+		this.download({ id, isSecure }).then(({ id, content }: any) => ({
+			id,
+			content
 		}));
 
 	public folderAction = (options: ActionOptions) =>
