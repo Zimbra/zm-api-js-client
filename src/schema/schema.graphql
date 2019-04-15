@@ -1059,6 +1059,8 @@ type AccountInfoAttrs {
 	zimbraFeatureResetPasswordEnabled: Boolean
 	zimbraFeatureWebClientOfflineAccessEnabled: Boolean
 	zimbraMailBlacklistMaxNumEntries: Int
+	zimbraFeatureOutOfOfficeReplyEnabled: Boolean
+	zimbraFeatureFiltersEnabled: Boolean
 }
 
 type Identities {
@@ -1865,6 +1867,7 @@ input PreferencesInput {
 	zimbraPrefShowFragments: Boolean
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
+	zimbraPrefLocale: String
 }
 
 input ModifyIdentityInput {
@@ -2260,6 +2263,12 @@ type SMimeMessage {
 	content: String
 }
 
+type Attachment {
+	id: ID
+	content: String
+}
+
+
 ##### End Of SMIME Certificates type #####
 
 type ActionOpResponseData {
@@ -2294,6 +2303,12 @@ type AccountACEInfo {
 	checkGrantee: Boolean
 }
 
+type Locale {
+	id: ID
+	name: String
+	localName: String
+}
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2314,6 +2329,7 @@ type Query {
 		needExp: Boolean
 	): AutoCompleteGALResponse
 	downloadMessage(id: ID!, isSecure: Boolean): SMimeMessage
+	downloadAttachment(id: ID!, part: ID!): Attachment
 	discoverRights: DiscoverRights
 	freeBusy(names: [String!]!, start: Float, end: Float): [FreeBusy]
 	getContact(
@@ -2330,6 +2346,7 @@ type Query {
 		offset: Int!,
 		types: SearchType
 	): SearchResponse
+	getAvailableLocales: [Locale]
 	getContactFrequency(
 		email: String!
 		by: String!

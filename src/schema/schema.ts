@@ -88,6 +88,8 @@ export function createZimbraSchema(
 				autoCompleteGAL: (_, variables) =>
 					client.autoCompleteGAL(variables as AutoCompleteGALOptions),
 				discoverRights: client.discoverRights,
+				downloadAttachment: (_, variables) =>
+					client.downloadAttachment(variables),
 				downloadMessage: (_, variables) => client.downloadMessage(variables),
 				freeBusy: (_, variables) =>
 					client.freeBusy(variables as FreeBusyOptions),
@@ -102,6 +104,7 @@ export function createZimbraSchema(
 					client.getFolder(variables as GetFolderOptions),
 				getAppointments: (_: any, variables) =>
 					client.search(variables as SearchOptions),
+				getAvailableLocales: (_: any) => client.getAvailableLocales(),
 				getMailboxMetadata: (_: any, variables) =>
 					client.getMailboxMetadata(variables as GetMailboxMetadataOptions),
 				getMessage: (_, variables) =>
