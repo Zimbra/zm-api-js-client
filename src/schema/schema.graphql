@@ -1260,6 +1260,7 @@ type ContactAttributes {
 	anniversary: String
 	website: String
 	notes: String
+	thumbnailPhoto: String
 	image: ContactImage
 	userCertificate: String
 	zimbraCalResType: String
