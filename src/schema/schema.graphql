@@ -955,6 +955,7 @@ type Folder {
 	ownerZimbraId: ID
 	sharedItemId: ID
 	url: String
+	local: Boolean
 }
 
 type ACL {
