@@ -613,6 +613,7 @@ type InviteComponent {
 	uid: String
 	x_uid: String
 	aid: String
+	method: String
 }
 
 type DtTimeInfo {
@@ -1261,6 +1262,7 @@ type ContactAttributes {
 	anniversary: String
 	website: String
 	notes: String
+	thumbnailPhoto: String
 	image: ContactImage
 	userCertificate: String
 	zimbraCalResType: String
@@ -2062,6 +2064,17 @@ input FilterInput {
 
 ##### End Of FilterInput #####
 
+input ForwardAppointmentInviteInput {
+	id: ID!
+	message: ForwardMessageInput!
+}
+
+input ForwardMessageInput {
+	subject: String #su
+	mimeParts: [MimePartInput] #mp
+	emailAddresses: [MailItemEmailAddressInput] #e
+}
+
 input ShareNotificationInput {
 	item: ShareNotificationItemInput!
 	address: ShareNotificaitonEmailAddressInput!
@@ -2516,6 +2529,7 @@ type Mutation {
 	deleteSignature(signature: NameIdInput!): String
 	grantRights(input: GrantRightsInput!): GrantRightsResponse
 	folderAction(action: FolderActionInput!): Boolean
+	forwardAppointmentInvite(appointmentInvite:ForwardAppointmentInviteInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
 	logout: Boolean
