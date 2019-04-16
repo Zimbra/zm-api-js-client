@@ -331,6 +331,16 @@ Folder.addMapping({
 });
 export { Folder };
 
+const ForwardMessageInput = new Entity({
+	e: ['emailAddresses', MailItemEmailAddress],
+	mp: ['mimeParts', MimePart],
+	su: 'subject'
+});
+
+export const ForwardAppointmentInviteInfo = new Entity({
+	m: ['message', ForwardMessageInput]
+});
+
 export const FreeBusyInstance = new Entity({
 	s: 'start',
 	e: 'end'
