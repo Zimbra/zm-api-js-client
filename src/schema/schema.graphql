@@ -1174,6 +1174,7 @@ type Preferences {
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
+	zimbraPrefAppleIcalDelegationEnabled: Boolean
 }
 
 type NameId {
@@ -1870,6 +1871,7 @@ input PreferencesInput {
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
+	zimbraPrefAppleIcalDelegationEnabled: Boolean
 }
 
 input ModifyIdentityInput {
