@@ -1060,6 +1060,9 @@ type AccountInfoAttrs {
 	zimbraFeatureResetPasswordEnabled: Boolean
 	zimbraFeatureWebClientOfflineAccessEnabled: Boolean
 	zimbraMailBlacklistMaxNumEntries: Int
+	zimbraPublicSharingEnabled: Boolean
+	zimbraFeatureGalEnabled: Boolean
+	zimbraFeatureGalAutoCompleteEnabled: Boolean
 	zimbraFeatureOutOfOfficeReplyEnabled: Boolean
 	zimbraFeatureFiltersEnabled: Boolean
 }
@@ -1174,6 +1177,7 @@ type Preferences {
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
+	zimbraPrefAppleIcalDelegationEnabled: Boolean
 }
 
 type NameId {
@@ -1870,6 +1874,7 @@ input PreferencesInput {
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
+	zimbraPrefAppleIcalDelegationEnabled: Boolean
 }
 
 input ModifyIdentityInput {
