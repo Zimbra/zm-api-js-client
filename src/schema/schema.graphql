@@ -613,6 +613,7 @@ type InviteComponent {
 	uid: String
 	x_uid: String
 	aid: String
+	method: String
 }
 
 type DtTimeInfo {
@@ -1060,6 +1061,9 @@ type AccountInfoAttrs {
 	zimbraFeatureWebClientOfflineAccessEnabled: Boolean
 	zimbraMailBlacklistMaxNumEntries: Int
 	zimbraShowClientTOS: Boolean
+	zimbraPublicSharingEnabled: Boolean
+	zimbraFeatureGalEnabled: Boolean
+	zimbraFeatureGalAutoCompleteEnabled: Boolean
 	zimbraFeatureOutOfOfficeReplyEnabled: Boolean
 	zimbraFeatureFiltersEnabled: Boolean
 }
@@ -1175,6 +1179,7 @@ type Preferences {
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
+	zimbraPrefAppleIcalDelegationEnabled: Boolean
 }
 
 type NameId {
@@ -1262,6 +1267,7 @@ type ContactAttributes {
 	anniversary: String
 	website: String
 	notes: String
+	thumbnailPhoto: String
 	image: ContactImage
 	userCertificate: String
 	zimbraCalResType: String
@@ -1870,6 +1876,8 @@ input PreferencesInput {
 	zimbraPrefShowFragments: Boolean
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
+	zimbraPrefLocale: String
+	zimbraPrefAppleIcalDelegationEnabled: Boolean
 }
 
 input ModifyIdentityInput {
@@ -2061,6 +2069,17 @@ input FilterInput {
 }
 
 ##### End Of FilterInput #####
+
+input ForwardAppointmentInviteInput {
+	id: ID!
+	message: ForwardMessageInput!
+}
+
+input ForwardMessageInput {
+	subject: String #su
+	mimeParts: [MimePartInput] #mp
+	emailAddresses: [MailItemEmailAddressInput] #e
+}
 
 input ShareNotificationInput {
 	item: ShareNotificationItemInput!
@@ -2305,6 +2324,12 @@ type AccountACEInfo {
 	checkGrantee: Boolean
 }
 
+type Locale {
+	id: ID
+	name: String
+	localName: String
+}
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2342,6 +2367,7 @@ type Query {
 		offset: Int!,
 		types: SearchType
 	): SearchResponse
+	getAvailableLocales: [Locale]
 	getContactFrequency(
 		email: String!
 		by: String!
@@ -2509,6 +2535,7 @@ type Mutation {
 	deleteSignature(signature: NameIdInput!): String
 	grantRights(input: GrantRightsInput!): GrantRightsResponse
 	folderAction(action: FolderActionInput!): Boolean
+	forwardAppointmentInvite(appointmentInvite:ForwardAppointmentInviteInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
 	logout: Boolean

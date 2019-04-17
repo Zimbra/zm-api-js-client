@@ -14,6 +14,7 @@ import {
 	FolderActionChangeColorInput,
 	FolderActionCheckCalendarInput,
 	FolderView,
+	ForwardAppointmentInviteInput,
 	GetRightsInput,
 	GrantRightsInput,
 	InviteReplyInput,
@@ -104,6 +105,7 @@ export function createZimbraSchema(
 					client.getFolder(variables as GetFolderOptions),
 				getAppointments: (_: any, variables) =>
 					client.search(variables as SearchOptions),
+				getAvailableLocales: (_: any) => client.getAvailableLocales(),
 				getMailboxMetadata: (_: any, variables) =>
 					client.getMailboxMetadata(variables as GetMailboxMetadataOptions),
 				getMessage: (_, variables) =>
@@ -250,6 +252,10 @@ export function createZimbraSchema(
 				changeFolderColor: (_, variables) =>
 					client.changeFolderColor(variables as FolderActionChangeColorInput),
 				folderAction: (_, { action }) => client.folderAction(action),
+				forwardAppointmentInvite: (_, { appointmentInvite }) =>
+					client.forwardAppointmentInvite(
+						appointmentInvite as ForwardAppointmentInviteInput
+					),
 				grantRights: (_, variables) =>
 					client.grantRights(variables.input as GrantRightsInput),
 				sendShareNotification: (_, { shareNotification }) =>

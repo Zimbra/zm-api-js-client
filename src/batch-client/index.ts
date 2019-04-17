@@ -24,6 +24,7 @@ import {
 	DiscoverRightsResponse,
 	Filter,
 	Folder,
+	ForwardAppointmentInviteInfo,
 	FreeBusy,
 	FreeBusyInstance,
 	GetFolderRequest as GetFolderRequestEntity,
@@ -59,6 +60,7 @@ import {
 	FolderActionChangeColorInput,
 	FolderActionCheckCalendarInput,
 	FolderView,
+	ForwardAppointmentInviteInput,
 	GetRightsInput,
 	GrantRightsInput,
 	InviteReplyInput,
@@ -417,19 +419,25 @@ export class ZimbraBatchClient {
 		}).then(Boolean);
 
 	public downloadAttachment = ({ id, part }: any) =>
-		this.download({ id, part }).then((data: any) => ({
-			id: `${data.id}_${data.part}`,
-			content: data.content
+		this.download({ id, part }).then(({ id, part, content }: any) => ({
+			id: `${id}_${part}`,
+			content
 		}));
 
 	public downloadMessage = ({ id, isSecure }: any) =>
-		this.download({ id, isSecure }).then((data: any) => ({
-			id: data.id,
-			content: data.id
+		this.download({ id, isSecure }).then(({ id, content }: any) => ({
+			id,
+			content
 		}));
 
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);
+
+	public forwardAppointmentInvite = (body: ForwardAppointmentInviteInput) =>
+		this.jsonRequest({
+			name: 'ForwardAppointmentInvite',
+			body: denormalize(ForwardAppointmentInviteInfo)(body)
+		}).then(Boolean);
 
 	public freeBusy = ({ start, end, names }: FreeBusyOptions) =>
 		this.jsonRequest({
@@ -446,6 +454,12 @@ export class ZimbraBatchClient {
 			origin: this.origin,
 			jwtToken: this.jwtToken
 		});
+
+	public getAvailableLocales = () =>
+		this.jsonRequest({
+			name: 'GetAvailableLocales',
+			namespace: Namespace.Account
+		}).then(res => res.locale);
 
 	public getContact = ({ id, ids, ...rest }: GetContactOptions) =>
 		this.jsonRequest({
