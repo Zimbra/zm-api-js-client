@@ -14,6 +14,7 @@ import {
 	FolderActionChangeColorInput,
 	FolderActionCheckCalendarInput,
 	FolderView,
+	ForwardAppointmentInviteInput,
 	GetRightsInput,
 	GrantRightsInput,
 	InviteReplyInput,
@@ -262,6 +263,10 @@ export function createZimbraSchema(
 				changeFolderColor: (_, variables) =>
 					client.changeFolderColor(variables as FolderActionChangeColorInput),
 				folderAction: (_, { action }) => client.folderAction(action),
+				forwardAppointmentInvite: (_, { appointmentInvite }) =>
+					client.forwardAppointmentInvite(
+						appointmentInvite as ForwardAppointmentInviteInput
+					),
 				grantRights: (_, variables) =>
 					client.grantRights(variables.input as GrantRightsInput),
 				sendShareNotification: (_, { shareNotification }) =>

@@ -613,6 +613,7 @@ type InviteComponent {
 	uid: String
 	x_uid: String
 	aid: String
+	method: String
 }
 
 type DtTimeInfo {
@@ -1060,6 +1061,9 @@ type AccountInfoAttrs {
 	zimbraFeatureResetPasswordEnabled: Boolean
 	zimbraFeatureWebClientOfflineAccessEnabled: Boolean
 	zimbraMailBlacklistMaxNumEntries: Int
+	zimbraPublicSharingEnabled: Boolean
+	zimbraFeatureGalEnabled: Boolean
+	zimbraFeatureGalAutoCompleteEnabled: Boolean
 	zimbraFeatureOutOfOfficeReplyEnabled: Boolean
 	zimbraFeatureFiltersEnabled: Boolean
 }
@@ -1174,6 +1178,7 @@ type Preferences {
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
+	zimbraPrefAppleIcalDelegationEnabled: Boolean
 }
 
 type NameId {
@@ -1870,6 +1875,7 @@ input PreferencesInput {
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
+	zimbraPrefAppleIcalDelegationEnabled: Boolean
 }
 
 input ModifyIdentityInput {
@@ -2061,6 +2067,17 @@ input FilterInput {
 }
 
 ##### End Of FilterInput #####
+
+input ForwardAppointmentInviteInput {
+	id: ID!
+	message: ForwardMessageInput!
+}
+
+input ForwardMessageInput {
+	subject: String #su
+	mimeParts: [MimePartInput] #mp
+	emailAddresses: [MailItemEmailAddressInput] #e
+}
 
 input ShareNotificationInput {
 	item: ShareNotificationItemInput!
@@ -2517,6 +2534,7 @@ type Mutation {
 	deleteSignature(signature: NameIdInput!): String
 	grantRights(input: GrantRightsInput!): GrantRightsResponse
 	folderAction(action: FolderActionInput!): Boolean
+	forwardAppointmentInvite(appointmentInvite:ForwardAppointmentInviteInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
 	logout: Boolean
