@@ -75,6 +75,7 @@ export function createZimbraSchema(
 	const { cache, ...clientOptions } = options;
 	const notifications = cache ? new ZimbraNotifications({ cache }) : undefined;
 	const client = new ZimbraBatchClient({
+		cache,
 		...clientOptions,
 		notificationHandler: notifications && notifications.notificationHandler
 	});

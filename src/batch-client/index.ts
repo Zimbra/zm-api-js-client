@@ -1,10 +1,11 @@
 import DataLoader from 'dataloader';
+import gql from 'graphql-tag';
 import castArray from 'lodash/castArray';
 import forEach from 'lodash/forEach';
 import get from 'lodash/get';
 import isError from 'lodash/isError';
 import mapValues from 'lodash/mapValues';
-
+import { ZimbraInMemoryCache } from '../apollo/zimbra-in-memory-cache';
 import { denormalize, normalize } from '../normalize';
 import {
 	AccountRights,
@@ -140,12 +141,14 @@ export class ZimbraBatchClient {
 	public sessionId: string = '1';
 	public soapPathname: string;
 	private batchDataLoader: DataLoader<RequestOptions, RequestBody>;
+	private cache?: ZimbraInMemoryCache;
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
 	private jwtToken?: string;
 	private notificationHandler?: NotificationHandler;
 	private userAgent?: {};
 
 	constructor(options: ZimbraClientOptions = {}) {
+		this.cache = options.cache;
 		this.userAgent = options.userAgent;
 		this.jwtToken = options.jwtToken;
 		this.origin = options.zimbraOrigin || DEFAULT_HOSTNAME;
@@ -1016,10 +1019,7 @@ export class ZimbraBatchClient {
 		}).then(response => {
 			const sessionId = get(response, 'header.context.session.id');
 			const notifications = get(response, 'header.context.notify.0');
-
-			if (sessionId) {
-				this.sessionId = sessionId;
-			}
+			this.checkAndUpdateSessionId(sessionId);
 
 			if (notifications && this.notificationHandler) {
 				this.notificationHandler(notifications);
@@ -1037,6 +1037,13 @@ export class ZimbraBatchClient {
 			});
 		});
 
+	private checkAndUpdateSessionId = (sessionId: any) => {
+		if (sessionId && (this.sessionId === '1' || this.sessionId !== sessionId)) {
+			this.writeSessionIdToCachePersist(sessionId);
+			this.sessionId = sessionId;
+		}
+	};
+
 	private dataHandler = (requests: Array<JsonRequestOptions>) =>
 		jsonRequest({
 			...requests[0],
@@ -1045,9 +1052,7 @@ export class ZimbraBatchClient {
 			const sessionId = get(response, 'header.context.session.id');
 			const notifications = get(response, 'header.context.notify.0');
 
-			if (sessionId) {
-				this.sessionId = sessionId;
-			}
+			this.checkAndUpdateSessionId(sessionId);
 
 			if (notifications && this.notificationHandler) {
 				this.notificationHandler(notifications);
@@ -1088,16 +1093,51 @@ export class ZimbraBatchClient {
 	/**
 	 * These options are included on every request.
 	 */
-	private getAdditionalRequestOptions = () => ({
-		jwtToken: this.jwtToken,
-		sessionId: this.sessionId,
-		origin: this.origin,
-		userAgent: this.userAgent
-	});
+	private getAdditionalRequestOptions = () => {
+		if (this.sessionId === '1') {
+			this.sessionId = this.readSessionIdFromCachePersist() || '1';
+		}
+		return {
+			jwtToken: this.jwtToken,
+			sessionId: this.sessionId,
+			origin: this.origin,
+			userAgent: this.userAgent
+		};
+	};
 
 	private normalizeMessage = (message: any) =>
 		normalizeMessage(message, {
 			origin: this.origin,
 			jwtToken: this.jwtToken
 		});
+
+	private readSessionIdFromCachePersist = () => {
+		const sessionIdFragment: any =
+			this.cache &&
+			this.cache.readFragment({
+				id: 'sessionId',
+				fragment: gql`
+					fragment sessionId on Session {
+						id
+					}
+				`
+			});
+		return get(sessionIdFragment, 'id');
+	};
+
+	private writeSessionIdToCachePersist = (sessionId: any) => {
+		this.cache &&
+			this.cache.writeFragment({
+				id: `sessionId`,
+				fragment: gql`
+					fragment sessionId on Session {
+						id
+					}
+				`,
+				data: {
+					id: sessionId,
+					__typename: 'Session'
+				}
+			});
+	};
 }
