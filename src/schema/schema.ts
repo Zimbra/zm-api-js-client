@@ -68,16 +68,18 @@ import {
 	WorkingHoursOptions
 } from '../batch-client/types';
 import schema from './schema.graphql';
+import { SessionHandler } from './sessionHandler';
 
 export function createZimbraSchema(
 	options: ZimbraSchemaOptions
 ): { client: ZimbraBatchClient; schema: GraphQLSchema } {
 	const { cache, ...clientOptions } = options;
 	const notifications = cache ? new ZimbraNotifications({ cache }) : undefined;
+	const sessionHandler = cache ? new SessionHandler({ cache }) : undefined;
 	const client = new ZimbraBatchClient({
-		cache,
 		...clientOptions,
-		notificationHandler: notifications && notifications.notificationHandler
+		notificationHandler: notifications && notifications.notificationHandler,
+		sessionHandler
 	});
 
 	const executableSchema = makeExecutableSchema({

@@ -1,4 +1,3 @@
-import { ZimbraInMemoryCache } from '../apollo/zimbra-in-memory-cache';
 import {
 	AccountType,
 	Cursor,
@@ -51,13 +50,22 @@ export type UserAgent = {
 	version: string;
 };
 
+export type writeSession = (sessionId: string) => void;
+
+export type readSession = () => string;
+
 export type Session = {
 	id: string;
 };
+
+export type SessionHandler = {
+	readSession: readSession;
+	writeSession: writeSession;
+};
 export interface ZimbraClientOptions {
-	cache?: ZimbraInMemoryCache;
 	jwtToken?: string;
 	notificationHandler?: NotificationHandler;
+	sessionHandler?: SessionHandler;
 	soapPathname?: string;
 	userAgent?: UserAgent;
 	zimbraOrigin?: string;
