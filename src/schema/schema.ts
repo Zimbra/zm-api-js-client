@@ -132,7 +132,15 @@ export function createZimbraSchema(
 					client.recoverAccount(variables as RecoverAccountOptions),
 				relatedContacts: (_, variables) =>
 					client.relatedContacts(variables as RelatedContactsOptions),
-				search: (_, variables) => client.search(variables as SearchOptions),
+				search: (_, variables, context = {}) => {
+					const { local } = context;
+
+					if (local) {
+						return localStoreClient.search(variables as SearchOptions);
+					}
+
+					return client.search(variables as SearchOptions);
+				},
 				searchGal: (_, variables) =>
 					client.searchGal(variables as SearchOptions),
 				shareInfo: (_, variables) =>
