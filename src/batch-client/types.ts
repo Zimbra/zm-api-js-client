@@ -50,18 +50,19 @@ export type UserAgent = {
 	version: string;
 };
 
-export type writeSession = (sessionId: string) => void;
+export type writeSessionId = (sessionId: string) => void;
 
-export type readSession = () => string;
+export type readSessionId = () => string;
 
 export type Session = {
 	id: string;
 };
 
 export type SessionHandler = {
-	readSession: readSession;
-	writeSession: writeSession;
+	readSessionId: readSessionId;
+	writeSessionId: writeSessionId;
 };
+
 export interface ZimbraClientOptions {
 	jwtToken?: string;
 	notificationHandler?: NotificationHandler;

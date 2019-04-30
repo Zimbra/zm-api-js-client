@@ -1040,7 +1040,7 @@ export class ZimbraBatchClient {
 	private checkAndUpdateSessionId = (sessionId: any) => {
 		// Need to save session id in apollo cache for user session management zimlet to stop duplication of sessions data.
 		if (sessionId && (this.sessionId === '1' || this.sessionId !== sessionId)) {
-			this.sessionHandler && this.sessionHandler.writeSession(sessionId);
+			this.sessionHandler && this.sessionHandler.writeSessionId(sessionId);
 			this.sessionId = sessionId;
 		}
 	};
@@ -1098,8 +1098,9 @@ export class ZimbraBatchClient {
 		if (this.sessionId === '1') {
 			// Need to read session id from apollo cache for user session management zimlet.
 			this.sessionId =
-				(this.sessionHandler && this.sessionHandler.readSession()) || '1';
+				(this.sessionHandler && this.sessionHandler.readSessionId()) || '1';
 		}
+
 		return {
 			jwtToken: this.jwtToken,
 			sessionId: this.sessionId,
