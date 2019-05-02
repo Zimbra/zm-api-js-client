@@ -1065,6 +1065,8 @@ type AccountInfoAttrs {
 	zimbraFeatureGalAutoCompleteEnabled: Boolean
 	zimbraFeatureOutOfOfficeReplyEnabled: Boolean
 	zimbraFeatureFiltersEnabled: Boolean
+	zimbraFeatureReadReceiptsEnabled: Boolean
+	zimbraFeatureManageZimlets: Boolean
 }
 
 type Identities {
