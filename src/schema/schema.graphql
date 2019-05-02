@@ -1180,6 +1180,8 @@ type Preferences {
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
+	zimbraPrefMailForwardingAddress: String
+	zimbraPrefMailLocalDeliveryDisabled: Boolean
 }
 
 type NameId {
@@ -1877,6 +1879,8 @@ input PreferencesInput {
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
+	zimbraPrefMailForwardingAddress: String
+	zimbraPrefMailLocalDeliveryDisabled: Boolean
 }
 
 input ModifyIdentityInput {
