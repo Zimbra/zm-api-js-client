@@ -68,7 +68,7 @@ import {
 	WorkingHoursOptions
 } from '../batch-client/types';
 import schema from './schema.graphql';
-import { SessionHandler } from './sessionHandler';
+import { SessionHandler } from './session-handler';
 
 export function createZimbraSchema(
 	options: ZimbraSchemaOptions
