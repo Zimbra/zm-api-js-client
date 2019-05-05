@@ -742,6 +742,10 @@ export interface PreferencesInput {
 	zimbraPrefLocale?: string | null;
 
 	zimbraPrefAppleIcalDelegationEnabled?: boolean | null;
+
+	zimbraPrefMailForwardingAddress?: string | null;
+
+	zimbraPrefMailLocalDeliveryDisabled?: boolean | null;
 }
 
 export interface ZimletPreferenceInput {

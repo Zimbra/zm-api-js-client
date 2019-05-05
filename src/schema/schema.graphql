@@ -1066,6 +1066,8 @@ type AccountInfoAttrs {
 	zimbraFeatureGalAutoCompleteEnabled: Boolean
 	zimbraFeatureOutOfOfficeReplyEnabled: Boolean
 	zimbraFeatureFiltersEnabled: Boolean
+	zimbraFeatureReadReceiptsEnabled: Boolean
+	zimbraFeatureManageZimlets: Boolean
 }
 
 type Identities {
@@ -1179,6 +1181,8 @@ type Preferences {
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
+	zimbraPrefMailForwardingAddress: String
+	zimbraPrefMailLocalDeliveryDisabled: Boolean
 }
 
 type NameId {
@@ -1876,6 +1880,8 @@ input PreferencesInput {
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
+	zimbraPrefMailForwardingAddress: String
+	zimbraPrefMailLocalDeliveryDisabled: Boolean
 }
 
 input ModifyIdentityInput {
