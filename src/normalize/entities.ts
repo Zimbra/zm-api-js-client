@@ -423,7 +423,7 @@ export const SearchResponse = new Entity({
 	m: ['messages', MessageInfo],
 	c: ['conversations', SearchConversation],
 	cn: ['contacts', Contact],
-	appt: ['appointments', Appointment]
+	appt: ['appointments', CalendarItemHitInfo]
 });
 
 const RedirectAction = new Entity({

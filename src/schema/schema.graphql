@@ -328,6 +328,14 @@ type Instance {
 	revision: Int # rev
 	status: InviteCompletionStatus
 }
+type Alarm {
+	alarmInstStart: Float
+	compNum: Int
+	inviteId: ID #invId
+	loc: String
+	name: String
+	nextAlarm: Float
+}
 
 type InviteReplyResponse {
 	inviteId: ID #invId
@@ -669,6 +677,7 @@ type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	freeBusy: FreeBusyStatus # fb
 	freeBusyActual: FreeBusyStatus # fba
 	id: ID!
+	alarmData: [Alarm]
 	instances: [Instance] # inst
 	invitations: [Invitation] # inv
 	inviteId: ID! #invId
