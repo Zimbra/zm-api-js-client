@@ -137,7 +137,7 @@ function normalizeMessage(
 
 export class ZimbraBatchClient {
 	public origin: string;
-	public sessionId: string = '1';
+	public sessionId: any;
 	public soapPathname: string;
 	private batchDataLoader: DataLoader<RequestOptions, RequestBody>;
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
@@ -1039,7 +1039,7 @@ export class ZimbraBatchClient {
 
 	private checkAndUpdateSessionId = (sessionId: any) => {
 		// Need to save session id in apollo cache for user session management zimlet to stop duplication of sessions data.
-		if (sessionId && (this.sessionId === '1' || this.sessionId !== sessionId)) {
+		if (sessionId && this.sessionId !== sessionId) {
 			this.sessionHandler && this.sessionHandler.writeSessionId(sessionId);
 			this.sessionId = sessionId;
 		}
@@ -1094,20 +1094,12 @@ export class ZimbraBatchClient {
 	/**
 	 * These options are included on every request.
 	 */
-	private getAdditionalRequestOptions = () => {
-		if (this.sessionId === '1') {
-			// Need to read session id from apollo cache for user session management zimlet.
-			this.sessionId =
-				(this.sessionHandler && this.sessionHandler.readSessionId()) || '1';
-		}
-
-		return {
-			jwtToken: this.jwtToken,
-			sessionId: this.sessionId,
-			origin: this.origin,
-			userAgent: this.userAgent
-		};
-	};
+	private getAdditionalRequestOptions = () => ({
+		jwtToken: this.jwtToken,
+		sessionId: this.sessionId || (this.sessionHandler && this.sessionHandler.readSessionId()),
+		origin: this.origin,
+		userAgent: this.userAgent
+	});
 
 	private normalizeMessage = (message: any) =>
 		normalizeMessage(message, {

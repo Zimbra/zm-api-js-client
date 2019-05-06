@@ -11,5 +11,4 @@ export interface ZimbraSessionOptions {
 
 export interface ZimbraSchemaOptions
 	extends ZimbraClientOptions,
-		ZimbraNotificationsOptions,
-		ZimbraSessionOptions {}
+		ZimbraNotificationsOptions {}

@@ -22,7 +22,7 @@ export class SessionHandler {
 			id: this.sessionIdKey,
 			fragment: SESSIONID_GQL_FRAGMENT
 		});
-		return get(sessionIdFragment, 'id');
+		return get(sessionIdFragment, 'id') || '1';
 	};
 
 	public writeSessionId = (sessionId: string) => {
