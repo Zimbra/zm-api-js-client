@@ -146,9 +146,7 @@ export function createZimbraSchema(
 				shareInfo: (_, variables) =>
 					client.shareInfo(variables as ShareInfoOptions),
 				taskFolders: client.taskFolders,
-				getWhiteBlackList: client.getWhiteBlackList,
-				getMailLocalFolders: (_, variables) =>
-					localStoreClient.getFolders(variables)
+				getWhiteBlackList: client.getWhiteBlackList
 			},
 			//resolveType is necessary to differentiate for any Union or Interfaces
 			MailItem: {

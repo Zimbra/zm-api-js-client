@@ -2395,7 +2395,6 @@ type Query {
 		traverseMountpoints: Boolean
 		folder: GetFolderFolderInput
 	): Folder
-	getMailLocalFolders: [Folder]
 	getMailboxMetadata(section: String): MailboxMetadata
 	getMessage(
 		id: ID!,
