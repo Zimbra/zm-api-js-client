@@ -1096,7 +1096,9 @@ export class ZimbraBatchClient {
 	 */
 	private getAdditionalRequestOptions = () => ({
 		jwtToken: this.jwtToken,
-		sessionId: this.sessionId || (this.sessionHandler && this.sessionHandler.readSessionId()),
+		sessionId:
+			this.sessionId ||
+			(this.sessionHandler && this.sessionHandler.readSessionId()),
 		origin: this.origin,
 		userAgent: this.userAgent
 	});
