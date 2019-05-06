@@ -328,11 +328,12 @@ type Instance {
 	revision: Int # rev
 	status: InviteCompletionStatus
 }
+
 type Alarm {
 	alarmInstStart: Float
-	compNum: Int
+	componentNum: Int # compNum
 	inviteId: ID #invId
-	loc: String
+	location: String # loc
 	name: String
 	nextAlarm: Float
 }

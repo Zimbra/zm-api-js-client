@@ -300,6 +300,12 @@ const Instance = new Entity({
 	ex: 'isException'
 });
 
+const Alarm = new Entity({
+	compNum: 'componentNum',
+	invId: 'inviteId',
+	loc: 'location'
+});
+
 export const CalendarItemHitInfo = new Entity({
 	...commonMessageFields,
 	...commonInviteFields,
@@ -309,6 +315,7 @@ export const CalendarItemHitInfo = new Entity({
 	tzo: 'timezoneOffset',
 	inst: ['instances', Instance],
 	inv: ['invitations', Invitation],
+	alarmData: ['alarmData', Alarm],
 	sf: 'sortField'
 });
 
