@@ -559,7 +559,13 @@ export class ZimbraBatchClient {
 					...(ridZ && { ridZ: ridZ })
 				}
 			}
-		}).then(res => (res && res.m ? this.normalizeMessage(res.m[0]) : null));
+		}).then(res => {
+			console.log('$$$$$ get message server');
+			console.log(res.m[0]);
+			const normalisedMessage = res && res.m && this.normalizeMessage(res.m[0]);
+			console.log(normalisedMessage);
+			return normalisedMessage || null;
+		});
 
 	public getProfileImageUrl = (profileImageId: any) =>
 		getProfileImageUrl(profileImageId, {
