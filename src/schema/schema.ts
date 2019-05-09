@@ -211,8 +211,16 @@ export function createZimbraSchema(
 					client.contactAction(variables as ActionOptions),
 				conversationAction: (_, variables) =>
 					client.conversationAction(variables as ActionOptions),
-				createFolder: (_, variables) =>
-					client.createFolder(variables as CreateFolderOptions),
+				createFolder: (_, variables, context) => {
+					const { local } = context;
+
+					if (local) {
+						return localStoreClient.createFolder(
+							variables as CreateFolderOptions
+						);
+					}
+					return client.createFolder(variables as CreateFolderOptions);
+				},
 				createSearchFolder: (_, variables) =>
 					client.createSearchFolder(variables as CreateSearchFolderOptions),
 				createContact: (_, { contact }) =>
