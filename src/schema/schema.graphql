@@ -1109,6 +1109,7 @@ type AccountInfoAttrs {
 	zimbraFeatureManageZimlets: Boolean
 	zimbraFeatureTwoFactorAuthAvailable: Boolean
 	zimbraTwoFactorAuthEnabled: Boolean
+	zimbraFeatureResetPasswordStatus: String
 }
 
 type Identities {
