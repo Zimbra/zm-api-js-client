@@ -190,8 +190,14 @@ export function createZimbraSchema(
 						}))
 			},
 			Mutation: {
-				action: (_, variables) => {
+				action: (_, variables, context) => {
 					const { type, ...rest } = variables;
+					const { local } = context;
+
+					if (local && type === 'FolderAction') {
+						return localStoreClient.action(rest as ActionOptions);
+					}
+
 					return client.action(type, rest as ActionOptions);
 				},
 				addMessage: (_, variables) =>
