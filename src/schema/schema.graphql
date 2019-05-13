@@ -1071,6 +1071,7 @@ type AccountInfoAttrs {
 	zimbraFeatureWebClientOfflineAccessEnabled: Boolean
 	zimbraMailBlacklistMaxNumEntries: Int
 	zimbraPublicSharingEnabled: Boolean
+	zimbraExternalSharingEnabled: Boolean
 	zimbraFeatureGalEnabled: Boolean
 	zimbraFeatureGalAutoCompleteEnabled: Boolean
 	zimbraFeatureOutOfOfficeReplyEnabled: Boolean
