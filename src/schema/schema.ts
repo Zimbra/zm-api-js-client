@@ -117,8 +117,14 @@ export function createZimbraSchema(
 				getAvailableLocales: (_: any) => client.getAvailableLocales(),
 				getMailboxMetadata: (_: any, variables) =>
 					client.getMailboxMetadata(variables as GetMailboxMetadataOptions),
-				getMessage: (_, variables) =>
-					client.getMessage(variables as GetMessageOptions),
+				getMessage: (_, variables, context = {}) => {
+					const { local } = context;
+
+					if (local) {
+						return localStoreClient.getMessage(variables as GetMessageOptions);
+					}
+					return client.getMessage(variables as GetMessageOptions);
+				},	
 				getRights: (_, variables) =>
 					client.getRights(variables as GetRightsInput),
 				getSearchFolder: client.getSearchFolder,
