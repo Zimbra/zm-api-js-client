@@ -124,7 +124,7 @@ export function createZimbraSchema(
 						return localStoreClient.getMessage(variables as GetMessageOptions);
 					}
 					return client.getMessage(variables as GetMessageOptions);
-				},	
+				},
 				getRights: (_, variables) =>
 					client.getRights(variables as GetRightsInput),
 				getSearchFolder: client.getSearchFolder,
