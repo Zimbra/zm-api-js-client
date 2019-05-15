@@ -220,7 +220,8 @@ export const SendMessageInfo = new Entity({
 });
 
 export const MessageInfo = new Entity({
-	...commonMailItemFields
+	...commonMailItemFields,
+	autoSendTime: 'autoSendTime'
 });
 
 export const Conversation = new Entity({
