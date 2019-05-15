@@ -67,14 +67,6 @@ jobs:
           name: Lint typescript source code
           command: npm run lint
 
-  eslint:
-    <<: *config
-    steps:
-      - *attach-workspace
-      - run:
-          name: Lint javascript source code
-          command: npm run eslint
-
   validate-package-lock:
     <<: *config
     steps:
@@ -117,10 +109,6 @@ workflows:
       - security-audit
 
       - validate-package-lock:
-          requires:
-            - build
-
-      - eslint:
           requires:
             - build
 
