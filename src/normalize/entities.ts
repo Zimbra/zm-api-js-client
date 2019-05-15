@@ -210,7 +210,6 @@ const SendMessageFields = new Entity({
 	aid: 'attachmentId',
 	irt: 'inReplyTo',
 	rt: 'replyType',
-	autoSendTime: 'autoSendTime',
 	did: 'draftId',
 	idnt: 'entityId'
 });
@@ -220,8 +219,7 @@ export const SendMessageInfo = new Entity({
 });
 
 export const MessageInfo = new Entity({
-	...commonMailItemFields,
-	autoSendTime: 'autoSendTime'
+	...commonMailItemFields
 });
 
 export const Conversation = new Entity({
