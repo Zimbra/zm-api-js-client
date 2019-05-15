@@ -106,7 +106,7 @@ export function createZimbraSchema(
 				getFolder: (_: any, variables, context = {}) => {
 					const { local } = context;
 
-					if (localStoreClient && local) {
+					if (local) {
 						return localStoreClient.getFolder(variables as GetFolderOptions);
 					}
 
