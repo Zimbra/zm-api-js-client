@@ -5,6 +5,10 @@ export interface ZimbraNotificationsOptions {
 	cache: ZimbraInMemoryCache;
 }
 
+export interface ZimbraSessionOptions {
+	cache: ZimbraInMemoryCache;
+}
+
 export interface ZimbraSchemaOptions
 	extends ZimbraClientOptions,
 		ZimbraNotificationsOptions {}
