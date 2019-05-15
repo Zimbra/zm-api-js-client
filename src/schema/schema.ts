@@ -198,7 +198,10 @@ export function createZimbraSchema(
 			Mutation: {
 				action: (_, { type, ...rest }, context = {}) => {
 					const { local } = context;
-					return local ? localStoreClient.action(type, rest as ActionOptions) : client.action(type, rest as ActionOptions);
+
+					return local
+						? localStoreClient.action(type, rest as ActionOptions)
+						: client.action(type, rest as ActionOptions);
 				},
 				addMessage: (_, variables) =>
 					client.addMessage(variables as AddMsgInput),
