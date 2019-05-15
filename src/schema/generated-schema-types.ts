@@ -586,6 +586,20 @@ export interface GrantInput {
 	zimbraId?: string | null;
 }
 
+export interface ForwardAppointmentInviteInput {
+	id: string;
+
+	message: ForwardMessageInput;
+}
+
+export interface ForwardMessageInput {
+	subject?: string | null;
+
+	mimeParts?: (MimePartInput | null)[] | null;
+
+	emailAddresses?: (MailItemEmailAddressInput | null)[] | null;
+}
+
 export interface ExternalAccountImportInput {
 	accountType?: AccountType | null;
 
@@ -726,6 +740,12 @@ export interface PreferencesInput {
 	zimbraPrefTimeZoneId?: string | null;
 
 	zimbraPrefLocale?: string | null;
+
+	zimbraPrefAppleIcalDelegationEnabled?: boolean | null;
+
+	zimbraPrefMailForwardingAddress?: string | null;
+
+	zimbraPrefMailLocalDeliveryDisabled?: boolean | null;
 }
 
 export interface ZimletPreferenceInput {

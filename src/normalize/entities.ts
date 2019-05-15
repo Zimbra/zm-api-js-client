@@ -300,6 +300,12 @@ const Instance = new Entity({
 	ex: 'isException'
 });
 
+const Alarm = new Entity({
+	compNum: 'componentNum',
+	invId: 'inviteId',
+	loc: 'location'
+});
+
 export const CalendarItemHitInfo = new Entity({
 	...commonMessageFields,
 	...commonInviteFields,
@@ -309,6 +315,7 @@ export const CalendarItemHitInfo = new Entity({
 	tzo: 'timezoneOffset',
 	inst: ['instances', Instance],
 	inv: ['invitations', Invitation],
+	alarmData: ['alarmData', Alarm],
 	sf: 'sortField'
 });
 
@@ -330,6 +337,16 @@ Folder.addMapping({
 	link: ['linkedFolders', Folder]
 });
 export { Folder };
+
+const ForwardMessageInput = new Entity({
+	e: ['emailAddresses', MailItemEmailAddress],
+	mp: ['mimeParts', MimePart],
+	su: 'subject'
+});
+
+export const ForwardAppointmentInviteInfo = new Entity({
+	m: ['message', ForwardMessageInput]
+});
 
 export const FreeBusyInstance = new Entity({
 	s: 'start',
@@ -413,7 +430,7 @@ export const SearchResponse = new Entity({
 	m: ['messages', MessageInfo],
 	c: ['conversations', SearchConversation],
 	cn: ['contacts', Contact],
-	appt: ['appointments', Appointment]
+	appt: ['appointments', CalendarItemHitInfo]
 });
 
 const RedirectAction = new Entity({
