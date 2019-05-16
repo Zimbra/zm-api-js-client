@@ -792,7 +792,7 @@ export class ZimbraBatchClient {
 			name: 'ModifySignature',
 			namespace: Namespace.Account,
 			body: denormalize(CreateSignatureRequest)(options)
-		});
+		}).then(Boolean);
 
 	public modifyTask = (task: CalendarItemInput) =>
 		this.jsonRequest({

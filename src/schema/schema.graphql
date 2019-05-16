@@ -2574,7 +2574,7 @@ type Mutation {
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyZimletPrefs(zimlets: [ZimletPreferenceInput!]): ModifyZimletPrefsResponse
 	modifyFilterRules(filters: [FilterInput!]): Boolean
-	modifySignature(signature: SignatureInput!): String
+	modifySignature(signature: SignatureInput!): Boolean
 	modifySearchFolder(search: SearchFolderInput!): Boolean
 	modifyTask(task: CalendarItemInput!): Boolean
 	modifyWhiteBlackList(whiteBlackList: WhiteBlackListInput!): Boolean
