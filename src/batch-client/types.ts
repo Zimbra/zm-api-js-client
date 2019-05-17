@@ -184,6 +184,7 @@ export interface LoginOptions {
 	persistAuthTokenCookie?: boolean;
 	recoveryCode?: string;
 	tokenType?: string;
+	twoFactorCode?: string;
 	username: string;
 }
 
