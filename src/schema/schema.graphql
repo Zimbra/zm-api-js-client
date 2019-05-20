@@ -2615,7 +2615,8 @@ type Mutation {
 		recoveryCode: String,
 		tokenType: String,
 		persistAuthTokenCookie: Boolean,
-		twoFactorCode: String
+		twoFactorCode: String,
+		deviceTrusted: Boolean
 	): AuthResponse
 	messageAction(
 		ids: [ID!]!
