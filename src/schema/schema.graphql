@@ -288,7 +288,7 @@ type AuthToken {
 }
 
 type TwoFactorAuthRequired {
-	_content: String
+	_content: Boolean
 }
 
 type Session {

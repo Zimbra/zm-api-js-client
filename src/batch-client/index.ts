@@ -668,7 +668,7 @@ export class ZimbraBatchClient {
 				...(twoFactorCode && { twoFactorCode })
 			},
 			namespace: Namespace.Account
-		});
+		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
 
 	public logout = () =>
 		this.jsonRequest({
