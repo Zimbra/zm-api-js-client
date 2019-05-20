@@ -180,7 +180,7 @@ export interface ModifyProfileImageOptions {
 }
 
 export interface LoginOptions {
-	deviceTrusted?:boolean;
+	deviceTrusted?: boolean;
 	password: string;
 	persistAuthTokenCookie?: boolean;
 	recoveryCode?: string;
