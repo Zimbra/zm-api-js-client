@@ -95,6 +95,7 @@ import {
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
+	EnableTwoFactorAuthOptions,
 	ExternalAccountDeleteInput,
 	ExternalAccountModifyInput,
 	FreeBusyOptions,
@@ -431,6 +432,27 @@ export class ZimbraBatchClient {
 			id,
 			content
 		}));
+
+	public enableTwoFactorAuth = ({
+		name,
+		password,
+		authToken,
+		twoFactorCode
+	}: EnableTwoFactorAuthOptions) =>
+		this.jsonRequest({
+			name: 'EnableTwoFactorAuth',
+			body: {
+				name: {
+					_content: name
+				},
+				password: {
+					_content: password
+				},
+				authToken: authToken,
+				twoFactorCode: twoFactorCode
+			},
+			namespace: Namespace.Account
+		}).then(res => console.log(res));
 
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);

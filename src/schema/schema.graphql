@@ -278,8 +278,34 @@ type AuthResponse {
 	skin: [Skin]
 }
 
+type ScratchCode{
+	ScratchCode: String
+}
+
+type TwoFactorAuthResponse {
+	secret: [Secret]
+	scratchCodes: [ScratchCode]
+	authToken: [TwoFactorAuthToken]
+}
+
 type ProfileImageChangeResponse {
 	itemId: ID
+}
+
+type TwoFactorAuthToken {
+	_content: String,
+	verifyAccount: Boolean,
+	lifetime: Int
+}
+
+input TwoFactorAuthTokenInput {
+	_content: String,
+	verifyAccount: Boolean,
+	lifetime: Int
+}
+
+type Secret {
+	_content: String
 }
 
 type AuthToken {
@@ -2561,6 +2587,12 @@ type Mutation {
 		tokenType: String,
 		persistAuthTokenCookie: Boolean
 	): AuthResponse
+	enableTwoFactorAuth(
+		name: String!,
+		password: String,
+		authToken: TwoFactorAuthTokenInput,
+		twoFactorCode: String
+	) : TwoFactorAuthResponse
 	messageAction(
 		ids: [ID!]!
 		op: String!

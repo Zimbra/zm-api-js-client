@@ -606,6 +606,14 @@ export interface ExternalAccountImportInput {
 	id: string;
 }
 
+export interface TwoFactorAuthTokenInput {
+	_content?: string | null;
+
+	verifyAccount?: boolean | null;
+
+	lifetime?: number | null;
+}
+
 export interface ExternalAccountModifyAttrsInput {
 	id?: string | null;
 
