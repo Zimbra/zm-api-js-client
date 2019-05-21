@@ -1079,6 +1079,7 @@ type AccountInfoAttrs {
 	zimbraFeatureFiltersEnabled: Boolean
 	zimbraFeatureReadReceiptsEnabled: Boolean
 	zimbraFeatureManageZimlets: Boolean
+	zimbraFeatureSMIMEEnabled: Boolean
 }
 
 type Identities {
