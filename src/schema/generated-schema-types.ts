@@ -606,6 +606,16 @@ export interface ExternalAccountImportInput {
 	id: string;
 }
 
+export interface EnableTwoFactorAuthInput {
+	authToken?: TwoFactorAuthTokenInput | null;
+
+	name?: string | null;
+
+	password?: string | null;
+
+	twoFactorCode?: string | null;
+}
+
 export interface TwoFactorAuthTokenInput {
 	_content?: string | null;
 

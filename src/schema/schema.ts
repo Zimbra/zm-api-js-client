@@ -7,6 +7,7 @@ import {
 	CreateContactInput,
 	CreateMountpointInput,
 	DeleteAppointmentInput,
+	EnableTwoFactorAuthInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
@@ -47,7 +48,6 @@ import {
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
-	EnableTwoFactorAuthOptions,
 	ExternalAccountDeleteInput,
 	ExternalAccountModifyInput,
 	FreeBusyOptions,
@@ -189,7 +189,7 @@ export function createZimbraSchema(
 				login: (_, variables) => client.login(variables as LoginOptions),
 				logout: client.logout,
 				enableTwoFactorAuth: (_, variables) =>
-					client.enableTwoFactorAuth(variables as EnableTwoFactorAuthOptions),
+					client.enableTwoFactorAuth(variables as EnableTwoFactorAuthInput),
 				messageAction: (_, variables) =>
 					client.messageAction(variables as ActionOptions),
 				changePassword: (_, variables) =>

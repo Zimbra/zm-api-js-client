@@ -2203,6 +2203,12 @@ input ExternalAccountModifyAttrsInput {
 	port: String
 	smtpPort: String
 }
+input EnableTwoFactorAuthInput {
+	authToken: TwoFactorAuthTokenInput
+	name: String
+	password: String
+	twoFactorCode: String
+}
 
 input ExternalAccountImportInput {
 	accountType: AccountType
@@ -2588,10 +2594,7 @@ type Mutation {
 		persistAuthTokenCookie: Boolean
 	): AuthResponse
 	enableTwoFactorAuth(
-		name: String!,
-		password: String,
-		authToken: TwoFactorAuthTokenInput,
-		twoFactorCode: String
+		options:EnableTwoFactorAuthInput
 	) : TwoFactorAuthResponse
 	messageAction(
 		ids: [ID!]!

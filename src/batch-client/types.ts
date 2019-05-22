@@ -6,8 +6,7 @@ import {
 	Grantee,
 	Owner,
 	SearchType,
-	SortBy,
-	TwoFactorAuthTokenInput
+	SortBy
 } from '../schema/generated-schema-types';
 
 export enum GalSearchType {
@@ -186,13 +185,6 @@ export interface LoginOptions {
 	recoveryCode?: string;
 	tokenType?: string;
 	username: string;
-}
-
-export interface EnableTwoFactorAuthOptions {
-	authToken: TwoFactorAuthTokenInput;
-	name: string;
-	password: string;
-	twoFactorCode: string;
 }
 
 export interface ActionOptions {
