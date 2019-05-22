@@ -609,7 +609,7 @@ export interface ExternalAccountImportInput {
 export interface EnableTwoFactorAuthInput {
 	authToken?: TwoFactorAuthTokenInput | null;
 
-	name?: string | null;
+	name: string;
 
 	password?: string | null;
 

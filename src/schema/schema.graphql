@@ -282,7 +282,7 @@ type ScratchCode{
 	ScratchCode: String
 }
 
-type TwoFactorAuthResponse {
+type EnableTwoFactorAuthResponse {
 	secret: [Secret]
 	scratchCodes: [ScratchCode]
 	authToken: [TwoFactorAuthToken]
@@ -2205,7 +2205,7 @@ input ExternalAccountModifyAttrsInput {
 }
 input EnableTwoFactorAuthInput {
 	authToken: TwoFactorAuthTokenInput
-	name: String
+	name: String!
 	password: String
 	twoFactorCode: String
 }
@@ -2593,9 +2593,7 @@ type Mutation {
 		tokenType: String,
 		persistAuthTokenCookie: Boolean
 	): AuthResponse
-	enableTwoFactorAuth(
-		options:EnableTwoFactorAuthInput
-	) : TwoFactorAuthResponse
+	enableTwoFactorAuth( options: EnableTwoFactorAuthInput! ) : EnableTwoFactorAuthResponse
 	messageAction(
 		ids: [ID!]!
 		op: String!
