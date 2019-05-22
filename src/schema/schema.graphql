@@ -1115,6 +1115,7 @@ type AccountInfoAttrs {
 	zimbraFeatureFiltersEnabled: Boolean
 	zimbraFeatureReadReceiptsEnabled: Boolean
 	zimbraFeatureManageZimlets: Boolean
+	zimbraFeatureTwoFactorAuthAvailable: Boolean
 }
 
 type Identities {
