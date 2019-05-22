@@ -443,8 +443,11 @@ export class ZimbraBatchClient {
 				password: {
 					_content: options.password
 				},
-				authToken: options.authToken,
 				twoFactorCode: options.twoFactorCode
+					? {
+							_content: options.twoFactorCode
+					  }
+					: null
 			},
 			namespace: Namespace.Account
 		}).then(res => res);

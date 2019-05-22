@@ -607,7 +607,7 @@ export interface ExternalAccountImportInput {
 }
 
 export interface EnableTwoFactorAuthInput {
-	authToken?: TwoFactorAuthTokenInput | null;
+	authToken?: (TwoFactorAuthTokenInput | null)[] | null;
 
 	name: string;
 

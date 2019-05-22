@@ -2204,7 +2204,7 @@ input ExternalAccountModifyAttrsInput {
 	smtpPort: String
 }
 input EnableTwoFactorAuthInput {
-	authToken: TwoFactorAuthTokenInput
+	authToken: [TwoFactorAuthTokenInput]
 	name: String!
 	password: String
 	twoFactorCode: String
