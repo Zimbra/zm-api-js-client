@@ -447,7 +447,7 @@ export class ZimbraBatchClient {
 				twoFactorCode: options.twoFactorCode
 			},
 			namespace: Namespace.Account
-		}).then(res => console.log(res));
+		}).then(res => res);
 
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);
