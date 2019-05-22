@@ -393,7 +393,7 @@ export class ZimbraBatchClient {
 			name: 'DeleteSignature',
 			namespace: Namespace.Account,
 			body: options
-		});
+		}).then(Boolean);
 
 	public discoverRights = () =>
 		this.jsonRequest({
