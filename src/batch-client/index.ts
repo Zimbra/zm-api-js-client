@@ -647,7 +647,8 @@ export class ZimbraBatchClient {
 		recoveryCode,
 		tokenType,
 		persistAuthTokenCookie = true,
-		twoFactorCode
+		twoFactorCode,
+		deviceTrusted
 	}: LoginOptions) =>
 		this.jsonRequest({
 			name: 'Auth',
@@ -665,7 +666,8 @@ export class ZimbraBatchClient {
 						_content: recoveryCode
 					}
 				}),
-				...(twoFactorCode && { twoFactorCode })
+				...(twoFactorCode && { twoFactorCode }),
+				...(deviceTrusted && { deviceTrusted })
 			},
 			namespace: Namespace.Account
 		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
