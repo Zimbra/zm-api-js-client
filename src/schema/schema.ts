@@ -196,9 +196,12 @@ export function createZimbraSchema(
 						}))
 			},
 			Mutation: {
-				action: (_, variables) => {
-					const { type, ...rest } = variables;
-					return client.action(type, rest as ActionOptions);
+				action: (_, { type, ...rest }, context = {}) => {
+					const { local } = context;
+
+					return local
+						? localStoreClient.action(type, rest as ActionOptions)
+						: client.action(type, rest as ActionOptions);
 				},
 				addMessage: (_, variables) =>
 					client.addMessage(variables as AddMsgInput),
@@ -217,8 +220,16 @@ export function createZimbraSchema(
 					client.contactAction(variables as ActionOptions),
 				conversationAction: (_, variables) =>
 					client.conversationAction(variables as ActionOptions),
-				createFolder: (_, variables) =>
-					client.createFolder(variables as CreateFolderOptions),
+				createFolder: (_, variables, context) => {
+					const { local } = context;
+
+					if (local) {
+						return localStoreClient.createFolder(
+							variables as CreateFolderOptions
+						);
+					}
+					return client.createFolder(variables as CreateFolderOptions);
+				},
 				createSearchFolder: (_, variables) =>
 					client.createSearchFolder(variables as CreateSearchFolderOptions),
 				createContact: (_, { contact }) =>
