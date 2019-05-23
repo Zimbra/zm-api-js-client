@@ -441,9 +441,19 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'EnableTwoFactorAuth',
 			body: {
-				name: name,
-				...(password && { password }),
-				...(twoFactorCode && { twoFactorCode })
+				name: {
+					_content: name
+				},
+				password: password
+					? {
+							_content: password
+					  }
+					: null,
+				twoFactorCode: twoFactorCode
+					? {
+							_content: twoFactorCode
+					  }
+					: null
 			},
 			namespace: Namespace.Account
 		});
