@@ -436,6 +436,7 @@ export class ZimbraBatchClient {
 	public enableTwoFactorAuth = ({
 		name,
 		password,
+		authToken,
 		twoFactorCode
 	}: EnableTwoFactorAuthInput) =>
 		this.jsonRequest({
@@ -449,6 +450,7 @@ export class ZimbraBatchClient {
 							_content: password
 					  }
 					: null,
+				authToken: authToken,
 				twoFactorCode: twoFactorCode
 					? {
 							_content: twoFactorCode

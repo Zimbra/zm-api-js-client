@@ -280,13 +280,18 @@ type AuthResponse {
 	skin: [Skin]
 }
 
+type ScratchCodeType {
+	_content: String
+}
+
 type ScratchCode {
-	scratchCode: String
+	scratchCode: [ScratchCodeType]
 }
 
 type EnableTwoFactorAuthResponse {
 	secret: [Secret]
 	scratchCodes: [ScratchCode]
+	authToken: [AuthToken]
 }
 
 type ProfileImageChangeResponse {
@@ -298,6 +303,10 @@ type Secret {
 }
 
 type AuthToken {
+	_content: String
+}
+
+input AuthTokenInput {
 	_content: String
 }
 
@@ -2256,6 +2265,7 @@ input EnableTwoFactorAuthInput {
 	name: String!
 	password: String
 	twoFactorCode: String
+	authToken: AuthTokenInput
 }
 
 input ExternalAccountImportInput {

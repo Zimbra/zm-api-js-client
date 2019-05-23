@@ -660,6 +660,12 @@ export interface EnableTwoFactorAuthInput {
 	password?: string | null;
 
 	twoFactorCode?: string | null;
+
+	authToken?: AuthTokenInput | null;
+}
+
+export interface AuthTokenInput {
+	_content?: string | null;
 }
 
 export interface ExternalAccountModifyAttrsInput {
