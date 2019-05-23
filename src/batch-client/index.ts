@@ -433,27 +433,20 @@ export class ZimbraBatchClient {
 			content
 		}));
 
-	public enableTwoFactorAuth = (options: EnableTwoFactorAuthInput) =>
+	public enableTwoFactorAuth = ({
+		name,
+		password,
+		twoFactorCode
+	}: EnableTwoFactorAuthInput) =>
 		this.jsonRequest({
 			name: 'EnableTwoFactorAuth',
 			body: {
-				name: {
-					_content: options.name
-				},
-				password: options.password
-					? {
-							_content: options.password
-					  }
-					: null,
-				authToken: options.authToken,
-				twoFactorCode: options.twoFactorCode
-					? {
-							_content: options.twoFactorCode
-					  }
-					: null
+				name: name,
+				...(password && { password }),
+				...(twoFactorCode && { twoFactorCode })
 			},
 			namespace: Namespace.Account
-		}).then(res => res);
+		});
 
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);

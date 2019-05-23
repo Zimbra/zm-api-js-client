@@ -280,30 +280,17 @@ type AuthResponse {
 	skin: [Skin]
 }
 
-type ScratchCode{
-	ScratchCode: String
+type ScratchCode {
+	scratchCode: String
 }
 
 type EnableTwoFactorAuthResponse {
 	secret: [Secret]
 	scratchCodes: [ScratchCode]
-	authToken: [TwoFactorAuthToken]
 }
 
 type ProfileImageChangeResponse {
 	itemId: ID
-}
-
-type TwoFactorAuthToken {
-	_content: String,
-	verifyAccount: Boolean,
-	lifetime: Int
-}
-
-input TwoFactorAuthTokenInput {
-	_content: String,
-	verifyAccount: Boolean,
-	lifetime: Int
 }
 
 type Secret {
@@ -2266,7 +2253,6 @@ input ExternalAccountModifyAttrsInput {
 	smtpPort: String
 }
 input EnableTwoFactorAuthInput {
-	authToken: [TwoFactorAuthTokenInput]
 	name: String!
 	password: String
 	twoFactorCode: String
@@ -2657,7 +2643,7 @@ type Mutation {
 		twoFactorCode: String,
 		deviceTrusted: Boolean
 	): AuthResponse
-	enableTwoFactorAuth( options: EnableTwoFactorAuthInput! ) : EnableTwoFactorAuthResponse
+	enableTwoFactorAuth(options: EnableTwoFactorAuthInput!): EnableTwoFactorAuthResponse
 	messageAction(
 		ids: [ID!]!
 		op: String!

@@ -655,21 +655,11 @@ export interface ExternalAccountImportInput {
 }
 
 export interface EnableTwoFactorAuthInput {
-	authToken?: (TwoFactorAuthTokenInput | null)[] | null;
-
 	name: string;
 
 	password?: string | null;
 
 	twoFactorCode?: string | null;
-}
-
-export interface TwoFactorAuthTokenInput {
-	_content?: string | null;
-
-	verifyAccount?: boolean | null;
-
-	lifetime?: number | null;
 }
 
 export interface ExternalAccountModifyAttrsInput {
