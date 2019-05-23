@@ -443,6 +443,7 @@ export class ZimbraBatchClient {
 				password: {
 					_content: options.password
 				},
+				authToken: options.twoFactorCode,
 				twoFactorCode: options.twoFactorCode
 					? {
 							_content: options.twoFactorCode
