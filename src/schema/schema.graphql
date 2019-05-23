@@ -273,6 +273,8 @@ enum ZimletPresence {
 
 type AuthResponse {
 	authToken: [AuthToken]
+	twoFactorAuthRequired: TwoFactorAuthRequired
+	trustedDevicesEnabled: TrustedDevicesEnabled
 	lifetime: Int
 	session: Session
 	skin: [Skin]
@@ -284,6 +286,14 @@ type ProfileImageChangeResponse {
 
 type AuthToken {
 	_content: String
+}
+
+type TwoFactorAuthRequired {
+	_content: Boolean
+}
+
+type TrustedDevicesEnabled {
+	_content: Boolean
 }
 
 type Session {
@@ -2610,7 +2620,9 @@ type Mutation {
 		password: String,
 		recoveryCode: String,
 		tokenType: String,
-		persistAuthTokenCookie: Boolean
+		persistAuthTokenCookie: Boolean,
+		twoFactorCode: String,
+		deviceTrusted: Boolean
 	): AuthResponse
 	messageAction(
 		ids: [ID!]!
