@@ -440,10 +440,12 @@ export class ZimbraBatchClient {
 				name: {
 					_content: options.name
 				},
-				password: {
-					_content: options.password
-				},
-				authToken: options.twoFactorCode,
+				password: options.password
+					? {
+							_content: options.password
+					  }
+					: null,
+				authToken: options.authToken,
 				twoFactorCode: options.twoFactorCode
 					? {
 							_content: options.twoFactorCode
