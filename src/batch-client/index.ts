@@ -4,7 +4,6 @@ import forEach from 'lodash/forEach';
 import get from 'lodash/get';
 import isError from 'lodash/isError';
 import mapValues from 'lodash/mapValues';
-
 import { denormalize, normalize } from '../normalize';
 import {
 	AccountRights,
@@ -113,6 +112,7 @@ import {
 	RelatedContactsOptions,
 	ResetPasswordOptions,
 	SearchOptions,
+	SessionHandler,
 	SetRecoveryAccountOptions,
 	ShareInfoOptions,
 	WorkingHoursOptions,
@@ -137,15 +137,17 @@ function normalizeMessage(
 
 export class ZimbraBatchClient {
 	public origin: string;
-	public sessionId: string = '1';
+	public sessionId: any;
 	public soapPathname: string;
 	private batchDataLoader: DataLoader<RequestOptions, RequestBody>;
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
 	private jwtToken?: string;
 	private notificationHandler?: NotificationHandler;
+	private sessionHandler?: SessionHandler;
 	private userAgent?: {};
 
 	constructor(options: ZimbraClientOptions = {}) {
+		this.sessionHandler = options.sessionHandler;
 		this.userAgent = options.userAgent;
 		this.jwtToken = options.jwtToken;
 		this.origin = options.zimbraOrigin || DEFAULT_HOSTNAME;
@@ -644,7 +646,9 @@ export class ZimbraBatchClient {
 		password,
 		recoveryCode,
 		tokenType,
-		persistAuthTokenCookie = true
+		persistAuthTokenCookie = true,
+		twoFactorCode,
+		deviceTrusted
 	}: LoginOptions) =>
 		this.jsonRequest({
 			name: 'Auth',
@@ -661,10 +665,12 @@ export class ZimbraBatchClient {
 						verifyAccount: true,
 						_content: recoveryCode
 					}
-				})
+				}),
+				...(twoFactorCode && { twoFactorCode }),
+				...(deviceTrusted && { deviceTrusted })
 			},
 			namespace: Namespace.Account
-		});
+		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
 
 	public logout = () =>
 		this.jsonRequest({
@@ -1017,9 +1023,7 @@ export class ZimbraBatchClient {
 			const sessionId = get(response, 'header.context.session.id');
 			const notifications = get(response, 'header.context.notify.0');
 
-			if (sessionId) {
-				this.sessionId = sessionId;
-			}
+			this.checkAndUpdateSessionId(sessionId);
 
 			if (notifications && this.notificationHandler) {
 				this.notificationHandler(notifications);
@@ -1037,6 +1041,14 @@ export class ZimbraBatchClient {
 			});
 		});
 
+	private checkAndUpdateSessionId = (sessionId: any) => {
+		// Need to save session id in apollo cache for user session management zimlet to stop duplication of sessions data.
+		if (sessionId && this.sessionId !== sessionId) {
+			this.sessionHandler && this.sessionHandler.writeSessionId(sessionId);
+			this.sessionId = sessionId;
+		}
+	};
+
 	private dataHandler = (requests: Array<JsonRequestOptions>) =>
 		jsonRequest({
 			...requests[0],
@@ -1045,9 +1057,7 @@ export class ZimbraBatchClient {
 			const sessionId = get(response, 'header.context.session.id');
 			const notifications = get(response, 'header.context.notify.0');
 
-			if (sessionId) {
-				this.sessionId = sessionId;
-			}
+			this.checkAndUpdateSessionId(sessionId);
 
 			if (notifications && this.notificationHandler) {
 				this.notificationHandler(notifications);
@@ -1090,7 +1100,9 @@ export class ZimbraBatchClient {
 	 */
 	private getAdditionalRequestOptions = () => ({
 		jwtToken: this.jwtToken,
-		sessionId: this.sessionId,
+		sessionId:
+			this.sessionId ||
+			(this.sessionHandler && this.sessionHandler.readSessionId()),
 		origin: this.origin,
 		userAgent: this.userAgent
 	});
