@@ -445,17 +445,13 @@ export class ZimbraBatchClient {
 				name: {
 					_content: name
 				},
-				password: password
-					? {
-							_content: password
-					  }
-					: null,
-				authToken: authToken,
-				twoFactorCode: twoFactorCode
-					? {
-							_content: twoFactorCode
-					  }
-					: null
+				...password && {
+					password: {
+						_content: password
+					}
+				},
+				...authToken && { authToken },
+				...twoFactorCode && { twoFactorCode }
 			},
 			namespace: Namespace.Account
 		});
