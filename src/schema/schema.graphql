@@ -967,6 +967,7 @@ type Folder {
 	sharedItemId: ID
 	url: String
 	local: Boolean
+	droppable: Boolean
 }
 
 type ACL {
@@ -2266,6 +2267,14 @@ input AddMsgInput {
 	content: StringContentInput
 }
 
+input SaveMsgInput {
+	folderId: ID
+	folderName: String!
+	absFolderPath: String
+	data: [String]
+	messagesMetaData: String
+}
+
 input Grantee {
 	id: ID
 	type: String
@@ -2593,6 +2602,7 @@ type Mutation {
 	resetPassword(password: String!): Boolean
 	revokeRights(input: RevokeRightsInput!): RevokeRightsResponse
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
+	saveMessage(message: SaveMsgInput!): MessageInfo
 	sendMessage(message: SendMessageInput!): SendMessageResponse
 	sendDeliveryReport(messageId: ID!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
