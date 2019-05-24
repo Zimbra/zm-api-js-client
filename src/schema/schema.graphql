@@ -1953,6 +1953,7 @@ input PreferencesInput {
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
 	zimbraPrefMailForwardingAddress: String
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
+	zimbraPrefPop3DownloadSince: String #date timezone YYYYMMDDhhmmssZ
 }
 
 input ModifyIdentityInput {
