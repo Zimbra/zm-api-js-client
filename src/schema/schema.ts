@@ -209,7 +209,7 @@ export function createZimbraSchema(
 				},
 				addMessage: (_, variables) =>
 					client.addMessage(variables as AddMsgInput),
-				saveMessage: (_, variables, context = {}) => {
+				saveMessagesToLocal: (_, variables, context = {}) => {
 					const { local } = context;
 					local && localStoreClient.saveMessage(variables as SaveMsgInput);
 				},
