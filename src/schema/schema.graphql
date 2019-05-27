@@ -2267,12 +2267,16 @@ input AddMsgInput {
 	content: StringContentInput
 }
 
+input SaveMessageInput {
+	text: [String],
+	meta: String
+}
+
 input SaveMsgInput {
 	folderId: ID
 	folderName: String!
 	absFolderPath: String
-	data: [String]
-	messagesMetaData: String
+	data: SaveMessageInput
 }
 
 input Grantee {
