@@ -2335,7 +2335,6 @@ input SaveMessageInput {
 
 input SaveMsgInput {
 	folderId: ID
-	folderName: String!
 	absFolderPath: String
 	data: SaveMessageInput
 }

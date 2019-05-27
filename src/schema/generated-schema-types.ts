@@ -1125,15 +1125,13 @@ export interface SendMessageInput {
 export interface SaveMsgInput {
 	folderId?: string | null;
 
-	folderName: string;
-
 	absFolderPath?: string | null;
 
 	data?: SaveMessageInput | null;
 }
 
 export interface SaveMessageInput {
-	text?: string | null;
+	text?: (string | null)[] | null;
 
 	meta?: string | null;
 }
