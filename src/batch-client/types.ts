@@ -50,10 +50,20 @@ export type UserAgent = {
 	version: string;
 };
 
+export type writeSessionId = (sessionId: string) => void;
+
+export type readSessionId = () => string;
+
+export type SessionHandler = {
+	readSessionId: readSessionId;
+	writeSessionId: writeSessionId;
+};
+
 export interface ZimbraClientOptions {
 	jwtToken?: string;
 	localStoreClient?: any;
 	notificationHandler?: NotificationHandler;
+	sessionHandler?: SessionHandler;
 	soapPathname?: string;
 	userAgent?: UserAgent;
 	zimbraOrigin?: string;
@@ -171,10 +181,12 @@ export interface ModifyProfileImageOptions {
 }
 
 export interface LoginOptions {
+	deviceTrusted?: boolean;
 	password: string;
 	persistAuthTokenCookie?: boolean;
 	recoveryCode?: string;
 	tokenType?: string;
+	twoFactorCode?: string;
 	username: string;
 }
 

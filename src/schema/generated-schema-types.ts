@@ -371,6 +371,12 @@ export interface ContactAttrsInput {
 
 	fullName?: string | null;
 
+	maidenName?: string | null;
+
+	namePrefix?: string | null;
+
+	nameSuffix?: string | null;
+
 	email?: string | null;
 
 	email2?: string | null;
@@ -387,9 +393,17 @@ export interface ContactAttrsInput {
 
 	phone2?: string | null;
 
-	mobile?: string | null;
+	companyPhone?: string | null;
 
-	mobile2?: string | null;
+	companyPhone2?: string | null;
+
+	otherPhone?: string | null;
+
+	otherPhone2?: string | null;
+
+	mobilePhone?: string | null;
+
+	mobilePhone2?: string | null;
 
 	homePhone?: string | null;
 
@@ -403,17 +417,25 @@ export interface ContactAttrsInput {
 
 	pager2?: string | null;
 
-	fax?: string | null;
+	homeFax?: string | null;
 
-	fax2?: string | null;
+	homeFax2?: string | null;
 
-	im?: string | null;
+	workFax?: string | null;
 
-	im2?: string | null;
+	workFax2?: string | null;
 
-	im3?: string | null;
+	imAddress?: string | null;
 
-	im4?: string | null;
+	imAddress1?: string | null;
+
+	imAddress2?: string | null;
+
+	imAddress3?: string | null;
+
+	imAddress4?: string | null;
+
+	imAddress5?: string | null;
 
 	nickname?: string | null;
 
@@ -423,9 +445,11 @@ export interface ContactAttrsInput {
 
 	homeState?: string | null;
 
-	homePostal?: string | null;
+	homePostalCode?: string | null;
 
 	homeCountry?: string | null;
+
+	homeURL?: string | null;
 
 	workStreet?: string | null;
 
@@ -433,13 +457,17 @@ export interface ContactAttrsInput {
 
 	workState?: string | null;
 
-	workPostal?: string | null;
+	workPostalCode?: string | null;
 
 	workCountry?: string | null;
+
+	workURL?: string | null;
 
 	jobTitle?: string | null;
 
 	company?: string | null;
+
+	department?: string | null;
 
 	birthday?: string | null;
 
@@ -452,6 +480,26 @@ export interface ContactAttrsInput {
 	image?: string | null;
 
 	userCertificate?: string | null;
+
+	assistantPhone?: string | null;
+
+	callbackPhone?: string | null;
+
+	carPhone?: string | null;
+
+	otherCity?: string | null;
+
+	otherCountry?: string | null;
+
+	otherFax?: string | null;
+
+	otherPostalCode?: string | null;
+
+	otherState?: string | null;
+
+	otherStreet?: string | null;
+
+	otherURL?: string | null;
 	/** Used for contact lists */
 	fileAs?: string | null;
 
