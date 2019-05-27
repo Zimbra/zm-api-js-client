@@ -734,7 +734,7 @@ export class ZimbraBatchClient {
 					...mapValuesDeep(attrs, coerceBooleanToString)
 				}
 			}
-		});
+		}).then(Boolean);
 
 	public modifyFilterRules = (filters: Array<FilterInput>) =>
 		this.jsonRequest({
