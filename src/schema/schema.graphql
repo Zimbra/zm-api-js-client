@@ -2261,7 +2261,7 @@ input EnableTwoFactorAuthInput {
 	name: String!
 	password: String
 	twoFactorCode: String
-	authToken: AuthTokenInput
+	authToken: String
 }
 
 input ExternalAccountImportInput {
