@@ -450,7 +450,11 @@ export class ZimbraBatchClient {
 						_content: password
 					}
 				}),
-				...(authToken && { authToken }),
+				...(authToken && {
+					authToken: {
+						_content: authToken
+					}
+				}),
 				...(twoFactorCode && {
 					twoFactorCode: {
 						_content: twoFactorCode

@@ -306,10 +306,6 @@ type AuthToken {
 	_content: String
 }
 
-input AuthTokenInput {
-	_content: String
-}
-
 type TwoFactorAuthRequired {
 	_content: Boolean
 }
