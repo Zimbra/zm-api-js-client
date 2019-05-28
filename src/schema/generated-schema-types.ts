@@ -661,11 +661,7 @@ export interface EnableTwoFactorAuthInput {
 
 	twoFactorCode?: string | null;
 
-	authToken?: AuthTokenInput | null;
-}
-
-export interface AuthTokenInput {
-	_content?: string | null;
+	authToken?: string | null;
 }
 
 export interface ExternalAccountModifyAttrsInput {
