@@ -2329,14 +2329,15 @@ input AddMsgInput {
 }
 
 input SaveMessageInput {
-	text: [String],
+	id: ID,
+	content: String,
 	meta: String
 }
 
 input SaveMsgInput {
 	folderId: ID
 	absFolderPath: String
-	data: SaveMessageInput
+	data: [SaveMessageInput]
 }
 
 input Grantee {
