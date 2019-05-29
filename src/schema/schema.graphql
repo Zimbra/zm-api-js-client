@@ -2650,6 +2650,7 @@ type Mutation {
 		deviceTrusted: Boolean
 	): AuthResponse
 	enableTwoFactorAuth(options: EnableTwoFactorAuthInput!): EnableTwoFactorAuthResponse
+	disableTwoFactorAuth: Boolean
 	messageAction(
 		ids: [ID!]!
 		op: String!

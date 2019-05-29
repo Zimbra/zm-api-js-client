@@ -396,6 +396,12 @@ export class ZimbraBatchClient {
 			body: options
 		});
 
+	public disableTwoFactorAuth = () =>
+		this.jsonRequest({
+			name: 'DisableTwoFactorAuth',
+			namespace: Namespace.Account
+		}).then(Boolean);
+
 	public discoverRights = () =>
 		this.jsonRequest({
 			name: 'DiscoverRights',
