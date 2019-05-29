@@ -1237,6 +1237,10 @@ type SaveDraftResponse {
 	message: [MessageInfo]
 }
 
+type SaveEmailToLocalResponse {
+	ids: [String]
+}
+
 type Contact {
 	id: ID!
 	date: Float
@@ -2669,7 +2673,7 @@ type Mutation {
 	resetPassword(password: String!): Boolean
 	revokeRights(input: RevokeRightsInput!): RevokeRightsResponse
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
-	saveMessagesToLocal(message: SaveMsgInput!): MessageInfo
+	saveMessagesToLocal(message: SaveMsgInput!): SaveEmailToLocalResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse
 	sendDeliveryReport(messageId: ID!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse

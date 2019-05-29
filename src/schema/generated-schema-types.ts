@@ -1127,11 +1127,13 @@ export interface SaveMsgInput {
 
 	absFolderPath?: string | null;
 
-	data?: SaveMessageInput | null;
+	data?: (SaveMessageInput | null)[] | null;
 }
 
 export interface SaveMessageInput {
-	text?: (string | null)[] | null;
+	id?: string | null;
+
+	content?: string | null;
 
 	meta?: string | null;
 }
