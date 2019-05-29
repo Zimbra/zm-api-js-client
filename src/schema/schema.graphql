@@ -306,10 +306,6 @@ type AuthToken {
 	_content: String
 }
 
-input AuthTokenInput {
-	_content: String
-}
-
 type TwoFactorAuthRequired {
 	_content: Boolean
 }
@@ -2265,7 +2261,7 @@ input EnableTwoFactorAuthInput {
 	name: String!
 	password: String
 	twoFactorCode: String
-	authToken: AuthTokenInput
+	authToken: String
 }
 
 input ExternalAccountImportInput {
