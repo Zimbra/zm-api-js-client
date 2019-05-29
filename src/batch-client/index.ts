@@ -822,7 +822,7 @@ export class ZimbraBatchClient {
 			body: {
 				zimlet
 			}
-		});
+		}).then(Boolean);
 
 	public noop = () => this.jsonRequest({ name: 'NoOp' }).then(Boolean);
 
