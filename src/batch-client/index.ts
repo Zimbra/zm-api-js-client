@@ -129,11 +129,14 @@ function normalizeMessage(
 	const normalizedMessage = normalize(MessageInfo)(message);
 	const { isSigned, isEncrypted } = normalizedMessage; // GetMsgResponse itself returns `isSigned` and `isEncrypted`. Let's use them as defaults.
 
-	normalizedMessage.attributes = mapValuesDeep({
-		...(normalizedMessage.attributes || {}),
-		isSigned,
-		isEncrypted
-	}, coerceStringToBoolean);
+	normalizedMessage.attributes = mapValuesDeep(
+		{
+			...(normalizedMessage.attributes || {}),
+			isSigned,
+			isEncrypted
+		},
+		coerceStringToBoolean
+	);
 
 	return normalizeEmailAddresses(
 		normalizeMimeParts(normalizedMessage, { origin, jwtToken })
