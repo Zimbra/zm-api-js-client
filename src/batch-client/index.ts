@@ -563,6 +563,23 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => (res && res.m ? this.normalizeMessage(res.m[0]) : null));
 
+	public getMessageMetadata = ({
+		ids
+	}: GetMessageOptions) =>
+		this.jsonRequest({
+			name: 'GetMsgMetadata',
+			body: {
+				m: {
+					ids: ids.join(',')
+				}
+			}
+		}).then(res => {
+			console.log('metadata res is', res);
+			const normalised = res.m.map(this.normalizeMessage);
+			console.log('normalised is', normalised);
+			return normalised;
+		})
+
 	public getProfileImageUrl = (profileImageId: any) =>
 		getProfileImageUrl(profileImageId, {
 			origin: this.origin,
@@ -1069,7 +1086,7 @@ export class ZimbraBatchClient {
 	private download = ({ id, part, isSecure }: any) =>
 		fetch(
 			`${this.origin}/service/home/~/?auth=co&id=${id}${
-				part ? `&part=${part}` : ''
+			part ? `&part=${part}` : ''
 			}`,
 			{
 				...(isSecure && {

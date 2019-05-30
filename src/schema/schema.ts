@@ -129,6 +129,14 @@ export function createZimbraSchema(
 					}
 					return client.getMessage(variables as GetMessageOptions);
 				},
+				getMessageMetadata: (_, variables, context = {}) => {
+					const { local } = context;
+
+					if (local) {
+						return localStoreClient.getMessageMetadata(variables as GetMessageOptions);
+					}
+					return client.getMessageMetadata(variables as GetMessageOptions);
+				},
 				getRights: (_, variables) =>
 					client.getRights(variables as GetRightsInput),
 				getSearchFolder: client.getSearchFolder,

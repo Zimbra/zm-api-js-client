@@ -2497,6 +2497,7 @@ type Query {
 		read: Boolean,
 		ridZ: String
 	): MessageInfo
+	getMessageMetadata(ids: [ID!]!): [MessageInfo]
 	getRights(input: GetRightsInput!): GetRightsResponse
 	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
 	getSearchFolder: Folder
