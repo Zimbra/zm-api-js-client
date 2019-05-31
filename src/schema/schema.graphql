@@ -440,6 +440,7 @@ type MessageInfo implements MailItem {
 	replyType: String #rt
 	attributes: MessageAttributes
 	autoSendTime: Float
+	local: Boolean
 }
 
 type Conversation implements MailItem {
