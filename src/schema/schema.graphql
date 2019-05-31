@@ -2674,7 +2674,7 @@ type Mutation {
 	resetPassword(password: String!): Boolean
 	revokeRights(input: RevokeRightsInput!): RevokeRightsResponse
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
-	saveMessagesToLocal(message: SaveMsgInput!): SaveEmailToLocalResponse
+	saveMessagesToLocal(messagesData: SaveMsgInput!): SaveEmailToLocalResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse
 	sendDeliveryReport(messageId: ID!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
