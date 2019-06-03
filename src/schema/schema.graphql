@@ -280,8 +280,26 @@ type AuthResponse {
 	skin: [Skin]
 }
 
+type ScratchCodeType {
+	_content: String
+}
+
+type ScratchCode {
+	scratchCode: [ScratchCodeType]
+}
+
+type EnableTwoFactorAuthResponse {
+	secret: [Secret]
+	scratchCodes: [ScratchCode]
+	authToken: [AuthToken]
+}
+
 type ProfileImageChangeResponse {
 	itemId: ID
+}
+
+type Secret {
+	_content: String
 }
 
 type AuthToken {
@@ -1091,6 +1109,8 @@ type AccountInfoAttrs {
 	zimbraFeatureFiltersEnabled: Boolean
 	zimbraFeatureReadReceiptsEnabled: Boolean
 	zimbraFeatureManageZimlets: Boolean
+	zimbraFeatureTwoFactorAuthAvailable: Boolean
+	zimbraTwoFactorAuthEnabled: Boolean
 }
 
 type Identities {
@@ -2243,6 +2263,12 @@ input ExternalAccountModifyAttrsInput {
 	port: String
 	smtpPort: String
 }
+input EnableTwoFactorAuthInput {
+	name: String!
+	password: String
+	twoFactorCode: String
+	authToken: String
+}
 
 input ExternalAccountImportInput {
 	accountType: AccountType
@@ -2642,6 +2668,8 @@ type Mutation {
 		twoFactorCode: String,
 		deviceTrusted: Boolean
 	): AuthResponse
+	enableTwoFactorAuth(options: EnableTwoFactorAuthInput!): EnableTwoFactorAuthResponse
+	disableTwoFactorAuth: Boolean
 	messageAction(
 		ids: [ID!]!
 		op: String!
