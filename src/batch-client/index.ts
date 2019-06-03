@@ -52,6 +52,7 @@ import {
 	CreateContactInput,
 	CreateMountpointInput,
 	DeleteAppointmentInput,
+	EnableTwoFactorAuthInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
@@ -395,6 +396,12 @@ export class ZimbraBatchClient {
 			body: options
 		});
 
+	public disableTwoFactorAuth = () =>
+		this.jsonRequest({
+			name: 'DisableTwoFactorAuth',
+			namespace: Namespace.Account
+		}).then(Boolean);
+
 	public discoverRights = () =>
 		this.jsonRequest({
 			name: 'DiscoverRights',
@@ -431,6 +438,37 @@ export class ZimbraBatchClient {
 			id,
 			content
 		}));
+
+	public enableTwoFactorAuth = ({
+		name,
+		password,
+		authToken,
+		twoFactorCode
+	}: EnableTwoFactorAuthInput) =>
+		this.jsonRequest({
+			name: 'EnableTwoFactorAuth',
+			body: {
+				name: {
+					_content: name
+				},
+				...(password && {
+					password: {
+						_content: password
+					}
+				}),
+				...(authToken && {
+					authToken: {
+						_content: authToken
+					}
+				}),
+				...(twoFactorCode && {
+					twoFactorCode: {
+						_content: twoFactorCode
+					}
+				})
+			},
+			namespace: Namespace.Account
+		});
 
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);
