@@ -52,6 +52,7 @@ import {
 	CreateContactInput,
 	CreateMountpointInput,
 	DeleteAppointmentInput,
+	EnableTwoFactorAuthInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
@@ -395,6 +396,12 @@ export class ZimbraBatchClient {
 			body: options
 		});
 
+	public disableTwoFactorAuth = () =>
+		this.jsonRequest({
+			name: 'DisableTwoFactorAuth',
+			namespace: Namespace.Account
+		}).then(Boolean);
+
 	public discoverRights = () =>
 		this.jsonRequest({
 			name: 'DiscoverRights',
@@ -431,6 +438,37 @@ export class ZimbraBatchClient {
 			id,
 			content
 		}));
+
+	public enableTwoFactorAuth = ({
+		name,
+		password,
+		authToken,
+		twoFactorCode
+	}: EnableTwoFactorAuthInput) =>
+		this.jsonRequest({
+			name: 'EnableTwoFactorAuth',
+			body: {
+				name: {
+					_content: name
+				},
+				...(password && {
+					password: {
+						_content: password
+					}
+				}),
+				...(authToken && {
+					authToken: {
+						_content: authToken
+					}
+				}),
+				...(twoFactorCode && {
+					twoFactorCode: {
+						_content: twoFactorCode
+					}
+				})
+			},
+			namespace: Namespace.Account
+		});
 
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);
@@ -562,6 +600,23 @@ export class ZimbraBatchClient {
 				}
 			}
 		}).then(res => (res && res.m ? this.normalizeMessage(res.m[0]) : null));
+
+	public getMessageMetadata = ({
+		ids
+	}: GetMessageOptions) =>
+		this.jsonRequest({
+			name: 'GetMsgMetadata',
+			body: {
+				m: {
+					ids: ids.join(',')
+				}
+			}
+		}).then(res => {
+			console.log('metadata res is', res);
+			const normalised = res.m.map(this.normalizeMessage);
+			console.log('normalised is', normalised);
+			return normalised;
+		})
 
 	public getProfileImageUrl = (profileImageId: any) =>
 		getProfileImageUrl(profileImageId, {
@@ -1069,7 +1124,7 @@ export class ZimbraBatchClient {
 	private download = ({ id, part, isSecure }: any) =>
 		fetch(
 			`${this.origin}/service/home/~/?auth=co&id=${id}${
-				part ? `&part=${part}` : ''
+			part ? `&part=${part}` : ''
 			}`,
 			{
 				...(isSecure && {

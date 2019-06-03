@@ -124,6 +124,7 @@ export interface GetMailItemOptions {
 	header?: Array<MailItemHeader>;
 	html?: boolean;
 	id: string;
+	ids: [String];
 	max?: number;
 	needExp?: boolean;
 }

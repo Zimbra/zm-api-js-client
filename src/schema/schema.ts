@@ -7,6 +7,7 @@ import {
 	CreateContactInput,
 	CreateMountpointInput,
 	DeleteAppointmentInput,
+	EnableTwoFactorAuthInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
@@ -129,6 +130,14 @@ export function createZimbraSchema(
 					}
 					return client.getMessage(variables as GetMessageOptions);
 				},
+				getMessageMetadata: (_, variables, context = {}) => {
+					const { local } = context;
+
+					if (local) {
+						return localStoreClient.getMessageMetadata(variables as GetMessageOptions);
+					}
+					return client.getMessageMetadata(variables as GetMessageOptions);
+				},
 				getRights: (_, variables) =>
 					client.getRights(variables as GetRightsInput),
 				getSearchFolder: client.getSearchFolder,
@@ -209,17 +218,15 @@ export function createZimbraSchema(
 				},
 				addMessage: (_, variables) =>
 					client.addMessage(variables as AddMsgInput),
-				saveMessagesToLocal: (_, variables, context = {}) => {
-					const { local } = context;
-					return (
-						local && localStoreClient.saveMessage(variables as SaveMsgInput)
-					);
-				},
+				saveMessagesToLocal: (_, variables) => localStoreClient.saveMessage(variables as SaveMsgInput),
 				cancelTask: (_, variables) => client.cancelTask(variables),
 				itemAction: (_, variables) =>
 					client.itemAction(variables as ActionOptions),
 				login: (_, variables) => client.login(variables as LoginOptions),
 				logout: client.logout,
+				disableTwoFactorAuth: client.disableTwoFactorAuth,
+				enableTwoFactorAuth: (_, { options }) =>
+					client.enableTwoFactorAuth(options as EnableTwoFactorAuthInput),
 				messageAction: (_, variables) =>
 					client.messageAction(variables as ActionOptions),
 				changePassword: (_, variables) =>
