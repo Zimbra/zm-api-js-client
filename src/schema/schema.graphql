@@ -355,6 +355,7 @@ type Instance {
 	participationStatus: ParticipationStatus
 	revision: Int # rev
 	status: InviteCompletionStatus
+	isOrganizer: Boolean # isOrg
 }
 
 type Alarm {
