@@ -1257,7 +1257,7 @@ type SaveDraftResponse {
 	message: [MessageInfo]
 }
 
-type SaveEmailToLocalResponse {
+type SaveEmailsToLocalResponse {
 	ids: [String]
 }
 
@@ -2358,16 +2358,16 @@ input AddMsgInput {
 	content: StringContentInput
 }
 
-input SaveMessageInput {
-	id: ID,
-	content: String,
-	meta: String
+input SaveMessageDataInput {
+	id: ID!,
+	content: String!,
+	meta: String!
 }
 
-input SaveMsgInput {
-	folderId: ID
-	absFolderPath: String
-	data: [SaveMessageInput]
+input SaveMessagesToLocalInput {
+	folderId: ID!
+	absFolderPath: String!
+	data: [SaveMessageDataInput!]!
 }
 
 input Grantee {
@@ -2702,7 +2702,7 @@ type Mutation {
 	resetPassword(password: String!): Boolean
 	revokeRights(input: RevokeRightsInput!): RevokeRightsResponse
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
-	saveMessagesToLocal(messagesData: SaveMsgInput!): SaveEmailToLocalResponse
+	saveMessagesToLocal(messagesData: SaveMessagesToLocalInput!): SaveEmailsToLocalResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse
 	sendDeliveryReport(messageId: ID!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
