@@ -1132,15 +1132,15 @@ export interface SendMessageInput {
 	attachments?: (AttachmentInput | null)[] | null;
 }
 
-export interface SaveMsgInput {
+export interface SaveMessagesToLocalInput {
 	folderId?: string | null;
 
 	absFolderPath?: string | null;
 
-	data?: (SaveMessageInput | null)[] | null;
+	data?: (SaveMessageDataInput | null)[] | null;
 }
 
-export interface SaveMessageInput {
+export interface SaveMessageDataInput {
 	id?: string | null;
 
 	content?: string | null;
