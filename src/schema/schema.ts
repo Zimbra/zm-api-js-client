@@ -217,7 +217,8 @@ export function createZimbraSchema(
 				},
 				addMessage: (_, variables) =>
 					client.addMessage(variables as AddMsgInput),
-				saveMessagesToLocal: (_, variables) => localStoreClient.saveMessage(variables as SaveMessagesToLocalInput),
+				saveMessagesToLocal: (_, variables) =>
+					localStoreClient.saveMessage(variables as SaveMessagesToLocalInput),
 				cancelTask: (_, variables) => client.cancelTask(variables),
 				itemAction: (_, variables) =>
 					client.itemAction(variables as ActionOptions),
