@@ -1258,7 +1258,8 @@ type SaveDraftResponse {
 }
 
 type SaveEmailsToLocalResponse {
-	ids: [String]
+	successes: [String]
+	failures: [String]
 }
 
 type Contact {
