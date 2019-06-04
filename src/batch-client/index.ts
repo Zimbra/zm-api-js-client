@@ -1017,6 +1017,10 @@ export class ZimbraBatchClient {
 			mapValuesDeep(get(res, `${accountType}.0`), coerceStringToBoolean)
 		);
 
+	public updateUserAgent = (userAgent: Object) => {
+		this.userAgent = userAgent;
+	};
+
 	public uploadMessage = (message: string) => {
 		const contentDisposition = 'attachment';
 		const filename = 'message.eml';
