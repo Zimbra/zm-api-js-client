@@ -211,10 +211,15 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => get(res, `${accountType}.0.id`));
 
-	public addMessage = (options: AddMsgInput) =>
+	public addMessage = ({ folderId, content }: AddMsgInput) =>
 		this.jsonRequest({
 			name: 'AddMsg',
-			body: denormalize(AddMsgInfo)(options)
+			body: denormalize(AddMsgInfo)({
+				folderId,
+				content: {
+					_content: content
+				}
+			})
 		}).then(normalize(MessageInfo));
 
 	public autoComplete = (options: AutoCompleteOptions) =>

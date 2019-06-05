@@ -24,7 +24,6 @@ import {
 	NameIdInput,
 	PreferencesInput,
 	RevokeRightsInput,
-	SaveMessagesToLocalInput,
 	SearchFolderInput,
 	SendMessageInput,
 	ShareNotificationInput,
@@ -215,10 +214,15 @@ export function createZimbraSchema(
 						? localStoreClient.action(type, rest as ActionOptions)
 						: client.action(type, rest as ActionOptions);
 				},
-				addMessage: (_, variables) =>
-					client.addMessage(variables as AddMsgInput),
-				saveMessagesToLocal: (_, variables) =>
-					localStoreClient.saveMessage(variables as SaveMessagesToLocalInput),
+				addMessage: (_, variables, context = {}) => {
+					const { local } = context;
+
+					if (local) {
+						return localStoreClient.addMessage(variables as AddMsgInput);
+					}
+
+					return client.addMessage(variables as AddMsgInput);
+				},
 				cancelTask: (_, variables) => client.cancelTask(variables),
 				itemAction: (_, variables) =>
 					client.itemAction(variables as ActionOptions),

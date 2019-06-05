@@ -1257,11 +1257,6 @@ type SaveDraftResponse {
 	message: [MessageInfo]
 }
 
-type SaveEmailsToLocalResponse {
-	successes: [String]
-	failures: [String]
-}
-
 type Contact {
 	id: ID!
 	date: Float
@@ -2350,25 +2345,17 @@ input DismissInput {
 	dismissedAt: Float!
 }
 
-input StringContentInput {
-	_content: String
-}
-
 input AddMsgInput {
 	folderId: ID!
-	content: StringContentInput
+	absFolderPath: String
+	content: String
+	meta: String
 }
 
 input SaveMessageDataInput {
 	id: ID!,
 	content: String!,
 	meta: String!
-}
-
-input SaveMessagesToLocalInput {
-	folderId: ID!
-	absFolderPath: String!
-	data: [SaveMessageDataInput!]!
 }
 
 input Grantee {
@@ -2703,7 +2690,6 @@ type Mutation {
 	resetPassword(password: String!): Boolean
 	revokeRights(input: RevokeRightsInput!): RevokeRightsResponse
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
-	saveMessagesToLocal(messagesData: SaveMessagesToLocalInput!): SaveEmailsToLocalResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse
 	sendDeliveryReport(messageId: ID!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
