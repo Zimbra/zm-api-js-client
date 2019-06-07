@@ -2353,8 +2353,8 @@ input AddMsgInput {
 }
 
 input SaveMessageDataInput {
-	id: ID!,
-	content: String!,
+	id: ID!
+	content: String!
 	meta: String!
 }
 
