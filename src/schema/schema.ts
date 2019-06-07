@@ -133,7 +133,9 @@ export function createZimbraSchema(
 					const { local } = context;
 
 					if (local) {
-						return localStoreClient.getMessageMetadata(variables as GetMessageOptions);
+						return localStoreClient.getMessageMetadata(
+							variables as GetMessageOptions
+						);
 					}
 					return client.getMessageMetadata(variables as GetMessageOptions);
 				},
