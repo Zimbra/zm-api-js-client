@@ -210,7 +210,6 @@ const SendMessageFields = new Entity({
 	aid: 'attachmentId',
 	irt: 'inReplyTo',
 	rt: 'replyType',
-	autoSendTime: 'autoSendTime',
 	did: 'draftId',
 	idnt: 'entityId'
 });

@@ -271,19 +271,53 @@ enum ZimletPresence {
 	disabled
 }
 
+enum ResetPasswordStatus {
+	enabled
+	disabled
+	suspended
+}
+
 type AuthResponse {
 	authToken: [AuthToken]
+	twoFactorAuthRequired: TwoFactorAuthRequired
+	trustedDevicesEnabled: TrustedDevicesEnabled
 	lifetime: Int
 	session: Session
 	skin: [Skin]
+}
+
+type ScratchCodeType {
+	_content: String
+}
+
+type ScratchCode {
+	scratchCode: [ScratchCodeType]
+}
+
+type EnableTwoFactorAuthResponse {
+	secret: [Secret]
+	scratchCodes: [ScratchCode]
+	authToken: [AuthToken]
 }
 
 type ProfileImageChangeResponse {
 	itemId: ID
 }
 
+type Secret {
+	_content: String
+}
+
 type AuthToken {
 	_content: String
+}
+
+type TwoFactorAuthRequired {
+	_content: Boolean
+}
+
+type TrustedDevicesEnabled {
+	_content: Boolean
 }
 
 type Session {
@@ -429,6 +463,7 @@ type MessageInfo implements MailItem {
 	share: [ShareNotification] # shr
 	replyType: String #rt
 	attributes: MessageAttributes
+	autoSendTime: Float
 }
 
 type Conversation implements MailItem {
@@ -1067,7 +1102,7 @@ type AccountInfoAttrs {
 	zimbraFeatureCalendarEnabled: Boolean
 	zimbraFeatureRelatedContactsEnabled: Boolean
 	zimbraFeatureChangePasswordEnabled: Boolean
-	zimbraFeatureResetPasswordEnabled: Boolean
+	zimbraFeatureResetPasswordStatus: ResetPasswordStatus
 	zimbraFeatureWebClientOfflineAccessEnabled: Boolean
 	zimbraMailBlacklistMaxNumEntries: Int
 	zimbraPublicSharingEnabled: Boolean
@@ -1078,6 +1113,8 @@ type AccountInfoAttrs {
 	zimbraFeatureFiltersEnabled: Boolean
 	zimbraFeatureReadReceiptsEnabled: Boolean
 	zimbraFeatureManageZimlets: Boolean
+	zimbraFeatureTwoFactorAuthAvailable: Boolean
+	zimbraTwoFactorAuthEnabled: Boolean
 }
 
 type Identities {
@@ -1241,6 +1278,9 @@ type ContactAttributes {
 	middleName: String
 	lastName: String
 	fullName: String
+	maidenName: String
+	namePrefix: String
+	nameSuffix: String
 	email: String
 	email2: String
 	workEmail: String
@@ -1249,33 +1289,44 @@ type ContactAttributes {
 	homeEmail2: String
 	phone: String
 	phone2: String
-	mobile: String
-	mobile2: String
+	companyPhone: String
+	companyPhone2: String
+	otherPhone: String
+	otherPhone2: String
+	mobilePhone: String
+	mobilePhone2: String
 	homePhone: String
 	homePhone2: String
 	workPhone: String
 	workPhone2: String
 	pager: String
 	pager2: String
-	fax: String
-	fax2: String
-	im: String
-	im2: String
-	im3: String
-	im4: String
+	homeFax: String
+	homeFax2: String
+	workFax: String
+	workFax2: String
+	imAddress: String
+	imAddress1: String
+	imAddress2: String
+	imAddress3: String
+	imAddress4: String
+	imAddress5: String
 	nickname: String
 	homeStreet: String
 	homeCity: String
 	homeState: String
-	homePostal: String
+	homePostalCode: String
 	homeCountry: String
+	homeURL: String
 	workStreet: String
 	workCity: String
 	workState: String
-	workPostal: String
+	workPostalCode: String
 	workCountry: String
+	workURL: String
 	jobTitle: String
 	company: String
+	department: String
 	birthday: String
 	anniversary: String
 	website: String
@@ -1284,6 +1335,16 @@ type ContactAttributes {
 	image: ContactImage
 	userCertificate: String
 	zimbraCalResType: String
+	assistantPhone: String
+	callbackPhone: String
+	carPhone: String
+	otherCity: String
+	otherCountry: String
+	otherFax: String
+	otherPostalCode: String
+	otherState: String
+	otherStreet: String
+	otherURL: String
 
 	# Used for contact lists
 	fileAs: String
@@ -1308,6 +1369,9 @@ input ContactAttrsInput {
 	middleName: String
 	lastName: String
 	fullName: String
+	maidenName: String
+	namePrefix: String
+	nameSuffix: String
 	email: String
 	email2: String
 	workEmail: String
@@ -1316,39 +1380,62 @@ input ContactAttrsInput {
 	homeEmail2: String
 	phone: String
 	phone2: String
-	mobile: String
-	mobile2: String
+	companyPhone: String
+	companyPhone2: String
+	otherPhone: String
+	otherPhone2: String
+	mobilePhone: String
+	mobilePhone2: String
 	homePhone: String
 	homePhone2: String
 	workPhone: String
 	workPhone2: String
 	pager: String
 	pager2: String
-	fax: String
-	fax2: String
-	im: String
-	im2: String
-	im3: String
-	im4: String
+	homeFax: String
+	homeFax2: String
+	workFax: String
+	workFax2: String
+	imAddress: String
+	imAddress1: String
+	imAddress2: String
+	imAddress3: String
+	imAddress4: String
+	imAddress5: String
 	nickname: String
 	homeStreet: String
 	homeCity: String
+	homeFax: String
 	homeState: String
-	homePostal: String
+	homePostalCode: String
 	homeCountry: String
+	homeURL: String
+	workFax: String
 	workStreet: String
 	workCity: String
 	workState: String
-	workPostal: String
+	workPostalCode: String
 	workCountry: String
+	workURL: String
 	jobTitle: String
 	company: String
+	department: String
 	birthday: String
 	anniversary: String
 	website: String
 	notes: String
 	image: String
 	userCertificate: String
+	assistantPhone: String
+	callbackPhone: String
+	carPhone: String
+	otherCity: String
+	otherCountry: String
+	otherFax: String
+	otherPostalCode: String
+	otherState: String
+	otherStreet: String
+	otherURL: String
 
 	# Used for contact lists
 	fileAs: String
@@ -2176,6 +2263,12 @@ input ExternalAccountModifyAttrsInput {
 	port: String
 	smtpPort: String
 }
+input EnableTwoFactorAuthInput {
+	name: String!
+	password: String
+	twoFactorCode: String
+	authToken: String
+}
 
 input ExternalAccountImportInput {
 	accountType: AccountType
@@ -2558,8 +2651,12 @@ type Mutation {
 		password: String,
 		recoveryCode: String,
 		tokenType: String,
-		persistAuthTokenCookie: Boolean
+		persistAuthTokenCookie: Boolean,
+		twoFactorCode: String,
+		deviceTrusted: Boolean
 	): AuthResponse
+	enableTwoFactorAuth(options: EnableTwoFactorAuthInput!): EnableTwoFactorAuthResponse
+	disableTwoFactorAuth: Boolean
 	messageAction(
 		ids: [ID!]!
 		op: String!

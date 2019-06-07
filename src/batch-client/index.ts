@@ -52,6 +52,7 @@ import {
 	CreateContactInput,
 	CreateMountpointInput,
 	DeleteAppointmentInput,
+	EnableTwoFactorAuthInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
@@ -395,6 +396,12 @@ export class ZimbraBatchClient {
 			body: options
 		});
 
+	public disableTwoFactorAuth = () =>
+		this.jsonRequest({
+			name: 'DisableTwoFactorAuth',
+			namespace: Namespace.Account
+		}).then(Boolean);
+
 	public discoverRights = () =>
 		this.jsonRequest({
 			name: 'DiscoverRights',
@@ -431,6 +438,37 @@ export class ZimbraBatchClient {
 			id,
 			content
 		}));
+
+	public enableTwoFactorAuth = ({
+		name,
+		password,
+		authToken,
+		twoFactorCode
+	}: EnableTwoFactorAuthInput) =>
+		this.jsonRequest({
+			name: 'EnableTwoFactorAuth',
+			body: {
+				name: {
+					_content: name
+				},
+				...(password && {
+					password: {
+						_content: password
+					}
+				}),
+				...(authToken && {
+					authToken: {
+						_content: authToken
+					}
+				}),
+				...(twoFactorCode && {
+					twoFactorCode: {
+						_content: twoFactorCode
+					}
+				})
+			},
+			namespace: Namespace.Account
+		});
 
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);
@@ -646,7 +684,9 @@ export class ZimbraBatchClient {
 		password,
 		recoveryCode,
 		tokenType,
-		persistAuthTokenCookie = true
+		persistAuthTokenCookie = true,
+		twoFactorCode,
+		deviceTrusted
 	}: LoginOptions) =>
 		this.jsonRequest({
 			name: 'Auth',
@@ -663,10 +703,12 @@ export class ZimbraBatchClient {
 						verifyAccount: true,
 						_content: recoveryCode
 					}
-				})
+				}),
+				...(twoFactorCode && { twoFactorCode }),
+				...(deviceTrusted && { deviceTrusted })
 			},
 			namespace: Namespace.Account
-		});
+		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
 
 	public logout = () =>
 		this.jsonRequest({
