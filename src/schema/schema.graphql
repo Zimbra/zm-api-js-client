@@ -1114,6 +1114,7 @@ type AccountInfoAttrs {
 	zimbraFeatureReadReceiptsEnabled: Boolean
 	zimbraFeatureManageZimlets: Boolean
 	zimbraFeatureTwoFactorAuthAvailable: Boolean
+	zimbraFeatureTwoFactorAuthRequired: Boolean
 	zimbraTwoFactorAuthEnabled: Boolean
 }
 
