@@ -1286,6 +1286,12 @@ export interface ModifyIdentityInput {
 	attrs?: IdentityAttrsInput | null;
 }
 
+export enum ResetPasswordStatus {
+	Enabled = 'enabled',
+	Disabled = 'disabled',
+	Suspended = 'suspended'
+}
+
 export enum PrefCalendarInitialView {
 	Day = 'day',
 	List = 'list',

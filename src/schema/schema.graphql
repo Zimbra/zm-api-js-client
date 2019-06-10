@@ -271,6 +271,12 @@ enum ZimletPresence {
 	disabled
 }
 
+enum ResetPasswordStatus {
+	enabled
+	disabled
+	suspended
+}
+
 type AuthResponse {
 	authToken: [AuthToken]
 	twoFactorAuthRequired: TwoFactorAuthRequired
@@ -1098,7 +1104,7 @@ type AccountInfoAttrs {
 	zimbraFeatureCalendarEnabled: Boolean
 	zimbraFeatureRelatedContactsEnabled: Boolean
 	zimbraFeatureChangePasswordEnabled: Boolean
-	zimbraFeatureResetPasswordEnabled: Boolean
+	zimbraFeatureResetPasswordStatus: ResetPasswordStatus
 	zimbraFeatureWebClientOfflineAccessEnabled: Boolean
 	zimbraMailBlacklistMaxNumEntries: Int
 	zimbraPublicSharingEnabled: Boolean
