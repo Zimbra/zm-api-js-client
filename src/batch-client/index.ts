@@ -640,8 +640,7 @@ export class ZimbraBatchClient {
 
 	public getSearchFolder = () =>
 		this.jsonRequest({
-			name: 'GetSearchFolder',
-			namespace: Namespace.Account
+			name: 'GetSearchFolder'
 		}).then((res: any) =>
 			res.search ? { folders: normalize(Folder)(res.search) } : {}
 		);
