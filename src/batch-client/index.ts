@@ -334,7 +334,24 @@ export class ZimbraBatchClient {
 		return this.jsonRequest({
 			name: 'CreateContact',
 			body
-		}).then(res => normalize(Contact)(res.cn[0]));
+		}).then(res => {
+			let ordered: any = {};
+			let other: any = [];
+			Object.keys(res.cn[0]._attrs)
+				.sort()
+				.forEach(function(key) {
+					ordered[key] = res.cn[0]._attrs[key];
+				});
+			res.cn[0]._attrs = ordered;
+			Object.keys(res.cn[0]._attrs).forEach(key => {
+				if (key.includes('custom')) {
+					other.push(res.cn[0]._attrs[key]);
+					delete res.cn[0]._attrs[key];
+				}
+			});
+			res.cn[0]._attrs.other = other;
+			return normalize(Contact)(res.cn[0]);
+		});
 	};
 
 	public createFolder = (_options: CreateFolderOptions) => {
