@@ -1343,6 +1343,7 @@ type ContactAttributes {
 	# Used for contact lists
 	fileAs: String
 	type: String
+	other: [String]
 }
 
 type ContactImage{
@@ -1433,7 +1434,8 @@ input ContactAttrsInput {
 
 	# Used for contact lists
 	fileAs: String
-	type: String
+	type: String,
+	other: [String]
 }
 
 input CreateContactInput {

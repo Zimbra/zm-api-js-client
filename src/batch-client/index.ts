@@ -306,23 +306,34 @@ export class ZimbraBatchClient {
 		const { attributes, ...rest } = data;
 		const contactAttrs = <Object[]>[];
 
-		forEach(attributes, (val, key) =>
-			contactAttrs.push({
-				name: key,
-				[key === 'image' ? 'aid' : 'content']: val
-			})
+		forEach(
+			attributes,
+			(val, key) =>
+				key !== 'other' &&
+				contactAttrs.push({
+					name: key,
+					[key === 'image' ? 'aid' : 'content']: val
+				})
 		);
-
+		let body = {
+			cn: {
+				...denormalize(ContactInputRequest)({
+					...rest,
+					attributes: contactAttrs
+				})
+			}
+		};
+		attributes &&
+			attributes.other &&
+			attributes.other.map((value: any, index: any) => {
+				body.cn.a.push({
+					n: 'custom' + (index + 1),
+					_content: value
+				});
+			});
 		return this.jsonRequest({
 			name: 'CreateContact',
-			body: {
-				cn: {
-					...denormalize(ContactInputRequest)({
-						...rest,
-						attributes: contactAttrs
-					})
-				}
-			}
+			body
 		}).then(res => normalize(Contact)(res.cn[0]));
 	};
 
@@ -739,24 +750,52 @@ export class ZimbraBatchClient {
 		const { attributes, ...rest } = data;
 		const modifiedAttrs = <Object[]>[];
 
-		forEach(attributes, (val, key) =>
-			modifiedAttrs.push({
-				name: key,
-				[key === 'image' ? 'aid' : 'content']: val
-			})
+		forEach(
+			attributes,
+			(val, key) =>
+				key !== 'other' &&
+				modifiedAttrs.push({
+					name: key,
+					[key === 'image' ? 'aid' : 'content']: val
+				})
 		);
-
+		let body = {
+			cn: {
+				...denormalize(ContactInputRequest)({
+					...rest,
+					attributes: modifiedAttrs
+				})
+			}
+		};
+		attributes &&
+			attributes.other &&
+			attributes.other.map((value: any, index: any) => {
+				body.cn.a.push({
+					n: 'custom' + (index + 1),
+					_content: value
+				});
+			});
 		return this.jsonRequest({
 			name: 'ModifyContact',
-			body: {
-				cn: {
-					...denormalize(ContactInputRequest)({
-						...rest,
-						attributes: modifiedAttrs
-					})
+			body
+		}).then(res => {
+			let ordered: any = {};
+			let other: any = [];
+			Object.keys(res.cn[0]._attrs)
+				.sort()
+				.forEach(function(key) {
+					ordered[key] = res.cn[0]._attrs[key];
+				});
+			res.cn[0]._attrs = ordered;
+			Object.keys(res.cn[0]._attrs).forEach(key => {
+				if (key.includes('custom')) {
+					other.push(res.cn[0]._attrs[key]);
+					delete res.cn[0]._attrs[key];
 				}
-			}
-		}).then(res => normalize(Contact)(res.cn[0]));
+			});
+			res.cn[0]._attrs.other = other;
+			return normalize(Contact)(res.cn[0]);
+		});
 	};
 
 	public modifyExternalAccount = ({
@@ -916,19 +955,39 @@ export class ZimbraBatchClient {
 			message: messages && messages.map(this.normalizeMessage)
 		}));
 
-	public search = (options: SearchOptions) =>
-		this.jsonRequest({
+	public search = (options: SearchOptions) => {
+		return this.jsonRequest({
 			name: 'Search',
 			body: {
 				...options
 			}
 		}).then(res => {
+			if (res.cn) {
+				forEach(res.cn, contact => {
+					let ordered: any = {};
+					let other: any = [];
+					Object.keys(contact._attrs)
+						.sort()
+						.forEach(function(key) {
+							ordered[key] = contact._attrs[key];
+						});
+					contact._attrs = ordered;
+					Object.keys(contact._attrs).forEach(key => {
+						if (key.includes('custom')) {
+							other.push(contact._attrs[key]);
+							delete contact._attrs[key];
+						}
+					});
+					contact._attrs.other = other;
+				});
+			}
 			const normalized = normalize(SearchResponse)(res);
 			if (normalized.messages) {
 				normalized.messages = normalized.messages.map(this.normalizeMessage);
 			}
 			return normalized;
 		});
+	};
 
 	public searchGal = (options: SearchOptions) =>
 		this.jsonRequest({
