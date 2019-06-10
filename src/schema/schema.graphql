@@ -271,6 +271,12 @@ enum ZimletPresence {
 	disabled
 }
 
+enum ResetPasswordStatus {
+	enabled
+	disabled
+	suspended
+}
+
 type AuthResponse {
 	authToken: [AuthToken]
 	twoFactorAuthRequired: TwoFactorAuthRequired
@@ -1099,7 +1105,7 @@ type AccountInfoAttrs {
 	zimbraFeatureCalendarEnabled: Boolean
 	zimbraFeatureRelatedContactsEnabled: Boolean
 	zimbraFeatureChangePasswordEnabled: Boolean
-	zimbraFeatureResetPasswordEnabled: Boolean
+	zimbraFeatureResetPasswordStatus: ResetPasswordStatus
 	zimbraFeatureWebClientOfflineAccessEnabled: Boolean
 	zimbraMailBlacklistMaxNumEntries: Int
 	zimbraPublicSharingEnabled: Boolean
@@ -1256,11 +1262,6 @@ type SendMessageResponse {
 
 type SaveDraftResponse {
 	message: [MessageInfo]
-}
-
-type SaveEmailsToLocalResponse {
-	successes: [String]
-	failures: [String]
 }
 
 type Contact {
@@ -2351,25 +2352,17 @@ input DismissInput {
 	dismissedAt: Float!
 }
 
-input StringContentInput {
-	_content: String
-}
-
 input AddMsgInput {
 	folderId: ID!
-	content: StringContentInput
+	absFolderPath: String
+	content: String
+	meta: String
 }
 
 input SaveMessageDataInput {
-	id: ID!,
-	content: String!,
+	id: ID!
+	content: String!
 	meta: String!
-}
-
-input SaveMessagesToLocalInput {
-	folderId: ID!
-	absFolderPath: String!
-	data: [SaveMessageDataInput!]!
 }
 
 input Grantee {
@@ -2704,7 +2697,6 @@ type Mutation {
 	resetPassword(password: String!): Boolean
 	revokeRights(input: RevokeRightsInput!): RevokeRightsResponse
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
-	saveMessagesToLocal(messagesData: SaveMessagesToLocalInput!): SaveEmailsToLocalResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse
 	sendDeliveryReport(messageId: ID!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse

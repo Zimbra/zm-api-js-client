@@ -211,10 +211,15 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => get(res, `${accountType}.0.id`));
 
-	public addMessage = (options: AddMsgInput) =>
+	public addMessage = ({ folderId, content }: AddMsgInput) =>
 		this.jsonRequest({
 			name: 'AddMsg',
-			body: denormalize(AddMsgInfo)(options)
+			body: denormalize(AddMsgInfo)({
+				folderId,
+				content: {
+					_content: content
+				}
+			})
 		}).then(normalize(MessageInfo));
 
 	public autoComplete = (options: AutoCompleteOptions) =>
@@ -1131,7 +1136,7 @@ export class ZimbraBatchClient {
 	private download = ({ id, part, isSecure }: any) =>
 		fetch(
 			`${this.origin}/service/home/~/?auth=co&id=${id}${
-			part ? `&part=${part}` : ''
+				part ? `&part=${part}` : ''
 			}`,
 			{
 				...(isSecure && {
