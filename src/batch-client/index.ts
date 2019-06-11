@@ -977,6 +977,10 @@ export class ZimbraBatchClient {
 			body: options
 		}).then(Boolean);
 
+	public setUserAgent = (userAgent: Object) => {
+		this.userAgent = userAgent;
+	};
+
 	public shareInfo = (options: ShareInfoOptions) =>
 		this.jsonRequest({
 			name: 'GetShareInfo',
@@ -1016,10 +1020,6 @@ export class ZimbraBatchClient {
 		}).then(res =>
 			mapValuesDeep(get(res, `${accountType}.0`), coerceStringToBoolean)
 		);
-
-	public updateUserAgent = (userAgent: Object) => {
-		this.userAgent = userAgent;
-	};
 
 	public uploadMessage = (message: string) => {
 		const contentDisposition = 'attachment';
