@@ -248,15 +248,16 @@ export function jsonRequest(
 export function zmFetch(url: string, request: any = {}): Promise<Response> {
 	const csrfToken = getCSRFToken();
 
-	request.headers = request.headers || {};
-
 	if (csrfToken) {
-		if (request.body && request.body instanceof String) {
-			const body = JSON.parse(request.body);
-			body.header = body.header || {};
-			body.header.context = body.header.context || {};
-			body.Header.context.csrfToken = csrfToken;
-		}
+		const body =
+			request.body && typeof request.body === 'string'
+				? JSON.parse(request.body)
+				: request.body || {};
+		body.header = body.header || {};
+		body.header.context = body.header.context || {};
+		body.Header.context.csrfToken = csrfToken;
+
+		request.headers = request.headers || {};
 		request.headers['X-Zimbra-Csrf-Token'] = csrfToken;
 	}
 	return fetch(url, request);

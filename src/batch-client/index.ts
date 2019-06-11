@@ -1110,8 +1110,8 @@ export class ZimbraBatchClient {
 			return isError(response) ? [response] : [response.body];
 		});
 
-	private download = ({ id, part, isSecure }: any) => {
-		return zmFetch(
+	private download = ({ id, part, isSecure }: any) =>
+		zmFetch(
 			`${this.origin}/service/home/~/?auth=co&id=${id}${
 				part ? `&part=${part}` : ''
 			}`,
@@ -1136,7 +1136,6 @@ export class ZimbraBatchClient {
 				});
 			}
 		});
-	};
 
 	/**
 	 * These options are included on every request.
