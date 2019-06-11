@@ -1,5 +1,6 @@
 import get from 'lodash/get';
 import reduce from 'lodash/reduce';
+import { getCSRFToken } from '../utils/csrf-token';
 import {
 	BatchRequestOptions,
 	BatchRequestResponse,
@@ -166,6 +167,7 @@ export function jsonRequest(
 	const soapRequestName = `${options.name}Request`;
 	const soapResponseName = `${options.name}Response`;
 	const url = `${options.origin}${options.soapPathname}/${soapRequestName}`;
+	const csrfToken = getCSRFToken();
 
 	let header: SOAPHeader;
 	header = {
@@ -217,6 +219,11 @@ export function jsonRequest(
 	const body = {
 		[soapRequestName]: soapCommandBody(options)
 	};
+
+	if (csrfToken) {
+		header.context.csrfToken = csrfToken;
+		options.headers['X-Zimbra-Csrf-Token'] = csrfToken;
+	}
 
 	return fetch(url, {
 		method: 'POST',

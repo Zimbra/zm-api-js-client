@@ -80,6 +80,7 @@ import {
 	coerceBooleanToString,
 	coerceStringToBoolean
 } from '../utils/coerce-boolean';
+import { getCSRFToken, setCSRFToken } from '../utils/csrf-token';
 import { mapValuesDeep } from '../utils/map-values-deep';
 import { normalizeEmailAddresses } from '../utils/normalize-email-addresses';
 import {
@@ -692,6 +693,7 @@ export class ZimbraBatchClient {
 			name: 'Auth',
 			body: {
 				tokenType,
+				csrfTokenSecured: true,
 				persistAuthTokenCookie,
 				account: {
 					by: 'name',
@@ -708,7 +710,10 @@ export class ZimbraBatchClient {
 				...(deviceTrusted && { deviceTrusted })
 			},
 			namespace: Namespace.Account
-		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
+		}).then(res => {
+			setCSRFToken(res.csrfToken._content);
+			return mapValuesDeep(res, coerceStringToBoolean);
+		});
 
 	public logout = () =>
 		this.jsonRequest({
@@ -1104,17 +1109,17 @@ export class ZimbraBatchClient {
 			return isError(response) ? [response] : [response.body];
 		});
 
-	private download = ({ id, part, isSecure }: any) =>
-		fetch(
+	private download = ({ id, part, isSecure }: any) => {
+		const csrfToken = getCSRFToken();
+		return fetch(
 			`${this.origin}/service/home/~/?auth=co&id=${id}${
 				part ? `&part=${part}` : ''
 			}`,
 			{
-				...(isSecure && {
-					headers: {
-						'X-Zimbra-Encoding': 'x-base64'
-					}
-				}),
+				headers: {
+					...(isSecure && { 'X-Zimbra-Encoding': 'x-base64' }),
+					...(csrfToken && { 'X-Zimbra-Csrf-Token': csrfToken })
+				},
 				credentials: 'include'
 			}
 		).then(response => {
@@ -1132,6 +1137,7 @@ export class ZimbraBatchClient {
 				});
 			}
 		});
+	};
 
 	/**
 	 * These options are included on every request.

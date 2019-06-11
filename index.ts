@@ -11,3 +11,4 @@ export { SyncOfflineOperations } from './src/apollo/sync-offline-operations';
 export { batchJsonRequest, jsonRequest } from './src/request';
 import * as types from './types';
 export { types };
+export { getCSRFToken } from './src/utils/csrf-token';

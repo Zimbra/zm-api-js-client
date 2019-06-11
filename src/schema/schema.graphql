@@ -277,6 +277,10 @@ enum ResetPasswordStatus {
 	suspended
 }
 
+type CSRFToken {
+	_content: String
+}
+
 type AuthResponse {
 	authToken: [AuthToken]
 	twoFactorAuthRequired: TwoFactorAuthRequired
@@ -284,6 +288,7 @@ type AuthResponse {
 	lifetime: Int
 	session: Session
 	skin: [Skin]
+	csrfToken: [CSRFToken]
 }
 
 type ScratchCodeType {
