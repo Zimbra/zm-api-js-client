@@ -1,6 +1,5 @@
 import DataLoader from 'dataloader';
 import castArray from 'lodash/castArray';
-import forEach from 'lodash/forEach';
 import get from 'lodash/get';
 import isError from 'lodash/isError';
 import mapValues from 'lodash/mapValues';
@@ -16,7 +15,6 @@ import {
 	CalendarItemDeleteRequest,
 	CalendarItemHitInfo,
 	Contact,
-	ContactInputRequest,
 	Conversation,
 	CreateMountpointRequest,
 	CreateSignatureRequest,
@@ -88,6 +86,10 @@ import {
 	getProfileImageUrl,
 	normalizeMimeParts
 } from '../utils/normalize-mime-parts';
+import {
+	createContactBody,
+	normalizeOtherAttr
+} from '../utils/normalize-otherAttribute-contact';
 import {
 	ActionOptions,
 	ActionType,
@@ -303,55 +305,10 @@ export class ZimbraBatchClient {
 		}).then(Boolean);
 
 	public createContact = (data: CreateContactInput) => {
-		const { attributes, ...rest } = data;
-		const contactAttrs = <Object[]>[];
-
-		forEach(
-			attributes,
-			(val, key) =>
-				key !== 'other' &&
-				contactAttrs.push({
-					name: key,
-					[key === 'image' ? 'aid' : 'content']: val
-				})
-		);
-		let body = {
-			cn: {
-				...denormalize(ContactInputRequest)({
-					...rest,
-					attributes: contactAttrs
-				})
-			}
-		};
-		attributes &&
-			attributes.other &&
-			attributes.other.map((value: any, index: any) => {
-				body.cn.a.push({
-					n: 'custom' + (index + 1),
-					_content: value
-				});
-			});
 		return this.jsonRequest({
 			name: 'CreateContact',
-			body
-		}).then(res => {
-			let ordered: any = {};
-			let other: any = [];
-			Object.keys(res.cn[0]._attrs)
-				.sort()
-				.forEach(function(key) {
-					ordered[key] = res.cn[0]._attrs[key];
-				});
-			res.cn[0]._attrs = ordered;
-			Object.keys(res.cn[0]._attrs).forEach(key => {
-				if (key.includes('custom')) {
-					other.push(res.cn[0]._attrs[key]);
-					delete res.cn[0]._attrs[key];
-				}
-			});
-			res.cn[0]._attrs.other = other;
-			return normalize(Contact)(res.cn[0]);
-		});
+			body: createContactBody(data)
+		}).then(res => normalize(Contact)(normalizeOtherAttr(res.cn)[0]));
 	};
 
 	public createFolder = (_options: CreateFolderOptions) => {
@@ -764,55 +721,10 @@ export class ZimbraBatchClient {
 		}).then(res => normalize(CalendarItemCreateModifyRequest)(res));
 
 	public modifyContact = (data: ModifyContactInput) => {
-		const { attributes, ...rest } = data;
-		const modifiedAttrs = <Object[]>[];
-
-		forEach(
-			attributes,
-			(val, key) =>
-				key !== 'other' &&
-				modifiedAttrs.push({
-					name: key,
-					[key === 'image' ? 'aid' : 'content']: val
-				})
-		);
-		let body = {
-			cn: {
-				...denormalize(ContactInputRequest)({
-					...rest,
-					attributes: modifiedAttrs
-				})
-			}
-		};
-		attributes &&
-			attributes.other &&
-			attributes.other.map((value: any, index: any) => {
-				body.cn.a.push({
-					n: 'custom' + (index + 1),
-					_content: value
-				});
-			});
 		return this.jsonRequest({
 			name: 'ModifyContact',
-			body
-		}).then(res => {
-			let ordered: any = {};
-			let other: any = [];
-			Object.keys(res.cn[0]._attrs)
-				.sort()
-				.forEach(function(key) {
-					ordered[key] = res.cn[0]._attrs[key];
-				});
-			res.cn[0]._attrs = ordered;
-			Object.keys(res.cn[0]._attrs).forEach(key => {
-				if (key.includes('custom')) {
-					other.push(res.cn[0]._attrs[key]);
-					delete res.cn[0]._attrs[key];
-				}
-			});
-			res.cn[0]._attrs.other = other;
-			return normalize(Contact)(res.cn[0]);
-		});
+			body: createContactBody(data)
+		}).then(res => normalize(Contact)(normalizeOtherAttr(res.cn)[0]));
 	};
 
 	public modifyExternalAccount = ({
@@ -980,23 +892,7 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => {
 			if (res.cn) {
-				forEach(res.cn, contact => {
-					let ordered: any = {};
-					let other: any = [];
-					Object.keys(contact._attrs)
-						.sort()
-						.forEach(function(key) {
-							ordered[key] = contact._attrs[key];
-						});
-					contact._attrs = ordered;
-					Object.keys(contact._attrs).forEach(key => {
-						if (key.includes('custom')) {
-							other.push(contact._attrs[key]);
-							delete contact._attrs[key];
-						}
-					});
-					contact._attrs.other = other;
-				});
+				res.cn = normalizeOtherAttr(res.cn);
 			}
 			const normalized = normalize(SearchResponse)(res);
 			if (normalized.messages) {
