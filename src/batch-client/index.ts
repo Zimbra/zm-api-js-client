@@ -38,8 +38,8 @@ import {
 	batchJsonRequest,
 	DEFAULT_HOSTNAME,
 	DEFAULT_SOAP_PATHNAME,
-	fetch,
-	jsonRequest
+	jsonRequest,
+	zmFetch
 } from '../request';
 import {
 	JsonRequestOptions,
@@ -1028,7 +1028,7 @@ export class ZimbraBatchClient {
 		const filename = 'message.eml';
 		const contentType = 'message/rfc822';
 
-		return fetch(`${this.origin}/service/upload?fmt=raw`, {
+		return zmFetch(`${this.origin}/service/upload?fmt=raw`, {
 			method: 'POST',
 			body: message,
 			headers: {
@@ -1111,7 +1111,7 @@ export class ZimbraBatchClient {
 		});
 
 	private download = ({ id, part, isSecure }: any) => {
-		return fetch(
+		return zmFetch(
 			`${this.origin}/service/home/~/?auth=co&id=${id}${
 				part ? `&part=${part}` : ''
 			}`,

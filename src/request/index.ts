@@ -219,7 +219,7 @@ export function jsonRequest(
 		[soapRequestName]: soapCommandBody(options)
 	};
 
-	return fetch(url, {
+	return zmFetch(url, {
 		method: 'POST',
 		credentials: options.credentials,
 		body: JSON.stringify({
@@ -245,7 +245,7 @@ export function jsonRequest(
 		});
 }
 
-export function fetch(url: string, request: any = {}): Promise<Response> {
+export function zmFetch(url: string, request: any = {}): Promise<Response> {
 	const csrfToken = getCSRFToken();
 
 	request.headers = request.headers || {};
