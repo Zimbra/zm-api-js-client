@@ -1026,13 +1026,15 @@ export class ZimbraBatchClient {
 		const contentDisposition = 'attachment';
 		const filename = 'message.eml';
 		const contentType = 'message/rfc822';
+		const csrfToken = getCSRFToken();
 
 		return fetch(`${this.origin}/service/upload?fmt=raw`, {
 			method: 'POST',
 			body: message,
 			headers: {
 				'Content-Disposition': `${contentDisposition}; filename="${filename}"`,
-				'Content-Type': contentType
+				'Content-Type': contentType,
+				...(csrfToken && { 'X-Zimbra-Csrf-Token': csrfToken })
 			},
 			credentials: 'include'
 		}).then(response => {
