@@ -8,7 +8,6 @@ export {
 } from './src/apollo/zimbra-in-memory-cache';
 export { OfflineQueueLink } from './src/apollo/offline-queue-link';
 export { SyncOfflineOperations } from './src/apollo/sync-offline-operations';
-export { batchJsonRequest, jsonRequest } from './src/request';
+export { batchJsonRequest, jsonRequest, fetch } from './src/request';
 import * as types from './types';
 export { types };
-export { getCSRFToken } from './src/utils/csrf-token';

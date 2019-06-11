@@ -167,7 +167,6 @@ export function jsonRequest(
 	const soapRequestName = `${options.name}Request`;
 	const soapResponseName = `${options.name}Response`;
 	const url = `${options.origin}${options.soapPathname}/${soapRequestName}`;
-	const csrfToken = getCSRFToken();
 
 	let header: SOAPHeader;
 	header = {
@@ -220,11 +219,6 @@ export function jsonRequest(
 		[soapRequestName]: soapCommandBody(options)
 	};
 
-	if (csrfToken) {
-		header.context.csrfToken = csrfToken;
-		options.headers['X-Zimbra-Csrf-Token'] = csrfToken;
-	}
-
 	return fetch(url, {
 		method: 'POST',
 		credentials: options.credentials,
@@ -249,4 +243,21 @@ export function jsonRequest(
 				originalResponse: response
 			};
 		});
+}
+
+export function fetch(url: string, request: any = {}): Promise<Response> {
+	const csrfToken = getCSRFToken();
+
+	request.headers = request.headers || {};
+
+	if (csrfToken) {
+		if (request.body && request.body instanceof String) {
+			const body = JSON.parse(request.body);
+			body.header = body.header || {};
+			body.header.context = body.header.context || {};
+			body.Header.context.csrfToken = csrfToken;
+		}
+		request.headers['X-Zimbra-Csrf-Token'] = csrfToken;
+	}
+	return fetch(url, request);
 }

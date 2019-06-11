@@ -38,6 +38,7 @@ import {
 	batchJsonRequest,
 	DEFAULT_HOSTNAME,
 	DEFAULT_SOAP_PATHNAME,
+	fetch,
 	jsonRequest
 } from '../request';
 import {
@@ -80,7 +81,7 @@ import {
 	coerceBooleanToString,
 	coerceStringToBoolean
 } from '../utils/coerce-boolean';
-import { getCSRFToken, setCSRFToken } from '../utils/csrf-token';
+import { setCSRFToken } from '../utils/csrf-token';
 import { mapValuesDeep } from '../utils/map-values-deep';
 import { normalizeEmailAddresses } from '../utils/normalize-email-addresses';
 import {
@@ -1026,15 +1027,13 @@ export class ZimbraBatchClient {
 		const contentDisposition = 'attachment';
 		const filename = 'message.eml';
 		const contentType = 'message/rfc822';
-		const csrfToken = getCSRFToken();
 
 		return fetch(`${this.origin}/service/upload?fmt=raw`, {
 			method: 'POST',
 			body: message,
 			headers: {
 				'Content-Disposition': `${contentDisposition}; filename="${filename}"`,
-				'Content-Type': contentType,
-				...(csrfToken && { 'X-Zimbra-Csrf-Token': csrfToken })
+				'Content-Type': contentType
 			},
 			credentials: 'include'
 		}).then(response => {
@@ -1112,15 +1111,13 @@ export class ZimbraBatchClient {
 		});
 
 	private download = ({ id, part, isSecure }: any) => {
-		const csrfToken = getCSRFToken();
 		return fetch(
 			`${this.origin}/service/home/~/?auth=co&id=${id}${
 				part ? `&part=${part}` : ''
 			}`,
 			{
 				headers: {
-					...(isSecure && { 'X-Zimbra-Encoding': 'x-base64' }),
-					...(csrfToken && { 'X-Zimbra-Csrf-Token': csrfToken })
+					...(isSecure && { 'X-Zimbra-Encoding': 'x-base64' })
 				},
 				credentials: 'include'
 			}
