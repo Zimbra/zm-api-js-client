@@ -249,13 +249,13 @@ export function zmFetch(url: string, request: any = {}): Promise<Response> {
 	const csrfToken = getCSRFToken();
 
 	if (csrfToken) {
-		const body =
-			request.body && typeof request.body === 'string'
-				? JSON.parse(request.body)
-				: request.body || {};
-		body.header = body.header || {};
-		body.header.context = body.header.context || {};
-		body.Header.context.csrfToken = csrfToken;
+		let body = request.body;
+		if (body && !(body instanceof Blob) && !(body instanceof ArrayBuffer)) {
+			body = typeof body === 'string' ? JSON.parse(body) : body || {};
+			body.header = body.header || {};
+			body.header.context = body.header.context || {};
+			body.Header.context.csrfToken = csrfToken;
+		}
 
 		request.headers = request.headers || {};
 		request.headers['X-Zimbra-Csrf-Token'] = csrfToken;
