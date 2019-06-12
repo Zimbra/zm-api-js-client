@@ -1,4 +1,3 @@
-import cloneDeep from 'lodash/cloneDeep';
 import forEach from 'lodash/forEach';
 import { denormalize } from '../normalize';
 import { ContactInputRequest } from '../normalize/entities';
@@ -21,19 +20,16 @@ export function createContactBody(data: any) {
 			  )
 	);
 	return {
-		cn: {
-			...denormalize(ContactInputRequest)({
-				...rest,
-				attributes: contactAttrs
-			})
-		}
+		cn: denormalize(ContactInputRequest)({
+			...rest,
+			attributes: contactAttrs
+		})
 	};
 }
 
 export function normalizeOtherAttr(data: any) {
 	return data.map((contact: any) => {
 		let other: any = [];
-		let contactCopy = cloneDeep(contact);
 
 		Object.keys(contact._attrs)
 			.filter(key => key.includes('custom'))
@@ -42,7 +38,7 @@ export function normalizeOtherAttr(data: any) {
 				key => other.push(contact._attrs[key]) && delete contact._attrs[key]
 			);
 		return {
-			...contactCopy,
+			...contact,
 			_attrs: {
 				...contact._attrs,
 				other
