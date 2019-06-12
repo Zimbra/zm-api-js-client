@@ -1132,6 +1132,22 @@ export interface SendMessageInput {
 	attachments?: (AttachmentInput | null)[] | null;
 }
 
+export interface SaveMessagesToLocalInput {
+	folderId?: string | null;
+
+	absFolderPath?: string | null;
+
+	data?: (SaveMessageDataInput | null)[] | null;
+}
+
+export interface SaveMessageDataInput {
+	id?: string | null;
+
+	content?: string | null;
+
+	meta?: string | null;
+}
+
 export interface InviteReplyInput {
 	componentNum: number;
 

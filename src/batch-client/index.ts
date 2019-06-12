@@ -211,10 +211,15 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => get(res, `${accountType}.0.id`));
 
-	public addMessage = (options: AddMsgInput) =>
+	public addMessage = ({ folderId, content }: AddMsgInput) =>
 		this.jsonRequest({
 			name: 'AddMsg',
-			body: denormalize(AddMsgInfo)(options)
+			body: denormalize(AddMsgInfo)({
+				folderId,
+				content: {
+					_content: content
+				}
+			})
 		}).then(normalize(MessageInfo));
 
 	public autoComplete = (options: AutoCompleteOptions) =>
@@ -600,6 +605,30 @@ export class ZimbraBatchClient {
 				}
 			}
 		}).then(res => (res && res.m ? this.normalizeMessage(res.m[0]) : null));
+
+	/**
+	 * Invokes GetMsgMetadataRequest and fetches the metadata of the messages with specified ids
+	 * This api should be used when backend returns all the data necessary to download the
+	 * metadata of the messages that are dragged and dropped to local folders by user.
+	 * @param {GetMessageOptions} {ids: Array<String>} the ids of the messages to be downloaded
+	 *
+	 * @memberof ZimbraBatchClient
+	 */
+	public getMessageMetadata = ({ ids }: GetMessageOptions) =>
+		this.jsonRequest({
+			name: 'GetMsgMetadata',
+			body: {
+				m: {
+					ids: ids.join(',')
+				}
+			}
+		}).then(res => {
+			// logs kept to verify the data when available
+			console.log('metadata res is', res);
+			const normalised = res.m.map(this.normalizeMessage);
+			console.log('normalised is', normalised);
+			return normalised;
+		});
 
 	public getProfileImageUrl = (profileImageId: any) =>
 		getProfileImageUrl(profileImageId, {
