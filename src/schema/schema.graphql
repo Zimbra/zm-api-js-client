@@ -1394,7 +1394,6 @@ input ContactAttrsInput {
 	pager: String
 	pager2: String
 	homeFax2: String
-	workFax: String
 	workFax2: String
 	imAddress: String
 	imAddress1: String
