@@ -304,12 +304,11 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(Boolean);
 
-	public createContact = (data: CreateContactInput) => {
-		return this.jsonRequest({
+	public createContact = (data: CreateContactInput) =>
+		this.jsonRequest({
 			name: 'CreateContact',
 			body: createContactBody(data)
 		}).then(res => normalize(Contact)(normalizeOtherAttr(res.cn)[0]));
-	};
 
 	public createFolder = (_options: CreateFolderOptions) => {
 		const { flags, fetchIfExists, parentFolderId, ...options } = _options;
@@ -720,12 +719,11 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(res => normalize(CalendarItemCreateModifyRequest)(res));
 
-	public modifyContact = (data: ModifyContactInput) => {
-		return this.jsonRequest({
+	public modifyContact = (data: ModifyContactInput) =>
+		this.jsonRequest({
 			name: 'ModifyContact',
 			body: createContactBody(data)
 		}).then(res => normalize(Contact)(normalizeOtherAttr(res.cn)[0]));
-	};
 
 	public modifyExternalAccount = ({
 		id,
@@ -884,8 +882,8 @@ export class ZimbraBatchClient {
 			message: messages && messages.map(this.normalizeMessage)
 		}));
 
-	public search = (options: SearchOptions) => {
-		return this.jsonRequest({
+	public search = (options: SearchOptions) =>
+		this.jsonRequest({
 			name: 'Search',
 			body: {
 				...options
@@ -900,7 +898,6 @@ export class ZimbraBatchClient {
 			}
 			return normalized;
 		});
-	};
 
 	public searchGal = (options: SearchOptions) =>
 		this.jsonRequest({
