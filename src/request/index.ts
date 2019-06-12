@@ -251,10 +251,17 @@ export function zmFetch(url: string, request: any = {}): Promise<Response> {
 	if (csrfToken) {
 		let body = request.body;
 		if (body && !(body instanceof Blob) && !(body instanceof ArrayBuffer)) {
-			body = typeof body === 'string' ? JSON.parse(body) : body || {};
-			body.header = body.header || {};
-			body.header.context = body.header.context || {};
-			body.Header.context.csrfToken = csrfToken;
+			if (typeof body === 'string') {
+				try {
+					body = JSON.parse(body);
+				} catch (e) {}
+			}
+
+			if (typeof body === 'object') {
+				body.header = body.header || {};
+				body.header.context = body.header.context || {};
+				body.Header.context.csrfToken = csrfToken;
+			}
 		}
 
 		request.headers = request.headers || {};
