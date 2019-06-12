@@ -712,7 +712,9 @@ export class ZimbraBatchClient {
 			},
 			namespace: Namespace.Account
 		}).then(res => {
-			setCSRFToken(res.csrfToken._content);
+			res.csrfToken &&
+				res.csrfToken._content &&
+				setCSRFToken(res.csrfToken._content);
 			return mapValuesDeep(res, coerceStringToBoolean);
 		});
 
