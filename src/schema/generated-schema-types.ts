@@ -1,3 +1,5 @@
+export type Maybe<T> = T | null;
+
 export interface ContactFrequencySpec {
 	range: string;
 
@@ -9,15 +11,15 @@ export interface MailItemHeaderInput {
 }
 /** Include one of these fields to query for a folder */
 export interface GetFolderFolderInput {
-	uuid?: string | null;
+	uuid?: Maybe<string>;
 
-	parentFolderId?: string | null;
+	parentFolderId?: Maybe<string>;
 
-	path?: string | null;
+	path?: Maybe<string>;
 }
 
 export interface GetRightsInput {
-	access?: (Right | null)[] | null;
+	access?: Maybe<(Maybe<Right>)[]>;
 }
 
 export interface Right {
@@ -25,39 +27,39 @@ export interface Right {
 }
 
 export interface Grantee {
-	id?: string | null;
+	id?: Maybe<string>;
 
-	type?: string | null;
+	type?: Maybe<string>;
 
-	name?: string | null;
+	name?: Maybe<string>;
 }
 
 export interface Owner {
-	by?: string | null;
+	by?: Maybe<string>;
 
-	_content?: string | null;
+	_content?: Maybe<string>;
 }
 
 export interface Cursor {
-	id?: string | null;
+	id?: Maybe<string>;
 
-	sortVal?: string | null;
+	sortVal?: Maybe<string>;
 
-	endSortVal?: string | null;
+	endSortVal?: Maybe<string>;
 
-	includeOffset?: boolean | null;
+	includeOffset?: Maybe<boolean>;
 }
 
 export interface ExternalAccountTestInput {
-	accountType?: AccountType | null;
+	accountType?: Maybe<AccountType>;
 
-	connectionType?: ConnectionType | null;
+	connectionType?: Maybe<ConnectionType>;
 
-	emailAddress?: string | null;
+	emailAddress?: Maybe<string>;
 
 	host: string;
 
-	leaveOnServer?: boolean | null;
+	leaveOnServer?: Maybe<boolean>;
 
 	port: string;
 
@@ -67,19 +69,19 @@ export interface ExternalAccountTestInput {
 }
 
 export interface ExternalAccountAddInput {
-	accountType?: AccountType | null;
+	accountType?: Maybe<AccountType>;
 
-	connectionType?: ConnectionType | null;
+	connectionType?: Maybe<ConnectionType>;
 
-	emailAddress?: string | null;
+	emailAddress?: Maybe<string>;
 
 	host: string;
 
-	isEnabled?: boolean | null;
+	isEnabled?: Maybe<boolean>;
 
 	l: string;
 
-	leaveOnServer?: boolean | null;
+	leaveOnServer?: Maybe<boolean>;
 
 	name: string;
 
@@ -93,133 +95,133 @@ export interface ExternalAccountAddInput {
 export interface AddMsgInput {
 	folderId: string;
 
-	content?: StringContentInput | null;
+	content?: Maybe<StringContentInput>;
 }
 
 export interface StringContentInput {
-	_content?: string | null;
+	_content?: Maybe<string>;
 }
 
 export interface CalendarItemInput {
-	id?: string | null;
+	id?: Maybe<string>;
 
-	modifiedSequence?: number | null;
+	modifiedSequence?: Maybe<number>;
 
-	revision?: number | null;
+	revision?: Maybe<number>;
 
-	componentNum?: number | null;
+	componentNum?: Maybe<number>;
 
 	message: CalendarItemMessageInput;
 }
 
 export interface CalendarItemMessageInput {
-	folderId?: string | null;
+	folderId?: Maybe<string>;
 
-	subject?: string | null;
+	subject?: Maybe<string>;
 
-	invitations?: CalendarItemInviteInput | null;
+	invitations?: Maybe<CalendarItemInviteInput>;
 
-	mimeParts?: (MimePartInput | null)[] | null;
+	mimeParts?: Maybe<(Maybe<MimePartInput>)[]>;
 
-	emailAddresses?: (MailItemEmailAddressInput | null)[] | null;
+	emailAddresses?: Maybe<(Maybe<MailItemEmailAddressInput>)[]>;
 
-	attachments?: (AttachmentInput | null)[] | null;
+	attachments?: Maybe<(Maybe<AttachmentInput>)[]>;
 
-	replyType?: InviteReplyType | null;
+	replyType?: Maybe<InviteReplyType>;
 }
 
 export interface CalendarItemInviteInput {
-	components: (CalendarItemInviteComponentInput | null)[];
+	components: (Maybe<CalendarItemInviteComponentInput>)[];
 }
 
 export interface CalendarItemInviteComponentInput {
 	name: string;
 
-	location?: string | null;
+	location?: Maybe<string>;
 
-	start?: CalendarItemDateTimeInput | null;
+	start?: Maybe<CalendarItemDateTimeInput>;
 
-	end?: CalendarItemDateTimeInput | null;
+	end?: Maybe<CalendarItemDateTimeInput>;
 
-	exceptId?: CalendarOptionalItemDateTimeInput | null;
+	exceptId?: Maybe<CalendarOptionalItemDateTimeInput>;
 
-	freeBusy?: FreeBusyStatus | null;
+	freeBusy?: Maybe<FreeBusyStatus>;
 
-	allDay?: boolean | null;
+	allDay?: Maybe<boolean>;
 
-	organizer?: CalendarItemOrganizerInput | null;
+	organizer?: Maybe<CalendarItemOrganizerInput>;
 
-	recurrence?: CalendarItemRecurrenceInput | null;
+	recurrence?: Maybe<CalendarItemRecurrenceInput>;
 
-	attendees?: (CalendarItemAttendeesInput | null)[] | null;
+	attendees?: Maybe<(Maybe<CalendarItemAttendeesInput>)[]>;
 
-	alarms?: (CalendarItemAlarmInput | null)[] | null;
+	alarms?: Maybe<(Maybe<CalendarItemAlarmInput>)[]>;
 
 	class: CalendarItemClass;
 
-	priority?: string | null;
+	priority?: Maybe<string>;
 
-	percentComplete?: string | null;
+	percentComplete?: Maybe<string>;
 
-	status?: InviteCompletionStatus | null;
+	status?: Maybe<InviteCompletionStatus>;
 
-	noBlob?: boolean | null;
+	noBlob?: Maybe<boolean>;
 
-	description?: (CalendarItemInviteComponentDescriptionInput | null)[] | null;
+	description?: Maybe<(Maybe<CalendarItemInviteComponentDescriptionInput>)[]>;
 
-	draft?: boolean | null;
+	draft?: Maybe<boolean>;
 }
 
 export interface CalendarItemDateTimeInput {
-	timezone?: string | null;
+	timezone?: Maybe<string>;
 
 	date: string;
 }
 
 export interface CalendarOptionalItemDateTimeInput {
-	timezone?: string | null;
+	timezone?: Maybe<string>;
 
-	date?: string | null;
+	date?: Maybe<string>;
 }
 
 export interface CalendarItemOrganizerInput {
-	address?: string | null;
+	address?: Maybe<string>;
 
-	name?: string | null;
+	name?: Maybe<string>;
 
-	sentBy?: string | null;
+	sentBy?: Maybe<string>;
 }
 
 export interface CalendarItemRecurrenceInput {
-	add?: CalendarItemRecurrenceAddInput | null;
+	add?: Maybe<CalendarItemRecurrenceAddInput>;
 }
 
 export interface CalendarItemRecurrenceAddInput {
-	rule?: CalendarItemRecurrenceRuleInput | null;
+	rule?: Maybe<CalendarItemRecurrenceRuleInput>;
 }
 
 export interface CalendarItemRecurrenceRuleInput {
-	interval?: CalendarItemRecurrenceIntervalInput | null;
+	interval?: Maybe<CalendarItemRecurrenceIntervalInput>;
 
-	frequency?: CalendarItemRecurrenceFrequency | null;
+	frequency?: Maybe<CalendarItemRecurrenceFrequency>;
 
-	count?: CalendarItemRecurrenceEndCountInput | null;
+	count?: Maybe<CalendarItemRecurrenceEndCountInput>;
 
-	until?: CalendarItemRecurrenceEndDateInput | null;
+	until?: Maybe<CalendarItemRecurrenceEndDateInput>;
 
-	byday?: CalendarItemRecurrenceByDayInput | null;
+	byday?: Maybe<CalendarItemRecurrenceByDayInput>;
 
-	bymonthday?: CalendarItemRecurrenceByMonthDayInput | null;
+	bymonthday?: Maybe<CalendarItemRecurrenceByMonthDayInput>;
 
-	bymonth?: CalendarItemRecurrenceByMonthInput | null;
+	bymonth?: Maybe<CalendarItemRecurrenceByMonthInput>;
 
-	bysetpos?: CalendarItemRecurrenceBySetPosInput | null;
+	bysetpos?: Maybe<CalendarItemRecurrenceBySetPosInput>;
 }
 
 export interface CalendarItemRecurrenceIntervalInput {
 	intervalCount: number;
 
-	zimbraPrefAutoAddAppointmentsToCalendar?: boolean | null;
+	zimbraPrefAutoAddAppointmentsToCalendar?: Maybe<boolean>;
 }
 
 export interface CalendarItemRecurrenceEndCountInput {
@@ -231,13 +233,13 @@ export interface CalendarItemRecurrenceEndDateInput {
 }
 
 export interface CalendarItemRecurrenceByDayInput {
-	wkday?: (WkDayInput | null)[] | null;
+	wkday?: Maybe<(Maybe<WkDayInput>)[]>;
 }
 
 export interface WkDayInput {
 	day: Weekday;
 
-	ordwk?: number | null;
+	ordwk?: Maybe<number>;
 }
 
 export interface CalendarItemRecurrenceByMonthDayInput {
@@ -253,17 +255,17 @@ export interface CalendarItemRecurrenceBySetPosInput {
 }
 
 export interface CalendarItemAttendeesInput {
-	role?: ParticipationRole | null;
+	role?: Maybe<ParticipationRole>;
 
-	participationStatus?: ParticipationStatus | null;
+	participationStatus?: Maybe<ParticipationStatus>;
 
-	rsvp?: boolean | null;
+	rsvp?: Maybe<boolean>;
 
 	address: string;
 
-	name?: string | null;
+	name?: Maybe<string>;
 
-	calendarUserType?: string | null;
+	calendarUserType?: Maybe<string>;
 }
 
 export interface CalendarItemAlarmInput {
@@ -271,29 +273,29 @@ export interface CalendarItemAlarmInput {
 
 	trigger: CalendarItemAlarmTriggerInput;
 
-	attendees?: CalendarItemAlarmAttendeesInput | null;
+	attendees?: Maybe<CalendarItemAlarmAttendeesInput>;
 }
 
 export interface CalendarItemAlarmTriggerInput {
-	relative?: CalendarItemAlarmTriggerRelativeInput | null;
+	relative?: Maybe<CalendarItemAlarmTriggerRelativeInput>;
 
-	absolute?: CalendarItemAlarmTriggerAbsoluteInput | null;
+	absolute?: Maybe<CalendarItemAlarmTriggerAbsoluteInput>;
 }
 
 export interface CalendarItemAlarmTriggerRelativeInput {
-	weeks?: number | null;
+	weeks?: Maybe<number>;
 
-	days?: number | null;
+	days?: Maybe<number>;
 
-	hours?: number | null;
+	hours?: Maybe<number>;
 
-	minutes?: number | null;
+	minutes?: Maybe<number>;
 
-	seconds?: number | null;
+	seconds?: Maybe<number>;
 
-	relatedTo?: AlarmRelatedTo | null;
+	relatedTo?: Maybe<AlarmRelatedTo>;
 
-	negative?: boolean | null;
+	negative?: Maybe<boolean>;
 }
 
 export interface CalendarItemAlarmTriggerAbsoluteInput {
@@ -305,217 +307,217 @@ export interface CalendarItemAlarmAttendeesInput {
 }
 
 export interface CalendarItemInviteComponentDescriptionInput {
-	_content?: string | null;
+	_content?: Maybe<string>;
 }
 
 export interface MimePartInput {
-	body?: boolean | null;
+	body?: Maybe<boolean>;
 
-	filename?: string | null;
+	filename?: Maybe<string>;
 
-	part?: string | null;
+	part?: Maybe<string>;
 
-	content?: string | null;
+	content?: Maybe<string>;
 
-	contentId?: string | null;
+	contentId?: Maybe<string>;
 
-	contentType?: string | null;
+	contentType?: Maybe<string>;
 
-	contentDisposition?: string | null;
+	contentDisposition?: Maybe<string>;
 
-	size?: number | null;
+	size?: Maybe<number>;
 
-	mimeParts?: (MimePartInput | null)[] | null;
+	mimeParts?: Maybe<(Maybe<MimePartInput>)[]>;
 
-	url?: string | null;
+	url?: Maybe<string>;
 
-	messageId?: string | null;
+	messageId?: Maybe<string>;
 
-	attachments?: (AttachmentInput | null)[] | null;
+	attachments?: Maybe<(Maybe<AttachmentInput>)[]>;
 }
 
 export interface AttachmentInput {
-	attachmentId?: string | null;
+	attachmentId?: Maybe<string>;
 
-	existingAttachments?: (ExistingAttachmentInput | null)[] | null;
+	existingAttachments?: Maybe<(Maybe<ExistingAttachmentInput>)[]>;
 }
 
 export interface ExistingAttachmentInput {
-	messageId?: string | null;
+	messageId?: Maybe<string>;
 
-	part?: string | null;
+	part?: Maybe<string>;
 }
 
 export interface MailItemEmailAddressInput {
 	address: string;
 
-	name?: string | null;
+	name?: Maybe<string>;
 
 	type: AddressType;
 }
 
 export interface CreateContactInput {
-	folderId?: string | null;
+	folderId?: Maybe<string>;
 
-	tagNames?: string | null;
+	tagNames?: Maybe<string>;
 
 	attributes: ContactAttrsInput;
 }
 
 export interface ContactAttrsInput {
-	firstName?: string | null;
+	firstName?: Maybe<string>;
 
-	middleName?: string | null;
+	middleName?: Maybe<string>;
 
-	lastName?: string | null;
+	lastName?: Maybe<string>;
 
-	fullName?: string | null;
+	fullName?: Maybe<string>;
 
-	maidenName?: string | null;
+	maidenName?: Maybe<string>;
 
-	namePrefix?: string | null;
+	namePrefix?: Maybe<string>;
 
-	nameSuffix?: string | null;
+	nameSuffix?: Maybe<string>;
 
-	email?: string | null;
+	email?: Maybe<string>;
 
-	email2?: string | null;
+	email2?: Maybe<string>;
 
-	workEmail?: string | null;
+	workEmail?: Maybe<string>;
 
-	workEmail2?: string | null;
+	workEmail2?: Maybe<string>;
 
-	homeEmail?: string | null;
+	homeEmail?: Maybe<string>;
 
-	homeEmail2?: string | null;
+	homeEmail2?: Maybe<string>;
 
-	phone?: string | null;
+	phone?: Maybe<string>;
 
-	phone2?: string | null;
+	phone2?: Maybe<string>;
 
-	companyPhone?: string | null;
+	companyPhone?: Maybe<string>;
 
-	companyPhone2?: string | null;
+	companyPhone2?: Maybe<string>;
 
-	otherPhone?: string | null;
+	otherPhone?: Maybe<string>;
 
-	otherPhone2?: string | null;
+	otherPhone2?: Maybe<string>;
 
-	mobilePhone?: string | null;
+	mobilePhone?: Maybe<string>;
 
-	mobilePhone2?: string | null;
+	mobilePhone2?: Maybe<string>;
 
-	homePhone?: string | null;
+	homePhone?: Maybe<string>;
 
-	homePhone2?: string | null;
+	homePhone2?: Maybe<string>;
 
-	workPhone?: string | null;
+	workPhone?: Maybe<string>;
 
-	workPhone2?: string | null;
+	workPhone2?: Maybe<string>;
 
-	pager?: string | null;
+	pager?: Maybe<string>;
 
-	pager2?: string | null;
+	pager2?: Maybe<string>;
 
-	homeFax?: string | null;
+	homeFax2?: Maybe<string>;
 
-	homeFax2?: string | null;
+	workFax?: Maybe<string>;
 
-	workFax?: string | null;
+	workFax2?: Maybe<string>;
 
-	workFax2?: string | null;
+	imAddress?: Maybe<string>;
 
-	imAddress?: string | null;
+	imAddress1?: Maybe<string>;
 
-	imAddress1?: string | null;
+	imAddress2?: Maybe<string>;
 
-	imAddress2?: string | null;
+	imAddress3?: Maybe<string>;
 
-	imAddress3?: string | null;
+	imAddress4?: Maybe<string>;
 
-	imAddress4?: string | null;
+	imAddress5?: Maybe<string>;
 
-	imAddress5?: string | null;
+	nickname?: Maybe<string>;
 
-	nickname?: string | null;
+	homeStreet?: Maybe<string>;
 
-	homeStreet?: string | null;
+	homeCity?: Maybe<string>;
 
-	homeCity?: string | null;
+	homeFax?: Maybe<string>;
 
-	homeState?: string | null;
+	homeState?: Maybe<string>;
 
-	homePostalCode?: string | null;
+	homePostalCode?: Maybe<string>;
 
-	homeCountry?: string | null;
+	homeCountry?: Maybe<string>;
 
-	homeURL?: string | null;
+	homeURL?: Maybe<string>;
 
-	workStreet?: string | null;
+	workStreet?: Maybe<string>;
 
-	workCity?: string | null;
+	workCity?: Maybe<string>;
 
-	workState?: string | null;
+	workState?: Maybe<string>;
 
-	workPostalCode?: string | null;
+	workPostalCode?: Maybe<string>;
 
-	workCountry?: string | null;
+	workCountry?: Maybe<string>;
 
-	workURL?: string | null;
+	workURL?: Maybe<string>;
 
-	jobTitle?: string | null;
+	jobTitle?: Maybe<string>;
 
-	company?: string | null;
+	company?: Maybe<string>;
 
-	department?: string | null;
+	department?: Maybe<string>;
 
-	birthday?: string | null;
+	birthday?: Maybe<string>;
 
-	anniversary?: string | null;
+	anniversary?: Maybe<string>;
 
-	website?: string | null;
+	website?: Maybe<string>;
 
-	notes?: string | null;
+	notes?: Maybe<string>;
 
-	image?: string | null;
+	image?: Maybe<string>;
 
-	userCertificate?: string | null;
+	userCertificate?: Maybe<string>;
 
-	assistantPhone?: string | null;
+	assistantPhone?: Maybe<string>;
 
-	callbackPhone?: string | null;
+	callbackPhone?: Maybe<string>;
 
-	carPhone?: string | null;
+	carPhone?: Maybe<string>;
 
-	otherCity?: string | null;
+	otherCity?: Maybe<string>;
 
-	otherCountry?: string | null;
+	otherCountry?: Maybe<string>;
 
-	otherFax?: string | null;
+	otherFax?: Maybe<string>;
 
-	otherPostalCode?: string | null;
+	otherPostalCode?: Maybe<string>;
 
-	otherState?: string | null;
+	otherState?: Maybe<string>;
 
-	otherStreet?: string | null;
+	otherStreet?: Maybe<string>;
 
-	otherURL?: string | null;
+	otherURL?: Maybe<string>;
 	/** Used for contact lists */
-	fileAs?: string | null;
+	fileAs?: Maybe<string>;
 
-	type?: string | null;
+	type?: Maybe<string>;
 }
 
 export interface ModifyContactInput {
 	id: string;
 
-	folderId?: string | null;
+	folderId?: Maybe<string>;
 
-	tagNames?: string | null;
+	tagNames?: Maybe<string>;
 
 	attributes: ContactAttrsInput;
 
-	memberOps?: (ContactListOps | null)[] | null;
+	memberOps?: Maybe<(Maybe<ContactListOps>)[]>;
 }
 
 export interface ContactListOps {
@@ -529,81 +531,81 @@ export interface ContactListOps {
 export interface NewMountpointSpec {
 	name: string;
 
-	owner?: string | null;
+	owner?: Maybe<string>;
 
-	view?: SearchType | null;
+	view?: Maybe<SearchType>;
 
-	flags?: string | null;
+	flags?: Maybe<string>;
 
-	ownerZimbraId?: string | null;
+	ownerZimbraId?: Maybe<string>;
 
-	sharedItemId?: string | null;
+	sharedItemId?: Maybe<string>;
 
-	color?: number | null;
+	color?: Maybe<number>;
 
-	reminder?: boolean | null;
+	reminder?: Maybe<boolean>;
 
-	parentFolderId?: string | null;
+	parentFolderId?: Maybe<string>;
 }
 
 export interface SignatureInput {
-	id?: string | null;
+	id?: Maybe<string>;
 
-	name?: string | null;
+	name?: Maybe<string>;
 
-	content?: SignatureContentInput | null;
+	content?: Maybe<SignatureContentInput>;
 
-	contentId?: string | null;
+	contentId?: Maybe<string>;
 }
 
 export interface SignatureContentInput {
-	type?: string | null;
+	type?: Maybe<string>;
 
-	_content?: string | null;
+	_content?: Maybe<string>;
 }
 
 export interface DeleteAppointmentInput {
-	instanceDate?: InstanceDate | null;
+	instanceDate?: Maybe<InstanceDate>;
 
 	inviteId: string;
 
 	componentNum: string;
 
-	start?: number | null;
+	start?: Maybe<number>;
 
-	message?: CalendarItemMessageInput | null;
+	message?: Maybe<CalendarItemMessageInput>;
 }
 
 export interface InstanceDate {
-	date?: string | null;
+	date?: Maybe<string>;
 }
 
 export interface NameIdInput {
-	id?: string | null;
+	id?: Maybe<string>;
 
-	name?: string | null;
+	name?: Maybe<string>;
 }
 
 export interface GrantRightsInput {
-	access?: (AccountAceInfoInput | null)[] | null;
+	access?: Maybe<(Maybe<AccountAceInfoInput>)[]>;
 }
 /** Used by GrantRightsRequest */
 export interface AccountAceInfoInput {
-	zimbraId?: string | null;
+	zimbraId?: Maybe<string>;
 
 	granteeType: GranteeType;
 
 	right: string;
 
-	address?: string | null;
+	address?: Maybe<string>;
 
-	key?: string | null;
+	key?: Maybe<string>;
 
-	password?: string | null;
+	password?: Maybe<string>;
 
-	deny?: boolean | null;
+	deny?: Maybe<boolean>;
 
-	checkGrantee?: boolean | null;
+	checkGrantee?: Maybe<boolean>;
 }
 
 export interface FolderActionInput {
@@ -611,27 +613,27 @@ export interface FolderActionInput {
 
 	op: string;
 
-	grant?: (GrantInput | null)[] | null;
+	grant?: Maybe<(Maybe<GrantInput>)[]>;
 
-	name?: string | null;
+	name?: Maybe<string>;
 
-	folderId?: string | null;
+	folderId?: Maybe<string>;
 
-	zimbraId?: string | null;
+	zimbraId?: Maybe<string>;
 }
 
 export interface GrantInput {
-	address?: string | null;
+	address?: Maybe<string>;
 
 	granteeType: GranteeType;
 
-	key?: string | null;
+	key?: Maybe<string>;
 
-	password?: string | null;
+	password?: Maybe<string>;
 
 	permissions: string;
 
-	zimbraId?: string | null;
+	zimbraId?: Maybe<string>;
 }
 
 export interface ForwardAppointmentInviteInput {
@@ -641,15 +643,15 @@ export interface ForwardAppointmentInviteInput {
 }
 
 export interface ForwardMessageInput {
-	subject?: string | null;
+	subject?: Maybe<string>;
 
-	mimeParts?: (MimePartInput | null)[] | null;
+	mimeParts?: Maybe<(Maybe<MimePartInput>)[]>;
 
-	emailAddresses?: (MailItemEmailAddressInput | null)[] | null;
+	emailAddresses?: Maybe<(Maybe<MailItemEmailAddressInput>)[]>;
 }
 
 export interface ExternalAccountImportInput {
-	accountType?: AccountType | null;
+	accountType?: Maybe<AccountType>;
 
 	id: string;
 }
@@ -657,153 +659,153 @@ export interface ExternalAccountImportInput {
 export interface EnableTwoFactorAuthInput {
 	name: string;
 
-	password?: string | null;
+	password?: Maybe<string>;
 
-	twoFactorCode?: string | null;
+	twoFactorCode?: Maybe<string>;
 
-	authToken?: string | null;
+	authToken?: Maybe<string>;
 }
 
 export interface ExternalAccountModifyAttrsInput {
-	id?: string | null;
+	id?: Maybe<string>;
 
-	accountType?: AccountType | null;
+	accountType?: Maybe<AccountType>;
 
-	defaultSignature?: string | null;
+	defaultSignature?: Maybe<string>;
 
-	description?: string | null;
+	description?: Maybe<string>;
 
-	emailAddress?: string | null;
+	emailAddress?: Maybe<string>;
 
-	fromDisplay?: string | null;
+	fromDisplay?: Maybe<string>;
 
-	name?: string | null;
+	name?: Maybe<string>;
 
-	replyToAddress?: string | null;
+	replyToAddress?: Maybe<string>;
 
-	replyToDisplay?: string | null;
+	replyToDisplay?: Maybe<string>;
 
-	replyToEnabled?: boolean | null;
+	replyToEnabled?: Maybe<boolean>;
 
-	storeAndForward?: string | null;
+	storeAndForward?: Maybe<string>;
 
-	useAddressForForwardReply?: boolean | null;
+	useAddressForForwardReply?: Maybe<boolean>;
 
-	username?: string | null;
+	username?: Maybe<string>;
 
-	host?: string | null;
+	host?: Maybe<string>;
 
-	signatureValue?: string | null;
+	signatureValue?: Maybe<string>;
 
-	importOnly?: boolean | null;
+	importOnly?: Maybe<boolean>;
 
-	forwardReplySignature?: string | null;
+	forwardReplySignature?: Maybe<string>;
 
-	connectionType?: ConnectionType | null;
+	connectionType?: Maybe<ConnectionType>;
 
-	isEnabled?: boolean | null;
+	isEnabled?: Maybe<boolean>;
 
-	port?: string | null;
+	port?: Maybe<string>;
 
-	smtpPort?: string | null;
+	smtpPort?: Maybe<string>;
 }
 
 export interface IdentityAttrsInput {
-	zimbraPrefIdentityId?: string | null;
+	zimbraPrefIdentityId?: Maybe<string>;
 
-	zimbraPrefDefaultSignatureId?: string | null;
+	zimbraPrefDefaultSignatureId?: Maybe<string>;
 
-	zimbraPrefForwardReplySignatureId?: string | null;
+	zimbraPrefForwardReplySignatureId?: Maybe<string>;
 
-	zimbraPrefForwardReplyFormat?: string | null;
+	zimbraPrefForwardReplyFormat?: Maybe<string>;
 
-	zimbraPrefFromAddress?: string | null;
+	zimbraPrefFromAddress?: Maybe<string>;
 
-	zimbraPrefFromAddressType?: string | null;
+	zimbraPrefFromAddressType?: Maybe<string>;
 
-	zimbraPrefFromDisplay?: string | null;
+	zimbraPrefFromDisplay?: Maybe<string>;
 
-	zimbraPrefIdentityName?: string | null;
+	zimbraPrefIdentityName?: Maybe<string>;
 
-	zimbraPrefMailSignatureStyle?: string | null;
+	zimbraPrefMailSignatureStyle?: Maybe<string>;
 
-	zimbraPrefReplyToAddress?: string | null;
+	zimbraPrefReplyToAddress?: Maybe<string>;
 
-	zimbraPrefReplyToDisplay?: string | null;
+	zimbraPrefReplyToDisplay?: Maybe<string>;
 
-	zimbraPrefReplyToEnabled?: boolean | null;
+	zimbraPrefReplyToEnabled?: Maybe<boolean>;
 
-	zimbraPrefSaveToSent?: boolean | null;
+	zimbraPrefSaveToSent?: Maybe<boolean>;
 
-	zimbraPrefSentMailFolder?: string | null;
+	zimbraPrefSentMailFolder?: Maybe<string>;
 }
 
 export interface PreferencesInput {
-	zimbraPrefAutoAddAppointmentsToCalendar?: boolean | null;
+	zimbraPrefAutoAddAppointmentsToCalendar?: Maybe<boolean>;
 
-	zimbraPrefCalendarAutoAddInvites?: boolean | null;
+	zimbraPrefCalendarAutoAddInvites?: Maybe<boolean>;
 
-	zimbraPrefDefaultCalendarId?: string | null;
+	zimbraPrefDefaultCalendarId?: Maybe<string>;
 
-	zimbraPrefCalendarFirstDayOfWeek?: number | null;
+	zimbraPrefCalendarFirstDayOfWeek?: Maybe<number>;
 
-	zimbraPrefCalendarInitialView?: PrefCalendarInitialView | null;
+	zimbraPrefCalendarInitialView?: Maybe<PrefCalendarInitialView>;
 
-	zimbraPrefCalendarReminderEmail?: string | null;
+	zimbraPrefCalendarReminderEmail?: Maybe<string>;
 
-	zimbraPrefCalendarWorkingHours?: string | null;
+	zimbraPrefCalendarWorkingHours?: Maybe<string>;
 
-	zimbraPrefDelegatedSendSaveTarget?: PrefDelegatedSendSaveTarget | null;
+	zimbraPrefDelegatedSendSaveTarget?: Maybe<PrefDelegatedSendSaveTarget>;
 
-	zimbraPrefDisplayExternalImages?: boolean | null;
+	zimbraPrefDisplayExternalImages?: Maybe<boolean>;
 
-	zimbraPrefGroupMailBy?: string | null;
+	zimbraPrefGroupMailBy?: Maybe<string>;
 
-	zimbraPrefMailPollingInterval?: string | null;
+	zimbraPrefMailPollingInterval?: Maybe<string>;
 
-	zimbraPrefMailRequestReadReceipts?: boolean | null;
+	zimbraPrefMailRequestReadReceipts?: Maybe<boolean>;
 
-	zimbraPrefMailSelectAfterDelete?: PrefMailSelectAfterDelete | null;
+	zimbraPrefMailSelectAfterDelete?: Maybe<PrefMailSelectAfterDelete>;
 
-	zimbraPrefMailSendReadReceipts?: PrefMailSendReadReceipts | null;
+	zimbraPrefMailSendReadReceipts?: Maybe<PrefMailSendReadReceipts>;
 
-	zimbraPrefMailTrustedSenderList?: (string | null)[] | null;
+	zimbraPrefMailTrustedSenderList?: Maybe<(Maybe<string>)[]>;
 
-	zimbraPrefMarkMsgRead?: number | null;
+	zimbraPrefMarkMsgRead?: Maybe<number>;
 
-	zimbraPrefOutOfOfficeFromDate?: string | null;
+	zimbraPrefOutOfOfficeFromDate?: Maybe<string>;
 
-	zimbraPrefOutOfOfficeExternalReply?: string | null;
+	zimbraPrefOutOfOfficeExternalReply?: Maybe<string>;
 
-	zimbraPrefOutOfOfficeExternalReplyEnabled?: boolean | null;
+	zimbraPrefOutOfOfficeExternalReplyEnabled?: Maybe<boolean>;
 
-	zimbraPrefOutOfOfficeReply?: string | null;
+	zimbraPrefOutOfOfficeReply?: Maybe<string>;
 
-	zimbraPrefOutOfOfficeReplyEnabled?: boolean | null;
+	zimbraPrefOutOfOfficeReplyEnabled?: Maybe<boolean>;
 
-	zimbraPrefOutOfOfficeStatusAlertOnLogin?: boolean | null;
+	zimbraPrefOutOfOfficeStatusAlertOnLogin?: Maybe<boolean>;
 
-	zimbraPrefOutOfOfficeSuppressExternalReply?: boolean | null;
+	zimbraPrefOutOfOfficeSuppressExternalReply?: Maybe<boolean>;
 
-	zimbraPrefOutOfOfficeUntilDate?: string | null;
+	zimbraPrefOutOfOfficeUntilDate?: Maybe<string>;
 
-	zimbraPrefReadingPaneEnabled?: boolean | null;
+	zimbraPrefReadingPaneEnabled?: Maybe<boolean>;
 
-	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
+	zimbraPrefReadingPaneLocation?: Maybe<ReadingPaneLocation>;
 
-	zimbraPrefShowFragments?: boolean | null;
+	zimbraPrefShowFragments?: Maybe<boolean>;
 
-	zimbraPrefWebClientOfflineBrowserKey?: string | null;
+	zimbraPrefWebClientOfflineBrowserKey?: Maybe<string>;
 
-	zimbraPrefTimeZoneId?: string | null;
+	zimbraPrefTimeZoneId?: Maybe<string>;
 
-	zimbraPrefLocale?: string | null;
+	zimbraPrefLocale?: Maybe<string>;
 
-	zimbraPrefAppleIcalDelegationEnabled?: boolean | null;
+	zimbraPrefAppleIcalDelegationEnabled?: Maybe<boolean>;
 
-	zimbraPrefMailForwardingAddress?: string | null;
+	zimbraPrefMailForwardingAddress?: Maybe<string>;
 
-	zimbraPrefMailLocalDeliveryDisabled?: boolean | null;
+	zimbraPrefMailLocalDeliveryDisabled?: Maybe<boolean>;
 }
 
 export interface ZimletPreferenceInput {
@@ -817,139 +819,139 @@ export interface FilterInput {
 
 	active: boolean;
 
-	actions?: (FilterActionInput | null)[] | null;
+	actions?: Maybe<(Maybe<FilterActionInput>)[]>;
 
-	conditions?: (FilterConditionInput | null)[] | null;
+	conditions?: Maybe<(Maybe<FilterConditionInput>)[]>;
 }
 
 export interface FilterActionInput {
-	keep?: (BasicActionInput | null)[] | null;
+	keep?: Maybe<(Maybe<BasicActionInput>)[]>;
 
-	discard?: (BasicActionInput | null)[] | null;
+	discard?: Maybe<(Maybe<BasicActionInput>)[]>;
 
-	fileInto?: (FileIntoActionInput | null)[] | null;
+	fileInto?: Maybe<(Maybe<FileIntoActionInput>)[]>;
 
-	flag?: (FlagActionInput | null)[] | null;
+	flag?: Maybe<(Maybe<FlagActionInput>)[]>;
 
-	tag?: (TagActionInput | null)[] | null;
+	tag?: Maybe<(Maybe<TagActionInput>)[]>;
 
-	redirect?: (RedirectActionInput | null)[] | null;
+	redirect?: Maybe<(Maybe<RedirectActionInput>)[]>;
 
-	reply?: (ReplyActionInput | null)[] | null;
+	reply?: Maybe<(Maybe<ReplyActionInput>)[]>;
 
-	notify?: (NotifyActionInput | null)[] | null;
+	notify?: Maybe<(Maybe<NotifyActionInput>)[]>;
 
-	stop?: (BasicActionInput | null)[] | null;
+	stop?: Maybe<(Maybe<BasicActionInput>)[]>;
 }
 
 export interface BasicActionInput {
-	index?: number | null;
+	index?: Maybe<number>;
 }
 
 export interface FileIntoActionInput {
-	folderPath?: string | null;
+	folderPath?: Maybe<string>;
 
-	copy?: boolean | null;
+	copy?: Maybe<boolean>;
 
-	index?: number | null;
+	index?: Maybe<number>;
 }
 
 export interface FlagActionInput {
-	flagName?: string | null;
+	flagName?: Maybe<string>;
 
-	index?: number | null;
+	index?: Maybe<number>;
 }
 
 export interface TagActionInput {
 	tagName: string;
 
-	index?: number | null;
+	index?: Maybe<number>;
 }
 
 export interface RedirectActionInput {
-	address?: string | null;
+	address?: Maybe<string>;
 
-	copy?: boolean | null;
+	copy?: Maybe<boolean>;
 
-	index?: number | null;
+	index?: Maybe<number>;
 }
 
 export interface ReplyActionInput {
-	index?: number | null;
+	index?: Maybe<number>;
 
-	content?: (string | null)[] | null;
+	content?: Maybe<(Maybe<string>)[]>;
 }
 
 export interface NotifyActionInput {
-	address?: string | null;
+	address?: Maybe<string>;
 
-	subject?: string | null;
+	subject?: Maybe<string>;
 
-	maxBodySize?: number | null;
+	maxBodySize?: Maybe<number>;
 
-	origHeaders?: string | null;
+	origHeaders?: Maybe<string>;
 
-	index?: number | null;
+	index?: Maybe<number>;
 
-	content?: (string | null)[] | null;
+	content?: Maybe<(Maybe<string>)[]>;
 }
 
 export interface FilterConditionInput {
 	allOrAny: FilterMatchCondition;
 
-	addressBook?: (HeaderCheckConditionInput | null)[] | null;
+	addressBook?: Maybe<(Maybe<HeaderCheckConditionInput>)[]>;
 
-	address?: (AddressConditionInput | null)[] | null;
+	address?: Maybe<(Maybe<AddressConditionInput>)[]>;
 
-	attachment?: (BasicConditionInput | null)[] | null;
+	attachment?: Maybe<(Maybe<BasicConditionInput>)[]>;
 
-	body?: (BodyConditionInput | null)[] | null;
+	body?: Maybe<(Maybe<BodyConditionInput>)[]>;
 
-	bulk?: (BasicConditionInput | null)[] | null;
+	bulk?: Maybe<(Maybe<BasicConditionInput>)[]>;
 
-	contactRanking?: (HeaderCheckConditionInput | null)[] | null;
+	contactRanking?: Maybe<(Maybe<HeaderCheckConditionInput>)[]>;
 
-	conversation?: (ConversationConditionInput | null)[] | null;
+	conversation?: Maybe<(Maybe<ConversationConditionInput>)[]>;
 
-	date?: (DateConditionInput | null)[] | null;
+	date?: Maybe<(Maybe<DateConditionInput>)[]>;
 
-	facebook?: (BasicConditionInput | null)[] | null;
+	facebook?: Maybe<(Maybe<BasicConditionInput>)[]>;
 
-	flag?: (FlagConditionInput | null)[] | null;
+	flag?: Maybe<(Maybe<FlagConditionInput>)[]>;
 
-	headerExists?: (HeaderCheckConditionInput | null)[] | null;
+	headerExists?: Maybe<(Maybe<HeaderCheckConditionInput>)[]>;
 
-	header?: (HeaderConditionInput | null)[] | null;
+	header?: Maybe<(Maybe<HeaderConditionInput>)[]>;
 
-	importance?: (ImportanceConditionInput | null)[] | null;
+	importance?: Maybe<(Maybe<ImportanceConditionInput>)[]>;
 
-	invite?: (InviteConditionInput | null)[] | null;
+	invite?: Maybe<(Maybe<InviteConditionInput>)[]>;
 
-	linkedin?: (BasicConditionInput | null)[] | null;
+	linkedin?: Maybe<(Maybe<BasicConditionInput>)[]>;
 
-	list?: (BasicConditionInput | null)[] | null;
+	list?: Maybe<(Maybe<BasicConditionInput>)[]>;
 
-	me?: (HeaderCheckConditionInput | null)[] | null;
+	me?: Maybe<(Maybe<HeaderCheckConditionInput>)[]>;
 
-	mimeHeader?: (MimeHeaderConditionInput | null)[] | null;
+	mimeHeader?: Maybe<(Maybe<MimeHeaderConditionInput>)[]>;
 
-	size?: (SizeConditionInput | null)[] | null;
+	size?: Maybe<(Maybe<SizeConditionInput>)[]>;
 
-	twitter?: (BasicConditionInput | null)[] | null;
+	twitter?: Maybe<(Maybe<BasicConditionInput>)[]>;
 
-	communityRequests?: (BasicConditionInput | null)[] | null;
+	communityRequests?: Maybe<(Maybe<BasicConditionInput>)[]>;
 
-	communityContent?: (BasicConditionInput | null)[] | null;
+	communityContent?: Maybe<(Maybe<BasicConditionInput>)[]>;
 
-	communityConnections?: (BasicConditionInput | null)[] | null;
+	communityConnections?: Maybe<(Maybe<BasicConditionInput>)[]>;
 }
 
 export interface HeaderCheckConditionInput {
 	header: string;
 
-	index?: number | null;
+	index?: Maybe<number>;
 
-	negative?: boolean | null;
+	negative?: Maybe<boolean>;
 }
 
 export interface AddressConditionInput {
@@ -959,117 +961,117 @@ export interface AddressConditionInput {
 
 	stringComparison: string;
 
-	caseSensitive?: boolean | null;
+	caseSensitive?: Maybe<boolean>;
 
 	value: string;
 
-	valueComparison?: string | null;
+	valueComparison?: Maybe<string>;
 
-	countComparison?: string | null;
+	countComparison?: Maybe<string>;
 
-	index?: number | null;
+	index?: Maybe<number>;
 
-	negative?: boolean | null;
+	negative?: Maybe<boolean>;
 }
 
 export interface BasicConditionInput {
-	index?: number | null;
+	index?: Maybe<number>;
 
-	negative?: boolean | null;
+	negative?: Maybe<boolean>;
 }
 
 export interface BodyConditionInput {
-	caseSensitive?: boolean | null;
+	caseSensitive?: Maybe<boolean>;
 
-	value?: string | null;
+	value?: Maybe<string>;
 
-	index?: number | null;
+	index?: Maybe<number>;
 
-	negative?: boolean | null;
+	negative?: Maybe<boolean>;
 }
 
 export interface ConversationConditionInput {
-	where?: string | null;
+	where?: Maybe<string>;
 
-	index?: number | null;
+	index?: Maybe<number>;
 
-	negative?: boolean | null;
+	negative?: Maybe<boolean>;
 }
 
 export interface DateConditionInput {
-	dateComparison?: string | null;
+	dateComparison?: Maybe<string>;
 
-	date?: number | null;
+	date?: Maybe<number>;
 
-	index?: number | null;
+	index?: Maybe<number>;
 
-	negative?: boolean | null;
+	negative?: Maybe<boolean>;
 }
 
 export interface FlagConditionInput {
 	flagName: string;
 
-	index?: number | null;
+	index?: Maybe<number>;
 
-	negative?: boolean | null;
+	negative?: Maybe<boolean>;
 }
 
 export interface HeaderConditionInput {
-	header?: string | null;
+	header?: Maybe<string>;
 
-	stringComparison?: string | null;
+	stringComparison?: Maybe<string>;
 
-	valueComparison?: string | null;
+	valueComparison?: Maybe<string>;
 
-	countComparison?: string | null;
+	countComparison?: Maybe<string>;
 
-	value?: string | null;
+	value?: Maybe<string>;
 
-	caseSensitive?: boolean | null;
+	caseSensitive?: Maybe<boolean>;
 
-	index?: number | null;
+	index?: Maybe<number>;
 
-	negative?: boolean | null;
+	negative?: Maybe<boolean>;
 }
 
 export interface ImportanceConditionInput {
 	importance: Importance;
 
-	index?: number | null;
+	index?: Maybe<number>;
 
-	negative?: boolean | null;
+	negative?: Maybe<boolean>;
 }
 
 export interface InviteConditionInput {
-	methods?: (string | null)[] | null;
+	methods?: Maybe<(Maybe<string>)[]>;
 
-	index?: number | null;
+	index?: Maybe<number>;
 
-	negative?: boolean | null;
+	negative?: Maybe<boolean>;
 }
 
 export interface MimeHeaderConditionInput {
-	header?: string | null;
+	header?: Maybe<string>;
 
-	stringComparison?: string | null;
+	stringComparison?: Maybe<string>;
 
-	value?: string | null;
+	value?: Maybe<string>;
 
-	caseSensitive?: boolean | null;
+	caseSensitive?: Maybe<boolean>;
 
-	index?: number | null;
+	index?: Maybe<number>;
 
-	negative?: boolean | null;
+	negative?: Maybe<boolean>;
 }
 
 export interface SizeConditionInput {
-	numberComparison?: string | null;
+	numberComparison?: Maybe<string>;
 
-	size?: string | null;
+	size?: Maybe<string>;
 
-	index?: number | null;
+	index?: Maybe<number>;
 
-	negative?: boolean | null;
+	negative?: Maybe<boolean>;
 }
 
 export interface SearchFolderInput {
@@ -1081,55 +1083,55 @@ export interface SearchFolderInput {
 }
 
 export interface WhiteBlackListInput {
-	whiteList?: WhiteBlackListArrInput | null;
+	whiteList?: Maybe<WhiteBlackListArrInput>;
 
-	blackList?: WhiteBlackListArrInput | null;
+	blackList?: Maybe<WhiteBlackListArrInput>;
 }
 
 export interface WhiteBlackListArrInput {
-	addr?: (WhiteBlackAddressOpts | null)[] | null;
+	addr?: Maybe<(Maybe<WhiteBlackAddressOpts>)[]>;
 }
 
 export interface WhiteBlackAddressOpts {
 	_content: string;
 
-	op?: string | null;
+	op?: Maybe<string>;
 }
 
 export interface RevokeRightsInput {
-	access?: (AccountAceInfoInput | null)[] | null;
+	access?: Maybe<(Maybe<AccountAceInfoInput>)[]>;
 }
 
 export interface SendMessageInput {
-	id?: string | null;
+	id?: Maybe<string>;
 
-	origId?: string | null;
+	origId?: Maybe<string>;
 
-	folderId?: string | null;
+	folderId?: Maybe<string>;
 
-	attach?: (AttachmentInput | null)[] | null;
+	attach?: Maybe<(Maybe<AttachmentInput>)[]>;
 
-	attachmentId?: string | null;
+	attachmentId?: Maybe<string>;
 
-	replyType?: string | null;
+	replyType?: Maybe<string>;
 
-	inReplyTo?: string | null;
+	inReplyTo?: Maybe<string>;
 
-	flags?: string | null;
+	flags?: Maybe<string>;
 
-	autoSendTime?: number | null;
+	autoSendTime?: Maybe<number>;
 
-	draftId?: string | null;
+	draftId?: Maybe<string>;
 
-	entityId?: string | null;
+	entityId?: Maybe<string>;
 
-	subject?: string | null;
+	subject?: Maybe<string>;
 
-	mimeParts?: (MimePartInput | null)[] | null;
+	mimeParts?: Maybe<(Maybe<MimePartInput>)[]>;
 
-	emailAddresses?: (MailItemEmailAddressInput | null)[] | null;
+	emailAddresses?: Maybe<(Maybe<MailItemEmailAddressInput>)[]>;
 
-	attachments?: (AttachmentInput | null)[] | null;
+	attachments?: Maybe<(Maybe<AttachmentInput>)[]>;
 }
 
 export interface InviteReplyInput {
@@ -1139,11 +1141,11 @@ export interface InviteReplyInput {
 
 	verb: InviteReplyVerb;
 
-	updateOrganizer?: boolean | null;
+	updateOrganizer?: Maybe<boolean>;
 
-	message?: CalendarItemMessageInput | null;
+	message?: Maybe<CalendarItemMessageInput>;
 
-	exceptId?: InstanceDate | null;
+	exceptId?: Maybe<InstanceDate>;
 }
 
 export interface ShareNotificationInput {
@@ -1151,7 +1153,7 @@ export interface ShareNotificationInput {
 
 	address: ShareNotificaitonEmailAddressInput;
 
-	notes?: string | null;
+	notes?: Maybe<string>;
 }
 
 export interface ShareNotificationItemInput {
@@ -1161,43 +1163,43 @@ export interface ShareNotificationItemInput {
 export interface ShareNotificaitonEmailAddressInput {
 	address: string;
 
-	type?: AddressType | null;
+	type?: Maybe<AddressType>;
 
-	personalName?: string | null;
+	personalName?: Maybe<string>;
 }
 
 export interface MailboxMetadataSectionAttrsInput {
-	zimbraPrefCustomFolderTreeOpen?: boolean | null;
+	zimbraPrefCustomFolderTreeOpen?: Maybe<boolean>;
 
-	zimbraPrefFoldersExpanded?: string | null;
+	zimbraPrefFoldersExpanded?: Maybe<string>;
 
-	zimbraPrefFolderTreeSash?: number | null;
+	zimbraPrefFolderTreeSash?: Maybe<number>;
 
-	zimbraPrefGenerateLinkPreviews?: boolean | null;
+	zimbraPrefGenerateLinkPreviews?: Maybe<boolean>;
 
-	zimbraPrefGroupByList?: string | null;
+	zimbraPrefGroupByList?: Maybe<string>;
 
-	zimbraPrefMessageListDensity?: string | null;
+	zimbraPrefMessageListDensity?: Maybe<string>;
 
-	zimbraPrefMultitasking?: string | null;
+	zimbraPrefMultitasking?: Maybe<string>;
 
-	zimbraPrefReadingPaneSashHorizontal?: number | null;
+	zimbraPrefReadingPaneSashHorizontal?: Maybe<number>;
 
-	zimbraPrefReadingPaneSashVertical?: number | null;
+	zimbraPrefReadingPaneSashVertical?: Maybe<number>;
 
-	zimbraPrefSmartFolderTreeOpen?: boolean | null;
+	zimbraPrefSmartFolderTreeOpen?: Maybe<boolean>;
 
-	zimbraPrefUndoSendEnabled?: boolean | null;
+	zimbraPrefUndoSendEnabled?: Maybe<boolean>;
 
-	zimbraPrefUndoSendTimeout?: number | null;
+	zimbraPrefUndoSendTimeout?: Maybe<number>;
 
-	archivedFolder?: string | null;
+	archivedFolder?: Maybe<string>;
 
-	zimbraPrefSMIMEDefaultSetting?: string | null;
+	zimbraPrefSMIMEDefaultSetting?: Maybe<string>;
 
-	zimbraPrefSMIMELastOperation?: string | null;
+	zimbraPrefSMIMELastOperation?: Maybe<string>;
 
-	zimbraPrefContactSourceFolderID?: string | null;
+	zimbraPrefContactSourceFolderID?: Maybe<string>;
 }
 
 export interface SnoozeInput {
@@ -1213,7 +1215,7 @@ export interface DismissInput {
 }
 
 export interface CreateMountpointInput {
-	link?: NewMountpointSpec | null;
+	link?: Maybe<NewMountpointSpec>;
 }
 
 export interface EmailAddressInput {
@@ -1229,15 +1231,15 @@ export interface ExternalAccount {
 
 	name: string;
 
-	accountType?: AccountType | null;
+	accountType?: Maybe<AccountType>;
 
-	isEnabled?: number | null;
+	isEnabled?: Maybe<number>;
 
 	host: string;
 
 	port: string;
 
-	connectionType?: ConnectionType | null;
+	connectionType?: Maybe<ConnectionType>;
 
 	username: string;
 
@@ -1253,21 +1255,21 @@ export interface FolderActionChangeColorInput {
 export interface FolderActionCheckCalendarInput {
 	id: string;
 
-	value?: boolean | null;
+	value?: Maybe<boolean>;
 }
 
 export interface FolderQueryInput {
-	uuid?: string | null;
+	uuid?: Maybe<string>;
 
-	id?: string | null;
+	id?: Maybe<string>;
 
-	view?: FolderView | null;
+	view?: Maybe<FolderView>;
 }
 
 export interface ModifyIdentityInput {
 	id: string;
 
-	attrs?: IdentityAttrsInput | null;
+	attrs?: Maybe<IdentityAttrsInput>;
 }
 
 export enum ResetPasswordStatus {

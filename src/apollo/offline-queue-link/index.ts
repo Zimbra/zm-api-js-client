@@ -109,6 +109,7 @@ export class OfflineQueueLink extends ApolloLink {
 
 	purge = () => Promise.resolve(this.storage.removeItem(this.storeKey));
 
+	// @ts-ignore
 	request(operation: Operation, forward: NextLink) {
 		const {
 			skipQueue,
