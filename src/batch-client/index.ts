@@ -659,6 +659,12 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		});
 
+	public getTrustedDevices = () =>
+		this.jsonRequest({
+			name: 'GetTrustedDevices',
+			namespace: Namespace.Account
+		});
+
 	public getWhiteBlackList = () =>
 		this.jsonRequest({
 			name: 'GetWhiteBlackList',

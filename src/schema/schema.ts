@@ -120,6 +120,7 @@ export function createZimbraSchema(
 				getSearchFolder: client.getSearchFolder,
 				getSMimePublicCerts: (_, variables) =>
 					client.getSMimePublicCerts(variables as GetSMimePublicCertsOptions),
+				getTrustedDevices: client.getTrustedDevices,
 				getWorkingHours: (_, variables) =>
 					client.getWorkingHours(variables as WorkingHoursOptions),
 				preferences: client.preferences,
