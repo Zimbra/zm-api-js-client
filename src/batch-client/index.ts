@@ -81,7 +81,7 @@ import {
 	coerceBooleanToString,
 	coerceStringToBoolean
 } from '../utils/coerce-boolean';
-import { setCSRFToken } from '../utils/csrf-token';
+import { removeCSRFToken, setCSRFToken } from '../utils/csrf-token';
 import { mapValuesDeep } from '../utils/map-values-deep';
 import { normalizeEmailAddresses } from '../utils/normalize-email-addresses';
 import {
@@ -712,9 +712,9 @@ export class ZimbraBatchClient {
 			},
 			namespace: Namespace.Account
 		}).then(res => {
-			res.csrfToken &&
-				res.csrfToken._content &&
-				setCSRFToken(res.csrfToken._content);
+			res.csrfToken && res.csrfToken._content
+				? setCSRFToken(res.csrfToken._content)
+				: removeCSRFToken();
 			return mapValuesDeep(res, coerceStringToBoolean);
 		});
 

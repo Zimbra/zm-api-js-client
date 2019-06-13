@@ -5,3 +5,7 @@ export function getCSRFToken(): string | null {
 export function setCSRFToken(token: string) {
 	localStorage.setItem('CSRFToken', token);
 }
+
+export function removeCSRFToken() {
+	localStorage.removeItem('CSRFToken');
+}
