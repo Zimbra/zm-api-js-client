@@ -6,12 +6,6 @@ export enum MailFolderView {
 	message = 'message'
 }
 
-export enum PrefMailSelectAfterDelete {
-	next = 'next',
-	previous = 'previous',
-	adaptive = 'adaptive'
-}
-
 export enum MessageFlags {
 	unread = 'u',
 	flagged = 'f',
