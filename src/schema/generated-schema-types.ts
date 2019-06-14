@@ -93,11 +93,11 @@ export interface ExternalAccountAddInput {
 export interface AddMsgInput {
 	folderId: string;
 
-	content?: StringContentInput | null;
-}
+	absFolderPath?: string | null;
 
-export interface StringContentInput {
-	_content?: string | null;
+	content?: string | null;
+
+	meta?: string | null;
 }
 
 export interface CalendarItemInput {
@@ -1132,22 +1132,6 @@ export interface SendMessageInput {
 	attachments?: (AttachmentInput | null)[] | null;
 }
 
-export interface SaveMessagesToLocalInput {
-	folderId?: string | null;
-
-	absFolderPath?: string | null;
-
-	data?: (SaveMessageDataInput | null)[] | null;
-}
-
-export interface SaveMessageDataInput {
-	id?: string | null;
-
-	content?: string | null;
-
-	meta?: string | null;
-}
-
 export interface InviteReplyInput {
 	componentNum: number;
 
@@ -1284,6 +1268,14 @@ export interface ModifyIdentityInput {
 	id: string;
 
 	attrs?: IdentityAttrsInput | null;
+}
+
+export interface SaveMessageDataInput {
+	id: string;
+
+	content: string;
+
+	meta: string;
 }
 
 export enum ResetPasswordStatus {
