@@ -494,6 +494,18 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => normalize(FreeBusy)(res.usr));
 
+	public generateScratchCodes = (username: String) =>
+		this.jsonRequest({
+			name: 'GenerateScratchCodes',
+			namespace: Namespace.Account,
+			body: {
+				account: {
+					by: 'name',
+					_content: username
+				}
+			}
+		});
+
 	public getAttachmentUrl = (attachment: any) =>
 		getAttachmentUrl(attachment, {
 			origin: this.origin,
@@ -642,6 +654,18 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account,
 			body: denormalize(GetRightsRequest)(options)
 		}).then(normalize(AccountRights));
+
+	public getScratchCodes = (username: String) =>
+		this.jsonRequest({
+			name: 'GetScratchCodes',
+			namespace: Namespace.Account,
+			body: {
+				account: {
+					by: 'name',
+					_content: username
+				}
+			}
+		});
 
 	public getSearchFolder = () =>
 		this.jsonRequest({
@@ -1005,6 +1029,10 @@ export class ZimbraBatchClient {
 			name: 'SetRecoveryAccount',
 			body: options
 		}).then(Boolean);
+
+	public setUserAgent = (userAgent: Object) => {
+		this.userAgent = userAgent;
+	};
 
 	public shareInfo = (options: ShareInfoOptions) =>
 		this.jsonRequest({
