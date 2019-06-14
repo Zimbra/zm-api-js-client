@@ -2701,7 +2701,9 @@ type Mutation {
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
 	resetPassword(password: String!): Boolean
+	revokeOtherTrustedDevices: Boolean
 	revokeRights(input: RevokeRightsInput!): RevokeRightsResponse
+	revokeTrustedDevice: Boolean
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse
 	sendDeliveryReport(messageId: ID!): Boolean
