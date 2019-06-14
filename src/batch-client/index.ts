@@ -139,6 +139,7 @@ function normalizeMessage(
 }
 
 export class ZimbraBatchClient {
+	public clearCSRFToken = removeCSRFToken;
 	public origin: string;
 	public sessionId: any;
 	public soapPathname: string;
@@ -710,7 +711,8 @@ export class ZimbraBatchClient {
 				...(twoFactorCode && { twoFactorCode }),
 				...(deviceTrusted && { deviceTrusted })
 			},
-			namespace: Namespace.Account
+			namespace: Namespace.Account,
+			singleRequest: true
 		}).then(res => {
 			res.csrfToken && res.csrfToken._content
 				? setCSRFToken(res.csrfToken._content)
@@ -725,7 +727,10 @@ export class ZimbraBatchClient {
 				logoff: true
 			},
 			namespace: Namespace.Account
-		}).then(Boolean);
+		}).then(() => {
+			removeCSRFToken();
+			return true;
+		});
 
 	public messageAction = (options: ActionOptions) =>
 		this.action(ActionType.message, options);

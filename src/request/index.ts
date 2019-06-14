@@ -258,9 +258,10 @@ export function zmFetch(url: string, request: any = {}): Promise<Response> {
 			}
 
 			if (typeof body === 'object') {
-				body.header = body.header || {};
-				body.header.context = body.header.context || {};
+				body.Header = body.Header || {};
+				body.Header.context = body.Header.context || {};
 				body.Header.context.csrfToken = csrfToken;
+				request.body = JSON.stringify(body);
 			}
 		}
 
