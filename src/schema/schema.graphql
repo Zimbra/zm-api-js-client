@@ -2646,7 +2646,7 @@ type Mutation {
 	createTask(task: CalendarItemInput!): Boolean
 	deleteAppointment(appointment: DeleteAppointmentInput!): Boolean
 	deleteExternalAccount(id: ID!): Boolean
-	deleteSignature(signature: NameIdInput!): String
+	deleteSignature(signature: NameIdInput!): Boolean
 	generateScratchCodes(username: String!): ScratchCodes
 	grantRights(input: GrantRightsInput!): GrantRightsResponse
 	folderAction(action: FolderActionInput!): Boolean
@@ -2679,7 +2679,7 @@ type Mutation {
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyZimletPrefs(zimlets: [ZimletPreferenceInput!]): ModifyZimletPrefsResponse
 	modifyFilterRules(filters: [FilterInput!]): Boolean
-	modifySignature(signature: SignatureInput!): String
+	modifySignature(signature: SignatureInput!): Boolean
 	modifySearchFolder(search: SearchFolderInput!): Boolean
 	modifyTask(task: CalendarItemInput!): Boolean
 	modifyWhiteBlackList(whiteBlackList: WhiteBlackListInput!): Boolean
