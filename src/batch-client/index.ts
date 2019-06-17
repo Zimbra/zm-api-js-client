@@ -977,6 +977,10 @@ export class ZimbraBatchClient {
 			body: options
 		}).then(Boolean);
 
+	public setUserAgent = (userAgent: Object) => {
+		this.userAgent = userAgent;
+	};
+
 	public shareInfo = (options: ShareInfoOptions) =>
 		this.jsonRequest({
 			name: 'GetShareInfo',
