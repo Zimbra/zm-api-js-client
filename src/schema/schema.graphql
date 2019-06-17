@@ -290,10 +290,6 @@ type ScratchCodeType {
 	_content: String
 }
 
-type ScratchCodes {
-	scratchCodes: ScratchCode
-}
-
 type ScratchCode {
 	scratchCode: [ScratchCodeType]
 }
@@ -365,7 +361,6 @@ type Instance {
 	participationStatus: ParticipationStatus
 	revision: Int # rev
 	status: InviteCompletionStatus
-	isOrganizer: Boolean # isOrg
 }
 
 type Alarm {
@@ -2519,7 +2514,6 @@ type Query {
 	): MessageInfo
 	getRights(input: GetRightsInput!): GetRightsResponse
 	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
-	getScratchCodes(username: String!): ScratchCodes
 	getSearchFolder: Folder
 	getWhiteBlackList: WhiteBlackList
 	getWorkingHours(names: [String!]!, start: Float, end: Float): [WorkingHours]
@@ -2647,7 +2641,6 @@ type Mutation {
 	deleteAppointment(appointment: DeleteAppointmentInput!): Boolean
 	deleteExternalAccount(id: ID!): Boolean
 	deleteSignature(signature: NameIdInput!): String
-	generateScratchCodes(username: String!): ScratchCodes
 	grantRights(input: GrantRightsInput!): GrantRightsResponse
 	folderAction(action: FolderActionInput!): Boolean
 	forwardAppointmentInvite(appointmentInvite:ForwardAppointmentInviteInput!): Boolean

@@ -116,7 +116,6 @@ export function createZimbraSchema(
 					client.getMessage(variables as GetMessageOptions),
 				getRights: (_, variables) =>
 					client.getRights(variables as GetRightsInput),
-				getScratchCodes: client.getScratchCodes,
 				getSearchFolder: client.getSearchFolder,
 				getSMimePublicCerts: (_, variables) =>
 					client.getSMimePublicCerts(variables as GetSMimePublicCertsOptions),
@@ -264,7 +263,6 @@ export function createZimbraSchema(
 					client.forwardAppointmentInvite(
 						appointmentInvite as ForwardAppointmentInviteInput
 					),
-				generateScratchCodes: client.generateScratchCodes,
 				grantRights: (_, variables) =>
 					client.grantRights(variables.input as GrantRightsInput),
 				sendShareNotification: (_, { shareNotification }) =>
