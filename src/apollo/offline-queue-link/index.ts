@@ -1,5 +1,6 @@
 import { ApolloLink, NextLink, Observable, Operation } from 'apollo-link';
 import castArray from 'lodash/castArray';
+import { SyncOfflineOperations } from '../sync-offline-operations';
 import { DedupedByQueueError } from './errors';
 import {
 	OfflineQueueLinkOptions,
@@ -194,4 +195,24 @@ export class OfflineQueueLink extends ApolloLink {
 				});
 			});
 		});
+
+	/**
+	 * Use {@type SyncOfflineOperations} to sync any operations that have been
+	 * saved to storage
+	 */
+	sync = ({ apolloClient }: { apolloClient?: any }) => {
+		if (!apolloClient) return;
+
+		const syncOfflineOperations = new SyncOfflineOperations({
+			apolloClient,
+			storage: this.storage,
+			storeKey: this.storeKey
+		});
+
+		return syncOfflineOperations.init().then(data => {
+			if (data && data.length) {
+				return syncOfflineOperations.sync();
+			}
+		});
+	};
 }

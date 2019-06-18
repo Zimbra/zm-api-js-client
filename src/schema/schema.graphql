@@ -271,19 +271,57 @@ enum ZimletPresence {
 	disabled
 }
 
+enum ResetPasswordStatus {
+	enabled
+	disabled
+	suspended
+}
+
 type AuthResponse {
 	authToken: [AuthToken]
+	twoFactorAuthRequired: TwoFactorAuthRequired
+	trustedDevicesEnabled: TrustedDevicesEnabled
 	lifetime: Int
 	session: Session
 	skin: [Skin]
+}
+
+type ScratchCodeType {
+	_content: String
+}
+
+type ScratchCodes {
+	scratchCodes: ScratchCode
+}
+
+type ScratchCode {
+	scratchCode: [ScratchCodeType]
+}
+
+type EnableTwoFactorAuthResponse {
+	secret: [Secret]
+	scratchCodes: [ScratchCode]
+	authToken: [AuthToken]
 }
 
 type ProfileImageChangeResponse {
 	itemId: ID
 }
 
+type Secret {
+	_content: String
+}
+
 type AuthToken {
 	_content: String
+}
+
+type TwoFactorAuthRequired {
+	_content: Boolean
+}
+
+type TrustedDevicesEnabled {
+	_content: Boolean
 }
 
 type Session {
@@ -327,6 +365,16 @@ type Instance {
 	participationStatus: ParticipationStatus
 	revision: Int # rev
 	status: InviteCompletionStatus
+	isOrganizer: Boolean # isOrg
+}
+
+type Alarm {
+	alarmInstStart: Float
+	componentNum: Int # compNum
+	inviteId: ID #invId
+	location: String # loc
+	name: String
+	nextAlarm: Float
 }
 
 type InviteReplyResponse {
@@ -425,6 +473,7 @@ type MessageInfo implements MailItem {
 	share: [ShareNotification] # shr
 	replyType: String #rt
 	attributes: MessageAttributes
+	autoSendTime: Float
 }
 
 type Conversation implements MailItem {
@@ -545,12 +594,28 @@ type CalendarItemRecurrenceEndCount {
 	number: Int
 }
 
+type ByMonthDayRule {
+	dayList: String
+}
+
+type ByMonthRule {
+	monthList: Int
+}
+
+type BySetPosRule {
+	poslist: Int
+}
+
 type SimpleRepeatingRule { # <rule>
 	frequency: CalendarItemRecurrenceFrequency # freq
 	interval: [IntervalRule]
 	byday: [ByDayRule]
 	until: [CalendarItemRecurrenceEndDate]
 	count: [CalendarItemRecurrenceEndCount]
+	bymonthday: [ByMonthDayRule]
+	bymonth: [ByMonthRule]
+	bysetpos: [BySetPosRule]
+
 }
 
 type RecurrenceInfo { # <recur>
@@ -580,6 +645,7 @@ type InviteComponent {
 	date: Float # d
 	description: [StringContent] # desc
 	draft: Boolean
+	neverSent: Boolean
 	end: [DtTimeInfo] # e
 	excerpt: String # fr
 	freeBusy: FreeBusyStatus # fb
@@ -601,6 +667,7 @@ type InviteComponent {
 	uid: String
 	x_uid: String
 	aid: String
+	method: String
 }
 
 type DtTimeInfo {
@@ -656,6 +723,7 @@ type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	freeBusy: FreeBusyStatus # fb
 	freeBusyActual: FreeBusyStatus # fba
 	id: ID!
+	alarmData: [Alarm]
 	instances: [Instance] # inst
 	invitations: [Invitation] # inv
 	inviteId: ID! #invId
@@ -678,6 +746,8 @@ type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	uid: String
 	x_uid: String
 	aid: String
+	draft: Boolean
+	neverSent: Boolean
 }
 
 type ExternalAccountTestResponse {
@@ -1042,9 +1112,19 @@ type AccountInfoAttrs {
 	zimbraFeatureCalendarEnabled: Boolean
 	zimbraFeatureRelatedContactsEnabled: Boolean
 	zimbraFeatureChangePasswordEnabled: Boolean
-	zimbraFeatureResetPasswordEnabled: Boolean
+	zimbraFeatureResetPasswordStatus: ResetPasswordStatus
 	zimbraFeatureWebClientOfflineAccessEnabled: Boolean
 	zimbraMailBlacklistMaxNumEntries: Int
+	zimbraPublicSharingEnabled: Boolean
+	zimbraExternalSharingEnabled: Boolean
+	zimbraFeatureGalEnabled: Boolean
+	zimbraFeatureGalAutoCompleteEnabled: Boolean
+	zimbraFeatureOutOfOfficeReplyEnabled: Boolean
+	zimbraFeatureFiltersEnabled: Boolean
+	zimbraFeatureReadReceiptsEnabled: Boolean
+	zimbraFeatureManageZimlets: Boolean
+	zimbraFeatureTwoFactorAuthAvailable: Boolean
+	zimbraTwoFactorAuthEnabled: Boolean
 }
 
 type Identities {
@@ -1157,6 +1237,9 @@ type Preferences {
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
+	zimbraPrefAppleIcalDelegationEnabled: Boolean
+	zimbraPrefMailForwardingAddress: String
+	zimbraPrefMailLocalDeliveryDisabled: Boolean
 }
 
 type NameId {
@@ -1205,6 +1288,9 @@ type ContactAttributes {
 	middleName: String
 	lastName: String
 	fullName: String
+	maidenName: String
+	namePrefix: String
+	nameSuffix: String
 	email: String
 	email2: String
 	workEmail: String
@@ -1213,40 +1299,62 @@ type ContactAttributes {
 	homeEmail2: String
 	phone: String
 	phone2: String
-	mobile: String
-	mobile2: String
+	companyPhone: String
+	companyPhone2: String
+	otherPhone: String
+	otherPhone2: String
+	mobilePhone: String
+	mobilePhone2: String
 	homePhone: String
 	homePhone2: String
 	workPhone: String
 	workPhone2: String
 	pager: String
 	pager2: String
-	fax: String
-	fax2: String
-	im: String
-	im2: String
-	im3: String
-	im4: String
+	homeFax: String
+	homeFax2: String
+	workFax: String
+	workFax2: String
+	imAddress: String
+	imAddress1: String
+	imAddress2: String
+	imAddress3: String
+	imAddress4: String
+	imAddress5: String
 	nickname: String
 	homeStreet: String
 	homeCity: String
 	homeState: String
-	homePostal: String
+	homePostalCode: String
 	homeCountry: String
+	homeURL: String
 	workStreet: String
 	workCity: String
 	workState: String
-	workPostal: String
+	workPostalCode: String
 	workCountry: String
+	workURL: String
 	jobTitle: String
 	company: String
+	department: String
 	birthday: String
 	anniversary: String
 	website: String
 	notes: String
+	thumbnailPhoto: String
 	image: ContactImage
 	userCertificate: String
 	zimbraCalResType: String
+	assistantPhone: String
+	callbackPhone: String
+	carPhone: String
+	otherCity: String
+	otherCountry: String
+	otherFax: String
+	otherPostalCode: String
+	otherState: String
+	otherStreet: String
+	otherURL: String
 
 	# Used for contact lists
 	fileAs: String
@@ -1271,6 +1379,9 @@ input ContactAttrsInput {
 	middleName: String
 	lastName: String
 	fullName: String
+	maidenName: String
+	namePrefix: String
+	nameSuffix: String
 	email: String
 	email2: String
 	workEmail: String
@@ -1279,39 +1390,62 @@ input ContactAttrsInput {
 	homeEmail2: String
 	phone: String
 	phone2: String
-	mobile: String
-	mobile2: String
+	companyPhone: String
+	companyPhone2: String
+	otherPhone: String
+	otherPhone2: String
+	mobilePhone: String
+	mobilePhone2: String
 	homePhone: String
 	homePhone2: String
 	workPhone: String
 	workPhone2: String
 	pager: String
 	pager2: String
-	fax: String
-	fax2: String
-	im: String
-	im2: String
-	im3: String
-	im4: String
+	homeFax: String
+	homeFax2: String
+	workFax: String
+	workFax2: String
+	imAddress: String
+	imAddress1: String
+	imAddress2: String
+	imAddress3: String
+	imAddress4: String
+	imAddress5: String
 	nickname: String
 	homeStreet: String
 	homeCity: String
+	homeFax: String
 	homeState: String
-	homePostal: String
+	homePostalCode: String
 	homeCountry: String
+	homeURL: String
+	workFax: String
 	workStreet: String
 	workCity: String
 	workState: String
-	workPostal: String
+	workPostalCode: String
 	workCountry: String
+	workURL: String
 	jobTitle: String
 	company: String
+	department: String
 	birthday: String
 	anniversary: String
 	website: String
 	notes: String
 	image: String
 	userCertificate: String
+	assistantPhone: String
+	callbackPhone: String
+	carPhone: String
+	otherCity: String
+	otherCountry: String
+	otherFax: String
+	otherPostalCode: String
+	otherState: String
+	otherStreet: String
+	otherURL: String
 
 	# Used for contact lists
 	fileAs: String
@@ -1557,6 +1691,7 @@ input CalendarItemInviteComponentInput {
 	status: InviteCompletionStatus
 	noBlob: Boolean
 	description: [CalendarItemInviteComponentDescriptionInput]
+	draft: Boolean
 }
 
 input CalendarItemInviteComponentDescriptionInput {
@@ -1686,6 +1821,10 @@ input CalendarItemRecurrenceRuleInput {
 	frequency: CalendarItemRecurrenceFrequency
 	count: CalendarItemRecurrenceEndCountInput
 	until: CalendarItemRecurrenceEndDateInput
+	byday: CalendarItemRecurrenceByDayInput
+	bymonthday: CalendarItemRecurrenceByMonthDayInput
+	bymonth: CalendarItemRecurrenceByMonthInput
+	bysetpos: CalendarItemRecurrenceBySetPosInput
 }
 
 input CalendarItemRecurrenceIntervalInput {
@@ -1699,6 +1838,27 @@ input CalendarItemRecurrenceEndCountInput {
 
 input CalendarItemRecurrenceEndDateInput {
 	date: String!
+}
+
+input CalendarItemRecurrenceByDayInput {
+	wkday: [WkDayInput]
+}
+
+input WkDayInput {
+	day: Weekday!
+	ordwk: Int
+}
+
+input CalendarItemRecurrenceByMonthDayInput {
+	dayList: String!
+}
+
+input CalendarItemRecurrenceByMonthInput {
+	monthList: Int!
+}
+
+input CalendarItemRecurrenceBySetPosInput {
+	poslist: Int!
 }
 
 input NewMountpointSpec {
@@ -1825,6 +1985,10 @@ input PreferencesInput {
 	zimbraPrefShowFragments: Boolean
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
+	zimbraPrefLocale: String
+	zimbraPrefAppleIcalDelegationEnabled: Boolean
+	zimbraPrefMailForwardingAddress: String
+	zimbraPrefMailLocalDeliveryDisabled: Boolean
 }
 
 input ModifyIdentityInput {
@@ -2017,6 +2181,17 @@ input FilterInput {
 
 ##### End Of FilterInput #####
 
+input ForwardAppointmentInviteInput {
+	id: ID!
+	message: ForwardMessageInput!
+}
+
+input ForwardMessageInput {
+	subject: String #su
+	mimeParts: [MimePartInput] #mp
+	emailAddresses: [MailItemEmailAddressInput] #e
+}
+
 input ShareNotificationInput {
 	item: ShareNotificationItemInput!
 	address: ShareNotificaitonEmailAddressInput!
@@ -2097,6 +2272,12 @@ input ExternalAccountModifyAttrsInput {
 	isEnabled: Boolean
 	port: String
 	smtpPort: String
+}
+input EnableTwoFactorAuthInput {
+	name: String!
+	password: String
+	twoFactorCode: String
+	authToken: String
 }
 
 input ExternalAccountImportInput {
@@ -2220,6 +2401,12 @@ type SMimeMessage {
 	content: String
 }
 
+type Attachment {
+	id: ID
+	content: String
+}
+
+
 ##### End Of SMIME Certificates type #####
 
 type ActionOpResponseData {
@@ -2254,6 +2441,12 @@ type AccountACEInfo {
 	checkGrantee: Boolean
 }
 
+type Locale {
+	id: ID
+	name: String
+	localName: String
+}
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2274,6 +2467,7 @@ type Query {
 		needExp: Boolean
 	): AutoCompleteGALResponse
 	downloadMessage(id: ID!, isSecure: Boolean): SMimeMessage
+	downloadAttachment(id: ID!, part: ID!): Attachment
 	discoverRights: DiscoverRights
 	freeBusy(names: [String!]!, start: Float, end: Float): [FreeBusy]
 	getContact(
@@ -2290,6 +2484,7 @@ type Query {
 		offset: Int!,
 		types: SearchType
 	): SearchResponse
+	getAvailableLocales: [Locale]
 	getContactFrequency(
 		email: String!
 		by: String!
@@ -2328,6 +2523,7 @@ type Query {
 	): MessageInfo
 	getRights(input: GetRightsInput!): GetRightsResponse
 	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
+	getScratchCodes(username: String!): ScratchCodes
 	getSearchFolder: Folder
 	getWhiteBlackList: WhiteBlackList
 	getWorkingHours(names: [String!]!, start: Float, end: Float): [WorkingHours]
@@ -2454,9 +2650,11 @@ type Mutation {
 	createTask(task: CalendarItemInput!): Boolean
 	deleteAppointment(appointment: DeleteAppointmentInput!): Boolean
 	deleteExternalAccount(id: ID!): Boolean
-	deleteSignature(signature: NameIdInput!): String
+	deleteSignature(signature: NameIdInput!): Boolean
+	generateScratchCodes(username: String!): ScratchCodes
 	grantRights(input: GrantRightsInput!): GrantRightsResponse
 	folderAction(action: FolderActionInput!): Boolean
+	forwardAppointmentInvite(appointmentInvite:ForwardAppointmentInviteInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
 	logout: Boolean
@@ -2465,8 +2663,12 @@ type Mutation {
 		password: String,
 		recoveryCode: String,
 		tokenType: String,
-		persistAuthTokenCookie: Boolean
+		persistAuthTokenCookie: Boolean,
+		twoFactorCode: String,
+		deviceTrusted: Boolean
 	): AuthResponse
+	enableTwoFactorAuth(options: EnableTwoFactorAuthInput!): EnableTwoFactorAuthResponse
+	disableTwoFactorAuth: Boolean
 	messageAction(
 		ids: [ID!]!
 		op: String!
@@ -2481,7 +2683,7 @@ type Mutation {
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyZimletPrefs(zimlets: [ZimletPreferenceInput!]): ModifyZimletPrefsResponse
 	modifyFilterRules(filters: [FilterInput!]): Boolean
-	modifySignature(signature: SignatureInput!): String
+	modifySignature(signature: SignatureInput!): Boolean
 	modifySearchFolder(search: SearchFolderInput!): Boolean
 	modifyTask(task: CalendarItemInput!): Boolean
 	modifyWhiteBlackList(whiteBlackList: WhiteBlackListInput!): Boolean

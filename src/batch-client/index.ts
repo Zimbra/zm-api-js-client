@@ -4,7 +4,6 @@ import forEach from 'lodash/forEach';
 import get from 'lodash/get';
 import isError from 'lodash/isError';
 import mapValues from 'lodash/mapValues';
-
 import { denormalize, normalize } from '../normalize';
 import {
 	AccountRights,
@@ -24,6 +23,7 @@ import {
 	DiscoverRightsResponse,
 	Filter,
 	Folder,
+	ForwardAppointmentInviteInfo,
 	FreeBusy,
 	FreeBusyInstance,
 	GetFolderRequest as GetFolderRequestEntity,
@@ -52,6 +52,7 @@ import {
 	CreateContactInput,
 	CreateMountpointInput,
 	DeleteAppointmentInput,
+	EnableTwoFactorAuthInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
@@ -59,6 +60,7 @@ import {
 	FolderActionChangeColorInput,
 	FolderActionCheckCalendarInput,
 	FolderView,
+	ForwardAppointmentInviteInput,
 	GetRightsInput,
 	GrantRightsInput,
 	InviteReplyInput,
@@ -111,6 +113,7 @@ import {
 	RelatedContactsOptions,
 	ResetPasswordOptions,
 	SearchOptions,
+	SessionHandler,
 	SetRecoveryAccountOptions,
 	ShareInfoOptions,
 	WorkingHoursOptions,
@@ -142,14 +145,18 @@ function normalizeMessage(
 
 export class ZimbraBatchClient {
 	public origin: string;
-	public sessionId: string = '1';
+	public sessionId: any;
 	public soapPathname: string;
 	private batchDataLoader: DataLoader<RequestOptions, RequestBody>;
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
 	private jwtToken?: string;
 	private notificationHandler?: NotificationHandler;
+	private sessionHandler?: SessionHandler;
+	private userAgent?: {};
 
 	constructor(options: ZimbraClientOptions = {}) {
+		this.sessionHandler = options.sessionHandler;
+		this.userAgent = options.userAgent;
 		this.jwtToken = options.jwtToken;
 		this.origin = options.zimbraOrigin || DEFAULT_HOSTNAME;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
@@ -172,7 +179,6 @@ export class ZimbraBatchClient {
 				typeof prefs.zimbraPrefMailTrustedSenderList === 'string'
 					? castArray(prefs.zimbraPrefMailTrustedSenderList)
 					: prefs.zimbraPrefMailTrustedSenderList;
-
 			return {
 				...res,
 				attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
@@ -395,7 +401,13 @@ export class ZimbraBatchClient {
 			name: 'DeleteSignature',
 			namespace: Namespace.Account,
 			body: options
-		});
+		}).then(Boolean);
+
+	public disableTwoFactorAuth = () =>
+		this.jsonRequest({
+			name: 'DisableTwoFactorAuth',
+			namespace: Namespace.Account
+		}).then(Boolean);
 
 	public discoverRights = () =>
 		this.jsonRequest({
@@ -422,31 +434,57 @@ export class ZimbraBatchClient {
 			}
 		}).then(Boolean);
 
-	public downloadMessage = ({ id, isSecure }: any) => {
-		return fetch(`${this.origin}/service/home/~/?auth=co&id=${id}`, {
-			...(isSecure && {
-				headers: {
-					'X-Zimbra-Encoding': 'x-base64'
-				}
-			}),
-			credentials: 'include'
-		}).then(response => {
-			if (response.ok) {
-				return response.text().then(content => {
-					if (!content) {
-						return undefined;
+	public downloadAttachment = ({ id, part }: any) =>
+		this.download({ id, part }).then(({ id, part, content }: any) => ({
+			id: `${id}_${part}`,
+			content
+		}));
+
+	public downloadMessage = ({ id, isSecure }: any) =>
+		this.download({ id, isSecure }).then(({ id, content }: any) => ({
+			id,
+			content
+		}));
+
+	public enableTwoFactorAuth = ({
+		name,
+		password,
+		authToken,
+		twoFactorCode
+	}: EnableTwoFactorAuthInput) =>
+		this.jsonRequest({
+			name: 'EnableTwoFactorAuth',
+			body: {
+				name: {
+					_content: name
+				},
+				...(password && {
+					password: {
+						_content: password
 					}
-					return {
-						id,
-						content
-					};
-				});
-			}
+				}),
+				...(authToken && {
+					authToken: {
+						_content: authToken
+					}
+				}),
+				...(twoFactorCode && {
+					twoFactorCode: {
+						_content: twoFactorCode
+					}
+				})
+			},
+			namespace: Namespace.Account
 		});
-	};
 
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);
+
+	public forwardAppointmentInvite = (body: ForwardAppointmentInviteInput) =>
+		this.jsonRequest({
+			name: 'ForwardAppointmentInvite',
+			body: denormalize(ForwardAppointmentInviteInfo)(body)
+		}).then(Boolean);
 
 	public freeBusy = ({ start, end, names }: FreeBusyOptions) =>
 		this.jsonRequest({
@@ -458,11 +496,29 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => normalize(FreeBusy)(res.usr));
 
+	public generateScratchCodes = (username: String) =>
+		this.jsonRequest({
+			name: 'GenerateScratchCodes',
+			namespace: Namespace.Account,
+			body: {
+				account: {
+					by: 'name',
+					_content: username
+				}
+			}
+		});
+
 	public getAttachmentUrl = (attachment: any) =>
 		getAttachmentUrl(attachment, {
 			origin: this.origin,
 			jwtToken: this.jwtToken
 		});
+
+	public getAvailableLocales = () =>
+		this.jsonRequest({
+			name: 'GetAvailableLocales',
+			namespace: Namespace.Account
+		}).then(res => res.locale);
 
 	public getContact = ({ id, ids, ...rest }: GetContactOptions) =>
 		this.jsonRequest({
@@ -577,6 +633,18 @@ export class ZimbraBatchClient {
 			body: denormalize(GetRightsRequest)(options)
 		}).then(normalize(AccountRights));
 
+	public getScratchCodes = (username: String) =>
+		this.jsonRequest({
+			name: 'GetScratchCodes',
+			namespace: Namespace.Account,
+			body: {
+				account: {
+					by: 'name',
+					_content: username
+				}
+			}
+		});
+
 	public getSearchFolder = () =>
 		this.jsonRequest({
 			name: 'GetSearchFolder'
@@ -647,7 +715,9 @@ export class ZimbraBatchClient {
 		password,
 		recoveryCode,
 		tokenType,
-		persistAuthTokenCookie = true
+		persistAuthTokenCookie = true,
+		twoFactorCode,
+		deviceTrusted
 	}: LoginOptions) =>
 		this.jsonRequest({
 			name: 'Auth',
@@ -664,10 +734,12 @@ export class ZimbraBatchClient {
 						verifyAccount: true,
 						_content: recoveryCode
 					}
-				})
+				}),
+				...(twoFactorCode && { twoFactorCode }),
+				...(deviceTrusted && { deviceTrusted })
 			},
 			namespace: Namespace.Account
-		});
+		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
 
 	public logout = () =>
 		this.jsonRequest({
@@ -731,7 +803,7 @@ export class ZimbraBatchClient {
 					...mapValuesDeep(attrs, coerceBooleanToString)
 				}
 			}
-		});
+		}).then(Boolean);
 
 	public modifyFilterRules = (filters: Array<FilterInput>) =>
 		this.jsonRequest({
@@ -793,7 +865,7 @@ export class ZimbraBatchClient {
 			name: 'ModifySignature',
 			namespace: Namespace.Account,
 			body: denormalize(CreateSignatureRequest)(options)
-		});
+		}).then(Boolean);
 
 	public modifyTask = (task: CalendarItemInput) =>
 		this.jsonRequest({
@@ -936,6 +1008,10 @@ export class ZimbraBatchClient {
 			body: options
 		}).then(Boolean);
 
+	public setUserAgent = (userAgent: Object) => {
+		this.userAgent = userAgent;
+	};
+
 	public shareInfo = (options: ShareInfoOptions) =>
 		this.jsonRequest({
 			name: 'GetShareInfo',
@@ -1020,9 +1096,7 @@ export class ZimbraBatchClient {
 			const sessionId = get(response, 'header.context.session.id');
 			const notifications = get(response, 'header.context.notify.0');
 
-			if (sessionId) {
-				this.sessionId = sessionId;
-			}
+			this.checkAndUpdateSessionId(sessionId);
 
 			if (notifications && this.notificationHandler) {
 				this.notificationHandler(notifications);
@@ -1040,6 +1114,14 @@ export class ZimbraBatchClient {
 			});
 		});
 
+	private checkAndUpdateSessionId = (sessionId: any) => {
+		// Need to save session id in apollo cache for user session management zimlet to stop duplication of sessions data.
+		if (sessionId && this.sessionId !== sessionId) {
+			this.sessionHandler && this.sessionHandler.writeSessionId(sessionId);
+			this.sessionId = sessionId;
+		}
+	};
+
 	private dataHandler = (requests: Array<JsonRequestOptions>) =>
 		jsonRequest({
 			...requests[0],
@@ -1048,9 +1130,7 @@ export class ZimbraBatchClient {
 			const sessionId = get(response, 'header.context.session.id');
 			const notifications = get(response, 'header.context.notify.0');
 
-			if (sessionId) {
-				this.sessionId = sessionId;
-			}
+			this.checkAndUpdateSessionId(sessionId);
 
 			if (notifications && this.notificationHandler) {
 				this.notificationHandler(notifications);
@@ -1059,13 +1139,45 @@ export class ZimbraBatchClient {
 			return isError(response) ? [response] : [response.body];
 		});
 
+	private download = ({ id, part, isSecure }: any) =>
+		fetch(
+			`${this.origin}/service/home/~/?auth=co&id=${id}${
+				part ? `&part=${part}` : ''
+			}`,
+			{
+				...(isSecure && {
+					headers: {
+						'X-Zimbra-Encoding': 'x-base64'
+					}
+				}),
+				credentials: 'include'
+			}
+		).then(response => {
+			if (response.ok) {
+				return response.text().then(content => {
+					if (!content) {
+						return undefined;
+					}
+
+					return {
+						id,
+						part,
+						content
+					};
+				});
+			}
+		});
+
 	/**
 	 * These options are included on every request.
 	 */
 	private getAdditionalRequestOptions = () => ({
 		jwtToken: this.jwtToken,
-		sessionId: this.sessionId,
-		origin: this.origin
+		sessionId:
+			this.sessionId ||
+			(this.sessionHandler && this.sessionHandler.readSessionId()),
+		origin: this.origin,
+		userAgent: this.userAgent
 	});
 
 	private normalizeMessage = (message: any) =>

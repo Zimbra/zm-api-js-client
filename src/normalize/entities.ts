@@ -43,11 +43,21 @@ const UntilDate = new Entity({
 	d: 'date'
 });
 
+const ByMonthDayRule = new Entity({
+	modaylist: 'dayList'
+});
+
+const ByMonthRule = new Entity({
+	molist: 'monthList'
+});
+
 const SimpleRepeatingRule = new Entity({
 	freq: 'frequency',
 	interval: ['interval', IntervalRule],
 	count: ['count', NumOfOccurences],
-	until: ['until', UntilDate]
+	until: ['until', UntilDate],
+	bymonthday: ['bymonthday', ByMonthDayRule],
+	bymonth: ['bymonth', ByMonthRule]
 });
 
 const AddRecurrenceInfo = new Entity({
@@ -200,7 +210,6 @@ const SendMessageFields = new Entity({
 	aid: 'attachmentId',
 	irt: 'inReplyTo',
 	rt: 'replyType',
-	autoSendTime: 'autoSendTime',
 	did: 'draftId',
 	idnt: 'entityId'
 });
@@ -290,6 +299,12 @@ const Instance = new Entity({
 	ex: 'isException'
 });
 
+const Alarm = new Entity({
+	compNum: 'componentNum',
+	invId: 'inviteId',
+	loc: 'location'
+});
+
 export const CalendarItemHitInfo = new Entity({
 	...commonMessageFields,
 	...commonInviteFields,
@@ -299,6 +314,7 @@ export const CalendarItemHitInfo = new Entity({
 	tzo: 'timezoneOffset',
 	inst: ['instances', Instance],
 	inv: ['invitations', Invitation],
+	alarmData: ['alarmData', Alarm],
 	sf: 'sortField'
 });
 
@@ -320,6 +336,16 @@ Folder.addMapping({
 	link: ['linkedFolders', Folder]
 });
 export { Folder };
+
+const ForwardMessageInput = new Entity({
+	e: ['emailAddresses', MailItemEmailAddress],
+	mp: ['mimeParts', MimePart],
+	su: 'subject'
+});
+
+export const ForwardAppointmentInviteInfo = new Entity({
+	m: ['message', ForwardMessageInput]
+});
 
 export const FreeBusyInstance = new Entity({
 	s: 'start',
@@ -403,7 +429,7 @@ export const SearchResponse = new Entity({
 	m: ['messages', MessageInfo],
 	c: ['conversations', SearchConversation],
 	cn: ['contacts', Contact],
-	appt: ['appointments', Appointment]
+	appt: ['appointments', CalendarItemHitInfo]
 });
 
 const RedirectAction = new Entity({

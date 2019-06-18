@@ -7,6 +7,7 @@ import {
 	CreateContactInput,
 	CreateMountpointInput,
 	DeleteAppointmentInput,
+	EnableTwoFactorAuthInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
@@ -14,6 +15,7 @@ import {
 	FolderActionChangeColorInput,
 	FolderActionCheckCalendarInput,
 	FolderView,
+	ForwardAppointmentInviteInput,
 	GetRightsInput,
 	GrantRightsInput,
 	InviteReplyInput,
@@ -67,15 +69,18 @@ import {
 	WorkingHoursOptions
 } from '../batch-client/types';
 import schema from './schema.graphql';
+import { SessionHandler } from './session-handler';
 
 export function createZimbraSchema(
 	options: ZimbraSchemaOptions
 ): { client: ZimbraBatchClient; schema: GraphQLSchema } {
 	const { cache, ...clientOptions } = options;
 	const notifications = cache ? new ZimbraNotifications({ cache }) : undefined;
+	const sessionHandler = cache ? new SessionHandler({ cache }) : undefined;
 	const client = new ZimbraBatchClient({
 		...clientOptions,
-		notificationHandler: notifications && notifications.notificationHandler
+		notificationHandler: notifications && notifications.notificationHandler,
+		sessionHandler
 	});
 
 	const executableSchema = makeExecutableSchema({
@@ -88,6 +93,8 @@ export function createZimbraSchema(
 				autoCompleteGAL: (_, variables) =>
 					client.autoCompleteGAL(variables as AutoCompleteGALOptions),
 				discoverRights: client.discoverRights,
+				downloadAttachment: (_, variables) =>
+					client.downloadAttachment(variables),
 				downloadMessage: (_, variables) => client.downloadMessage(variables),
 				freeBusy: (_, variables) =>
 					client.freeBusy(variables as FreeBusyOptions),
@@ -102,12 +109,14 @@ export function createZimbraSchema(
 					client.getFolder(variables as GetFolderOptions),
 				getAppointments: (_: any, variables) =>
 					client.search(variables as SearchOptions),
+				getAvailableLocales: (_: any) => client.getAvailableLocales(),
 				getMailboxMetadata: (_: any, variables) =>
 					client.getMailboxMetadata(variables as GetMailboxMetadataOptions),
 				getMessage: (_, variables) =>
 					client.getMessage(variables as GetMessageOptions),
 				getRights: (_, variables) =>
 					client.getRights(variables as GetRightsInput),
+				getScratchCodes: client.getScratchCodes,
 				getSearchFolder: client.getSearchFolder,
 				getSMimePublicCerts: (_, variables) =>
 					client.getSMimePublicCerts(variables as GetSMimePublicCertsOptions),
@@ -180,6 +189,9 @@ export function createZimbraSchema(
 					client.itemAction(variables as ActionOptions),
 				login: (_, variables) => client.login(variables as LoginOptions),
 				logout: client.logout,
+				disableTwoFactorAuth: client.disableTwoFactorAuth,
+				enableTwoFactorAuth: (_, { options }) =>
+					client.enableTwoFactorAuth(options as EnableTwoFactorAuthInput),
 				messageAction: (_, variables) =>
 					client.messageAction(variables as ActionOptions),
 				changePassword: (_, variables) =>
@@ -248,6 +260,11 @@ export function createZimbraSchema(
 				changeFolderColor: (_, variables) =>
 					client.changeFolderColor(variables as FolderActionChangeColorInput),
 				folderAction: (_, { action }) => client.folderAction(action),
+				forwardAppointmentInvite: (_, { appointmentInvite }) =>
+					client.forwardAppointmentInvite(
+						appointmentInvite as ForwardAppointmentInviteInput
+					),
+				generateScratchCodes: client.generateScratchCodes,
 				grantRights: (_, variables) =>
 					client.grantRights(variables.input as GrantRightsInput),
 				sendShareNotification: (_, { shareNotification }) =>

@@ -166,6 +166,8 @@ export interface CalendarItemInviteComponentInput {
 	noBlob?: boolean | null;
 
 	description?: (CalendarItemInviteComponentDescriptionInput | null)[] | null;
+
+	draft?: boolean | null;
 }
 
 export interface CalendarItemDateTimeInput {
@@ -204,6 +206,14 @@ export interface CalendarItemRecurrenceRuleInput {
 	count?: CalendarItemRecurrenceEndCountInput | null;
 
 	until?: CalendarItemRecurrenceEndDateInput | null;
+
+	byday?: CalendarItemRecurrenceByDayInput | null;
+
+	bymonthday?: CalendarItemRecurrenceByMonthDayInput | null;
+
+	bymonth?: CalendarItemRecurrenceByMonthInput | null;
+
+	bysetpos?: CalendarItemRecurrenceBySetPosInput | null;
 }
 
 export interface CalendarItemRecurrenceIntervalInput {
@@ -218,6 +228,28 @@ export interface CalendarItemRecurrenceEndCountInput {
 
 export interface CalendarItemRecurrenceEndDateInput {
 	date: string;
+}
+
+export interface CalendarItemRecurrenceByDayInput {
+	wkday?: (WkDayInput | null)[] | null;
+}
+
+export interface WkDayInput {
+	day: Weekday;
+
+	ordwk?: number | null;
+}
+
+export interface CalendarItemRecurrenceByMonthDayInput {
+	dayList: string;
+}
+
+export interface CalendarItemRecurrenceByMonthInput {
+	monthList: number;
+}
+
+export interface CalendarItemRecurrenceBySetPosInput {
+	poslist: number;
 }
 
 export interface CalendarItemAttendeesInput {
@@ -339,6 +371,12 @@ export interface ContactAttrsInput {
 
 	fullName?: string | null;
 
+	maidenName?: string | null;
+
+	namePrefix?: string | null;
+
+	nameSuffix?: string | null;
+
 	email?: string | null;
 
 	email2?: string | null;
@@ -355,9 +393,17 @@ export interface ContactAttrsInput {
 
 	phone2?: string | null;
 
-	mobile?: string | null;
+	companyPhone?: string | null;
 
-	mobile2?: string | null;
+	companyPhone2?: string | null;
+
+	otherPhone?: string | null;
+
+	otherPhone2?: string | null;
+
+	mobilePhone?: string | null;
+
+	mobilePhone2?: string | null;
 
 	homePhone?: string | null;
 
@@ -371,17 +417,25 @@ export interface ContactAttrsInput {
 
 	pager2?: string | null;
 
-	fax?: string | null;
+	homeFax?: string | null;
 
-	fax2?: string | null;
+	homeFax2?: string | null;
 
-	im?: string | null;
+	workFax?: string | null;
 
-	im2?: string | null;
+	workFax2?: string | null;
 
-	im3?: string | null;
+	imAddress?: string | null;
 
-	im4?: string | null;
+	imAddress1?: string | null;
+
+	imAddress2?: string | null;
+
+	imAddress3?: string | null;
+
+	imAddress4?: string | null;
+
+	imAddress5?: string | null;
 
 	nickname?: string | null;
 
@@ -391,9 +445,11 @@ export interface ContactAttrsInput {
 
 	homeState?: string | null;
 
-	homePostal?: string | null;
+	homePostalCode?: string | null;
 
 	homeCountry?: string | null;
+
+	homeURL?: string | null;
 
 	workStreet?: string | null;
 
@@ -401,13 +457,17 @@ export interface ContactAttrsInput {
 
 	workState?: string | null;
 
-	workPostal?: string | null;
+	workPostalCode?: string | null;
 
 	workCountry?: string | null;
+
+	workURL?: string | null;
 
 	jobTitle?: string | null;
 
 	company?: string | null;
+
+	department?: string | null;
 
 	birthday?: string | null;
 
@@ -420,6 +480,26 @@ export interface ContactAttrsInput {
 	image?: string | null;
 
 	userCertificate?: string | null;
+
+	assistantPhone?: string | null;
+
+	callbackPhone?: string | null;
+
+	carPhone?: string | null;
+
+	otherCity?: string | null;
+
+	otherCountry?: string | null;
+
+	otherFax?: string | null;
+
+	otherPostalCode?: string | null;
+
+	otherState?: string | null;
+
+	otherStreet?: string | null;
+
+	otherURL?: string | null;
 	/** Used for contact lists */
 	fileAs?: string | null;
 
@@ -554,10 +634,34 @@ export interface GrantInput {
 	zimbraId?: string | null;
 }
 
+export interface ForwardAppointmentInviteInput {
+	id: string;
+
+	message: ForwardMessageInput;
+}
+
+export interface ForwardMessageInput {
+	subject?: string | null;
+
+	mimeParts?: (MimePartInput | null)[] | null;
+
+	emailAddresses?: (MailItemEmailAddressInput | null)[] | null;
+}
+
 export interface ExternalAccountImportInput {
 	accountType?: AccountType | null;
 
 	id: string;
+}
+
+export interface EnableTwoFactorAuthInput {
+	name: string;
+
+	password?: string | null;
+
+	twoFactorCode?: string | null;
+
+	authToken?: string | null;
 }
 
 export interface ExternalAccountModifyAttrsInput {
@@ -692,6 +796,14 @@ export interface PreferencesInput {
 	zimbraPrefWebClientOfflineBrowserKey?: string | null;
 
 	zimbraPrefTimeZoneId?: string | null;
+
+	zimbraPrefLocale?: string | null;
+
+	zimbraPrefAppleIcalDelegationEnabled?: boolean | null;
+
+	zimbraPrefMailForwardingAddress?: string | null;
+
+	zimbraPrefMailLocalDeliveryDisabled?: boolean | null;
 }
 
 export interface ZimletPreferenceInput {
@@ -1156,6 +1268,12 @@ export interface ModifyIdentityInput {
 	id: string;
 
 	attrs?: IdentityAttrsInput | null;
+}
+
+export enum ResetPasswordStatus {
+	Enabled = 'enabled',
+	Disabled = 'disabled',
+	Suspended = 'suspended'
 }
 
 export enum PrefCalendarInitialView {
