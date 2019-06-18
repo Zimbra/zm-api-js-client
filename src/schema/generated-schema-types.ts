@@ -505,7 +505,13 @@ export interface ContactAttrsInput {
 
 	type?: string | null;
 
-	other?: (string | null)[] | null;
+	other?: (OtherInputAttribute | null)[] | null;
+}
+
+export interface OtherInputAttribute {
+	key?: string | null;
+
+	value?: string | null;
 }
 
 export interface ModifyContactInput {
