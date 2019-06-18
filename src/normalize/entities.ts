@@ -579,4 +579,4 @@ export const GetRightsRequest = new Entity({
 
 export const CreateAppSpecificPasswordResponse = new Entity({
 	pw: 'password'
-})
+});

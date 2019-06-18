@@ -356,7 +356,7 @@ export function createZimbraSchema(
 				resetPassword: (_, variables) =>
 					client.resetPassword(variables as ResetPasswordOptions),
 				revokeAppSpecificPassword: (_, { appName }) =>
-						client.revokeAppSpecificPassword(appName),
+					client.revokeAppSpecificPassword(appName),
 				revokeOtherTrustedDevices: client.revokeOtherTrustedDevices,
 				revokeRights: (_, variables) =>
 					client.revokeRights(variables.input as RevokeRightsInput),
