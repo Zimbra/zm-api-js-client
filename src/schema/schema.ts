@@ -135,7 +135,8 @@ export function createZimbraSchema(
 				shareInfo: (_, variables) =>
 					client.shareInfo(variables as ShareInfoOptions),
 				taskFolders: client.taskFolders,
-				getWhiteBlackList: client.getWhiteBlackList
+				getWhiteBlackList: client.getWhiteBlackList,
+				getAppSpecificPasswords: client.getAppSpecificPasswords
 			},
 			//resolveType is necessary to differentiate for any Union or Interfaces
 			MailItem: {
@@ -201,6 +202,8 @@ export function createZimbraSchema(
 					client.modifyProfileImage(variables as ModifyProfileImageOptions),
 				contactAction: (_, variables) =>
 					client.contactAction(variables as ActionOptions),
+				createAppSpecificPassword: (_, { appName }) =>
+					client.createAppSpecificPassword(appName),
 				conversationAction: (_, variables) =>
 					client.conversationAction(variables as ActionOptions),
 				createFolder: (_, variables) =>
@@ -352,6 +355,8 @@ export function createZimbraSchema(
 					client.recoverAccount(variables as RecoverAccountOptions),
 				resetPassword: (_, variables) =>
 					client.resetPassword(variables as ResetPasswordOptions),
+				revokeAppSpecificPassword: (_, { appName }) =>
+						client.revokeAppSpecificPassword(appName),
 				revokeOtherTrustedDevices: client.revokeOtherTrustedDevices,
 				revokeRights: (_, variables) =>
 					client.revokeRights(variables.input as RevokeRightsInput),

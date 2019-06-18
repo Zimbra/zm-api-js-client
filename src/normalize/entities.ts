@@ -576,3 +576,7 @@ export const AccountRights = new Entity({
 export const GetRightsRequest = new Entity({
 	ace: 'access'
 });
+
+export const CreateAppSpecificPasswordResponse = new Entity({
+	pw: 'password'
+})
