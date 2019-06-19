@@ -1,3 +1,5 @@
+import concat from 'lodash/concat';
+import differenceBy from 'lodash/differenceBy';
 import forEach from 'lodash/forEach';
 import { denormalize } from '../normalize';
 import { ContactInputRequest } from '../normalize/entities';
@@ -112,11 +114,22 @@ export function normalizeOtherAttr(data: any) {
 					other.push({ key, value: contact._attrs[key] }) &&
 					delete contact._attrs[key]
 			);
+		const otherAttributewithCutsomKey = other
+			.filter((o: any) => o.key.match('custom\\d+'))
+			.sort(
+				(a: any, b: any) =>
+					Number(a.key.match(/(\d+)/g)[0]) - Number(b.key.match(/(\d+)/g)[0])
+			);
+		const remainingOtherAttribute = differenceBy(
+			other,
+			otherAttributewithCutsomKey,
+			'key'
+		).sort((a: any, b: any) => a.key.localeCompare(b.key));
 		return {
 			...contact,
 			_attrs: {
 				...contact._attrs,
-				other
+				other: concat(otherAttributewithCutsomKey, remainingOtherAttribute)
 			}
 		};
 	});
