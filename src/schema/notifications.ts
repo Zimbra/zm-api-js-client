@@ -106,8 +106,8 @@ export class ZimbraNotifications {
 				let folder: any;
 				try {
 					folder = this.cache.readFragment({
-					id: `Folder:${item.folderId}`,
-					fragment: gql`
+						id: `Folder:${item.folderId}`,
+						fragment: gql`
 						fragment ${generateFragmentName('folderName', item.folderId)} on Folder {
 							name
 						}
