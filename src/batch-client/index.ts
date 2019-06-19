@@ -163,10 +163,15 @@ export class ZimbraBatchClient {
 		this.notificationHandler = options.notificationHandler;
 
 		// Used for sending batch requests
-		this.batchDataLoader = new DataLoader(this.batchDataHandler);
+		this.batchDataLoader = new DataLoader(this.batchDataHandler, {
+			cache: false
+		});
 
 		// Used for sending individual requests
-		this.dataLoader = new DataLoader(this.dataHandler, { batch: false });
+		this.dataLoader = new DataLoader(this.dataHandler, {
+			batch: false,
+			cache: false
+		});
 	}
 
 	public accountInfo = () =>
