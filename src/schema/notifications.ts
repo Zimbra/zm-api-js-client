@@ -86,7 +86,7 @@ export class ZimbraNotifications {
 
 	constructor(options: ZimbraNotificationsOptions) {
 		this.cache = options.cache;
-	}
+}
 
 	public notificationHandler = (notification: Notification) => {
 		console.log('[Cache] Handling Notification', notification);
@@ -103,14 +103,19 @@ export class ZimbraNotifications {
 			items.forEach((i: any) => {
 				const item = normalizeContact(i);
 				const defaultFolderName = 'Contacts';
-				const folder: any = this.cache.readFragment({
+				let folder: any;
+				try {
+					folder = this.cache.readFragment({
 					id: `Folder:${item.folderId}`,
 					fragment: gql`
-					fragment folderName${item.folderId} on Folder {
-						name
-					}
+						fragment ${generateFragmentName('folderName', item.folderId)} on Folder {
+							name
+						}
 					`
-				});
+					});
+				} catch (exception) {
+					console.warn(exception);
+				}
 				const folderName = (folder && folder.name) || defaultFolderName;
 				const group =
 					folderName === 'Trash'
