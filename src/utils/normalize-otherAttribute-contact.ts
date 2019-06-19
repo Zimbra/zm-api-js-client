@@ -85,10 +85,10 @@ export function createContactBody(data: any) {
 					name: key,
 					[key === 'image' ? 'aid' : 'content']: val
 			  })
-			: forEach(val, (otherValue: any, index: any) =>
+			: forEach(val, otherValue =>
 					contactAttrs.push({
-						name: 'custom' + (index + 1),
-						_content: otherValue
+						name: otherValue.key,
+						_content: otherValue.value
 					})
 			  )
 	);
