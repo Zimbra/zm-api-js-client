@@ -86,7 +86,7 @@ export class ZimbraNotifications {
 
 	constructor(options: ZimbraNotificationsOptions) {
 		this.cache = options.cache;
-}
+	}
 
 	public notificationHandler = (notification: Notification) => {
 		console.log('[Cache] Handling Notification', notification);
@@ -115,6 +115,7 @@ export class ZimbraNotifications {
 					});
 				} catch (exception) {
 					console.warn(exception);
+					return;
 				}
 				const folderName = (folder && folder.name) || defaultFolderName;
 				const group =
