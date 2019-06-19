@@ -394,7 +394,7 @@ export class ZimbraBatchClient {
 			name: 'DeleteSignature',
 			namespace: Namespace.Account,
 			body: options
-		});
+		}).then(Boolean);
 
 	public disableTwoFactorAuth = () =>
 		this.jsonRequest({
@@ -802,7 +802,7 @@ export class ZimbraBatchClient {
 					...mapValuesDeep(attrs, coerceBooleanToString)
 				}
 			}
-		});
+		}).then(Boolean);
 
 	public modifyFilterRules = (filters: Array<FilterInput>) =>
 		this.jsonRequest({
@@ -864,7 +864,7 @@ export class ZimbraBatchClient {
 			name: 'ModifySignature',
 			namespace: Namespace.Account,
 			body: denormalize(CreateSignatureRequest)(options)
-		});
+		}).then(Boolean);
 
 	public modifyTask = (task: CalendarItemInput) =>
 		this.jsonRequest({
