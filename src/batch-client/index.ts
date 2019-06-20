@@ -1158,7 +1158,7 @@ export class ZimbraBatchClient {
 	private download = ({ id, part, isSecure }: any) =>
 		fetch(
 			`${this.origin}/service/home/~/?auth=co&id=${id}${
-			part ? `&part=${part}` : ''
+				part ? `&part=${part}` : ''
 			}`,
 			{
 				...(isSecure && {
