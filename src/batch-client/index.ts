@@ -565,15 +565,15 @@ export class ZimbraBatchClient {
 		return this.jsonRequest({
 			name: 'GetFolder',
 			body: denormalize(GetFolderRequestEntity)(options)
-		}).then((res) => {
-			const linkedFolders = get(res,'folder.0.link');
+		}).then(res => {
+			const linkedFolders = get(res, 'folder.0.link');
 			linkedFolders.forEach((linkedFolder: any) => {
 				// set new id to linkedFolder created using ownerZimbraId(zid) and sharedItemId(rid)
 				if (linkedFolder.zid && linkedFolder.rid) {
 					linkedFolder.id = linkedFolder.zid + ':' + linkedFolder.rid;
 				}
 			});
-			return normalize(Folder)(res)
+			return normalize(Folder)(res);
 		});
 	};
 
