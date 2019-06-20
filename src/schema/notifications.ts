@@ -114,8 +114,7 @@ export class ZimbraNotifications {
 					`
 					});
 				} catch (exception) {
-					console.warn(exception);
-					return;
+					console.error(exception);
 				}
 				const folderName = (folder && folder.name) || defaultFolderName;
 				const group =
