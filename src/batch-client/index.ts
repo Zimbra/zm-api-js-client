@@ -634,13 +634,7 @@ export class ZimbraBatchClient {
 					ids: ids.join(',')
 				}
 			}
-		}).then(res => {
-			// logs kept to verify the data when available
-			console.log('metadata res is', res);
-			const normalised = res.m.map(this.normalizeMessage);
-			console.log('normalised is', normalised);
-			return normalised;
-		});
+		}).then(res => res.m.map(this.normalizeMessage));
 
 	public getProfileImageUrl = (profileImageId: any) =>
 		getProfileImageUrl(profileImageId, {
@@ -1164,7 +1158,7 @@ export class ZimbraBatchClient {
 	private download = ({ id, part, isSecure }: any) =>
 		fetch(
 			`${this.origin}/service/home/~/?auth=co&id=${id}${
-				part ? `&part=${part}` : ''
+			part ? `&part=${part}` : ''
 			}`,
 			{
 				...(isSecure && {
