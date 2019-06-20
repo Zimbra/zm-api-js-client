@@ -668,6 +668,12 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		});
 
+	public getTrustedDevices = () =>
+		this.jsonRequest({
+			name: 'GetTrustedDevices',
+			namespace: Namespace.Account
+		});
+
 	public getWhiteBlackList = () =>
 		this.jsonRequest({
 			name: 'GetWhiteBlackList',
@@ -934,12 +940,24 @@ export class ZimbraBatchClient {
 
 	public resolve = (path: string) => `${this.origin}${path}`;
 
+	public revokeOtherTrustedDevices = () =>
+		this.jsonRequest({
+			name: 'RevokeOtherTrustedDevices',
+			namespace: Namespace.Account
+		}).then(Boolean);
+
 	public revokeRights = (body: RevokeRightsInput) =>
 		this.jsonRequest({
 			name: 'RevokeRights',
 			namespace: Namespace.Account,
 			body: denormalize(AccountRights)(body)
 		}).then(normalize(AccountRights));
+
+	public revokeTrustedDevice = () =>
+		this.jsonRequest({
+			name: 'RevokeTrustedDevice',
+			namespace: Namespace.Account
+		}).then(Boolean);
 
 	public saveDraft = (options: SendMessageInput) =>
 		this.jsonRequest({

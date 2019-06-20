@@ -120,6 +120,7 @@ export function createZimbraSchema(
 				getSearchFolder: client.getSearchFolder,
 				getSMimePublicCerts: (_, variables) =>
 					client.getSMimePublicCerts(variables as GetSMimePublicCertsOptions),
+				getTrustedDevices: client.getTrustedDevices,
 				getWorkingHours: (_, variables) =>
 					client.getWorkingHours(variables as WorkingHoursOptions),
 				preferences: client.preferences,
@@ -351,8 +352,10 @@ export function createZimbraSchema(
 					client.recoverAccount(variables as RecoverAccountOptions),
 				resetPassword: (_, variables) =>
 					client.resetPassword(variables as ResetPasswordOptions),
+				revokeOtherTrustedDevices: client.revokeOtherTrustedDevices,
 				revokeRights: (_, variables) =>
 					client.revokeRights(variables.input as RevokeRightsInput),
+				revokeTrustedDevice: client.revokeTrustedDevice,
 				setMailboxMetadata: (_: any, variables: any) =>
 					client
 						.jsonRequest({
