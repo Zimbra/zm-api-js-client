@@ -1124,6 +1124,7 @@ type AccountInfoAttrs {
 	zimbraFeatureTwoFactorAuthAvailable: Boolean
 	zimbraFeatureTwoFactorAuthRequired: Boolean
 	zimbraTwoFactorAuthEnabled: Boolean
+	zimbraFeatureTrustedDevicesEnabled: Boolean
 }
 
 type Identities {
@@ -2450,6 +2451,11 @@ type Locale {
 	localName: String
 }
 
+type GetTrustedDevicesResponse {
+	nOtherDevices: Int
+	thisDeviceTrusted: Boolean
+}
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2529,6 +2535,7 @@ type Query {
 	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
 	getScratchCodes(username: String!): ScratchCodes
 	getSearchFolder: Folder
+	getTrustedDevices: GetTrustedDevicesResponse
 	getWhiteBlackList: WhiteBlackList
 	getWorkingHours(names: [String!]!, start: Float, end: Float): [WorkingHours]
 	noop: Boolean
@@ -2703,7 +2710,9 @@ type Mutation {
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
 	resetPassword(password: String!): Boolean
+	revokeOtherTrustedDevices: Boolean
 	revokeRights(input: RevokeRightsInput!): RevokeRightsResponse
+	revokeTrustedDevice: Boolean
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse
 	sendDeliveryReport(messageId: ID!): Boolean
