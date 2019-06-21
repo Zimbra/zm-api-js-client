@@ -566,9 +566,7 @@ export class ZimbraBatchClient {
 			name: 'GetFolder',
 			body: denormalize(GetFolderRequestEntity)(options)
 		}).then(res => {
-			console.log(res,'response');
 			const linkedFolders = get(res, 'folder.0.link');
-			console.log(linkedFolders,'linkedFolders');
 			linkedFolders &&
 				linkedFolders.forEach((linkedFolder: any) => {
 					// set new id to linkedFolder created using ownerZimbraId(zid) and sharedItemId(rid)
