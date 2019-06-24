@@ -111,6 +111,7 @@ export function normalizeOtherAttr(data: any) {
 			.sort()
 			.forEach(
 				key =>
+					typeof contact._attrs[key] === 'string' &&
 					other.push({ key, value: contact._attrs[key] }) &&
 					delete contact._attrs[key]
 			);
