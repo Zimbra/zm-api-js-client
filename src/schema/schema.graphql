@@ -290,6 +290,10 @@ type ScratchCodeType {
 	_content: String
 }
 
+type ScratchCodes {
+	scratchCodes: ScratchCode
+}
+
 type ScratchCode {
 	scratchCode: [ScratchCodeType]
 }
@@ -1115,7 +1119,9 @@ type AccountInfoAttrs {
 	zimbraFeatureReadReceiptsEnabled: Boolean
 	zimbraFeatureManageZimlets: Boolean
 	zimbraFeatureTwoFactorAuthAvailable: Boolean
+	zimbraFeatureTwoFactorAuthRequired: Boolean
 	zimbraTwoFactorAuthEnabled: Boolean
+	zimbraFeatureTrustedDevicesEnabled: Boolean
 }
 
 type Identities {
@@ -2450,6 +2456,11 @@ type Locale {
 	localName: String
 }
 
+type GetTrustedDevicesResponse {
+	nOtherDevices: Int
+	thisDeviceTrusted: Boolean
+}
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2526,7 +2537,9 @@ type Query {
 	): MessageInfo
 	getRights(input: GetRightsInput!): GetRightsResponse
 	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
+	getScratchCodes(username: String!): ScratchCodes
 	getSearchFolder: Folder
+	getTrustedDevices: GetTrustedDevicesResponse
 	getWhiteBlackList: WhiteBlackList
 	getWorkingHours(names: [String!]!, start: Float, end: Float): [WorkingHours]
 	noop: Boolean
@@ -2652,7 +2665,8 @@ type Mutation {
 	createTask(task: CalendarItemInput!): Boolean
 	deleteAppointment(appointment: DeleteAppointmentInput!): Boolean
 	deleteExternalAccount(id: ID!): Boolean
-	deleteSignature(signature: NameIdInput!): String
+	deleteSignature(signature: NameIdInput!): Boolean
+	generateScratchCodes(username: String!): ScratchCodes
 	grantRights(input: GrantRightsInput!): GrantRightsResponse
 	folderAction(action: FolderActionInput!): Boolean
 	forwardAppointmentInvite(appointmentInvite:ForwardAppointmentInviteInput!): Boolean
@@ -2684,7 +2698,7 @@ type Mutation {
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyZimletPrefs(zimlets: [ZimletPreferenceInput!]): ModifyZimletPrefsResponse
 	modifyFilterRules(filters: [FilterInput!]): Boolean
-	modifySignature(signature: SignatureInput!): String
+	modifySignature(signature: SignatureInput!): Boolean
 	modifySearchFolder(search: SearchFolderInput!): Boolean
 	modifyTask(task: CalendarItemInput!): Boolean
 	modifyWhiteBlackList(whiteBlackList: WhiteBlackListInput!): Boolean
@@ -2700,7 +2714,9 @@ type Mutation {
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
 	resetPassword(password: String!): Boolean
+	revokeOtherTrustedDevices: Boolean
 	revokeRights(input: RevokeRightsInput!): RevokeRightsResponse
+	revokeTrustedDevice: Boolean
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse
 	sendDeliveryReport(messageId: ID!): Boolean
