@@ -1281,6 +1281,11 @@ type Contact {
 	members: [ContactListMember]
 }
 
+type OtherContactAttribute{
+	key: String
+	value: String
+}
+
 type ContactAttributes {
 	firstName: String
 	middleName: String
@@ -1357,6 +1362,7 @@ type ContactAttributes {
 	# Used for contact lists
 	fileAs: String
 	type: String
+	other: [OtherContactAttribute]
 }
 
 type ContactImage{
@@ -1370,6 +1376,11 @@ type ContactListMember {
 	contacts: [Contact]
 	type: String!
 	value: ID!
+}
+
+input OtherContactAttributeInput {
+	key: String
+	value: String
 }
 
 input ContactAttrsInput {
@@ -1447,7 +1458,8 @@ input ContactAttrsInput {
 
 	# Used for contact lists
 	fileAs: String
-	type: String
+	type: String,
+	other: [OtherContactAttributeInput]
 }
 
 input CreateContactInput {
