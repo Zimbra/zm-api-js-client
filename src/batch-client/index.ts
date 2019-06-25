@@ -16,6 +16,7 @@ import {
 	CalendarItemHitInfo,
 	Contact,
 	Conversation,
+	CreateAppSpecificPasswordResponse,
 	CreateMountpointRequest,
 	CreateSignatureRequest,
 	DiscoverRightsResponse,
@@ -304,6 +305,17 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(Boolean);
 
+	public createAppSpecificPassword = (appName: string) =>
+		this.jsonRequest({
+			name: 'CreateAppSpecificPassword',
+			namespace: Namespace.Account,
+			body: {
+				appName: {
+					_content: appName
+				}
+			}
+		}).then(res => normalize(CreateAppSpecificPasswordResponse)(res));
+
 	public createContact = (data: CreateContactInput) =>
 		this.jsonRequest({
 			name: 'CreateContact',
@@ -483,6 +495,12 @@ export class ZimbraBatchClient {
 					_content: username
 				}
 			}
+		});
+
+	public getAppSpecificPasswords = () =>
+		this.jsonRequest({
+			name: 'GetAppSpecificPasswords',
+			namespace: Namespace.Account
 		});
 
 	public getAttachmentUrl = (attachment: any) =>
@@ -896,6 +914,15 @@ export class ZimbraBatchClient {
 		}).then(() => true);
 
 	public resolve = (path: string) => `${this.origin}${path}`;
+
+	public revokeAppSpecificPassword = (appName: string) =>
+		this.jsonRequest({
+			name: 'RevokeAppSpecificPassword',
+			namespace: Namespace.Account,
+			body: {
+				appName
+			}
+		}).then(Boolean);
 
 	public revokeOtherTrustedDevices = () =>
 		this.jsonRequest({
