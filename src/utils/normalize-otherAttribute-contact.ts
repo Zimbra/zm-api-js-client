@@ -108,14 +108,13 @@ export function normalizeOtherAttr(data: any) {
 
 		Object.keys(contact._attrs)
 			.filter(key => !supportedContactAttributes.includes(key))
-			.sort()
 			.forEach(
 				key =>
 					typeof contact._attrs[key] === 'string' &&
 					other.push({ key, value: contact._attrs[key] }) &&
 					delete contact._attrs[key]
 			);
-		const otherAttributewithCutsomKey = other
+		const otherAttributewithCustomKey = other
 			.filter((o: any) => o.key.match('custom\\d+'))
 			.sort(
 				(a: any, b: any) =>
@@ -123,14 +122,14 @@ export function normalizeOtherAttr(data: any) {
 			);
 		const remainingOtherAttribute = differenceBy(
 			other,
-			otherAttributewithCutsomKey,
+			otherAttributewithCustomKey,
 			'key'
 		).sort((a: any, b: any) => a.key.localeCompare(b.key));
 		return {
 			...contact,
 			_attrs: {
 				...contact._attrs,
-				other: concat(otherAttributewithCutsomKey, remainingOtherAttribute)
+				other: concat(otherAttributewithCustomKey, remainingOtherAttribute)
 			}
 		};
 	});

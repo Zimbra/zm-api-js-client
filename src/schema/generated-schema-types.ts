@@ -505,10 +505,10 @@ export interface ContactAttrsInput {
 
 	type?: string | null;
 
-	other?: (OtherInputAttribute | null)[] | null;
+	other?: (OtherContactAttributeInput | null)[] | null;
 }
 
-export interface OtherInputAttribute {
+export interface OtherContactAttributeInput {
 	key?: string | null;
 
 	value?: string | null;
