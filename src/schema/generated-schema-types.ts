@@ -504,6 +504,14 @@ export interface ContactAttrsInput {
 	fileAs?: string | null;
 
 	type?: string | null;
+
+	other?: (OtherContactAttributeInput | null)[] | null;
+}
+
+export interface OtherContactAttributeInput {
+	key?: string | null;
+
+	value?: string | null;
 }
 
 export interface ModifyContactInput {

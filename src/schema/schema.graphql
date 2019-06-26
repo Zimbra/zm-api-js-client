@@ -1125,6 +1125,7 @@ type AccountInfoAttrs {
 	zimbraFeatureTwoFactorAuthRequired: Boolean
 	zimbraTwoFactorAuthEnabled: Boolean
 	zimbraFeatureTrustedDevicesEnabled: Boolean
+	zimbraFeatureAppSpecificPasswordsEnabled: Boolean
 }
 
 type Identities {
@@ -1283,6 +1284,11 @@ type Contact {
 	members: [ContactListMember]
 }
 
+type OtherContactAttribute{
+	key: String
+	value: String
+}
+
 type ContactAttributes {
 	firstName: String
 	middleName: String
@@ -1359,6 +1365,7 @@ type ContactAttributes {
 	# Used for contact lists
 	fileAs: String
 	type: String
+	other: [OtherContactAttribute]
 }
 
 type ContactImage{
@@ -1372,6 +1379,11 @@ type ContactListMember {
 	contacts: [Contact]
 	type: String!
 	value: ID!
+}
+
+input OtherContactAttributeInput {
+	key: String
+	value: String
 }
 
 input ContactAttrsInput {
@@ -1449,7 +1461,8 @@ input ContactAttrsInput {
 
 	# Used for contact lists
 	fileAs: String
-	type: String
+	type: String,
+	other: [OtherContactAttributeInput]
 }
 
 input CreateContactInput {
@@ -2456,6 +2469,29 @@ type GetTrustedDevicesResponse {
 	thisDeviceTrusted: Boolean
 }
 
+type AppSpecificPassword {
+	appName: String
+	created: Float
+	lastUsed: Float
+}
+
+type AppSpecificPasswords {
+	passwordData: [AppSpecificPassword]
+}
+
+type MaxAppPasswords {
+	_content: Int
+}
+
+type AppSpecificPasswordsResponse {
+	appSpecificPasswords: AppSpecificPasswords
+	maxAppPasswords: [MaxAppPasswords]
+}
+
+type CreateAppSpecificPasswordResponse {
+	password: String
+}
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2493,6 +2529,7 @@ type Query {
 		offset: Int!,
 		types: SearchType
 	): SearchResponse
+	getAppSpecificPasswords: AppSpecificPasswordsResponse
 	getAvailableLocales: [Locale]
 	getContactFrequency(
 		email: String!
@@ -2631,6 +2668,7 @@ type Mutation {
 	): Boolean
 	createAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
 	createAppointmentException(accountName: String, appointment: CalendarItemInput!): Boolean
+	createAppSpecificPassword(appName: String!): CreateAppSpecificPasswordResponse
 	createCalendar(name: String!, color: Int!, url: String): Folder
 	createContact(contact: CreateContactInput!): Contact
 	createContactList(contact: CreateContactInput!): Contact
@@ -2710,6 +2748,7 @@ type Mutation {
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
 	resetPassword(password: String!): Boolean
+	revokeAppSpecificPassword(appName: String!): Boolean
 	revokeOtherTrustedDevices: Boolean
 	revokeRights(input: RevokeRightsInput!): RevokeRightsResponse
 	revokeTrustedDevice: Boolean
