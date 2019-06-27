@@ -469,6 +469,7 @@ type MessageInfo implements MailItem {
 	replyType: String #rt
 	attributes: MessageAttributes
 	autoSendTime: Float
+	local: Boolean
 }
 
 type Conversation implements MailItem {
@@ -1006,6 +1007,8 @@ type Folder {
 	ownerZimbraId: ID
 	sharedItemId: ID
 	url: String
+	local: Boolean
+	droppable: Boolean
 }
 
 type ACL {
@@ -2369,13 +2372,17 @@ input DismissInput {
 	dismissedAt: Float!
 }
 
-input StringContentInput {
-	_content: String
-}
-
 input AddMsgInput {
 	folderId: ID!
-	content: StringContentInput
+	absFolderPath: String
+	content: String
+	meta: String
+}
+
+input SaveMessageDataInput {
+	id: ID!
+	content: String!
+	meta: String!
 }
 
 input Grantee {
@@ -2560,6 +2567,7 @@ type Query {
 		read: Boolean,
 		ridZ: String
 	): MessageInfo
+	getMessageMetadata(ids: [ID!]!): [MessageInfo]
 	getRights(input: GetRightsInput!): GetRightsResponse
 	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
 	getScratchCodes(username: String!): ScratchCodes

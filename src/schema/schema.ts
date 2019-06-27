@@ -83,6 +83,8 @@ export function createZimbraSchema(
 		sessionHandler
 	});
 
+	const localStoreClient = options.localStoreClient;
+
 	const executableSchema = makeExecutableSchema({
 		typeDefs: schema,
 		resolvers: {
@@ -105,15 +107,38 @@ export function createZimbraSchema(
 				getConversation: (_, variables) =>
 					client.getConversation(variables as GetConversationOptions),
 				getFilterRules: client.getFilterRules,
-				getFolder: (_: any, variables) =>
-					client.getFolder(variables as GetFolderOptions),
+				getFolder: (_: any, variables, context = {}) => {
+					const { local } = context;
+
+					if (local) {
+						return localStoreClient.getFolder(variables as GetFolderOptions);
+					}
+
+					return client.getFolder(variables as GetFolderOptions);
+				},
 				getAppointments: (_: any, variables) =>
 					client.search(variables as SearchOptions),
 				getAvailableLocales: (_: any) => client.getAvailableLocales(),
 				getMailboxMetadata: (_: any, variables) =>
 					client.getMailboxMetadata(variables as GetMailboxMetadataOptions),
-				getMessage: (_, variables) =>
-					client.getMessage(variables as GetMessageOptions),
+				getMessage: (_, variables, context = {}) => {
+					const { local } = context;
+
+					if (local) {
+						return localStoreClient.getMessage(variables as GetMessageOptions);
+					}
+					return client.getMessage(variables as GetMessageOptions);
+				},
+				getMessageMetadata: (_, variables, context = {}) => {
+					const { local } = context;
+
+					if (local) {
+						return localStoreClient.getMessageMetadata(
+							variables as GetMessageOptions
+						);
+					}
+					return client.getMessageMetadata(variables as GetMessageOptions);
+				},
 				getRights: (_, variables) =>
 					client.getRights(variables as GetRightsInput),
 				getScratchCodes: client.getScratchCodes,
@@ -129,7 +154,15 @@ export function createZimbraSchema(
 					client.recoverAccount(variables as RecoverAccountOptions),
 				relatedContacts: (_, variables) =>
 					client.relatedContacts(variables as RelatedContactsOptions),
-				search: (_, variables) => client.search(variables as SearchOptions),
+				search: (_, variables, context = {}) => {
+					const { local } = context;
+
+					if (local) {
+						return localStoreClient.search(variables as SearchOptions);
+					}
+
+					return client.search(variables as SearchOptions);
+				},
 				searchGal: (_, variables) =>
 					client.searchGal(variables as SearchOptions),
 				shareInfo: (_, variables) =>
@@ -180,12 +213,21 @@ export function createZimbraSchema(
 						}))
 			},
 			Mutation: {
-				action: (_, variables) => {
-					const { type, ...rest } = variables;
-					return client.action(type, rest as ActionOptions);
+				action: (_, { type, ...rest }, context = {}) => {
+					const { local } = context;
+					return local
+						? localStoreClient.action(type, rest as ActionOptions)
+						: client.action(type, rest as ActionOptions);
 				},
-				addMessage: (_, variables) =>
-					client.addMessage(variables as AddMsgInput),
+				addMessage: (_, variables, context = {}) => {
+					const { local } = context;
+
+					if (local) {
+						return localStoreClient.addMessage(variables as AddMsgInput);
+					}
+
+					return client.addMessage(variables as AddMsgInput);
+				},
 				cancelTask: (_, variables) => client.cancelTask(variables),
 				itemAction: (_, variables) =>
 					client.itemAction(variables as ActionOptions),
@@ -206,8 +248,16 @@ export function createZimbraSchema(
 					client.createAppSpecificPassword(appName),
 				conversationAction: (_, variables) =>
 					client.conversationAction(variables as ActionOptions),
-				createFolder: (_, variables) =>
-					client.createFolder(variables as CreateFolderOptions),
+				createFolder: (_, variables, context) => {
+					const { local } = context;
+
+					if (local) {
+						return localStoreClient.createFolder(
+							variables as CreateFolderOptions
+						);
+					}
+					return client.createFolder(variables as CreateFolderOptions);
+				},
 				createSearchFolder: (_, variables) =>
 					client.createSearchFolder(variables as CreateSearchFolderOptions),
 				createContact: (_, { contact }) =>

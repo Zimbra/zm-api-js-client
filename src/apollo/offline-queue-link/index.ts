@@ -113,11 +113,12 @@ export class OfflineQueueLink extends ApolloLink {
 		const {
 			skipQueue,
 			cancelQueues,
-			offlineQueueName
+			offlineQueueName,
+			local
 		} = operation.getContext();
 
 		const isForwarding =
-			this.isOpen || skipQueue || hasSensitiveVariables(operation);
+			this.isOpen || local || skipQueue || hasSensitiveVariables(operation);
 
 		if (isForwarding) {
 			// This link does nothing if the link is open, the operation skips the

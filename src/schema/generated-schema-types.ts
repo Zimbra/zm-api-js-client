@@ -93,11 +93,11 @@ export interface ExternalAccountAddInput {
 export interface AddMsgInput {
 	folderId: string;
 
-	content?: StringContentInput | null;
-}
+	absFolderPath?: string | null;
 
-export interface StringContentInput {
-	_content?: string | null;
+	content?: string | null;
+
+	meta?: string | null;
 }
 
 export interface CalendarItemInput {
@@ -1276,6 +1276,14 @@ export interface ModifyIdentityInput {
 	id: string;
 
 	attrs?: IdentityAttrsInput | null;
+}
+
+export interface SaveMessageDataInput {
+	id: string;
+
+	content: string;
+
+	meta: string;
 }
 
 export enum ResetPasswordStatus {
