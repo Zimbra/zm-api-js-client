@@ -1427,12 +1427,10 @@ input ContactAttrsInput {
 	nickname: String
 	homeStreet: String
 	homeCity: String
-	homeFax: String
 	homeState: String
 	homePostalCode: String
 	homeCountry: String
 	homeURL: String
-	workFax: String
 	workStreet: String
 	workCity: String
 	workState: String
