@@ -61,6 +61,7 @@ export type SessionHandler = {
 
 export interface ZimbraClientOptions {
 	jwtToken?: string;
+	localStoreClient?: any;
 	notificationHandler?: NotificationHandler;
 	sessionHandler?: SessionHandler;
 	soapPathname?: string;
@@ -123,6 +124,7 @@ export interface GetMailItemOptions {
 	header?: Array<MailItemHeader>;
 	html?: boolean;
 	id: string;
+	ids: [String];
 	max?: number;
 	needExp?: boolean;
 }

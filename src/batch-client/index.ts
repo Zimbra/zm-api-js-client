@@ -1,6 +1,5 @@
 import DataLoader from 'dataloader';
 import castArray from 'lodash/castArray';
-import forEach from 'lodash/forEach';
 import get from 'lodash/get';
 import isError from 'lodash/isError';
 import mapValues from 'lodash/mapValues';
@@ -16,8 +15,8 @@ import {
 	CalendarItemDeleteRequest,
 	CalendarItemHitInfo,
 	Contact,
-	ContactInputRequest,
 	Conversation,
+	CreateAppSpecificPasswordResponse,
 	CreateMountpointRequest,
 	CreateSignatureRequest,
 	DiscoverRightsResponse,
@@ -88,6 +87,10 @@ import {
 	getProfileImageUrl,
 	normalizeMimeParts
 } from '../utils/normalize-mime-parts';
+import {
+	createContactBody,
+	normalizeOtherAttr
+} from '../utils/normalize-otherAttribute-contact';
 import {
 	ActionOptions,
 	ActionType,
@@ -211,10 +214,15 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => get(res, `${accountType}.0.id`));
 
-	public addMessage = (options: AddMsgInput) =>
+	public addMessage = ({ folderId, content }: AddMsgInput) =>
 		this.jsonRequest({
 			name: 'AddMsg',
-			body: denormalize(AddMsgInfo)(options)
+			body: denormalize(AddMsgInfo)({
+				folderId,
+				content: {
+					_content: content
+				}
+			})
 		}).then(normalize(MessageInfo));
 
 	public autoComplete = (options: AutoCompleteOptions) =>
@@ -302,29 +310,22 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(Boolean);
 
-	public createContact = (data: CreateContactInput) => {
-		const { attributes, ...rest } = data;
-		const contactAttrs = <Object[]>[];
-
-		forEach(attributes, (val, key) =>
-			contactAttrs.push({
-				name: key,
-				[key === 'image' ? 'aid' : 'content']: val
-			})
-		);
-
-		return this.jsonRequest({
-			name: 'CreateContact',
+	public createAppSpecificPassword = (appName: string) =>
+		this.jsonRequest({
+			name: 'CreateAppSpecificPassword',
+			namespace: Namespace.Account,
 			body: {
-				cn: {
-					...denormalize(ContactInputRequest)({
-						...rest,
-						attributes: contactAttrs
-					})
+				appName: {
+					_content: appName
 				}
 			}
-		}).then(res => normalize(Contact)(res.cn[0]));
-	};
+		}).then(res => normalize(CreateAppSpecificPasswordResponse)(res));
+
+	public createContact = (data: CreateContactInput) =>
+		this.jsonRequest({
+			name: 'CreateContact',
+			body: createContactBody(data)
+		}).then(res => normalize(Contact)(normalizeOtherAttr(res.cn)[0]));
 
 	public createFolder = (_options: CreateFolderOptions) => {
 		const { flags, fetchIfExists, parentFolderId, ...options } = _options;
@@ -394,7 +395,7 @@ export class ZimbraBatchClient {
 			name: 'DeleteSignature',
 			namespace: Namespace.Account,
 			body: options
-		});
+		}).then(Boolean);
 
 	public disableTwoFactorAuth = () =>
 		this.jsonRequest({
@@ -488,6 +489,24 @@ export class ZimbraBatchClient {
 				name: names.join(',')
 			}
 		}).then(res => normalize(FreeBusy)(res.usr));
+
+	public generateScratchCodes = (username: String) =>
+		this.jsonRequest({
+			name: 'GenerateScratchCodes',
+			namespace: Namespace.Account,
+			body: {
+				account: {
+					by: 'name',
+					_content: username
+				}
+			}
+		});
+
+	public getAppSpecificPasswords = () =>
+		this.jsonRequest({
+			name: 'GetAppSpecificPasswords',
+			namespace: Namespace.Account
+		});
 
 	public getAttachmentUrl = (attachment: any) =>
 		getAttachmentUrl(attachment, {
@@ -601,6 +620,24 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => (res && res.m ? this.normalizeMessage(res.m[0]) : null));
 
+	/**
+	 * Invokes GetMsgMetadataRequest and fetches the metadata of the messages with specified ids
+	 * This api should be used when backend returns all the data necessary to download the
+	 * metadata of the messages that are dragged and dropped to local folders by user.
+	 * @param {GetMessageOptions} {ids: Array<String>} the ids of the messages to be downloaded
+	 *
+	 * @memberof ZimbraBatchClient
+	 */
+	public getMessageMetadata = ({ ids }: GetMessageOptions) =>
+		this.jsonRequest({
+			name: 'GetMsgMetadata',
+			body: {
+				m: {
+					ids: ids.join(',')
+				}
+			}
+		}).then(res => res.m.map(this.normalizeMessage));
+
 	public getProfileImageUrl = (profileImageId: any) =>
 		getProfileImageUrl(profileImageId, {
 			origin: this.origin,
@@ -613,6 +650,18 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account,
 			body: denormalize(GetRightsRequest)(options)
 		}).then(normalize(AccountRights));
+
+	public getScratchCodes = (username: String) =>
+		this.jsonRequest({
+			name: 'GetScratchCodes',
+			namespace: Namespace.Account,
+			body: {
+				account: {
+					by: 'name',
+					_content: username
+				}
+			}
+		});
 
 	public getSearchFolder = () =>
 		this.jsonRequest({
@@ -632,6 +681,12 @@ export class ZimbraBatchClient {
 					_content: options.contactAddr
 				}
 			},
+			namespace: Namespace.Account
+		});
+
+	public getTrustedDevices = () =>
+		this.jsonRequest({
+			name: 'GetTrustedDevices',
 			namespace: Namespace.Account
 		});
 
@@ -735,29 +790,11 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(res => normalize(CalendarItemCreateModifyRequest)(res));
 
-	public modifyContact = (data: ModifyContactInput) => {
-		const { attributes, ...rest } = data;
-		const modifiedAttrs = <Object[]>[];
-
-		forEach(attributes, (val, key) =>
-			modifiedAttrs.push({
-				name: key,
-				[key === 'image' ? 'aid' : 'content']: val
-			})
-		);
-
-		return this.jsonRequest({
+	public modifyContact = (data: ModifyContactInput) =>
+		this.jsonRequest({
 			name: 'ModifyContact',
-			body: {
-				cn: {
-					...denormalize(ContactInputRequest)({
-						...rest,
-						attributes: modifiedAttrs
-					})
-				}
-			}
-		}).then(res => normalize(Contact)(res.cn[0]));
-	};
+			body: createContactBody(data)
+		}).then(res => normalize(Contact)(normalizeOtherAttr(res.cn)[0]));
 
 	public modifyExternalAccount = ({
 		id,
@@ -772,7 +809,7 @@ export class ZimbraBatchClient {
 					...mapValuesDeep(attrs, coerceBooleanToString)
 				}
 			}
-		});
+		}).then(Boolean);
 
 	public modifyFilterRules = (filters: Array<FilterInput>) =>
 		this.jsonRequest({
@@ -834,7 +871,7 @@ export class ZimbraBatchClient {
 			name: 'ModifySignature',
 			namespace: Namespace.Account,
 			body: denormalize(CreateSignatureRequest)(options)
-		});
+		}).then(Boolean);
 
 	public modifyTask = (task: CalendarItemInput) =>
 		this.jsonRequest({
@@ -901,12 +938,33 @@ export class ZimbraBatchClient {
 
 	public resolve = (path: string) => `${this.origin}${path}`;
 
+	public revokeAppSpecificPassword = (appName: string) =>
+		this.jsonRequest({
+			name: 'RevokeAppSpecificPassword',
+			namespace: Namespace.Account,
+			body: {
+				appName
+			}
+		}).then(Boolean);
+
+	public revokeOtherTrustedDevices = () =>
+		this.jsonRequest({
+			name: 'RevokeOtherTrustedDevices',
+			namespace: Namespace.Account
+		}).then(Boolean);
+
 	public revokeRights = (body: RevokeRightsInput) =>
 		this.jsonRequest({
 			name: 'RevokeRights',
 			namespace: Namespace.Account,
 			body: denormalize(AccountRights)(body)
 		}).then(normalize(AccountRights));
+
+	public revokeTrustedDevice = () =>
+		this.jsonRequest({
+			name: 'RevokeTrustedDevice',
+			namespace: Namespace.Account
+		}).then(Boolean);
 
 	public saveDraft = (options: SendMessageInput) =>
 		this.jsonRequest({
@@ -923,6 +981,9 @@ export class ZimbraBatchClient {
 				...options
 			}
 		}).then(res => {
+			if (res.cn) {
+				res.cn = normalizeOtherAttr(res.cn);
+			}
 			const normalized = normalize(SearchResponse)(res);
 			if (normalized.messages) {
 				normalized.messages = normalized.messages.map(this.normalizeMessage);
@@ -976,6 +1037,10 @@ export class ZimbraBatchClient {
 			name: 'SetRecoveryAccount',
 			body: options
 		}).then(Boolean);
+
+	public setUserAgent = (userAgent: Object) => {
+		this.userAgent = userAgent;
+	};
 
 	public shareInfo = (options: ShareInfoOptions) =>
 		this.jsonRequest({

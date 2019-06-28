@@ -32,7 +32,7 @@ export class LocalBatchLink extends ApolloLink {
 							this.schema,
 							query,
 							null,
-							options.context || {},
+							operation.getContext() || options.context || {},
 							variables,
 							operationName
 						);
