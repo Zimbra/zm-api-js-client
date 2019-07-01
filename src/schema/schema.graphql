@@ -474,6 +474,7 @@ type MessageInfo implements MailItem {
 	replyType: String #rt
 	attributes: MessageAttributes
 	autoSendTime: Float
+	local: Boolean
 }
 
 type Conversation implements MailItem {
@@ -1011,6 +1012,8 @@ type Folder {
 	ownerZimbraId: ID
 	sharedItemId: ID
 	url: String
+	local: Boolean
+	droppable: Boolean
 }
 
 type ACL {
@@ -1124,7 +1127,10 @@ type AccountInfoAttrs {
 	zimbraFeatureReadReceiptsEnabled: Boolean
 	zimbraFeatureManageZimlets: Boolean
 	zimbraFeatureTwoFactorAuthAvailable: Boolean
+	zimbraFeatureTwoFactorAuthRequired: Boolean
 	zimbraTwoFactorAuthEnabled: Boolean
+	zimbraFeatureTrustedDevicesEnabled: Boolean
+	zimbraFeatureAppSpecificPasswordsEnabled: Boolean
 }
 
 type Identities {
@@ -1283,6 +1289,11 @@ type Contact {
 	members: [ContactListMember]
 }
 
+type OtherContactAttribute{
+	key: String
+	value: String
+}
+
 type ContactAttributes {
 	firstName: String
 	middleName: String
@@ -1359,6 +1370,7 @@ type ContactAttributes {
 	# Used for contact lists
 	fileAs: String
 	type: String
+	other: [OtherContactAttribute]
 }
 
 type ContactImage{
@@ -1372,6 +1384,11 @@ type ContactListMember {
 	contacts: [Contact]
 	type: String!
 	value: ID!
+}
+
+input OtherContactAttributeInput {
+	key: String
+	value: String
 }
 
 input ContactAttrsInput {
@@ -1449,7 +1466,8 @@ input ContactAttrsInput {
 
 	# Used for contact lists
 	fileAs: String
-	type: String
+	type: String,
+	other: [OtherContactAttributeInput]
 }
 
 input CreateContactInput {
@@ -2359,13 +2377,17 @@ input DismissInput {
 	dismissedAt: Float!
 }
 
-input StringContentInput {
-	_content: String
-}
-
 input AddMsgInput {
 	folderId: ID!
-	content: StringContentInput
+	absFolderPath: String
+	content: String
+	meta: String
+}
+
+input SaveMessageDataInput {
+	id: ID!
+	content: String!
+	meta: String!
 }
 
 input Grantee {
@@ -2447,6 +2469,34 @@ type Locale {
 	localName: String
 }
 
+type GetTrustedDevicesResponse {
+	nOtherDevices: Int
+	thisDeviceTrusted: Boolean
+}
+
+type AppSpecificPassword {
+	appName: String
+	created: Float
+	lastUsed: Float
+}
+
+type AppSpecificPasswords {
+	passwordData: [AppSpecificPassword]
+}
+
+type MaxAppPasswords {
+	_content: Int
+}
+
+type AppSpecificPasswordsResponse {
+	appSpecificPasswords: AppSpecificPasswords
+	maxAppPasswords: [MaxAppPasswords]
+}
+
+type CreateAppSpecificPasswordResponse {
+	password: String
+}
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2484,6 +2534,7 @@ type Query {
 		offset: Int!,
 		types: SearchType
 	): SearchResponse
+	getAppSpecificPasswords: AppSpecificPasswordsResponse
 	getAvailableLocales: [Locale]
 	getContactFrequency(
 		email: String!
@@ -2521,10 +2572,12 @@ type Query {
 		read: Boolean,
 		ridZ: String
 	): MessageInfo
+	getMessageMetadata(ids: [ID!]!): [MessageInfo]
 	getRights(input: GetRightsInput!): GetRightsResponse
 	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
 	getScratchCodes(username: String!): ScratchCodes
 	getSearchFolder: Folder
+	getTrustedDevices: GetTrustedDevicesResponse
 	getWhiteBlackList: WhiteBlackList
 	getWorkingHours(names: [String!]!, start: Float, end: Float): [WorkingHours]
 	noop: Boolean
@@ -2620,6 +2673,7 @@ type Mutation {
 	): Boolean
 	createAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
 	createAppointmentException(accountName: String, appointment: CalendarItemInput!): Boolean
+	createAppSpecificPassword(appName: String!): CreateAppSpecificPasswordResponse
 	createCalendar(name: String!, color: Int!, url: String): Folder
 	createContact(contact: CreateContactInput!): Contact
 	createContactList(contact: CreateContactInput!): Contact
@@ -2650,7 +2704,7 @@ type Mutation {
 	createTask(task: CalendarItemInput!): Boolean
 	deleteAppointment(appointment: DeleteAppointmentInput!): Boolean
 	deleteExternalAccount(id: ID!): Boolean
-	deleteSignature(signature: NameIdInput!): String
+	deleteSignature(signature: NameIdInput!): Boolean
 	generateScratchCodes(username: String!): ScratchCodes
 	grantRights(input: GrantRightsInput!): GrantRightsResponse
 	folderAction(action: FolderActionInput!): Boolean
@@ -2683,7 +2737,7 @@ type Mutation {
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyZimletPrefs(zimlets: [ZimletPreferenceInput!]): ModifyZimletPrefsResponse
 	modifyFilterRules(filters: [FilterInput!]): Boolean
-	modifySignature(signature: SignatureInput!): String
+	modifySignature(signature: SignatureInput!): Boolean
 	modifySearchFolder(search: SearchFolderInput!): Boolean
 	modifyTask(task: CalendarItemInput!): Boolean
 	modifyWhiteBlackList(whiteBlackList: WhiteBlackListInput!): Boolean
@@ -2699,7 +2753,10 @@ type Mutation {
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
 	resetPassword(password: String!): Boolean
+	revokeAppSpecificPassword(appName: String!): Boolean
+	revokeOtherTrustedDevices: Boolean
 	revokeRights(input: RevokeRightsInput!): RevokeRightsResponse
+	revokeTrustedDevice: Boolean
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse
 	sendDeliveryReport(messageId: ID!): Boolean
