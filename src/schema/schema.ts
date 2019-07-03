@@ -101,7 +101,7 @@ export function createZimbraSchema(
 					const { local } = context;
 
 					if (local) {
-						return localStoreClient.downloadMessage(variables)
+						return localStoreClient.downloadMessage(variables);
 					}
 
 					return client.downloadMessage(variables);

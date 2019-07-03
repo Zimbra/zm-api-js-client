@@ -233,7 +233,7 @@ export class ZimbraBatchClient {
 				}
 			})
 		}).then(normalize(MessageInfo));
-	}
+	};
 
 	public autoComplete = (options: AutoCompleteOptions) =>
 		this.jsonRequest({
