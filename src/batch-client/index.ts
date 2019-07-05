@@ -220,7 +220,7 @@ export class ZimbraBatchClient {
 
 		try {
 			({ flags, tags, tagNames, date } = JSON.parse(meta));
-		} catch(err) {}
+		} catch (err) {}
 
 		return this.jsonRequest({
 			name: 'AddMsg',
