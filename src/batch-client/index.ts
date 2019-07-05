@@ -216,7 +216,11 @@ export class ZimbraBatchClient {
 
 	public addMessage = (options: AddMsgInput) => {
 		const { folderId, content, meta } = get(options, 'message');
-		const { flags, tags, tagNames, date } = JSON.parse(meta);
+		let flags, tags, tagNames, date;
+
+		try {
+			({ flags, tags, tagNames, date } = JSON.parse(meta));
+		} catch(err) {}
 
 		return this.jsonRequest({
 			name: 'AddMsg',
