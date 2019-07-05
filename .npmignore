@@ -2,3 +2,5 @@
 .circleci
 .github
 !package-lock.json
+scripts
+test
