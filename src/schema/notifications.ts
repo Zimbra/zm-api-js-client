@@ -131,17 +131,22 @@ export class ZimbraNotifications {
 				);
 				const { sortBy }: any = getVariablesFromDataId(id) || {};
 				if (!searchResponse[query] && id) {
-					searchResponse[query] = this.cache.readFragment({
-						id: id,
-						fragment: gql`
-							fragment ${generateFragmentName('searchResults')} on SearchResponse {
-								contacts {
-									id
-									fileAsStr
+					try {
+						searchResponse[query] = this.cache.readFragment({
+							id: id,
+							fragment: gql`
+								fragment ${generateFragmentName('searchResults')} on SearchResponse {
+									contacts {
+										id
+										fileAsStr
+									}
 								}
-							}
 						`
-					});
+						});
+					} catch (exception) {
+						console.error(exception);
+						return;
+					}
 				}
 				searchResponse[query] =
 					searchResponse[query] && searchResponse[query].contacts
