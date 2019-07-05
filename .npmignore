@@ -1,1 +1,4 @@
 !dist
+.circleci
+.github
+!package-lock.json
