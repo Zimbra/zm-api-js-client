@@ -338,7 +338,8 @@ export class ZimbraBatchClient {
 					fie: fetchIfExists,
 					l: parentFolderId
 				}
-			}
+			},
+			singleRequest: true
 		}).then(res => normalize(Folder)(res.folder[0]));
 	};
 
@@ -839,6 +840,7 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'ModifyPrefs',
 			namespace: Namespace.Account,
+			singleRequest: true,
 			body: {
 				_attrs: mapValuesDeep(prefs, coerceBooleanToString)
 			}
