@@ -131,6 +131,11 @@ export class ZimbraNotifications {
 				);
 				const { sortBy }: any = getVariablesFromDataId(id) || {};
 				if (!searchResponse[query] && id) {
+					/**
+					 * readFragment without try...catch breaks the operation on exception.
+					 * Read contacts from search results fragment and
+					 * handle any exceptions occurred while reading message.
+					 * */
 					try {
 						searchResponse[query] = this.cache.readFragment({
 							id: id,
