@@ -214,16 +214,30 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => get(res, `${accountType}.0.id`));
 
-	public addMessage = ({ folderId, content }: AddMsgInput) =>
-		this.jsonRequest({
+	public addMessage = (options: AddMsgInput) => {
+		const { folderId, content, meta } = get(options, 'message');
+		let flags, tags, tagNames, date;
+
+		try {
+			({ flags, tags, tagNames, date } = JSON.parse(meta));
+		} catch (err) {}
+
+		return this.jsonRequest({
 			name: 'AddMsg',
 			body: denormalize(AddMsgInfo)({
-				folderId,
-				content: {
-					_content: content
+				message: {
+					folderId,
+					content: {
+						_content: content
+					},
+					flags,
+					tags,
+					tagNames,
+					date
 				}
 			})
 		}).then(normalize(MessageInfo));
+	};
 
 	public autoComplete = (options: AutoCompleteOptions) =>
 		this.jsonRequest({
@@ -629,7 +643,7 @@ export class ZimbraBatchClient {
 	 *
 	 * @memberof ZimbraBatchClient
 	 */
-	public getMessageMetadata = ({ ids }: GetMessageOptions) =>
+	public getMessagesMetadata = ({ ids }: GetMessageOptions) =>
 		this.jsonRequest({
 			name: 'GetMsgMetadata',
 			body: {

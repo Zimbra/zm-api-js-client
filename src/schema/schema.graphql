@@ -2565,7 +2565,7 @@ type Query {
 		read: Boolean,
 		ridZ: String
 	): MessageInfo
-	getMessageMetadata(ids: [ID!]!): [MessageInfo]
+	getMessagesMetadata(ids: [ID!]!): [MessageInfo]
 	getRights(input: GetRightsInput!): GetRightsResponse
 	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
 	getScratchCodes(username: String!): ScratchCodes
