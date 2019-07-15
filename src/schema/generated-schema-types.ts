@@ -741,8 +741,6 @@ export interface IdentityAttrsInput {
 
 	zimbraPrefReplyToEnabled?: boolean | null;
 
-	zimbraPrefSaveToSent?: boolean | null;
-
 	zimbraPrefSentMailFolder?: string | null;
 }
 
@@ -798,6 +796,8 @@ export interface PreferencesInput {
 	zimbraPrefReadingPaneEnabled?: boolean | null;
 
 	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
+
+	zimbraPrefSaveToSent?: boolean | null;
 
 	zimbraPrefShowFragments?: boolean | null;
 
