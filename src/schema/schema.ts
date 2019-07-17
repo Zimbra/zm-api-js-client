@@ -97,7 +97,15 @@ export function createZimbraSchema(
 				discoverRights: client.discoverRights,
 				downloadAttachment: (_, variables) =>
 					client.downloadAttachment(variables),
-				downloadMessage: (_, variables) => client.downloadMessage(variables),
+				downloadMessage: (_, variables, context = {}) => {
+					const { local } = context;
+
+					if (local) {
+						return localStoreClient.downloadMessage(variables);
+					}
+
+					return client.downloadMessage(variables);
+				},
 				freeBusy: (_, variables) =>
 					client.freeBusy(variables as FreeBusyOptions),
 				getContact: (_, variables) =>
@@ -129,15 +137,15 @@ export function createZimbraSchema(
 					}
 					return client.getMessage(variables as GetMessageOptions);
 				},
-				getMessageMetadata: (_, variables, context = {}) => {
+				getMessagesMetadata: (_, variables, context = {}) => {
 					const { local } = context;
 
 					if (local) {
-						return localStoreClient.getMessageMetadata(
+						return localStoreClient.getMessagesMetadata(
 							variables as GetMessageOptions
 						);
 					}
-					return client.getMessageMetadata(variables as GetMessageOptions);
+					return client.getMessagesMetadata(variables as GetMessageOptions);
 				},
 				getRights: (_, variables) =>
 					client.getRights(variables as GetRightsInput),
