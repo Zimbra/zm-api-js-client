@@ -670,6 +670,8 @@ export interface EnableTwoFactorAuthInput {
 	twoFactorCode?: string | null;
 
 	authToken?: string | null;
+
+	csrfTokenSecured: boolean;
 }
 
 export interface ExternalAccountModifyAttrsInput {

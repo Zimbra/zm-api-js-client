@@ -181,7 +181,7 @@ export function createZimbraSchema(
 			},
 			//resolveType is necessary to differentiate for any Union or Interfaces
 			MailItem: {
-				__resolveType(obj) {
+				__resolveType(obj: any) {
 					return obj.conversationId ? 'MessageInfo' : 'Conversation';
 				}
 			},
