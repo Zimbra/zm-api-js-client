@@ -62,7 +62,7 @@ export function getProfileImageUrl(
 	profileImageId: string,
 	{ origin = '', jwtToken }: { jwtToken?: string; origin?: string }
 ) {
-	return `${origin}/service/home/~/?max_width=100&max_height=100&auth=${
+	return `${origin}/service/home/~/?max_width=240&max_height=240&auth=${
 		jwtToken ? 'jwt' : 'co'
 	}&id=${encodeURIComponent(profileImageId)}&t=${Date.now()}${
 		jwtToken ? `&zjwt=${jwtToken}` : ''
