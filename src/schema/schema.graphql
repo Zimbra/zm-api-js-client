@@ -1201,7 +1201,6 @@ type IdentityAttrs {
 	zimbraPrefReplyToAddress: String
 	zimbraPrefReplyToDisplay: String
 	zimbraPrefReplyToEnabled: Boolean
-	zimbraPrefSaveToSent: Boolean
 	zimbraPrefSentMailFolder: String
 }
 
@@ -1235,6 +1234,7 @@ type Preferences {
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
 	zimbraPrefPasswordRecoveryAddress: String
 	zimbraPrefPasswordRecoveryAddressStatus: PasswordRecoveryAddressStatus
+	zimbraPrefSaveToSent: Boolean
 	zimbraPrefShowFragments: Boolean
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
@@ -1996,6 +1996,7 @@ input PreferencesInput {
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
+	zimbraPrefSaveToSent: Boolean
 	zimbraPrefShowFragments: Boolean
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
@@ -2235,7 +2236,6 @@ input IdentityAttrsInput {
 	zimbraPrefReplyToAddress: String
 	zimbraPrefReplyToDisplay: String
 	zimbraPrefReplyToEnabled: Boolean
-	zimbraPrefSaveToSent: Boolean
 	zimbraPrefSentMailFolder: String
 }
 
