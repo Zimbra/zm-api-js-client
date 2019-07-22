@@ -540,7 +540,11 @@ const contentInfo = new Entity({
 
 const AddMsgAttributes = new Entity({
 	content: ['content', contentInfo],
-	l: 'folderId'
+	d: 'date',
+	f: 'flags',
+	l: 'folderId',
+	t: 'tags',
+	tn: 'tagNames'
 });
 
 export const AddMsgInfo = new Entity({
