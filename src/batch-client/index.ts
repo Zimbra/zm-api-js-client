@@ -352,8 +352,7 @@ export class ZimbraBatchClient {
 					fie: fetchIfExists,
 					l: parentFolderId
 				}
-			},
-			singleRequest: true
+			}
 		}).then(res => normalize(Folder)(res.folder[0]));
 	};
 
