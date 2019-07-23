@@ -1118,7 +1118,7 @@ export class ZimbraBatchClient {
 				'Content-Disposition': `${contentDisposition}; filename="${filename}"`,
 				'Content-Type': contentType,
 				...(this.csrfToken && {
-					csrfToken: this.csrfToken
+					'X-Zimbra-Csrf-Token': this.csrfToken
 				})
 			},
 			credentials: 'include'
@@ -1205,7 +1205,7 @@ export class ZimbraBatchClient {
 				headers: {
 					...(isSecure && { 'X-Zimbra-Encoding': 'x-base64' }),
 					...(this.csrfToken && {
-						csrfToken: this.csrfToken
+						'X-Zimbra-Csrf-Token': this.csrfToken
 					})
 				},
 				credentials: 'include'
