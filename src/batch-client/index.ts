@@ -144,6 +144,7 @@ export class ZimbraBatchClient {
 	public sessionId: any;
 	public soapPathname: string;
 	private batchDataLoader: DataLoader<RequestOptions, RequestBody>;
+	private csrfToken?: string;
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
 	private jwtToken?: string;
 	private notificationHandler?: NotificationHandler;
@@ -154,6 +155,7 @@ export class ZimbraBatchClient {
 		this.sessionHandler = options.sessionHandler;
 		this.userAgent = options.userAgent;
 		this.jwtToken = options.jwtToken;
+		this.csrfToken = options.csrfToken;
 		this.origin = options.zimbraOrigin || DEFAULT_HOSTNAME;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
 		this.notificationHandler = options.notificationHandler;
@@ -458,7 +460,8 @@ export class ZimbraBatchClient {
 		name,
 		password,
 		authToken,
-		twoFactorCode
+		twoFactorCode,
+		csrfTokenSecured
 	}: EnableTwoFactorAuthInput) =>
 		this.jsonRequest({
 			name: 'EnableTwoFactorAuth',
@@ -480,7 +483,8 @@ export class ZimbraBatchClient {
 					twoFactorCode: {
 						_content: twoFactorCode
 					}
-				})
+				}),
+				csrfTokenSecured
 			},
 			namespace: Namespace.Account
 		});
@@ -755,12 +759,14 @@ export class ZimbraBatchClient {
 		tokenType,
 		persistAuthTokenCookie = true,
 		twoFactorCode,
-		deviceTrusted
+		deviceTrusted,
+		csrfTokenSecured
 	}: LoginOptions) =>
 		this.jsonRequest({
 			name: 'Auth',
 			body: {
 				tokenType,
+				csrfTokenSecured,
 				persistAuthTokenCookie,
 				account: {
 					by: 'name',
@@ -1042,6 +1048,10 @@ export class ZimbraBatchClient {
 			}
 		}).then(Boolean);
 
+	public setCsrfToken = (csrfToken: string) => {
+		this.csrfToken = csrfToken;
+	};
+
 	public setJwtToken = (jwtToken: string) => {
 		this.jwtToken = jwtToken;
 	};
@@ -1106,7 +1116,10 @@ export class ZimbraBatchClient {
 			body: message,
 			headers: {
 				'Content-Disposition': `${contentDisposition}; filename="${filename}"`,
-				'Content-Type': contentType
+				'Content-Type': contentType,
+				...(this.csrfToken && {
+					csrfToken: this.csrfToken
+				})
 			},
 			credentials: 'include'
 		}).then(response => {
@@ -1189,11 +1202,12 @@ export class ZimbraBatchClient {
 				part ? `&part=${part}` : ''
 			}`,
 			{
-				...(isSecure && {
-					headers: {
-						'X-Zimbra-Encoding': 'x-base64'
-					}
-				}),
+				headers: {
+					...(isSecure && { 'X-Zimbra-Encoding': 'x-base64' }),
+					...(this.csrfToken && {
+						csrfToken: this.csrfToken
+					})
+				},
 				credentials: 'include'
 			}
 		).then(response => {
@@ -1217,6 +1231,7 @@ export class ZimbraBatchClient {
 	 */
 	private getAdditionalRequestOptions = () => ({
 		jwtToken: this.jwtToken,
+		csrfToken: this.csrfToken,
 		sessionId:
 			this.sessionId ||
 			(this.sessionHandler && this.sessionHandler.readSessionId()),

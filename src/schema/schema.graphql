@@ -283,6 +283,10 @@ enum ResetPasswordStatus {
 	suspended
 }
 
+type CsrfToken {
+	_content: String
+}
+
 type AuthResponse {
 	authToken: [AuthToken]
 	twoFactorAuthRequired: TwoFactorAuthRequired
@@ -290,6 +294,7 @@ type AuthResponse {
 	lifetime: Int
 	session: Session
 	skin: [Skin]
+	csrfToken: CsrfToken
 }
 
 type ScratchCodeType {
@@ -308,6 +313,7 @@ type EnableTwoFactorAuthResponse {
 	secret: [Secret]
 	scratchCodes: [ScratchCode]
 	authToken: [AuthToken]
+	csrfToken: [CsrfToken]
 }
 
 type ProfileImageChangeResponse {
@@ -2298,6 +2304,7 @@ input EnableTwoFactorAuthInput {
 	password: String
 	twoFactorCode: String
 	authToken: String
+	csrfTokenSecured: Boolean!
 }
 
 input ExternalAccountImportInput {
@@ -2721,7 +2728,8 @@ type Mutation {
 		tokenType: String,
 		persistAuthTokenCookie: Boolean,
 		twoFactorCode: String,
-		deviceTrusted: Boolean
+		deviceTrusted: Boolean,
+		csrfTokenSecured: Boolean!
 	): AuthResponse
 	enableTwoFactorAuth(options: EnableTwoFactorAuthInput!): EnableTwoFactorAuthResponse
 	disableTwoFactorAuth: Boolean
