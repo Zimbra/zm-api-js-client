@@ -28,6 +28,9 @@ const dataIdFromObject = (object: any): string | null | undefined => {
 		case 'AutoCompleteMatch':
 			// AutoCompleteMatch is not guarenteed to have an `id`
 			return `${defaultDataIdFromObject(object)}:${object.email}`;
+		case 'ContactListMember':
+			// Contacts list members don't have ids
+			return `${object.type}:${object.value}`;
 		default:
 			return defaultDataIdFromObject(object);
 	}
