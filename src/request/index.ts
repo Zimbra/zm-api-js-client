@@ -214,6 +214,12 @@ export function jsonRequest(
 		};
 	}
 
+	if (requestOptions.csrfToken) {
+		options.headers['X-Zimbra-Csrf-Token'] = requestOptions.csrfToken;
+
+		header.context.csrfToken = requestOptions.csrfToken;
+	}
+
 	const body = {
 		[soapRequestName]: soapCommandBody(options)
 	};
