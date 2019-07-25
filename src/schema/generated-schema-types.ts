@@ -670,6 +670,8 @@ export interface EnableTwoFactorAuthInput {
 	twoFactorCode?: string | null;
 
 	authToken?: string | null;
+
+	csrfTokenSecured: boolean;
 }
 
 export interface ExternalAccountModifyAttrsInput {
@@ -741,8 +743,6 @@ export interface IdentityAttrsInput {
 
 	zimbraPrefReplyToEnabled?: boolean | null;
 
-	zimbraPrefSaveToSent?: boolean | null;
-
 	zimbraPrefSentMailFolder?: string | null;
 }
 
@@ -798,6 +798,8 @@ export interface PreferencesInput {
 	zimbraPrefReadingPaneEnabled?: boolean | null;
 
 	zimbraPrefReadingPaneLocation?: ReadingPaneLocation | null;
+
+	zimbraPrefSaveToSent?: boolean | null;
 
 	zimbraPrefShowFragments?: boolean | null;
 
@@ -1359,6 +1361,12 @@ export enum AutoCompleteMatchType {
 	Gal = 'gal',
 	Contact = 'contact',
 	RankingTable = 'rankingTable'
+}
+
+export enum ContactType {
+	C = 'C',
+	G = 'G',
+	I = 'I'
 }
 
 export enum SearchType {
