@@ -1363,6 +1363,12 @@ export enum AutoCompleteMatchType {
 	RankingTable = 'rankingTable'
 }
 
+export enum ContactType {
+	C = 'C',
+	G = 'G',
+	I = 'I'
+}
+
 export enum SearchType {
 	Conversation = 'conversation',
 	Message = 'message',
