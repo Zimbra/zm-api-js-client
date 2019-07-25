@@ -60,6 +60,7 @@ export type SessionHandler = {
 };
 
 export interface ZimbraClientOptions {
+	csrfToken?: string;
 	jwtToken?: string;
 	localStoreClient?: any;
 	notificationHandler?: NotificationHandler;
@@ -182,6 +183,7 @@ export interface ModifyProfileImageOptions {
 }
 
 export interface LoginOptions {
+	csrfTokenSecured: boolean;
 	deviceTrusted?: boolean;
 	password: string;
 	persistAuthTokenCookie?: boolean;
