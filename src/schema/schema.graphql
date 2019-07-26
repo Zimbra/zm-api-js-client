@@ -1394,6 +1394,14 @@ type ContactListMember {
 	value: ID!
 }
 
+type Tag {
+	id: String
+	name: String
+	color: Int
+	unreadCount: Int
+	itemCount: Int
+}
+
 input OtherContactAttributeInput {
 	key: String
 	value: String
@@ -2639,6 +2647,7 @@ type Query {
 	# but eslint-plugin-graphql is not able to handle those scenarios as mentioned in https://github.com/apollographql/eslint-plugin-graphql/issues/99
 	localFolderEmail(id: String!): MessageInfo
 	localFolderEmails(folderName: String!): [MessageInfo]
+	getTag: [Tag]
 }
 
 type Mutation {

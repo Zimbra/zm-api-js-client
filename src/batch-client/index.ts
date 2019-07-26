@@ -31,7 +31,8 @@ import {
 	MessageInfo,
 	SearchResponse,
 	SendMessageInfo,
-	ShareNotification
+	ShareNotification,
+	Tag
 } from '../normalize/entities';
 import {
 	batchJsonRequest,
@@ -1144,6 +1145,20 @@ export class ZimbraBatchClient {
 			}
 		});
 	};
+
+	public getTag = () =>
+		this.jsonRequest({
+			name: 'GetTag',
+			namespace: Namespace.Mail
+		}).then(({ tag }) => {
+			let tags = [];
+			if (tag) {
+				tags = tag.map((tagItem: any) => {
+					return normalize(Tag)(tagItem);
+				});
+			}
+			return tags;
+		});
 
 	private batchDataHandler = (requests: Array<RequestOptions>) =>
 		batchJsonRequest({
