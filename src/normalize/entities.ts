@@ -586,7 +586,6 @@ export const CreateAppSpecificPasswordResponse = new Entity({
 });
 
 export const Tag = new Entity({
-	u: 'unreadCount',
-	i: 'totalCount'
+	u: 'unread'
 })
 

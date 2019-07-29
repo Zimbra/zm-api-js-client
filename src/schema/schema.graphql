@@ -1398,8 +1398,7 @@ type Tag {
 	id: String
 	name: String
 	color: Int
-	unreadCount: Int
-	itemCount: Int
+	unread: Int
 }
 
 input OtherContactAttributeInput {
