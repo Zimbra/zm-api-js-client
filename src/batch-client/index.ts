@@ -703,6 +703,20 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		});
 
+	public getTag = () =>
+		this.jsonRequest({
+			name: 'GetTag',
+			namespace: Namespace.Mail
+		}).then(({ tag }) => {
+			let tags = [];
+			if (tag) {
+				tags = tag.map((tagItem: any) => {
+					return normalize(Tag)(tagItem);
+				});
+			}
+			return tags;
+		});
+
 	public getTrustedDevices = () =>
 		this.jsonRequest({
 			name: 'GetTrustedDevices',
@@ -1145,20 +1159,6 @@ export class ZimbraBatchClient {
 			}
 		});
 	};
-
-	public getTag = () =>
-		this.jsonRequest({
-			name: 'GetTag',
-			namespace: Namespace.Mail
-		}).then(({ tag }) => {
-			let tags = [];
-			if (tag) {
-				tags = tag.map((tagItem: any) => {
-					return normalize(Tag)(tagItem);
-				});
-			}
-			return tags;
-		});
 
 	private batchDataHandler = (requests: Array<RequestOptions>) =>
 		batchJsonRequest({

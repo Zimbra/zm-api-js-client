@@ -587,5 +587,4 @@ export const CreateAppSpecificPasswordResponse = new Entity({
 
 export const Tag = new Entity({
 	u: 'unread'
-})
-
+});
