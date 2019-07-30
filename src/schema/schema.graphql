@@ -2590,7 +2590,12 @@ type Query {
 	getWhiteBlackList: WhiteBlackList
 	getWorkingHours(names: [String!]!, start: Float, end: Float): [WorkingHours]
 	noop: Boolean
-	preferences: Preferences
+	getPreferences: Preferences
+	getAttributeInfo: AccountInfoAttrs
+	getZimlets: AccountZimlet
+	getIdentities: Identities
+	getSignatures: Signatures
+
 	recoverAccount(
 		op: RecoverAccountOp!
 		email: String!

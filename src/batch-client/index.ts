@@ -532,6 +532,12 @@ export class ZimbraBatchClient {
 			jwtToken: this.jwtToken
 		});
 
+	public getAttributeInfo = () =>
+		this.jsonRequest({
+			name: 'GetAttributeInfo',
+			namespace: Namespace.Admin
+		}).then(res => mapValuesDeep(res._attrs, coerceStringToBoolean));
+
 	public getAvailableLocales = () =>
 		this.jsonRequest({
 			name: 'GetAvailableLocales',
@@ -592,6 +598,12 @@ export class ZimbraBatchClient {
 			body: denormalize(GetFolderRequestEntity)(options)
 		}).then(normalize(Folder));
 	};
+
+	public getIdentities = () =>
+		this.jsonRequest({
+			name: 'GetIdentities',
+			namespace: Namespace.Account
+		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
 
 	public getMailboxMetadata = ({ section }: GetMailboxMetadataOptions) =>
 		this.jsonRequest({
@@ -656,6 +668,12 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => res.m.map(this.normalizeMessage));
 
+	public getPreferences = () =>
+		this.jsonRequest({
+			name: 'GetPrefs',
+			namespace: Namespace.Account
+		}).then(res => mapValuesDeep(res._attrs, coerceStringToBoolean));
+
 	public getProfileImageUrl = (profileImageId: any) =>
 		getProfileImageUrl(profileImageId, {
 			origin: this.origin,
@@ -687,6 +705,12 @@ export class ZimbraBatchClient {
 		}).then((res: any) =>
 			res.search ? { folders: normalize(Folder)(res.search) } : {}
 		);
+
+	public getSignatures = () =>
+		this.jsonRequest({
+			name: 'GetSignatures',
+			namespace: Namespace.Account
+		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
 
 	public getSMimePublicCerts = (options: GetSMimePublicCertsOptions) =>
 		this.jsonRequest({
@@ -722,6 +746,12 @@ export class ZimbraBatchClient {
 				...denormalize(FreeBusyInstance)({ start, end })
 			}
 		}).then(res => normalize(FreeBusy)(res.usr));
+
+	public getZimlets = () =>
+		this.jsonRequest({
+			name: 'GetAllZimlets',
+			namespace: Namespace.Account
+		}).then(res => mapValuesDeep(res.zimlet, coerceStringToBoolean));
 
 	public grantRights = (body: GrantRightsInput) =>
 		this.jsonRequest({
@@ -920,12 +950,6 @@ export class ZimbraBatchClient {
 		});
 
 	public noop = () => this.jsonRequest({ name: 'NoOp' }).then(Boolean);
-
-	public preferences = () =>
-		this.jsonRequest({
-			name: 'GetPrefs',
-			namespace: Namespace.Account
-		}).then(res => mapValuesDeep(res._attrs, coerceStringToBoolean));
 
 	public recoverAccount = ({ channel, email, op }: RecoverAccountOptions) =>
 		this.jsonRequest({
