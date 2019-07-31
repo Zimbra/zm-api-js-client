@@ -797,7 +797,7 @@ export class ZimbraBatchClient {
 				logoff: true
 			},
 			namespace: Namespace.Account
-		}).then(Boolean);
+		});
 
 	public messageAction = (options: ActionOptions) =>
 		this.action(ActionType.message, options);

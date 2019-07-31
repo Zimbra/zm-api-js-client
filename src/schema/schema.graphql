@@ -297,6 +297,14 @@ type AuthResponse {
 	csrfToken: CsrfToken
 }
 
+type LogoutAttributes {
+	zimbraLogoutURL: String
+}
+
+type LogoutResponse {
+	_attrs: LogoutAttributes
+}
+
 type ScratchCodeType {
 	_content: String
 }
@@ -2720,7 +2728,7 @@ type Mutation {
 	forwardAppointmentInvite(appointmentInvite:ForwardAppointmentInviteInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
-	logout: Boolean
+	logout: LogoutResponse
 	login(
 		username: String!,
 		password: String,
