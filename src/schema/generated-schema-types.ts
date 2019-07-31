@@ -811,7 +811,7 @@ export interface PreferencesInput {
 
 	zimbraPrefAppleIcalDelegationEnabled?: boolean | null;
 
-	zimbraPrefShowEventStartEndTimezone?: boolean | null;
+	zimbraPrefUseTimeZoneListInCalendar?: boolean | null;
 
 	zimbraPrefMailForwardingAddress?: string | null;
 
