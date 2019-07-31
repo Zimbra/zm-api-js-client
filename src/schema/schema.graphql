@@ -1252,6 +1252,7 @@ type Preferences {
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
+	zimbraPrefShowEventStartEndTimezone: Boolean
 	zimbraPrefMailForwardingAddress: String
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
 }
@@ -2014,6 +2015,7 @@ input PreferencesInput {
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
+	zimbraPrefShowEventStartEndTimezone: Boolean
 	zimbraPrefMailForwardingAddress: String
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
 }
