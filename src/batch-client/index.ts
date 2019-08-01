@@ -170,26 +170,20 @@ export class ZimbraBatchClient {
 	public accountInfo = () =>
 		this.jsonRequest({
 			name: 'GetInfo',
-			namespace: Namespace.Account
-		}).then(res => {
-			let prefs: any = mapValuesDeep(res.prefs._attrs, coerceStringToBoolean);
-			prefs.zimbraPrefMailTrustedSenderList =
-				typeof prefs.zimbraPrefMailTrustedSenderList === 'string'
-					? castArray(prefs.zimbraPrefMailTrustedSenderList)
-					: prefs.zimbraPrefMailTrustedSenderList;
-			return {
-				...res,
-				attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
-				prefs,
-				identities: mapValuesDeep(res.identities, coerceStringToBoolean),
-				...(get(res, 'license.attr') && {
-					license: {
-						status: res.license.status,
-						attr: mapValuesDeep(res.license.attr, coerceStringToBoolean)
-					}
-				})
-			};
-		});
+			namespace: Namespace.Account,
+			body: {
+				sections: 'mbox,attrs,zimlets,dsrcs'
+			}
+		}).then(res => ({
+			...res,
+			attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
+			...(get(res, 'license.attr') && {
+				license: {
+					status: res.license.status,
+					attr: mapValuesDeep(res.license.attr, coerceStringToBoolean)
+				}
+			})
+		}));
 
 	public action = (type: ActionType, options: ActionOptions) => {
 		const { ids, id, ...rest } = options;
@@ -672,7 +666,14 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetPrefs',
 			namespace: Namespace.Account
-		}).then(res => mapValuesDeep(res._attrs, coerceStringToBoolean));
+		}).then(res => {
+			let prefs: any = mapValuesDeep(res._attrs, coerceStringToBoolean);
+			prefs.zimbraPrefMailTrustedSenderList =
+				typeof prefs.zimbraPrefMailTrustedSenderList === 'string'
+					? castArray(prefs.zimbraPrefMailTrustedSenderList)
+					: prefs.zimbraPrefMailTrustedSenderList;
+			return prefs;
+		});
 
 	public getProfileImageUrl = (profileImageId: any) =>
 		getProfileImageUrl(profileImageId, {
