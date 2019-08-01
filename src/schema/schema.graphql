@@ -1054,11 +1054,7 @@ type AccountInfo {
 	profileImageId: Int
 	soapURL: String
 	version: String
-	identities: Identities
-	dataSources: DataSources!
-	signatures: Signatures
 	attrs: AccountInfoAttrs
-	prefs: Preferences
 	license: License
 	zimlets: AccountZimlet
 }
@@ -2591,7 +2587,7 @@ type Query {
 	getWorkingHours(names: [String!]!, start: Float, end: Float): [WorkingHours]
 	noop: Boolean
 	getPreferences: Preferences
-	getAttributeInfo: AccountInfoAttrs
+	getDataSources: DataSources!
 	getZimlets: AccountZimlet
 	getIdentities: Identities
 	getSignatures: Signatures

@@ -1294,45 +1294,6 @@ export enum ResetPasswordStatus {
 	Suspended = 'suspended'
 }
 
-export enum PrefCalendarInitialView {
-	Day = 'day',
-	List = 'list',
-	Month = 'month',
-	Week = 'week',
-	WorkWeek = 'workWeek',
-	Year = 'year'
-}
-
-export enum PrefDelegatedSendSaveTarget {
-	Owner = 'owner',
-	Sender = 'sender',
-	Both = 'both',
-	None = 'none'
-}
-
-export enum PrefMailSelectAfterDelete {
-	Next = 'next',
-	Previous = 'previous',
-	Adaptive = 'adaptive'
-}
-
-export enum PrefMailSendReadReceipts {
-	Prompt = 'prompt',
-	Always = 'always',
-	Never = 'never'
-}
-
-export enum ReadingPaneLocation {
-	Off = 'off',
-	Right = 'right',
-	Bottom = 'bottom'
-}
-
-export enum PasswordRecoveryAddressStatus {
-	Verified = 'verified',
-	Pending = 'pending'
-}
-
 export enum LicenseStatus {
 	Ok = 'OK',
 	NotInstalled = 'NOT_INSTALLED',
@@ -1500,6 +1461,45 @@ export enum GranteeType {
 	Guest = 'guest',
 	Key = 'key',
 	Cos = 'cos'
+}
+
+export enum PrefCalendarInitialView {
+	Day = 'day',
+	List = 'list',
+	Month = 'month',
+	Week = 'week',
+	WorkWeek = 'workWeek',
+	Year = 'year'
+}
+
+export enum PrefDelegatedSendSaveTarget {
+	Owner = 'owner',
+	Sender = 'sender',
+	Both = 'both',
+	None = 'none'
+}
+
+export enum PrefMailSelectAfterDelete {
+	Next = 'next',
+	Previous = 'previous',
+	Adaptive = 'adaptive'
+}
+
+export enum PrefMailSendReadReceipts {
+	Prompt = 'prompt',
+	Always = 'always',
+	Never = 'never'
+}
+
+export enum ReadingPaneLocation {
+	Off = 'off',
+	Right = 'right',
+	Bottom = 'bottom'
+}
+
+export enum PasswordRecoveryAddressStatus {
+	Verified = 'verified',
+	Pending = 'pending'
 }
 
 export enum RecoverAccountOp {

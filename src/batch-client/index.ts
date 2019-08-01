@@ -526,12 +526,6 @@ export class ZimbraBatchClient {
 			jwtToken: this.jwtToken
 		});
 
-	public getAttributeInfo = () =>
-		this.jsonRequest({
-			name: 'GetAttributeInfo',
-			namespace: Namespace.Admin
-		}).then(res => mapValuesDeep(res._attrs, coerceStringToBoolean));
-
 	public getAvailableLocales = () =>
 		this.jsonRequest({
 			name: 'GetAvailableLocales',
@@ -578,6 +572,11 @@ export class ZimbraBatchClient {
 			c.messages = c.messages.map(this.normalizeMessage);
 			return c;
 		});
+
+	public getDataSources = () =>
+		this.jsonRequest({
+			name: 'GetDataSources'
+		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
 
 	public getFilterRules = () =>
 		this.jsonRequest({
