@@ -177,7 +177,7 @@ export class ZimbraBatchClient {
 			name: 'GetInfo',
 			namespace: Namespace.Account,
 			body: {
-				sections: 'mbox,attrs,zimlets,dsrcs'
+				sections: 'mbox,attrs,zimlets'
 			}
 		}).then(res => ({
 			...res,
