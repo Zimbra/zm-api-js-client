@@ -322,9 +322,7 @@ export function createZimbraSchema(
 				changeFolderColor: (_, variables) =>
 					client.changeFolderColor(variables as FolderActionChangeColorInput),
 				folderAction: (_, { action, context }) => {
-					const { local } = context;
-
-					if (local) {
+					if (context && context.local) {
 						return localStoreClient.action();
 					}
 
