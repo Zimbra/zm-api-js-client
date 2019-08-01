@@ -161,10 +161,15 @@ export class ZimbraBatchClient {
 		this.notificationHandler = options.notificationHandler;
 
 		// Used for sending batch requests
-		this.batchDataLoader = new DataLoader(this.batchDataHandler);
+		this.batchDataLoader = new DataLoader(this.batchDataHandler, {
+			cache: false
+		});
 
 		// Used for sending individual requests
-		this.dataLoader = new DataLoader(this.dataHandler, { batch: false });
+		this.dataLoader = new DataLoader(this.dataHandler, {
+			batch: false,
+			cache: false
+		});
 	}
 
 	public accountInfo = () =>
@@ -1143,7 +1148,7 @@ export class ZimbraBatchClient {
 				'Content-Disposition': `${contentDisposition}; filename="${filename}"`,
 				'Content-Type': contentType,
 				...(this.csrfToken && {
-					csrfToken: this.csrfToken
+					'X-Zimbra-Csrf-Token': this.csrfToken
 				})
 			},
 			credentials: 'include'
@@ -1230,7 +1235,7 @@ export class ZimbraBatchClient {
 				headers: {
 					...(isSecure && { 'X-Zimbra-Encoding': 'x-base64' }),
 					...(this.csrfToken && {
-						csrfToken: this.csrfToken
+						'X-Zimbra-Csrf-Token': this.csrfToken
 					})
 				},
 				credentials: 'include'
