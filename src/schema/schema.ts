@@ -321,13 +321,10 @@ export function createZimbraSchema(
 
 				changeFolderColor: (_, variables) =>
 					client.changeFolderColor(variables as FolderActionChangeColorInput),
-				folderAction: (_, { action, context }) => {
-					if (context && context.local) {
-						return localStoreClient.action();
-					}
-
-					return client.folderAction(action);
-				},
+				folderAction: (_, { action, context }) =>
+					context && context.local
+						? localStoreClient.action()
+						: client.folderAction(action),
 				forwardAppointmentInvite: (_, { appointmentInvite }) =>
 					client.forwardAppointmentInvite(
 						appointmentInvite as ForwardAppointmentInviteInput
