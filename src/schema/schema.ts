@@ -178,7 +178,7 @@ export function createZimbraSchema(
 				taskFolders: client.taskFolders,
 				getWhiteBlackList: client.getWhiteBlackList,
 				getAppSpecificPasswords: client.getAppSpecificPasswords,
-				getTag: () => client.getTag()
+				getTag: client.getTag
 			},
 			//resolveType is necessary to differentiate for any Union or Interfaces
 			MailItem: {
