@@ -63,7 +63,6 @@
     "@types/graphql": "^14.2.3",
     "@types/lodash": "^4.14.136",
     "@types/node": "^12.6.9",
-    "@types/recompose": "^0.30.6",
     "@types/whatwg-fetch": "0.0.33",
     "apollo-codegen": "^0.20.2",
     "audit-ci": "^2.2.0",
