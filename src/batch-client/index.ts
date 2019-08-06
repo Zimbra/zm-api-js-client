@@ -712,15 +712,7 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetTag',
 			namespace: Namespace.Mail
-		}).then(({ tag }) => {
-			let tags = [];
-			if (tag) {
-				tags = tag.map((tagItem: any) => {
-					return normalize(Tag)(tagItem);
-				});
-			}
-			return tags;
-		});
+		}).then(({ tag = [] }) => tag.map(normalize(Tag)));
 
 	public getTrustedDevices = () =>
 		this.jsonRequest({
