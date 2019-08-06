@@ -283,6 +283,11 @@ enum ResetPasswordStatus {
 	suspended
 }
 
+type ClientInfoResponse {
+	loginURL: String
+    logoutURL: String
+}
+
 type CsrfToken {
 	_content: String
 }
@@ -2525,6 +2530,9 @@ type Query {
 		type: GalSearchType
 		needExp: Boolean
 	): AutoCompleteGALResponse
+    clientInfo(
+        hostname: String!
+    ): ClientInfoResponse
 	downloadMessage(id: ID!, isSecure: Boolean): SMimeMessage
 	downloadAttachment(id: ID!, part: ID!): Attachment
 	discoverRights: DiscoverRights

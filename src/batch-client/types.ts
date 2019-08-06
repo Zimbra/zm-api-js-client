@@ -9,6 +9,10 @@ import {
 	SortBy
 } from '../schema/generated-schema-types';
 
+export interface ClientInfoOptions {
+	hostname: string;
+}
+
 export enum GalSearchType {
 	all = 'all',
 	account = 'account',

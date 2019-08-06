@@ -14,6 +14,7 @@ import {
 	CalendarItemCreateModifyRequest,
 	CalendarItemDeleteRequest,
 	CalendarItemHitInfo,
+    ClientInfoResponse,
 	Contact,
 	Conversation,
 	CreateAppSpecificPasswordResponse,
@@ -97,6 +98,7 @@ import {
 	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
+    ClientInfoOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
 	ExternalAccountDeleteInput,
@@ -258,6 +260,13 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account,
 			body: options
 		}).then(res => normalize(AutoCompleteGALResponse)(res));
+
+    public clientInfo = (options: ClientInfoOptions) =>
+		this.jsonRequest({
+			name: 'ClientInfo',
+			namespace: Namespace.Account,
+			body: options
+		}).then(res => normalize(ClientInfoResponse)(res));
 
 	public cancelTask = ({ inviteId }: any) =>
 		this.jsonRequest({

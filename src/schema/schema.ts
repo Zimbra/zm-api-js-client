@@ -46,6 +46,7 @@ import {
 	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
+    ClientInfoOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
 	ExternalAccountDeleteInput,
@@ -94,6 +95,8 @@ export function createZimbraSchema(
 					client.autoComplete(variables as AutoCompleteOptions),
 				autoCompleteGAL: (_, variables) =>
 					client.autoCompleteGAL(variables as AutoCompleteGALOptions),
+                clientInfo: (_, variables) =>
+                    client.clientInfo(variables as ClientInfoOptions),
 				discoverRights: client.discoverRights,
 				downloadAttachment: (_, variables) =>
 					client.downloadAttachment(variables),

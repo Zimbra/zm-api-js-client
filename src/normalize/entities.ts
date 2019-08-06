@@ -7,6 +7,11 @@ import { Entity } from '.';
  * It is only necessary to specify fields that you want renamed.  Fields that you do not want renamed will be kept and be unmodified
  */
 
+export const ClientInfoResponse = new Entity({
+	loginURL: 'zimbraWebclientLoginURL',
+	logoutURL: 'zimbraWebclientLogoutURL'
+});
+
 const MimePart = new Entity({
 	cd: 'contentDisposition',
 	ci: 'contentId',
