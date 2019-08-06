@@ -752,12 +752,6 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => normalize(FreeBusy)(res.usr));
 
-	public getZimlets = () =>
-		this.jsonRequest({
-			name: 'GetAllZimlets',
-			namespace: Namespace.Account
-		}).then(res => mapValuesDeep(res.zimlet, coerceStringToBoolean));
-
 	public grantRights = (body: GrantRightsInput) =>
 		this.jsonRequest({
 			name: 'GrantRights',

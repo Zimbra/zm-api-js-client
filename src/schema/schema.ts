@@ -158,7 +158,6 @@ export function createZimbraSchema(
 					client.getWorkingHours(variables as WorkingHoursOptions),
 				getPreferences: client.getPreferences,
 				getDataSources: client.getDataSources,
-				getZimlets: client.getZimlets,
 				getIdentities: client.getIdentities,
 				getSignatures: client.getSignatures,
 				noop: client.noop,

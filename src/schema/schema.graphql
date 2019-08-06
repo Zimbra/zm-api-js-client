@@ -2588,7 +2588,6 @@ type Query {
 	noop: Boolean
 	getPreferences: Preferences
 	getDataSources: DataSources!
-	getZimlets: AccountZimlet
 	getIdentities: Identities
 	getSignatures: Signatures
 
