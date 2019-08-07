@@ -2206,6 +2206,10 @@ input FilterInput {
 	conditions: [FilterConditionInput] # filterTests
 }
 
+input FilterRuleInput {
+	name: String!
+}
+
 ##### End Of FilterInput #####
 
 input ForwardAppointmentInviteInput {
@@ -2654,6 +2658,10 @@ type Mutation {
 		rgb: String,
 		tagNames: String,
 		name: String
+	): Boolean
+	applyFilterRules(
+		ids: String!,
+		filterRules: [FilterRuleInput]
 	): Boolean
 	testExternalAccount(externalAccount: ExternalAccountTestInput!): ExternalAccountTestResponse
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): ID

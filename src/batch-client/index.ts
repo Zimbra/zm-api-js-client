@@ -94,6 +94,7 @@ import {
 import {
 	ActionOptions,
 	ActionType,
+	ApplyFilterRulesOptions,
 	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
@@ -240,6 +241,17 @@ export class ZimbraBatchClient {
 			})
 		}).then(normalize(MessageInfo));
 	};
+
+	public applyFilterRules = ({ ids, filterRules }: ApplyFilterRulesOptions) =>
+		this.jsonRequest({
+			name: 'ApplyFilterRules',
+			body: {
+				filterRules,
+				m: {
+					ids
+				}
+			}
+		}).then(Boolean);
 
 	public autoComplete = (options: AutoCompleteOptions) =>
 		this.jsonRequest({

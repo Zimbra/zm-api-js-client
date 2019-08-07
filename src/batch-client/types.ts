@@ -285,3 +285,12 @@ export interface ExternalAccountModifyInput {
 export interface ExternalAccountDeleteInput {
 	id: string;
 }
+
+export interface FilterRule {
+	name: string;
+}
+
+export interface ApplyFilterRulesOptions {
+	filterRules: Array<FilterRule>;
+	ids: string;
+}

@@ -237,6 +237,7 @@ export function createZimbraSchema(
 					return client.addMessage(variables as AddMsgInput);
 				},
 				cancelTask: (_, variables) => client.cancelTask(variables),
+				applyFilterRules: (_, variables) => client.applyFilterRules(variables),
 				itemAction: (_, variables) =>
 					client.itemAction(variables as ActionOptions),
 				login: (_, variables) => client.login(variables as LoginOptions),
