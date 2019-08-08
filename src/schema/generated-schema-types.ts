@@ -48,6 +48,10 @@ export interface Cursor {
 	includeOffset?: boolean | null;
 }
 
+export interface FilterRuleInput {
+	name: string;
+}
+
 export interface ExternalAccountTestInput {
 	accountType?: AccountType | null;
 

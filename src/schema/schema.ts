@@ -43,6 +43,7 @@ import { ZimbraNotifications } from './notifications';
 import { GraphQLSchema } from 'graphql';
 import {
 	ActionOptions,
+	ApplyFilterRulesOptions,
 	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
@@ -237,7 +238,8 @@ export function createZimbraSchema(
 					return client.addMessage(variables as AddMsgInput);
 				},
 				cancelTask: (_, variables) => client.cancelTask(variables),
-				applyFilterRules: (_, variables) => client.applyFilterRules(variables),
+				applyFilterRules: (_, variables) =>
+					client.applyFilterRules(variables as ApplyFilterRulesOptions),
 				itemAction: (_, variables) =>
 					client.itemAction(variables as ActionOptions),
 				login: (_, variables) => client.login(variables as LoginOptions),
