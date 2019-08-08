@@ -1779,6 +1779,7 @@ type CalendarItemAlarmTrigger {
 type CalendarItemAlarm {
 	action: AlarmAction!
 	trigger: [CalendarItemAlarmTrigger]
+	attendees: [CalendarItemAlarmAttendees]
 }
 
 type RecoverAccount {
