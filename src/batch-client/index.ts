@@ -246,7 +246,9 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'ApplyFilterRules',
 			body: {
-				filterRules,
+				filterRules: {
+					filterRule: filterRules
+				},
 				m: {
 					ids
 				}
