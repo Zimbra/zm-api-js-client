@@ -70,6 +70,7 @@ export type AccountInfoAttrs = {
 	zimbraFeatureManageZimlets?: Maybe<Scalars['Boolean']>;
 	zimbraFeatureTwoFactorAuthAvailable?: Maybe<Scalars['Boolean']>;
 	zimbraFeatureTwoFactorAuthRequired?: Maybe<Scalars['Boolean']>;
+	zimbraFeatureViewInHtmlEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraTwoFactorAuthEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraFeatureTrustedDevicesEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraFeatureAppSpecificPasswordsEnabled?: Maybe<Scalars['Boolean']>;
@@ -374,6 +375,7 @@ export type CalendarItemAlarm = {
 	__typename?: 'CalendarItemAlarm';
 	action: AlarmAction;
 	trigger?: Maybe<Array<Maybe<CalendarItemAlarmTrigger>>>;
+	attendees?: Maybe<Array<Maybe<CalendarItemAlarmAttendees>>>;
 };
 
 export type CalendarItemAlarmAttendees = {
