@@ -1395,7 +1395,7 @@ type ContactListMember {
 }
 
 type Tag {
-	id: String
+	id: ID
 	name: String
 	color: Int
 	unread: Int
