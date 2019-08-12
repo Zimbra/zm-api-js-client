@@ -180,6 +180,12 @@ enum SearchType {
 	document
 }
 
+enum ContactType {
+	C # Reference to another contact
+	G # Reference to a GAL entry
+	I # Inlined member (member name and email address is embeded in the contact group)
+}
+
 enum FolderView {
 	search
 	folder
@@ -277,6 +283,10 @@ enum ResetPasswordStatus {
 	suspended
 }
 
+type CsrfToken {
+	_content: String
+}
+
 type AuthResponse {
 	authToken: [AuthToken]
 	twoFactorAuthRequired: TwoFactorAuthRequired
@@ -284,6 +294,7 @@ type AuthResponse {
 	lifetime: Int
 	session: Session
 	skin: [Skin]
+	csrfToken: CsrfToken
 }
 
 type ScratchCodeType {
@@ -302,6 +313,7 @@ type EnableTwoFactorAuthResponse {
 	secret: [Secret]
 	scratchCodes: [ScratchCode]
 	authToken: [AuthToken]
+	csrfToken: [CsrfToken]
 }
 
 type ProfileImageChangeResponse {
@@ -1123,6 +1135,7 @@ type AccountInfoAttrs {
 	zimbraFeatureManageZimlets: Boolean
 	zimbraFeatureTwoFactorAuthAvailable: Boolean
 	zimbraFeatureTwoFactorAuthRequired: Boolean
+	zimbraFeatureViewInHtmlEnabled: Boolean
 	zimbraTwoFactorAuthEnabled: Boolean
 	zimbraFeatureTrustedDevicesEnabled: Boolean
 	zimbraFeatureAppSpecificPasswordsEnabled: Boolean
@@ -1378,7 +1391,7 @@ type ContactImage{
 
 type ContactListMember {
 	contacts: [Contact]
-	type: String!
+	type: ContactType!
 	value: ID!
 }
 
@@ -1766,6 +1779,7 @@ type CalendarItemAlarmTrigger {
 type CalendarItemAlarm {
 	action: AlarmAction!
 	trigger: [CalendarItemAlarmTrigger]
+	attendees: [CalendarItemAlarmAttendees]
 }
 
 type RecoverAccount {
@@ -2292,6 +2306,7 @@ input EnableTwoFactorAuthInput {
 	password: String
 	twoFactorCode: String
 	authToken: String
+	csrfTokenSecured: Boolean!
 }
 
 input ExternalAccountImportInput {
@@ -2715,7 +2730,8 @@ type Mutation {
 		tokenType: String,
 		persistAuthTokenCookie: Boolean,
 		twoFactorCode: String,
-		deviceTrusted: Boolean
+		deviceTrusted: Boolean,
+		csrfTokenSecured: Boolean!
 	): AuthResponse
 	enableTwoFactorAuth(options: EnableTwoFactorAuthInput!): EnableTwoFactorAuthResponse
 	disableTwoFactorAuth: Boolean

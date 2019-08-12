@@ -670,6 +670,8 @@ export interface EnableTwoFactorAuthInput {
 	twoFactorCode?: string | null;
 
 	authToken?: string | null;
+
+	csrfTokenSecured: boolean;
 }
 
 export interface ExternalAccountModifyAttrsInput {
@@ -1359,6 +1361,12 @@ export enum AutoCompleteMatchType {
 	Gal = 'gal',
 	Contact = 'contact',
 	RankingTable = 'rankingTable'
+}
+
+export enum ContactType {
+	C = 'C',
+	G = 'G',
+	I = 'I'
 }
 
 export enum SearchType {
