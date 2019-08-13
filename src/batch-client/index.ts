@@ -1118,7 +1118,7 @@ export class ZimbraBatchClient {
 			mapValuesDeep(get(res, `${accountType}.0`), coerceStringToBoolean)
 		);
 
-	public uploadMessage = (message: string) => {
+	public uploadMessage = (message: string): any => {
 		const contentDisposition = 'attachment';
 		const filename = 'message.eml';
 		const contentType = 'message/rfc822';

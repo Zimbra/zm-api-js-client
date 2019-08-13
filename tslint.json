@@ -9,7 +9,7 @@
 		"member-ordering": [true, {"order": "fields-first", "alphabetize": true }],
 		"ordered-imports": true,
 		"prefer-array-literal": false,
-		"prettier": [true, "."],
+		"prettier": [true, ".prettierrc"],
 		"variable-name": false
 	},
 	"linterOptions": {

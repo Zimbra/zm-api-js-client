@@ -1135,6 +1135,7 @@ type AccountInfoAttrs {
 	zimbraFeatureManageZimlets: Boolean
 	zimbraFeatureTwoFactorAuthAvailable: Boolean
 	zimbraFeatureTwoFactorAuthRequired: Boolean
+	zimbraFeatureViewInHtmlEnabled: Boolean
 	zimbraTwoFactorAuthEnabled: Boolean
 	zimbraFeatureTrustedDevicesEnabled: Boolean
 	zimbraFeatureAppSpecificPasswordsEnabled: Boolean
@@ -1434,9 +1435,7 @@ input ContactAttrsInput {
 	workPhone2: String
 	pager: String
 	pager2: String
-	homeFax: String
 	homeFax2: String
-	workFax: String
 	workFax2: String
 	imAddress: String
 	imAddress1: String
