@@ -80,9 +80,7 @@ export function normalizeMimeParts(
 			? normalizeCid(attachment.contentId)
 			: ~normalizeType(attachment.contentType).indexOf('image/') &&
 			  attachment.contentDisposition === 'inline'
-			? `AUTO-GEN-CID-${attachment.messageId}-${attachment.part}-${
-					attachment.size
-			  }`
+			? `AUTO-GEN-CID-${attachment.messageId}-${attachment.part}-${attachment.size}`
 			: undefined;
 
 		return attachment;
