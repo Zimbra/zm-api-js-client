@@ -1255,6 +1255,7 @@ type Preferences {
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
 	zimbraPrefMailForwardingAddress: String
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
+	zimbraPrefTagTreeOpen: Boolean
 }
 
 type NameId {
@@ -2025,6 +2026,7 @@ input PreferencesInput {
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
 	zimbraPrefMailForwardingAddress: String
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
+	zimbraPrefTagTreeOpen: Boolean
 }
 
 input ModifyIdentityInput {
