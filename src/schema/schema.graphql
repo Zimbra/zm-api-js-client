@@ -1255,6 +1255,7 @@ type Preferences {
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
 	zimbraPrefMailForwardingAddress: String
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
+	zimbraPrefTagTreeOpen: Boolean
 }
 
 type NameId {
@@ -1396,7 +1397,7 @@ type ContactListMember {
 }
 
 type Tag {
-	id: String
+	id: ID
 	name: String
 	color: Int
 	unread: Int
@@ -2023,6 +2024,7 @@ input PreferencesInput {
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
 	zimbraPrefMailForwardingAddress: String
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
+	zimbraPrefTagTreeOpen: Boolean
 }
 
 input ModifyIdentityInput {
