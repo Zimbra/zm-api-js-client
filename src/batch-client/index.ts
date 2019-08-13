@@ -258,7 +258,17 @@ export class ZimbraBatchClient {
 					ids
 				}
 			}
-		}).then(Boolean);
+		}).then(res => {
+			console.log(res, get(res, 'm[0].ids'));
+			let ids = get(res, 'm[0].ids');
+
+			if (ids) {
+				ids = ids.split(',');
+			} else {
+				ids = [];
+			}
+			return ids;
+		});
 
 	public autoComplete = (options: AutoCompleteOptions) =>
 		this.jsonRequest({

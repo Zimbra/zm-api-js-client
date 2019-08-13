@@ -763,6 +763,7 @@ type ExternalAccountTestResponse {
 	error: String
 }
 
+
 input ExternalAccount {
 	id: ID!
 	name: String!
@@ -2664,7 +2665,7 @@ type Mutation {
 	applyFilterRules(
 		ids: String!,
 		filterRules: [FilterRuleInput]
-	): Boolean
+	): [String]
 	testExternalAccount(externalAccount: ExternalAccountTestInput!): ExternalAccountTestResponse
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): ID
 	addMessage(message: AddMsgInput!): MessageInfo
