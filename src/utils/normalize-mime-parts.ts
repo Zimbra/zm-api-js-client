@@ -55,7 +55,7 @@ export function getContactProfileImageUrl(
 		origin: origin,
 		jwtToken: jwtToken
 	});
-	return imageURL ? `${imageURL}&t=${Date.now()}` : '';
+	return imageURL ? `${imageURL}` : '';
 }
 
 export function getProfileImageUrl(
@@ -64,7 +64,7 @@ export function getProfileImageUrl(
 ) {
 	return `${origin}/service/home/~/?max_width=100&max_height=100&auth=${
 		jwtToken ? 'jwt' : 'co'
-	}&id=${encodeURIComponent(profileImageId)}&t=${Date.now()}${
+	}&id=${encodeURIComponent(profileImageId)}${
 		jwtToken ? `&zjwt=${jwtToken}` : ''
 	}`;
 }
