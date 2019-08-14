@@ -259,7 +259,6 @@ export class ZimbraBatchClient {
 				}
 			}
 		}).then(res => {
-			console.log(res, get(res, 'm[0].ids'));
 			let ids = get(res, 'm[0].ids');
 
 			if (ids) {
