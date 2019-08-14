@@ -30,6 +30,15 @@ function findDataId(
 	partialDataId: string = '$ROOT_QUERY',
 	predicate: (d: string) => any
 ) {
+	const dataIDs = findDataIds(client, partialDataId, predicate);
+	return dataIDs ? dataIDs.pop() : undefined;
+}
+
+function findDataIds(
+	client: ZimbraInMemoryCache,
+	partialDataId: string = '$ROOT_QUERY',
+	predicate: (d: string) => any
+) {
 	const data =
 		client && get(client, 'cache.data.data', get(client, 'data.data'));
 	if (!data) {
@@ -38,7 +47,7 @@ function findDataId(
 	return Object.keys(data).filter(
 		(dataId: string) =>
 			dataId.indexOf(partialDataId) !== -1 && predicate(dataId)
-	)[0];
+	);
 }
 
 function addNewItemToList(itemList: any, item: any, sortBy: any) {
@@ -94,6 +103,7 @@ export class ZimbraNotifications {
 		this.handleConversationNotifications(notification);
 		this.handleMessageNotifications(notification);
 		this.handleContactNotifications(notification);
+		this.handleInboxSearchNotifications(notification);
 	};
 
 	private handleContactNotifications = (notification: Notification) => {
@@ -251,6 +261,80 @@ export class ZimbraNotifications {
 			});
 		}
 	};
+
+	private handleInboxSearchNotifications = (notification: Notification) => {
+		const modifiedMsgs = get(notification, 'modified.m', []);
+
+		if (modifiedMsgs.length) {
+			const query = 'in:\\\\"Inbox\\\\"';
+			const r = new RegExp(query);
+			const dataId = (findDataIds(this.cache, '$ROOT_QUERY.search', dataIdKey =>
+				r.test(dataIdKey)
+			) || []).find((dataIdKey: any) => {
+				const variables = getVariablesFromDataId(dataIdKey);
+				return variables.types === 'conversation';
+			});
+			const searchQueryKey = dataId && dataId.replace(/^\$ROOT_QUERY\.search\(\{(.+)\}\)$/, '$1').replace(/\\"/g, '\\\\"');
+
+			let searchResponse: any = {};
+
+			modifiedMsgs.forEach((msg: any) => {
+				const { cid: newConvID, id: oldConvId, ...rest } = msg;
+
+				if (newConvID && oldConvId && !Object.keys(rest).length && dataId && searchQueryKey) {
+					if (!searchResponse[searchQueryKey]) {
+						try {
+							searchResponse[searchQueryKey] = this.cache.readFragment({
+								id: dataId,
+								fragment: gql`
+									fragment ${generateFragmentName('searchResults')} on SearchResponse {
+										conversations {
+											id
+										}
+									}
+							`
+							});
+						} catch (exception) {
+							console.error(exception);
+							return;
+						}
+
+						searchResponse[searchQueryKey].conversations = searchResponse[searchQueryKey].conversations.map(({ id } : any) => {
+							const convID = id === `-${oldConvId}` ? newConvID : id;
+							return {
+								generated: false,
+								id: `Conversation:${convID}`,
+								type: 'id',
+								typename: 'Conversation'
+							}
+						});
+					}
+				}
+			});
+
+			Object.keys(searchResponse).forEach(q => {
+				const r = new RegExp(q);
+				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
+					r.test(dataId)
+				);
+
+				if (id) {
+					this.cache.writeFragment({
+						id,
+						fragment: gql`
+						fragment ${generateFragmentName('searchResults')} on SearchResponse {
+							conversations
+						}
+						`,
+						data: {
+							__typename: 'SearchResponse',
+							conversations: searchResponse[q].conversations
+						}
+					});
+				}
+			});
+		}
+	}
 
 	// TODO: The `created` key in the session header will indicate when
 	// new messages/conversations arrive. The notification handlers
