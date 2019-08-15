@@ -264,59 +264,64 @@ export class ZimbraNotifications {
 			);
 
 			let searchResponse: any = {};
+			let shouldUpdate = false;
+
+			if (dataId) {
+				try {
+					searchResponse[query] = this.cache.readFragment({
+						id: dataId,
+						fragment: gql`
+							fragment ${generateFragmentName('searchResults')} on SearchResponse {
+								conversations {
+									id
+								}
+							}
+					`
+					});
+				} catch (exception) {
+					console.error(exception);
+					return;
+				}
+			}
 
 			modifiedMsgs.forEach((msg: any) => {
 				const { cid: newConvID, id: oldConvId } = msg;
 
-				if (newConvID && oldConvId && dataId && !searchResponse[query]) {
-					try {
-						searchResponse[query] = this.cache.readFragment({
-							id: dataId,
-							fragment: gql`
-								fragment ${generateFragmentName('searchResults')} on SearchResponse {
-									conversations {
-										id
-									}
-								}
-						`
-						});
-					} catch (exception) {
-						console.error(exception);
-						return;
-					}
+				if (newConvID && oldConvId) {
+					let conversation = searchResponse[query].conversations.find(
+						({ id }: any) => id === `-${oldConvId}`
+					);
 
-					searchResponse[query].conversations = searchResponse[
-						query
-					].conversations.map(({ id }: any) => ({
+					if (conversation) {
+						conversation.id = newConvID;
+						shouldUpdate = true;
+					}
+				}
+			});
+
+			if (shouldUpdate && dataId) {
+				const conversations = searchResponse[query].conversations.map(
+					({ id }: any) => ({
 						generated: false,
-						id: `Conversation:${id === `-${oldConvId}` ? newConvID : id}`,
+						id: `Conversation:${id}`,
 						type: 'id',
 						typename: 'Conversation'
-					}));
-				}
-			});
-
-			Object.keys(searchResponse).forEach(q => {
-				const r = new RegExp(q);
-				const dataId = findDataId(this.cache, '$ROOT_QUERY.search', key =>
-					r.test(key)
+					})
 				);
 
-				if (dataId) {
-					this.cache.writeFragment({
-						id: dataId,
-						fragment: gql`
-						fragment ${generateFragmentName('searchResults')} on SearchResponse {
-							conversations
-						}
-						`,
-						data: {
-							__typename: 'SearchResponse',
-							conversations: searchResponse[q].conversations
-						}
-					});
-				}
-			});
+				this.cache.writeFragment({
+					id: dataId,
+					fragment: gql`
+					fragment ${generateFragmentName('searchResults')} on SearchResponse {
+						conversations
+					}
+					`,
+					data: {
+						__typename: 'SearchResponse',
+						conversations
+					}
+				});
+			}
 		}
 	};
 
