@@ -121,7 +121,8 @@ import {
 	SetRecoveryAccountOptions,
 	ShareInfoOptions,
 	WorkingHoursOptions,
-	ZimbraClientOptions
+	ZimbraClientOptions,
+	CreateTagOptions
 } from './types';
 
 const DEBUG = false;
@@ -362,6 +363,19 @@ export class ZimbraBatchClient {
 				}
 			}
 		}).then(res => normalize(Folder)(res.folder[0]));
+	};
+
+	public createTag = (_options: CreateTagOptions) => {
+		const { name, color } = _options;
+		return this.jsonRequest({
+			name: 'CreateTag',
+			body: {
+				tag: {
+					name,
+					color
+				}
+			}
+		}).then(({ tag = [] }) => normalize(Tag)(tag[0]));
 	};
 
 	public createMountpoint = (_options: CreateMountpointInput) =>

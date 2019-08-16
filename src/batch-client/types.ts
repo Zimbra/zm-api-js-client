@@ -285,3 +285,8 @@ export interface ExternalAccountModifyInput {
 export interface ExternalAccountDeleteInput {
 	id: string;
 }
+
+export interface CreateTagOptions {
+	name: string,
+	color: number
+}

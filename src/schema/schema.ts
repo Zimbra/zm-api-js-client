@@ -66,7 +66,8 @@ import {
 	SearchOptions,
 	SetRecoveryAccountOptions,
 	ShareInfoOptions,
-	WorkingHoursOptions
+	WorkingHoursOptions,
+	CreateTagOptions
 } from '../batch-client/types';
 import schema from './schema.graphql';
 import { SessionHandler } from './session-handler';
@@ -435,7 +436,12 @@ export function createZimbraSchema(
 				setRecoveryAccount: (_, variables) =>
 					client.setRecoveryAccount(variables as SetRecoveryAccountOptions),
 				modifyWhiteBlackList: (_, { whiteBlackList }) =>
-					client.modifyWhiteBlackList(whiteBlackList as WhiteBlackListInput)
+					client.modifyWhiteBlackList(whiteBlackList as WhiteBlackListInput),
+				createTag: (_, { name, color}) =>
+					client.createTag({
+						name,
+						color
+					} as CreateTagOptions),
 			}
 		}
 	});
