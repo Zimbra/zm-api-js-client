@@ -41,11 +41,7 @@ export type AccountInfo = {
 	profileImageId?: Maybe<Scalars['Int']>;
 	soapURL?: Maybe<Scalars['String']>;
 	version?: Maybe<Scalars['String']>;
-	identities?: Maybe<Identities>;
-	dataSources: DataSources;
-	signatures?: Maybe<Signatures>;
 	attrs?: Maybe<AccountInfoAttrs>;
-	prefs?: Maybe<Preferences>;
 	license?: Maybe<License>;
 	zimlets?: Maybe<AccountZimlet>;
 };
@@ -2659,7 +2655,10 @@ export type Query = {
 	getWhiteBlackList?: Maybe<WhiteBlackList>;
 	getWorkingHours?: Maybe<Array<Maybe<WorkingHours>>>;
 	noop?: Maybe<Scalars['Boolean']>;
-	preferences?: Maybe<Preferences>;
+	getPreferences?: Maybe<Preferences>;
+	getDataSources: DataSources;
+	getIdentities?: Maybe<Identities>;
+	getSignatures?: Maybe<Signatures>;
 	recoverAccount?: Maybe<RecoverAccount>;
 	relatedContacts?: Maybe<Array<Maybe<RelatedContact>>>;
 	shareInfo?: Maybe<Array<Maybe<ShareInfo>>>;
