@@ -2564,6 +2564,7 @@ export type Preferences = {
 	zimbraPrefAppleIcalDelegationEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraPrefMailForwardingAddress?: Maybe<Scalars['String']>;
 	zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']>;
+	zimbraPrefTagTreeOpen?: Maybe<Scalars['Boolean']>;
 };
 
 export type PreferencesInput = {
@@ -2601,6 +2602,7 @@ export type PreferencesInput = {
 	zimbraPrefAppleIcalDelegationEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraPrefMailForwardingAddress?: Maybe<Scalars['String']>;
 	zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']>;
+	zimbraPrefTagTreeOpen?: Maybe<Scalars['Boolean']>;
 };
 
 export enum PrefMailSelectAfterDelete {
@@ -2673,6 +2675,7 @@ export type Query = {
 	 */
 	localFolderEmail?: Maybe<MessageInfo>;
 	localFolderEmails?: Maybe<Array<Maybe<MessageInfo>>>;
+	getTag?: Maybe<Array<Maybe<Tag>>>;
 };
 
 /** Zimbra GraphQL Queries
@@ -3296,6 +3299,14 @@ export enum SortBy {
 export type StringContent = {
 	__typename?: 'StringContent';
 	_content?: Maybe<Scalars['String']>;
+};
+
+export type Tag = {
+	__typename?: 'Tag';
+	id?: Maybe<Scalars['ID']>;
+	name?: Maybe<Scalars['String']>;
+	color?: Maybe<Scalars['Int']>;
+	unread?: Maybe<Scalars['Int']>;
 };
 
 export type TagAction = {
