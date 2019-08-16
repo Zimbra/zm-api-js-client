@@ -31,7 +31,8 @@ import {
 	MessageInfo,
 	SearchResponse,
 	SendMessageInfo,
-	ShareNotification
+	ShareNotification,
+	Tag
 } from '../normalize/entities';
 import {
 	batchJsonRequest,
@@ -730,6 +731,12 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		});
 
+	public getTag = () =>
+		this.jsonRequest({
+			name: 'GetTag',
+			namespace: Namespace.Mail
+		}).then(({ tag = [] }) => tag.map(normalize(Tag)));
+
 	public getTrustedDevices = () =>
 		this.jsonRequest({
 			name: 'GetTrustedDevices',
@@ -1134,7 +1141,7 @@ export class ZimbraBatchClient {
 			mapValuesDeep(get(res, `${accountType}.0`), coerceStringToBoolean)
 		);
 
-	public uploadMessage = (message: string) => {
+	public uploadMessage = (message: string): any => {
 		const contentDisposition = 'attachment';
 		const filename = 'message.eml';
 		const contentType = 'message/rfc822';
