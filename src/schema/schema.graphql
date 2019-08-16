@@ -1255,6 +1255,7 @@ type Preferences {
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
 	zimbraPrefMailForwardingAddress: String
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
+	zimbraPrefTagTreeOpen: Boolean
 }
 
 type NameId {
@@ -1395,6 +1396,13 @@ type ContactListMember {
 	value: ID!
 }
 
+type Tag {
+	id: ID
+	name: String
+	color: Int
+	unread: Int
+}
+
 input OtherContactAttributeInput {
 	key: String
 	value: String
@@ -1428,9 +1436,7 @@ input ContactAttrsInput {
 	workPhone2: String
 	pager: String
 	pager2: String
-	homeFax: String
 	homeFax2: String
-	workFax: String
 	workFax2: String
 	imAddress: String
 	imAddress1: String
@@ -2018,6 +2024,7 @@ input PreferencesInput {
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
 	zimbraPrefMailForwardingAddress: String
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
+	zimbraPrefTagTreeOpen: Boolean
 }
 
 input ModifyIdentityInput {
@@ -2641,6 +2648,7 @@ type Query {
 	# but eslint-plugin-graphql is not able to handle those scenarios as mentioned in https://github.com/apollographql/eslint-plugin-graphql/issues/99
 	localFolderEmail(id: String!): MessageInfo
 	localFolderEmails(folderName: String!): [MessageInfo]
+	getTag: [Tag]
 }
 
 type Mutation {
