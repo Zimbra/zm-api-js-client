@@ -178,8 +178,7 @@ export function createZimbraSchema(
 					client.shareInfo(variables as ShareInfoOptions),
 				taskFolders: client.taskFolders,
 				getWhiteBlackList: client.getWhiteBlackList,
-				getAppSpecificPasswords: client.getAppSpecificPasswords,
-				getTag: client.getTag
+				getAppSpecificPasswords: client.getAppSpecificPasswords
 			},
 			//resolveType is necessary to differentiate for any Union or Interfaces
 			MailItem: {

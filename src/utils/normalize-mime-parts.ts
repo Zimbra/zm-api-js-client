@@ -55,7 +55,7 @@ export function getContactProfileImageUrl(
 		origin: origin,
 		jwtToken: jwtToken
 	});
-	return imageURL ? `${imageURL}` : '';
+	return imageURL ? `${imageURL}&t=${Date.now()}` : '';
 }
 
 export function getProfileImageUrl(
@@ -64,7 +64,7 @@ export function getProfileImageUrl(
 ) {
 	return `${origin}/service/home/~/?max_width=100&max_height=100&auth=${
 		jwtToken ? 'jwt' : 'co'
-	}&id=${encodeURIComponent(profileImageId)}${
+	}&id=${encodeURIComponent(profileImageId)}&t=${Date.now()}${
 		jwtToken ? `&zjwt=${jwtToken}` : ''
 	}`;
 }
@@ -80,7 +80,9 @@ export function normalizeMimeParts(
 			? normalizeCid(attachment.contentId)
 			: ~normalizeType(attachment.contentType).indexOf('image/') &&
 			  attachment.contentDisposition === 'inline'
-			? `AUTO-GEN-CID-${attachment.messageId}-${attachment.part}-${attachment.size}`
+			? `AUTO-GEN-CID-${attachment.messageId}-${attachment.part}-${
+					attachment.size
+			  }`
 			: undefined;
 
 		return attachment;

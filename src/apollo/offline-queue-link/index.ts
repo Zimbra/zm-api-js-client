@@ -109,8 +109,7 @@ export class OfflineQueueLink extends ApolloLink {
 
 	purge = () => Promise.resolve(this.storage.removeItem(this.storeKey));
 
-	// @ts-ignore
-	request(operation: Operation, forward?: NextLink) {
+	request(operation: Operation, forward: NextLink) {
 		const {
 			skipQueue,
 			cancelQueues,
@@ -121,7 +120,7 @@ export class OfflineQueueLink extends ApolloLink {
 		const isForwarding =
 			this.isOpen || local || skipQueue || hasSensitiveVariables(operation);
 
-		if (isForwarding && forward) {
+		if (isForwarding) {
 			// This link does nothing if the link is open, the operation skips the
 			// queue, or the operation has sensitive information.
 			return forward(operation);
@@ -138,7 +137,6 @@ export class OfflineQueueLink extends ApolloLink {
 				// If the provided offlineQueueName is not self-cancelled, set this entry as
 				// the head of the given named queue.
 				if (!~castArray(cancelQueues).indexOf(offlineQueueName)) {
-					// @ts-ignore
 					this.namedQueues[offlineQueueName] = entry;
 				}
 			}
@@ -148,9 +146,7 @@ export class OfflineQueueLink extends ApolloLink {
 				castArray(cancelQueues).forEach(this.cancelNamedQueue);
 			}
 
-			// @ts-ignore
 			this.enqueue(entry);
-			// @ts-ignore
 			return () => this.dequeue(entry);
 		});
 	}

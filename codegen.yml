@@ -4,4 +4,5 @@ overwrite: true
 generates:
   src/schema/generated-schema-types.ts:
     plugins:
-      - typescript
+      - typescript-client
+      - typescript-common
