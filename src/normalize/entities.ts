@@ -584,3 +584,7 @@ export const GetRightsRequest = new Entity({
 export const CreateAppSpecificPasswordResponse = new Entity({
 	pw: 'password'
 });
+
+export const Tag = new Entity({
+	u: 'unread'
+});
