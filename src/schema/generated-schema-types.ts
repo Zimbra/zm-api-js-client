@@ -1259,6 +1259,10 @@ export enum FilterMatchCondition {
 	Anyof = 'anyof'
 }
 
+export type FilterRuleInput = {
+	name: Scalars['String'];
+};
+
 export type FlagAction = {
 	__typename?: 'FlagAction';
 	flagName?: Maybe<Scalars['String']>;
@@ -1996,6 +2000,7 @@ export type MsgWithGroupInfo = MailItem & {
 export type Mutation = {
 	__typename?: 'Mutation';
 	action?: Maybe<Scalars['Boolean']>;
+	applyFilterRules?: Maybe<Array<Maybe<Scalars['String']>>>;
 	testExternalAccount?: Maybe<ExternalAccountTestResponse>;
 	addExternalAccount?: Maybe<Scalars['ID']>;
 	addMessage?: Maybe<MessageInfo>;
@@ -2087,6 +2092,11 @@ export type MutationActionArgs = {
 	rgb?: Maybe<Scalars['String']>;
 	tagNames?: Maybe<Scalars['String']>;
 	name?: Maybe<Scalars['String']>;
+};
+
+export type MutationApplyFilterRulesArgs = {
+	ids: Scalars['String'];
+	filterRules?: Maybe<Array<Maybe<FilterRuleInput>>>;
 };
 
 export type MutationTestExternalAccountArgs = {
