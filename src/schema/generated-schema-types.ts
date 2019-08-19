@@ -41,11 +41,7 @@ export type AccountInfo = {
 	profileImageId?: Maybe<Scalars['Int']>;
 	soapURL?: Maybe<Scalars['String']>;
 	version?: Maybe<Scalars['String']>;
-	identities?: Maybe<Identities>;
-	dataSources: DataSources;
-	signatures?: Maybe<Signatures>;
 	attrs?: Maybe<AccountInfoAttrs>;
-	prefs?: Maybe<Preferences>;
 	license?: Maybe<License>;
 	zimlets?: Maybe<AccountZimlet>;
 };
@@ -2568,6 +2564,7 @@ export type Preferences = {
 	zimbraPrefAppleIcalDelegationEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraPrefMailForwardingAddress?: Maybe<Scalars['String']>;
 	zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']>;
+	zimbraPrefTagTreeOpen?: Maybe<Scalars['Boolean']>;
 };
 
 export type PreferencesInput = {
@@ -2605,6 +2602,7 @@ export type PreferencesInput = {
 	zimbraPrefAppleIcalDelegationEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraPrefMailForwardingAddress?: Maybe<Scalars['String']>;
 	zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']>;
+	zimbraPrefTagTreeOpen?: Maybe<Scalars['Boolean']>;
 };
 
 export enum PrefMailSelectAfterDelete {
@@ -2657,7 +2655,10 @@ export type Query = {
 	getWhiteBlackList?: Maybe<WhiteBlackList>;
 	getWorkingHours?: Maybe<Array<Maybe<WorkingHours>>>;
 	noop?: Maybe<Scalars['Boolean']>;
-	preferences?: Maybe<Preferences>;
+	getPreferences?: Maybe<Preferences>;
+	getDataSources: DataSources;
+	getIdentities?: Maybe<Identities>;
+	getSignatures?: Maybe<Signatures>;
 	recoverAccount?: Maybe<RecoverAccount>;
 	relatedContacts?: Maybe<Array<Maybe<RelatedContact>>>;
 	shareInfo?: Maybe<Array<Maybe<ShareInfo>>>;
@@ -2674,6 +2675,7 @@ export type Query = {
 	 */
 	localFolderEmail?: Maybe<MessageInfo>;
 	localFolderEmails?: Maybe<Array<Maybe<MessageInfo>>>;
+	getTag?: Maybe<Array<Maybe<Tag>>>;
 };
 
 /** Zimbra GraphQL Queries
@@ -3297,6 +3299,14 @@ export enum SortBy {
 export type StringContent = {
 	__typename?: 'StringContent';
 	_content?: Maybe<Scalars['String']>;
+};
+
+export type Tag = {
+	__typename?: 'Tag';
+	id?: Maybe<Scalars['ID']>;
+	name?: Maybe<Scalars['String']>;
+	color?: Maybe<Scalars['Int']>;
+	unread?: Maybe<Scalars['Int']>;
 };
 
 export type TagAction = {

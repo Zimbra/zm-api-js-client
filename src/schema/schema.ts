@@ -156,7 +156,10 @@ export function createZimbraSchema(
 				getTrustedDevices: client.getTrustedDevices,
 				getWorkingHours: (_, variables) =>
 					client.getWorkingHours(variables as WorkingHoursOptions),
-				preferences: client.preferences,
+				getPreferences: client.getPreferences,
+				getDataSources: client.getDataSources,
+				getIdentities: client.getIdentities,
+				getSignatures: client.getSignatures,
 				noop: client.noop,
 				recoverAccount: (_, variables) =>
 					client.recoverAccount(variables as RecoverAccountOptions),
