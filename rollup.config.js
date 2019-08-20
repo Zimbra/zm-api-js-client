@@ -21,7 +21,7 @@ let FORMAT = process.env.FORMAT;
 let external = FORMAT==='es' ?
 	Object.keys(pkg.dependencies)
 		.concat(
-			['castArray', 'get','isError', 'isObject', 'mapValues', 'reduce', 'omitBy'].map(v => 'lodash/'+v),
+			['castArray', 'get','isError', 'isObject', 'mapValues', 'reduce', 'omitBy', 'uniqBy'].map(v => 'lodash/'+v),
 			['graphql/language/printer', 'graphql/type']) :
 	['graphql-tools'];
 
@@ -33,9 +33,7 @@ export default {
 		graphql(),
 		localResolve(),
 		nodeResolve({
-			jsnext: true,
-			modules: true,
-			extensions: [  '.js', '.ts', '.json' ]
+			extensions: [ '.js', '.ts', '.json' ]
 		}),
 		commonjs({
 			namedExports: {
@@ -53,6 +51,7 @@ export default {
 			typescript: require('typescript')
 		}),
 		babel({
+			extensions: ['.ts'],
 			exclude: 'node_modules/**'
 		})
 	],

@@ -31,7 +31,8 @@ import {
 	MessageInfo,
 	SearchResponse,
 	SendMessageInfo,
-	ShareNotification
+	ShareNotification,
+	Tag
 } from '../normalize/entities';
 import {
 	batchJsonRequest,
@@ -175,26 +176,20 @@ export class ZimbraBatchClient {
 	public accountInfo = () =>
 		this.jsonRequest({
 			name: 'GetInfo',
-			namespace: Namespace.Account
-		}).then(res => {
-			let prefs: any = mapValuesDeep(res.prefs._attrs, coerceStringToBoolean);
-			prefs.zimbraPrefMailTrustedSenderList =
-				typeof prefs.zimbraPrefMailTrustedSenderList === 'string'
-					? castArray(prefs.zimbraPrefMailTrustedSenderList)
-					: prefs.zimbraPrefMailTrustedSenderList;
-			return {
-				...res,
-				attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
-				prefs,
-				identities: mapValuesDeep(res.identities, coerceStringToBoolean),
-				...(get(res, 'license.attr') && {
-					license: {
-						status: res.license.status,
-						attr: mapValuesDeep(res.license.attr, coerceStringToBoolean)
-					}
-				})
-			};
-		});
+			namespace: Namespace.Account,
+			body: {
+				sections: 'mbox,attrs,zimlets'
+			}
+		}).then(res => ({
+			...res,
+			attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
+			...(get(res, 'license.attr') && {
+				license: {
+					status: res.license.status,
+					attr: mapValuesDeep(res.license.attr, coerceStringToBoolean)
+				}
+			})
+		}));
 
 	public action = (type: ActionType, options: ActionOptions) => {
 		const { ids, id, ...rest } = options;
@@ -584,6 +579,11 @@ export class ZimbraBatchClient {
 			return c;
 		});
 
+	public getDataSources = () =>
+		this.jsonRequest({
+			name: 'GetDataSources'
+		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
+
 	public getFilterRules = () =>
 		this.jsonRequest({
 			name: 'GetFilterRules'
@@ -597,6 +597,12 @@ export class ZimbraBatchClient {
 			body: denormalize(GetFolderRequestEntity)(options)
 		}).then(normalize(Folder));
 	};
+
+	public getIdentities = () =>
+		this.jsonRequest({
+			name: 'GetIdentities',
+			namespace: Namespace.Account
+		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
 
 	public getMailboxMetadata = ({ section }: GetMailboxMetadataOptions) =>
 		this.jsonRequest({
@@ -661,6 +667,19 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => res.m.map(this.normalizeMessage));
 
+	public getPreferences = () =>
+		this.jsonRequest({
+			name: 'GetPrefs',
+			namespace: Namespace.Account
+		}).then(res => {
+			let prefs: any = mapValuesDeep(res._attrs, coerceStringToBoolean);
+			prefs.zimbraPrefMailTrustedSenderList =
+				typeof prefs.zimbraPrefMailTrustedSenderList === 'string'
+					? castArray(prefs.zimbraPrefMailTrustedSenderList)
+					: prefs.zimbraPrefMailTrustedSenderList;
+			return prefs;
+		});
+
 	public getProfileImageUrl = (profileImageId: any) =>
 		getProfileImageUrl(profileImageId, {
 			origin: this.origin,
@@ -693,6 +712,12 @@ export class ZimbraBatchClient {
 			res.search ? { folders: normalize(Folder)(res.search) } : {}
 		);
 
+	public getSignatures = () =>
+		this.jsonRequest({
+			name: 'GetSignatures',
+			namespace: Namespace.Account
+		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
+
 	public getSMimePublicCerts = (options: GetSMimePublicCertsOptions) =>
 		this.jsonRequest({
 			name: 'GetSMIMEPublicCerts',
@@ -706,6 +731,12 @@ export class ZimbraBatchClient {
 			},
 			namespace: Namespace.Account
 		});
+
+	public getTag = () =>
+		this.jsonRequest({
+			name: 'GetTag',
+			namespace: Namespace.Mail
+		}).then(({ tag = [] }) => tag.map(normalize(Tag)));
 
 	public getTrustedDevices = () =>
 		this.jsonRequest({
@@ -926,12 +957,6 @@ export class ZimbraBatchClient {
 
 	public noop = () => this.jsonRequest({ name: 'NoOp' }).then(Boolean);
 
-	public preferences = () =>
-		this.jsonRequest({
-			name: 'GetPrefs',
-			namespace: Namespace.Account
-		}).then(res => mapValuesDeep(res._attrs, coerceStringToBoolean));
-
 	public recoverAccount = ({ channel, email, op }: RecoverAccountOptions) =>
 		this.jsonRequest({
 			name: 'RecoverAccount',
@@ -1111,7 +1136,7 @@ export class ZimbraBatchClient {
 			mapValuesDeep(get(res, `${accountType}.0`), coerceStringToBoolean)
 		);
 
-	public uploadMessage = (message: string) => {
+	public uploadMessage = (message: string): any => {
 		const contentDisposition = 'attachment';
 		const filename = 'message.eml';
 		const contentType = 'message/rfc822';
