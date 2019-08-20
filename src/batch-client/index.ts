@@ -270,7 +270,7 @@ export class ZimbraBatchClient {
 			}
 		}).then(Boolean);
 
-	public changeFolderColor = ({ id, color }: FolderActionChangeColorInput) =>
+	public changeFolderColor = ({ id, color }: FolderActionChangeColorInput) => 
 		this.action(ActionType.folder, {
 			id,
 			op: 'color',
@@ -377,6 +377,9 @@ export class ZimbraBatchClient {
 			}
 		}).then(({ tag = [] }) => normalize(Tag)(tag[0]));
 	};
+
+	public tagAction = (options: ActionOptions) =>
+		this.action(ActionType.tag, options);
 
 	public createMountpoint = (_options: CreateMountpointInput) =>
 		this.jsonRequest({

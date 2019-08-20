@@ -442,6 +442,7 @@ export function createZimbraSchema(
 						name,
 						color
 					} as CreateTagOptions),
+				tagAction: (_, { action }) => client.tagAction(action)
 			}
 		}
 	});

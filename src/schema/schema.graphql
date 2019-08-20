@@ -1926,6 +1926,13 @@ input FolderActionInput {
 	zimbraId: ID
 }
 
+input TagActionRequestInput {
+	id: ID!
+	op: String!
+	color: Int
+	name: String
+}
+
 # Special case of FolderAction for `changeFolderColor` resolver
 input FolderActionChangeColorInput {
 	id: ID!
@@ -2799,6 +2806,7 @@ type Mutation {
 	saveLocalFolderEmails(accountName: String, name: String, dataDirPath: String, data: [String]): [MessageInfo]
 	updateLocalFolderEmailAttachmentPath(id: String, accountName: String, folderPath: String, folderName: String): [MessageInfo]
 	createTag(name: String!, color: Int!): Tag
+	tagAction(action: TagActionRequestInput): Boolean
 }
 
 schema {
