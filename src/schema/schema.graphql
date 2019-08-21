@@ -1054,11 +1054,7 @@ type AccountInfo {
 	profileImageId: Int
 	soapURL: String
 	version: String
-	identities: Identities
-	dataSources: DataSources!
-	signatures: Signatures
 	attrs: AccountInfoAttrs
-	prefs: Preferences
 	license: License
 	zimlets: AccountZimlet
 }
@@ -2607,7 +2603,11 @@ type Query {
 	getWhiteBlackList: WhiteBlackList
 	getWorkingHours(names: [String!]!, start: Float, end: Float): [WorkingHours]
 	noop: Boolean
-	preferences: Preferences
+	getPreferences: Preferences
+	getDataSources: DataSources!
+	getIdentities: Identities
+	getSignatures: Signatures
+
 	recoverAccount(
 		op: RecoverAccountOp!
 		email: String!
