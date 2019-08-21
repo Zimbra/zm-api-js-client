@@ -379,7 +379,7 @@ export class ZimbraBatchClient {
 	};
 
 	public tagAction = (options: ActionOptions) =>
-		this.action(ActionType.tag, options);
+		this.action(ActionType.tag, denormalize(ActionOptionsEntity)(options));
 
 	public createMountpoint = (_options: CreateMountpointInput) =>
 		this.jsonRequest({

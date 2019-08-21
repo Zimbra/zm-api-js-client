@@ -1931,6 +1931,7 @@ input TagActionRequestInput {
 	op: String!
 	color: Int
 	name: String
+	folderId: ID
 }
 
 # Special case of FolderAction for `changeFolderColor` resolver
