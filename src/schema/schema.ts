@@ -48,6 +48,7 @@ import {
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
+	CreateTagOptions,
 	ExternalAccountDeleteInput,
 	ExternalAccountModifyInput,
 	FreeBusyOptions,
@@ -66,8 +67,7 @@ import {
 	SearchOptions,
 	SetRecoveryAccountOptions,
 	ShareInfoOptions,
-	WorkingHoursOptions,
-	CreateTagOptions
+	WorkingHoursOptions
 } from '../batch-client/types';
 import schema from './schema.graphql';
 import { SessionHandler } from './session-handler';
@@ -440,7 +440,7 @@ export function createZimbraSchema(
 					client.setRecoveryAccount(variables as SetRecoveryAccountOptions),
 				modifyWhiteBlackList: (_, { whiteBlackList }) =>
 					client.modifyWhiteBlackList(whiteBlackList as WhiteBlackListInput),
-				createTag: (_, { name, color}) =>
+				createTag: (_, { name, color }) =>
 					client.createTag({
 						name,
 						color

@@ -100,6 +100,7 @@ import {
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
+	CreateTagOptions,
 	ExternalAccountDeleteInput,
 	ExternalAccountModifyInput,
 	FreeBusyOptions,
@@ -121,8 +122,7 @@ import {
 	SetRecoveryAccountOptions,
 	ShareInfoOptions,
 	WorkingHoursOptions,
-	ZimbraClientOptions,
-	CreateTagOptions
+	ZimbraClientOptions
 } from './types';
 
 const DEBUG = false;
@@ -359,22 +359,6 @@ export class ZimbraBatchClient {
 		}).then(res => normalize(Folder)(res.folder[0]));
 	};
 
-	public createTag = (_options: CreateTagOptions) => {
-		const { name, color } = _options;
-		return this.jsonRequest({
-			name: 'CreateTag',
-			body: {
-				tag: {
-					name,
-					color
-				}
-			}
-		}).then(({ tag = [] }) => normalize(Tag)(tag[0]));
-	};
-
-	public tagAction = (options: ActionOptions) =>
-		this.action(ActionType.tag, denormalize(ActionOptionsEntity)(options));
-
 	public createMountpoint = (_options: CreateMountpointInput) =>
 		this.jsonRequest({
 			name: 'CreateMountpoint',
@@ -400,6 +384,19 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account,
 			body: denormalize(CreateSignatureRequest)(options)
 		});
+
+	public createTag = (_options: CreateTagOptions) => {
+		const { name, color } = _options;
+		return this.jsonRequest({
+			name: 'CreateTag',
+			body: {
+				tag: {
+					name,
+					color
+				}
+			}
+		}).then(({ tag = [] }) => normalize(Tag)(tag[0]));
+	};
 
 	public createTask = (task: CalendarItemInput) =>
 		this.jsonRequest({
@@ -1130,6 +1127,9 @@ export class ZimbraBatchClient {
 				task
 			}
 		}).then(Boolean);
+
+	public tagAction = (options: ActionOptions) =>
+		this.action(ActionType.tag, denormalize(ActionOptionsEntity)(options));
 
 	public taskFolders = () =>
 		this.jsonRequest({
