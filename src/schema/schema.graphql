@@ -1136,7 +1136,6 @@ type AccountInfoAttrs {
 	zimbraFeatureTrustedDevicesEnabled: Boolean
 	zimbraFeatureAppSpecificPasswordsEnabled: Boolean
 	zimbraFeatureMailPriorityEnabled: Boolean
-	zimbraPrefUseTimeZoneListInCalendar: Boolean
 }
 
 type Identities {

@@ -71,7 +71,6 @@ export type AccountInfoAttrs = {
 	zimbraFeatureTrustedDevicesEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraFeatureAppSpecificPasswordsEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraFeatureMailPriorityEnabled?: Maybe<Scalars['Boolean']>;
-	zimbraPrefUseTimeZoneListInCalendar?: Maybe<Scalars['Boolean']>;
 };
 
 export enum AccountType {
