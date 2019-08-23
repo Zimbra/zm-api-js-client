@@ -1290,6 +1290,7 @@ export type Folder = {
 	id?: Maybe<Scalars['ID']>;
 	uuid?: Maybe<Scalars['ID']>;
 	name?: Maybe<Scalars['String']>;
+	oname?: Maybe<Scalars['String']>;
 	nonFolderItemCount?: Maybe<Scalars['Int']>;
 	nonFolderItemCountTotal?: Maybe<Scalars['Float']>;
 	linkedFolders?: Maybe<Array<Maybe<Folder>>>;
