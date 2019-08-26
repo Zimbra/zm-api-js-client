@@ -440,8 +440,7 @@ export function createZimbraSchema(
 					client.setRecoveryAccount(variables as SetRecoveryAccountOptions),
 				modifyWhiteBlackList: (_, { whiteBlackList }) =>
 					client.modifyWhiteBlackList(whiteBlackList as WhiteBlackListInput),
-				createTag: (_, { tag }) =>
-					client.createTag(tag as CreateTagInput),
+				createTag: (_, { tag }) => client.createTag(tag as CreateTagInput),
 				tagAction: (_, { action }) => client.tagAction(action)
 			}
 		}

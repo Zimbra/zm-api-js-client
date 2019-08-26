@@ -51,6 +51,7 @@ import {
 	CalendarItemInput,
 	CreateContactInput,
 	CreateMountpointInput,
+	CreateTagInput,
 	DeleteAppointmentInput,
 	EnableTwoFactorAuthInput,
 	ExternalAccountAddInput,
@@ -73,8 +74,7 @@ import {
 	ShareNotificationInput,
 	SignatureInput,
 	WhiteBlackListInput,
-	ZimletPreferenceInput,
-	CreateTagInput
+	ZimletPreferenceInput
 } from '../schema/generated-schema-types';
 import {
 	coerceBooleanToInt,
