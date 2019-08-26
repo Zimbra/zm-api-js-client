@@ -1186,6 +1186,8 @@ export class ZimbraBatchClient {
 			this.checkAndUpdateSessionId(sessionId);
 
 			if (notifications) {
+				// Move notificationHandler to event queue (Will get executed after current task are completed) by using setTimeout(callback, 0).
+				// As, notificationHandler consumes more time for writing data to cache & we don't want to wait for it to complete.
 				setTimeout(() => {
 					this.notificationHandler && this.notificationHandler(notifications);
 				}, 0);
@@ -1222,6 +1224,8 @@ export class ZimbraBatchClient {
 			this.checkAndUpdateSessionId(sessionId);
 
 			if (notifications) {
+				// Move notificationHandler to event queue (Will get executed after current task are completed) by using setTimeout(callback, 0).
+				// As, notificationHandler consumes more time for writing data to cache & we don't want to wait for it to complete.
 				setTimeout(() => {
 					this.notificationHandler && this.notificationHandler(notifications);
 				}, 0);
