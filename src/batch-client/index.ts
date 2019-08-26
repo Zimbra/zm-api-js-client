@@ -73,7 +73,8 @@ import {
 	ShareNotificationInput,
 	SignatureInput,
 	WhiteBlackListInput,
-	ZimletPreferenceInput
+	ZimletPreferenceInput,
+	CreateTagInput
 } from '../schema/generated-schema-types';
 import {
 	coerceBooleanToInt,
@@ -100,7 +101,6 @@ import {
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
-	CreateTagOptions,
 	ExternalAccountDeleteInput,
 	ExternalAccountModifyInput,
 	FreeBusyOptions,
@@ -385,8 +385,8 @@ export class ZimbraBatchClient {
 			body: denormalize(CreateSignatureRequest)(options)
 		});
 
-	public createTag = (_options: CreateTagOptions) => {
-		const { name, color } = _options;
+	public createTag = (tag: CreateTagInput) => {
+		const { name, color } = tag;
 		return this.jsonRequest({
 			name: 'CreateTag',
 			body: {

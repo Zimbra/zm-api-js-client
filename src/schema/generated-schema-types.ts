@@ -936,6 +936,11 @@ export type CreateMountpointInput = {
 	link?: Maybe<NewMountpointSpec>;
 };
 
+export type CreateTagInput = {
+	name: Scalars['String'];
+	color?: Maybe<Scalars['Int']>;
+};
+
 export type CsrfToken = {
 	__typename?: 'CsrfToken';
 	_content?: Maybe<Scalars['String']>;
@@ -2069,6 +2074,8 @@ export type Mutation = {
 	loadLocalFolderEmails?: Maybe<Array<Maybe<MessageInfo>>>;
 	saveLocalFolderEmails?: Maybe<Array<Maybe<MessageInfo>>>;
 	updateLocalFolderEmailAttachmentPath?: Maybe<Array<Maybe<MessageInfo>>>;
+	createTag?: Maybe<Tag>;
+	tagAction?: Maybe<Scalars['Boolean']>;
 };
 
 export type MutationActionArgs = {
@@ -2413,6 +2420,14 @@ export type MutationUpdateLocalFolderEmailAttachmentPathArgs = {
 	accountName?: Maybe<Scalars['String']>;
 	folderPath?: Maybe<Scalars['String']>;
 	folderName?: Maybe<Scalars['String']>;
+};
+
+export type MutationCreateTagArgs = {
+	tag?: Maybe<CreateTagInput>;
+};
+
+export type MutationTagActionArgs = {
+	action?: Maybe<TagActionRequestInput>;
 };
 
 export type NameId = {
@@ -3318,6 +3333,14 @@ export type TagAction = {
 export type TagActionInput = {
 	tagName: Scalars['String'];
 	index?: Maybe<Scalars['Int']>;
+};
+
+export type TagActionRequestInput = {
+	id: Scalars['ID'];
+	op: Scalars['String'];
+	color?: Maybe<Scalars['Int']>;
+	name?: Maybe<Scalars['String']>;
+	folderId?: Maybe<Scalars['ID']>;
 };
 
 export type Target = {

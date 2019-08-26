@@ -6,6 +6,7 @@ import {
 	CalendarItemInput,
 	CreateContactInput,
 	CreateMountpointInput,
+	CreateTagInput,
 	DeleteAppointmentInput,
 	EnableTwoFactorAuthInput,
 	ExternalAccountAddInput,
@@ -48,7 +49,6 @@ import {
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
-	CreateTagOptions,
 	ExternalAccountDeleteInput,
 	ExternalAccountModifyInput,
 	FreeBusyOptions,
@@ -440,11 +440,8 @@ export function createZimbraSchema(
 					client.setRecoveryAccount(variables as SetRecoveryAccountOptions),
 				modifyWhiteBlackList: (_, { whiteBlackList }) =>
 					client.modifyWhiteBlackList(whiteBlackList as WhiteBlackListInput),
-				createTag: (_, { name, color }) =>
-					client.createTag({
-						name,
-						color
-					} as CreateTagOptions),
+				createTag: (_, { tag }) =>
+					client.createTag(tag as CreateTagInput),
 				tagAction: (_, { action }) => client.tagAction(action)
 			}
 		}

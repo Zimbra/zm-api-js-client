@@ -1930,6 +1930,11 @@ input TagActionRequestInput {
 	folderId: ID
 }
 
+input CreateTagInput {
+	name: String!
+	color: Int
+}
+
 # Special case of FolderAction for `changeFolderColor` resolver
 input FolderActionChangeColorInput {
 	id: ID!
@@ -2806,7 +2811,7 @@ type Mutation {
 	loadLocalFolderEmails(accountName: String, name: String, dataDirPath: String): [MessageInfo]
 	saveLocalFolderEmails(accountName: String, name: String, dataDirPath: String, data: [String]): [MessageInfo]
 	updateLocalFolderEmailAttachmentPath(id: String, accountName: String, folderPath: String, folderName: String): [MessageInfo]
-	createTag(name: String!, color: Int!): Tag
+	createTag(tag: CreateTagInput): Tag
 	tagAction(action: TagActionRequestInput): Boolean
 }
 
