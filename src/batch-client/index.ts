@@ -255,12 +255,7 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => {
 			const ids = get(res, 'm[0].ids');
-
-			if (ids) {
-				return ids.split(',');
-			}
-
-			return [];
+			return ids ? ids.split(',') : [];
 		});
 
 	public autoComplete = (options: AutoCompleteOptions) =>
