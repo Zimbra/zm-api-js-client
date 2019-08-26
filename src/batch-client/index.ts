@@ -386,13 +386,11 @@ export class ZimbraBatchClient {
 		});
 
 	public createTag = (tag: CreateTagInput) => {
-		const { name, color } = tag;
 		return this.jsonRequest({
 			name: 'CreateTag',
 			body: {
 				tag: {
-					name,
-					color
+					...tag
 				}
 			}
 		}).then(({ tag = [] }) => normalize(Tag)(tag[0]));
@@ -1127,9 +1125,6 @@ export class ZimbraBatchClient {
 				task
 			}
 		}).then(Boolean);
-
-	public tagAction = (options: ActionOptions) =>
-		this.action(ActionType.tag, denormalize(ActionOptionsEntity)(options));
 
 	public taskFolders = () =>
 		this.jsonRequest({

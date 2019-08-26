@@ -1920,14 +1920,7 @@ input FolderActionInput {
 	name: String
 	folderId: ID
 	zimbraId: ID
-}
-
-input TagActionRequestInput {
-	id: ID!
-	op: String!
 	color: Int
-	name: String
-	folderId: ID
 }
 
 input CreateTagInput {
@@ -2812,7 +2805,7 @@ type Mutation {
 	saveLocalFolderEmails(accountName: String, name: String, dataDirPath: String, data: [String]): [MessageInfo]
 	updateLocalFolderEmailAttachmentPath(id: String, accountName: String, folderPath: String, folderName: String): [MessageInfo]
 	createTag(tag: CreateTagInput): Tag
-	tagAction(action: TagActionRequestInput): Boolean
+	tagAction(action: FolderActionInput): Boolean
 }
 
 schema {

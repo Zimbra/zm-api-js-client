@@ -44,6 +44,7 @@ import { ZimbraNotifications } from './notifications';
 import { GraphQLSchema } from 'graphql';
 import {
 	ActionOptions,
+	ActionType,
 	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
@@ -441,7 +442,7 @@ export function createZimbraSchema(
 				modifyWhiteBlackList: (_, { whiteBlackList }) =>
 					client.modifyWhiteBlackList(whiteBlackList as WhiteBlackListInput),
 				createTag: (_, { tag }) => client.createTag(tag as CreateTagInput),
-				tagAction: (_, { action }) => client.tagAction(action)
+				tagAction: (_, { action }) => client.action(ActionType.tag, action)
 			}
 		}
 	});
