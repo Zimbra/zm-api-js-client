@@ -1185,12 +1185,8 @@ export class ZimbraBatchClient {
 
 			this.checkAndUpdateSessionId(sessionId);
 
-			if (notifications) {
-				setTimeout(
-					() =>
-						this.notificationHandler && this.notificationHandler(notifications),
-					0
-				);
+			if (notifications && this.notificationHandler) {
+				this.notificationHandler(notifications);
 			}
 
 			return response.requests.map((r, i) => {
@@ -1223,12 +1219,8 @@ export class ZimbraBatchClient {
 
 			this.checkAndUpdateSessionId(sessionId);
 
-			if (notifications) {
-				setTimeout(
-					() =>
-						this.notificationHandler && this.notificationHandler(notifications),
-					0
-				);
+			if (notifications && this.notificationHandler) {
+				this.notificationHandler(notifications);
 			}
 
 			return isError(response) ? [response] : [response.body];
