@@ -11,3 +11,17 @@ export { SyncOfflineOperations } from './src/apollo/sync-offline-operations';
 export { batchJsonRequest, jsonRequest } from './src/request';
 import * as types from './types';
 export { types };
+export { normalize } from './src/normalize';
+import {
+	Contact,
+	Conversation,
+	Folder,
+	MessageInfo
+} from './src/normalize/entities';
+let entity = {
+	Contact,
+	Conversation,
+	Folder,
+	MessageInfo
+};
+export { entity };

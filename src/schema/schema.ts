@@ -38,7 +38,6 @@ import { ZimbraBatchClient } from '../batch-client';
 import { normalize } from '../normalize';
 import { CalendarItemHitInfo } from '../normalize/entities';
 import { coerceBooleanToString } from '../utils/coerce-boolean';
-import { ZimbraNotifications } from './notifications';
 
 import { GraphQLSchema } from 'graphql';
 import {
@@ -75,11 +74,9 @@ export function createZimbraSchema(
 	options: ZimbraSchemaOptions
 ): { client: ZimbraBatchClient; schema: GraphQLSchema } {
 	const { cache, ...clientOptions } = options;
-	const notifications = cache ? new ZimbraNotifications({ cache }) : undefined;
 	const sessionHandler = cache ? new SessionHandler({ cache }) : undefined;
 	const client = new ZimbraBatchClient({
 		...clientOptions,
-		notificationHandler: notifications && notifications.notificationHandler,
 		sessionHandler
 	});
 
