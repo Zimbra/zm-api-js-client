@@ -595,7 +595,56 @@ export class ZimbraBatchClient {
 		return this.jsonRequest({
 			name: 'GetFolder',
 			body: denormalize(GetFolderRequestEntity)(options)
-		}).then(normalize(Folder));
+		}).then(res => {
+			const foldersResponse = normalize(Folder)(res);
+			const folders = get(foldersResponse, 'folders.0', {});
+
+			if (folders.linkedFolders) {
+				/**
+				 * This function is required because the API returns Subfolder data for shared folder
+				 * with Actual folder path (not mounted folder path). This could lead to 404 "NO SUCH FOLDER EXISTS ERROR".
+				 */
+				const updateAbsoluteFolderPath = (
+					originalName: any,
+					parentFolderAbsPath: string,
+					folders: any
+				) =>
+					folders.map((folder: any) => {
+						folder.absFolderPath = folder.absFolderPath.replace(
+							`/${originalName}`,
+							parentFolderAbsPath
+						);
+
+						if (folder.folders) {
+							folder.folders = updateAbsoluteFolderPath(
+								originalName,
+								parentFolderAbsPath,
+								folder.folders
+							);
+						}
+
+						return folder;
+					});
+
+				folders.linkedFolders = folders.linkedFolders.map((folder: any) => {
+					if (folder.view === FolderView.Message) {
+						const { absFolderPath, oname, folders } = folder;
+
+						if (oname && folders) {
+							folder.folders = updateAbsoluteFolderPath(
+								oname,
+								absFolderPath,
+								folders
+							);
+						}
+					}
+
+					return folder;
+				});
+			}
+
+			return foldersResponse;
+		});
 	};
 
 	public getIdentities = () =>
