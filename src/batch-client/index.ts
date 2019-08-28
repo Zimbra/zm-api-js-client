@@ -598,7 +598,7 @@ export class ZimbraBatchClient {
 		}).then(res => {
 			const foldersResponse = normalize(Folder)(res);
 			const folders = get(foldersResponse, 'folders.0', {});
-
+			
 			if (folders.linkedFolders) {
 				/**
 				 * This function is required because the API returns Subfolder data for shared folder
@@ -627,7 +627,7 @@ export class ZimbraBatchClient {
 					});
 
 				folders.linkedFolders = folders.linkedFolders.map((folder: any) => {
-					if (folder.view === FolderView.Message) {
+					if (folder.view === FolderView.Message || folder.view === FolderView.Contact) {
 						const { absFolderPath, oname, folders } = folder;
 
 						if (oname && folders) {
@@ -642,7 +642,7 @@ export class ZimbraBatchClient {
 					return folder;
 				});
 			}
-
+			
 			return foldersResponse;
 		});
 	};
