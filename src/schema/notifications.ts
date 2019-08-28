@@ -87,7 +87,7 @@ export class ZimbraNotifications {
 
 	constructor(options: ZimbraNotificationsOptions) {
 		this.cache = options.cache;
-		this.getApolloClient = options.getApolloClient
+		this.getApolloClient = options.getApolloClient;
 	}
 
 	public notificationHandler = (notification: Notification) => {
