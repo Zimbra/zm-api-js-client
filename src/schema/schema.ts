@@ -74,8 +74,8 @@ import { SessionHandler } from './session-handler';
 export function createZimbraSchema(
 	options: ZimbraSchemaOptions
 ): { client: ZimbraBatchClient; schema: GraphQLSchema } {
-	const { cache, ...clientOptions } = options;
-	const notifications = cache ? new ZimbraNotifications({ cache }) : undefined;
+	const { cache, getApolloClient, ...clientOptions } = options;
+	const notifications = cache ? new ZimbraNotifications({ cache, getApolloClient  }) : undefined;
 	const sessionHandler = cache ? new SessionHandler({ cache }) : undefined;
 	const client = new ZimbraBatchClient({
 		...clientOptions,

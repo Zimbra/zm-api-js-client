@@ -3,6 +3,7 @@ import { ZimbraClientOptions } from '../batch-client/types';
 
 export interface ZimbraNotificationsOptions {
 	cache: ZimbraInMemoryCache;
+	getApolloClient: any;
 }
 
 export interface ZimbraSessionOptions {

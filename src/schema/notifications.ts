@@ -83,9 +83,11 @@ function generateFragmentName(name: string, id: string = '') {
 
 export class ZimbraNotifications {
 	private cache: ZimbraInMemoryCache;
+	private getApolloClient: any;
 
 	constructor(options: ZimbraNotificationsOptions) {
 		this.cache = options.cache;
+		this.getApolloClient = options.getApolloClient
 	}
 
 	public notificationHandler = (notification: Notification) => {
@@ -94,6 +96,7 @@ export class ZimbraNotifications {
 		this.handleConversationNotifications(notification);
 		this.handleMessageNotifications(notification);
 		this.handleContactNotifications(notification);
+		this.getApolloClient().queryManager.broadcastQueries();
 	};
 
 	private handleContactNotifications = (notification: Notification) => {
