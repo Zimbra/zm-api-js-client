@@ -631,8 +631,18 @@ export class ZimbraBatchClient {
 						folder.view === FolderView.Message ||
 						folder.view === FolderView.Contact
 					) {
-						const { absFolderPath, oname, folders } = folder;
+						const {
+							absFolderPath,
+							oname,
+							folders,
+							ownerZimbraId,
+							sharedItemId
+						} = folder;
 
+						if (folder.view === FolderView.Contact) {
+							(folder.userId = folder.id),
+								(folder.id = `${ownerZimbraId}:${sharedItemId}`);
+						}
 						if (oname && folders) {
 							folder.folders = updateAbsoluteFolderPath(
 								oname,
