@@ -385,8 +385,8 @@ export class ZimbraBatchClient {
 			body: denormalize(CreateSignatureRequest)(options)
 		});
 
-	public createTag = (tag: CreateTagInput) => {
-		return this.jsonRequest({
+	public createTag = (tag: CreateTagInput) =>
+		this.jsonRequest({
 			name: 'CreateTag',
 			body: {
 				tag: {
@@ -394,7 +394,6 @@ export class ZimbraBatchClient {
 				}
 			}
 		}).then(({ tag = [] }) => normalize(Tag)(tag[0]));
-	};
 
 	public createTask = (task: CalendarItemInput) =>
 		this.jsonRequest({
