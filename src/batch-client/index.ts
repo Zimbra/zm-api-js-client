@@ -49,6 +49,7 @@ import {
 import {
 	AddMsgInput,
 	CalendarItemInput,
+	ClientConfigInput,
 	CreateContactInput,
 	CreateMountpointInput,
 	DeleteAppointmentInput,
@@ -98,7 +99,6 @@ import {
 	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
-	ClientConfigOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
 	ExternalAccountDeleteInput,
@@ -539,7 +539,7 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		}).then(res => res.locale);
 
-	public getClientConfig = (options: ClientConfigOptions) =>
+	public getClientConfig = (options: ClientConfigInput) =>
 		this.jsonRequest({
 			name: 'ClientInfo',
 			body: options,

@@ -1404,6 +1404,10 @@ input OtherContactAttributeInput {
 	value: String
 }
 
+input ClientConfigInput {
+	hostname: String
+}
+
 input ContactAttrsInput {
 	firstName: String
 	middleName: String

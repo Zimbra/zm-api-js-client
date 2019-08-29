@@ -658,6 +658,10 @@ export type CancelRuleInfo = {
 	ridZ?: Maybe<Scalars['String']>;
 };
 
+export type ClientConfigInput = {
+	hostname?: Maybe<Scalars['String']>;
+};
+
 export enum ConnectionType {
 	Cleartext = 'cleartext',
 	Ssl = 'ssl',

@@ -4,6 +4,7 @@ import mapValues from 'lodash/mapValues';
 import {
 	AddMsgInput,
 	CalendarItemInput,
+	ClientConfigInput,
 	CreateContactInput,
 	CreateMountpointInput,
 	DeleteAppointmentInput,
@@ -46,7 +47,6 @@ import {
 	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
-	ClientConfigOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
 	ExternalAccountDeleteInput,
@@ -112,7 +112,7 @@ export function createZimbraSchema(
 				getContact: (_, variables) =>
 					client.getContact(variables as GetContactOptions),
 				getClientConfig: (_, variables) =>
-					client.getClientConfig(variables as ClientConfigOptions),
+					client.getClientConfig(variables as ClientConfigInput),
 				getContactFrequency: (_, variables: any) =>
 					client.getContactFrequency(variables as GetContactFrequencyOptions),
 				getConversation: (_, variables) =>

@@ -164,10 +164,6 @@ export interface SearchOptions {
 	types?: SearchType;
 }
 
-export interface ClientConfigOptions {
-	hostname: String;
-}
-
 export interface ShareInfoOptions {
 	grantee?: Grantee;
 	includeSelf?: Boolean;
