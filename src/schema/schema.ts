@@ -46,6 +46,7 @@ import {
 	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
+	ClientConfigOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
 	ExternalAccountDeleteInput,
@@ -110,6 +111,8 @@ export function createZimbraSchema(
 					client.freeBusy(variables as FreeBusyOptions),
 				getContact: (_, variables) =>
 					client.getContact(variables as GetContactOptions),
+				getClientConfig: (_, variables) =>
+					client.getClientConfig(variables as ClientConfigOptions),
 				getContactFrequency: (_, variables: any) =>
 					client.getContactFrequency(variables as GetContactFrequencyOptions),
 				getConversation: (_, variables) =>

@@ -98,6 +98,7 @@ import {
 	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
+	ClientConfigOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
 	ExternalAccountDeleteInput,
@@ -537,6 +538,13 @@ export class ZimbraBatchClient {
 			name: 'GetAvailableLocales',
 			namespace: Namespace.Account
 		}).then(res => res.locale);
+
+	public getClientConfig = (options: ClientConfigOptions) =>
+		this.jsonRequest({
+			name: 'ClientInfo',
+			body: options,
+			namespace: Namespace.Account
+		});
 
 	public getContact = ({ id, ids, ...rest }: GetContactOptions) =>
 		this.jsonRequest({
