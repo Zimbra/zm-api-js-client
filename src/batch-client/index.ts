@@ -547,7 +547,7 @@ export class ZimbraBatchClient {
 				hostname: hostname
 			},
 			namespace: Namespace.Account
-		}).then(res => res);
+		});
 
 	public getContact = ({ id, ids, ...rest }: GetContactOptions) =>
 		this.jsonRequest({
