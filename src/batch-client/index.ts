@@ -539,12 +539,15 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		}).then(res => res.locale);
 
-	public getClientConfig = (options: ClientConfigInput) =>
+	public getClientConfig = ({ hostname }: ClientConfigInput) =>
 		this.jsonRequest({
 			name: 'ClientInfo',
-			body: options,
+			singleRequest: true,
+			body: {
+				hostname: hostname
+			},
 			namespace: Namespace.Account
-		});
+		}).then(res => res);
 
 	public getContact = ({ id, ids, ...rest }: GetContactOptions) =>
 		this.jsonRequest({

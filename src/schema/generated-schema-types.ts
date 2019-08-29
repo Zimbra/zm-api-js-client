@@ -662,6 +662,12 @@ export type ClientConfigInput = {
 	hostname?: Maybe<Scalars['String']>;
 };
 
+export type ClientConfigType = {
+	__typename?: 'ClientConfigType';
+	zimbraWebClientLoginURL?: Maybe<Scalars['String']>;
+	zimbraWebClientLogoutURL?: Maybe<Scalars['String']>;
+};
+
 export enum ConnectionType {
 	Cleartext = 'cleartext',
 	Ssl = 'ssl',
@@ -2640,6 +2646,7 @@ export type Query = {
 	downloadAttachment?: Maybe<Attachment>;
 	discoverRights?: Maybe<DiscoverRights>;
 	freeBusy?: Maybe<Array<Maybe<FreeBusy>>>;
+	getClientConfig?: Maybe<ClientConfigType>;
 	getContact?: Maybe<Array<Maybe<Contact>>>;
 	getAppointments?: Maybe<SearchResponse>;
 	getAppSpecificPasswords?: Maybe<AppSpecificPasswordsResponse>;
@@ -2736,6 +2743,15 @@ export type QueryFreeBusyArgs = {
 	names: Array<Scalars['String']>;
 	start?: Maybe<Scalars['Float']>;
 	end?: Maybe<Scalars['Float']>;
+};
+
+/** Zimbra GraphQL Queries
+ * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
+ * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
+ * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
+ */
+export type QueryGetClientConfigArgs = {
+	hostname?: Maybe<Scalars['String']>;
 };
 
 /** Zimbra GraphQL Queries

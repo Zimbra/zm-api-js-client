@@ -449,6 +449,11 @@ interface MailItem {
 	replyType: String #rt
 }
 
+type ClientConfigType {
+	zimbraWebClientLoginURL: String
+	zimbraWebClientLogoutURL: String
+}
+
 type MessageInfo implements MailItem {
 	id: ID
 	size: Float # s
@@ -2538,6 +2543,7 @@ type Query {
 	downloadAttachment(id: ID!, part: ID!): Attachment
 	discoverRights: DiscoverRights
 	freeBusy(names: [String!]!, start: Float, end: Float): [FreeBusy]
+	getClientConfig(hostname: String): ClientConfigType
 	getContact(
 		id: ID,
 		ids: [ID!],
