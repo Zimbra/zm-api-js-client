@@ -140,6 +140,33 @@ function normalizeMessage(
 	);
 }
 
+/**
+ * This function is required because the API returns Subfolder data for shared folder
+ * with Actual folder path (not mounted folder path). This could lead to 404 "NO SUCH FOLDER EXISTS ERROR".
+ */
+function updateAbsoluteFolderPath(
+	originalName: any,
+	parentFolderAbsPath: string,
+	folders: any
+) {
+	return folders.map((folder: any) => {
+		folder.absFolderPath = folder.absFolderPath.replace(
+			`/${originalName}`,
+			parentFolderAbsPath
+		);
+
+		if (folder.folders) {
+			folder.folders = updateAbsoluteFolderPath(
+				originalName,
+				parentFolderAbsPath,
+				folder.folders
+			);
+		}
+
+		return folder;
+	});
+}
+
 export class ZimbraBatchClient {
 	public origin: string;
 	public sessionId: any;
@@ -600,32 +627,6 @@ export class ZimbraBatchClient {
 			const folders = get(foldersResponse, 'folders.0', {});
 
 			if (folders.linkedFolders) {
-				/**
-				 * This function is required because the API returns Subfolder data for shared folder
-				 * with Actual folder path (not mounted folder path). This could lead to 404 "NO SUCH FOLDER EXISTS ERROR".
-				 */
-				const updateAbsoluteFolderPath = (
-					originalName: any,
-					parentFolderAbsPath: string,
-					folders: any
-				) =>
-					folders.map((folder: any) => {
-						folder.absFolderPath = folder.absFolderPath.replace(
-							`/${originalName}`,
-							parentFolderAbsPath
-						);
-
-						if (folder.folders) {
-							folder.folders = updateAbsoluteFolderPath(
-								originalName,
-								parentFolderAbsPath,
-								folder.folders
-							);
-						}
-
-						return folder;
-					});
-
 				folders.linkedFolders = folders.linkedFolders.map((folder: any) => {
 					if (folder.view === FolderView.Message) {
 						const { absFolderPath, oname, folders } = folder;
