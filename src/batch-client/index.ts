@@ -548,10 +548,9 @@ export class ZimbraBatchClient {
 			},
 			namespace: Namespace.Account
 		}).then(() => ({
-			zimbraFeatureStaySignedInDisabled: false,
+			//TODO: waiting for backend JSON response
 			zimbraWebClientLoginURL: 'www.google.com',
 			zimbraWebClientLogoutURL: 'www.google.com',
-			more: false,
 			_jsns: 'urn:zimbraAccount'
 		}));
 
