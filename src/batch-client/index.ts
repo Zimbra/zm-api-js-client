@@ -817,6 +817,7 @@ export class ZimbraBatchClient {
 	}: LoginOptions) =>
 		this.jsonRequest({
 			name: 'Auth',
+			singleRequest: true,
 			body: {
 				tokenType,
 				csrfTokenSecured,
@@ -1229,7 +1230,8 @@ export class ZimbraBatchClient {
 	private dataHandler = (requests: Array<JsonRequestOptions>) =>
 		jsonRequest({
 			...requests[0],
-			...this.getAdditionalRequestOptions()
+			// check if login request then don't add csrfToken
+			...this.getAdditionalRequestOptions(requests[0].name !== 'Auth')
 		}).then(response => {
 			const sessionId = get(response, 'header.context.session.id');
 			const notifications = get(response, 'header.context.notify.0');
@@ -1276,9 +1278,11 @@ export class ZimbraBatchClient {
 	/**
 	 * These options are included on every request.
 	 */
-	private getAdditionalRequestOptions = () => ({
+	private getAdditionalRequestOptions = (addCsrfToken: Boolean = true) => ({
 		jwtToken: this.jwtToken,
-		csrfToken: this.csrfToken,
+		...(addCsrfToken && {
+			csrfToken: this.csrfToken
+		}),
 		sessionId:
 			this.sessionId ||
 			(this.sessionHandler && this.sessionHandler.readSessionId()),
