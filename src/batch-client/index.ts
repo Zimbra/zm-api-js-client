@@ -547,7 +547,13 @@ export class ZimbraBatchClient {
 				hostname: hostname
 			},
 			namespace: Namespace.Account
-		});
+		}).then(() => ({
+			zimbraFeatureStaySignedInDisabled: false,
+			zimbraWebClientLoginURL: 'www.google.com',
+			zimbraWebClientLogoutURL: 'www.google.com',
+			more: false,
+			_jsns: 'urn:zimbraAccount'
+		}));
 
 	public getContact = ({ id, ids, ...rest }: GetContactOptions) =>
 		this.jsonRequest({
