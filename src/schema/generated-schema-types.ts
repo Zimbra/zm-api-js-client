@@ -2062,13 +2062,6 @@ export type Mutation = {
 	dismissCalendarItem?: Maybe<Scalars['Boolean']>;
 	uploadMessage?: Maybe<Scalars['String']>;
 	setRecoveryAccount?: Maybe<Scalars['Boolean']>;
-	/** Below mutations should not be present here as it is used by apollo-link-state for local data management
-	 * but eslint-plugin-graphql is not able to handle those scenarios as mentioned
-	 * in https://github.com/apollographql/eslint-plugin-graphql/issues/99
-	 */
-	loadLocalFolderEmails?: Maybe<Array<Maybe<MessageInfo>>>;
-	saveLocalFolderEmails?: Maybe<Array<Maybe<MessageInfo>>>;
-	updateLocalFolderEmailAttachmentPath?: Maybe<Array<Maybe<MessageInfo>>>;
 };
 
 export type MutationActionArgs = {
@@ -2395,26 +2388,6 @@ export type MutationSetRecoveryAccountArgs = {
 	recoveryAccountVerificationCode?: Maybe<Scalars['String']>;
 };
 
-export type MutationLoadLocalFolderEmailsArgs = {
-	accountName?: Maybe<Scalars['String']>;
-	name?: Maybe<Scalars['String']>;
-	dataDirPath?: Maybe<Scalars['String']>;
-};
-
-export type MutationSaveLocalFolderEmailsArgs = {
-	accountName?: Maybe<Scalars['String']>;
-	name?: Maybe<Scalars['String']>;
-	dataDirPath?: Maybe<Scalars['String']>;
-	data?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-export type MutationUpdateLocalFolderEmailAttachmentPathArgs = {
-	id?: Maybe<Scalars['String']>;
-	accountName?: Maybe<Scalars['String']>;
-	folderPath?: Maybe<Scalars['String']>;
-	folderName?: Maybe<Scalars['String']>;
-};
-
 export type NameId = {
 	__typename?: 'NameId';
 	id?: Maybe<Scalars['ID']>;
@@ -2669,12 +2642,6 @@ export type Query = {
 	search?: Maybe<SearchResponse>;
 	searchGal?: Maybe<SearchResponse>;
 	taskFolders?: Maybe<Array<Maybe<Folder>>>;
-	/** Below queries should not be present here as it is used by apollo-link-state for local data management
-	 * but eslint-plugin-graphql is not able to handle those scenarios as mentioned
-	 * in https://github.com/apollographql/eslint-plugin-graphql/issues/99
-	 */
-	localFolderEmail?: Maybe<MessageInfo>;
-	localFolderEmails?: Maybe<Array<Maybe<MessageInfo>>>;
 	getTag?: Maybe<Array<Maybe<Tag>>>;
 };
 
@@ -2942,24 +2909,6 @@ export type QuerySearchGalArgs = {
 	locale?: Maybe<Scalars['String']>;
 	sortBy?: Maybe<Scalars['String']>;
 	needExp?: Maybe<Scalars['Boolean']>;
-};
-
-/** Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
-export type QueryLocalFolderEmailArgs = {
-	id: Scalars['String'];
-};
-
-/** Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
-export type QueryLocalFolderEmailsArgs = {
-	folderName: Scalars['String'];
 };
 
 export enum ReadingPaneLocation {
