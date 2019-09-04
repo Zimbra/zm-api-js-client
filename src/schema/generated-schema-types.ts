@@ -49,6 +49,7 @@ export type AccountInfo = {
 export type AccountInfoAttrs = {
 	__typename?: 'AccountInfoAttrs';
 	displayName?: Maybe<Scalars['String']>;
+	zimbraIsAdminAccount?: Maybe<Scalars['Boolean']>;
 	zimbraFeatureMailEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraFeatureCalendarEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraFeatureRelatedContactsEnabled?: Maybe<Scalars['Boolean']>;
