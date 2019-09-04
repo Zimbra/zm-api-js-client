@@ -640,6 +640,10 @@ export class ZimbraBatchClient {
 							sharedItemId
 						} = folder;
 
+						/** changed the id to zimbraId:sharedItemId, which is required while moving contact to shared folder and
+						 *  server also returns this id in notfications. The original id is stored in userId.
+						 */
+
 						if (folder.view === FolderView.Contact) {
 							(folder.userId = folder.id),
 								(folder.id = `${ownerZimbraId}:${sharedItemId}`);
