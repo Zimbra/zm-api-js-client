@@ -201,7 +201,8 @@ export class ZimbraBatchClient {
 					id: id || (ids || []).join(','),
 					...denormalize(ActionOptionsEntity)(rest)
 				}
-			}
+			},
+			singleRequest: true
 		}).then(Boolean);
 	};
 
