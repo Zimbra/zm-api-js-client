@@ -1115,6 +1115,7 @@ type AccountZimletConfigInfo {
 type AccountInfoAttrs {
 	displayName: String
 	zimbraIsAdminAccount: Boolean
+	zimbraIsDelegatedAdminAccount: Boolean
 	zimbraFeatureMailEnabled: Boolean
 	zimbraFeatureCalendarEnabled: Boolean
 	zimbraFeatureRelatedContactsEnabled: Boolean
