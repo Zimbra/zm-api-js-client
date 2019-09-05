@@ -1555,6 +1555,7 @@ type MailboxMetadataMeta {
 
 type MailboxMetadataAttrs {
 	zimbraPrefCustomFolderTreeOpen: Boolean
+	zimbraPrefSharedFolderTreeOpen: Boolean
 	zimbraPrefFoldersExpanded: String
 	zimbraPrefFolderTreeSash: Int
 	zimbraPrefGenerateLinkPreviews: Boolean
@@ -1574,6 +1575,7 @@ type MailboxMetadataAttrs {
 
 input MailboxMetadataSectionAttrsInput {
 	zimbraPrefCustomFolderTreeOpen: Boolean
+	zimbraPrefSharedFolderTreeOpen: Boolean
 	zimbraPrefFoldersExpanded: String
 	zimbraPrefFolderTreeSash: Int
 	zimbraPrefGenerateLinkPreviews: Boolean
