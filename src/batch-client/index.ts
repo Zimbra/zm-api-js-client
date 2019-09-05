@@ -157,7 +157,7 @@ export class ZimbraBatchClient {
 		this.userAgent = options.userAgent;
 		this.jwtToken = options.jwtToken;
 		this.csrfToken = options.csrfToken;
-		this.origin = options.zimbraOrigin || DEFAULT_HOSTNAME;
+		this.origin = options.zimbraOrigin === undefined ? DEFAULT_HOSTNAME : options.zimbraOrigin;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
 		this.notificationHandler = options.notificationHandler;
 
