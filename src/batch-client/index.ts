@@ -369,7 +369,8 @@ export class ZimbraBatchClient {
 	public createMountpoint = (_options: CreateMountpointInput) =>
 		this.jsonRequest({
 			name: 'CreateMountpoint',
-			body: denormalize(CreateMountpointRequest)(_options)
+			body: denormalize(CreateMountpointRequest)(_options),
+			singleRequest: true
 		}).then(Boolean);
 
 	public createSearchFolder = (_options: CreateSearchFolderOptions) => {
