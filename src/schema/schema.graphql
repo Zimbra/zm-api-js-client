@@ -449,9 +449,13 @@ interface MailItem {
 	replyType: String #rt
 }
 
-type ClientInfoType {
+type ClientInfoAttributes {
 	zimbraWebClientLoginURL: String
 	zimbraWebClientLogoutURL: String
+}
+
+type ClientInfoType {
+	_attrs: ClientInfoAttributes
 }
 
 type MessageInfo implements MailItem {

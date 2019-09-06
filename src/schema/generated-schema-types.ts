@@ -658,14 +658,19 @@ export type CancelRuleInfo = {
 	ridZ?: Maybe<Scalars['String']>;
 };
 
+export type ClientInfoAttributes = {
+	__typename?: 'ClientInfoAttributes';
+	zimbraWebClientLoginURL?: Maybe<Scalars['String']>;
+	zimbraWebClientLogoutURL?: Maybe<Scalars['String']>;
+};
+
 export type ClientInfoInput = {
 	domain?: Maybe<Scalars['String']>;
 };
 
 export type ClientInfoType = {
 	__typename?: 'ClientInfoType';
-	zimbraWebClientLoginURL?: Maybe<Scalars['String']>;
-	zimbraWebClientLogoutURL?: Maybe<Scalars['String']>;
+	_attrs?: Maybe<ClientInfoAttributes>;
 };
 
 export enum ConnectionType {
@@ -2720,7 +2725,7 @@ export type QueryAutoCompleteGalArgs = {
  * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
  */
 export type QueryClientInfoArgs = {
-	domain?: Maybe<Scalars['String']>;
+	domain: Scalars['String'];
 };
 
 /** Zimbra GraphQL Queries
