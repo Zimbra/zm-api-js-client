@@ -167,7 +167,7 @@ export function jsonRequest(
 		...requestOptions,
 		credentials: requestOptions.credentials || 'include',
 		headers: requestOptions.headers || {},
-		origin: requestOptions.origin === undefined ? DEFAULT_HOSTNAME : requestOptions.origin, 
+		origin: requestOptions.origin !== undefined ? requestOptions.origin : DEFAULT_HOSTNAME, 
 		soapPathname: requestOptions.soapPathname || DEFAULT_SOAP_PATHNAME,
 		namespace: requestOptions.namespace || Namespace.Mail
 	};
