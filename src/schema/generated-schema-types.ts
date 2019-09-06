@@ -658,7 +658,7 @@ export type CancelRuleInfo = {
 	ridZ?: Maybe<Scalars['String']>;
 };
 
-export type ClientConfigInput = {
+export type ClientInfoInput = {
 	domain?: Maybe<Scalars['String']>;
 };
 

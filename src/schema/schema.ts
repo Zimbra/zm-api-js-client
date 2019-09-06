@@ -4,7 +4,7 @@ import mapValues from 'lodash/mapValues';
 import {
 	AddMsgInput,
 	CalendarItemInput,
-	ClientConfigInput,
+	ClientInfoInput,
 	CreateContactInput,
 	CreateMountpointInput,
 	DeleteAppointmentInput,
@@ -112,7 +112,7 @@ export function createZimbraSchema(
 				getContact: (_, variables) =>
 					client.getContact(variables as GetContactOptions),
 				clientInfo: (_, variables) =>
-					client.clientInfo(variables as ClientConfigInput),
+					client.clientInfo(variables as ClientInfoInput),
 				getContactFrequency: (_, variables: any) =>
 					client.getContactFrequency(variables as GetContactFrequencyOptions),
 				getConversation: (_, variables) =>

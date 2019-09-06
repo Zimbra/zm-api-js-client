@@ -1409,7 +1409,7 @@ input OtherContactAttributeInput {
 	value: String
 }
 
-input ClientConfigInput {
+input ClientInfoInput {
 	domain: String
 }
 
