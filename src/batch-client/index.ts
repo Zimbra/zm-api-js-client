@@ -295,6 +295,26 @@ export class ZimbraBatchClient {
 			op: value ? 'check' : '!check'
 		});
 
+	public clientInfo = ({ domain }: ClientConfigInput) =>
+		this.jsonRequest({
+			name: 'ClientInfo',
+			singleRequest: true,
+			body: {
+				domain: [
+					{
+						by: 'name',
+						_content: domain
+					}
+				]
+			},
+			namespace: Namespace.Account
+		}).then(() => ({
+			//TODO: waiting for backend JSON response
+			zimbraWebClientLoginURL: 'https://www.google.com',
+			zimbraWebClientLogoutURL: 'https://www.google.com',
+			_jsns: 'urn:zimbraAccount'
+		}));
+
 	public contactAction = (options: ActionOptions) =>
 		this.action(ActionType.contact, options);
 
@@ -538,21 +558,6 @@ export class ZimbraBatchClient {
 			name: 'GetAvailableLocales',
 			namespace: Namespace.Account
 		}).then(res => res.locale);
-
-	public getClientConfig = ({ hostname }: ClientConfigInput) =>
-		this.jsonRequest({
-			name: 'ClientInfo',
-			singleRequest: true,
-			body: {
-				hostname: hostname
-			},
-			namespace: Namespace.Account
-		}).then(() => ({
-			//TODO: waiting for backend JSON response
-			zimbraWebClientLoginURL: 'www.google.com',
-			zimbraWebClientLogoutURL: 'www.google.com',
-			_jsns: 'urn:zimbraAccount'
-		}));
 
 	public getContact = ({ id, ids, ...rest }: GetContactOptions) =>
 		this.jsonRequest({

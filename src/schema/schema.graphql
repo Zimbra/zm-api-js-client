@@ -449,7 +449,7 @@ interface MailItem {
 	replyType: String #rt
 }
 
-type ClientConfigType {
+type ClientInfoType {
 	zimbraWebClientLoginURL: String
 	zimbraWebClientLogoutURL: String
 }
@@ -1410,7 +1410,7 @@ input OtherContactAttributeInput {
 }
 
 input ClientConfigInput {
-	hostname: String
+	domain: String
 }
 
 input ContactAttrsInput {
@@ -2539,11 +2539,11 @@ type Query {
 		type: GalSearchType
 		needExp: Boolean
 	): AutoCompleteGALResponse
+	clientInfo(domain: String): ClientInfoType
 	downloadMessage(id: ID!, isSecure: Boolean): SMimeMessage
 	downloadAttachment(id: ID!, part: ID!): Attachment
 	discoverRights: DiscoverRights
 	freeBusy(names: [String!]!, start: Float, end: Float): [FreeBusy]
-	getClientConfig(hostname: String): ClientConfigType
 	getContact(
 		id: ID,
 		ids: [ID!],

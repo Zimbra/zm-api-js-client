@@ -111,8 +111,8 @@ export function createZimbraSchema(
 					client.freeBusy(variables as FreeBusyOptions),
 				getContact: (_, variables) =>
 					client.getContact(variables as GetContactOptions),
-				getClientConfig: (_, variables) =>
-					client.getClientConfig(variables as ClientConfigInput),
+				clientInfo: (_, variables) =>
+					client.clientInfo(variables as ClientConfigInput),
 				getContactFrequency: (_, variables: any) =>
 					client.getContactFrequency(variables as GetContactFrequencyOptions),
 				getConversation: (_, variables) =>
