@@ -308,12 +308,7 @@ export class ZimbraBatchClient {
 				]
 			},
 			namespace: Namespace.Account
-		}).then(() => ({
-			//TODO: waiting for backend JSON response
-			zimbraWebClientLoginURL: 'https://www.google.com',
-			zimbraWebClientLogoutURL: 'https://www.google.com',
-			_jsns: 'urn:zimbraAccount'
-		}));
+		});
 
 	public contactAction = (options: ActionOptions) =>
 		this.action(ActionType.contact, options);
