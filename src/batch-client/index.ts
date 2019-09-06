@@ -628,9 +628,26 @@ export class ZimbraBatchClient {
 
 			if (folders.linkedFolders) {
 				folders.linkedFolders = folders.linkedFolders.map((folder: any) => {
-					if (folder.view === FolderView.Message) {
-						const { absFolderPath, oname, folders } = folder;
+					if (
+						folder.view === FolderView.Message ||
+						folder.view === FolderView.Contact
+					) {
+						const {
+							absFolderPath,
+							oname,
+							folders,
+							ownerZimbraId,
+							sharedItemId
+						} = folder;
 
+						/** changed the id to zimbraId:sharedItemId, which is required while moving contact to shared folder and
+						 *  server also returns this id in notfications. The original id is stored in userId.
+						 */
+
+						if (folder.view === FolderView.Contact) {
+							(folder.userId = folder.id),
+								(folder.id = `${ownerZimbraId}:${sharedItemId}`);
+						}
 						if (oname && folders) {
 							folder.folders = updateAbsoluteFolderPath(
 								oname,
