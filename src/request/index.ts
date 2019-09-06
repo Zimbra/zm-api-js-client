@@ -29,6 +29,10 @@ function parseJSON(response: Response): Promise<ParsedResponse> {
 		throw networkError(response);
 	}
 
+	return _responseParseHandler(response);
+}
+
+function _responseParseHandler(response: Response): Promise<ParsedResponse> {
 	try {
 		return response.json().then(json => {
 			(response as ParsedResponse).parsed = json;
@@ -38,6 +42,10 @@ function parseJSON(response: Response): Promise<ParsedResponse> {
 		(response as ParsedResponse).parseError = e;
 		return Promise.resolve(response);
 	}
+}
+
+function parseErrorJSON(response: Response): Promise<ParsedResponse> {
+	return _responseParseHandler(response);
 }
 
 function networkError(response: ParsedResponse) {
@@ -247,5 +255,11 @@ export function jsonRequest(
 				namespace: response.parsed._jsns,
 				originalResponse: response
 			};
+		})
+		.catch(({ response }) => {
+			return parseErrorJSON(response).then(parsedResponse => {
+				const fault = get(parsedResponse.parsed, 'Body.Fault');
+				throw faultError(parsedResponse, [fault]);
+			});
 		});
 }
