@@ -2539,7 +2539,7 @@ type Query {
 		type: GalSearchType
 		needExp: Boolean
 	): AutoCompleteGALResponse
-	clientInfo(domain: String): ClientInfoType
+	clientInfo(domain: String!): ClientInfoType
 	downloadMessage(id: ID!, isSecure: Boolean): SMimeMessage
 	downloadAttachment(id: ID!, part: ID!): Attachment
 	discoverRights: DiscoverRights
