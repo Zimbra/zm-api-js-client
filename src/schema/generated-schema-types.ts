@@ -1347,6 +1347,7 @@ export type FolderActionInput = {
 	name?: Maybe<Scalars['String']>;
 	folderId?: Maybe<Scalars['ID']>;
 	zimbraId?: Maybe<Scalars['ID']>;
+	color?: Maybe<Scalars['Int']>;
 };
 
 export type FolderQueryInput = {
@@ -2427,7 +2428,7 @@ export type MutationCreateTagArgs = {
 };
 
 export type MutationTagActionArgs = {
-	action?: Maybe<TagActionRequestInput>;
+	action?: Maybe<FolderActionInput>;
 };
 
 export type NameId = {
@@ -3333,14 +3334,6 @@ export type TagAction = {
 export type TagActionInput = {
 	tagName: Scalars['String'];
 	index?: Maybe<Scalars['Int']>;
-};
-
-export type TagActionRequestInput = {
-	id: Scalars['ID'];
-	op: Scalars['String'];
-	color?: Maybe<Scalars['Int']>;
-	name?: Maybe<Scalars['String']>;
-	folderId?: Maybe<Scalars['ID']>;
 };
 
 export type Target = {
