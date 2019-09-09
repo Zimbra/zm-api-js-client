@@ -14,6 +14,7 @@ import {
 	CalendarItemCreateModifyRequest,
 	CalendarItemDeleteRequest,
 	CalendarItemHitInfo,
+	ClientInfoResponse,
 	Contact,
 	Conversation,
 	CreateAppSpecificPasswordResponse,
@@ -308,7 +309,7 @@ export class ZimbraBatchClient {
 				]
 			},
 			namespace: Namespace.Account
-		});
+		}).then(res => normalize(ClientInfoResponse)(res));
 
 	public contactAction = (options: ActionOptions) =>
 		this.action(ActionType.contact, options);

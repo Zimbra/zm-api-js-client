@@ -670,7 +670,7 @@ export type ClientInfoInput = {
 
 export type ClientInfoType = {
 	__typename?: 'ClientInfoType';
-	_attrs?: Maybe<ClientInfoAttributes>;
+	attributes?: Maybe<ClientInfoAttributes>;
 };
 
 export enum ConnectionType {

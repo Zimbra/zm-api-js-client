@@ -455,7 +455,7 @@ type ClientInfoAttributes {
 }
 
 type ClientInfoType {
-	_attrs: ClientInfoAttributes
+	attributes: ClientInfoAttributes
 }
 
 type MessageInfo implements MailItem {
