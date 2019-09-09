@@ -53,6 +53,7 @@ import {
 	ClientInfoInput,
 	CreateContactInput,
 	CreateMountpointInput,
+	CreateTagInput,
 	DeleteAppointmentInput,
 	EnableTwoFactorAuthInput,
 	ExternalAccountAddInput,
@@ -399,6 +400,16 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account,
 			body: denormalize(CreateSignatureRequest)(options)
 		});
+
+	public createTag = (tag: CreateTagInput) =>
+		this.jsonRequest({
+			name: 'CreateTag',
+			body: {
+				tag: {
+					...tag
+				}
+			}
+		}).then(({ tag = [] }) => normalize(Tag)(tag[0]));
 
 	public createTask = (task: CalendarItemInput) =>
 		this.jsonRequest({

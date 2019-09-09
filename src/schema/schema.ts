@@ -7,6 +7,7 @@ import {
 	ClientInfoInput,
 	CreateContactInput,
 	CreateMountpointInput,
+	CreateTagInput,
 	DeleteAppointmentInput,
 	EnableTwoFactorAuthInput,
 	ExternalAccountAddInput,
@@ -44,6 +45,7 @@ import { ZimbraNotifications } from './notifications';
 import { GraphQLSchema } from 'graphql';
 import {
 	ActionOptions,
+	ActionType,
 	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
@@ -441,7 +443,9 @@ export function createZimbraSchema(
 				setRecoveryAccount: (_, variables) =>
 					client.setRecoveryAccount(variables as SetRecoveryAccountOptions),
 				modifyWhiteBlackList: (_, { whiteBlackList }) =>
-					client.modifyWhiteBlackList(whiteBlackList as WhiteBlackListInput)
+					client.modifyWhiteBlackList(whiteBlackList as WhiteBlackListInput),
+				createTag: (_, { tag }) => client.createTag(tag as CreateTagInput),
+				tagAction: (_, { action }) => client.action(ActionType.tag, action)
 			}
 		}
 	});
