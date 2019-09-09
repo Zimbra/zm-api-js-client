@@ -299,7 +299,6 @@ export class ZimbraBatchClient {
 	public clientInfo = ({ domain }: ClientInfoInput) =>
 		this.jsonRequest({
 			name: 'ClientInfo',
-			singleRequest: true,
 			body: {
 				domain: [
 					{
