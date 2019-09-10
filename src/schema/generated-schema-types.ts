@@ -49,6 +49,8 @@ export type AccountInfo = {
 export type AccountInfoAttrs = {
 	__typename?: 'AccountInfoAttrs';
 	displayName?: Maybe<Scalars['String']>;
+	zimbraIsAdminAccount?: Maybe<Scalars['Boolean']>;
+	zimbraIsDelegatedAdminAccount?: Maybe<Scalars['Boolean']>;
 	zimbraFeatureMailEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraFeatureCalendarEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraFeatureRelatedContactsEnabled?: Maybe<Scalars['Boolean']>;
@@ -936,6 +938,11 @@ export type CreateMountpointInput = {
 	link?: Maybe<NewMountpointSpec>;
 };
 
+export type CreateTagInput = {
+	name: Scalars['String'];
+	color?: Maybe<Scalars['Int']>;
+};
+
 export type CsrfToken = {
 	__typename?: 'CsrfToken';
 	_content?: Maybe<Scalars['String']>;
@@ -1342,6 +1349,7 @@ export type FolderActionInput = {
 	name?: Maybe<Scalars['String']>;
 	folderId?: Maybe<Scalars['ID']>;
 	zimbraId?: Maybe<Scalars['ID']>;
+	color?: Maybe<Scalars['Int']>;
 };
 
 export type FolderQueryInput = {
@@ -2062,6 +2070,8 @@ export type Mutation = {
 	dismissCalendarItem?: Maybe<Scalars['Boolean']>;
 	uploadMessage?: Maybe<Scalars['String']>;
 	setRecoveryAccount?: Maybe<Scalars['Boolean']>;
+	createTag?: Maybe<Tag>;
+	tagAction?: Maybe<Scalars['Boolean']>;
 };
 
 export type MutationActionArgs = {
@@ -2386,6 +2396,14 @@ export type MutationSetRecoveryAccountArgs = {
 	op: SetRecoveryAccountOp;
 	recoveryAccount?: Maybe<Scalars['String']>;
 	recoveryAccountVerificationCode?: Maybe<Scalars['String']>;
+};
+
+export type MutationCreateTagArgs = {
+	tag?: Maybe<CreateTagInput>;
+};
+
+export type MutationTagActionArgs = {
+	action?: Maybe<FolderActionInput>;
 };
 
 export type NameId = {

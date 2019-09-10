@@ -1114,6 +1114,8 @@ type AccountZimletConfigInfo {
 
 type AccountInfoAttrs {
 	displayName: String
+	zimbraIsAdminAccount: Boolean
+	zimbraIsDelegatedAdminAccount: Boolean
 	zimbraFeatureMailEnabled: Boolean
 	zimbraFeatureCalendarEnabled: Boolean
 	zimbraFeatureRelatedContactsEnabled: Boolean
@@ -1920,6 +1922,12 @@ input FolderActionInput {
 	name: String
 	folderId: ID
 	zimbraId: ID
+	color: Int
+}
+
+input CreateTagInput {
+	name: String!
+	color: Int
 }
 
 # Special case of FolderAction for `changeFolderColor` resolver
@@ -2788,7 +2796,8 @@ type Mutation {
 		recoveryAccount: String
 		recoveryAccountVerificationCode: String
 	): Boolean
-
+	createTag(tag: CreateTagInput): Tag
+	tagAction(action: FolderActionInput): Boolean
 }
 
 schema {
