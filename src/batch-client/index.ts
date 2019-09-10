@@ -1187,7 +1187,9 @@ export class ZimbraBatchClient {
 			this.checkAndUpdateSessionId(sessionId);
 
 			if (notifications && this.notificationHandler) {
-				this.notificationHandler(notifications);
+				setTimeout(() => {
+					this.notificationHandler && this.notificationHandler(notifications);
+				}, 100);
 			}
 
 			return response.requests.map((r, i) => {

@@ -96,8 +96,66 @@ export class ZimbraNotifications {
 		this.handleContactNotifications(notification);
 	};
 
+	private batchProcessItems(items: any, processorFn: Function) {
+		const BATCH_SIZE = 50;
+		const LENGTH = items.length;
+		const TIMEOUT = 100;
+
+		if (LENGTH < BATCH_SIZE) {
+			processorFn(items);
+			return;
+		}
+
+		const ITERATIONS = Math.floor(LENGTH / BATCH_SIZE);
+
+		let i;
+		for (i = 0; i < ITERATIONS; i++) {
+			let start = i * BATCH_SIZE;
+			let end = start + BATCH_SIZE;
+
+			if (end > LENGTH) {
+				end = LENGTH;
+			}
+
+			const batch = items.slice(start, end);
+
+			setTimeout(() => {
+				processorFn(batch);
+			}, TIMEOUT);
+		}
+	}
+
 	private handleContactNotifications = (notification: Notification) => {
 		const items = itemsForKey(notification, 'cn');
+		this.batchProcessItems(items, this.processContactNotifications);
+	};
+
+	private handleConversationNotifications = (notification: Notification) => {
+		const items = itemsForKey(notification, 'c');
+		this.processConversationNotifications(items);
+	};
+
+	private handleFolderNotifications = (notification: Notification) => {
+		const modifiedItems = get(notification, 'modified.folder');
+		this.batchProcessItems(modifiedItems, this.processFolderNotifications);
+	};
+
+	// TODO: The `created` key in the session header will indicate when
+	// new messages/conversations arrive. The notification handlers
+	// should be able to implement a mechanism for notifying the app
+	// about these new messages, either with a subscription-like model
+	// (https://github.com/apollographql/graphql-subscriptions)
+	// or via direct cache updates. With a subscription, for example,
+	// the mail screen would listen for changes and refetch the list.
+	// Alternatively, an event emitter could be used so that components
+	// can appropriately update themselves is another option
+	// that is less tied to GraphQL specifically.
+	private handleMessageNotifications = (notification: Notification) => {
+		const items = itemsForKey(notification, 'm');
+		this.batchProcessItems(items, this.processMessageNotifications);
+	};
+
+	private processContactNotifications = (items: any) => {
 		if (items) {
 			let searchResponse: any = {};
 			items.forEach((i: any) => {
@@ -207,8 +265,7 @@ export class ZimbraNotifications {
 		}
 	};
 
-	private handleConversationNotifications = (notification: Notification) => {
-		const items = itemsForKey(notification, 'c');
+	private processConversationNotifications = (items: any) => {
 		if (items) {
 			items.forEach((i: any) => {
 				const item = normalizeConversation(i);
@@ -231,10 +288,9 @@ export class ZimbraNotifications {
 		}
 	};
 
-	private handleFolderNotifications = (notification: Notification) => {
-		const modifiedItems = get(notification, 'modified.folder');
-		if (modifiedItems) {
-			modifiedItems.forEach((i: any) => {
+	private processFolderNotifications = (items: any) => {
+		if (items) {
+			items.forEach((i: any) => {
 				const item = normalizeFolder(i);
 				this.cache.writeFragment({
 					id: `Folder:${item.id}`,
@@ -252,19 +308,9 @@ export class ZimbraNotifications {
 		}
 	};
 
-	// TODO: The `created` key in the session header will indicate when
-	// new messages/conversations arrive. The notification handlers
-	// should be able to implement a mechanism for notifying the app
-	// about these new messages, either with a subscription-like model
-	// (https://github.com/apollographql/graphql-subscriptions)
-	// or via direct cache updates. With a subscription, for example,
-	// the mail screen would listen for changes and refetch the list.
-	// Alternatively, an event emitter could be used so that components
-	// can appropriately update themselves is another option
-	// that is less tied to GraphQL specifically.
-	private handleMessageNotifications = (notification: Notification) => {
-		const items = itemsForKey(notification, 'm');
+	private processMessageNotifications = (items: any) => {
 		if (items) {
+			console.log('handled notifications for', items);
 			items.forEach((i: any) => {
 				const item = normalizeMessage(i);
 				this.cache.writeFragment({
