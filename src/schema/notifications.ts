@@ -98,7 +98,11 @@ export class ZimbraNotifications {
 		this.handleContactNotifications(notification);
 	};
 
-	private batchProcessItems(items: any, processorFn: Function) {
+	private batchProcessItems(items: Array<any>, processorFn: Function) {
+		if (!items || (items && items.length === 0)) {
+			return;
+		}
+
 		const BATCH_SIZE = 50;
 		const LENGTH = items.length;
 		const TIMEOUT = 100;
