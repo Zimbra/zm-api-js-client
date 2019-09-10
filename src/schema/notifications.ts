@@ -83,9 +83,11 @@ function generateFragmentName(name: string, id: string = '') {
 
 export class ZimbraNotifications {
 	private cache: ZimbraInMemoryCache;
+	private getApolloClient: Function;
 
 	constructor(options: ZimbraNotificationsOptions) {
 		this.cache = options.cache;
+		this.getApolloClient = options.getApolloClient;
 	}
 
 	public notificationHandler = (notification: Notification) => {
@@ -103,12 +105,13 @@ export class ZimbraNotifications {
 
 		if (LENGTH < BATCH_SIZE) {
 			processorFn(items);
+			this.getApolloClient().queryManager.broadcastQueries();
 			return;
 		}
 
 		const ITERATIONS = Math.floor(LENGTH / BATCH_SIZE);
 
-		let i;
+		let i: number;
 		for (i = 0; i < ITERATIONS; i++) {
 			let start = i * BATCH_SIZE;
 			let end = start + BATCH_SIZE;
@@ -121,6 +124,9 @@ export class ZimbraNotifications {
 
 			setTimeout(() => {
 				processorFn(batch);
+				if (i === ITERATIONS - 1) {
+					this.getApolloClient().queryManager.broadcastQueries();
+				}
 			}, TIMEOUT);
 		}
 	}
@@ -310,7 +316,6 @@ export class ZimbraNotifications {
 
 	private processMessageNotifications = (items: any) => {
 		if (items) {
-			console.log('handled notifications for', items);
 			items.forEach((i: any) => {
 				const item = normalizeMessage(i);
 				this.cache.writeFragment({
