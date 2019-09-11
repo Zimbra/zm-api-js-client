@@ -113,7 +113,7 @@ export class ZimbraNotifications {
 			return;
 		}
 
-		const ITERATIONS = Math.floor(LENGTH / BATCH_SIZE);
+		const ITERATIONS = Math.ceil(LENGTH / BATCH_SIZE);
 
 		let i: number;
 		for (i = 0; i < ITERATIONS; i++) {
