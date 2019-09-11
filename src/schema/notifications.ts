@@ -142,7 +142,7 @@ export class ZimbraNotifications {
 
 	private handleConversationNotifications = (notification: Notification) => {
 		const items = itemsForKey(notification, 'c');
-		this.processConversationNotifications(items);
+		this.batchProcessItems(items, this.processConversationNotifications);
 	};
 
 	private handleFolderNotifications = (notification: Notification) => {
@@ -150,16 +150,6 @@ export class ZimbraNotifications {
 		this.batchProcessItems(modifiedItems, this.processFolderNotifications);
 	};
 
-	// TODO: The `created` key in the session header will indicate when
-	// new messages/conversations arrive. The notification handlers
-	// should be able to implement a mechanism for notifying the app
-	// about these new messages, either with a subscription-like model
-	// (https://github.com/apollographql/graphql-subscriptions)
-	// or via direct cache updates. With a subscription, for example,
-	// the mail screen would listen for changes and refetch the list.
-	// Alternatively, an event emitter could be used so that components
-	// can appropriately update themselves is another option
-	// that is less tied to GraphQL specifically.
 	private handleMessageNotifications = (notification: Notification) => {
 		const items = itemsForKey(notification, 'm');
 		this.batchProcessItems(items, this.processMessageNotifications);
@@ -318,6 +308,16 @@ export class ZimbraNotifications {
 		}
 	};
 
+	// TODO: The `created` key in the session header will indicate when
+	// new messages/conversations arrive. The notification handlers
+	// should be able to implement a mechanism for notifying the app
+	// about these new messages, either with a subscription-like model
+	// (https://github.com/apollographql/graphql-subscriptions)
+	// or via direct cache updates. With a subscription, for example,
+	// the mail screen would listen for changes and refetch the list.
+	// Alternatively, an event emitter could be used so that components
+	// can appropriately update themselves is another option
+	// that is less tied to GraphQL specifically.
 	private processMessageNotifications = (items: any) => {
 		if (items) {
 			items.forEach((i: any) => {
