@@ -1241,6 +1241,9 @@ export class ZimbraBatchClient {
 			this.checkAndUpdateSessionId(sessionId);
 
 			if (notifications && this.notificationHandler) {
+				// as notification handling happens in synchronous way, if the notifications count is really higher (for bulk operations)
+				// the UI would freeze because of the JavaScript execution time. Hence, delayed the notification handling to give some time
+				// for the render to happen in the JavaScript event loop
 				setTimeout(() => {
 					this.notificationHandler && this.notificationHandler(notifications);
 				}, 100);

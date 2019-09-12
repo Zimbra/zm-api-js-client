@@ -98,6 +98,16 @@ export class ZimbraNotifications {
 		this.handleContactNotifications(notification);
 	};
 
+	/**
+	 * Processes the specified notification items with the processor function passed in batches with timeout, by queueing them in the
+	 * JavaScript event loop. To prevent the freezing in UI.
+	 *
+	 * @private
+	 * @param {Array<any>} items array of notification items that need to be batched
+	 * @param {Function} processorFn function which processes the items
+	 * @returns
+	 * @memberof ZimbraNotifications
+	 */
 	private batchProcessItems(items: Array<any>, processorFn: Function) {
 		if (!items || (items && items.length === 0)) {
 			return;
@@ -107,9 +117,11 @@ export class ZimbraNotifications {
 		const LENGTH = items.length;
 		const TIMEOUT = 100;
 
+		// if items are lesser then batch size, directly process them
 		if (LENGTH < BATCH_SIZE) {
 			processorFn(items);
-			this.getApolloClient().queryManager.broadcastQueries();
+			// broadcast is necessary so that the UI renders after the cache has been updated
+			this.broadcastCacheUpdates();
 			return;
 		}
 
@@ -117,7 +129,7 @@ export class ZimbraNotifications {
 
 		let i: number;
 		for (i = 0; i < ITERATIONS; i++) {
-			let start = i * BATCH_SIZE;
+			const start = i * BATCH_SIZE;
 			let end = start + BATCH_SIZE;
 
 			if (end > LENGTH) {
@@ -126,14 +138,27 @@ export class ZimbraNotifications {
 
 			const batch = items.slice(start, end);
 
-			setTimeout(() => {
-				processorFn(batch);
-				if (i === ITERATIONS - 1) {
-					this.getApolloClient().queryManager.broadcastQueries();
-				}
-			}, TIMEOUT);
+			// When the timed out function executes, the variables accessed inside the function have to be available through closure
+			// Otherwise, the latest values of the variables would be used, which can have been updated by the loop iterations that executed
+			// after the timeout was set and before it was executed.
+			setTimeout(
+				((i, ITERATIONS, batch) => {
+					return () => {
+						processorFn(batch);
+						// broadcast updates in the last iteration
+						if (i === ITERATIONS - 1) {
+							this.broadcastCacheUpdates();
+						}
+					};
+				})(i, ITERATIONS, batch),
+				TIMEOUT
+			);
 		}
 	}
+
+	private broadcastCacheUpdates = () => {
+		this.getApolloClient().queryManager.broadcastQueries();
+	};
 
 	private handleContactNotifications = (notification: Notification) => {
 		const items = itemsForKey(notification, 'cn');
