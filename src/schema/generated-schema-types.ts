@@ -2943,6 +2943,7 @@ export type QuerySearchArgs = {
 	recip?: Maybe<Scalars['Int']>;
 	sortBy?: Maybe<SortBy>;
 	types?: Maybe<SearchType>;
+	resultMode?: Maybe<Scalars['String']>;
 };
 
 /** Zimbra GraphQL Queries
@@ -3100,6 +3101,7 @@ export type SearchResponse = {
 	offset?: Maybe<Scalars['Int']>;
 	sortBy?: Maybe<Scalars['String']>;
 	paginationSupported?: Maybe<Scalars['Boolean']>;
+	hit?: Maybe<Array<Maybe<SimpleSearchItemInfo>>>;
 };
 
 export enum SearchType {
@@ -3241,6 +3243,11 @@ export type SimpleRepeatingRule = {
 	bymonthday?: Maybe<Array<Maybe<ByMonthDayRule>>>;
 	bymonth?: Maybe<Array<Maybe<ByMonthRule>>>;
 	bysetpos?: Maybe<Array<Maybe<BySetPosRule>>>;
+};
+
+export type SimpleSearchItemInfo = {
+	__typename?: 'SimpleSearchItemInfo';
+	id?: Maybe<Scalars['ID']>;
 };
 
 export type SizeCondition = {

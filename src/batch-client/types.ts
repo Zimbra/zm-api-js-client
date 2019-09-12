@@ -159,6 +159,7 @@ export interface SearchOptions {
 	offset?: number;
 	query?: string;
 	recip?: number;
+	resultMode?: string;
 	sortBy?: SortBy;
 	type?: GalSearchType;
 	types?: SearchType;

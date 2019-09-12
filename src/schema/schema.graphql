@@ -1265,6 +1265,10 @@ type SignatureResponse {
 	signature: [NameId]
 }
 
+type SimpleSearchItemInfo {
+	id: ID
+}
+
 type SearchResponse {
 	contacts: [Contact]
 	messages: [MessageInfo]
@@ -1275,6 +1279,7 @@ type SearchResponse {
 	offset: Int
 	sortBy: String
 	paginationSupported: Boolean
+	hit: [SimpleSearchItemInfo]
 }
 
 type SendMessageResponse {
@@ -2635,7 +2640,8 @@ type Query {
 		query: String,
 		recip: Int,
 		sortBy: SortBy,
-		types: SearchType
+		types: SearchType,
+		resultMode: String
 	): SearchResponse
 
 	searchGal(
