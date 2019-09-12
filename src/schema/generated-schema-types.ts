@@ -1301,6 +1301,7 @@ export type Folder = {
 	id?: Maybe<Scalars['ID']>;
 	uuid?: Maybe<Scalars['ID']>;
 	name?: Maybe<Scalars['String']>;
+	oname?: Maybe<Scalars['String']>;
 	nonFolderItemCount?: Maybe<Scalars['Int']>;
 	nonFolderItemCountTotal?: Maybe<Scalars['Float']>;
 	linkedFolders?: Maybe<Array<Maybe<Folder>>>;
@@ -1318,6 +1319,7 @@ export type Folder = {
 	url?: Maybe<Scalars['String']>;
 	local?: Maybe<Scalars['Boolean']>;
 	droppable?: Maybe<Scalars['Boolean']>;
+	userId?: Maybe<Scalars['ID']>;
 };
 
 export type FolderAppointmentsArgs = {
@@ -1777,6 +1779,7 @@ export type MailboxMetadata = {
 export type MailboxMetadataAttrs = {
 	__typename?: 'MailboxMetadataAttrs';
 	zimbraPrefCustomFolderTreeOpen?: Maybe<Scalars['Boolean']>;
+	zimbraPrefSharedFolderTreeOpen?: Maybe<Scalars['Boolean']>;
 	zimbraPrefFoldersExpanded?: Maybe<Scalars['String']>;
 	zimbraPrefFolderTreeSash?: Maybe<Scalars['Int']>;
 	zimbraPrefGenerateLinkPreviews?: Maybe<Scalars['Boolean']>;
@@ -1802,6 +1805,7 @@ export type MailboxMetadataMeta = {
 
 export type MailboxMetadataSectionAttrsInput = {
 	zimbraPrefCustomFolderTreeOpen?: Maybe<Scalars['Boolean']>;
+	zimbraPrefSharedFolderTreeOpen?: Maybe<Scalars['Boolean']>;
 	zimbraPrefFoldersExpanded?: Maybe<Scalars['String']>;
 	zimbraPrefFolderTreeSash?: Maybe<Scalars['Int']>;
 	zimbraPrefGenerateLinkPreviews?: Maybe<Scalars['Boolean']>;
