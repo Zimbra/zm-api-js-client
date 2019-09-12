@@ -117,7 +117,7 @@ export class ZimbraNotifications {
 		const LENGTH = items.length;
 		const TIMEOUT = 100;
 
-		// if items are lesser then batch size, directly process them
+		// if items are lesser than batch size, directly process them
 		if (LENGTH < BATCH_SIZE) {
 			processorFn(items);
 			// broadcast is necessary so that the UI renders after the cache has been updated
