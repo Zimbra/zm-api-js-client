@@ -142,14 +142,12 @@ export class ZimbraNotifications {
 			// Otherwise, the latest values of the variables would be used, which can have been updated by the loop iterations that executed
 			// after the timeout was set and before it was executed.
 			setTimeout(
-				((i, ITERATIONS, batch) => {
-					return () => {
-						processorFn(batch);
-						// broadcast updates in the last iteration
-						if (i === ITERATIONS - 1) {
-							this.broadcastCacheUpdates();
-						}
-					};
+				((i, ITERATIONS, batch) => () => {
+					processorFn(batch);
+					// broadcast updates in the last iteration
+					if (i === ITERATIONS - 1) {
+						this.broadcastCacheUpdates();
+					}
 				})(i, ITERATIONS, batch),
 				TIMEOUT
 			);
