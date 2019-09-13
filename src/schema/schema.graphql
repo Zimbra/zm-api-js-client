@@ -1013,6 +1013,7 @@ type Folder {
 	id: ID
 	uuid: ID
 	name: String
+	oname: String
 	nonFolderItemCount: Int # Number of non-subfolder items in folder
 	nonFolderItemCountTotal: Float # Total size of all of non-subfolder items in folder
 	linkedFolders: [Folder] # Folders this user has linked from other users nested in this Folder
@@ -1030,6 +1031,7 @@ type Folder {
 	url: String
 	local: Boolean
 	droppable: Boolean
+	userId: ID
 }
 
 type ACL {
@@ -1569,6 +1571,7 @@ type MailboxMetadataMeta {
 
 type MailboxMetadataAttrs {
 	zimbraPrefCustomFolderTreeOpen: Boolean
+	zimbraPrefSharedFolderTreeOpen: Boolean
 	zimbraPrefFoldersExpanded: String
 	zimbraPrefFolderTreeSash: Int
 	zimbraPrefGenerateLinkPreviews: Boolean
@@ -1588,6 +1591,7 @@ type MailboxMetadataAttrs {
 
 input MailboxMetadataSectionAttrsInput {
 	zimbraPrefCustomFolderTreeOpen: Boolean
+	zimbraPrefSharedFolderTreeOpen: Boolean
 	zimbraPrefFoldersExpanded: String
 	zimbraPrefFolderTreeSash: Int
 	zimbraPrefGenerateLinkPreviews: Boolean
