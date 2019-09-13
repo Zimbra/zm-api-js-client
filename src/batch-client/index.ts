@@ -14,6 +14,7 @@ import {
 	CalendarItemCreateModifyRequest,
 	CalendarItemDeleteRequest,
 	CalendarItemHitInfo,
+	ClientInfoResponse,
 	Contact,
 	Conversation,
 	CreateAppSpecificPasswordResponse,
@@ -49,6 +50,7 @@ import {
 import {
 	AddMsgInput,
 	CalendarItemInput,
+	ClientInfoInput,
 	CreateContactInput,
 	CreateMountpointInput,
 	CreateTagInput,
@@ -321,6 +323,20 @@ export class ZimbraBatchClient {
 			id,
 			op: value ? 'check' : '!check'
 		});
+
+	public clientInfo = ({ domain }: ClientInfoInput) =>
+		this.jsonRequest({
+			name: 'ClientInfo',
+			body: {
+				domain: [
+					{
+						by: 'name',
+						_content: domain
+					}
+				]
+			},
+			namespace: Namespace.Account
+		}).then(res => normalize(ClientInfoResponse)(res));
 
 	public contactAction = (options: ActionOptions) =>
 		this.action(ActionType.contact, options);
