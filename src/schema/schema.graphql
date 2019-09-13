@@ -449,6 +449,15 @@ interface MailItem {
 	replyType: String #rt
 }
 
+type ClientInfoAttributes {
+	zimbraWebClientLoginURL: String
+	zimbraWebClientLogoutURL: String
+}
+
+type ClientInfoType {
+	attributes: ClientInfoAttributes
+}
+
 type MessageInfo implements MailItem {
 	id: ID
 	size: Float # s
@@ -1406,6 +1415,10 @@ type Tag {
 input OtherContactAttributeInput {
 	key: String
 	value: String
+}
+
+input ClientInfoInput {
+	domain: String
 }
 
 input ContactAttrsInput {
@@ -2546,6 +2559,7 @@ type Query {
 		type: GalSearchType
 		needExp: Boolean
 	): AutoCompleteGALResponse
+	clientInfo(domain: String!): ClientInfoType
 	downloadMessage(id: ID!, isSecure: Boolean): SMimeMessage
 	downloadAttachment(id: ID!, part: ID!): Attachment
 	discoverRights: DiscoverRights

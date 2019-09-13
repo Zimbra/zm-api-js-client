@@ -660,6 +660,21 @@ export type CancelRuleInfo = {
 	ridZ?: Maybe<Scalars['String']>;
 };
 
+export type ClientInfoAttributes = {
+	__typename?: 'ClientInfoAttributes';
+	zimbraWebClientLoginURL?: Maybe<Scalars['String']>;
+	zimbraWebClientLogoutURL?: Maybe<Scalars['String']>;
+};
+
+export type ClientInfoInput = {
+	domain?: Maybe<Scalars['String']>;
+};
+
+export type ClientInfoType = {
+	__typename?: 'ClientInfoType';
+	attributes?: Maybe<ClientInfoAttributes>;
+};
+
 export enum ConnectionType {
 	Cleartext = 'cleartext',
 	Ssl = 'ssl',
@@ -2664,6 +2679,7 @@ export type Query = {
 	accountInfo?: Maybe<AccountInfo>;
 	autoComplete?: Maybe<AutoCompleteResponse>;
 	autoCompleteGAL?: Maybe<AutoCompleteGalResponse>;
+	clientInfo?: Maybe<ClientInfoType>;
 	downloadMessage?: Maybe<SMimeMessage>;
 	downloadAttachment?: Maybe<Attachment>;
 	discoverRights?: Maybe<DiscoverRights>;
@@ -2733,6 +2749,15 @@ export type QueryAutoCompleteGalArgs = {
 	name: Scalars['String'];
 	type?: Maybe<GalSearchType>;
 	needExp?: Maybe<Scalars['Boolean']>;
+};
+
+/** Zimbra GraphQL Queries
+ * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
+ * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
+ * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
+ */
+export type QueryClientInfoArgs = {
+	domain: Scalars['String'];
 };
 
 /** Zimbra GraphQL Queries
