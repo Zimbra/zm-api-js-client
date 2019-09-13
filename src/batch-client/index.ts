@@ -98,6 +98,7 @@ import {
 import {
 	ActionOptions,
 	ActionType,
+	ApplyFilterRulesOptions,
 	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
@@ -270,6 +271,22 @@ export class ZimbraBatchClient {
 			})
 		}).then(normalize(MessageInfo));
 	};
+
+	public applyFilterRules = ({ ids, filterRules }: ApplyFilterRulesOptions) =>
+		this.jsonRequest({
+			name: 'ApplyFilterRules',
+			body: {
+				filterRules: {
+					filterRule: filterRules
+				},
+				m: {
+					ids
+				}
+			}
+		}).then(res => {
+			const ids = get(res, 'm[0].ids');
+			return ids ? ids.split(',') : [];
+		});
 
 	public autoComplete = (options: AutoCompleteOptions) =>
 		this.jsonRequest({
