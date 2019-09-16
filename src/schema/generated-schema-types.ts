@@ -2612,6 +2612,7 @@ export type Preferences = {
 	zimbraPrefMailForwardingAddress?: Maybe<Scalars['String']>;
 	zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']>;
 	zimbraPrefTagTreeOpen?: Maybe<Scalars['Boolean']>;
+	zimbraPrefUseTimeZoneListInCalendar?: Maybe<Scalars['Boolean']>;
 };
 
 export type PreferencesInput = {
@@ -2650,6 +2651,7 @@ export type PreferencesInput = {
 	zimbraPrefMailForwardingAddress?: Maybe<Scalars['String']>;
 	zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']>;
 	zimbraPrefTagTreeOpen?: Maybe<Scalars['Boolean']>;
+	zimbraPrefUseTimeZoneListInCalendar?: Maybe<Scalars['Boolean']>;
 };
 
 export enum PrefMailSelectAfterDelete {
