@@ -4,6 +4,7 @@ import mapValues from 'lodash/mapValues';
 import {
 	AddMsgInput,
 	CalendarItemInput,
+	ClientInfoInput,
 	CreateContactInput,
 	CreateMountpointInput,
 	CreateTagInput,
@@ -45,6 +46,7 @@ import { GraphQLSchema } from 'graphql';
 import {
 	ActionOptions,
 	ActionType,
+	ApplyFilterRulesOptions,
 	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
@@ -114,6 +116,8 @@ export function createZimbraSchema(
 					client.freeBusy(variables as FreeBusyOptions),
 				getContact: (_, variables) =>
 					client.getContact(variables as GetContactOptions),
+				clientInfo: (_, variables) =>
+					client.clientInfo(variables as ClientInfoInput),
 				getContactFrequency: (_, variables: any) =>
 					client.getContactFrequency(variables as GetContactFrequencyOptions),
 				getConversation: (_, variables) =>
@@ -244,6 +248,8 @@ export function createZimbraSchema(
 
 					return client.addMessage(variables as AddMsgInput);
 				},
+				applyFilterRules: (_, variables) =>
+					client.applyFilterRules(variables as ApplyFilterRulesOptions),
 				cancelTask: (_, variables) => client.cancelTask(variables),
 				itemAction: (_, variables) =>
 					client.itemAction(variables as ActionOptions),
