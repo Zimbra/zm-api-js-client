@@ -411,6 +411,10 @@ const contactListMembers = new Entity({
 	cn: ['contacts', new Entity({ ...contactFields })]
 });
 
+export const ClientInfoResponse = new Entity({
+	_attrs: 'attributes'
+});
+
 export const Contact = new Entity({
 	...contactFields,
 	m: ['members', contactListMembers]
