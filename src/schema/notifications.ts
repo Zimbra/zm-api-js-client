@@ -83,9 +83,11 @@ function generateFragmentName(name: string, id: string = '') {
 
 export class ZimbraNotifications {
 	private cache: ZimbraInMemoryCache;
+	private getApolloClient: Function;
 
 	constructor(options: ZimbraNotificationsOptions) {
 		this.cache = options.cache;
+		this.getApolloClient = options.getApolloClient;
 	}
 
 	public notificationHandler = (notification: Notification) => {
@@ -96,8 +98,78 @@ export class ZimbraNotifications {
 		this.handleContactNotifications(notification);
 	};
 
+	/**
+	 * Processes the specified notification items with the processor function passed in batches with timeout, by queueing them in the
+	 * JavaScript event loop. To prevent the freezing in UI.
+	 *
+	 * @private
+	 * @param {Array<any>} items array of notification items that need to be batched
+	 * @param {Function} processorFn function which processes the items
+	 * @returns
+	 * @memberof ZimbraNotifications
+	 */
+	private batchProcessItems(items: Array<any>, processorFn: Function) {
+		if (!items || (items && items.length === 0)) {
+			return;
+		}
+
+		const BATCH_SIZE = 50;
+		const LENGTH = items.length;
+		const TIMEOUT = 100;
+		const ITERATIONS = Math.ceil(LENGTH / BATCH_SIZE);
+
+		let i: number;
+		for (i = 0; i < ITERATIONS; i++) {
+			const start = i * BATCH_SIZE;
+			let end = start + BATCH_SIZE;
+
+			if (end > LENGTH) {
+				end = LENGTH;
+			}
+
+			const batch = items.slice(start, end);
+
+			// When the timed out function executes, the variables accessed inside the function have to be available through closure
+			// Otherwise, the latest values of the variables would be used, which can have been updated by the loop iterations that executed
+			// after the timeout was set and before it was executed.
+			setTimeout(
+				((i, ITERATIONS, batch) => () => {
+					processorFn(batch);
+					// broadcast updates in the last iteration
+					if (i === ITERATIONS - 1) {
+						this.broadcastCacheUpdates();
+					}
+				})(i, ITERATIONS, batch),
+				TIMEOUT
+			);
+		}
+	}
+
+	private broadcastCacheUpdates = () => {
+		this.getApolloClient().queryManager.broadcastQueries();
+	};
+
 	private handleContactNotifications = (notification: Notification) => {
 		const items = itemsForKey(notification, 'cn');
+		this.batchProcessItems(items, this.processContactNotifications);
+	};
+
+	private handleConversationNotifications = (notification: Notification) => {
+		const items = itemsForKey(notification, 'c');
+		this.batchProcessItems(items, this.processConversationNotifications);
+	};
+
+	private handleFolderNotifications = (notification: Notification) => {
+		const modifiedItems = get(notification, 'modified.folder');
+		this.batchProcessItems(modifiedItems, this.processFolderNotifications);
+	};
+
+	private handleMessageNotifications = (notification: Notification) => {
+		const items = itemsForKey(notification, 'm');
+		this.batchProcessItems(items, this.processMessageNotifications);
+	};
+
+	private processContactNotifications = (items: any) => {
 		if (items) {
 			let searchResponse: any = {};
 			items.forEach((i: any) => {
@@ -207,8 +279,7 @@ export class ZimbraNotifications {
 		}
 	};
 
-	private handleConversationNotifications = (notification: Notification) => {
-		const items = itemsForKey(notification, 'c');
+	private processConversationNotifications = (items: any) => {
 		if (items) {
 			items.forEach((i: any) => {
 				const item = normalizeConversation(i);
@@ -231,10 +302,9 @@ export class ZimbraNotifications {
 		}
 	};
 
-	private handleFolderNotifications = (notification: Notification) => {
-		const modifiedItems = get(notification, 'modified.folder');
-		if (modifiedItems) {
-			modifiedItems.forEach((i: any) => {
+	private processFolderNotifications = (items: any) => {
+		if (items) {
+			items.forEach((i: any) => {
 				const item = normalizeFolder(i);
 				this.cache.writeFragment({
 					id: `Folder:${item.id}`,
@@ -262,8 +332,7 @@ export class ZimbraNotifications {
 	// Alternatively, an event emitter could be used so that components
 	// can appropriately update themselves is another option
 	// that is less tied to GraphQL specifically.
-	private handleMessageNotifications = (notification: Notification) => {
-		const items = itemsForKey(notification, 'm');
+	private processMessageNotifications = (items: any) => {
 		if (items) {
 			items.forEach((i: any) => {
 				const item = normalizeMessage(i);
