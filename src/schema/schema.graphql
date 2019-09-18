@@ -449,6 +449,15 @@ interface MailItem {
 	replyType: String #rt
 }
 
+type ClientInfoAttributes {
+	zimbraWebClientLoginURL: String
+	zimbraWebClientLogoutURL: String
+}
+
+type ClientInfoType {
+	attributes: ClientInfoAttributes
+}
+
 type MessageInfo implements MailItem {
 	id: ID
 	size: Float # s
@@ -1004,6 +1013,7 @@ type Folder {
 	id: ID
 	uuid: ID
 	name: String
+	oname: String
 	nonFolderItemCount: Int # Number of non-subfolder items in folder
 	nonFolderItemCountTotal: Float # Total size of all of non-subfolder items in folder
 	linkedFolders: [Folder] # Folders this user has linked from other users nested in this Folder
@@ -1021,6 +1031,7 @@ type Folder {
 	url: String
 	local: Boolean
 	droppable: Boolean
+	userId: ID
 }
 
 type ACL {
@@ -1114,6 +1125,8 @@ type AccountZimletConfigInfo {
 
 type AccountInfoAttrs {
 	displayName: String
+	zimbraIsAdminAccount: Boolean
+	zimbraIsDelegatedAdminAccount: Boolean
 	zimbraFeatureMailEnabled: Boolean
 	zimbraFeatureCalendarEnabled: Boolean
 	zimbraFeatureRelatedContactsEnabled: Boolean
@@ -1249,6 +1262,7 @@ type Preferences {
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
+	zimbraPrefUseTimeZoneListInCalendar: Boolean
 	zimbraPrefMailForwardingAddress: String
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
 	zimbraPrefTagTreeOpen: Boolean
@@ -1404,6 +1418,10 @@ input OtherContactAttributeInput {
 	value: String
 }
 
+input ClientInfoInput {
+	domain: String
+}
+
 input ContactAttrsInput {
 	firstName: String
 	middleName: String
@@ -1554,6 +1572,7 @@ type MailboxMetadataMeta {
 
 type MailboxMetadataAttrs {
 	zimbraPrefCustomFolderTreeOpen: Boolean
+	zimbraPrefSharedFolderTreeOpen: Boolean
 	zimbraPrefFoldersExpanded: String
 	zimbraPrefFolderTreeSash: Int
 	zimbraPrefGenerateLinkPreviews: Boolean
@@ -1573,6 +1592,7 @@ type MailboxMetadataAttrs {
 
 input MailboxMetadataSectionAttrsInput {
 	zimbraPrefCustomFolderTreeOpen: Boolean
+	zimbraPrefSharedFolderTreeOpen: Boolean
 	zimbraPrefFoldersExpanded: String
 	zimbraPrefFolderTreeSash: Int
 	zimbraPrefGenerateLinkPreviews: Boolean
@@ -1920,6 +1940,12 @@ input FolderActionInput {
 	name: String
 	folderId: ID
 	zimbraId: ID
+	color: Int
+}
+
+input CreateTagInput {
+	name: String!
+	color: Int
 }
 
 # Special case of FolderAction for `changeFolderColor` resolver
@@ -2018,6 +2044,7 @@ input PreferencesInput {
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
+	zimbraPrefUseTimeZoneListInCalendar: Boolean
 	zimbraPrefMailForwardingAddress: String
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
 	zimbraPrefTagTreeOpen: Boolean
@@ -2209,6 +2236,10 @@ input FilterInput {
 
 	actions: [FilterActionInput] # filterActions
 	conditions: [FilterConditionInput] # filterTests
+}
+
+input FilterRuleInput {
+	name: String!
 }
 
 ##### End Of FilterInput #####
@@ -2530,6 +2561,7 @@ type Query {
 		type: GalSearchType
 		needExp: Boolean
 	): AutoCompleteGALResponse
+	clientInfo(domain: String!): ClientInfoType
 	downloadMessage(id: ID!, isSecure: Boolean): SMimeMessage
 	downloadAttachment(id: ID!, part: ID!): Attachment
 	discoverRights: DiscoverRights
@@ -2665,6 +2697,10 @@ type Mutation {
 		tagNames: String,
 		name: String
 	): Boolean
+	applyFilterRules(
+		ids: String!,
+		filterRules: [FilterRuleInput]
+	): [String]
 	testExternalAccount(externalAccount: ExternalAccountTestInput!): ExternalAccountTestResponse
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): ID
 	addMessage(message: AddMsgInput!): MessageInfo
@@ -2798,6 +2834,8 @@ type Mutation {
 	loadLocalFolderEmails(accountName: String, name: String, dataDirPath: String): [MessageInfo]
 	saveLocalFolderEmails(accountName: String, name: String, dataDirPath: String, data: [String]): [MessageInfo]
 	updateLocalFolderEmailAttachmentPath(id: String, accountName: String, folderPath: String, folderName: String): [MessageInfo]
+	createTag(tag: CreateTagInput): Tag
+	tagAction(action: FolderActionInput): Boolean
 }
 
 schema {

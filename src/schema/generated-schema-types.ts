@@ -49,6 +49,8 @@ export type AccountInfo = {
 export type AccountInfoAttrs = {
 	__typename?: 'AccountInfoAttrs';
 	displayName?: Maybe<Scalars['String']>;
+	zimbraIsAdminAccount?: Maybe<Scalars['Boolean']>;
+	zimbraIsDelegatedAdminAccount?: Maybe<Scalars['Boolean']>;
 	zimbraFeatureMailEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraFeatureCalendarEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraFeatureRelatedContactsEnabled?: Maybe<Scalars['Boolean']>;
@@ -658,6 +660,21 @@ export type CancelRuleInfo = {
 	ridZ?: Maybe<Scalars['String']>;
 };
 
+export type ClientInfoAttributes = {
+	__typename?: 'ClientInfoAttributes';
+	zimbraWebClientLoginURL?: Maybe<Scalars['String']>;
+	zimbraWebClientLogoutURL?: Maybe<Scalars['String']>;
+};
+
+export type ClientInfoInput = {
+	domain?: Maybe<Scalars['String']>;
+};
+
+export type ClientInfoType = {
+	__typename?: 'ClientInfoType';
+	attributes?: Maybe<ClientInfoAttributes>;
+};
+
 export enum ConnectionType {
 	Cleartext = 'cleartext',
 	Ssl = 'ssl',
@@ -934,6 +951,11 @@ export type CreateContactInput = {
 
 export type CreateMountpointInput = {
 	link?: Maybe<NewMountpointSpec>;
+};
+
+export type CreateTagInput = {
+	name: Scalars['String'];
+	color?: Maybe<Scalars['Int']>;
 };
 
 export type CsrfToken = {
@@ -1255,6 +1277,10 @@ export enum FilterMatchCondition {
 	Anyof = 'anyof'
 }
 
+export type FilterRuleInput = {
+	name: Scalars['String'];
+};
+
 export type FlagAction = {
 	__typename?: 'FlagAction';
 	flagName?: Maybe<Scalars['String']>;
@@ -1290,6 +1316,7 @@ export type Folder = {
 	id?: Maybe<Scalars['ID']>;
 	uuid?: Maybe<Scalars['ID']>;
 	name?: Maybe<Scalars['String']>;
+	oname?: Maybe<Scalars['String']>;
 	nonFolderItemCount?: Maybe<Scalars['Int']>;
 	nonFolderItemCountTotal?: Maybe<Scalars['Float']>;
 	linkedFolders?: Maybe<Array<Maybe<Folder>>>;
@@ -1307,6 +1334,7 @@ export type Folder = {
 	url?: Maybe<Scalars['String']>;
 	local?: Maybe<Scalars['Boolean']>;
 	droppable?: Maybe<Scalars['Boolean']>;
+	userId?: Maybe<Scalars['ID']>;
 };
 
 export type FolderAppointmentsArgs = {
@@ -1342,6 +1370,7 @@ export type FolderActionInput = {
 	name?: Maybe<Scalars['String']>;
 	folderId?: Maybe<Scalars['ID']>;
 	zimbraId?: Maybe<Scalars['ID']>;
+	color?: Maybe<Scalars['Int']>;
 };
 
 export type FolderQueryInput = {
@@ -1765,6 +1794,7 @@ export type MailboxMetadata = {
 export type MailboxMetadataAttrs = {
 	__typename?: 'MailboxMetadataAttrs';
 	zimbraPrefCustomFolderTreeOpen?: Maybe<Scalars['Boolean']>;
+	zimbraPrefSharedFolderTreeOpen?: Maybe<Scalars['Boolean']>;
 	zimbraPrefFoldersExpanded?: Maybe<Scalars['String']>;
 	zimbraPrefFolderTreeSash?: Maybe<Scalars['Int']>;
 	zimbraPrefGenerateLinkPreviews?: Maybe<Scalars['Boolean']>;
@@ -1790,6 +1820,7 @@ export type MailboxMetadataMeta = {
 
 export type MailboxMetadataSectionAttrsInput = {
 	zimbraPrefCustomFolderTreeOpen?: Maybe<Scalars['Boolean']>;
+	zimbraPrefSharedFolderTreeOpen?: Maybe<Scalars['Boolean']>;
 	zimbraPrefFoldersExpanded?: Maybe<Scalars['String']>;
 	zimbraPrefFolderTreeSash?: Maybe<Scalars['Int']>;
 	zimbraPrefGenerateLinkPreviews?: Maybe<Scalars['Boolean']>;
@@ -1992,6 +2023,7 @@ export type MsgWithGroupInfo = MailItem & {
 export type Mutation = {
 	__typename?: 'Mutation';
 	action?: Maybe<Scalars['Boolean']>;
+	applyFilterRules?: Maybe<Array<Maybe<Scalars['String']>>>;
 	testExternalAccount?: Maybe<ExternalAccountTestResponse>;
 	addExternalAccount?: Maybe<Scalars['ID']>;
 	addMessage?: Maybe<MessageInfo>;
@@ -2069,6 +2101,8 @@ export type Mutation = {
 	loadLocalFolderEmails?: Maybe<Array<Maybe<MessageInfo>>>;
 	saveLocalFolderEmails?: Maybe<Array<Maybe<MessageInfo>>>;
 	updateLocalFolderEmailAttachmentPath?: Maybe<Array<Maybe<MessageInfo>>>;
+	createTag?: Maybe<Tag>;
+	tagAction?: Maybe<Scalars['Boolean']>;
 };
 
 export type MutationActionArgs = {
@@ -2083,6 +2117,11 @@ export type MutationActionArgs = {
 	rgb?: Maybe<Scalars['String']>;
 	tagNames?: Maybe<Scalars['String']>;
 	name?: Maybe<Scalars['String']>;
+};
+
+export type MutationApplyFilterRulesArgs = {
+	ids: Scalars['String'];
+	filterRules?: Maybe<Array<Maybe<FilterRuleInput>>>;
 };
 
 export type MutationTestExternalAccountArgs = {
@@ -2415,6 +2454,14 @@ export type MutationUpdateLocalFolderEmailAttachmentPathArgs = {
 	folderName?: Maybe<Scalars['String']>;
 };
 
+export type MutationCreateTagArgs = {
+	tag?: Maybe<CreateTagInput>;
+};
+
+export type MutationTagActionArgs = {
+	action?: Maybe<FolderActionInput>;
+};
+
 export type NameId = {
 	__typename?: 'NameId';
 	id?: Maybe<Scalars['ID']>;
@@ -2562,6 +2609,7 @@ export type Preferences = {
 	zimbraPrefTimeZoneId?: Maybe<Scalars['String']>;
 	zimbraPrefLocale?: Maybe<Scalars['String']>;
 	zimbraPrefAppleIcalDelegationEnabled?: Maybe<Scalars['Boolean']>;
+	zimbraPrefUseTimeZoneListInCalendar?: Maybe<Scalars['Boolean']>;
 	zimbraPrefMailForwardingAddress?: Maybe<Scalars['String']>;
 	zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']>;
 	zimbraPrefTagTreeOpen?: Maybe<Scalars['Boolean']>;
@@ -2600,6 +2648,7 @@ export type PreferencesInput = {
 	zimbraPrefTimeZoneId?: Maybe<Scalars['String']>;
 	zimbraPrefLocale?: Maybe<Scalars['String']>;
 	zimbraPrefAppleIcalDelegationEnabled?: Maybe<Scalars['Boolean']>;
+	zimbraPrefUseTimeZoneListInCalendar?: Maybe<Scalars['Boolean']>;
 	zimbraPrefMailForwardingAddress?: Maybe<Scalars['String']>;
 	zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']>;
 	zimbraPrefTagTreeOpen?: Maybe<Scalars['Boolean']>;
@@ -2632,6 +2681,7 @@ export type Query = {
 	accountInfo?: Maybe<AccountInfo>;
 	autoComplete?: Maybe<AutoCompleteResponse>;
 	autoCompleteGAL?: Maybe<AutoCompleteGalResponse>;
+	clientInfo?: Maybe<ClientInfoType>;
 	downloadMessage?: Maybe<SMimeMessage>;
 	downloadAttachment?: Maybe<Attachment>;
 	discoverRights?: Maybe<DiscoverRights>;
@@ -2701,6 +2751,15 @@ export type QueryAutoCompleteGalArgs = {
 	name: Scalars['String'];
 	type?: Maybe<GalSearchType>;
 	needExp?: Maybe<Scalars['Boolean']>;
+};
+
+/** Zimbra GraphQL Queries
+ * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
+ * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
+ * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
+ */
+export type QueryClientInfoArgs = {
+	domain: Scalars['String'];
 };
 
 /** Zimbra GraphQL Queries
