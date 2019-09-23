@@ -20,6 +20,12 @@ enum SortBy {
 	sizeDesc
 }
 
+enum ShareInputAction {
+	edit
+	revoke
+	expire
+}
+
 enum FreeBusyStatus {
 	F # Free
 	B # Busy
@@ -2256,6 +2262,7 @@ input ForwardMessageInput {
 }
 
 input ShareNotificationInput {
+	action: ShareInputAction
 	item: ShareNotificationItemInput!
 	address: ShareNotificaitonEmailAddressInput!
 	notes: String
