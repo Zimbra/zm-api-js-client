@@ -121,11 +121,7 @@ export class ZimbraNotifications {
 		let i: number;
 		for (i = 0; i < ITERATIONS; i++) {
 			const start = i * BATCH_SIZE;
-			let end = start + BATCH_SIZE;
-
-			if (end > LENGTH) {
-				end = LENGTH;
-			}
+			const end = Math.min(start + BATCH_SIZE, LENGTH);
 
 			const batch = items.slice(start, end);
 
