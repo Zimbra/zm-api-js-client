@@ -2683,10 +2683,6 @@ type Query {
 
 	taskFolders: [Folder]
 
-	# Below queries should not be present here as it is used by apollo-link-state for local data management
-	# but eslint-plugin-graphql is not able to handle those scenarios as mentioned in https://github.com/apollographql/eslint-plugin-graphql/issues/99
-	localFolderEmail(id: String!): MessageInfo
-	localFolderEmails(folderName: String!): [MessageInfo]
 	getTag: [Tag]
 }
 
@@ -2835,12 +2831,6 @@ type Mutation {
 		recoveryAccount: String
 		recoveryAccountVerificationCode: String
 	): Boolean
-
-	# Below mutations should not be present here as it is used by apollo-link-state for local data management
-	# but eslint-plugin-graphql is not able to handle those scenarios as mentioned in https://github.com/apollographql/eslint-plugin-graphql/issues/99
-	loadLocalFolderEmails(accountName: String, name: String, dataDirPath: String): [MessageInfo]
-	saveLocalFolderEmails(accountName: String, name: String, dataDirPath: String, data: [String]): [MessageInfo]
-	updateLocalFolderEmailAttachmentPath(id: String, accountName: String, folderPath: String, folderName: String): [MessageInfo]
 	createTag(tag: CreateTagInput): Tag
 	tagAction(action: FolderActionInput): Boolean
 }
