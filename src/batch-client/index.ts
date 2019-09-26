@@ -704,14 +704,20 @@ export class ZimbraBatchClient {
 							sharedItemId
 						} = folder;
 
-						/** changed the id to zimbraId:sharedItemId, which is required while moving contact to shared folder and
-						 *  server also returns this id in notfications. The original id is stored in userId.
+						/**
+						 * `For Shared folders`,
+						 * there's a difference between the `Folder ID` returned by `GetFolder` API and the `notify` response data returned by server.
+						 * Since GetFolder Query contains fragments data with different folder IDs, when `notifications.ts` writes the `Folder fragment`,
+						 * its actually creating new orphan fragment rather than updating existing one because.
+						 * Due to this, updates (like folder unread items count ) are not synced to UI properly.
+						 *
+						 * To fix this, we make the `Folder ID` returned by `GetFolder` API equal to what we receive via `notification`.
 						 */
-
-						if (folder.view === FolderView.Contact) {
-							(folder.userId = folder.id),
-								(folder.id = `${ownerZimbraId}:${sharedItemId}`);
+						if (ownerZimbraId && sharedItemId) {
+							folder.originalId = folder.id;
+							folder.id = `${ownerZimbraId}:${sharedItemId}`;
 						}
+
 						if (oname && folders) {
 							folder.folders = updateAbsoluteFolderPath(
 								oname,

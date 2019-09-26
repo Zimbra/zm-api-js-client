@@ -1334,7 +1334,7 @@ export type Folder = {
 	url?: Maybe<Scalars['String']>;
 	local?: Maybe<Scalars['Boolean']>;
 	droppable?: Maybe<Scalars['Boolean']>;
-	userId?: Maybe<Scalars['ID']>;
+	originalId?: Maybe<Scalars['ID']>;
 };
 
 export type FolderAppointmentsArgs = {
