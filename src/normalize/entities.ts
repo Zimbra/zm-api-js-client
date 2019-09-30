@@ -318,6 +318,10 @@ export const CalendarItemHitInfo = new Entity({
 	sf: 'sortField'
 });
 
+export const Hit = new Entity({
+	sf: 'sortField'
+});
+
 const Folder = new Entity({
 	u: 'unread',
 	l: 'parentFolderId',
@@ -411,6 +415,10 @@ const contactListMembers = new Entity({
 	cn: ['contacts', new Entity({ ...contactFields })]
 });
 
+export const ClientInfoResponse = new Entity({
+	_attrs: 'attributes'
+});
+
 export const Contact = new Entity({
 	...contactFields,
 	m: ['members', contactListMembers]
@@ -429,7 +437,8 @@ export const SearchResponse = new Entity({
 	m: ['messages', MessageInfo],
 	c: ['conversations', SearchConversation],
 	cn: ['contacts', Contact],
-	appt: ['appointments', CalendarItemHitInfo]
+	appt: ['appointments', CalendarItemHitInfo],
+	hit: Hit
 });
 
 const RedirectAction = new Entity({

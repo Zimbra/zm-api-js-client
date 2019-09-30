@@ -49,6 +49,8 @@ export type AccountInfo = {
 export type AccountInfoAttrs = {
 	__typename?: 'AccountInfoAttrs';
 	displayName?: Maybe<Scalars['String']>;
+	zimbraIsAdminAccount?: Maybe<Scalars['Boolean']>;
+	zimbraIsDelegatedAdminAccount?: Maybe<Scalars['Boolean']>;
 	zimbraFeatureMailEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraFeatureCalendarEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraFeatureRelatedContactsEnabled?: Maybe<Scalars['Boolean']>;
@@ -658,6 +660,21 @@ export type CancelRuleInfo = {
 	ridZ?: Maybe<Scalars['String']>;
 };
 
+export type ClientInfoAttributes = {
+	__typename?: 'ClientInfoAttributes';
+	zimbraWebClientLoginURL?: Maybe<Scalars['String']>;
+	zimbraWebClientLogoutURL?: Maybe<Scalars['String']>;
+};
+
+export type ClientInfoInput = {
+	domain?: Maybe<Scalars['String']>;
+};
+
+export type ClientInfoType = {
+	__typename?: 'ClientInfoType';
+	attributes?: Maybe<ClientInfoAttributes>;
+};
+
 export enum ConnectionType {
 	Cleartext = 'cleartext',
 	Ssl = 'ssl',
@@ -936,6 +953,11 @@ export type CreateMountpointInput = {
 	link?: Maybe<NewMountpointSpec>;
 };
 
+export type CreateTagInput = {
+	name: Scalars['String'];
+	color?: Maybe<Scalars['Int']>;
+};
+
 export type CsrfToken = {
 	__typename?: 'CsrfToken';
 	_content?: Maybe<Scalars['String']>;
@@ -943,7 +965,7 @@ export type CsrfToken = {
 
 export type Cursor = {
 	id?: Maybe<Scalars['ID']>;
-	sortVal?: Maybe<Scalars['String']>;
+	sortField?: Maybe<Scalars['String']>;
 	endSortVal?: Maybe<Scalars['String']>;
 	includeOffset?: Maybe<Scalars['Boolean']>;
 };
@@ -1255,6 +1277,10 @@ export enum FilterMatchCondition {
 	Anyof = 'anyof'
 }
 
+export type FilterRuleInput = {
+	name: Scalars['String'];
+};
+
 export type FlagAction = {
 	__typename?: 'FlagAction';
 	flagName?: Maybe<Scalars['String']>;
@@ -1290,6 +1316,7 @@ export type Folder = {
 	id?: Maybe<Scalars['ID']>;
 	uuid?: Maybe<Scalars['ID']>;
 	name?: Maybe<Scalars['String']>;
+	oname?: Maybe<Scalars['String']>;
 	nonFolderItemCount?: Maybe<Scalars['Int']>;
 	nonFolderItemCountTotal?: Maybe<Scalars['Float']>;
 	linkedFolders?: Maybe<Array<Maybe<Folder>>>;
@@ -1307,6 +1334,7 @@ export type Folder = {
 	url?: Maybe<Scalars['String']>;
 	local?: Maybe<Scalars['Boolean']>;
 	droppable?: Maybe<Scalars['Boolean']>;
+	userId?: Maybe<Scalars['ID']>;
 };
 
 export type FolderAppointmentsArgs = {
@@ -1342,6 +1370,7 @@ export type FolderActionInput = {
 	name?: Maybe<Scalars['String']>;
 	folderId?: Maybe<Scalars['ID']>;
 	zimbraId?: Maybe<Scalars['ID']>;
+	color?: Maybe<Scalars['Int']>;
 };
 
 export type FolderQueryInput = {
@@ -1502,6 +1531,12 @@ export type HeaderConditionInput = {
 	caseSensitive?: Maybe<Scalars['Boolean']>;
 	index?: Maybe<Scalars['Int']>;
 	negative?: Maybe<Scalars['Boolean']>;
+};
+
+export type Hit = {
+	__typename?: 'Hit';
+	id?: Maybe<Scalars['String']>;
+	sortField?: Maybe<Scalars['String']>;
 };
 
 export type Identities = {
@@ -1765,6 +1800,7 @@ export type MailboxMetadata = {
 export type MailboxMetadataAttrs = {
 	__typename?: 'MailboxMetadataAttrs';
 	zimbraPrefCustomFolderTreeOpen?: Maybe<Scalars['Boolean']>;
+	zimbraPrefSharedFolderTreeOpen?: Maybe<Scalars['Boolean']>;
 	zimbraPrefFoldersExpanded?: Maybe<Scalars['String']>;
 	zimbraPrefFolderTreeSash?: Maybe<Scalars['Int']>;
 	zimbraPrefGenerateLinkPreviews?: Maybe<Scalars['Boolean']>;
@@ -1790,6 +1826,7 @@ export type MailboxMetadataMeta = {
 
 export type MailboxMetadataSectionAttrsInput = {
 	zimbraPrefCustomFolderTreeOpen?: Maybe<Scalars['Boolean']>;
+	zimbraPrefSharedFolderTreeOpen?: Maybe<Scalars['Boolean']>;
 	zimbraPrefFoldersExpanded?: Maybe<Scalars['String']>;
 	zimbraPrefFolderTreeSash?: Maybe<Scalars['Int']>;
 	zimbraPrefGenerateLinkPreviews?: Maybe<Scalars['Boolean']>;
@@ -1992,6 +2029,7 @@ export type MsgWithGroupInfo = MailItem & {
 export type Mutation = {
 	__typename?: 'Mutation';
 	action?: Maybe<Scalars['Boolean']>;
+	applyFilterRules?: Maybe<Array<Maybe<Scalars['String']>>>;
 	testExternalAccount?: Maybe<ExternalAccountTestResponse>;
 	addExternalAccount?: Maybe<Scalars['ID']>;
 	addMessage?: Maybe<MessageInfo>;
@@ -2062,13 +2100,8 @@ export type Mutation = {
 	dismissCalendarItem?: Maybe<Scalars['Boolean']>;
 	uploadMessage?: Maybe<Scalars['String']>;
 	setRecoveryAccount?: Maybe<Scalars['Boolean']>;
-	/** Below mutations should not be present here as it is used by apollo-link-state for local data management
-	 * but eslint-plugin-graphql is not able to handle those scenarios as mentioned
-	 * in https://github.com/apollographql/eslint-plugin-graphql/issues/99
-	 */
-	loadLocalFolderEmails?: Maybe<Array<Maybe<MessageInfo>>>;
-	saveLocalFolderEmails?: Maybe<Array<Maybe<MessageInfo>>>;
-	updateLocalFolderEmailAttachmentPath?: Maybe<Array<Maybe<MessageInfo>>>;
+	createTag?: Maybe<Tag>;
+	tagAction?: Maybe<Scalars['Boolean']>;
 };
 
 export type MutationActionArgs = {
@@ -2083,6 +2116,11 @@ export type MutationActionArgs = {
 	rgb?: Maybe<Scalars['String']>;
 	tagNames?: Maybe<Scalars['String']>;
 	name?: Maybe<Scalars['String']>;
+};
+
+export type MutationApplyFilterRulesArgs = {
+	ids: Scalars['String'];
+	filterRules?: Maybe<Array<Maybe<FilterRuleInput>>>;
 };
 
 export type MutationTestExternalAccountArgs = {
@@ -2395,24 +2433,12 @@ export type MutationSetRecoveryAccountArgs = {
 	recoveryAccountVerificationCode?: Maybe<Scalars['String']>;
 };
 
-export type MutationLoadLocalFolderEmailsArgs = {
-	accountName?: Maybe<Scalars['String']>;
-	name?: Maybe<Scalars['String']>;
-	dataDirPath?: Maybe<Scalars['String']>;
+export type MutationCreateTagArgs = {
+	tag?: Maybe<CreateTagInput>;
 };
 
-export type MutationSaveLocalFolderEmailsArgs = {
-	accountName?: Maybe<Scalars['String']>;
-	name?: Maybe<Scalars['String']>;
-	dataDirPath?: Maybe<Scalars['String']>;
-	data?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-export type MutationUpdateLocalFolderEmailAttachmentPathArgs = {
-	id?: Maybe<Scalars['String']>;
-	accountName?: Maybe<Scalars['String']>;
-	folderPath?: Maybe<Scalars['String']>;
-	folderName?: Maybe<Scalars['String']>;
+export type MutationTagActionArgs = {
+	action?: Maybe<FolderActionInput>;
 };
 
 export type NameId = {
@@ -2562,6 +2588,7 @@ export type Preferences = {
 	zimbraPrefTimeZoneId?: Maybe<Scalars['String']>;
 	zimbraPrefLocale?: Maybe<Scalars['String']>;
 	zimbraPrefAppleIcalDelegationEnabled?: Maybe<Scalars['Boolean']>;
+	zimbraPrefUseTimeZoneListInCalendar?: Maybe<Scalars['Boolean']>;
 	zimbraPrefMailForwardingAddress?: Maybe<Scalars['String']>;
 	zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']>;
 	zimbraPrefTagTreeOpen?: Maybe<Scalars['Boolean']>;
@@ -2600,6 +2627,7 @@ export type PreferencesInput = {
 	zimbraPrefTimeZoneId?: Maybe<Scalars['String']>;
 	zimbraPrefLocale?: Maybe<Scalars['String']>;
 	zimbraPrefAppleIcalDelegationEnabled?: Maybe<Scalars['Boolean']>;
+	zimbraPrefUseTimeZoneListInCalendar?: Maybe<Scalars['Boolean']>;
 	zimbraPrefMailForwardingAddress?: Maybe<Scalars['String']>;
 	zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']>;
 	zimbraPrefTagTreeOpen?: Maybe<Scalars['Boolean']>;
@@ -2632,6 +2660,7 @@ export type Query = {
 	accountInfo?: Maybe<AccountInfo>;
 	autoComplete?: Maybe<AutoCompleteResponse>;
 	autoCompleteGAL?: Maybe<AutoCompleteGalResponse>;
+	clientInfo?: Maybe<ClientInfoType>;
 	downloadMessage?: Maybe<SMimeMessage>;
 	downloadAttachment?: Maybe<Attachment>;
 	discoverRights?: Maybe<DiscoverRights>;
@@ -2669,12 +2698,6 @@ export type Query = {
 	search?: Maybe<SearchResponse>;
 	searchGal?: Maybe<SearchResponse>;
 	taskFolders?: Maybe<Array<Maybe<Folder>>>;
-	/** Below queries should not be present here as it is used by apollo-link-state for local data management
-	 * but eslint-plugin-graphql is not able to handle those scenarios as mentioned
-	 * in https://github.com/apollographql/eslint-plugin-graphql/issues/99
-	 */
-	localFolderEmail?: Maybe<MessageInfo>;
-	localFolderEmails?: Maybe<Array<Maybe<MessageInfo>>>;
 	getTag?: Maybe<Array<Maybe<Tag>>>;
 };
 
@@ -2701,6 +2724,15 @@ export type QueryAutoCompleteGalArgs = {
 	name: Scalars['String'];
 	type?: Maybe<GalSearchType>;
 	needExp?: Maybe<Scalars['Boolean']>;
+};
+
+/** Zimbra GraphQL Queries
+ * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
+ * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
+ * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
+ */
+export type QueryClientInfoArgs = {
+	domain: Scalars['String'];
 };
 
 /** Zimbra GraphQL Queries
@@ -2925,6 +2957,7 @@ export type QuerySearchArgs = {
 	recip?: Maybe<Scalars['Int']>;
 	sortBy?: Maybe<SortBy>;
 	types?: Maybe<SearchType>;
+	resultMode?: Maybe<Scalars['String']>;
 };
 
 /** Zimbra GraphQL Queries
@@ -2942,24 +2975,6 @@ export type QuerySearchGalArgs = {
 	locale?: Maybe<Scalars['String']>;
 	sortBy?: Maybe<Scalars['String']>;
 	needExp?: Maybe<Scalars['Boolean']>;
-};
-
-/** Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
-export type QueryLocalFolderEmailArgs = {
-	id: Scalars['String'];
-};
-
-/** Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
-export type QueryLocalFolderEmailsArgs = {
-	folderName: Scalars['String'];
 };
 
 export enum ReadingPaneLocation {
@@ -3082,6 +3097,7 @@ export type SearchResponse = {
 	offset?: Maybe<Scalars['Int']>;
 	sortBy?: Maybe<Scalars['String']>;
 	paginationSupported?: Maybe<Scalars['Boolean']>;
+	hit?: Maybe<Array<Maybe<Hit>>>;
 };
 
 export enum SearchType {
@@ -3156,6 +3172,12 @@ export type ShareInfo = {
 	mid?: Maybe<Scalars['ID']>;
 };
 
+export enum ShareInputAction {
+	Edit = 'edit',
+	Revoke = 'revoke',
+	Expire = 'expire'
+}
+
 export type ShareNotificaitonEmailAddressInput = {
 	address: Scalars['String'];
 	type?: Maybe<AddressType>;
@@ -3169,6 +3191,7 @@ export type ShareNotification = {
 };
 
 export type ShareNotificationInput = {
+	action?: Maybe<ShareInputAction>;
 	item: ShareNotificationItemInput;
 	address: ShareNotificaitonEmailAddressInput;
 	notes?: Maybe<Scalars['String']>;
