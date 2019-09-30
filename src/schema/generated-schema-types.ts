@@ -3172,6 +3172,12 @@ export type ShareInfo = {
 	mid?: Maybe<Scalars['ID']>;
 };
 
+export enum ShareInputAction {
+	Edit = 'edit',
+	Revoke = 'revoke',
+	Expire = 'expire'
+}
+
 export type ShareNotificaitonEmailAddressInput = {
 	address: Scalars['String'];
 	type?: Maybe<AddressType>;
@@ -3185,6 +3191,7 @@ export type ShareNotification = {
 };
 
 export type ShareNotificationInput = {
+	action?: Maybe<ShareInputAction>;
 	item: ShareNotificationItemInput;
 	address: ShareNotificaitonEmailAddressInput;
 	notes?: Maybe<Scalars['String']>;
