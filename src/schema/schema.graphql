@@ -1063,6 +1063,15 @@ type License {
 	attr: [LicenseAttrs]
 }
 
+type PropList {
+	prop: [Prop]
+}
+type Prop {
+	zimlet: String
+	name: String
+	_content: String
+}
+
 type AccountInfo {
 	id: ID!
 	name: String
@@ -1073,6 +1082,7 @@ type AccountInfo {
 	version: String
 	attrs: AccountInfoAttrs
 	license: License
+	props: PropList
 	zimlets: AccountZimlet
 }
 
@@ -2023,6 +2033,12 @@ input InviteReplyInput {
 	exceptId: InstanceDate
 }
 
+input PropertiesInput {
+	zimlet: String!
+	name: String!
+	_content: String
+}
+
 input PreferencesInput {
 	zimbraPrefAutoAddAppointmentsToCalendar: Boolean
 	zimbraPrefCalendarAutoAddInvites: Boolean
@@ -2801,6 +2817,7 @@ type Mutation {
 	modifyAppointment(accountName: String, appointment: CalendarItemInput!): ModifyAppointmentResponse
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): Boolean
 	modifyPrefs(prefs: PreferencesInput!): Boolean
+	modifyProps(props: [PropertiesInput!]): Boolean
 	modifyZimletPrefs(zimlets: [ZimletPreferenceInput!]): ModifyZimletPrefsResponse
 	modifyFilterRules(filters: [FilterInput!]): Boolean
 	modifySignature(signature: SignatureInput!): Boolean
