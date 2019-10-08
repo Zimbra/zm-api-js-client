@@ -30,6 +30,7 @@ export enum ActionOps {
 	flag = 'flag',
 	unflag = '!flag',
 	tag = 'tag',
+	untag = '!tag',
 	move = 'move',
 	spam = 'spam',
 	unspam = '!spam',
