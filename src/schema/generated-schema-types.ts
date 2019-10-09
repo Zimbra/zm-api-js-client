@@ -965,7 +965,7 @@ export type CsrfToken = {
 
 export type Cursor = {
 	id?: Maybe<Scalars['ID']>;
-	sortVal?: Maybe<Scalars['String']>;
+	sortField?: Maybe<Scalars['String']>;
 	endSortVal?: Maybe<Scalars['String']>;
 	includeOffset?: Maybe<Scalars['Boolean']>;
 };
@@ -1531,6 +1531,12 @@ export type HeaderConditionInput = {
 	caseSensitive?: Maybe<Scalars['Boolean']>;
 	index?: Maybe<Scalars['Int']>;
 	negative?: Maybe<Scalars['Boolean']>;
+};
+
+export type Hit = {
+	__typename?: 'Hit';
+	id?: Maybe<Scalars['String']>;
+	sortField?: Maybe<Scalars['String']>;
 };
 
 export type Identities = {
@@ -2957,6 +2963,7 @@ export type QuerySearchArgs = {
 	recip?: Maybe<Scalars['Int']>;
 	sortBy?: Maybe<SortBy>;
 	types?: Maybe<SearchType>;
+	resultMode?: Maybe<Scalars['String']>;
 };
 
 /** Zimbra GraphQL Queries
@@ -3096,6 +3103,7 @@ export type SearchResponse = {
 	offset?: Maybe<Scalars['Int']>;
 	sortBy?: Maybe<Scalars['String']>;
 	paginationSupported?: Maybe<Scalars['Boolean']>;
+	hit?: Maybe<Array<Maybe<Hit>>>;
 };
 
 export enum SearchType {
@@ -3170,6 +3178,12 @@ export type ShareInfo = {
 	mid?: Maybe<Scalars['ID']>;
 };
 
+export enum ShareInputAction {
+	Edit = 'edit',
+	Revoke = 'revoke',
+	Expire = 'expire'
+}
+
 export type ShareNotificaitonEmailAddressInput = {
 	address: Scalars['String'];
 	type?: Maybe<AddressType>;
@@ -3183,6 +3197,7 @@ export type ShareNotification = {
 };
 
 export type ShareNotificationInput = {
+	action?: Maybe<ShareInputAction>;
 	item: ShareNotificationItemInput;
 	address: ShareNotificaitonEmailAddressInput;
 	notes?: Maybe<Scalars['String']>;

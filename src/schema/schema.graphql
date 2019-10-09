@@ -20,6 +20,12 @@ enum SortBy {
 	sizeDesc
 }
 
+enum ShareInputAction {
+	edit
+	revoke
+	expire
+}
+
 enum FreeBusyStatus {
 	F # Free
 	B # Busy
@@ -1290,6 +1296,12 @@ type SearchResponse {
 	offset: Int
 	sortBy: String
 	paginationSupported: Boolean
+	hit: [Hit]
+}
+
+type Hit {
+	id: String
+	sortField: String
 }
 
 type SendMessageResponse {
@@ -2262,6 +2274,7 @@ input ForwardMessageInput {
 }
 
 input ShareNotificationInput {
+	action: ShareInputAction
 	item: ShareNotificationItemInput!
 	address: ShareNotificaitonEmailAddressInput!
 	notes: String
@@ -2363,7 +2376,7 @@ input GetFolderFolderInput {
 
 input Cursor {
 	id: ID
-	sortVal: String
+	sortField: String
 	endSortVal: String
 	includeOffset: Boolean
 }
@@ -2665,7 +2678,8 @@ type Query {
 		query: String,
 		recip: Int,
 		sortBy: SortBy,
-		types: SearchType
+		types: SearchType,
+		resultMode: String
 	): SearchResponse
 
 	searchGal(
