@@ -2563,6 +2563,9 @@ export type Preferences = {
 	zimbraPrefCalendarInitialView?: Maybe<PrefCalendarInitialView>;
 	zimbraPrefCalendarReminderEmail?: Maybe<Scalars['String']>;
 	zimbraPrefCalendarWorkingHours?: Maybe<Scalars['String']>;
+	zimbraPrefCalendarApptReminderWarningTime?: Maybe<Scalars['Int']>;
+	zimbraPrefCalendarShowPastDueReminders?: Maybe<Scalars['Boolean']>;
+	zimbraPrefCalendarToasterEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraPrefDefaultCalendarId?: Maybe<Scalars['ID']>;
 	zimbraPrefDeleteInviteOnReply?: Maybe<Scalars['Boolean']>;
 	zimbraPrefDelegatedSendSaveTarget?: Maybe<PrefDelegatedSendSaveTarget>;
@@ -2608,6 +2611,9 @@ export type PreferencesInput = {
 	zimbraPrefCalendarInitialView?: Maybe<PrefCalendarInitialView>;
 	zimbraPrefCalendarReminderEmail?: Maybe<Scalars['String']>;
 	zimbraPrefCalendarWorkingHours?: Maybe<Scalars['String']>;
+	zimbraPrefCalendarApptReminderWarningTime?: Maybe<Scalars['Int']>;
+	zimbraPrefCalendarShowPastDueReminders?: Maybe<Scalars['Boolean']>;
+	zimbraPrefCalendarToasterEnabled?: Maybe<Scalars['Boolean']>;
 	zimbraPrefDelegatedSendSaveTarget?: Maybe<PrefDelegatedSendSaveTarget>;
 	zimbraPrefDisplayExternalImages?: Maybe<Scalars['Boolean']>;
 	zimbraPrefGroupMailBy?: Maybe<Scalars['String']>;
