@@ -145,6 +145,26 @@ export class ZimbraNotifications {
 		this.getApolloClient().queryManager.broadcastQueries();
 	};
 
+	// Find the actual folder of the shared folder
+	private findSharedItemId = (item: any) => {
+		let sharedFolderId: any;
+		const cachedData = get(this.cache, 'data.data');
+		const allFolders = Object.keys(cachedData).filter(f =>
+			f.includes('Folder:')
+		);
+		const idSplit = item.id.split(':');
+		for (let folderId in allFolders) {
+			if (
+				cachedData[allFolders[folderId]].ownerZimbraId === idSplit[0] &&
+				cachedData[allFolders[folderId]].sharedItemId === idSplit[1]
+			) {
+				sharedFolderId = cachedData[allFolders[folderId]].id;
+				break;
+			}
+		}
+		return sharedFolderId;
+	};
+
 	private handleContactNotifications = (notification: Notification) => {
 		const items = itemsForKey(notification, 'cn');
 		this.batchProcessItems(items, this.processContactNotifications);
@@ -302,8 +322,12 @@ export class ZimbraNotifications {
 		if (items) {
 			items.forEach((i: any) => {
 				const item = normalizeFolder(i);
+				let itemId: any;
+				if (i.id.includes(':')) {
+					itemId = this.findSharedItemId(i);
+				}
 				this.cache.writeFragment({
-					id: `Folder:${item.id}`,
+					id: `Folder:${itemId}`,
 					fragment: gql`
 						fragment ${generateFragmentName('folderNotification', item.id)} on Folder {
 							${attributeKeys(item)}
