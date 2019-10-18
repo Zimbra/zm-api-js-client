@@ -322,7 +322,7 @@ export class ZimbraNotifications {
 		if (items) {
 			items.forEach((i: any) => {
 				const item = normalizeFolder(i);
-				let itemId: any;
+				let itemId = item.id;
 				if (i.id.includes(':')) {
 					itemId = this.findSharedItemId(i);
 				}
