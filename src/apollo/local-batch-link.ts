@@ -15,7 +15,7 @@ export class LocalBatchLink extends ApolloLink {
 	constructor(options: LocalBatchLinkOptions) {
 		super();
 		this.schema = options.schema;
-		const notifier = new events();
+		const notifier: any = new (events as any)();
 		this.on = notifier.on;
 		this.off = notifier.off;
 
