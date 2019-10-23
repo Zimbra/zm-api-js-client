@@ -152,13 +152,15 @@ export class ZimbraNotifications {
 		const allFolders = Object.keys(cachedData).filter(f =>
 			f.includes('Folder:')
 		);
-		const idSplit = item.id.split(':');
-		for (let folderId in allFolders) {
+		const idSplit = item.split(':');
+		for (const folderId in allFolders) {
+			const folder: any = cachedData[allFolders[folderId]];
+			//Find the folder where ownerZimbraId:sharedItemId equals to id
 			if (
-				cachedData[allFolders[folderId]].ownerZimbraId === idSplit[0] &&
-				cachedData[allFolders[folderId]].sharedItemId === idSplit[1]
+				folder.ownerZimbraId === idSplit[0] &&
+				folder.sharedItemId === idSplit[1]
 			) {
-				sharedFolderId = cachedData[allFolders[folderId]].id;
+				sharedFolderId = folder.id;
 				break;
 			}
 		}
@@ -322,10 +324,9 @@ export class ZimbraNotifications {
 		if (items) {
 			items.forEach((i: any) => {
 				const item = normalizeFolder(i);
-				let itemId = item.id;
-				if (i.id.includes(':')) {
-					itemId = this.findSharedItemId(i);
-				}
+				const itemId = get(i, 'id', '').includes(':')
+					? this.findSharedItemId(i.id)
+					: item.id;
 				this.cache.writeFragment({
 					id: `Folder:${itemId}`,
 					fragment: gql`
