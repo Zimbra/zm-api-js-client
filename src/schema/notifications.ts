@@ -197,10 +197,13 @@ export class ZimbraNotifications {
 	private processContactNotifications = (items: any) => {
 		if (items) {
 			let searchResponse: any = {};
+			const typeGroup = '#type:group';
+			const notTypeGroup = `NOT ${typeGroup}`;
 			items.forEach((i: any) => {
 				const item = normalizeContact(i);
 				const defaultFolderName = 'Contacts';
 				let folder: any;
+
 				try {
 					folder = this.cache.readFragment({
 						id: `Folder:${item.folderId}`,
@@ -214,18 +217,33 @@ export class ZimbraNotifications {
 					console.error(exception);
 					return;
 				}
+
 				const folderName = (folder && folder.name) || defaultFolderName;
 				const query =
 					folderName === 'Trash'
 						? `in:\\\\"${folderName}\\\\"`
 						: item.attributes && item.attributes.type === 'group'
-						? '#type:group'
-						: `in:\\\\"${folderName}\\\\" NOT #type:group`;
-				const r = new RegExp(query);
-				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
-					r.test(dataId)
-				);
+						? typeGroup
+						: `in:\\\\"${folderName}\\\\" ${notTypeGroup}`;
+
+				const queryRegex = new RegExp(query);
+
+				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId => {
+					// check if query does not contain NOT #type:group but contains #type:group
+					if (
+						query.indexOf(notTypeGroup) === -1 &&
+						query.indexOf(typeGroup) !== -1
+					) {
+						// if yes, then dataId should also not contain NOT #type:group and contain #type:group
+						return (
+							dataId.indexOf(notTypeGroup) === -1 && queryRegex.test(dataId)
+						);
+					}
+					return queryRegex.test(dataId);
+				});
+
 				const { sortBy }: any = getVariablesFromDataId(id) || {};
+
 				if (!searchResponse[query] && id) {
 					/**
 					 * readFragment without try...catch breaks the operation on exception.
@@ -280,11 +298,23 @@ export class ZimbraNotifications {
 					typename: 'Contact'
 				}));
 			});
-			Object.keys(searchResponse).forEach(q => {
-				const r = new RegExp(q);
-				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
-					r.test(dataId)
-				);
+			Object.keys(searchResponse).forEach(query => {
+				const queryRegex = new RegExp(query);
+
+				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId => {
+					// check if query does not contain NOT #type:group but contains #type:group
+					if (
+						query.indexOf(notTypeGroup) === -1 &&
+						query.indexOf(typeGroup) !== -1
+					) {
+						// if yes, then dataId should also not contain NOT #type:group and contain #type:group
+						return (
+							dataId.indexOf(notTypeGroup) === -1 && queryRegex.test(dataId)
+						);
+					}
+					return queryRegex.test(dataId);
+				});
+
 				if (id) {
 					this.cache.writeFragment({
 						id: id,
@@ -295,7 +325,7 @@ export class ZimbraNotifications {
 						`,
 						data: {
 							__typename: 'SearchResponse',
-							contacts: searchResponse[q].contacts
+							contacts: searchResponse[query].contacts
 						}
 					});
 				}
