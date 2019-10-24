@@ -147,7 +147,6 @@ export class ZimbraNotifications {
 
 	// Find the actual folder of the shared folder
 	private findSharedItemId = (item: any) => {
-		let sharedFolderId: any;
 		const cachedData = get(this.cache, 'data.data');
 		const allFolders = Object.keys(cachedData).filter(f =>
 			f.includes('Folder:')
@@ -160,11 +159,9 @@ export class ZimbraNotifications {
 				folder.ownerZimbraId === idSplit[0] &&
 				folder.sharedItemId === idSplit[1]
 			) {
-				sharedFolderId = folder.id;
-				break;
+				return folder.id;
 			}
 		}
-		return sharedFolderId;
 	};
 
 	private handleContactNotifications = (notification: Notification) => {
@@ -324,8 +321,8 @@ export class ZimbraNotifications {
 		if (items) {
 			items.forEach((i: any) => {
 				const item = normalizeFolder(i);
-				const itemId = get(i, 'id', '').includes(':')
-					? this.findSharedItemId(i.id)
+				const itemId = item.id.includes(':')
+					? this.findSharedItemId(item.id)
 					: item.id;
 				this.cache.writeFragment({
 					id: `Folder:${itemId}`,
