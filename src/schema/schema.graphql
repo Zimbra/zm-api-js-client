@@ -1037,7 +1037,7 @@ type Folder {
 	url: String
 	local: Boolean
 	droppable: Boolean
-	userId: ID
+	originalId: ID # To keep ID of Shared folders whose server returned ID would be either numeric OR a combination of ownerZimbraId and sharedItemId.
 }
 
 type ACL {
