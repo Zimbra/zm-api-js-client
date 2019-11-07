@@ -11,13 +11,15 @@ import {
 	Contact,
 	Conversation,
 	Folder as FolderEntity,
-	MessageInfo
+	MessageInfo,
+	Tag
 } from '../normalize/entities';
 
 const normalizeConversation = normalize(Conversation);
 const normalizeFolder = normalize(FolderEntity);
 const normalizeMessage = normalize(MessageInfo);
 const normalizeContact = normalize(Contact);
+const normalizeTag = normalize(Tag);
 
 function itemsForKey(notification: any, key: string) {
 	const modifiedItems = get(notification, `modified.${key}`, []);
@@ -96,6 +98,7 @@ export class ZimbraNotifications {
 		this.handleConversationNotifications(notification);
 		this.handleMessageNotifications(notification);
 		this.handleContactNotifications(notification);
+		this.handleTagsNotifications(notification);
 	};
 
 	/**
@@ -158,6 +161,11 @@ export class ZimbraNotifications {
 	private handleFolderNotifications = (notification: Notification) => {
 		const modifiedItems = get(notification, 'modified.folder');
 		this.batchProcessItems(modifiedItems, this.processFolderNotifications);
+	};
+
+	private handleTagsNotifications = (notification: Notification) => {
+		const modifiedItems = get(notification, 'modified.tag');
+		this.batchProcessItems(modifiedItems, this.processTagsNotifications);
 	};
 
 	private handleMessageNotifications = (notification: Notification) => {
@@ -311,6 +319,26 @@ export class ZimbraNotifications {
 					`,
 					data: {
 						__typename: 'Folder',
+						...item
+					}
+				});
+			});
+		}
+	};
+
+	private processTagsNotifications = (items: any) => {
+		if (items) {
+			items.forEach((i: any) => {
+				const item = normalizeTag(i);
+				this.cache.writeFragment({
+					id: `Tag:${item.id}`,
+					fragment: gql`
+						fragment ${generateFragmentName('tagsNotification', item.id)} on Tag {
+							${attributeKeys(item)}
+						}
+					`,
+					data: {
+						__typename: 'Tag',
 						...item
 					}
 				});
