@@ -182,14 +182,14 @@ export class ZimbraNotifications {
 		this.batchProcessItems(modifiedItems, this.processFolderNotifications);
 	};
 
-	private handleTagsNotifications = (notification: Notification) => {
-		const modifiedItems = get(notification, 'modified.tag');
-		this.batchProcessItems(modifiedItems, this.processTagsNotifications);
-	};
-
 	private handleMessageNotifications = (notification: Notification) => {
 		const items = itemsForKey(notification, 'm');
 		this.batchProcessItems(items, this.processMessageNotifications);
+	};
+
+	private handleTagsNotifications = (notification: Notification) => {
+		const modifiedItems = get(notification, 'modified.tag');
+		this.batchProcessItems(modifiedItems, this.processTagsNotifications);
 	};
 
 	private processContactNotifications = (items: any) => {
@@ -348,26 +348,6 @@ export class ZimbraNotifications {
 		}
 	};
 
-	private processTagsNotifications = (items: any) => {
-		if (items) {
-			items.forEach((i: any) => {
-				const item = normalizeTag(i);
-				this.cache.writeFragment({
-					id: `Tag:${item.id}`,
-					fragment: gql`
-						fragment ${generateFragmentName('tagsNotification', item.id)} on Tag {
-							${attributeKeys(item)}
-						}
-					`,
-					data: {
-						__typename: 'Tag',
-						...item
-					}
-				});
-			});
-		}
-	};
-
 	// TODO: The `created` key in the session header will indicate when
 	// new messages/conversations arrive. The notification handlers
 	// should be able to implement a mechanism for notifying the app
@@ -394,6 +374,26 @@ export class ZimbraNotifications {
 					`,
 					data: {
 						__typename: 'MessageInfo',
+						...item
+					}
+				});
+			});
+		}
+	};
+
+	private processTagsNotifications = (items: any) => {
+		if (items) {
+			items.forEach((i: any) => {
+				const item = normalizeTag(i);
+				this.cache.writeFragment({
+					id: `Tag:${item.id}`,
+					fragment: gql`
+						fragment ${generateFragmentName('tagsNotification', item.id)} on Tag {
+							${attributeKeys(item)}
+						}
+					`,
+					data: {
+						__typename: 'Tag',
 						...item
 					}
 				});
