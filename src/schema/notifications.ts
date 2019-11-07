@@ -213,13 +213,12 @@ export class ZimbraNotifications {
 					return;
 				}
 				const folderName = (folder && folder.name) || defaultFolderName;
-				const group =
+				const query =
 					folderName === 'Trash'
-						? ''
+						? `in:\\\\"${folderName}\\\\"`
 						: item.attributes && item.attributes.type === 'group'
-						? ' #type:group'
-						: ' NOT #type:group';
-				const query = `in:\\\\"${folderName}\\\\"${group}`;
+						? '#type:group'
+						: `in:\\\\"${folderName}\\\\" NOT #type:group`;
 				const r = new RegExp(query);
 				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
 					r.test(dataId)
