@@ -29,6 +29,7 @@ export interface BaseRequestOptions {
 
 export interface RequestOptions {
 	body?: any;
+	fetchOptions?: any;
 	name: string;
 	namespace?: Namespace;
 }

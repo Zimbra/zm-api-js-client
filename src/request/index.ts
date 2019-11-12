@@ -235,6 +235,8 @@ export function jsonRequest(
 		[soapRequestName]: soapCommandBody(options)
 	};
 
+	const signal = get(requestOptions, 'fetchOptions.signal');
+
 	return fetch(url, {
 		method: 'POST',
 		credentials: options.credentials,
@@ -242,7 +244,8 @@ export function jsonRequest(
 			Body: body,
 			Header: header
 		}),
-		headers: options.headers
+		headers: options.headers,
+		signal
 	})
 		.then(parseJSON)
 		.then(response => {

@@ -410,8 +410,8 @@ export function createZimbraSchema(
 					client.modifySearchFolder(variables as SearchFolderInput),
 				deleteSignature: (_, variables) =>
 					client.deleteSignature(variables as NameIdInput),
-				saveDraft: (_, variables) =>
-					client.saveDraft(variables as SendMessageInput),
+				saveDraft: (_, variables, context = {}) =>
+					client.saveDraft(variables as SendMessageInput, context),
 				sendMessage: (_, variables) =>
 					client.sendMessage(variables as SendMessageInput),
 				sendDeliveryReport: (_, { messageId }) =>

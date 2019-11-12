@@ -1166,11 +1166,12 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(Boolean);
 
-	public saveDraft = (options: SendMessageInput) =>
+	public saveDraft = (options: SendMessageInput, context: any) =>
 		this.jsonRequest({
 			name: 'SaveDraft',
 			body: denormalize(SendMessageInfo)(options),
-			singleRequest: true
+			singleRequest: true,
+			fetchOptions: context.fetchOptions
 		}).then(({ m: messages }) => ({
 			message: messages && messages.map(this.normalizeMessage)
 		}));
