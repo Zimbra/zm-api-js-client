@@ -245,7 +245,7 @@ export function jsonRequest(
 			Header: header
 		}),
 		headers: options.headers,
-		signal
+		...(signal && { signal: signal })
 	})
 		.then(parseJSON)
 		.then(response => {
