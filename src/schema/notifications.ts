@@ -178,7 +178,9 @@ export class ZimbraNotifications {
 	};
 
 	private handleFolderNotifications = (notification: Notification) => {
-		const modifiedItems = get(notification, 'modified.folder');
+		const modifiedItems =
+			get(notification, 'modified.folder') ||
+			get(notification, 'modified.link');
 		this.batchProcessItems(modifiedItems, this.processFolderNotifications);
 	};
 
