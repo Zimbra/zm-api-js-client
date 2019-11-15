@@ -1239,6 +1239,9 @@ type Preferences {
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
 	zimbraPrefCalendarWorkingHours: String
+	zimbraPrefCalendarApptReminderWarningTime: Int
+	zimbraPrefCalendarShowPastDueReminders: Boolean
+	zimbraPrefCalendarToasterEnabled: Boolean
 	zimbraPrefDefaultCalendarId: ID
 	zimbraPrefDeleteInviteOnReply: Boolean
 	zimbraPrefDelegatedSendSaveTarget: PrefDelegatedSendSaveTarget
@@ -2031,6 +2034,9 @@ input PreferencesInput {
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
 	zimbraPrefCalendarWorkingHours: String
+	zimbraPrefCalendarApptReminderWarningTime: Int
+	zimbraPrefCalendarShowPastDueReminders: Boolean
+	zimbraPrefCalendarToasterEnabled: Boolean
 	zimbraPrefDelegatedSendSaveTarget: PrefDelegatedSendSaveTarget
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
