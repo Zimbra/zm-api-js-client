@@ -225,8 +225,14 @@ export class ZimbraNotifications {
 				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
 					r.test(dataId)
 				);
+
+				if (!id) {
+					// Cache entry for search request doesn't exist ignore
+					return;
+				}
+
 				const { sortBy }: any = getVariablesFromDataId(id) || {};
-				if (!searchResponse[query] && id) {
+				if (!searchResponse[query]) {
 					/**
 					 * readFragment without try...catch breaks the operation on exception.
 					 * Read contacts from search results fragment and
@@ -249,10 +255,12 @@ export class ZimbraNotifications {
 						return;
 					}
 				}
+
 				searchResponse[query] =
 					searchResponse[query] && searchResponse[query].contacts
 						? searchResponse[query]
 						: { contacts: [] };
+
 				this.cache.writeFragment({
 					id: `Contact:${item.id}`,
 					fragment: gql`
@@ -270,12 +278,16 @@ export class ZimbraNotifications {
 					item,
 					sortBy
 				);
+
 				searchResponse[query].contacts = uniqBy(
 					searchResponse[query].contacts,
 					'id'
 				).map((contact: any) => ({
 					generated: false,
-					id: `Contact:${contact.id}`,
+					id:
+						contact.id.indexOf('Contact') === -1
+							? `Contact:${contact.id}`
+							: contact.id,
 					type: 'id',
 					typename: 'Contact'
 				}));
