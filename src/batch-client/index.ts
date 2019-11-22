@@ -214,16 +214,26 @@ export class ZimbraBatchClient {
 			body: {
 				sections: 'mbox,attrs,zimlets'
 			}
-		}).then(res => ({
-			...res,
-			attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
-			...(get(res, 'license.attr') && {
-				license: {
-					status: res.license.status,
-					attr: mapValuesDeep(res.license.attr, coerceStringToBoolean)
-				}
-			})
-		}));
+		}).then(res => {
+			const { attrs: { _attrs } } = res;
+
+			if (typeof _attrs.zimbraMailAlias === 'string') {
+				// Server returns `zimbraMailAlias` as `string` if only one alias is present, else returns as `array`.
+				// But Graphql can have only one type (using unions was not an option).
+				_attrs.zimbraMailAlias = [_attrs.zimbraMailAlias];
+			}
+
+			return {
+				...res,
+				attrs: mapValuesDeep(_attrs, coerceStringToBoolean),
+				...(get(res, 'license.attr') && {
+					license: {
+						status: res.license.status,
+						attr: mapValuesDeep(res.license.attr, coerceStringToBoolean)
+					}
+				})
+			};
+		});
 
 	public action = (type: ActionType, options: ActionOptions) => {
 		const { ids, id, ...rest } = options;
