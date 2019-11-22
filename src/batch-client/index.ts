@@ -215,7 +215,9 @@ export class ZimbraBatchClient {
 				sections: 'mbox,attrs,zimlets'
 			}
 		}).then(res => {
-			const { attrs: { _attrs } } = res;
+			const {
+				attrs: { _attrs }
+			} = res;
 
 			if (typeof _attrs.zimbraMailAlias === 'string') {
 				// Server returns `zimbraMailAlias` as `string` if only one alias is present, else returns as `array`.
