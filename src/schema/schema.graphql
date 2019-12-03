@@ -1802,7 +1802,7 @@ type CalendarItemAlarmTriggerRelative {
 	minutes: Int
 	seconds: Int
 	relatedTo: AlarmRelatedTo
-	negative: Boolean!
+	negative: Boolean
 }
 
 type CalendarItemAlarmAttendees {
