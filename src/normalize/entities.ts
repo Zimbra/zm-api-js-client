@@ -438,6 +438,7 @@ export const SearchResponse = new Entity({
 	c: ['conversations', SearchConversation],
 	cn: ['contacts', Contact],
 	appt: ['appointments', CalendarItemHitInfo],
+	task: ['tasks', CalendarItemHitInfo],
 	hit: Hit
 });
 

@@ -2678,7 +2678,7 @@ type Query {
 		query: String,
 		recip: Int,
 		sortBy: SortBy,
-		types: SearchType,
+		types: String,
 		resultMode: String
 	): SearchResponse
 

@@ -2962,7 +2962,7 @@ export type QuerySearchArgs = {
 	query?: Maybe<Scalars['String']>;
 	recip?: Maybe<Scalars['Int']>;
 	sortBy?: Maybe<SortBy>;
-	types?: Maybe<SearchType>;
+	types?: Maybe<Scalars['String']>;
 	resultMode?: Maybe<Scalars['String']>;
 };
 

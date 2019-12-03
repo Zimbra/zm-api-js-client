@@ -5,7 +5,6 @@ import {
 	FolderView,
 	Grantee,
 	Owner,
-	SearchType,
 	SortBy
 } from '../schema/generated-schema-types';
 
@@ -161,7 +160,7 @@ export interface SearchOptions {
 	recip?: number;
 	sortBy?: SortBy;
 	type?: GalSearchType;
-	types?: SearchType;
+	types?: string;
 }
 
 export interface ShareInfoOptions {
