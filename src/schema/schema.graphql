@@ -1597,6 +1597,7 @@ type MailboxMetadataAttrs {
 	zimbraPrefReadingPaneSashHorizontal: Int
 	zimbraPrefReadingPaneSashVertical: Int
 	zimbraPrefSmartFolderTreeOpen: Boolean
+	zimbraPrefTimeFormat: String
 	zimbraPrefUndoSendEnabled: Boolean
 	zimbraPrefUndoSendTimeout: Int
 	archivedFolder: String
@@ -1617,6 +1618,7 @@ input MailboxMetadataSectionAttrsInput {
 	zimbraPrefReadingPaneSashHorizontal: Int
 	zimbraPrefReadingPaneSashVertical: Int
 	zimbraPrefSmartFolderTreeOpen: Boolean
+	zimbraPrefTimeFormat: String
 	zimbraPrefUndoSendEnabled: Boolean
 	zimbraPrefUndoSendTimeout: Int
 	archivedFolder: String
