@@ -413,7 +413,7 @@ export type CalendarItemAlarmTriggerRelative = {
 	minutes?: Maybe<Scalars['Int']>;
 	seconds?: Maybe<Scalars['Int']>;
 	relatedTo?: Maybe<AlarmRelatedTo>;
-	negative: Scalars['Boolean'];
+	negative?: Maybe<Scalars['Boolean']>;
 };
 
 export type CalendarItemAlarmTriggerRelativeInput = {
