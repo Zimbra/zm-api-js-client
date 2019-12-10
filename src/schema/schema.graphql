@@ -1155,6 +1155,7 @@ type AccountInfoAttrs {
 	zimbraFeatureTrustedDevicesEnabled: Boolean
 	zimbraFeatureAppSpecificPasswordsEnabled: Boolean
 	zimbraFeatureMailPriorityEnabled: Boolean
+	zimbraMailAlias: [String]
 }
 
 type Identities {
