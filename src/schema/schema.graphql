@@ -380,6 +380,7 @@ type Instance {
 	modifiedSequence: Int # ms
 	name: String
 	organizer: CalOrganizer # or
+	otherAtt: Boolean
 	participationStatus: ParticipationStatus
 	revision: Int # rev
 	status: InviteCompletionStatus
