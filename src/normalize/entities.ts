@@ -293,6 +293,7 @@ const ShareNotificationAddress = new Entity({
 const Instance = new Entity({
 	...commonMessageFields,
 	...commonInviteFields,
+	otherAtt: 'otherAttendees',
 	s: 'start',
 	ptst: 'participationStatus',
 	dur: 'duration',
@@ -312,6 +313,7 @@ export const CalendarItemHitInfo = new Entity({
 	ptst: 'participationStatus',
 	dur: 'duration',
 	tzo: 'timezoneOffset',
+	otherAtt: 'otherAttendees',
 	inst: ['instances', Instance],
 	inv: ['invitations', Invitation],
 	alarmData: ['alarmData', Alarm],

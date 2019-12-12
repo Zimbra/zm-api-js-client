@@ -483,7 +483,7 @@ export type CalendarItemHitInfo = {
 	modifiedSequence?: Maybe<Scalars['Int']>;
 	name?: Maybe<Scalars['String']>;
 	organizer?: Maybe<CalOrganizer>;
-	otherAtt?: Maybe<Scalars['Boolean']>;
+	otherAttendees?: Maybe<Scalars['Boolean']>;
 	participationStatus?: Maybe<ParticipationStatus>;
 	percentComplete?: Maybe<Scalars['String']>;
 	priority?: Maybe<Scalars['String']>;
@@ -1629,7 +1629,7 @@ export type Instance = {
 	modifiedSequence?: Maybe<Scalars['Int']>;
 	name?: Maybe<Scalars['String']>;
 	organizer?: Maybe<CalOrganizer>;
-	otherAtt?: Maybe<Scalars['Boolean']>;
+	otherAttendees?: Maybe<Scalars['Boolean']>;
 	participationStatus?: Maybe<ParticipationStatus>;
 	revision?: Maybe<Scalars['Int']>;
 	status?: Maybe<InviteCompletionStatus>;
