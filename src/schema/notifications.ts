@@ -11,13 +11,15 @@ import {
 	Contact,
 	Conversation,
 	Folder as FolderEntity,
-	MessageInfo
+	MessageInfo,
+	Tag
 } from '../normalize/entities';
 
 const normalizeConversation = normalize(Conversation);
 const normalizeFolder = normalize(FolderEntity);
 const normalizeMessage = normalize(MessageInfo);
 const normalizeContact = normalize(Contact);
+const normalizeTag = normalize(Tag);
 
 function itemsForKey(notification: any, key: string) {
 	const modifiedItems = get(notification, `modified.${key}`, []);
@@ -96,6 +98,7 @@ export class ZimbraNotifications {
 		this.handleConversationNotifications(notification);
 		this.handleMessageNotifications(notification);
 		this.handleContactNotifications(notification);
+		this.handleTagsNotifications(notification);
 	};
 
 	/**
@@ -145,6 +148,25 @@ export class ZimbraNotifications {
 		this.getApolloClient().queryManager.broadcastQueries();
 	};
 
+	// Find the actual folder of the shared folder
+	private findSharedItemId = (item: any) => {
+		const cachedData = get(this.cache, 'data.data');
+		const allFolders = Object.keys(cachedData).filter(f =>
+			f.includes('Folder:')
+		);
+		const idSplit = item.split(':');
+		for (const folderId in allFolders) {
+			const folder: any = cachedData[allFolders[folderId]];
+			//Find the folder where ownerZimbraId:sharedItemId equals to id
+			if (
+				folder.ownerZimbraId === idSplit[0] &&
+				folder.sharedItemId === idSplit[1]
+			) {
+				return folder.id;
+			}
+		}
+	};
+
 	private handleContactNotifications = (notification: Notification) => {
 		const items = itemsForKey(notification, 'cn');
 		this.batchProcessItems(items, this.processContactNotifications);
@@ -156,13 +178,20 @@ export class ZimbraNotifications {
 	};
 
 	private handleFolderNotifications = (notification: Notification) => {
-		const modifiedItems = get(notification, 'modified.folder');
+		const modifiedItems =
+			get(notification, 'modified.folder') ||
+			get(notification, 'modified.link');
 		this.batchProcessItems(modifiedItems, this.processFolderNotifications);
 	};
 
 	private handleMessageNotifications = (notification: Notification) => {
 		const items = itemsForKey(notification, 'm');
 		this.batchProcessItems(items, this.processMessageNotifications);
+	};
+
+	private handleTagsNotifications = (notification: Notification) => {
+		const modifiedItems = get(notification, 'modified.tag');
+		this.batchProcessItems(modifiedItems, this.processTagsNotifications);
 	};
 
 	private processContactNotifications = (items: any) => {
@@ -186,13 +215,12 @@ export class ZimbraNotifications {
 					return;
 				}
 				const folderName = (folder && folder.name) || defaultFolderName;
-				const group =
+				const query =
 					folderName === 'Trash'
-						? ''
+						? `in:\\\\"${folderName}\\\\"`
 						: item.attributes && item.attributes.type === 'group'
-						? ' #type:group'
-						: ' NOT #type:group';
-				const query = `in:\\\\"${folderName}\\\\"${group}`;
+						? '#type:group'
+						: `in:\\\\"${folderName}\\\\" NOT #type:group`;
 				const r = new RegExp(query);
 				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId =>
 					r.test(dataId)
@@ -302,8 +330,11 @@ export class ZimbraNotifications {
 		if (items) {
 			items.forEach((i: any) => {
 				const item = normalizeFolder(i);
+				const itemId = item.id.includes(':')
+					? this.findSharedItemId(item.id)
+					: item.id;
 				this.cache.writeFragment({
-					id: `Folder:${item.id}`,
+					id: `Folder:${itemId}`,
 					fragment: gql`
 						fragment ${generateFragmentName('folderNotification', item.id)} on Folder {
 							${attributeKeys(item)}
@@ -344,6 +375,26 @@ export class ZimbraNotifications {
 					`,
 					data: {
 						__typename: 'MessageInfo',
+						...item
+					}
+				});
+			});
+		}
+	};
+
+	private processTagsNotifications = (items: any) => {
+		if (items) {
+			items.forEach((i: any) => {
+				const item = normalizeTag(i);
+				this.cache.writeFragment({
+					id: `Tag:${item.id}`,
+					fragment: gql`
+						fragment ${generateFragmentName('tagsNotification', item.id)} on Tag {
+							${attributeKeys(item)}
+						}
+					`,
+					data: {
+						__typename: 'Tag',
 						...item
 					}
 				});
