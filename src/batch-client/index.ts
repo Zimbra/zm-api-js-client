@@ -212,7 +212,7 @@ export class ZimbraBatchClient {
 			name: 'GetInfo',
 			namespace: Namespace.Account,
 			body: {
-				sections: 'mbox,attrs,zimlets'
+				sections: 'mbox,attrs,zimlets,props'
 			}
 		}).then(res => ({
 			...res,
@@ -1055,6 +1055,16 @@ export class ZimbraBatchClient {
 			}
 		});
 	};
+
+	public modifyProps = (props: any) =>
+		this.jsonRequest({
+			name: 'ModifyProperties',
+			namespace: Namespace.Account,
+			body: {
+				prop: mapValuesDeep(props, coerceBooleanToString)
+			},
+			singleRequest: true
+		}).then(Boolean);
 
 	public modifySearchFolder = (options: SearchFolderInput) =>
 		this.jsonRequest({

@@ -43,6 +43,7 @@ export type AccountInfo = {
 	version?: Maybe<Scalars['String']>;
 	attrs?: Maybe<AccountInfoAttrs>;
 	license?: Maybe<License>;
+	props?: Maybe<PropList>;
 	zimlets?: Maybe<AccountZimlet>;
 };
 
@@ -2072,6 +2073,7 @@ export type Mutation = {
 	modifyAppointment?: Maybe<ModifyAppointmentResponse>;
 	modifyIdentity?: Maybe<Scalars['Boolean']>;
 	modifyPrefs?: Maybe<Scalars['Boolean']>;
+	modifyProps?: Maybe<Scalars['Boolean']>;
 	modifyZimletPrefs?: Maybe<ModifyZimletPrefsResponse>;
 	modifyFilterRules?: Maybe<Scalars['Boolean']>;
 	modifySignature?: Maybe<Scalars['Boolean']>;
@@ -2318,6 +2320,10 @@ export type MutationModifyIdentityArgs = {
 
 export type MutationModifyPrefsArgs = {
 	prefs: PreferencesInput;
+};
+
+export type MutationModifyPropsArgs = {
+	props?: Maybe<Array<PropertiesInput>>;
 };
 
 export type MutationModifyZimletPrefsArgs = {
@@ -2654,6 +2660,24 @@ export enum PrefMailSendReadReceipts {
 export type ProfileImageChangeResponse = {
 	__typename?: 'ProfileImageChangeResponse';
 	itemId?: Maybe<Scalars['ID']>;
+};
+
+export type Prop = {
+	__typename?: 'Prop';
+	zimlet?: Maybe<Scalars['String']>;
+	name?: Maybe<Scalars['String']>;
+	_content?: Maybe<Scalars['String']>;
+};
+
+export type PropertiesInput = {
+	zimlet: Scalars['String'];
+	name: Scalars['String'];
+	_content?: Maybe<Scalars['String']>;
+};
+
+export type PropList = {
+	__typename?: 'PropList';
+	prop?: Maybe<Array<Maybe<Prop>>>;
 };
 
 /** Zimbra GraphQL Queries
