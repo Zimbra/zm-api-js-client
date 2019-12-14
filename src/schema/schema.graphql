@@ -380,6 +380,7 @@ type Instance {
 	modifiedSequence: Int # ms
 	name: String
 	organizer: CalOrganizer # or
+	otherAttendees: Boolean
 	participationStatus: ParticipationStatus
 	revision: Int # rev
 	status: InviteCompletionStatus
@@ -756,6 +757,7 @@ type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	modifiedSequence: Int # ms
 	name: String
 	organizer: CalOrganizer # or
+	otherAttendees: Boolean
 	participationStatus: ParticipationStatus
 	percentComplete: String
 	priority: String
