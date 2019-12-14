@@ -380,6 +380,7 @@ type Instance {
 	modifiedSequence: Int # ms
 	name: String
 	organizer: CalOrganizer # or
+	otherAttendees: Boolean
 	participationStatus: ParticipationStatus
 	revision: Int # rev
 	status: InviteCompletionStatus
@@ -756,6 +757,7 @@ type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	modifiedSequence: Int # ms
 	name: String
 	organizer: CalOrganizer # or
+	otherAttendees: Boolean
 	participationStatus: ParticipationStatus
 	percentComplete: String
 	priority: String
@@ -1063,6 +1065,15 @@ type License {
 	attr: [LicenseAttrs]
 }
 
+type PropList {
+	prop: [Prop]
+}
+type Prop {
+	zimlet: String
+	name: String
+	_content: String
+}
+
 type AccountInfo {
 	id: ID!
 	name: String
@@ -1073,6 +1084,7 @@ type AccountInfo {
 	version: String
 	attrs: AccountInfoAttrs
 	license: License
+	props: PropList
 	zimlets: AccountZimlet
 }
 
@@ -1802,7 +1814,7 @@ type CalendarItemAlarmTriggerRelative {
 	minutes: Int
 	seconds: Int
 	relatedTo: AlarmRelatedTo
-	negative: Boolean!
+	negative: Boolean
 }
 
 type CalendarItemAlarmAttendees {
@@ -2024,6 +2036,12 @@ input InviteReplyInput {
 	updateOrganizer: Boolean
 	message: CalendarItemMessageInput
 	exceptId: InstanceDate
+}
+
+input PropertiesInput {
+	zimlet: String!
+	name: String!
+	_content: String
 }
 
 input PreferencesInput {
@@ -2807,6 +2825,7 @@ type Mutation {
 	modifyAppointment(accountName: String, appointment: CalendarItemInput!): ModifyAppointmentResponse
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): Boolean
 	modifyPrefs(prefs: PreferencesInput!): Boolean
+	modifyProps(props: [PropertiesInput!]): Boolean
 	modifyZimletPrefs(zimlets: [ZimletPreferenceInput!]): ModifyZimletPrefsResponse
 	modifyFilterRules(filters: [FilterInput!]): Boolean
 	modifySignature(signature: SignatureInput!): Boolean

@@ -25,6 +25,7 @@ import {
 	ModifyIdentityInput,
 	NameIdInput,
 	PreferencesInput,
+	PropertiesInput,
 	RevokeRightsInput,
 	SearchFolderInput,
 	SendMessageInput,
@@ -398,6 +399,8 @@ export function createZimbraSchema(
 
 				modifyPrefs: (_, { prefs }) =>
 					client.modifyPrefs(prefs as PreferencesInput),
+				modifyProps: (_, { props }) =>
+					client.modifyProps(props as Array<PropertiesInput>),
 				modifyZimletPrefs: (_, { zimlets }) =>
 					client.modifyZimletPrefs(zimlets as Array<ZimletPreferenceInput>),
 				modifyFilterRules: (_, { filters }) =>

@@ -43,6 +43,7 @@ export type AccountInfo = {
   version?: Maybe<Scalars['String']>,
   attrs?: Maybe<AccountInfoAttrs>,
   license?: Maybe<License>,
+  props?: Maybe<PropList>,
   zimlets?: Maybe<AccountZimlet>,
 };
 
@@ -413,7 +414,7 @@ export type CalendarItemAlarmTriggerRelative = {
   minutes?: Maybe<Scalars['Int']>,
   seconds?: Maybe<Scalars['Int']>,
   relatedTo?: Maybe<AlarmRelatedTo>,
-  negative: Scalars['Boolean'],
+  negative?: Maybe<Scalars['Boolean']>,
 };
 
 export type CalendarItemAlarmTriggerRelativeInput = {
@@ -482,6 +483,7 @@ export type CalendarItemHitInfo = {
   modifiedSequence?: Maybe<Scalars['Int']>,
   name?: Maybe<Scalars['String']>,
   organizer?: Maybe<CalOrganizer>,
+  otherAttendees?: Maybe<Scalars['Boolean']>,
   participationStatus?: Maybe<ParticipationStatus>,
   percentComplete?: Maybe<Scalars['String']>,
   priority?: Maybe<Scalars['String']>,
@@ -1627,6 +1629,7 @@ export type Instance = {
   modifiedSequence?: Maybe<Scalars['Int']>,
   name?: Maybe<Scalars['String']>,
   organizer?: Maybe<CalOrganizer>,
+  otherAttendees?: Maybe<Scalars['Boolean']>,
   participationStatus?: Maybe<ParticipationStatus>,
   revision?: Maybe<Scalars['Int']>,
   status?: Maybe<InviteCompletionStatus>,
@@ -2072,6 +2075,7 @@ export type Mutation = {
   modifyAppointment?: Maybe<ModifyAppointmentResponse>,
   modifyIdentity?: Maybe<Scalars['Boolean']>,
   modifyPrefs?: Maybe<Scalars['Boolean']>,
+  modifyProps?: Maybe<Scalars['Boolean']>,
   modifyZimletPrefs?: Maybe<ModifyZimletPrefsResponse>,
   modifyFilterRules?: Maybe<Scalars['Boolean']>,
   modifySignature?: Maybe<Scalars['Boolean']>,
@@ -2360,6 +2364,11 @@ export type MutationModifyIdentityArgs = {
 
 export type MutationModifyPrefsArgs = {
   prefs: PreferencesInput
+};
+
+
+export type MutationModifyPropsArgs = {
+  props?: Maybe<Array<PropertiesInput>>
 };
 
 
@@ -2722,6 +2731,24 @@ export enum PrefMailSendReadReceipts {
 export type ProfileImageChangeResponse = {
    __typename?: 'ProfileImageChangeResponse',
   itemId?: Maybe<Scalars['ID']>,
+};
+
+export type Prop = {
+   __typename?: 'Prop',
+  zimlet?: Maybe<Scalars['String']>,
+  name?: Maybe<Scalars['String']>,
+  _content?: Maybe<Scalars['String']>,
+};
+
+export type PropertiesInput = {
+  zimlet: Scalars['String'],
+  name: Scalars['String'],
+  _content?: Maybe<Scalars['String']>,
+};
+
+export type PropList = {
+   __typename?: 'PropList',
+  prop?: Maybe<Array<Maybe<Prop>>>,
 };
 
 /** 

@@ -124,6 +124,15 @@ export function normalizeMimeParts(
 					);
 
 					acc['html'] = acc['text']; // And then update `html` part so that we render `html` in `viewer`.
+				} else if (
+					//bodyType can be either 'text/html' or 'text/plain' so to handle such inline attachments the below condition is added
+					part.filename &&
+					bodyType &&
+					disposition === 'inline'
+				) {
+					(acc['inlineAttachments'] || (acc['inlineAttachments'] = [])).concat(
+						processAttachment(part)
+					);
 				} else if (bodyType && (!acc[bodyType] || disposition !== 'inline')) {
 					if ((bodyType === 'html' || bodyType === 'text') && acc[bodyType]) {
 						acc[bodyType] = acc[bodyType].concat(content);
