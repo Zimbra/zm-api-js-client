@@ -1335,6 +1335,7 @@ export type Folder = {
   local?: Maybe<Scalars['Boolean']>,
   droppable?: Maybe<Scalars['Boolean']>,
   userId?: Maybe<Scalars['ID']>,
+  broken?: Maybe<Scalars['Boolean']>,
 };
 
 
@@ -1399,9 +1400,20 @@ export enum FolderView {
   Comment = 'comment'
 }
 
+export type ForwardAppointmentInput = {
+  id: Scalars['ID'],
+  message: ForwardMessageInput,
+  exceptId?: Maybe<ForwardExceptIdInput>,
+};
+
 export type ForwardAppointmentInviteInput = {
   id: Scalars['ID'],
   message: ForwardMessageInput,
+};
+
+export type ForwardExceptIdInput = {
+  timezone: Scalars['String'],
+  date: Scalars['String'],
 };
 
 export type ForwardMessageInput = {
@@ -2064,6 +2076,7 @@ export type Mutation = {
   grantRights?: Maybe<GrantRightsResponse>,
   folderAction?: Maybe<Scalars['Boolean']>,
   forwardAppointmentInvite?: Maybe<Scalars['Boolean']>,
+  forwardAppointment?: Maybe<Scalars['Boolean']>,
   itemAction?: Maybe<Scalars['Boolean']>,
   importExternalAccount?: Maybe<Scalars['Boolean']>,
   logout?: Maybe<Scalars['Boolean']>,
@@ -2304,6 +2317,11 @@ export type MutationFolderActionArgs = {
 
 export type MutationForwardAppointmentInviteArgs = {
   appointmentInvite: ForwardAppointmentInviteInput
+};
+
+
+export type MutationForwardAppointmentArgs = {
+  appointmentInvite: ForwardAppointmentInput
 };
 
 

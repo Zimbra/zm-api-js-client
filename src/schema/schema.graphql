@@ -2283,6 +2283,17 @@ input FilterRuleInput {
 
 ##### End Of FilterInput #####
 
+input ForwardExceptIdInput {
+	timezone: String!
+	date: String!
+}
+
+input ForwardAppointmentInput {
+	id: ID!
+	message: ForwardMessageInput!
+	exceptId: ForwardExceptIdInput
+}
+
 input ForwardAppointmentInviteInput {
 	id: ID!
 	message: ForwardMessageInput!
@@ -2801,6 +2812,7 @@ type Mutation {
 	grantRights(input: GrantRightsInput!): GrantRightsResponse
 	folderAction(action: FolderActionInput!): Boolean
 	forwardAppointmentInvite(appointmentInvite:ForwardAppointmentInviteInput!): Boolean
+	forwardAppointment(appointmentInvite:ForwardAppointmentInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
 	logout: Boolean
