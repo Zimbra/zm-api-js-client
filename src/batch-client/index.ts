@@ -23,6 +23,7 @@ import {
 	DiscoverRightsResponse,
 	Filter,
 	Folder,
+	ForwardAppointmentInfo,
 	ForwardAppointmentInviteInfo,
 	FreeBusy,
 	FreeBusyInstance,
@@ -63,6 +64,7 @@ import {
 	FolderActionChangeColorInput,
 	FolderActionCheckCalendarInput,
 	FolderView,
+	ForwardAppointmentInput,
 	ForwardAppointmentInviteInput,
 	GetRightsInput,
 	GrantRightsInput,
@@ -583,6 +585,13 @@ export class ZimbraBatchClient {
 
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);
+
+	public forwardAppointment = (body: ForwardAppointmentInput) =>
+		this.jsonRequest({
+			name: 'ForwardAppointment',
+			body: denormalize(ForwardAppointmentInfo)(body),
+			singleRequest: true
+		}).then(Boolean);
 
 	public forwardAppointmentInvite = (body: ForwardAppointmentInviteInput) =>
 		this.jsonRequest({
