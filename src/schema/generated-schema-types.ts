@@ -2595,6 +2595,7 @@ export type Preferences = {
 	>;
 	zimbraPrefSaveToSent?: Maybe<Scalars['Boolean']>;
 	zimbraPrefShowFragments?: Maybe<Scalars['Boolean']>;
+	zimbraPrefSortOrder?: Maybe<Scalars['String']>;
 	zimbraPrefWebClientOfflineBrowserKey?: Maybe<Scalars['String']>;
 	zimbraPrefTimeZoneId?: Maybe<Scalars['String']>;
 	zimbraPrefLocale?: Maybe<Scalars['String']>;
@@ -2637,6 +2638,7 @@ export type PreferencesInput = {
 	zimbraPrefReadingPaneLocation?: Maybe<ReadingPaneLocation>;
 	zimbraPrefSaveToSent?: Maybe<Scalars['Boolean']>;
 	zimbraPrefShowFragments?: Maybe<Scalars['Boolean']>;
+	zimbraPrefSortOrder?: Maybe<Scalars['String']>;
 	zimbraPrefWebClientOfflineBrowserKey?: Maybe<Scalars['String']>;
 	zimbraPrefTimeZoneId?: Maybe<Scalars['String']>;
 	zimbraPrefLocale?: Maybe<Scalars['String']>;
