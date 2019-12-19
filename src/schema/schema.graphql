@@ -1080,6 +1080,7 @@ type AccountInfo {
 	name: String
 	publicURL: String
 	rest: String
+	used: String
 	profileImageId: Int
 	soapURL: String
 	version: String
@@ -1153,6 +1154,7 @@ type AccountInfoAttrs {
 	zimbraFeatureResetPasswordStatus: ResetPasswordStatus
 	zimbraFeatureWebClientOfflineAccessEnabled: Boolean
 	zimbraMailBlacklistMaxNumEntries: Int
+	zimbraMailQuota: String
 	zimbraPublicSharingEnabled: Boolean
 	zimbraExternalSharingEnabled: Boolean
 	zimbraFeatureGalEnabled: Boolean
