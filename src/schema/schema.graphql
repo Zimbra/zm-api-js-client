@@ -1279,6 +1279,7 @@ type Preferences {
 	zimbraPrefPasswordRecoveryAddressStatus: PasswordRecoveryAddressStatus
 	zimbraPrefSaveToSent: Boolean
 	zimbraPrefShowFragments: Boolean
+	zimbraPrefSortOrder: String
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
@@ -2076,6 +2077,7 @@ input PreferencesInput {
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
 	zimbraPrefSaveToSent: Boolean
 	zimbraPrefShowFragments: Boolean
+	zimbraPrefSortOrder: String
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
