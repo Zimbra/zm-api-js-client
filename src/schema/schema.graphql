@@ -1040,6 +1040,7 @@ type Folder {
 	local: Boolean
 	droppable: Boolean
 	userId: ID
+	broken: Boolean #shared folder link is broken or not
 }
 
 type ACL {
