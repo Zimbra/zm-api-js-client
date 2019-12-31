@@ -1168,6 +1168,7 @@ type AccountInfoAttrs {
 	zimbraFeatureTrustedDevicesEnabled: Boolean
 	zimbraFeatureAppSpecificPasswordsEnabled: Boolean
 	zimbraFeatureMailPriorityEnabled: Boolean
+	zimbraMtaMaxMessageSize: Int 
 }
 
 type Identities {
