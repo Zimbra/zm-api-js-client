@@ -24,7 +24,8 @@ export function normalizeEmailAddresses(message: { [key: string]: any }) {
 
 	for (let i = 0; i < message.emailAddresses.length; i++) {
 		let sender = message.emailAddresses[i],
-			key = Mapping[sender.type];
+			type: keyof typeof Mapping = sender.type,
+			key = Mapping[type];
 		(message[key] || (message[key] = [])).push(parseAddress(sender));
 	}
 
