@@ -1258,6 +1258,8 @@ type Preferences {
 	zimbraPrefCalendarApptReminderWarningTime: Int
 	zimbraPrefCalendarShowPastDueReminders: Boolean
 	zimbraPrefCalendarToasterEnabled: Boolean
+	zimbraPrefMailToasterEnabled: Boolean
+	zimbraPrefShowAllNewMailNotifications: Boolean
 	zimbraPrefDefaultCalendarId: ID
 	zimbraPrefDeleteInviteOnReply: Boolean
 	zimbraPrefDelegatedSendSaveTarget: PrefDelegatedSendSaveTarget
@@ -2060,6 +2062,8 @@ input PreferencesInput {
 	zimbraPrefCalendarApptReminderWarningTime: Int
 	zimbraPrefCalendarShowPastDueReminders: Boolean
 	zimbraPrefCalendarToasterEnabled: Boolean
+	zimbraPrefMailToasterEnabled: Boolean
+	zimbraPrefShowAllNewMailNotifications: Boolean
 	zimbraPrefDelegatedSendSaveTarget: PrefDelegatedSendSaveTarget
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
