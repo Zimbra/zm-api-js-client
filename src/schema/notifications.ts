@@ -20,6 +20,16 @@ const normalizeFolder = normalize(FolderEntity);
 const normalizeMessage = normalize(MessageInfo);
 const normalizeContact = normalize(Contact);
 const normalizeTag = normalize(Tag);
+const writeNewMailQuery = gql`
+	query getNewMail {
+		getNewMail @client {
+			id
+			subject
+			flags
+			folderId
+		}
+	}
+`;
 
 function itemsForKey(notification: any, key: string) {
 	const modifiedItems = get(notification, `modified.${key}`, []);
@@ -409,6 +419,7 @@ export class ZimbraNotifications {
 					}
 				});
 			});
+			items.length && this.writeToCacheForNewMail(items);
 		}
 	};
 
@@ -430,5 +441,36 @@ export class ZimbraNotifications {
 				});
 			});
 		}
+	};
+
+	private writeToCacheForNewMail = (items: any) => {
+		let itemsToWrite: any = [];
+		try {
+			const data: any = this.cache.readQuery({ query: writeNewMailQuery });
+			itemsToWrite = data.getNewMail;
+		} catch (exception) {
+			itemsToWrite = [];
+			console.error(exception);
+		}
+
+		items.forEach((i: any) => {
+			const item = normalizeMessage(i);
+			const flags = item.flag || item.flags;
+			flags &&
+				flags.indexOf('u') > -1 &&
+				itemsToWrite.push({
+					id: item.id,
+					subject: item.subject,
+					flags: item.flags || item.flag,
+					folderId: item.folderId,
+					__typename: 'NewMail'
+				});
+		});
+		this.cache.writeQuery({
+			query: writeNewMailQuery,
+			data: {
+				getNewMail: itemsToWrite
+			}
+		});
 	};
 }
