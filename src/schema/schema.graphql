@@ -2551,15 +2551,7 @@ type ActionOpResponse {
 	action: ActionOpResponseData
 }
 
-type GetRightsResponse {
-	access: [AccountACEInfo]
-}
-
-type GrantRightsResponse {
-	access: [AccountACEInfo]
-}
-
-type RevokeRightsResponse {
+type RightsResponse {
 	access: [AccountACEInfo]
 }
 
@@ -2685,7 +2677,7 @@ type Query {
 		ridZ: String
 	): MessageInfo
 	getMessagesMetadata(ids: [ID!]!): [MessageInfo]
-	getRights(input: GetRightsInput!): GetRightsResponse
+	getRights(input: GetRightsInput!): RightsResponse
 	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
 	getScratchCodes(username: String!): ScratchCodes
 	getSearchFolder: Folder
@@ -2824,7 +2816,7 @@ type Mutation {
 	deleteExternalAccount(id: ID!): Boolean
 	deleteSignature(signature: NameIdInput!): Boolean
 	generateScratchCodes(username: String!): ScratchCodes
-	grantRights(input: GrantRightsInput!): GrantRightsResponse
+	grantRights(input: GrantRightsInput!): RightsResponse
 	folderAction(action: FolderActionInput!): Boolean
 	forwardAppointmentInvite(appointmentInvite:ForwardAppointmentInviteInput!): Boolean
 	forwardAppointment(appointmentInvite:ForwardAppointmentInput!): Boolean
@@ -2876,7 +2868,7 @@ type Mutation {
 	resetPassword(password: String!): Boolean
 	revokeAppSpecificPassword(appName: String!): Boolean
 	revokeOtherTrustedDevices: Boolean
-	revokeRights(input: RevokeRightsInput!): RevokeRightsResponse
+	revokeRights(input: RevokeRightsInput!): RightsResponse
 	revokeTrustedDevice: Boolean
 	saveDraft(message: SendMessageInput!): SaveDraftResponse
 	sendMessage(message: SendMessageInput!): SendMessageResponse

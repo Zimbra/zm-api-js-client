@@ -1466,11 +1466,6 @@ export type GetRightsInput = {
   access?: Maybe<Array<Maybe<Right>>>,
 };
 
-export type GetRightsResponse = {
-   __typename?: 'GetRightsResponse',
-  access?: Maybe<Array<Maybe<AccountAceInfo>>>,
-};
-
 export type GetTrustedDevicesResponse = {
    __typename?: 'GetTrustedDevicesResponse',
   nOtherDevices?: Maybe<Scalars['Int']>,
@@ -1507,11 +1502,6 @@ export type GrantInput = {
 
 export type GrantRightsInput = {
   access?: Maybe<Array<Maybe<AccountAceInfoInput>>>,
-};
-
-export type GrantRightsResponse = {
-   __typename?: 'GrantRightsResponse',
-  access?: Maybe<Array<Maybe<AccountAceInfo>>>,
 };
 
 export type HeaderCheckCondition = {
@@ -2076,7 +2066,7 @@ export type Mutation = {
   deleteExternalAccount?: Maybe<Scalars['Boolean']>,
   deleteSignature?: Maybe<Scalars['Boolean']>,
   generateScratchCodes?: Maybe<ScratchCodes>,
-  grantRights?: Maybe<GrantRightsResponse>,
+  grantRights?: Maybe<RightsResponse>,
   folderAction?: Maybe<Scalars['Boolean']>,
   forwardAppointmentInvite?: Maybe<Scalars['Boolean']>,
   forwardAppointment?: Maybe<Scalars['Boolean']>,
@@ -2108,7 +2098,7 @@ export type Mutation = {
   resetPassword?: Maybe<Scalars['Boolean']>,
   revokeAppSpecificPassword?: Maybe<Scalars['Boolean']>,
   revokeOtherTrustedDevices?: Maybe<Scalars['Boolean']>,
-  revokeRights?: Maybe<RevokeRightsResponse>,
+  revokeRights?: Maybe<RightsResponse>,
   revokeTrustedDevice?: Maybe<Scalars['Boolean']>,
   saveDraft?: Maybe<SaveDraftResponse>,
   sendMessage?: Maybe<SendMessageResponse>,
@@ -2813,7 +2803,7 @@ export type Query = {
   getMailboxMetadata?: Maybe<MailboxMetadata>,
   getMessage?: Maybe<MessageInfo>,
   getMessagesMetadata?: Maybe<Array<Maybe<MessageInfo>>>,
-  getRights?: Maybe<GetRightsResponse>,
+  getRights?: Maybe<RightsResponse>,
   getSMimePublicCerts?: Maybe<SMimePublicCertsResponse>,
   getScratchCodes?: Maybe<ScratchCodes>,
   getSearchFolder?: Maybe<Folder>,
@@ -3229,13 +3219,13 @@ export type RevokeRightsInput = {
   access?: Maybe<Array<Maybe<AccountAceInfoInput>>>,
 };
 
-export type RevokeRightsResponse = {
-   __typename?: 'RevokeRightsResponse',
-  access?: Maybe<Array<Maybe<AccountAceInfo>>>,
-};
-
 export type Right = {
   right: Scalars['String'],
+};
+
+export type RightsResponse = {
+   __typename?: 'RightsResponse',
+  access?: Maybe<Array<Maybe<AccountAceInfo>>>,
 };
 
 export type SaveDraftResponse = {
