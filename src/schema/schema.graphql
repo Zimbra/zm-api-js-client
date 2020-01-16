@@ -289,6 +289,12 @@ enum ResetPasswordStatus {
 	suspended
 }
 
+enum PrefClientType {
+	advanced,
+	zimbrax,
+	standard
+}
+
 type CsrfToken {
 	_content: String
 }
@@ -1289,6 +1295,7 @@ type Preferences {
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
+	zimbraPrefClientType: PrefClientType
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
 	zimbraPrefUseTimeZoneListInCalendar: Boolean
 	zimbraPrefMailForwardingAddress: String
@@ -2089,6 +2096,7 @@ input PreferencesInput {
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
 	zimbraPrefLocale: String
+	zimbraPrefClientType: PrefClientType
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
 	zimbraPrefUseTimeZoneListInCalendar: Boolean
 	zimbraPrefMailForwardingAddress: String
