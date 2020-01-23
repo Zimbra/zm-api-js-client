@@ -76,6 +76,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureTrustedDevicesEnabled?: Maybe<Scalars['Boolean']>,
   zimbraFeatureAppSpecificPasswordsEnabled?: Maybe<Scalars['Boolean']>,
   zimbraFeatureMailPriorityEnabled?: Maybe<Scalars['Boolean']>,
+  zimbraFileUploadMaxSize?: Maybe<Scalars['Int']>,
 };
 
 export enum AccountType {
@@ -2659,6 +2660,8 @@ export type Preferences = {
   zimbraPrefCalendarApptReminderWarningTime?: Maybe<Scalars['Int']>,
   zimbraPrefCalendarShowPastDueReminders?: Maybe<Scalars['Boolean']>,
   zimbraPrefCalendarToasterEnabled?: Maybe<Scalars['Boolean']>,
+  zimbraPrefMailToasterEnabled?: Maybe<Scalars['Boolean']>,
+  zimbraPrefShowAllNewMailNotifications?: Maybe<Scalars['Boolean']>,
   zimbraPrefDefaultCalendarId?: Maybe<Scalars['ID']>,
   zimbraPrefDeleteInviteOnReply?: Maybe<Scalars['Boolean']>,
   zimbraPrefDelegatedSendSaveTarget?: Maybe<PrefDelegatedSendSaveTarget>,
@@ -2706,6 +2709,8 @@ export type PreferencesInput = {
   zimbraPrefCalendarApptReminderWarningTime?: Maybe<Scalars['Int']>,
   zimbraPrefCalendarShowPastDueReminders?: Maybe<Scalars['Boolean']>,
   zimbraPrefCalendarToasterEnabled?: Maybe<Scalars['Boolean']>,
+  zimbraPrefMailToasterEnabled?: Maybe<Scalars['Boolean']>,
+  zimbraPrefShowAllNewMailNotifications?: Maybe<Scalars['Boolean']>,
   zimbraPrefDelegatedSendSaveTarget?: Maybe<PrefDelegatedSendSaveTarget>,
   zimbraPrefDisplayExternalImages?: Maybe<Scalars['Boolean']>,
   zimbraPrefGroupMailBy?: Maybe<Scalars['String']>,
