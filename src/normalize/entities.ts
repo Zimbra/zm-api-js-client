@@ -246,7 +246,8 @@ export const CalendarItemCreateModifyRequest = new Entity({
 });
 
 export const InstanceDate = new Entity({
-	d: 'date'
+	d: 'date',
+	tz: 'timezone'
 });
 
 export const CalendarItemDeleteRequest = new Entity({
@@ -347,6 +348,11 @@ const ForwardMessageInput = new Entity({
 	e: ['emailAddresses', MailItemEmailAddress],
 	mp: ['mimeParts', MimePart],
 	su: 'subject'
+});
+
+export const ForwardAppointmentInfo = new Entity({
+	m: ['message', ForwardMessageInput],
+	exceptId: ['exceptId', InstanceDate]
 });
 
 export const ForwardAppointmentInviteInfo = new Entity({

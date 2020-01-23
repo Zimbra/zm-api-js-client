@@ -21,7 +21,7 @@ let FORMAT = process.env.FORMAT;
 let external = FORMAT==='es' ?
 	Object.keys(pkg.dependencies)
 		.concat(
-			['castArray', 'get','isError', 'isObject', 'mapValues', 'reduce', 'omitBy', 'uniqBy', 'concat'].map(v => 'lodash/'+v),
+			['castArray', 'get','isError', 'isObject', 'mapValues', 'reduce', 'omitBy', 'uniqBy', 'concat', 'uniqBy', 'differenceBy', 'forEach'].map(v => 'lodash/'+v),
 			['graphql/language/printer', 'graphql/type']) :
 	['graphql-tools'];
 

@@ -1040,6 +1040,7 @@ type Folder {
 	local: Boolean
 	droppable: Boolean
 	userId: ID
+	broken: Boolean #shared folder link is broken or not
 }
 
 type ACL {
@@ -1079,6 +1080,7 @@ type AccountInfo {
 	name: String
 	publicURL: String
 	rest: String
+	used: String
 	profileImageId: Int
 	soapURL: String
 	version: String
@@ -1152,6 +1154,7 @@ type AccountInfoAttrs {
 	zimbraFeatureResetPasswordStatus: ResetPasswordStatus
 	zimbraFeatureWebClientOfflineAccessEnabled: Boolean
 	zimbraMailBlacklistMaxNumEntries: Int
+	zimbraMailQuota: String
 	zimbraPublicSharingEnabled: Boolean
 	zimbraExternalSharingEnabled: Boolean
 	zimbraFeatureGalEnabled: Boolean
@@ -1167,6 +1170,7 @@ type AccountInfoAttrs {
 	zimbraFeatureTrustedDevicesEnabled: Boolean
 	zimbraFeatureAppSpecificPasswordsEnabled: Boolean
 	zimbraFeatureMailPriorityEnabled: Boolean
+	zimbraFileUploadMaxSize: Int
 }
 
 type Identities {
@@ -1254,6 +1258,8 @@ type Preferences {
 	zimbraPrefCalendarApptReminderWarningTime: Int
 	zimbraPrefCalendarShowPastDueReminders: Boolean
 	zimbraPrefCalendarToasterEnabled: Boolean
+	zimbraPrefMailToasterEnabled: Boolean
+	zimbraPrefShowAllNewMailNotifications: Boolean
 	zimbraPrefDefaultCalendarId: ID
 	zimbraPrefDeleteInviteOnReply: Boolean
 	zimbraPrefDelegatedSendSaveTarget: PrefDelegatedSendSaveTarget
@@ -2056,6 +2062,8 @@ input PreferencesInput {
 	zimbraPrefCalendarApptReminderWarningTime: Int
 	zimbraPrefCalendarShowPastDueReminders: Boolean
 	zimbraPrefCalendarToasterEnabled: Boolean
+	zimbraPrefMailToasterEnabled: Boolean
+	zimbraPrefShowAllNewMailNotifications: Boolean
 	zimbraPrefDelegatedSendSaveTarget: PrefDelegatedSendSaveTarget
 	zimbraPrefDisplayExternalImages: Boolean
 	zimbraPrefGroupMailBy: String
@@ -2281,6 +2289,17 @@ input FilterRuleInput {
 }
 
 ##### End Of FilterInput #####
+
+input ForwardExceptIdInput {
+	timezone: String!
+	date: String!
+}
+
+input ForwardAppointmentInput {
+	id: ID!
+	message: ForwardMessageInput!
+	exceptId: ForwardExceptIdInput
+}
 
 input ForwardAppointmentInviteInput {
 	id: ID!
@@ -2800,6 +2819,7 @@ type Mutation {
 	grantRights(input: GrantRightsInput!): GrantRightsResponse
 	folderAction(action: FolderActionInput!): Boolean
 	forwardAppointmentInvite(appointmentInvite:ForwardAppointmentInviteInput!): Boolean
+	forwardAppointment(appointmentInvite:ForwardAppointmentInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
 	logout: Boolean
