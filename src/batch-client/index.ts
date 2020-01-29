@@ -468,7 +468,8 @@ export class ZimbraBatchClient {
 				tag: {
 					...tag
 				}
-			}
+			},
+			singleRequest: true
 		}).then(({ tag = [] }) => normalize(Tag)(tag[0]));
 
 	public createTask = (task: CalendarItemInput) =>
