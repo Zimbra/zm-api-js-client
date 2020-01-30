@@ -605,3 +605,7 @@ export const CreateAppSpecificPasswordResponse = new Entity({
 export const Tag = new Entity({
 	u: 'unread'
 });
+
+export const Mailbox = new Entity({
+	s: 'used'
+});

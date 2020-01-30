@@ -11,6 +11,7 @@ import {
 	Contact,
 	Conversation,
 	Folder as FolderEntity,
+	Mailbox,
 	MessageInfo,
 	Tag
 } from '../normalize/entities';
@@ -20,6 +21,7 @@ const normalizeFolder = normalize(FolderEntity);
 const normalizeMessage = normalize(MessageInfo);
 const normalizeContact = normalize(Contact);
 const normalizeTag = normalize(Tag);
+const normalizeMailbox = normalize(Mailbox);
 const writeNewMailQuery = gql`
 	query getNewMail {
 		getNewMail @client {
@@ -104,6 +106,7 @@ export class ZimbraNotifications {
 
 	public notificationHandler = (notification: Notification) => {
 		console.log('[Cache] Handling Notification', notification);
+		this.handleMailboxNotifications(notification);
 		this.handleFolderNotifications(notification);
 		this.handleConversationNotifications(notification);
 		this.handleMessageNotifications(notification);
@@ -194,6 +197,13 @@ export class ZimbraNotifications {
 		this.batchProcessItems(modifiedItems, this.processFolderNotifications);
 	};
 
+	private handleMailboxNotifications = (notification: Notification) => {
+		this.batchProcessItems(
+			get(notification, 'modified.mbx'),
+			this.processMailboxNotifications
+		);
+	};
+
 	private handleMessageNotifications = (notification: Notification) => {
 		const items = itemsForKey(notification, 'm');
 		this.batchProcessItems(items, this.processMessageNotifications);
@@ -205,65 +215,62 @@ export class ZimbraNotifications {
 	};
 
 	private processContactNotifications = (items: any) => {
-		if (items) {
-			let searchResponse: any = {};
-			const typeGroup = '#type:group';
-			const notTypeGroup = `NOT ${typeGroup}`;
-			items.forEach((i: any) => {
-				const item = normalizeContact(i);
-				const defaultFolderName = 'Contacts';
-				let folder: any;
+		let searchResponse: any = {};
+		const typeGroup = '#type:group';
+		const notTypeGroup = `NOT ${typeGroup}`;
+		items.forEach((i: any) => {
+			const item = normalizeContact(i);
+			const defaultFolderName = 'Contacts';
+			let folder: any;
 
-				try {
-					folder = this.cache.readFragment({
-						id: `Folder:${item.folderId}`,
-						fragment: gql`
+			try {
+				folder = this.cache.readFragment({
+					id: `Folder:${item.folderId}`,
+					fragment: gql`
 						fragment ${generateFragmentName('folderName', item.folderId)} on Folder {
 							name
 						}
 					`
-					});
-				} catch (exception) {
-					console.error(exception);
-					return;
-				}
-
-				const folderName = (folder && folder.name) || defaultFolderName;
-				const query =
-					folderName === 'Trash'
-						? `in:\\\\"${folderName}\\\\"`
-						: item.attributes && item.attributes.type === 'group'
-						? typeGroup
-						: `in:\\\\"${folderName}\\\\" ${notTypeGroup}`;
-
-				const queryRegex = new RegExp(query);
-
-				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId => {
-					// check if query does not contain NOT #type:group but contains #type:group
-					if (
-						query.indexOf(notTypeGroup) === -1 &&
-						query.indexOf(typeGroup) !== -1
-					) {
-						// if yes, then dataId should also not contain NOT #type:group and contain #type:group
-						return (
-							dataId.indexOf(notTypeGroup) === -1 && queryRegex.test(dataId)
-						);
-					}
-					return queryRegex.test(dataId);
 				});
+			} catch (exception) {
+				console.error(exception);
+				return;
+			}
 
-				const { sortBy }: any = getVariablesFromDataId(id) || {};
+			const folderName = (folder && folder.name) || defaultFolderName;
+			const query =
+				folderName === 'Trash'
+					? `in:\\\\"${folderName}\\\\"`
+					: item.attributes && item.attributes.type === 'group'
+					? typeGroup
+					: `in:\\\\"${folderName}\\\\" ${notTypeGroup}`;
 
-				if (!searchResponse[query] && id) {
-					/**
-					 * readFragment without try...catch breaks the operation on exception.
-					 * Read contacts from search results fragment and
-					 * handle any exceptions occurred while reading message.
-					 * */
-					try {
-						searchResponse[query] = this.cache.readFragment({
-							id: id,
-							fragment: gql`
+			const queryRegex = new RegExp(query);
+
+			const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId => {
+				// check if query does not contain NOT #type:group but contains #type:group
+				if (
+					query.indexOf(notTypeGroup) === -1 &&
+					query.indexOf(typeGroup) !== -1
+				) {
+					// if yes, then dataId should also not contain NOT #type:group and contain #type:group
+					return dataId.indexOf(notTypeGroup) === -1 && queryRegex.test(dataId);
+				}
+				return queryRegex.test(dataId);
+			});
+
+			const { sortBy }: any = getVariablesFromDataId(id) || {};
+
+			if (!searchResponse[query] && id) {
+				/**
+				 * readFragment without try...catch breaks the operation on exception.
+				 * Read contacts from search results fragment and
+				 * handle any exceptions occurred while reading message.
+				 * */
+				try {
+					searchResponse[query] = this.cache.readFragment({
+						id: id,
+						fragment: gql`
 								fragment ${generateFragmentName('searchResults')} on SearchResponse {
 									contacts {
 										id
@@ -271,85 +278,81 @@ export class ZimbraNotifications {
 									}
 								}
 						`
-						});
-					} catch (exception) {
-						console.error(exception);
-						return;
-					}
+					});
+				} catch (exception) {
+					console.error(exception);
+					return;
 				}
-				searchResponse[query] =
-					searchResponse[query] && searchResponse[query].contacts
-						? searchResponse[query]
-						: { contacts: [] };
-				this.cache.writeFragment({
-					id: `Contact:${item.id}`,
-					fragment: gql`
+			}
+			searchResponse[query] =
+				searchResponse[query] && searchResponse[query].contacts
+					? searchResponse[query]
+					: { contacts: [] };
+			this.cache.writeFragment({
+				id: `Contact:${item.id}`,
+				fragment: gql`
 						fragment ${generateFragmentName('contactNotification', item.id)} on Contact {
 							${attributeKeys(item)}
 						}
 					`,
-					data: {
-						__typename: 'Contact',
-						...item
-					}
-				});
-				searchResponse[query].contacts = addNewItemToList(
-					searchResponse[query].contacts,
-					item,
-					sortBy
-				);
-				searchResponse[query].contacts = uniqBy(
-					searchResponse[query].contacts,
-					'id'
-				).map((contact: any) => ({
-					generated: false,
-					id: `Contact:${contact.id}`,
-					type: 'id',
-					typename: 'Contact'
-				}));
+				data: {
+					__typename: 'Contact',
+					...item
+				}
 			});
-			Object.keys(searchResponse).forEach(query => {
-				const queryRegex = new RegExp(query);
+			searchResponse[query].contacts = addNewItemToList(
+				searchResponse[query].contacts,
+				item,
+				sortBy
+			);
+			searchResponse[query].contacts = uniqBy(
+				searchResponse[query].contacts,
+				'id'
+			).map((contact: any) => ({
+				generated: false,
+				id: `Contact:${contact.id}`,
+				type: 'id',
+				typename: 'Contact'
+			}));
+		});
+		Object.keys(searchResponse).forEach(query => {
+			const queryRegex = new RegExp(query);
 
-				const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId => {
-					// check if query does not contain NOT #type:group but contains #type:group
-					if (
-						query.indexOf(notTypeGroup) === -1 &&
-						query.indexOf(typeGroup) !== -1
-					) {
-						// if yes, then dataId should also not contain NOT #type:group and contain #type:group
-						return (
-							dataId.indexOf(notTypeGroup) === -1 && queryRegex.test(dataId)
-						);
-					}
-					return queryRegex.test(dataId);
-				});
+			const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId => {
+				// check if query does not contain NOT #type:group but contains #type:group
+				if (
+					query.indexOf(notTypeGroup) === -1 &&
+					query.indexOf(typeGroup) !== -1
+				) {
+					// if yes, then dataId should also not contain NOT #type:group and contain #type:group
+					return dataId.indexOf(notTypeGroup) === -1 && queryRegex.test(dataId);
+				}
+				return queryRegex.test(dataId);
+			});
 
-				if (id) {
-					this.cache.writeFragment({
-						id: id,
-						fragment: gql`
+			if (id) {
+				this.cache.writeFragment({
+					id: id,
+					fragment: gql`
 						fragment ${generateFragmentName('searchResults')} on SearchResponse {
 							contacts
 						}
 						`,
-						data: {
-							__typename: 'SearchResponse',
-							contacts: searchResponse[query].contacts
-						}
-					});
-				}
-			});
-		}
+					data: {
+						__typename: 'SearchResponse',
+						contacts: searchResponse[query].contacts
+					}
+				});
+			}
+		});
 	};
 
 	private processConversationNotifications = (items: any) => {
-		if (items) {
-			items.forEach((i: any) => {
-				const item = normalizeConversation(i);
-				this.cache.writeFragment({
-					id: `Conversation:${item.id}`,
-					fragment: gql`
+		items.forEach((i: any) => {
+			const item = normalizeConversation(i);
+			this.cache.writeFragment({
+				id: `Conversation:${item.id}`,
+				fragment: gql`
 						fragment ${generateFragmentName(
 							'conversationNotification',
 							item.id
@@ -357,35 +360,71 @@ export class ZimbraNotifications {
 							${attributeKeys(item)}
 						}
 					`,
-					data: {
-						__typename: 'Conversation',
-						...item
-					}
-				});
+				data: {
+					__typename: 'Conversation',
+					...item
+				}
 			});
-		}
+		});
 	};
 
 	private processFolderNotifications = (items: any) => {
-		if (items) {
-			items.forEach((i: any) => {
-				const item = normalizeFolder(i);
-				const itemId = item.id.includes(':')
-					? this.findSharedItemId(item.id)
-					: item.id;
-				this.cache.writeFragment({
-					id: `Folder:${itemId}`,
-					fragment: gql`
+		items.forEach((i: any) => {
+			const item = normalizeFolder(i);
+			const itemId = item.id.includes(':')
+				? this.findSharedItemId(item.id)
+				: item.id;
+			this.cache.writeFragment({
+				id: `Folder:${itemId}`,
+				fragment: gql`
 						fragment ${generateFragmentName('folderNotification', item.id)} on Folder {
 							${attributeKeys(item)}
 						}
 					`,
+				data: {
+					__typename: 'Folder',
+					...item
+				}
+			});
+		});
+	};
+
+	private processMailboxNotifications = (items: any) => {
+		const mbxItems = normalizeMailbox(
+			items.reduce((acc: any, i: any) => {
+				/**
+				 * Below step is required to flatten array of data into flattened object.
+				 * E.g items would be [{ s: 23342 }, { t: "afdsfs" }] which will be flattened to { s: 23342, t: "afdsfs" }
+				 */
+				acc = {
+					...acc,
+					...i
+				};
+
+				return acc;
+			}, {})
+		);
+
+		if (Object.keys(mbxItems).length) {
+			const accInfoRegExp = /^AccountInfo/;
+			const id = findDataId(this.cache, 'AccountInfo', dataId =>
+				accInfoRegExp.test(dataId)
+			);
+
+			if (id) {
+				this.cache.writeFragment({
+					id,
+					fragment: gql`
+							fragment ${generateFragmentName('mailboxNotification')} on AccountInfo {
+								${attributeKeys(mbxItems)}
+							}
+						`,
 					data: {
-						__typename: 'Folder',
-						...item
+						__typename: 'AccountInfo',
+						...mbxItems
 					}
 				});
-			});
+			}
 		}
 	};
 
@@ -400,12 +439,11 @@ export class ZimbraNotifications {
 	// can appropriately update themselves is another option
 	// that is less tied to GraphQL specifically.
 	private processMessageNotifications = (items: any) => {
-		if (items) {
-			items.forEach((i: any) => {
-				const item = normalizeMessage(i);
-				this.cache.writeFragment({
-					id: `MessageInfo:${item.id}`,
-					fragment: gql`
+		items.forEach((i: any) => {
+			const item = normalizeMessage(i);
+			this.cache.writeFragment({
+				id: `MessageInfo:${item.id}`,
+				fragment: gql`
 						fragment ${generateFragmentName(
 							'messageNotification',
 							item.id
@@ -413,34 +451,31 @@ export class ZimbraNotifications {
 							${attributeKeys(item)}
 						}
 					`,
-					data: {
-						__typename: 'MessageInfo',
-						...item
-					}
-				});
+				data: {
+					__typename: 'MessageInfo',
+					...item
+				}
 			});
-			items.length && this.writeToCacheForNewMail(items);
-		}
+		});
+		items.length && this.writeToCacheForNewMail(items);
 	};
 
 	private processTagsNotifications = (items: any) => {
-		if (items) {
-			items.forEach((i: any) => {
-				const item = normalizeTag(i);
-				this.cache.writeFragment({
-					id: `Tag:${item.id}`,
-					fragment: gql`
+		items.forEach((i: any) => {
+			const item = normalizeTag(i);
+			this.cache.writeFragment({
+				id: `Tag:${item.id}`,
+				fragment: gql`
 						fragment ${generateFragmentName('tagsNotification', item.id)} on Tag {
 							${attributeKeys(item)}
 						}
 					`,
-					data: {
-						__typename: 'Tag',
-						...item
-					}
-				});
+				data: {
+					__typename: 'Tag',
+					...item
+				}
 			});
-		}
+		});
 	};
 
 	private writeToCacheForNewMail = (items: any) => {
