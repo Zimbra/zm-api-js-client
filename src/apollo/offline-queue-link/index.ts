@@ -1,4 +1,9 @@
-import { ApolloLink, NextLink, Observable, Operation } from 'apollo-link';
+import {
+	ApolloLink,
+	NextLink,
+	Observable,
+	Operation
+} from '@apollo/client/core';
 import castArray from 'lodash/castArray';
 import { SyncOfflineOperations } from '../sync-offline-operations';
 import { DedupedByQueueError } from './errors';

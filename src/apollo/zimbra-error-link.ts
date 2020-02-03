@@ -1,4 +1,4 @@
-import { ErrorLink } from 'apollo-link-error';
+import { ErrorLink } from '@apollo/link-error';
 import get from 'lodash/get';
 
 class ZimbraErrorLink extends ErrorLink {

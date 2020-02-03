@@ -1,4 +1,4 @@
-import { Operation } from 'apollo-link';
+import { Operation } from '@apollo/client/core';
 import get from 'lodash/get';
 import { OfflineOperationEntry, OperationEntry } from './types';
 

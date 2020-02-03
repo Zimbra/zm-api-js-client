@@ -1,9 +1,8 @@
 import {
-	ApolloReducerConfig,
 	defaultDataIdFromObject,
 	InMemoryCache,
-	IntrospectionFragmentMatcher
-} from 'apollo-cache-inmemory';
+	InMemoryCacheConfig
+} from '@apollo/client';
 import get from 'lodash/get';
 
 const dataIdFromPath = (result: any, path: string) => {
@@ -36,26 +35,10 @@ const dataIdFromObject = (object: any): string | null | undefined => {
 	}
 };
 
-function createFragmentMatcher(fragmentMatcherFactory = Object) {
-	return new IntrospectionFragmentMatcher(
-		fragmentMatcherFactory({
-			introspectionQueryResultData: {
-				__schema: {
-					types: [
-						{
-							kind: 'INTERFACE',
-							name: 'MailItem',
-							possibleTypes: [
-								{ name: 'Conversation' },
-								{ name: 'MessageInfo' },
-								{ name: 'MsgWithGroupInfo' }
-							]
-						}
-					]
-				}
-			}
-		})
-	);
+function createPossibleTypes(possibleTypesFactory = Object) {
+	return possibleTypesFactory({
+		MailItem: ['Conversation', 'MessageInfo', 'MsgWithGroupInfo']
+	});
 }
 
 /**
@@ -64,12 +47,9 @@ function createFragmentMatcher(fragmentMatcherFactory = Object) {
  * `dataIdFromObject`.
  */
 export class ZimbraInMemoryCache extends InMemoryCache {
-	constructor(config: ApolloReducerConfig = {}) {
-		if (
-			!config.fragmentMatcher ||
-			typeof config.fragmentMatcher === 'function'
-		) {
-			config.fragmentMatcher = createFragmentMatcher(config.fragmentMatcher);
+	constructor(config: InMemoryCacheConfig = {}) {
+		if (!config.possibleTypes || typeof config.possibleTypes === 'function') {
+			config.possibleTypes = createPossibleTypes(config.possibleTypes);
 		}
 		super({
 			dataIdFromObject,
