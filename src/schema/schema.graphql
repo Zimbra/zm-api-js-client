@@ -291,7 +291,7 @@ enum ResetPasswordStatus {
 
 enum PrefClientType {
 	advanced,
-	zimbrax,
+	modern,
 	standard
 }
 
