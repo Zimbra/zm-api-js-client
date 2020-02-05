@@ -64,9 +64,9 @@ function addNewItemToList(itemList: any, item: any, sortBy: any) {
 				}) === -1
 		);
 		if (index !== -1) {
-			itemList.splice(index, 0, item);
+			itemList = [...itemList.slice(0, index), item, ...itemList.slice(index)];
 		} else {
-			itemList.push(item);
+			itemList = [...itemList, item];
 		}
 	} else {
 		itemList = [item].concat(itemList);
@@ -490,15 +490,18 @@ export class ZimbraNotifications {
 		items.forEach((i: any) => {
 			const item = normalizeMessage(i);
 			const flags = item.flag || item.flags;
-			flags &&
-				flags.indexOf('u') > -1 &&
-				itemsToWrite.push({
-					id: item.id,
-					subject: item.subject,
-					flags: item.flags || item.flag,
-					folderId: item.folderId,
-					__typename: 'NewMail'
-				});
+			if (flags && flags.indexOf('u') > -1) {
+				itemsToWrite = [
+					...itemsToWrite,
+					{
+						id: item.id,
+						subject: item.subject,
+						flags: item.flags || item.flag,
+						folderId: item.folderId,
+						__typename: 'NewMail'
+					}
+				];
+			}
 		});
 		this.cache.writeQuery({
 			query: writeNewMailQuery,
