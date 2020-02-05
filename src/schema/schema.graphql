@@ -2647,6 +2647,12 @@ type Query {
 		offset: Int!
 		types: SearchType
 	): SearchResponse
+	getTasks(
+		query: String!,
+		limit: Int!,
+		offset: Int!,
+		types: SearchType
+	): SearchResponse
 	getAppSpecificPasswords: AppSpecificPasswordsResponse
 	getAvailableLocales: [Locale]
 	getContactFrequency(

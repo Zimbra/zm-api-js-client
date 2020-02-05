@@ -891,6 +891,27 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Mail
 		}).then(({ tag = [] }) => tag.map(normalize(Tag)));
 
+	public getTasks = (options: SearchOptions) =>
+		this.jsonRequest({
+			name: 'Search',
+			body: {
+				...options
+			}
+		}).then(res => {
+			if (res.cn) {
+				res.cn = normalizeOtherAttr(res.cn);
+			}
+
+			const normalized = normalize(SearchResponse)(res);
+
+			return {
+				...normalized,
+				tasks: normalized.task
+					? normalized.task.map(normalize(CalendarItemHitInfo))
+					: []
+			};
+		});
+
 	public getTrustedDevices = () =>
 		this.jsonRequest({
 			name: 'GetTrustedDevices',
