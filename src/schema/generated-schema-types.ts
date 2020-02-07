@@ -1828,6 +1828,7 @@ export type MailboxMetadataAttrs = {
   zimbraPrefReadingPaneSashHorizontal?: Maybe<Scalars['Int']>,
   zimbraPrefReadingPaneSashVertical?: Maybe<Scalars['Int']>,
   zimbraPrefSmartFolderTreeOpen?: Maybe<Scalars['Boolean']>,
+  zimbraPrefTimeFormat?: Maybe<Scalars['String']>,
   zimbraPrefUndoSendEnabled?: Maybe<Scalars['Boolean']>,
   zimbraPrefUndoSendTimeout?: Maybe<Scalars['Int']>,
   archivedFolder?: Maybe<Scalars['String']>,
@@ -1854,6 +1855,7 @@ export type MailboxMetadataSectionAttrsInput = {
   zimbraPrefReadingPaneSashHorizontal?: Maybe<Scalars['Int']>,
   zimbraPrefReadingPaneSashVertical?: Maybe<Scalars['Int']>,
   zimbraPrefSmartFolderTreeOpen?: Maybe<Scalars['Boolean']>,
+  zimbraPrefTimeFormat?: Maybe<Scalars['String']>,
   zimbraPrefUndoSendEnabled?: Maybe<Scalars['Boolean']>,
   zimbraPrefUndoSendTimeout?: Maybe<Scalars['Int']>,
   archivedFolder?: Maybe<Scalars['String']>,
@@ -2786,7 +2788,7 @@ export type PropList = {
   prop?: Maybe<Array<Maybe<Prop>>>,
 };
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2828,7 +2830,7 @@ export type Query = {
   recoverAccount?: Maybe<RecoverAccount>,
   relatedContacts?: Maybe<Array<Maybe<RelatedContact>>>,
   shareInfo?: Maybe<Array<Maybe<ShareInfo>>>,
-  /**
+  /** 
  * Perform a search for a variety types using a flexible query interface.
    * [[SOAP Search API Documentation]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/zimbraMail/Search.html)
    * [[Query Tips]](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips)
@@ -2840,7 +2842,7 @@ export type Query = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2855,7 +2857,7 @@ export type QueryAutoCompleteArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2869,7 +2871,7 @@ export type QueryAutoCompleteGalArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2880,7 +2882,7 @@ export type QueryClientInfoArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2892,7 +2894,7 @@ export type QueryDownloadMessageArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2904,7 +2906,7 @@ export type QueryDownloadAttachmentArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2917,7 +2919,7 @@ export type QueryFreeBusyArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2931,7 +2933,7 @@ export type QueryGetContactArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2947,7 +2949,7 @@ export type QueryGetAppointmentsArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2961,7 +2963,7 @@ export type QueryGetContactFrequencyArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2977,7 +2979,7 @@ export type QueryGetConversationArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2993,7 +2995,7 @@ export type QueryGetFolderArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -3004,7 +3006,7 @@ export type QueryGetMailboxMetadataArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -3024,7 +3026,7 @@ export type QueryGetMessageArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -3035,7 +3037,7 @@ export type QueryGetMessagesMetadataArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -3046,7 +3048,7 @@ export type QueryGetRightsArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -3058,7 +3060,7 @@ export type QueryGetSMimePublicCertsArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -3069,7 +3071,7 @@ export type QueryGetScratchCodesArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -3082,7 +3084,7 @@ export type QueryGetWorkingHoursArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -3095,7 +3097,7 @@ export type QueryRecoverAccountArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -3106,7 +3108,7 @@ export type QueryRelatedContactsArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -3120,7 +3122,7 @@ export type QueryShareInfoArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -3143,7 +3145,7 @@ export type QuerySearchArgs = {
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
