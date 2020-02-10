@@ -2878,8 +2878,8 @@ type Mutation {
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean
-	snoozeCalendarItem(appointment: SnoozeInput, task: SnoozeInput): Boolean,
-	dismissCalendarItem(appointment: DismissInput, task: DismissInput): Boolean,
+	snoozeCalendarItem(appointment: [SnoozeInput], task: SnoozeInput): Boolean,
+	dismissCalendarItem(appointment: [DismissInput], task: DismissInput): Boolean,
 	uploadMessage(value: String!): String
 	setRecoveryAccount(
 		channel: SetRecoveryAccountChannel!

@@ -2500,13 +2500,13 @@ export type MutationSetMailboxMetadataArgs = {
 
 
 export type MutationSnoozeCalendarItemArgs = {
-  appointment?: Maybe<SnoozeInput>,
+  appointment?: Maybe<Array<Maybe<SnoozeInput>>>,
   task?: Maybe<SnoozeInput>
 };
 
 
 export type MutationDismissCalendarItemArgs = {
-  appointment?: Maybe<DismissInput>,
+  appointment?: Maybe<Array<Maybe<DismissInput>>>,
   task?: Maybe<DismissInput>
 };
 
