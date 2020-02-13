@@ -2637,6 +2637,7 @@ export enum PrefCalendarInitialView {
 export enum PrefClientType {
   Advanced = 'advanced',
   Modern = 'modern',
+  Zimbrax = 'zimbrax',
   Standard = 'standard'
 }
 
