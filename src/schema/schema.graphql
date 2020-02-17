@@ -1620,6 +1620,7 @@ type MailboxMetadataMeta {
 
 type MailboxMetadataAttrs {
 	zimbraPrefCustomFolderTreeOpen: Boolean
+	zimbraPrefDateFormat: String
 	zimbraPrefSharedFolderTreeOpen: Boolean
 	zimbraPrefFoldersExpanded: String
 	zimbraPrefFolderTreeSash: Int
@@ -1641,6 +1642,7 @@ type MailboxMetadataAttrs {
 
 input MailboxMetadataSectionAttrsInput {
 	zimbraPrefCustomFolderTreeOpen: Boolean
+	zimbraPrefDateFormat: String
 	zimbraPrefSharedFolderTreeOpen: Boolean
 	zimbraPrefFoldersExpanded: String
 	zimbraPrefFolderTreeSash: Int
