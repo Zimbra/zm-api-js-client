@@ -362,6 +362,7 @@ export class ZimbraBatchClient {
 					}
 				]
 			},
+			singleRequest: true,
 			namespace: Namespace.Account
 		}).then(res => normalize(ClientInfoResponse)(res));
 
