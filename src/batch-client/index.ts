@@ -156,10 +156,17 @@ function updateAbsoluteFolderPath(
 	folders: any
 ) {
 	return folders.map((folder: any) => {
-		folder.absFolderPath = folder.absFolderPath.replace(
-			`/${originalName}`,
-			parentFolderAbsPath
-		);
+		// When the entire mailbox is shared with another user, in that case, the originalName would
+		// have the value as "USER_ROOT", for that instance we need to append the value to the absFolderPath
+		// of the current folder and all children
+		if (originalName === 'USER_ROOT') {
+			folder.absFolderPath = `${parentFolderAbsPath}${folder.absFolderPath}`;
+		} else {
+			folder.absFolderPath = folder.absFolderPath.replace(
+				`/${originalName}`,
+				parentFolderAbsPath
+			);
+		}
 
 		if (folder.folders) {
 			folder.folders = updateAbsoluteFolderPath(
@@ -706,6 +713,7 @@ export class ZimbraBatchClient {
 			if (folders.linkedFolders) {
 				folders.linkedFolders = folders.linkedFolders.map((folder: any) => {
 					if (
+						!folder.view ||
 						folder.view === FolderView.Message ||
 						folder.view === FolderView.Contact
 					) {
