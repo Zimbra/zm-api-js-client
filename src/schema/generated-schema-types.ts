@@ -1808,6 +1808,7 @@ export type MailboxMetadata = {
 export type MailboxMetadataAttrs = {
    __typename?: 'MailboxMetadataAttrs',
   zimbraPrefCustomFolderTreeOpen?: Maybe<Scalars['Boolean']>,
+  zimbraPrefDateFormat?: Maybe<Scalars['String']>,
   zimbraPrefSharedFolderTreeOpen?: Maybe<Scalars['Boolean']>,
   zimbraPrefFoldersExpanded?: Maybe<Scalars['String']>,
   zimbraPrefFolderTreeSash?: Maybe<Scalars['Int']>,
@@ -1835,6 +1836,7 @@ export type MailboxMetadataMeta = {
 
 export type MailboxMetadataSectionAttrsInput = {
   zimbraPrefCustomFolderTreeOpen?: Maybe<Scalars['Boolean']>,
+  zimbraPrefDateFormat?: Maybe<Scalars['String']>,
   zimbraPrefSharedFolderTreeOpen?: Maybe<Scalars['Boolean']>,
   zimbraPrefFoldersExpanded?: Maybe<Scalars['String']>,
   zimbraPrefFolderTreeSash?: Maybe<Scalars['Int']>,
