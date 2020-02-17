@@ -290,9 +290,9 @@ enum ResetPasswordStatus {
 }
 
 enum PrefClientType {
-	advanced,
-	modern,
-	zimbrax,
+	advanced
+	modern
+	zimbrax
 	standard
 }
 
@@ -389,7 +389,7 @@ type Instance {
 	organizer: CalOrganizer # or
 	otherAttendees: Boolean
 	participationStatus: ParticipationStatus
-	revision: Int # rev
+	revision: Float # rev
 	status: InviteCompletionStatus
 	isOrganizer: Boolean # isOrg
 }
@@ -413,7 +413,7 @@ type ModifyAppointmentResponse {
 	calendarItemId: ID #calItemId
 	inviteId: ID #invId
 	modifiedSequence: Int # ms
-	revision: Int # rev
+	revision: Float # rev
 }
 
 type ZimletPref {
@@ -433,7 +433,7 @@ type EmailAddress {
 }
 
 type ShareNotification {
-	truncated: Boolean,
+	truncated: Boolean
 	content: String
 }
 
@@ -454,7 +454,7 @@ interface MailItem {
 	flags: String # f
 	tags: String # t
 	tagNames: String # tn
-	revision: Int # rev
+	revision: Float # rev
 	changeDate: Float # md
 	modifiedSequence: Int # ms
 	invitations: [InviteInfo] # inv
@@ -485,7 +485,7 @@ type MessageInfo implements MailItem {
 	flags: String # f
 	tags: String # t
 	tagNames: String # tn
-	revision: Int # rev
+	revision: Float # rev
 	changeDate: Float # md
 	modifiedSequence: Int # ms
 	invitations: [InviteInfo] # inv
@@ -519,7 +519,7 @@ type Conversation implements MailItem {
 	flags: String # f
 	tags: String # t
 	tagNames: String # tn
-	revision: Int # rev
+	revision: Float # rev
 	changeDate: Float # md
 	modifiedSequence: Int # ms
 	invitations: [InviteInfo] # inv
@@ -550,7 +550,7 @@ type MsgWithGroupInfo implements MailItem {
 	flags: String # f
 	tags: String # t
 	tagNames: String # tn
-	revision: Int # rev
+	revision: Float # rev
 	changeDate: Float # md
 	modifiedSequence: Int # ms
 	invitations: [InviteInfo] # inv
@@ -558,7 +558,6 @@ type MsgWithGroupInfo implements MailItem {
 	share: [ShareNotification] # shr
 	replyType: String #rt
 }
-
 
 enum InviteType {
 	appt # Appointment
@@ -569,7 +568,7 @@ type InviteInfo {
 	type: InviteType #though type is a required value on the response, outdated invites come back as empty InviteInfo objects
 	components: [InviteComponent] #comp
 	replies: [InviteReplies] #replies
- }
+}
 
 type AddRecurrenceInfo { # <add>
 	add: [AddRecurrenceInfo]
@@ -646,7 +645,6 @@ type SimpleRepeatingRule { # <rule>
 	bymonthday: [ByMonthDayRule]
 	bymonth: [ByMonthRule]
 	bysetpos: [BySetPosRule]
-
 }
 
 type RecurrenceInfo { # <recur>
@@ -768,7 +766,7 @@ type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	participationStatus: ParticipationStatus
 	percentComplete: String
 	priority: String
-	revision: Int # rev
+	revision: Float # rev
 	utcRecurrenceId: String # ridZ
 	size: Float # s
 	sortField: String # sf
@@ -798,7 +796,6 @@ input ExternalAccount {
 	username: String!
 	password: String!
 }
-
 
 type FreeBusyInstance {
 	start: Float
@@ -930,7 +927,6 @@ type SizeCondition {
 
 type FilterCondition {
 	allOrAny: FilterMatchCondition! # condition
-
 	addressBook: [HeaderCheckCondition] # addressBookTest
 	address: [AddressCondition] # addressTest
 	attachment: [BasicCondition] # attachmentTest
@@ -1021,7 +1017,12 @@ type Filter {
 type Folder {
 	absFolderPath: String
 	acl: ACL
-	appointments(start: Float, end: Float, offset: Int, limit: Int): SearchResponse
+	appointments(
+		start: Float
+		end: Float
+		offset: Int
+		limit: Int
+	): SearchResponse
 	tasks(folderId: ID, offset: Int, limit: Int, sortBy: String): SearchResponse
 	color: Int
 	flags: String
@@ -1035,7 +1036,7 @@ type Folder {
 	folders: [Folder] # Folders nested in this Folder
 	search: [Folder] #smart folders
 	owner: String
-	revision: Int
+	revision: Float
 	view: FolderView
 	parentFolderId: ID
 	unread: Int
@@ -1349,7 +1350,7 @@ type Contact {
 	id: ID!
 	date: Float
 	folderId: ID
-	revision: Int
+	revision: Float
 	sortField: String
 	fileAsStr: String
 	memberOf: String
@@ -1357,7 +1358,7 @@ type Contact {
 	members: [ContactListMember]
 }
 
-type OtherContactAttribute{
+type OtherContactAttribute {
 	key: String
 	value: String
 }
@@ -1441,7 +1442,7 @@ type ContactAttributes {
 	other: [OtherContactAttribute]
 }
 
-type ContactImage{
+type ContactImage {
 	contentType: String
 	filename: String
 	part: String
@@ -1543,7 +1544,7 @@ input ContactAttrsInput {
 
 	# Used for contact lists
 	fileAs: String
-	type: String,
+	type: String
 	other: [OtherContactAttributeInput]
 }
 
@@ -1828,7 +1829,7 @@ input CalendarItemAttendeesInput {
 	participationStatus: ParticipationStatus
 	rsvp: Boolean
 	address: String!
-	name: String,
+	name: String
 	calendarUserType: String
 }
 
@@ -2053,7 +2054,6 @@ input AccountACEInfoInput {
 	checkGrantee: Boolean
 }
 
-
 input InviteReplyInput {
 	componentNum: Int! #compNum
 	id: ID!
@@ -2217,7 +2217,6 @@ input SizeConditionInput {
 
 input FilterConditionInput {
 	allOrAny: FilterMatchCondition! # condition
-
 	addressBook: [HeaderCheckConditionInput] # addressBookTest
 	address: [AddressConditionInput] # addressTest
 	attachment: [BasicConditionInput] # attachmentTest
@@ -2454,7 +2453,7 @@ input DeleteAppointmentInput {
 	instanceDate: InstanceDate
 	inviteId: String!
 	componentNum: String!
-	start: Int,
+	start: Int
 	message: CalendarItemMessageInput
 }
 input SignatureInput {
@@ -2536,7 +2535,7 @@ type SMimePublicCerts {
 	cert: [SMimePublicCert]
 }
 
-type SMimePublicCertsResponse{
+type SMimePublicCertsResponse {
 	certs: [SMimePublicCerts]
 }
 
@@ -2549,7 +2548,6 @@ type Attachment {
 	id: ID
 	content: String
 }
-
 
 ##### End Of SMIME Certificates type #####
 
@@ -2619,9 +2617,9 @@ type Query {
 	accountInfo: AccountInfo
 	autoComplete(
 		name: String
-		type: GalSearchType,
-		needExp: Boolean,
-		folders: String,
+		type: GalSearchType
+		needExp: Boolean
+		folders: String
 		includeGal: Boolean
 	): AutoCompleteResponse
 	autoCompleteGAL(
@@ -2636,17 +2634,17 @@ type Query {
 	discoverRights: DiscoverRights
 	freeBusy(names: [String!]!, start: Float, end: Float): [FreeBusy]
 	getContact(
-		id: ID,
-		ids: [ID!],
+		id: ID
+		ids: [ID!]
 		derefGroupMember: Boolean
 		memberOf: Boolean
 	): [Contact]
 	getAppointments(
-		calExpandInstStart: Float!,
-		calExpandInstEnd: Float!,
-		query: String!,
-		limit: Int!,
-		offset: Int!,
+		calExpandInstStart: Float!
+		calExpandInstEnd: Float!
+		query: String!
+		limit: Int!
+		offset: Int!
 		types: SearchType
 	): SearchResponse
 	getAppSpecificPasswords: AppSpecificPasswordsResponse
@@ -2658,38 +2656,41 @@ type Query {
 		spec: [ContactFrequencySpec!]
 	): ContactFrequencyResponse
 	getConversation(
-		id: ID!,
-		header: [MailItemHeaderInput],
-		html: Boolean,
-		max: Int,
-		needExp: Boolean,
+		id: ID!
+		header: [MailItemHeaderInput]
+		html: Boolean
+		max: Int
+		needExp: Boolean
 		fetch: String
 	): Conversation
 	getFilterRules: [Filter]
 	getFolder(
-		visible: Boolean,
-		needGranteeName: Boolean,
-		view: FolderView,
-		depth: Int,
+		visible: Boolean
+		needGranteeName: Boolean
+		view: FolderView
+		depth: Int
 		traverseMountpoints: Boolean
 		folder: GetFolderFolderInput
 	): Folder
 	getMailboxMetadata(section: String): MailboxMetadata
 	getMessage(
-		id: ID!,
-		header: [MailItemHeaderInput],
-		html: Boolean,
-		max: Int,
-		needExp: Boolean,
-		neuter: Boolean,
-		part: ID,
-		raw: Boolean,
-		read: Boolean,
+		id: ID!
+		header: [MailItemHeaderInput]
+		html: Boolean
+		max: Int
+		needExp: Boolean
+		neuter: Boolean
+		part: ID
+		raw: Boolean
+		read: Boolean
 		ridZ: String
 	): MessageInfo
 	getMessagesMetadata(ids: [ID!]!): [MessageInfo]
 	getRights(input: GetRightsInput!): RightsResponse
-	getSMimePublicCerts(contactAddr: String!, store: String!): SMimePublicCertsResponse
+	getSMimePublicCerts(
+		contactAddr: String!
+		store: String!
+	): SMimePublicCertsResponse
 	getScratchCodes(username: String!): ScratchCodes
 	getSearchFolder: Folder
 	getTrustedDevices: GetTrustedDevicesResponse
@@ -2708,9 +2709,9 @@ type Query {
 	): RecoverAccount
 	relatedContacts(email: String!): [RelatedContact]
 	shareInfo(
-		internal: Boolean,
-		includeSelf: Boolean,
-		grantee: Grantee,
+		internal: Boolean
+		includeSelf: Boolean
+		grantee: Grantee
 		owner: Owner
 	): [ShareInfo]
 	# Perform a search for a variety types using a flexible query interface.
@@ -2718,29 +2719,29 @@ type Query {
 	# [[Query Tips]](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips)
 	search(
 		contact: String
-		cursor: Cursor,
-		fetch: String,
-		fullConversation: Boolean,
-		limit: Int,
-		needExp: Boolean,
-		memberOf: Boolean,
-		offset: Int,
-		query: String,
-		recip: Int,
-		sortBy: SortBy,
-		types: SearchType,
+		cursor: Cursor
+		fetch: String
+		fullConversation: Boolean
+		limit: Int
+		needExp: Boolean
+		memberOf: Boolean
+		offset: Int
+		query: String
+		recip: Int
+		sortBy: SortBy
+		types: SearchType
 		resultMode: String
 	): SearchResponse
 
 	searchGal(
-		needIsOwner: Boolean,
-		needIsMember: NeedIsMemberType,
-		type: GalSearchType,
-		name: String,
-		offset: Int,
-		limit: Int,
-		locale: String,
-		sortBy: String,
+		needIsOwner: Boolean
+		needIsMember: NeedIsMemberType
+		type: GalSearchType
+		name: String
+		offset: Int
+		limit: Int
+		locale: String
+		sortBy: String
 		needExp: Boolean
 	): SearchResponse
 
@@ -2751,23 +2752,22 @@ type Query {
 
 type Mutation {
 	action(
-		type: ActionTypeName!,
-		id: ID,
-		ids: [ID!],
-		op: String!,
-		color: Int,
-		constraints: String,
-		flags: String,
-		folderId: ID,
-		rgb: String,
-		tagNames: String,
+		type: ActionTypeName!
+		id: ID
+		ids: [ID!]
+		op: String!
+		color: Int
+		constraints: String
+		flags: String
+		folderId: ID
+		rgb: String
+		tagNames: String
 		name: String
 	): Boolean
-	applyFilterRules(
-		ids: String!,
-		filterRules: [FilterRuleInput]
-	): [String]
-	testExternalAccount(externalAccount: ExternalAccountTestInput!): ExternalAccountTestResponse
+	applyFilterRules(ids: String!, filterRules: [FilterRuleInput]): [String]
+	testExternalAccount(
+		externalAccount: ExternalAccountTestInput!
+	): ExternalAccountTestResponse
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): ID
 	addMessage(message: AddMsgInput!): MessageInfo
 	cancelTask(inviteId: ID!): Boolean
@@ -2778,22 +2778,20 @@ type Mutation {
 		username: String!
 	): AuthResponse
 	modifyProfileImage(
-		content: String,
+		content: String
 		contentType: String
 	): ProfileImageChangeResponse
 	checkCalendar(id: ID!, value: Boolean!): Boolean
-	contactAction(
-		id: ID
-		ids: [ID!]
-		folderId: ID
-		op: String!
-	): ActionOpResponse
-	conversationAction(
-		ids: [ID!]!
-		op: String!
+	contactAction(id: ID, ids: [ID!], folderId: ID, op: String!): ActionOpResponse
+	conversationAction(ids: [ID!]!, op: String!): Boolean
+	createAppointment(
+		accountName: String
+		appointment: CalendarItemInput!
 	): Boolean
-	createAppointment(accountName: String, appointment: CalendarItemInput!): Boolean
-	createAppointmentException(accountName: String, appointment: CalendarItemInput!): Boolean
+	createAppointmentException(
+		accountName: String
+		appointment: CalendarItemInput!
+	): Boolean
 	createAppSpecificPassword(appName: String!): CreateAppSpecificPasswordResponse
 	createCalendar(name: String!, color: Int!, url: String): Folder
 	createContact(contact: CreateContactInput!): Contact
@@ -2809,9 +2807,7 @@ type Mutation {
 		url: String
 		view: FolderView
 	): Folder
-	createMountpoint(
-		link: NewMountpointSpec!
-	): Boolean
+	createMountpoint(link: NewMountpointSpec!): Boolean
 	createSharedCalendar(link: NewMountpointSpec!): Boolean
 	createSearchFolder(
 		name: String!
@@ -2819,9 +2815,7 @@ type Mutation {
 		query: String!
 		types: FolderView
 	): Folder
-	createSignature(
-		signature: SignatureInput!
-	): SignatureResponse
+	createSignature(signature: SignatureInput!): SignatureResponse
 	createTask(task: CalendarItemInput!): Boolean
 	deleteAppointment(appointment: DeleteAppointmentInput!): Boolean
 	deleteExternalAccount(id: ID!): Boolean
@@ -2829,37 +2823,43 @@ type Mutation {
 	generateScratchCodes(username: String!): ScratchCodes
 	grantRights(input: GrantRightsInput!): RightsResponse
 	folderAction(action: FolderActionInput!): Boolean
-	forwardAppointmentInvite(appointmentInvite:ForwardAppointmentInviteInput!): Boolean
-	forwardAppointment(appointmentInvite:ForwardAppointmentInput!): Boolean
+	forwardAppointmentInvite(
+		appointmentInvite: ForwardAppointmentInviteInput!
+	): Boolean
+	forwardAppointment(appointmentInvite: ForwardAppointmentInput!): Boolean
 	itemAction(id: ID, ids: [ID], folderId: ID, op: String!): Boolean
 	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
 	logout: Boolean
 	login(
-		username: String!,
-		password: String,
-		recoveryCode: String,
-		tokenType: String,
-		persistAuthTokenCookie: Boolean,
-		twoFactorCode: String,
-		deviceTrusted: Boolean,
+		username: String!
+		password: String
+		recoveryCode: String
+		tokenType: String
+		persistAuthTokenCookie: Boolean
+		twoFactorCode: String
+		deviceTrusted: Boolean
 		csrfTokenSecured: Boolean!
 	): AuthResponse
-	enableTwoFactorAuth(options: EnableTwoFactorAuthInput!): EnableTwoFactorAuthResponse
+	enableTwoFactorAuth(
+		options: EnableTwoFactorAuthInput!
+	): EnableTwoFactorAuthResponse
 	disableTwoFactorAuth: Boolean
-	messageAction(
-		ids: [ID!]!
-		op: String!
-	): Boolean
+	messageAction(ids: [ID!]!, op: String!): Boolean
 	modifyExternalAccount(
 		id: ID!
 		type: AccountType
 		attrs: ExternalAccountModifyAttrsInput!
 	): Boolean
-	modifyAppointment(accountName: String, appointment: CalendarItemInput!): ModifyAppointmentResponse
+	modifyAppointment(
+		accountName: String
+		appointment: CalendarItemInput!
+	): ModifyAppointmentResponse
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): Boolean
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyProps(props: [PropertiesInput!]): Boolean
-	modifyZimletPrefs(zimlets: [ZimletPreferenceInput!]): ModifyZimletPrefsResponse
+	modifyZimletPrefs(
+		zimlets: [ZimletPreferenceInput!]
+	): ModifyZimletPrefsResponse
 	modifyFilterRules(filters: [FilterInput!]): Boolean
 	modifySignature(signature: SignatureInput!): Boolean
 	modifySearchFolder(search: SearchFolderInput!): Boolean
@@ -2886,9 +2886,12 @@ type Mutation {
 	sendDeliveryReport(messageId: ID!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
-	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean
-	snoozeCalendarItem(appointment: [SnoozeInput], task: SnoozeInput): Boolean,
-	dismissCalendarItem(appointment: [DismissInput], task: DismissInput): Boolean,
+	setMailboxMetadata(
+		section: String
+		attrs: MailboxMetadataSectionAttrsInput!
+	): Boolean
+	snoozeCalendarItem(appointment: [SnoozeInput], task: SnoozeInput): Boolean
+	dismissCalendarItem(appointment: [DismissInput], task: DismissInput): Boolean
 	uploadMessage(value: String!): String
 	setRecoveryAccount(
 		channel: SetRecoveryAccountChannel!
