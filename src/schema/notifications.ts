@@ -485,7 +485,6 @@ export class ZimbraNotifications {
 			itemsToWrite = data.getNewMail;
 		} catch (exception) {
 			itemsToWrite = [];
-			console.error(exception);
 		}
 
 		items.forEach((i: any) => {

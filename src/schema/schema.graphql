@@ -292,6 +292,7 @@ enum ResetPasswordStatus {
 enum PrefClientType {
 	advanced,
 	modern,
+	zimbrax,
 	standard
 }
 
@@ -1623,6 +1624,7 @@ type MailboxMetadataAttrs {
 	zimbraPrefReadingPaneSashHorizontal: Int
 	zimbraPrefReadingPaneSashVertical: Int
 	zimbraPrefSmartFolderTreeOpen: Boolean
+	zimbraPrefTimeFormat: String
 	zimbraPrefUndoSendEnabled: Boolean
 	zimbraPrefUndoSendTimeout: Int
 	archivedFolder: String
@@ -1643,6 +1645,7 @@ input MailboxMetadataSectionAttrsInput {
 	zimbraPrefReadingPaneSashHorizontal: Int
 	zimbraPrefReadingPaneSashVertical: Int
 	zimbraPrefSmartFolderTreeOpen: Boolean
+	zimbraPrefTimeFormat: String
 	zimbraPrefUndoSendEnabled: Boolean
 	zimbraPrefUndoSendTimeout: Int
 	archivedFolder: String
@@ -2876,8 +2879,8 @@ type Mutation {
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
 	setMailboxMetadata(section: String, attrs: MailboxMetadataSectionAttrsInput!): Boolean
-	snoozeCalendarItem(appointment: SnoozeInput, task: SnoozeInput): Boolean,
-	dismissCalendarItem(appointment: DismissInput, task: DismissInput): Boolean,
+	snoozeCalendarItem(appointment: [SnoozeInput], task: SnoozeInput): Boolean,
+	dismissCalendarItem(appointment: [DismissInput], task: DismissInput): Boolean,
 	uploadMessage(value: String!): String
 	setRecoveryAccount(
 		channel: SetRecoveryAccountChannel!

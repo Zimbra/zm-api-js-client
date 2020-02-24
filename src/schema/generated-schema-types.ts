@@ -1818,6 +1818,7 @@ export type MailboxMetadataAttrs = {
   zimbraPrefReadingPaneSashHorizontal?: Maybe<Scalars['Int']>,
   zimbraPrefReadingPaneSashVertical?: Maybe<Scalars['Int']>,
   zimbraPrefSmartFolderTreeOpen?: Maybe<Scalars['Boolean']>,
+  zimbraPrefTimeFormat?: Maybe<Scalars['String']>,
   zimbraPrefUndoSendEnabled?: Maybe<Scalars['Boolean']>,
   zimbraPrefUndoSendTimeout?: Maybe<Scalars['Int']>,
   archivedFolder?: Maybe<Scalars['String']>,
@@ -1844,6 +1845,7 @@ export type MailboxMetadataSectionAttrsInput = {
   zimbraPrefReadingPaneSashHorizontal?: Maybe<Scalars['Int']>,
   zimbraPrefReadingPaneSashVertical?: Maybe<Scalars['Int']>,
   zimbraPrefSmartFolderTreeOpen?: Maybe<Scalars['Boolean']>,
+  zimbraPrefTimeFormat?: Maybe<Scalars['String']>,
   zimbraPrefUndoSendEnabled?: Maybe<Scalars['Boolean']>,
   zimbraPrefUndoSendTimeout?: Maybe<Scalars['Int']>,
   archivedFolder?: Maybe<Scalars['String']>,
@@ -2498,13 +2500,13 @@ export type MutationSetMailboxMetadataArgs = {
 
 
 export type MutationSnoozeCalendarItemArgs = {
-  appointment?: Maybe<SnoozeInput>,
+  appointment?: Maybe<Array<Maybe<SnoozeInput>>>,
   task?: Maybe<SnoozeInput>
 };
 
 
 export type MutationDismissCalendarItemArgs = {
-  appointment?: Maybe<DismissInput>,
+  appointment?: Maybe<Array<Maybe<DismissInput>>>,
   task?: Maybe<DismissInput>
 };
 
@@ -2635,6 +2637,7 @@ export enum PrefCalendarInitialView {
 export enum PrefClientType {
   Advanced = 'advanced',
   Modern = 'modern',
+  Zimbrax = 'zimbrax',
   Standard = 'standard'
 }
 
