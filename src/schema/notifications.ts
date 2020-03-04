@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import assign from 'lodash/assign';
 import get from 'lodash/get';
 import omitBy from 'lodash/omitBy';
 import uniqBy from 'lodash/uniqBy';
@@ -8,6 +9,7 @@ import { normalize } from '../normalize';
 import { ZimbraNotificationsOptions } from './types';
 
 import {
+	CalendarItemHitInfo,
 	Contact,
 	Conversation,
 	Folder as FolderEntity,
@@ -22,6 +24,7 @@ const normalizeMessage = normalize(MessageInfo);
 const normalizeContact = normalize(Contact);
 const normalizeTag = normalize(Tag);
 const normalizeMailbox = normalize(Mailbox);
+const normalizeCalendarItem = normalize(CalendarItemHitInfo);
 const writeNewMailQuery = gql`
 	query getNewMail {
 		getNewMail @client {
@@ -29,6 +32,54 @@ const writeNewMailQuery = gql`
 			subject
 			flags
 			folderId
+		}
+	}
+`;
+
+const AppointmentsQuery = gql`
+	query AppointmentsQuery(
+		$calExpandInstStart: Float!
+		$calExpandInstEnd: Float!
+		$query: String!
+	) {
+		getAppointments(
+			calExpandInstStart: $calExpandInstStart
+			calExpandInstEnd: $calExpandInstEnd
+			limit: 1000
+			offset: 0
+			types: appointment
+			query: $query
+		) {
+			appointments {
+				id
+				inviteId
+				folderId
+				participationStatus
+				date
+				name
+				freeBusy
+				freeBusyActual
+				duration
+				alarm
+				alarmData {
+					nextAlarm
+					alarmInstStart
+				}
+				allDay
+				class
+				isRecurring
+				otherAttendees
+				organizer {
+					address
+					name
+					sentBy
+				}
+				location
+				instances {
+					start
+					utcRecurrenceId
+				}
+			}
 		}
 	}
 `;
@@ -42,17 +93,34 @@ function itemsForKey(notification: any, key: string) {
 function findDataId(
 	client: ZimbraInMemoryCache,
 	partialDataId: string = '$ROOT_QUERY',
-	predicate: (d: string) => any
+	predicate: (d: string) => any,
+	returnFirstResult: Boolean = true
 ) {
 	const data =
 		client && get(client, 'cache.data.data', get(client, 'data.data'));
 	if (!data) {
 		return;
 	}
-	return Object.keys(data).filter(
-		(dataId: string) =>
-			dataId.indexOf(partialDataId) !== -1 && predicate(dataId)
-	)[0];
+	const results = Object.keys(data).filter((dataId: string) => {
+		return dataId.indexOf(partialDataId) !== -1 && predicate(dataId);
+	});
+
+	if (returnFirstResult) {
+		return results[0];
+	}
+
+	return results;
+}
+
+function utcFromDateString(dateString: String) {
+	const transformedDate = `${dateString.slice(0, 4)}-${dateString.slice(
+		4,
+		6
+	)}-${dateString.slice(6, 8)}`;
+	const localDate = new Date(transformedDate);
+	return new Date(
+		localDate.getTime() + localDate.getTimezoneOffset() * 60000
+	).valueOf();
 }
 
 function addNewItemToList(itemList: any, item: any, sortBy: any) {
@@ -112,6 +180,7 @@ export class ZimbraNotifications {
 		this.handleMessageNotifications(notification);
 		this.handleContactNotifications(notification);
 		this.handleTagsNotifications(notification);
+		this.handleAppointmentNotifications(notification);
 	};
 
 	/**
@@ -180,6 +249,11 @@ export class ZimbraNotifications {
 		}
 	};
 
+	private handleAppointmentNotifications = (notification: Notification) => {
+		const items = itemsForKey(notification, 'appt');
+		this.batchProcessItems(items, this.processAppointmentNotifications);
+	};
+
 	private handleContactNotifications = (notification: Notification) => {
 		const items = itemsForKey(notification, 'cn');
 		this.batchProcessItems(items, this.processContactNotifications);
@@ -212,6 +286,151 @@ export class ZimbraNotifications {
 	private handleTagsNotifications = (notification: Notification) => {
 		const modifiedItems = get(notification, 'modified.tag');
 		this.batchProcessItems(modifiedItems, this.processTagsNotifications);
+	};
+
+	private processAppointmentNotifications = (items: any) => {
+		items.forEach((i: any) => {
+			const item = normalizeCalendarItem(i);
+			if (item.invitations && item.invitations.length) {
+				const nextAlarm = get(item, 'nextAlarm');
+				const invitation = get(item, 'invitations.0');
+				const { date, folderId } = item;
+
+				const invitationComponent = get(invitation, 'components.0');
+				const {
+					name,
+					allDay = false, // presents only if it's true
+					location,
+					inviteId,
+					status: participationStatus,
+					freeBusy,
+					freeBusyActual,
+					class: classname,
+					rsvp: otherAttendees,
+					recurrence: isRecurring = false, // presents only if it's recurring event
+					organizer: { name: organizerName, address }
+				} = invitationComponent;
+
+				// Get utc info from invitation.
+				let eventStartUtc: number;
+				let eventEndUtc: number;
+				let duration: number;
+
+				if (allDay) {
+					// In case of allDay event, transform `20200401` to `2020-04-01`
+					// and convert it to utc
+					const startDate = get(invitationComponent, 'start.0.date');
+					const endDate = get(invitationComponent, 'end.0.date');
+
+					eventStartUtc = utcFromDateString(startDate);
+					eventEndUtc = utcFromDateString(endDate);
+					duration = eventStartUtc - eventEndUtc;
+				} else {
+					eventStartUtc = get(invitationComponent, 'start.0.utc');
+					eventEndUtc = get(invitationComponent, 'end.0.utc');
+					duration = eventStartUtc - eventEndUtc;
+				}
+
+				const dataToWrite: any = {};
+
+				assign(dataToWrite, {
+					name,
+					folderId,
+					allDay,
+					isRecurring,
+					duration,
+					date,
+					location,
+					inviteId,
+					participationStatus,
+					freeBusy,
+					freeBusyActual,
+					class: classname,
+					otherAttendees,
+					organizer: {
+						name: organizerName,
+						address,
+						sentBy: null,
+						__typename: 'CalOrganizer'
+					},
+					alarm: !!nextAlarm,
+					alarmData: [
+						{
+							alarmInstStart: eventStartUtc,
+							nextAlarm,
+							__typename: 'Alarm'
+						}
+					],
+					instances: [
+						{
+							start: eventStartUtc,
+							// In Notification, utcRecurrenceId contains local instead of UTC timezone value.
+							utcRecurrenceId: new Date(eventStartUtc)
+								.toISOString()
+								.replace(/[-:.]/g, ''),
+							__typename: 'Instance'
+						}
+					]
+				});
+
+				let cachedEventDetails: any = this.cache.readFragment({
+					id: `CalendarItemHitInfo:${item.id}`,
+					fragment: gql`
+						fragment ${generateFragmentName('appointments')} on CalendarItemHitInfo {
+								id
+								alarm
+								inviteId
+						}
+				`
+				});
+				// If existing event is being updated
+				if (cachedEventDetails) {
+					assign(dataToWrite, cachedEventDetails);
+					this.cache.writeFragment({
+						id: `CalendarItemHitInfo:${item.id}`,
+						fragment: gql`
+								fragment ${generateFragmentName('appointments')} on CalendarItemHitInfo {
+									${attributeKeys(dataToWrite)}
+									instances {
+										${attributeKeys(dataToWrite.instances[0])}
+									}
+									alarmData {
+										${attributeKeys(dataToWrite.alarmData[0])}
+									}
+								}
+							`,
+						data: {
+							__typename: 'CalendarItemHitInfo',
+							...dataToWrite,
+							...(!nextAlarm && { alarmData: null })
+						}
+					});
+				} else {
+					assign(dataToWrite, {
+						id: get(item, 'id'),
+						inviteId: `${get(item, 'id')}-${get(invitation, 'id')}`
+					});
+
+					// Find cached queries based on folder id and update results
+					const query = `(\"inid:\\\\\\"${item.folderId}\\\\\\"\").*(\"types\":\"appointment\")`;
+					const queryRegex = new RegExp(query);
+					const appointmentListKey: any = findDataId(
+						this.cache,
+						'$ROOT_QUERY.getAppointments',
+						dataId => {
+							console.log(dataId, queryRegex.test(dataId));
+							return queryRegex.test(dataId);
+						},
+						false
+					);
+
+					appointmentListKey &&
+						appointmentListKey.forEach((apptKey: any) => {
+							this.writeAppointmentsToCache(apptKey, dataToWrite);
+						});
+				}
+			}
+		});
 	};
 
 	private processContactNotifications = (items: any) => {
@@ -247,7 +466,7 @@ export class ZimbraNotifications {
 
 			const queryRegex = new RegExp(query);
 
-			const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId => {
+			const id: any = findDataId(this.cache, '$ROOT_QUERY.search', dataId => {
 				// check if query does not contain NOT #type:group but contains #type:group
 				if (
 					query.indexOf(notTypeGroup) === -1 &&
@@ -318,7 +537,7 @@ export class ZimbraNotifications {
 		Object.keys(searchResponse).forEach(query => {
 			const queryRegex = new RegExp(query);
 
-			const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId => {
+			const id: any = findDataId(this.cache, '$ROOT_QUERY.search', dataId => {
 				// check if query does not contain NOT #type:group but contains #type:group
 				if (
 					query.indexOf(notTypeGroup) === -1 &&
@@ -407,7 +626,7 @@ export class ZimbraNotifications {
 
 		if (Object.keys(mbxItems).length) {
 			const accInfoRegExp = /^AccountInfo/;
-			const id = findDataId(this.cache, 'AccountInfo', dataId =>
+			const id: any = findDataId(this.cache, 'AccountInfo', dataId =>
 				accInfoRegExp.test(dataId)
 			);
 
@@ -475,6 +694,34 @@ export class ZimbraNotifications {
 					...item
 				}
 			});
+		});
+	};
+
+	private writeAppointmentsToCache = (
+		appointmentListKey: any,
+		dataToWrite: any
+	) => {
+		const variables = getVariablesFromDataId(appointmentListKey);
+		const appointmentList: any = this.cache.readQuery({
+			query: AppointmentsQuery,
+			variables
+		});
+
+		const newAppointmentsList: any = addNewItemToList(
+			appointmentList.getAppointments.appointments,
+			{ ...dataToWrite, __typename: 'CalendarItemHitInfo' },
+			'id'
+		);
+
+		this.cache.writeQuery({
+			query: AppointmentsQuery,
+			variables,
+			data: {
+				getAppointments: {
+					appointments: newAppointmentsList,
+					__typename: 'SearchResponse'
+				}
+			}
 		});
 	};
 
