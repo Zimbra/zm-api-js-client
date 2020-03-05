@@ -1095,6 +1095,7 @@ type AccountInfo {
 	license: License
 	props: PropList
 	zimlets: AccountZimlet
+	cos: AccountCos
 }
 
 type OnlyEmailAddress {
@@ -1178,6 +1179,11 @@ type AccountInfoAttrs {
 	zimbraFeatureAppSpecificPasswordsEnabled: Boolean
 	zimbraFeatureMailPriorityEnabled: Boolean
 	zimbraFileUploadMaxSize: Int
+}
+
+type AccountCos {
+	name: String
+	id: ID
 }
 
 type Identities {
