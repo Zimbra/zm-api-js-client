@@ -32,6 +32,12 @@ export type AccountAceInfoInput = {
   checkGrantee?: Maybe<Scalars['Boolean']>,
 };
 
+export type AccountCos = {
+   __typename?: 'AccountCos',
+  name?: Maybe<Scalars['String']>,
+  id?: Maybe<Scalars['ID']>,
+};
+
 export type AccountInfo = {
    __typename?: 'AccountInfo',
   id: Scalars['ID'],
@@ -46,6 +52,7 @@ export type AccountInfo = {
   license?: Maybe<License>,
   props?: Maybe<PropList>,
   zimlets?: Maybe<AccountZimlet>,
+  cos?: Maybe<AccountCos>,
 };
 
 export type AccountInfoAttrs = {
@@ -490,7 +497,7 @@ export type CalendarItemHitInfo = {
   participationStatus?: Maybe<ParticipationStatus>,
   percentComplete?: Maybe<Scalars['String']>,
   priority?: Maybe<Scalars['String']>,
-  revision?: Maybe<Scalars['Int']>,
+  revision?: Maybe<Scalars['Float']>,
   utcRecurrenceId?: Maybe<Scalars['String']>,
   size?: Maybe<Scalars['Float']>,
   sortField?: Maybe<Scalars['String']>,
@@ -690,7 +697,7 @@ export type Contact = {
   id: Scalars['ID'],
   date?: Maybe<Scalars['Float']>,
   folderId?: Maybe<Scalars['ID']>,
-  revision?: Maybe<Scalars['Int']>,
+  revision?: Maybe<Scalars['Float']>,
   sortField?: Maybe<Scalars['String']>,
   fileAsStr?: Maybe<Scalars['String']>,
   memberOf?: Maybe<Scalars['String']>,
@@ -915,7 +922,7 @@ export type Conversation = MailItem & {
   flags?: Maybe<Scalars['String']>,
   tags?: Maybe<Scalars['String']>,
   tagNames?: Maybe<Scalars['String']>,
-  revision?: Maybe<Scalars['Int']>,
+  revision?: Maybe<Scalars['Float']>,
   changeDate?: Maybe<Scalars['Float']>,
   modifiedSequence?: Maybe<Scalars['Int']>,
   invitations?: Maybe<Array<Maybe<InviteInfo>>>,
@@ -1326,7 +1333,7 @@ export type Folder = {
   folders?: Maybe<Array<Maybe<Folder>>>,
   search?: Maybe<Array<Maybe<Folder>>>,
   owner?: Maybe<Scalars['String']>,
-  revision?: Maybe<Scalars['Int']>,
+  revision?: Maybe<Scalars['Float']>,
   view?: Maybe<FolderView>,
   parentFolderId?: Maybe<Scalars['ID']>,
   unread?: Maybe<Scalars['Int']>,
@@ -1636,7 +1643,7 @@ export type Instance = {
   organizer?: Maybe<CalOrganizer>,
   otherAttendees?: Maybe<Scalars['Boolean']>,
   participationStatus?: Maybe<ParticipationStatus>,
-  revision?: Maybe<Scalars['Int']>,
+  revision?: Maybe<Scalars['Float']>,
   status?: Maybe<InviteCompletionStatus>,
   isOrganizer?: Maybe<Scalars['Boolean']>,
 };
@@ -1868,7 +1875,7 @@ export type MailItem = {
   flags?: Maybe<Scalars['String']>,
   tags?: Maybe<Scalars['String']>,
   tagNames?: Maybe<Scalars['String']>,
-  revision?: Maybe<Scalars['Int']>,
+  revision?: Maybe<Scalars['Float']>,
   changeDate?: Maybe<Scalars['Float']>,
   modifiedSequence?: Maybe<Scalars['Int']>,
   invitations?: Maybe<Array<Maybe<InviteInfo>>>,
@@ -1912,7 +1919,7 @@ export type MessageInfo = MailItem & {
   flags?: Maybe<Scalars['String']>,
   tags?: Maybe<Scalars['String']>,
   tagNames?: Maybe<Scalars['String']>,
-  revision?: Maybe<Scalars['Int']>,
+  revision?: Maybe<Scalars['Float']>,
   changeDate?: Maybe<Scalars['Float']>,
   modifiedSequence?: Maybe<Scalars['Int']>,
   invitations?: Maybe<Array<Maybe<InviteInfo>>>,
@@ -1989,7 +1996,7 @@ export type ModifyAppointmentResponse = {
   calendarItemId?: Maybe<Scalars['ID']>,
   inviteId?: Maybe<Scalars['ID']>,
   modifiedSequence?: Maybe<Scalars['Int']>,
-  revision?: Maybe<Scalars['Int']>,
+  revision?: Maybe<Scalars['Float']>,
 };
 
 export type ModifyContactInput = {
@@ -2029,7 +2036,7 @@ export type MsgWithGroupInfo = MailItem & {
   flags?: Maybe<Scalars['String']>,
   tags?: Maybe<Scalars['String']>,
   tagNames?: Maybe<Scalars['String']>,
-  revision?: Maybe<Scalars['Int']>,
+  revision?: Maybe<Scalars['Float']>,
   changeDate?: Maybe<Scalars['Float']>,
   modifiedSequence?: Maybe<Scalars['Int']>,
   invitations?: Maybe<Array<Maybe<InviteInfo>>>,
