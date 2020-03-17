@@ -1084,6 +1084,7 @@ type AccountInfo {
 	rest: String
 	used: String
 	profileImageId: Int
+	changePasswordURL: String
 	soapURL: String
 	version: String
 	attrs: AccountInfoAttrs
