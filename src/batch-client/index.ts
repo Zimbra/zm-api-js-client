@@ -225,7 +225,10 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => ({
 			...res,
-			attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
+			attrs: {
+				...mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
+				zimbraMailAlias: [].concat(get(res, 'attrs._attrs.zimbraMailAlias'))
+			},
 			...(get(res, 'license.attr') && {
 				license: {
 					status: res.license.status,
