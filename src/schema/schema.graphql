@@ -1017,7 +1017,12 @@ type Filter {
 type Folder {
 	absFolderPath: String
 	acl: ACL
-	appointments(start: Float, end: Float, offset: Int, limit: Int): SearchResponse
+	appointments(
+		start: Float
+		end: Float
+		offset: Int
+		limit: Int
+	): SearchResponse
 	color: Int
 	flags: String
 	id: ID
@@ -1178,6 +1183,8 @@ type AccountInfoAttrs {
 	zimbraFileUploadMaxSize: Int
 	zimbraMailAlias: [String]
 	zimbraFeatureTaggingEnabled: Boolean
+	zimbraIdentityMaxNumEntries: Int
+	zimbraFeatureIdentitiesEnabled: Boolean
 }
 
 type AccountCos {
@@ -2118,6 +2125,11 @@ input ModifyIdentityInput {
 	attrs: IdentityAttrsInput
 }
 
+input CreateIdentityInput {
+	name: String!
+	attrs: IdentityAttrsInput
+}
+
 input ZimletPreferenceInput {
 	name: String!
 	presence: String!
@@ -2646,9 +2658,9 @@ type Query {
 		types: SearchType
 	): SearchResponse
 	getTasks(
-		query: String!,
-		limit: Int!,
-		offset: Int!,
+		query: String!
+		limit: Int!
+		offset: Int!
 		types: SearchType
 	): SearchResponse
 	getAppSpecificPasswords: AppSpecificPasswordsResponse
@@ -2811,6 +2823,7 @@ type Mutation {
 		url: String
 		view: FolderView
 	): Folder
+	createIdentity(name: String!, attrs: IdentityAttrsInput): Identities
 	createMountpoint(link: NewMountpointSpec!): Boolean
 	createSharedCalendar(link: NewMountpointSpec!): Boolean
 	createSearchFolder(
@@ -2858,7 +2871,7 @@ type Mutation {
 		accountName: String
 		appointment: CalendarItemInput!
 	): ModifyAppointmentResponse
-	modifyIdentity(id: ID!, attrs: IdentityAttrsInput!): Boolean
+	modifyIdentity(id: ID!, attrs: IdentityAttrsInput): Boolean
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyProps(props: [PropertiesInput!]): Boolean
 	modifyZimletPrefs(
