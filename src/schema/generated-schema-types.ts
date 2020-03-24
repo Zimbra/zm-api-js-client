@@ -87,6 +87,7 @@ export type AccountInfoAttrs = {
   zimbraFileUploadMaxSize?: Maybe<Scalars['Int']>,
   zimbraMailAlias?: Maybe<Array<Maybe<Scalars['String']>>>,
   zimbraFeatureTaggingEnabled?: Maybe<Scalars['Boolean']>,
+  zimbraIdentityMaxNumEntries?: Maybe<Scalars['Int']>,
 };
 
 export enum AccountType {
@@ -960,6 +961,11 @@ export type CreateContactInput = {
   folderId?: Maybe<Scalars['ID']>,
   tagNames?: Maybe<Scalars['String']>,
   attributes: ContactAttrsInput,
+};
+
+export type CreateIdentityInput = {
+  name: Scalars['String'],
+  attrs?: Maybe<IdentityAttrsInput>,
 };
 
 export type CreateMountpointInput = {
@@ -2062,6 +2068,7 @@ export type Mutation = {
   modifyContact?: Maybe<Contact>,
   modifyContactList?: Maybe<Contact>,
   createFolder?: Maybe<Folder>,
+  createIdentity?: Maybe<Identities>,
   createMountpoint?: Maybe<Scalars['Boolean']>,
   createSharedCalendar?: Maybe<Scalars['Boolean']>,
   createSearchFolder?: Maybe<Folder>,
@@ -2252,6 +2259,12 @@ export type MutationCreateFolderArgs = {
   parentFolderId?: Maybe<Scalars['ID']>,
   url?: Maybe<Scalars['String']>,
   view?: Maybe<FolderView>
+};
+
+
+export type MutationCreateIdentityArgs = {
+  name: Scalars['String'],
+  attrs: IdentityAttrsInput
 };
 
 

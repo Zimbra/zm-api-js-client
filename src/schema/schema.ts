@@ -6,6 +6,7 @@ import {
 	CalendarItemInput,
 	ClientInfoInput,
 	CreateContactInput,
+	CreateIdentityInput,
 	CreateMountpointInput,
 	CreateTagInput,
 	DeleteAppointmentInput,
@@ -362,6 +363,8 @@ export function createZimbraSchema(
 							zimbraPrefOutOfOfficeReply: value
 						})
 						.then(() => value),
+				createIdentity: (_, variables) =>
+					client.createIdentity(variables as CreateIdentityInput),
 				modifyIdentity: (_, variables) =>
 					client.modifyIdentity(variables as ModifyIdentityInput).then(Boolean),
 

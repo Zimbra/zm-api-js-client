@@ -53,6 +53,7 @@ import {
 	CalendarItemInput,
 	ClientInfoInput,
 	CreateContactInput,
+	CreateIdentityInput,
 	CreateMountpointInput,
 	CreateTagInput,
 	DeleteAppointmentInput,
@@ -227,7 +228,7 @@ export class ZimbraBatchClient {
 			...res,
 			attrs: {
 				...mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
-				zimbraMailAlias: [].concat(get(res, 'attrs._attrs.zimbraMailAlias'))
+				zimbraMailAlias: [].concat(get(res, 'attrs._attrs.zimbraMailAlias', []))
 			},
 			...(get(res, 'license.attr') && {
 				license: {
@@ -442,6 +443,19 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(res => normalize(Folder)(res.folder[0]));
 	};
+
+	public createIdentity = ({ name, attrs }: CreateIdentityInput) =>
+		this.jsonRequest({
+			name: 'CreateIdentity',
+			namespace: Namespace.Account,
+			body: {
+				identity: {
+					name,
+					_attrs: mapValues(attrs, coerceBooleanToString)
+				}
+			},
+			singleRequest: true
+		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
 
 	public createMountpoint = (_options: CreateMountpointInput) =>
 		this.jsonRequest({
