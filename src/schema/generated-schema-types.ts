@@ -84,6 +84,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureAppSpecificPasswordsEnabled?: Maybe<Scalars['Boolean']>,
   zimbraFeatureMailPriorityEnabled?: Maybe<Scalars['Boolean']>,
   zimbraFileUploadMaxSize?: Maybe<Scalars['Int']>,
+  zimbraMailAlias?: Maybe<Array<Maybe<Scalars['String']>>>,
 };
 
 export enum AccountType {
