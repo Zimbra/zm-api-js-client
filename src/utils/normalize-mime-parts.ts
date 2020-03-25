@@ -152,7 +152,6 @@ export function normalizeMimeParts(
 				part.contentType !== 'application/pkcs7-mime' &&
 					part.contentType !== 'application/pkcs7-signature' &&
 					part.contentType !== 'application/x-pkcs7-signature' &&
-					!(part.filename && part.filename.endsWith('.ics')) &&
 					(acc[mode] || (acc[mode] = [])).push(processAttachment(part));
 
 				message.attributes = message.attributes || {};
