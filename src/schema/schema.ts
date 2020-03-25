@@ -16,7 +16,6 @@ import {
 	FilterInput,
 	FolderActionChangeColorInput,
 	FolderActionCheckCalendarInput,
-	FolderView,
 	ForwardAppointmentInput,
 	ForwardAppointmentInviteInput,
 	GetRightsInput,
@@ -32,15 +31,12 @@ import {
 	SendMessageInput,
 	ShareNotificationInput,
 	SignatureInput,
-	SortBy,
 	WhiteBlackListInput,
 	ZimletPreferenceInput
 } from './generated-schema-types';
 import { ZimbraSchemaOptions } from './types';
 
 import { ZimbraBatchClient } from '../batch-client';
-import { normalize } from '../normalize';
-import { CalendarItemHitInfo } from '../normalize/entities';
 import { coerceBooleanToString } from '../utils/coerce-boolean';
 import { ZimbraNotifications } from './notifications';
 
@@ -136,6 +132,8 @@ export function createZimbraSchema(
 				},
 				getAppointments: (_: any, variables) =>
 					client.search(variables as SearchOptions),
+				getTasks: (_: any, variables) =>
+					client.getTasks(variables as SearchOptions),
 				getAvailableLocales: (_: any) => client.getAvailableLocales(),
 				getMailboxMetadata: (_: any, variables) =>
 					client.getMailboxMetadata(variables as GetMailboxMetadataOptions),
@@ -198,41 +196,6 @@ export function createZimbraSchema(
 				__resolveType(obj: any) {
 					return obj.conversationId ? 'MessageInfo' : 'Conversation';
 				}
-			},
-			Folder: {
-				appointments: (root, { start, end, offset = 0, limit = 1000 }) =>
-					client
-						.jsonRequest({
-							name: 'Search',
-							body: {
-								types: FolderView.Appointment,
-								calExpandInstStart: start,
-								calExpandInstEnd: end,
-								query: `inid:"${root.id}"`,
-								offset,
-								limit
-							}
-						})
-						.then(({ appt = [], ...rest }) => ({
-							...rest,
-							appointments: appt.map(normalize(CalendarItemHitInfo))
-						})),
-				tasks: (root, { offset, sortBy = SortBy.DateDesc, limit = 1000 }) =>
-					client
-						.jsonRequest({
-							name: 'Search',
-							body: {
-								offset,
-								limit,
-								sortBy,
-								types: FolderView.Task,
-								query: `inid:"${root.id}"`
-							}
-						})
-						.then(({ task = [], ...rest }) => ({
-							...rest,
-							tasks: task.map(normalize(CalendarItemHitInfo))
-						}))
 			},
 			Mutation: {
 				action: (_, { type, ...rest }, context = {}) => {

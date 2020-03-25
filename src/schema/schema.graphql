@@ -1017,13 +1017,7 @@ type Filter {
 type Folder {
 	absFolderPath: String
 	acl: ACL
-	appointments(
-		start: Float
-		end: Float
-		offset: Int
-		limit: Int
-	): SearchResponse
-	tasks(folderId: ID, offset: Int, limit: Int, sortBy: String): SearchResponse
+	appointments(start: Float, end: Float, offset: Int, limit: Int): SearchResponse
 	color: Int
 	flags: String
 	id: ID
@@ -1180,6 +1174,7 @@ type AccountInfoAttrs {
 	zimbraFeatureAppSpecificPasswordsEnabled: Boolean
 	zimbraFeatureMailPriorityEnabled: Boolean
 	zimbraFileUploadMaxSize: Int
+	zimbraMailAlias: [String]
 }
 
 type AccountCos {
@@ -2645,6 +2640,12 @@ type Query {
 		query: String!
 		limit: Int!
 		offset: Int!
+		types: SearchType
+	): SearchResponse
+	getTasks(
+		query: String!,
+		limit: Int!,
+		offset: Int!,
 		types: SearchType
 	): SearchResponse
 	getAppSpecificPasswords: AppSpecificPasswordsResponse

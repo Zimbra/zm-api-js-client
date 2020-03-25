@@ -225,7 +225,10 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => ({
 			...res,
-			attrs: mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
+			attrs: {
+				...mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
+				zimbraMailAlias: [].concat(get(res, 'attrs._attrs.zimbraMailAlias'))
+			},
 			...(get(res, 'license.attr') && {
 				license: {
 					status: res.license.status,
@@ -890,6 +893,27 @@ export class ZimbraBatchClient {
 			name: 'GetTag',
 			namespace: Namespace.Mail
 		}).then(({ tag = [] }) => tag.map(normalize(Tag)));
+
+	public getTasks = (options: SearchOptions) =>
+		this.jsonRequest({
+			name: 'Search',
+			body: {
+				...options
+			}
+		}).then(res => {
+			if (res.cn) {
+				res.cn = normalizeOtherAttr(res.cn);
+			}
+
+			const normalized = normalize(SearchResponse)(res);
+
+			return {
+				...normalized,
+				tasks: normalized.task
+					? normalized.task.map(normalize(CalendarItemHitInfo))
+					: []
+			};
+		});
 
 	public getTrustedDevices = () =>
 		this.jsonRequest({

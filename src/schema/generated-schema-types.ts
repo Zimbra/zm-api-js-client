@@ -84,6 +84,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureAppSpecificPasswordsEnabled?: Maybe<Scalars['Boolean']>,
   zimbraFeatureMailPriorityEnabled?: Maybe<Scalars['Boolean']>,
   zimbraFileUploadMaxSize?: Maybe<Scalars['Int']>,
+  zimbraMailAlias?: Maybe<Array<Maybe<Scalars['String']>>>,
 };
 
 export enum AccountType {
@@ -1320,7 +1321,6 @@ export type Folder = {
   absFolderPath?: Maybe<Scalars['String']>,
   acl?: Maybe<Acl>,
   appointments?: Maybe<SearchResponse>,
-  tasks?: Maybe<SearchResponse>,
   color?: Maybe<Scalars['Int']>,
   flags?: Maybe<Scalars['String']>,
   id?: Maybe<Scalars['ID']>,
@@ -1354,14 +1354,6 @@ export type FolderAppointmentsArgs = {
   end?: Maybe<Scalars['Float']>,
   offset?: Maybe<Scalars['Int']>,
   limit?: Maybe<Scalars['Int']>
-};
-
-
-export type FolderTasksArgs = {
-  folderId?: Maybe<Scalars['ID']>,
-  offset?: Maybe<Scalars['Int']>,
-  limit?: Maybe<Scalars['Int']>,
-  sortBy?: Maybe<Scalars['String']>
 };
 
 /** Special case of FolderAction for `changeFolderColor` resolver */
@@ -2806,6 +2798,7 @@ export type Query = {
   freeBusy?: Maybe<Array<Maybe<FreeBusy>>>,
   getContact?: Maybe<Array<Maybe<Contact>>>,
   getAppointments?: Maybe<SearchResponse>,
+  getTasks?: Maybe<SearchResponse>,
   getAppSpecificPasswords?: Maybe<AppSpecificPasswordsResponse>,
   getAvailableLocales?: Maybe<Array<Maybe<Locale>>>,
   getContactFrequency?: Maybe<ContactFrequencyResponse>,
@@ -2942,6 +2935,20 @@ export type QueryGetContactArgs = {
 export type QueryGetAppointmentsArgs = {
   calExpandInstStart: Scalars['Float'],
   calExpandInstEnd: Scalars['Float'],
+  query: Scalars['String'],
+  limit: Scalars['Int'],
+  offset: Scalars['Int'],
+  types?: Maybe<SearchType>
+};
+
+
+/** 
+ * Zimbra GraphQL Queries
+ * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
+ * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
+ * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
+ */
+export type QueryGetTasksArgs = {
   query: Scalars['String'],
   limit: Scalars['Int'],
   offset: Scalars['Int'],
