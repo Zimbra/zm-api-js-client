@@ -110,7 +110,7 @@ export class Entity {
 export function normalize(
 	schema: Entity
 ): (data: any | Array<any>) => any | Array<any> {
-	return function(data) {
+	return function (data) {
 		return Array.isArray(data)
 			? data.map(v => _normalize(v, schema))
 			: _normalize(data, schema);
@@ -120,7 +120,7 @@ export function normalize(
 export function denormalize(
 	schema: Entity
 ): (data: any | Array<any>) => any | Array<any> {
-	return function(data) {
+	return function (data) {
 		return Array.isArray(data)
 			? data.map(v => _normalize(v, schema, true))
 			: _normalize(data, schema, true);
