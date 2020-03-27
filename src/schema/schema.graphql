@@ -1042,6 +1042,7 @@ type Folder {
 	droppable: Boolean
 	userId: ID
 	broken: Boolean #shared folder link is broken or not
+	deletable: Boolean
 }
 
 type ACL {

@@ -1356,6 +1356,7 @@ export type Folder = {
   droppable?: Maybe<Scalars['Boolean']>,
   userId?: Maybe<Scalars['ID']>,
   broken?: Maybe<Scalars['Boolean']>,
+  deletable?: Maybe<Scalars['Boolean']>,
 };
 
 
