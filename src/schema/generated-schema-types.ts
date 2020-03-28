@@ -46,6 +46,7 @@ export type AccountInfo = {
   rest?: Maybe<Scalars['String']>,
   used?: Maybe<Scalars['String']>,
   profileImageId?: Maybe<Scalars['Int']>,
+  changePasswordURL?: Maybe<Scalars['String']>,
   soapURL?: Maybe<Scalars['String']>,
   version?: Maybe<Scalars['String']>,
   attrs?: Maybe<AccountInfoAttrs>,
