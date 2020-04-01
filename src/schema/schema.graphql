@@ -1176,6 +1176,7 @@ type AccountInfoAttrs {
 	zimbraFeatureMailPriorityEnabled: Boolean
 	zimbraFileUploadMaxSize: Int
 	zimbraMailAlias: [String]
+	zimbraFeatureTaggingEnabled: Boolean
 }
 
 type AccountCos {
