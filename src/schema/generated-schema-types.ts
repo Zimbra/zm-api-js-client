@@ -76,6 +76,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureOutOfOfficeReplyEnabled?: Maybe<Scalars['Boolean']>,
   zimbraFeatureFiltersEnabled?: Maybe<Scalars['Boolean']>,
   zimbraFeatureReadReceiptsEnabled?: Maybe<Scalars['Boolean']>,
+  zimbraFeatureSharingEnabled?: Maybe<Scalars['Boolean']>,
   zimbraFeatureManageZimlets?: Maybe<Scalars['Boolean']>,
   zimbraFeatureTwoFactorAuthAvailable?: Maybe<Scalars['Boolean']>,
   zimbraFeatureTwoFactorAuthRequired?: Maybe<Scalars['Boolean']>,
