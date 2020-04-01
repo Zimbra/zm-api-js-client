@@ -1166,6 +1166,7 @@ type AccountInfoAttrs {
 	zimbraFeatureOutOfOfficeReplyEnabled: Boolean
 	zimbraFeatureFiltersEnabled: Boolean
 	zimbraFeatureReadReceiptsEnabled: Boolean
+	zimbraFeatureSharingEnabled: Boolean
 	zimbraFeatureManageZimlets: Boolean
 	zimbraFeatureTwoFactorAuthAvailable: Boolean
 	zimbraFeatureTwoFactorAuthRequired: Boolean
