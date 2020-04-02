@@ -1183,6 +1183,7 @@ type AccountInfoAttrs {
 	zimbraMailAlias: [String]
 	zimbraFeatureTaggingEnabled: Boolean
 	zimbraIdentityMaxNumEntries: Int
+	zimbraFeatureIdentitiesEnabled: Boolean
 }
 
 type AccountCos {

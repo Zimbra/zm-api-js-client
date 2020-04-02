@@ -88,6 +88,7 @@ export type AccountInfoAttrs = {
   zimbraMailAlias?: Maybe<Array<Maybe<Scalars['String']>>>,
   zimbraFeatureTaggingEnabled?: Maybe<Scalars['Boolean']>,
   zimbraIdentityMaxNumEntries?: Maybe<Scalars['Int']>,
+  zimbraFeatureIdentitiesEnabled?: Maybe<Scalars['Boolean']>,
 };
 
 export enum AccountType {
@@ -2264,7 +2265,7 @@ export type MutationCreateFolderArgs = {
 
 export type MutationCreateIdentityArgs = {
   name: Scalars['String'],
-  attrs: IdentityAttrsInput
+  attrs?: Maybe<IdentityAttrsInput>
 };
 
 
@@ -2387,7 +2388,7 @@ export type MutationModifyAppointmentArgs = {
 
 export type MutationModifyIdentityArgs = {
   id: Scalars['ID'],
-  attrs: IdentityAttrsInput
+  attrs?: Maybe<IdentityAttrsInput>
 };
 
 
