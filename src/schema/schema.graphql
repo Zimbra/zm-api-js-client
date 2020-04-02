@@ -1017,12 +1017,6 @@ type Filter {
 type Folder {
 	absFolderPath: String
 	acl: ACL
-	appointments(
-		start: Float
-		end: Float
-		offset: Int
-		limit: Int
-	): SearchResponse
 	color: Int
 	flags: String
 	id: ID
