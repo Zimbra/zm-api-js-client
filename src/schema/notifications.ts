@@ -418,7 +418,6 @@ export class ZimbraNotifications {
 						this.cache,
 						'$ROOT_QUERY.getAppointments',
 						dataId => {
-							console.log(dataId, queryRegex.test(dataId));
 							return queryRegex.test(dataId);
 						},
 						false
