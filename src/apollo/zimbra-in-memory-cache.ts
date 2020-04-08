@@ -15,6 +15,11 @@ const dataIdFromPath = (result: any, path: string) => {
 
 const dataIdFromObject = (object: any): string | null | undefined => {
 	switch (object.__typename) {
+		case 'CalendarItemHitInfo':
+			if (object.instances) {
+				return `${defaultDataIdFromObject(object)}:${object.instances.length}`;
+			}
+			return `${defaultDataIdFromObject(object)}`;
 		case 'MailboxMetadata':
 			// Identify metadata groups by their section identifier such as
 			// `zwc:implicit`.
