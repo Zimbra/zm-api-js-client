@@ -26,7 +26,17 @@ function soapCommandBody(options: RequestOptions) {
 
 function parseJSON(response: Response): Promise<ParsedResponse> {
 	if (!response.ok) {
-		throw networkError(response);
+		// whenever the response is not ok, for errors 502, 503, and 504 (gateway timeout/bad gateway), throw the network error
+		if ([502, 503, 504].indexOf(response.status) !== -1) {
+			throw networkError(response);
+		}
+
+		// for the rest of the cases (as of now only 500 error), parse and return the error response so that it can
+		// be handled properly by the caller
+		return parseErrorJSON(response).then(parsedResponse => {
+			const fault = get(parsedResponse.parsed, 'Body.Fault');
+			throw faultError(parsedResponse, [fault]);
+		});
 	}
 
 	return _responseParseHandler(response);
@@ -49,13 +59,15 @@ function parseErrorJSON(response: Response): Promise<ParsedResponse> {
 }
 
 function networkError(response: ParsedResponse) {
-	const error = new Error(
-		`Network request failed with status ${response.status}${
-			response.statusText ? `- "${response.statusText}"` : ''
-		}`
-	);
+	const message = `Network request failed with status ${response.status}${
+		response.statusText ? `- "${response.statusText}"` : ''
+	}`;
+	const error = new Error(message);
+
+	(error as NetworkError).message = message;
 	(error as NetworkError).response = response;
 	(error as NetworkError).parseError = response.parseError;
+
 	return error as NetworkError;
 }
 
@@ -258,11 +270,5 @@ export function jsonRequest(
 				namespace: response.parsed._jsns,
 				originalResponse: response
 			};
-		})
-		.catch(({ response }) => {
-			return parseErrorJSON(response).then(parsedResponse => {
-				const fault = get(parsedResponse.parsed, 'Body.Fault');
-				throw faultError(parsedResponse, [fault]);
-			});
 		});
 }
