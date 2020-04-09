@@ -1330,7 +1330,6 @@ export type Folder = {
    __typename?: 'Folder',
   absFolderPath?: Maybe<Scalars['String']>,
   acl?: Maybe<Acl>,
-  appointments?: Maybe<SearchResponse>,
   color?: Maybe<Scalars['Int']>,
   flags?: Maybe<Scalars['String']>,
   id?: Maybe<Scalars['ID']>,
@@ -1356,14 +1355,6 @@ export type Folder = {
   droppable?: Maybe<Scalars['Boolean']>,
   userId?: Maybe<Scalars['ID']>,
   broken?: Maybe<Scalars['Boolean']>,
-};
-
-
-export type FolderAppointmentsArgs = {
-  start?: Maybe<Scalars['Float']>,
-  end?: Maybe<Scalars['Float']>,
-  offset?: Maybe<Scalars['Int']>,
-  limit?: Maybe<Scalars['Int']>
 };
 
 /** Special case of FolderAction for `changeFolderColor` resolver */
