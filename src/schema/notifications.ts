@@ -105,22 +105,104 @@ function findDataId(
 		return dataId.indexOf(partialDataId) !== -1 && predicate(dataId);
 	});
 
-	if (returnFirstResult) {
-		return results[0];
-	}
-
-	return results;
+	return returnFirstResult ? results[0] : results;
 }
 
 function utcFromDateString(dateString: String) {
-	const transformedDate = `${dateString.slice(0, 4)}-${dateString.slice(
-		4,
-		6
-	)}-${dateString.slice(6, 8)}`;
-	const localDate = new Date(transformedDate);
+	const transformedDate = new Date(
+		`${dateString.replace(/(.{4})(.{2})(.{2})(.*)/g, '$1-$2-$3')}`
+	);
 	return new Date(
-		localDate.getTime() + localDate.getTimezoneOffset() * 60000
+		transformedDate.getTime() + transformedDate.getTimezoneOffset() * 60000
 	).valueOf();
+}
+
+function getEventInstances(
+	startTimeStamp: any,
+	endDateTimestamp: any,
+	intervalCount: any,
+	frequency: any
+) {
+	const EVENT_INSTANCE_RANGE: any = {
+		DAI: 35,
+		WEE: 5,
+		MON: 2
+	};
+
+	const result = [];
+	let currTimeStamp: any = new Date(startTimeStamp);
+	for (let i = 0; i < EVENT_INSTANCE_RANGE[frequency]; i++) {
+		// @TODO: What should be the count?
+		if (currTimeStamp.valueOf() > endDateTimestamp.valueOf()) {
+			break;
+		}
+		currTimeStamp = new Date(currTimeStamp);
+		result.push({
+			start: currTimeStamp.valueOf(),
+			// In Notification, utcRecurrenceId contains local instead of UTC timezone value.
+			utcRecurrenceId: currTimeStamp.toISOString().replace(/[-:.]/g, ''),
+			__typename: 'Instance'
+		});
+		switch (frequency) {
+			case 'DAI':
+				currTimeStamp.setDate(currTimeStamp.getDate() + intervalCount);
+				break;
+			case 'WEE':
+				currTimeStamp.setDate(currTimeStamp.getDate() + intervalCount * 7);
+				break;
+			case 'MON':
+				currTimeStamp.setMonth(currTimeStamp.getMonth() + intervalCount);
+				break;
+		}
+	}
+	return result;
+}
+
+function generateAppointmentInstaces(
+	isRecurring: Boolean,
+	startEvent: any,
+	rule: any
+) {
+	if (!isRecurring || get(rule, 'frequency').indexOf('YEA') >= 0) {
+		return [
+			{
+				start: startEvent,
+				// In Notification, utcRecurrenceId contains local instead of UTC timezone value.
+				utcRecurrenceId: new Date(startEvent)
+					.toISOString()
+					.replace(/[-:.]/g, ''),
+				__typename: 'Instance'
+			}
+		];
+	}
+	const intervalCount = get(rule, 'interval.0.intervalCount');
+	const reccUntilDate = get(rule, 'until.0.date');
+	let endDateTimestamp;
+
+	// If end date is set, create events upto that date,
+	// else create max 35 instances which is maximum visible days in any view
+	if (reccUntilDate) {
+		const endDate = reccUntilDate.split('T');
+		// Convert '20202101T221100Z' to '2020-21-01 22:11:00' to create Date instance
+		endDateTimestamp = new Date(
+			`${endDate[0].replace(
+				/(.{4})(.{2})(.{2})/g,
+				'$1-$2-$3'
+			)} ${endDate[1].replace(/(.{2})(.{2})(.{2})(.*)/g, '$1:$2:$3')}`
+		);
+	} else {
+		endDateTimestamp = new Date();
+		endDateTimestamp = endDateTimestamp.setDate(
+			endDateTimestamp.getDate() + 35
+		);
+	}
+
+	return getEventInstances(
+		startEvent,
+		endDateTimestamp,
+		intervalCount,
+		rule.frequency
+	);
 }
 
 function addNewItemToList(itemList: any, item: any, sortBy: any) {
@@ -292,7 +374,7 @@ export class ZimbraNotifications {
 		items.forEach((i: any) => {
 			const item = normalizeCalendarItem(i);
 			if (item.invitations && item.invitations.length) {
-				const nextAlarm = get(item, 'nextAlarm');
+				const nextAlarm = get(item, 'nextAlarm', null);
 				const invitation = get(item, 'invitations.0');
 				const { date, folderId } = item;
 
@@ -301,37 +383,39 @@ export class ZimbraNotifications {
 					name,
 					allDay = false, // presents only if it's true
 					location,
-					inviteId,
+					// inviteId,
 					status: participationStatus,
 					freeBusy,
 					freeBusyActual,
 					class: classname,
 					rsvp: otherAttendees,
-					recurrence: isRecurring = false, // presents only if it's recurring event
+					recurrence, // presents only if it's recurring event
 					organizer: { name: organizerName, address }
 				} = invitationComponent;
 
+				const isRecurring = !!recurrence;
 				// Get utc info from invitation.
 				let eventStartUtc: number;
 				let eventEndUtc: number;
 				let duration: number;
 
-				if (allDay) {
-					// In case of allDay event, transform `20200401` to `2020-04-01`
-					// and convert it to utc
-					const startDate = get(invitationComponent, 'start.0.date');
-					const endDate = get(invitationComponent, 'end.0.date');
+				// In case of allDay event, transform `20200401` to `2020-04-01`
+				// and convert it to utc
+				let key = allDay ? 'date' : 'utc';
+				const startDate = get(invitationComponent, `start.0.${key}`);
+				const endDate = get(invitationComponent, `end.0.${key}`);
+				eventStartUtc = allDay ? utcFromDateString(startDate) : startDate;
+				eventEndUtc = allDay ? utcFromDateString(endDate) : endDate;
+				duration = eventStartUtc - eventEndUtc;
 
-					eventStartUtc = utcFromDateString(startDate);
-					eventEndUtc = utcFromDateString(endDate);
-					duration = eventStartUtc - eventEndUtc;
-				} else {
-					eventStartUtc = get(invitationComponent, 'start.0.utc');
-					eventEndUtc = get(invitationComponent, 'end.0.utc');
-					duration = eventStartUtc - eventEndUtc;
-				}
+				const rule = get(recurrence, '0.add.0.rule.0');
+				const instances: any = generateAppointmentInstaces(
+					isRecurring,
+					eventStartUtc,
+					rule
+				);
 
-				const dataToWrite: any = {};
+				const dataToWrite: any = { instances };
 
 				assign(dataToWrite, {
 					name,
@@ -341,7 +425,6 @@ export class ZimbraNotifications {
 					duration,
 					date,
 					location,
-					inviteId,
 					participationStatus,
 					freeBusy,
 					freeBusyActual,
@@ -360,21 +443,15 @@ export class ZimbraNotifications {
 							nextAlarm,
 							__typename: 'Alarm'
 						}
-					],
-					instances: [
-						{
-							start: eventStartUtc,
-							// In Notification, utcRecurrenceId contains local instead of UTC timezone value.
-							utcRecurrenceId: new Date(eventStartUtc)
-								.toISOString()
-								.replace(/[-:.]/g, ''),
-							__typename: 'Instance'
-						}
 					]
 				});
 
+				const instancesList = get(dataToWrite, 'instances', []);
+
 				let cachedEventDetails: any = this.cache.readFragment({
-					id: `CalendarItemHitInfo:${item.id}`,
+					id: `CalendarItemHitInfo:${item.id}${
+						instancesList.length ? ':' + instancesList.length : ''
+					}`,
 					fragment: gql`
 						fragment ${generateFragmentName('appointments')} on CalendarItemHitInfo {
 								id
@@ -385,23 +462,30 @@ export class ZimbraNotifications {
 				});
 				// If existing event is being updated
 				if (cachedEventDetails) {
-					assign(dataToWrite, cachedEventDetails);
+					const updatedAppointmentData = assign(
+						{},
+						cachedEventDetails,
+						dataToWrite
+					);
+
 					this.cache.writeFragment({
-						id: `CalendarItemHitInfo:${item.id}`,
+						id: `CalendarItemHitInfo:${item.id}${
+							instancesList.length ? ':' + instancesList.length : ''
+						}`,
 						fragment: gql`
 								fragment ${generateFragmentName('appointments')} on CalendarItemHitInfo {
-									${attributeKeys(dataToWrite)}
+									${attributeKeys(updatedAppointmentData)}
 									instances {
-										${attributeKeys(dataToWrite.instances[0])}
+										${attributeKeys(updatedAppointmentData.instances[0])}
 									}
 									alarmData {
-										${attributeKeys(dataToWrite.alarmData[0])}
+										${attributeKeys(updatedAppointmentData.alarmData[0])}
 									}
 								}
 							`,
 						data: {
 							__typename: 'CalendarItemHitInfo',
-							...dataToWrite,
+							...updatedAppointmentData,
 							...(!nextAlarm && { alarmData: null })
 						}
 					});
@@ -412,21 +496,18 @@ export class ZimbraNotifications {
 					});
 
 					// Find cached queries based on folder id and update results
-					const query = `(\"inid:\\\\\\"${item.folderId}\\\\\\"\").*(\"types\":\"appointment\")`;
+					const query = `(inid:\\\\"${item.folderId}\\\\").*(\"types\":\"appointment\")`;
 					const queryRegex = new RegExp(query);
 					const appointmentListKey: any = findDataId(
 						this.cache,
 						'$ROOT_QUERY.getAppointments',
-						dataId => {
-							return queryRegex.test(dataId);
-						},
+						dataId => queryRegex.test(dataId),
 						false
 					);
-
-					appointmentListKey &&
-						appointmentListKey.forEach((apptKey: any) => {
-							this.writeAppointmentsToCache(apptKey, dataToWrite);
-						});
+					appointmentListKey.length &&
+						appointmentListKey.forEach((apptKey: any) =>
+							this.writeAppointmentsToCache(apptKey, dataToWrite)
+						);
 				}
 			}
 		});
