@@ -1271,7 +1271,10 @@ type Preferences {
 	zimbraPrefCalendarWorkingHours: String
 	zimbraPrefCalendarApptReminderWarningTime: Int
 	zimbraPrefCalendarShowPastDueReminders: Boolean
-	zimbraPrefCalendarToasterEnabled: Boolean
+	zimbraPrefCalendarToasterEnabled: Boolean,
+	zimbraPrefHtmlEditorDefaultFontColor: String,
+	zimbraPrefHtmlEditorDefaultFontFamily: String,
+	zimbraPrefHtmlEditorDefaultFontSize: String,
 	zimbraPrefMailToasterEnabled: Boolean
 	zimbraPrefShowAllNewMailNotifications: Boolean
 	zimbraPrefDefaultCalendarId: ID
@@ -2079,7 +2082,10 @@ input PreferencesInput {
 	zimbraPrefCalendarWorkingHours: String
 	zimbraPrefCalendarApptReminderWarningTime: Int
 	zimbraPrefCalendarShowPastDueReminders: Boolean
-	zimbraPrefCalendarToasterEnabled: Boolean
+	zimbraPrefCalendarToasterEnabled: Boolean,
+	zimbraPrefHtmlEditorDefaultFontColor: String,
+	zimbraPrefHtmlEditorDefaultFontFamily: String,
+	zimbraPrefHtmlEditorDefaultFontSize: String,
 	zimbraPrefMailToasterEnabled: Boolean
 	zimbraPrefShowAllNewMailNotifications: Boolean
 	zimbraPrefDelegatedSendSaveTarget: PrefDelegatedSendSaveTarget
