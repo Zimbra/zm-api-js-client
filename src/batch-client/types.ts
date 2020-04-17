@@ -45,6 +45,11 @@ export interface Notification {
 
 export type NotificationHandler = (notificaton: Notification) => void;
 
+export type Notifications = {
+	notificationHandler: any;
+	notifier: any;
+};
+
 export type UserAgent = {
 	name: string;
 	version: string;
@@ -64,6 +69,8 @@ export interface ZimbraClientOptions {
 	jwtToken?: string;
 	localStoreClient?: any;
 	notificationHandler?: NotificationHandler;
+	notifications?: Notifications;
+	notifier?: any;
 	sessionHandler?: SessionHandler;
 	soapPathname?: string;
 	userAgent?: UserAgent;

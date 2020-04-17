@@ -84,7 +84,7 @@ export function createZimbraSchema(
 	const sessionHandler = cache ? new SessionHandler({ cache }) : undefined;
 	const client = new ZimbraBatchClient({
 		...clientOptions,
-		notificationHandler: notifications && notifications.notificationHandler,
+		notifications: notifications,
 		sessionHandler
 	});
 
