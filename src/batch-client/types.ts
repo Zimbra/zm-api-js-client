@@ -6,7 +6,8 @@ import {
 	Grantee,
 	Owner,
 	SearchType,
-	SortBy
+	SortBy,
+	UploadDocumentId
 } from '../schema/generated-schema-types';
 
 export enum GalSearchType {
@@ -144,6 +145,16 @@ export interface GetConversationOptions extends GetMailItemOptions {
 
 export interface RelatedContactsOptions {
 	email: string;
+}
+
+export interface SaveDocumentInput {
+	id: string
+	l: string
+	name: string
+	ver: Number 
+	ct: string
+	upload: UploadDocumentId
+ 	descEnabled: Boolean
 }
 
 export interface SearchOptions {

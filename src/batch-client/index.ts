@@ -123,6 +123,7 @@ import {
 	RecoverAccountOptions,
 	RelatedContactsOptions,
 	ResetPasswordOptions,
+	SaveDocumentInput,
 	SearchOptions,
 	SessionHandler,
 	SetRecoveryAccountOptions,
@@ -1232,6 +1233,16 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account,
 			singleRequest: true
 		}).then(Boolean);
+
+	public saveDocument = (requestId: string, doc: SaveDocumentInput) =>
+		this.jsonRequest({
+			name: 'SaveDocument',
+			body: {
+				requestId,
+				doc
+			}
+		}).then(Boolean);
+	
 
 	public saveDraft = (options: SendMessageInput) =>
 		this.jsonRequest({

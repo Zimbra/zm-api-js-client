@@ -101,11 +101,9 @@ const CalendarItemOrganizer = new Entity({
 	d: 'name'
 });
 
-const commonMessageFields = {
-	cid: 'conversationId',
+const commonFieldForMessageAndDocuments = {
 	d: 'date',
 	f: 'flags',
-	fr: 'excerpt',
 	l: 'folderId',
 	md: 'changeDate',
 	ms: 'modifiedSequence',
@@ -114,6 +112,12 @@ const commonMessageFields = {
 	sf: 'sortField',
 	t: 'tags',
 	tn: 'tagNames'
+}
+
+const commonMessageFields = {
+	...commonFieldForMessageAndDocuments,
+	cid: 'conversationId',
+	fr: 'excerpt'
 };
 
 const commonInviteFields = {
@@ -441,11 +445,44 @@ export const Appointment = new Entity({
 	inst: ['instances', Instance]
 });
 
+export const Document = new Entity({
+	id : 'id',
+	...commonFieldForMessageAndDocuments,
+	uuid: 'uuid',
+	name: 'name',
+	luuid: 'folderUuid',
+	mdver: 'metadataVersion',
+	meta: 'metaData',
+	descEnabled : 'descEnabled',
+	ver: 'version', //same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest 
+	leb: 'lastEditedAccount',
+	cr: 'revisonCreator',
+	cd: 'revisedCreationDate',
+	loid: 'lockOwnerId',
+	ct:  'contentType'
+})
+
+export const UploadDocumentId = new Entity ({
+	id: 'id'
+})
+
+export const SaveDocumentInput = new Entity ({
+	id: 'id',
+	l: 'folderId',
+	name: 'name',
+	ver: 'version', //same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest 
+	ct: 'contentType',
+	upload: ['UploadDocumentId', UploadDocumentId] ,
+ 	descEnabled: 'descEnabled'
+})
+
+
 export const SearchResponse = new Entity({
 	m: ['messages', MessageInfo],
 	c: ['conversations', SearchConversation],
 	cn: ['contacts', Contact],
 	appt: ['appointments', CalendarItemHitInfo],
+	doc: ['documents', Document ],
 	hit: Hit
 });
 
