@@ -123,6 +123,7 @@ import {
 	RecoverAccountOptions,
 	RelatedContactsOptions,
 	ResetPasswordOptions,
+	SaveDocumentInput,
 	SearchOptions,
 	SessionHandler,
 	SetRecoveryAccountOptions,
@@ -1231,6 +1232,22 @@ export class ZimbraBatchClient {
 			name: 'RevokeTrustedDevice',
 			namespace: Namespace.Account,
 			singleRequest: true
+		}).then(Boolean);
+
+	public saveDocument = ({ id, folderId, requestId }: SaveDocumentInput) =>
+		this.jsonRequest({
+			name: 'SaveDocument',
+			body: {
+				requestId: requestId,
+				doc: {
+					l: folderId,
+					upload: {
+						id: id
+					}
+				},
+				_jsns: 'urn:zimbraMail'
+			},
+			namespace: Namespace.Account
 		}).then(Boolean);
 
 	public saveDraft = (options: SendMessageInput) =>

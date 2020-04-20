@@ -146,6 +146,12 @@ export interface RelatedContactsOptions {
 	email: string;
 }
 
+export interface SaveDocumentInput {
+	folderId: string;
+	id: string;
+	requestId: Number;
+}
+
 export interface SearchOptions {
 	calExpandInstEnd?: Number;
 	calExpandInstStart?: Number;

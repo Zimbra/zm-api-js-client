@@ -2047,6 +2047,7 @@ export type Mutation = {
   addExternalAccount?: Maybe<Scalars['ID']>,
   addMessage?: Maybe<MessageInfo>,
   cancelTask?: Maybe<Scalars['Boolean']>,
+  saveDocument?: Maybe<Scalars['Boolean']>,
   changeFolderColor?: Maybe<Scalars['Boolean']>,
   changePassword?: Maybe<AuthResponse>,
   modifyProfileImage?: Maybe<ProfileImageChangeResponse>,
@@ -2159,6 +2160,13 @@ export type MutationAddMessageArgs = {
 
 export type MutationCancelTaskArgs = {
   inviteId: Scalars['ID']
+};
+
+
+export type MutationSaveDocumentArgs = {
+  id: Scalars['ID'],
+  folderId?: Maybe<Scalars['ID']>,
+  requestId?: Maybe<Scalars['Int']>
 };
 
 
