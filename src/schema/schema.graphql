@@ -1272,6 +1272,7 @@ type Preferences {
 	zimbraPrefCalendarApptReminderWarningTime: Int
 	zimbraPrefCalendarShowPastDueReminders: Boolean
 	zimbraPrefCalendarToasterEnabled: Boolean,
+	zimbraPrefComposeDirection: String
 	zimbraPrefHtmlEditorDefaultFontColor: String,
 	zimbraPrefHtmlEditorDefaultFontFamily: String,
 	zimbraPrefHtmlEditorDefaultFontSize: String,
@@ -2083,6 +2084,7 @@ input PreferencesInput {
 	zimbraPrefCalendarApptReminderWarningTime: Int
 	zimbraPrefCalendarShowPastDueReminders: Boolean
 	zimbraPrefCalendarToasterEnabled: Boolean,
+	zimbraPrefComposeDirection: String,
 	zimbraPrefHtmlEditorDefaultFontColor: String,
 	zimbraPrefHtmlEditorDefaultFontFamily: String,
 	zimbraPrefHtmlEditorDefaultFontSize: String,
