@@ -116,12 +116,20 @@ export class ZimbraNotifications {
 
 	public notificationHandler = (notification: Notification) => {
 		console.log('[Cache] Handling Notification', notification);
+		// Update through cache and broadcast changes
 		this.handleMailboxNotifications(notification);
 		this.handleFolderNotifications(notification);
 		this.handleConversationNotifications(notification);
 		this.handleMessageNotifications(notification);
 		this.handleContactNotifications(notification);
 		this.handleTagsNotifications(notification);
+
+		// Broadcast changes after updating cache
+		setTimeout(() => {
+			console.log('Broadcast');
+			this.broadcastCacheUpdates();
+		}, 500);
+
 		this.handleAppointmentNotifications(notification);
 	};
 
@@ -156,13 +164,9 @@ export class ZimbraNotifications {
 			// Otherwise, the latest values of the variables would be used, which can have been updated by the loop iterations that executed
 			// after the timeout was set and before it was executed.
 			setTimeout(
-				((i, ITERATIONS, batch) => () => {
+				(batch => () => {
 					processorFn(batch);
-					// broadcast updates in the last iteration
-					if (i === ITERATIONS - 1) {
-						this.broadcastCacheUpdates();
-					}
-				})(i, ITERATIONS, batch),
+				})(batch),
 				TIMEOUT
 			);
 		}
