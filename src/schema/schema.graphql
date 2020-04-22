@@ -1305,6 +1305,7 @@ type Preferences {
 	zimbraPrefLocale: String
 	zimbraPrefClientType: PrefClientType
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
+	zimbraPrefCalendarShowDeclinedMeetings: Boolean
 	zimbraPrefUseTimeZoneListInCalendar: Boolean
 	zimbraPrefMailForwardingAddress: String
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
@@ -2109,6 +2110,7 @@ input PreferencesInput {
 	zimbraPrefLocale: String
 	zimbraPrefClientType: PrefClientType
 	zimbraPrefAppleIcalDelegationEnabled: Boolean
+	zimbraPrefCalendarShowDeclinedMeetings: Boolean
 	zimbraPrefUseTimeZoneListInCalendar: Boolean
 	zimbraPrefMailForwardingAddress: String
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
