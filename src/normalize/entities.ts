@@ -415,11 +415,21 @@ const ContactAttributes = new Entity({
 	image: ImageFields
 });
 
+const CustomMetaAttributes = new Entity({
+	chatConversationId: 'chatConversationId'
+});
+
+const CustomMetadata = new Entity({
+	section: 'section',
+	_attrs: ['attributes', CustomMetaAttributes]
+});
+
 const contactFields = {
 	d: 'date',
 	l: 'folderId',
 	rev: 'revision',
 	sf: 'sortField',
+	meta: ['meta', CustomMetadata],
 	_attrs: ['attributes', ContactAttributes]
 };
 

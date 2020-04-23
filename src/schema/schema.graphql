@@ -1378,6 +1378,20 @@ type SaveDraftResponse {
 	message: [MessageInfo]
 }
 
+type CustomMetadataAttrs {
+	chatConversationId: String
+}
+
+type CustomMetadataMeta {
+	section: String!
+	_attrs: CustomMetadataAttrs
+}
+
+type CustomMetadata {
+	meta: [CustomMetadataMeta]
+}
+
+
 type Contact {
 	id: ID!
 	date: Float
@@ -1388,6 +1402,7 @@ type Contact {
 	memberOf: String
 	attributes: ContactAttributes
 	members: [ContactListMember]
+	meta: [CustomMetadataMeta]
 }
 
 type OtherContactAttribute {
@@ -1642,15 +1657,6 @@ type ShareInfo {
 	mid: ID
 }
 
-type MailboxMetadata {
-	meta: [MailboxMetadataMeta]
-}
-
-type MailboxMetadataMeta {
-	section: String!
-	_attrs: MailboxMetadataAttrs!
-}
-
 type MailboxMetadataAttrs {
 	zimbraPrefCustomFolderTreeOpen: Boolean
 	zimbraPrefDateFormat: String
@@ -1673,6 +1679,15 @@ type MailboxMetadataAttrs {
 	zimbraPrefContactSourceFolderID: String
 }
 
+type MailboxMetadataMeta {
+	section: String!
+	_attrs: MailboxMetadataAttrs!
+}
+
+type MailboxMetadata {
+	meta: [MailboxMetadataMeta]
+}
+
 input MailboxMetadataSectionAttrsInput {
 	zimbraPrefCustomFolderTreeOpen: Boolean
 	zimbraPrefDateFormat: String
@@ -1693,6 +1708,10 @@ input MailboxMetadataSectionAttrsInput {
 	zimbraPrefSMIMEDefaultSetting: String
 	zimbraPrefSMIMELastOperation: String
 	zimbraPrefContactSourceFolderID: String
+}
+
+input CustomMetadataSectionAttrsInput {
+	chatConversationId: String
 }
 
 type MimePart {
@@ -2737,6 +2756,10 @@ type Query {
 		traverseMountpoints: Boolean
 		folder: GetFolderFolderInput
 	): Folder
+	getCustomMetadata(
+		id: ID!
+		section: String
+	): CustomMetadata
 	getMailboxMetadata(section: String): MailboxMetadata
 	getMessage(
 		id: ID!
@@ -2953,6 +2976,11 @@ type Mutation {
 	sendDeliveryReport(messageId: ID!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
+	setCustomMetadata(
+		id: ID!
+		section: String
+		attrs: CustomMetadataSectionAttrsInput!
+	): Boolean
 	setMailboxMetadata(
 		section: String
 		attrs: MailboxMetadataSectionAttrsInput!

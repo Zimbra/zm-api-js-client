@@ -114,6 +114,7 @@ import {
 	GetContactFrequencyOptions,
 	GetContactOptions,
 	GetConversationOptions,
+	GetCustomMetadataOptions,
 	GetFolderOptions,
 	GetMailboxMetadataOptions,
 	GetMessageOptions,
@@ -708,6 +709,24 @@ export class ZimbraBatchClient {
 			const c = normalize(Conversation)(res.c[0]);
 			c.messages = c.messages.map(this.normalizeMessage);
 			return c;
+		});
+
+	public getCustomMetadata = ({ id, section }: GetCustomMetadataOptions) =>
+		this.jsonRequest({
+			name: 'GetCustomMetadata',
+			body: {
+				id,
+				meta: {
+					section
+				}
+			}
+		}).then((res: any) => {
+			//ensure _attrs is not undefined in each section to aid graphql reading/writing
+			res.meta = res.meta.map((entry: any) => {
+				if (!entry._attrs) entry._attrs = {};
+				return entry;
+			});
+			return mapValuesDeep(res, coerceStringToBoolean);
 		});
 
 	public getDataSources = () =>
