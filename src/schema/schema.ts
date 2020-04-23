@@ -407,6 +407,18 @@ export function createZimbraSchema(
 				revokeRights: (_, variables) =>
 					client.revokeRights(variables.input as RevokeRightsInput),
 				revokeTrustedDevice: client.revokeTrustedDevice,
+				setCustomMetadata: (_: any, variables: any) => client
+						.jsonRequest({
+							name: 'SetCustomMetadata',
+							body: {
+								id: variables.id,
+								meta: {
+									section: variables.section,
+									_attrs: mapValues(variables.attrs, coerceBooleanToString)
+								}
+							}
+						})
+						.then(Boolean),
 				setMailboxMetadata: (_: any, variables: any) =>
 					client
 						.jsonRequest({
