@@ -1063,7 +1063,7 @@ export type Document = {
   name?: Maybe<Scalars['String']>,
   version?: Maybe<Scalars['Float']>,
   contentType?: Maybe<Scalars['String']>,
-  descEnabled?: Maybe<Scalars['Boolean']>,
+  descriptionEnabled?: Maybe<Scalars['Boolean']>,
   date?: Maybe<Scalars['Float']>,
   changeDate?: Maybe<Scalars['Float']>,
   modifiedSequence?: Maybe<Scalars['Float']>,
@@ -2190,7 +2190,7 @@ export type MutationCancelTaskArgs = {
 
 
 export type MutationSaveDocumentArgs = {
-  doc?: Maybe<SaveDocumentInput>
+  document?: Maybe<SaveDocumentInput>
 };
 
 
@@ -3296,8 +3296,8 @@ export type SaveDocumentInput = {
   name?: Maybe<Scalars['String']>,
   version?: Maybe<Scalars['Float']>,
   contentType?: Maybe<Scalars['String']>,
-  upload?: Maybe<UploadDocumentId>,
-  descEnabled?: Maybe<Scalars['Boolean']>,
+  upload?: Maybe<UploadDocument>,
+  descriptionEnabled?: Maybe<Scalars['Boolean']>,
 };
 
 export type SaveDraftResponse = {
@@ -3624,7 +3624,7 @@ export type TzOnsetInfo = {
   sec?: Maybe<Scalars['Int']>,
 };
 
-export type UploadDocumentId = {
+export type UploadDocument = {
   id: Scalars['ID'],
 };
 

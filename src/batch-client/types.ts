@@ -7,7 +7,7 @@ import {
 	Owner,
 	SearchType,
 	SortBy,
-	UploadDocumentId
+	UploadDocument
 } from '../schema/generated-schema-types';
 
 export enum GalSearchType {
@@ -153,7 +153,7 @@ export interface SaveDocumentInput {
 	id: string;
 	l: string;
 	name: string;
-	upload: UploadDocumentId;
+	upload: UploadDocument;
 	ver: Number;
 }
 

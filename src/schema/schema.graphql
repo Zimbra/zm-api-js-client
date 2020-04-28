@@ -1327,27 +1327,27 @@ type SignatureResponse {
 }
 
 type Document {
-	id: ID
-	folderId: ID
-	name: String
+	id: ID #id
+	folderId: ID #l
+	name: String #name
 	version: Float #same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest 
-	contentType: String
- 	descEnabled: Boolean
-	date: Float
-	changeDate: Float
-	modifiedSequence: Float
-	revision: Float
-	size: Float
-	sortField: String
+	contentType: String #ct
+ 	descriptionEnabled: Boolean #descEnabled
+	date: Float #l
+	changeDate: Float #md
+	modifiedSequence: Float #ms
+	revision: Float #rev
+	size: Float #s
+	sortField: String #sf
 	tags: String # t
 	tagNames: String # tn
-	uuid: ID
-	folderUuid: String
-	metadataVersion: Float
-	lastEditedAccount: String
-	revisonCreator: String
-	revisedCreationDate: Float
-	lockOwnerId: ID
+	uuid: ID #uuid
+	folderUuid: String #luuid
+	metadataVersion: Float #mdver
+	lastEditedAccount: String #leb
+	revisonCreator: String #cr
+	revisedCreationDate: Float #cd
+	lockOwnerId: ID #loid
 }
 
 
@@ -2566,18 +2566,18 @@ input Owner {
 	_content: String
 }
 
-input uploadDocumentId {
-	id: ID!
+input uploadDocument {
+	id: ID! #id
 }
 
 input SaveDocumentInput {
-	id: ID
-	folderId: ID #folderId
-	name: String
-	version: Float #same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest 
-	contentType: String #contenttype
-	upload: uploadDocumentId
- 	descEnabled: Boolean
+	id: ID #id
+	folderId: ID #l
+	name: String #name
+	version: Float  #ver  # Note :same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest 
+	contentType: String #ct
+	upload: uploadDocument #upload with a id
+ 	descriptionEnabled: Boolean  #descEnabled
 }
 
 ##### SMIME Certificates type #####
@@ -2836,7 +2836,7 @@ type Mutation {
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): ID
 	addMessage(message: AddMsgInput!): MessageInfo
 	cancelTask(inviteId: ID!): Boolean
-	saveDocument(doc: SaveDocumentInput): Boolean
+	saveDocument(document: SaveDocumentInput): Boolean
 	changeFolderColor(id: ID!, color: Int!): Boolean
 	changePassword(
 		loginNewPassword: String!

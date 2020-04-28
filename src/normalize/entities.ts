@@ -446,14 +446,11 @@ export const Appointment = new Entity({
 });
 
 export const Document = new Entity({
-	id: 'id',
 	...commonFieldForMessageAndDocuments,
-	uuid: 'uuid',
-	name: 'name',
 	luuid: 'folderUuid',
 	mdver: 'metadataVersion',
 	meta: 'metaData',
-	descEnabled: 'descEnabled',
+	descEnabled: 'descriptionEnabled',
 	ver: 'version', //same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest
 	leb: 'lastEditedAccount',
 	cr: 'revisonCreator',
@@ -462,18 +459,13 @@ export const Document = new Entity({
 	ct: 'contentType'
 });
 
-export const UploadDocumentId = new Entity({
-	id: 'id'
-});
 
 export const SaveDocument = new Entity({
-	id: 'id',
 	l: 'folderId',
 	name: 'name',
 	ver: 'version', //same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest
 	ct: 'contentType',
-	upload: ['UploadDocumentId', UploadDocumentId],
-	descEnabled: 'descEnabled'
+	descEnabled: 'descriptionEnabled'
 });
 
 export const SearchResponse = new Entity({
@@ -629,6 +621,10 @@ export const AccountACEInfo = new Entity({
 export const AccountRights = new Entity({
 	ace: ['access', AccountACEInfo]
 });
+
+export const SaveDocuments = new Entity ({
+	doc : ['document', SaveDocument]
+})
 
 export const GetRightsRequest = new Entity({
 	ace: 'access'
