@@ -2190,7 +2190,6 @@ export type MutationCancelTaskArgs = {
 
 
 export type MutationSaveDocumentArgs = {
-  requestId: Scalars['ID'],
   doc?: Maybe<SaveDocumentInput>
 };
 
@@ -3293,10 +3292,10 @@ export type RightsResponse = {
 
 export type SaveDocumentInput = {
   id?: Maybe<Scalars['ID']>,
-  l?: Maybe<Scalars['ID']>,
+  folderId?: Maybe<Scalars['ID']>,
   name?: Maybe<Scalars['String']>,
-  ver?: Maybe<Scalars['Float']>,
-  ct?: Maybe<Scalars['String']>,
+  version?: Maybe<Scalars['Float']>,
+  contentType?: Maybe<Scalars['String']>,
   upload?: Maybe<UploadDocumentId>,
   descEnabled?: Maybe<Scalars['Boolean']>,
 };

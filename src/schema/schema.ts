@@ -300,8 +300,8 @@ export function createZimbraSchema(
 						}
 					} as CreateMountpointInput),
 
-				saveDocument: (_, {requestId, doc}) =>
-					client.saveDocument(requestId, doc as SaveDocumentInput),
+				saveDocument: (_, { doc }) =>
+					client.saveDocument(doc as SaveDocumentInput),
 				changeFolderColor: (_, variables) =>
 					client.changeFolderColor(variables as FolderActionChangeColorInput),
 				folderAction: (_, { action }) => client.folderAction(action),

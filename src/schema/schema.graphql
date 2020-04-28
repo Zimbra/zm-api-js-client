@@ -2836,7 +2836,7 @@ type Mutation {
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): ID
 	addMessage(message: AddMsgInput!): MessageInfo
 	cancelTask(inviteId: ID!): Boolean
-	saveDocument(requestId: ID!, doc: SaveDocumentInput): Boolean
+	saveDocument(doc: SaveDocumentInput): Boolean
 	changeFolderColor(id: ID!, color: Int!): Boolean
 	changePassword(
 		loginNewPassword: String!

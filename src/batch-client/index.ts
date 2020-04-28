@@ -31,6 +31,7 @@ import {
 	GetRightsRequest,
 	InviteReply,
 	MessageInfo,
+	SaveDocument,
 	SearchResponse,
 	SendMessageInfo,
 	ShareNotification,
@@ -1234,15 +1235,14 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(Boolean);
 
-	public saveDocument = (requestId: string, doc: SaveDocumentInput) =>
+	public saveDocument = (doc: SaveDocumentInput) =>
 		this.jsonRequest({
 			name: 'SaveDocument',
 			body: {
-				requestId,
-				doc
-			}
+				doc: denormalize(SaveDocument)(doc)
+			},
+			singleRequest: true
 		}).then(Boolean);
-	
 
 	public saveDraft = (options: SendMessageInput) =>
 		this.jsonRequest({

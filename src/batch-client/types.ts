@@ -148,13 +148,13 @@ export interface RelatedContactsOptions {
 }
 
 export interface SaveDocumentInput {
-	id: string
-	l: string
-	name: string
-	ver: Number 
-	ct: string
-	upload: UploadDocumentId
- 	descEnabled: Boolean
+	ct: string;
+	descEnabled: Boolean;
+	id: string;
+	l: string;
+	name: string;
+	upload: UploadDocumentId;
+	ver: Number;
 }
 
 export interface SearchOptions {
