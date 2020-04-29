@@ -1,4 +1,4 @@
-import { FetchResult, NextLink, Operation } from 'apollo-link';
+import { FetchResult, NextLink, Operation } from '@apollo/client';
 import { Observer } from 'zen-observable-ts';
 
 export interface OfflineQueueLinkOptions {

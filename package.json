@@ -38,14 +38,10 @@
 	"repository": "Zimbra/zm-api-js-client",
 	"license": "BSD-3-Clause",
 	"dependencies": {
-		"apollo-cache-inmemory": "^1.6.5",
-		"apollo-link": "^1.2.13",
-		"apollo-link-batch": "^1.1.14",
-		"apollo-link-error": "^1.1.12",
+		"@apollo/client": "^3.2.1",
 		"dataloader": "^1.4.0",
-		"graphql": "^14.5.8",
-		"graphql-tag": "^2.10.1",
-		"graphql-tools": "^4.0.6",
+		"graphql": "^15.3.0",
+		"graphql-tools": "^6.2.3",
 		"lodash": "^4.17.20",
 		"mitt": "^2.1.0"
 	},
