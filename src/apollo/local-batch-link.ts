@@ -1,7 +1,6 @@
-import { ApolloLink, FetchResult, Observable, Operation } from 'apollo-link';
-import { BatchLink } from 'apollo-link-batch';
-import { graphql } from 'graphql';
-import { print } from 'graphql/language/printer';
+import { ApolloLink, FetchResult, Observable, Operation } from '@apollo/client';
+import { BatchLink } from '@apollo/client/link/batch';
+import { graphql, print } from 'graphql';
 import events from 'mitt';
 
 import { LocalBatchLinkOptions } from './types';

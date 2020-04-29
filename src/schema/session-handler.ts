@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 import get from 'lodash/get';
 import { ZimbraInMemoryCache } from '../apollo/zimbra-in-memory-cache';
 import { ZimbraSessionOptions } from './types';
