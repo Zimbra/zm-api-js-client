@@ -26,9 +26,12 @@ const writeNewMailQuery = gql`
 	query getNewMail {
 		getNewMail @client {
 			id
+			convId
 			subject
 			flags
 			folderId
+			emailAddresses
+			excerpt
 		}
 	}
 `;
@@ -494,9 +497,12 @@ export class ZimbraNotifications {
 				flags.indexOf('u') > -1 &&
 				itemsToWrite.push({
 					id: item.id,
+					convId: item.conversationId,
 					subject: item.subject,
 					flags: item.flags || item.flag,
 					folderId: item.folderId,
+					emailAddresses: item.emailAddresses,
+					excerpt: item.excerpt,
 					__typename: 'NewMail'
 				});
 		});
