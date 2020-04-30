@@ -147,6 +147,10 @@ export interface RelatedContactsOptions {
 	email: string;
 }
 
+export interface AppointmentOptions {
+	id?: string;
+}
+
 export interface SaveDocumentInput {
 	ct: string;
 	descEnabled: Boolean;

@@ -474,6 +474,12 @@ export type CalendarItemDateTimeInput = {
   date: Scalars['String'],
 };
 
+export type AppointmentInfo = {
+  __typename?: 'AppointmentInfo', 
+  id: Scalars['ID'],
+  invitations?: Maybe<Array<Maybe<Invitation>>>,
+  }
+  
 export type CalendarItemHitInfo = {
    __typename?: 'CalendarItemHitInfo',
   alarm?: Maybe<Scalars['Boolean']>,
@@ -1430,6 +1436,51 @@ export enum FolderView {
   Comment = 'comment'
 }
 
+export type CalendarItemInviteComponentCounterInput = {
+  name: Scalars['String'],
+  location?: Maybe<Scalars['String']>,
+  start?: Maybe<CalendarItemDateTimeInput>,
+  end?: Maybe<CalendarItemDateTimeInput>,
+  exceptId?: Maybe<CalendarOptionalItemDateTimeInput>,
+  freeBusy?: Maybe<FreeBusyStatus>,
+  allDay?: Maybe<Scalars['Boolean']>,
+  organizer?: Maybe<CalendarItemOrganizerInput>,
+  recurrence?: Maybe<CalendarItemRecurrenceInput>,
+  attendees?: Maybe<Array<Maybe<CalendarItemAttendeesInput>>>,
+  alarms?: Maybe<Array<Maybe<CalendarItemAlarmInput>>>,
+  class: CalendarItemClass,
+  priority?: Maybe<Scalars['String']>,
+  percentComplete?: Maybe<Scalars['String']>,
+  status?: Maybe<InviteCompletionStatus>,
+  uid?: Maybe<Scalars['String']>
+  noBlob?: Maybe<Scalars['Boolean']>,
+  description?: Maybe<Array<Maybe<CalendarItemInviteComponentDescriptionInput>>>,
+  draft?: Maybe<Scalars['Boolean']>,
+};
+
+export type CalendarCounterAppointmentInput = {
+  components: Array<Maybe<CalendarItemInviteComponentCounterInput>>,
+};
+
+export type CounterAppointmentMessageInput = {
+  origId?: Maybe<Scalars['ID']>,
+  folderId?: Maybe<Scalars['ID']>,
+  subject?: Maybe<Scalars['String']>,
+  invitations?: Maybe<CalendarCounterAppointmentInput>,
+  mimeParts?: Maybe<Array<Maybe<MimePartInput>>>,
+  emailAddresses?: Maybe<Array<Maybe<MailItemEmailAddressInput>>>,
+  attachments?: Maybe<Array<Maybe<AttachmentInput>>>,
+  replyType?: Maybe<InviteReplyType>,
+};
+
+export type CounterAppointmentInput = {
+  id: Scalars['ID'],
+  modifiedSequence?: Maybe<Scalars['Int']>,
+  revision?: Maybe<Scalars['Float']>,
+  componentNum: Scalars['String'],
+  message?: Maybe<CounterAppointmentMessageInput>,
+}
+
 export type ForwardAppointmentInput = {
   id: Scalars['ID'],
   message: ForwardMessageInput,
@@ -1666,6 +1717,7 @@ export type Instance = {
   revision?: Maybe<Scalars['Float']>,
   status?: Maybe<InviteCompletionStatus>,
   isOrganizer?: Maybe<Scalars['Boolean']>,
+  exceptId?: Maybe<Array<Maybe<DtTimeInfo>>>,
 };
 
 export type InstanceDate = {
@@ -1739,6 +1791,7 @@ export type InviteComponent = {
   x_uid?: Maybe<Scalars['String']>,
   aid?: Maybe<Scalars['String']>,
   method?: Maybe<Scalars['String']>,
+  exceptId?: Maybe<Array<Maybe<DtTimeInfo>>>,
 };
 
 export type InviteCondition = {
@@ -2848,6 +2901,7 @@ export type Query = {
   discoverRights?: Maybe<DiscoverRights>,
   freeBusy?: Maybe<Array<Maybe<FreeBusy>>>,
   getContact?: Maybe<Array<Maybe<Contact>>>,
+  getAppointment?: Maybe<GetAppointmentResponse>,
   getAppointments?: Maybe<SearchResponse>,
   getTasks?: Maybe<SearchResponse>,
   getAppSpecificPasswords?: Maybe<AppSpecificPasswordsResponse>,
@@ -3338,6 +3392,11 @@ export type SearchFolderInput = {
   id: Scalars['ID'],
   query: Scalars['String'],
   types: FolderView,
+};
+
+export type GetAppointmentResponse = {
+  __typename?: 'GetAppointmentResponse',
+  appointment?: Maybe<Array<Maybe<AppointmentInfo>>>,
 };
 
 export type SearchResponse = {
