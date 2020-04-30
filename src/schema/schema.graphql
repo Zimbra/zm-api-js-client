@@ -1153,6 +1153,7 @@ type AccountInfoAttrs {
 	zimbraIsDelegatedAdminAccount: Boolean
 	zimbraFeatureMailEnabled: Boolean
 	zimbraFeatureCalendarEnabled: Boolean
+	zimbraFeatureBriefcasesEnabled: Boolean
 	zimbraFeatureRelatedContactsEnabled: Boolean
 	zimbraFeatureChangePasswordEnabled: Boolean
 	zimbraFeatureResetPasswordStatus: ResetPasswordStatus
@@ -1325,12 +1326,38 @@ type SignatureResponse {
 	signature: [NameId]
 }
 
+type Document {
+	id: ID #id
+	folderId: ID #l
+	name: String #name
+	version: Float #same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest 
+	contentType: String #ct
+ 	descriptionEnabled: Boolean #descEnabled
+	date: Float #l
+	changeDate: Float #md
+	modifiedSequence: Float #ms
+	revision: Float #rev
+	size: Float #s
+	sortField: String #sf
+	tags: String # t
+	tagNames: String # tn
+	uuid: ID #uuid
+	folderUuid: String #luuid
+	metadataVersion: Float #mdver
+	lastEditedAccount: String #leb
+	revisonCreator: String #cr
+	revisedCreationDate: Float #cd
+	lockOwnerId: ID #loid
+}
+
+
 type SearchResponse {
 	contacts: [Contact]
 	messages: [MessageInfo]
 	conversations: [Conversation]
 	tasks: [CalendarItemHitInfo]
 	appointments: [CalendarItemHitInfo]
+	documents: [Document]
 	more: Boolean
 	offset: Int
 	sortBy: String
@@ -2345,6 +2372,7 @@ input ForwardMessageInput {
 	emailAddresses: [MailItemEmailAddressInput] #e
 }
 
+
 input ShareNotificationInput {
 	action: ShareInputAction
 	item: ShareNotificationItemInput!
@@ -2520,6 +2548,7 @@ input AddMsgInput {
 	meta: String
 }
 
+
 input SaveMessageDataInput {
 	id: ID!
 	content: String!
@@ -2535,6 +2564,20 @@ input Grantee {
 input Owner {
 	by: String
 	_content: String
+}
+
+input uploadDocument {
+	id: ID! #id
+}
+
+input SaveDocumentInput {
+	id: ID #id
+	folderId: ID #l
+	name: String #name
+	version: Float  #ver  # Note :same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest 
+	contentType: String #ct
+	upload: uploadDocument #upload with a id
+ 	descriptionEnabled: Boolean  #descEnabled
 }
 
 ##### SMIME Certificates type #####
@@ -2623,6 +2666,7 @@ type AppSpecificPasswordsResponse {
 type CreateAppSpecificPasswordResponse {
 	password: String
 }
+
 
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
@@ -2792,6 +2836,7 @@ type Mutation {
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): ID
 	addMessage(message: AddMsgInput!): MessageInfo
 	cancelTask(inviteId: ID!): Boolean
+	saveDocument(document: SaveDocumentInput): Boolean
 	changeFolderColor(id: ID!, color: Int!): Boolean
 	changePassword(
 		loginNewPassword: String!

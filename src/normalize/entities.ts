@@ -101,11 +101,9 @@ const CalendarItemOrganizer = new Entity({
 	d: 'name'
 });
 
-const commonMessageFields = {
-	cid: 'conversationId',
+const commonFieldForMessageAndDocuments = {
 	d: 'date',
 	f: 'flags',
-	fr: 'excerpt',
 	l: 'folderId',
 	md: 'changeDate',
 	ms: 'modifiedSequence',
@@ -114,6 +112,12 @@ const commonMessageFields = {
 	sf: 'sortField',
 	t: 'tags',
 	tn: 'tagNames'
+};
+
+const commonMessageFields = {
+	...commonFieldForMessageAndDocuments,
+	cid: 'conversationId',
+	fr: 'excerpt'
 };
 
 const commonInviteFields = {
@@ -441,11 +445,35 @@ export const Appointment = new Entity({
 	inst: ['instances', Instance]
 });
 
+export const Document = new Entity({
+	...commonFieldForMessageAndDocuments,
+	luuid: 'folderUuid',
+	mdver: 'metadataVersion',
+	meta: 'metaData',
+	descEnabled: 'descriptionEnabled',
+	ver: 'version', //same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest
+	leb: 'lastEditedAccount',
+	cr: 'revisonCreator',
+	cd: 'revisedCreationDate',
+	loid: 'lockOwnerId',
+	ct: 'contentType'
+});
+
+
+export const SaveDocument = new Entity({
+	l: 'folderId',
+	name: 'name',
+	ver: 'version', //same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest
+	ct: 'contentType',
+	descEnabled: 'descriptionEnabled'
+});
+
 export const SearchResponse = new Entity({
 	m: ['messages', MessageInfo],
 	c: ['conversations', SearchConversation],
 	cn: ['contacts', Contact],
 	appt: ['appointments', CalendarItemHitInfo],
+	doc: ['documents', Document],
 	hit: Hit
 });
 
@@ -593,6 +621,10 @@ export const AccountACEInfo = new Entity({
 export const AccountRights = new Entity({
 	ace: ['access', AccountACEInfo]
 });
+
+export const SaveDocuments = new Entity ({
+	doc : ['document', SaveDocument]
+})
 
 export const GetRightsRequest = new Entity({
 	ace: 'access'

@@ -31,6 +31,7 @@ import {
 	GetRightsRequest,
 	InviteReply,
 	MessageInfo,
+	SaveDocuments,
 	SearchResponse,
 	SendMessageInfo,
 	ShareNotification,
@@ -123,6 +124,7 @@ import {
 	RecoverAccountOptions,
 	RelatedContactsOptions,
 	ResetPasswordOptions,
+	SaveDocumentInput,
 	SearchOptions,
 	SessionHandler,
 	SetRecoveryAccountOptions,
@@ -1230,6 +1232,13 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'RevokeTrustedDevice',
 			namespace: Namespace.Account,
+			singleRequest: true
+		}).then(Boolean);
+
+	public saveDocument = (document: SaveDocumentInput) =>
+		this.jsonRequest({
+			name: 'SaveDocument',
+			body:denormalize(SaveDocuments)(document),
 			singleRequest: true
 		}).then(Boolean);
 

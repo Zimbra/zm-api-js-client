@@ -63,6 +63,7 @@ export type AccountInfoAttrs = {
   zimbraIsDelegatedAdminAccount?: Maybe<Scalars['Boolean']>,
   zimbraFeatureMailEnabled?: Maybe<Scalars['Boolean']>,
   zimbraFeatureCalendarEnabled?: Maybe<Scalars['Boolean']>,
+  zimbraFeatureBriefcasesEnabled?: Maybe<Scalars['Boolean']>,
   zimbraFeatureRelatedContactsEnabled?: Maybe<Scalars['Boolean']>,
   zimbraFeatureChangePasswordEnabled?: Maybe<Scalars['Boolean']>,
   zimbraFeatureResetPasswordStatus?: Maybe<ResetPasswordStatus>,
@@ -1053,6 +1054,31 @@ export type DiscoverRights = {
 export type DismissInput = {
   id: Scalars['ID'],
   dismissedAt: Scalars['Float'],
+};
+
+export type Document = {
+   __typename?: 'Document',
+  id?: Maybe<Scalars['ID']>,
+  folderId?: Maybe<Scalars['ID']>,
+  name?: Maybe<Scalars['String']>,
+  version?: Maybe<Scalars['Float']>,
+  contentType?: Maybe<Scalars['String']>,
+  descriptionEnabled?: Maybe<Scalars['Boolean']>,
+  date?: Maybe<Scalars['Float']>,
+  changeDate?: Maybe<Scalars['Float']>,
+  modifiedSequence?: Maybe<Scalars['Float']>,
+  revision?: Maybe<Scalars['Float']>,
+  size?: Maybe<Scalars['Float']>,
+  sortField?: Maybe<Scalars['String']>,
+  tags?: Maybe<Scalars['String']>,
+  tagNames?: Maybe<Scalars['String']>,
+  uuid?: Maybe<Scalars['ID']>,
+  folderUuid?: Maybe<Scalars['String']>,
+  metadataVersion?: Maybe<Scalars['Float']>,
+  lastEditedAccount?: Maybe<Scalars['String']>,
+  revisonCreator?: Maybe<Scalars['String']>,
+  revisedCreationDate?: Maybe<Scalars['Float']>,
+  lockOwnerId?: Maybe<Scalars['ID']>,
 };
 
 export type DtTimeInfo = {
@@ -2047,6 +2073,7 @@ export type Mutation = {
   addExternalAccount?: Maybe<Scalars['ID']>,
   addMessage?: Maybe<MessageInfo>,
   cancelTask?: Maybe<Scalars['Boolean']>,
+  saveDocument?: Maybe<Scalars['Boolean']>,
   changeFolderColor?: Maybe<Scalars['Boolean']>,
   changePassword?: Maybe<AuthResponse>,
   modifyProfileImage?: Maybe<ProfileImageChangeResponse>,
@@ -2159,6 +2186,11 @@ export type MutationAddMessageArgs = {
 
 export type MutationCancelTaskArgs = {
   inviteId: Scalars['ID']
+};
+
+
+export type MutationSaveDocumentArgs = {
+  document?: Maybe<SaveDocumentInput>
 };
 
 
@@ -3258,6 +3290,16 @@ export type RightsResponse = {
   access?: Maybe<Array<Maybe<AccountAceInfo>>>,
 };
 
+export type SaveDocumentInput = {
+  id?: Maybe<Scalars['ID']>,
+  folderId?: Maybe<Scalars['ID']>,
+  name?: Maybe<Scalars['String']>,
+  version?: Maybe<Scalars['Float']>,
+  contentType?: Maybe<Scalars['String']>,
+  upload?: Maybe<UploadDocument>,
+  descriptionEnabled?: Maybe<Scalars['Boolean']>,
+};
+
 export type SaveDraftResponse = {
    __typename?: 'SaveDraftResponse',
   message?: Maybe<Array<Maybe<MessageInfo>>>,
@@ -3297,6 +3339,7 @@ export type SearchResponse = {
   conversations?: Maybe<Array<Maybe<Conversation>>>,
   tasks?: Maybe<Array<Maybe<CalendarItemHitInfo>>>,
   appointments?: Maybe<Array<Maybe<CalendarItemHitInfo>>>,
+  documents?: Maybe<Array<Maybe<Document>>>,
   more?: Maybe<Scalars['Boolean']>,
   offset?: Maybe<Scalars['Int']>,
   sortBy?: Maybe<Scalars['String']>,
@@ -3579,6 +3622,10 @@ export type TzOnsetInfo = {
   hour?: Maybe<Scalars['Int']>,
   min?: Maybe<Scalars['Int']>,
   sec?: Maybe<Scalars['Int']>,
+};
+
+export type UploadDocument = {
+  id: Scalars['ID'],
 };
 
 export enum Weekday {

@@ -66,6 +66,7 @@ import {
 	RecoverAccountOptions,
 	RelatedContactsOptions,
 	ResetPasswordOptions,
+	SaveDocumentInput,
 	SearchOptions,
 	SetRecoveryAccountOptions,
 	ShareInfoOptions,
@@ -299,6 +300,8 @@ export function createZimbraSchema(
 						}
 					} as CreateMountpointInput),
 
+				saveDocument: (_, document) =>
+					client.saveDocument(document as SaveDocumentInput),
 				changeFolderColor: (_, variables) =>
 					client.changeFolderColor(variables as FolderActionChangeColorInput),
 				folderAction: (_, { action }) => client.folderAction(action),
