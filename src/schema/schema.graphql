@@ -787,6 +787,49 @@ type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	neverSent: Boolean
 }
 
+type ReminderItemHitInfo { # <appt>; aka AppointmentHitInfo
+	alarm: Boolean
+	allDay: Boolean
+	changeDate: Float # md
+	class: CalendarItemClass!
+	componentNum: Int # compNum
+	date: Float # d
+	timezoneOffset: Int
+	duration: Float # dur
+	excerpt: String # fr
+	flags: String # f
+	folderId: ID! # l
+	freeBusy: FreeBusyStatus # fb
+	freeBusyActual: FreeBusyStatus # fba
+	id: ID!
+	alarmData: [Alarm]
+	instances: [Instance] # inst
+	invitations: [Invitation] # inv
+	inviteId: ID! #invId
+	isOrganizer: Boolean # isOrg
+	isRecurring: Boolean # recur
+	location: String # loc
+	modifiedSequence: Int # ms
+	name: String
+	organizer: CalOrganizer # or
+	otherAttendees: Boolean
+	participationStatus: ParticipationStatus
+	percentComplete: String
+	priority: String
+	revision: Float # rev
+	utcRecurrenceId: String # ridZ
+	size: Float # s
+	sortField: String # sf
+	status: InviteCompletionStatus
+	tagNames: String # tn
+	tags: String # t
+	uid: String
+	x_uid: String
+	aid: String
+	draft: Boolean
+	neverSent: Boolean
+}
+
 type ExternalAccountTestResponse {
 	success: Boolean!
 	error: String
@@ -1375,6 +1418,11 @@ type SearchResponse {
 	sortBy: String
 	paginationSupported: Boolean
 	hit: [Hit]
+}
+
+type RemindersResponse {
+	tasks: [ReminderItemHitInfo]
+	appointments: [ReminderItemHitInfo]
 }
 
 type Hit {
@@ -2793,6 +2841,14 @@ type Query {
 	getAppointment(
 		id: ID!
 	): GetAppointmentResponse
+	getReminders(
+		calExpandInstStart: Float!
+		calExpandInstEnd: Float!
+		query: String!
+		limit: Int!
+		offset: Int!
+		types: SearchType
+	): RemindersResponse
 	getTasks(
 		query: String!
 		limit: Int!
