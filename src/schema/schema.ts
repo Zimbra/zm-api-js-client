@@ -9,6 +9,7 @@ import {
 	CreateIdentityInput,
 	CreateMountpointInput,
 	CreateTagInput,
+	CustomMetadataInput,
 	DeleteAppointmentInput,
 	EnableTwoFactorAuthInput,
 	ExternalAccountAddInput,
@@ -413,18 +414,8 @@ export function createZimbraSchema(
 				revokeRights: (_, variables) =>
 					client.revokeRights(variables.input as RevokeRightsInput),
 				revokeTrustedDevice: client.revokeTrustedDevice,
-				setCustomMetadata: (_: any, variables: any) => client
-						.jsonRequest({
-							name: 'SetCustomMetadata',
-							body: {
-								id: variables.id,
-								meta: {
-									section: variables.section,
-									_attrs: mapValues(variables.attrs, coerceBooleanToString)
-								}
-							}
-						})
-						.then(Boolean),
+				setCustomMetadata: (_, customMetadata) =>
+					client.setCustomMetadata(customMetadata as CustomMetadataInput),
 				setMailboxMetadata: (_: any, variables: any) =>
 					client
 						.jsonRequest({

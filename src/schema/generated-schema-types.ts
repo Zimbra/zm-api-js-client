@@ -710,7 +710,6 @@ export type Contact = {
   memberOf?: Maybe<Scalars['String']>,
   attributes?: Maybe<ContactAttributes>,
   members?: Maybe<Array<Maybe<ContactListMember>>>,
-  meta?: Maybe<Array<Maybe<CustomMetadataMeta>>>,
 };
 
 export type ContactAttributes = {
@@ -1000,17 +999,25 @@ export type CustomMetadata = {
 
 export type CustomMetadataAttrs = {
    __typename?: 'CustomMetadataAttrs',
-  chatConversationId?: Maybe<Scalars['String']>,
+  key?: Maybe<Scalars['String']>,
+  value?: Maybe<Scalars['String']>,
+};
+
+export type CustomMetadataAttrsInput = {
+  key?: Maybe<Scalars['String']>,
+  value?: Maybe<Scalars['String']>,
+};
+
+export type CustomMetadataInput = {
+  id: Scalars['ID'],
+  section?: Maybe<Scalars['String']>,
+  attrs?: Maybe<Array<Maybe<CustomMetadataAttrsInput>>>,
 };
 
 export type CustomMetadataMeta = {
    __typename?: 'CustomMetadataMeta',
   section: Scalars['String'],
-  _attrs?: Maybe<CustomMetadataAttrs>,
-};
-
-export type CustomMetadataSectionAttrsInput = {
-  chatConversationId?: Maybe<Scalars['String']>,
+  _attrs?: Maybe<Array<Maybe<CustomMetadataAttrs>>>,
 };
 
 export type DataSource = {
@@ -2558,9 +2565,7 @@ export type MutationSendShareNotificationArgs = {
 
 
 export type MutationSetCustomMetadataArgs = {
-  id: Scalars['ID'],
-  section?: Maybe<Scalars['String']>,
-  attrs: CustomMetadataSectionAttrsInput
+  customMetaData: CustomMetadataInput
 };
 
 

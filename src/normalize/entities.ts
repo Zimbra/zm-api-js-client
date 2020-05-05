@@ -415,21 +415,11 @@ const ContactAttributes = new Entity({
 	image: ImageFields
 });
 
-const CustomMetaAttributes = new Entity({
-	chatConversationId: 'chatConversationId'
-});
-
-const CustomMetadata = new Entity({
-	section: 'section',
-	_attrs: ['attributes', CustomMetaAttributes]
-});
-
 const contactFields = {
 	d: 'date',
 	l: 'folderId',
 	rev: 'revision',
 	sf: 'sortField',
-	meta: ['meta', CustomMetadata],
 	_attrs: ['attributes', ContactAttributes]
 };
 
@@ -468,7 +458,6 @@ export const Document = new Entity({
 	loid: 'lockOwnerId',
 	ct: 'contentType'
 });
-
 
 export const SaveDocument = new Entity({
 	l: 'folderId',
@@ -632,9 +621,9 @@ export const AccountRights = new Entity({
 	ace: ['access', AccountACEInfo]
 });
 
-export const SaveDocuments = new Entity ({
-	doc : ['document', SaveDocument]
-})
+export const SaveDocuments = new Entity({
+	doc: ['document', SaveDocument]
+});
 
 export const GetRightsRequest = new Entity({
 	ace: 'access'

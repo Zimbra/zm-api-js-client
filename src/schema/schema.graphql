@@ -1330,7 +1330,7 @@ type Document {
 	id: ID #id
 	folderId: ID #l
 	name: String #name
-	version: Float #same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest 
+	version: Float #same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest
 	contentType: String #ct
  	descriptionEnabled: Boolean #descEnabled
 	date: Float #l
@@ -1379,18 +1379,18 @@ type SaveDraftResponse {
 }
 
 type CustomMetadataAttrs {
-	chatConversationId: String
+	key: String
+	value: String
 }
 
 type CustomMetadataMeta {
 	section: String!
-	_attrs: CustomMetadataAttrs
+	_attrs: [CustomMetadataAttrs]
 }
 
 type CustomMetadata {
 	meta: [CustomMetadataMeta]
 }
-
 
 type Contact {
 	id: ID!
@@ -1402,7 +1402,6 @@ type Contact {
 	memberOf: String
 	attributes: ContactAttributes
 	members: [ContactListMember]
-	meta: [CustomMetadataMeta]
 }
 
 type OtherContactAttribute {
@@ -1635,6 +1634,18 @@ type ContactFrequencyDataPoints {
 	value: Int
 }
 
+input CustomMetadataAttrsInput {
+	key: String
+	value: String
+}
+
+input CustomMetadataInput {
+	id: ID!
+	section: String
+	attrs: [CustomMetadataAttrsInput]
+}
+
+
 input EmailAddressInput {
 	email: String!
 	name: String!
@@ -1708,10 +1719,6 @@ input MailboxMetadataSectionAttrsInput {
 	zimbraPrefSMIMEDefaultSetting: String
 	zimbraPrefSMIMELastOperation: String
 	zimbraPrefContactSourceFolderID: String
-}
-
-input CustomMetadataSectionAttrsInput {
-	chatConversationId: String
 }
 
 type MimePart {
@@ -2593,7 +2600,7 @@ input SaveDocumentInput {
 	id: ID #id
 	folderId: ID #l
 	name: String #name
-	version: Float  #ver  # Note :same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest 
+	version: Float  #ver  # Note :same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest
 	contentType: String #ct
 	upload: uploadDocument #upload with a id
  	descriptionEnabled: Boolean  #descEnabled
@@ -2976,11 +2983,7 @@ type Mutation {
 	sendDeliveryReport(messageId: ID!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
-	setCustomMetadata(
-		id: ID!
-		section: String
-		attrs: CustomMetadataSectionAttrsInput!
-	): Boolean
+	setCustomMetadata(customMetaData: CustomMetadataInput!): Boolean
 	setMailboxMetadata(
 		section: String
 		attrs: MailboxMetadataSectionAttrsInput!
