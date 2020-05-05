@@ -2939,6 +2939,7 @@ export type Query = {
   getContact?: Maybe<Array<Maybe<Contact>>>,
   getAppointment?: Maybe<GetAppointmentResponse>,
   getAppointments?: Maybe<SearchResponse>,
+  getReminders?: Maybe<RemindersResponse>,
   getTasks?: Maybe<SearchResponse>,
   getAppSpecificPasswords?: Maybe<AppSpecificPasswordsResponse>,
   getAvailableLocales?: Maybe<Array<Maybe<Locale>>>,
@@ -3075,6 +3076,22 @@ export type QueryGetContactArgs = {
  * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
  */
 export type QueryGetAppointmentsArgs = {
+  calExpandInstStart: Scalars['Float'],
+  calExpandInstEnd: Scalars['Float'],
+  query: Scalars['String'],
+  limit: Scalars['Int'],
+  offset: Scalars['Int'],
+  types?: Maybe<SearchType>
+};
+
+
+/** 
+ * Zimbra GraphQL Queries
+ * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
+ * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
+ * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
+ */
+export type QueryGetRemindersArgs = {
   calExpandInstStart: Scalars['Float'],
   calExpandInstEnd: Scalars['Float'],
   query: Scalars['String'],
@@ -3369,6 +3386,56 @@ export type RelatedContact = {
   email?: Maybe<Scalars['String']>,
   scope?: Maybe<Scalars['Int']>,
   p?: Maybe<Scalars['String']>,
+};
+
+export type ReminderItemHitInfo = {
+   __typename?: 'ReminderItemHitInfo',
+  alarm?: Maybe<Scalars['Boolean']>,
+  allDay?: Maybe<Scalars['Boolean']>,
+  changeDate?: Maybe<Scalars['Float']>,
+  class: CalendarItemClass,
+  componentNum?: Maybe<Scalars['Int']>,
+  date?: Maybe<Scalars['Float']>,
+  timezoneOffset?: Maybe<Scalars['Int']>,
+  duration?: Maybe<Scalars['Float']>,
+  excerpt?: Maybe<Scalars['String']>,
+  flags?: Maybe<Scalars['String']>,
+  folderId: Scalars['ID'],
+  freeBusy?: Maybe<FreeBusyStatus>,
+  freeBusyActual?: Maybe<FreeBusyStatus>,
+  id: Scalars['ID'],
+  alarmData?: Maybe<Array<Maybe<Alarm>>>,
+  instances?: Maybe<Array<Maybe<Instance>>>,
+  invitations?: Maybe<Array<Maybe<Invitation>>>,
+  inviteId: Scalars['ID'],
+  isOrganizer?: Maybe<Scalars['Boolean']>,
+  isRecurring?: Maybe<Scalars['Boolean']>,
+  location?: Maybe<Scalars['String']>,
+  modifiedSequence?: Maybe<Scalars['Int']>,
+  name?: Maybe<Scalars['String']>,
+  organizer?: Maybe<CalOrganizer>,
+  otherAttendees?: Maybe<Scalars['Boolean']>,
+  participationStatus?: Maybe<ParticipationStatus>,
+  percentComplete?: Maybe<Scalars['String']>,
+  priority?: Maybe<Scalars['String']>,
+  revision?: Maybe<Scalars['Float']>,
+  utcRecurrenceId?: Maybe<Scalars['String']>,
+  size?: Maybe<Scalars['Float']>,
+  sortField?: Maybe<Scalars['String']>,
+  status?: Maybe<InviteCompletionStatus>,
+  tagNames?: Maybe<Scalars['String']>,
+  tags?: Maybe<Scalars['String']>,
+  uid?: Maybe<Scalars['String']>,
+  x_uid?: Maybe<Scalars['String']>,
+  aid?: Maybe<Scalars['String']>,
+  draft?: Maybe<Scalars['Boolean']>,
+  neverSent?: Maybe<Scalars['Boolean']>,
+};
+
+export type RemindersResponse = {
+   __typename?: 'RemindersResponse',
+  tasks?: Maybe<Array<Maybe<ReminderItemHitInfo>>>,
+  appointments?: Maybe<Array<Maybe<ReminderItemHitInfo>>>,
 };
 
 export type ReplyAction = {
