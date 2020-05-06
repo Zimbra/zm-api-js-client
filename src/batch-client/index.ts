@@ -1238,7 +1238,7 @@ export class ZimbraBatchClient {
 	public saveDocument = (document: SaveDocumentInput) =>
 		this.jsonRequest({
 			name: 'SaveDocument',
-			body:denormalize(SaveDocuments)(document),
+			body: denormalize(SaveDocuments)(document),
 			singleRequest: true
 		}).then(Boolean);
 

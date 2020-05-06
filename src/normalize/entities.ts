@@ -459,7 +459,6 @@ export const Document = new Entity({
 	ct: 'contentType'
 });
 
-
 export const SaveDocument = new Entity({
 	l: 'folderId',
 	name: 'name',
@@ -622,9 +621,9 @@ export const AccountRights = new Entity({
 	ace: ['access', AccountACEInfo]
 });
 
-export const SaveDocuments = new Entity ({
-	doc : ['document', SaveDocument]
-})
+export const SaveDocuments = new Entity({
+	doc: ['document', SaveDocument]
+});
 
 export const GetRightsRequest = new Entity({
 	ace: 'access'

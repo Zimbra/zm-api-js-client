@@ -304,7 +304,7 @@ type AuthResponse {
 	authToken: [AuthToken]
 	twoFactorAuthRequired: TwoFactorAuthRequired
 	trustedDevicesEnabled: TrustedDevicesEnabled
-	lifetime: Int
+	lifetime: Float
 	session: Session
 	skin: [Skin]
 	csrfToken: CsrfToken
@@ -1176,7 +1176,7 @@ type AccountInfoAttrs {
 	zimbraFeatureTrustedDevicesEnabled: Boolean
 	zimbraFeatureAppSpecificPasswordsEnabled: Boolean
 	zimbraFeatureMailPriorityEnabled: Boolean
-	zimbraFileUploadMaxSize: Int
+	zimbraFileUploadMaxSize: Float
 	zimbraMailAlias: [String]
 	zimbraFeatureTaggingEnabled: Boolean
 	zimbraIdentityMaxNumEntries: Int
@@ -1330,7 +1330,7 @@ type Document {
 	id: ID #id
 	folderId: ID #l
 	name: String #name
-	version: Float #same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest 
+	version: Float #same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest
 	contentType: String #ct
  	descriptionEnabled: Boolean #descEnabled
 	date: Float #l
@@ -2574,7 +2574,7 @@ input SaveDocumentInput {
 	id: ID #id
 	folderId: ID #l
 	name: String #name
-	version: Float  #ver  # Note :same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest 
+	version: Float  #ver  # Note :same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest
 	contentType: String #ct
 	upload: uploadDocument #upload with a id
  	descriptionEnabled: Boolean  #descEnabled
