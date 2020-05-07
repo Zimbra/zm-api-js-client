@@ -1815,8 +1815,13 @@ input ExistingAttachmentInput {
 	part: String
 }
 
+input DocumentInput {
+	id: ID
+}
+
 input AttachmentInput {
 	attachmentId: String
+	documents: [DocumentInput]
 	existingAttachments: [ExistingAttachmentInput]
 }
 

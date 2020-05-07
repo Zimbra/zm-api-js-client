@@ -277,6 +277,7 @@ export type Attachment = {
 
 export type AttachmentInput = {
   attachmentId?: Maybe<Scalars['String']>,
+  documents?: Maybe<Array<Maybe<DocumentInput>>>,
   existingAttachments?: Maybe<Array<Maybe<ExistingAttachmentInput>>>,
 };
 
@@ -1113,6 +1114,10 @@ export type Document = {
   revisonCreator?: Maybe<Scalars['String']>,
   revisedCreationDate?: Maybe<Scalars['Float']>,
   lockOwnerId?: Maybe<Scalars['ID']>,
+};
+
+export type DocumentInput = {
+  id?: Maybe<Scalars['ID']>,
 };
 
 export type DtTimeInfo = {
