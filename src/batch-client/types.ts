@@ -171,6 +171,7 @@ export interface SearchOptions {
 	cursor?: Cursor;
 	fetch?: string;
 	fullConversation?: boolean;
+	inDumpster?: boolean;
 	limit?: number;
 	needExp?: boolean;
 	needIsMember?: NeedIsMemberType;

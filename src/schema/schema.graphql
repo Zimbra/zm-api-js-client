@@ -1199,6 +1199,7 @@ type AccountZimletConfigInfo {
 
 type AccountInfoAttrs {
 	displayName: String
+	zimbraDumpsterEnabled: Boolean
 	zimbraIsAdminAccount: Boolean
 	zimbraIsDelegatedAdminAccount: Boolean
 	zimbraFeatureMailEnabled: Boolean
@@ -2950,7 +2951,8 @@ type Query {
 		recip: Int
 		sortBy: SortBy
 		types: SearchType
-		resultMode: String
+		resultMode: String,
+		inDumpster: Boolean
 	): SearchResponse
 
 	searchGal(

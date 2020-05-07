@@ -3360,23 +3360,24 @@ export type QueryShareInfoArgs = {
  * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
  */
 export type QuerySearchArgs = {
-  contact?: Maybe<Scalars['String']>;
-  cursor?: Maybe<Cursor>;
-  fetch?: Maybe<Scalars['String']>;
-  fullConversation?: Maybe<Scalars['Boolean']>;
-  limit?: Maybe<Scalars['Int']>;
-  needExp?: Maybe<Scalars['Boolean']>;
-  memberOf?: Maybe<Scalars['Boolean']>;
-  offset?: Maybe<Scalars['Int']>;
-  query?: Maybe<Scalars['String']>;
-  recip?: Maybe<Scalars['Int']>;
-  sortBy?: Maybe<SortBy>;
-  types?: Maybe<SearchType>;
-  resultMode?: Maybe<Scalars['String']>;
+  contact?: Maybe<Scalars['String']>,
+  cursor?: Maybe<Cursor>,
+  fetch?: Maybe<Scalars['String']>,
+  fullConversation?: Maybe<Scalars['Boolean']>,
+  limit?: Maybe<Scalars['Int']>,
+  needExp?: Maybe<Scalars['Boolean']>,
+  memberOf?: Maybe<Scalars['Boolean']>,
+  offset?: Maybe<Scalars['Int']>,
+  query?: Maybe<Scalars['String']>,
+  recip?: Maybe<Scalars['Int']>,
+  sortBy?: Maybe<SortBy>,
+  types?: Maybe<SearchType>,
+  resultMode?: Maybe<Scalars['String']>,
+  inDumpster?: Maybe<Scalars['Boolean']>
 };
 
 
-/**
+/** 
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
