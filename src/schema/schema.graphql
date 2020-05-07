@@ -1330,7 +1330,7 @@ type Document {
 	id: ID #id
 	folderId: ID #l
 	name: String #name
-	version: Float #same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest 
+	version: Float #same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest
 	contentType: String #ct
  	descriptionEnabled: Boolean #descEnabled
 	date: Float #l
@@ -1376,6 +1376,20 @@ type SendMessageResponse {
 
 type SaveDraftResponse {
 	message: [MessageInfo]
+}
+
+type CustomMetadataAttrs {
+	key: String
+	value: String
+}
+
+type CustomMetadataMeta {
+	section: String!
+	_attrs: [CustomMetadataAttrs]
+}
+
+type CustomMetadata {
+	meta: [CustomMetadataMeta]
 }
 
 type Contact {
@@ -1620,6 +1634,18 @@ type ContactFrequencyDataPoints {
 	value: Int
 }
 
+input CustomMetadataAttrsInput {
+	key: String
+	value: String
+}
+
+input CustomMetadataInput {
+	id: ID!
+	section: String
+	attrs: [CustomMetadataAttrsInput]
+}
+
+
 input EmailAddressInput {
 	email: String!
 	name: String!
@@ -1642,15 +1668,6 @@ type ShareInfo {
 	mid: ID
 }
 
-type MailboxMetadata {
-	meta: [MailboxMetadataMeta]
-}
-
-type MailboxMetadataMeta {
-	section: String!
-	_attrs: MailboxMetadataAttrs!
-}
-
 type MailboxMetadataAttrs {
 	zimbraPrefCustomFolderTreeOpen: Boolean
 	zimbraPrefDateFormat: String
@@ -1671,6 +1688,15 @@ type MailboxMetadataAttrs {
 	zimbraPrefSMIMEDefaultSetting: String
 	zimbraPrefSMIMELastOperation: String
 	zimbraPrefContactSourceFolderID: String
+}
+
+type MailboxMetadataMeta {
+	section: String!
+	_attrs: MailboxMetadataAttrs!
+}
+
+type MailboxMetadata {
+	meta: [MailboxMetadataMeta]
 }
 
 input MailboxMetadataSectionAttrsInput {
@@ -2574,7 +2600,7 @@ input SaveDocumentInput {
 	id: ID #id
 	folderId: ID #l
 	name: String #name
-	version: Float  #ver  # Note :same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest 
+	version: Float  #ver  # Note :same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest
 	contentType: String #ct
 	upload: uploadDocument #upload with a id
  	descriptionEnabled: Boolean  #descEnabled
@@ -2737,6 +2763,10 @@ type Query {
 		traverseMountpoints: Boolean
 		folder: GetFolderFolderInput
 	): Folder
+	getCustomMetadata(
+		id: ID!
+		section: String
+	): CustomMetadata
 	getMailboxMetadata(section: String): MailboxMetadata
 	getMessage(
 		id: ID!
@@ -2953,6 +2983,7 @@ type Mutation {
 	sendDeliveryReport(messageId: ID!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
+	setCustomMetadata(customMetaData: CustomMetadataInput!): Boolean
 	setMailboxMetadata(
 		section: String
 		attrs: MailboxMetadataSectionAttrsInput!

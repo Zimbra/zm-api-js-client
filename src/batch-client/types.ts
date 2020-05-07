@@ -114,6 +114,10 @@ export interface GetFolderOptions {
 	visible?: boolean;
 }
 
+export interface GetCustomMetadataOptions {
+	id: string;
+	section: string;
+}
 export interface GetMailboxMetadataOptions {
 	section: string;
 }

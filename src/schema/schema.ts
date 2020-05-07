@@ -9,6 +9,7 @@ import {
 	CreateIdentityInput,
 	CreateMountpointInput,
 	CreateTagInput,
+	CustomMetadataInput,
 	DeleteAppointmentInput,
 	EnableTwoFactorAuthInput,
 	ExternalAccountAddInput,
@@ -57,6 +58,7 @@ import {
 	GetContactFrequencyOptions,
 	GetContactOptions,
 	GetConversationOptions,
+	GetCustomMetadataOptions,
 	GetFolderOptions,
 	GetMailboxMetadataOptions,
 	GetMessageOptions,
@@ -122,6 +124,8 @@ export function createZimbraSchema(
 					client.getContactFrequency(variables as GetContactFrequencyOptions),
 				getConversation: (_, variables) =>
 					client.getConversation(variables as GetConversationOptions),
+				getCustomMetadata: (_: any, variables) =>
+					client.getCustomMetadata(variables as GetCustomMetadataOptions),
 				getFilterRules: client.getFilterRules,
 				getFolder: (_: any, variables, context = {}) => {
 					const { local } = context;
@@ -410,6 +414,8 @@ export function createZimbraSchema(
 				revokeRights: (_, variables) =>
 					client.revokeRights(variables.input as RevokeRightsInput),
 				revokeTrustedDevice: client.revokeTrustedDevice,
+				setCustomMetadata: (_, customMetadata) =>
+					client.setCustomMetadata(customMetadata as CustomMetadataInput),
 				setMailboxMetadata: (_: any, variables: any) =>
 					client
 						.jsonRequest({

@@ -992,6 +992,34 @@ export type Cursor = {
   includeOffset?: Maybe<Scalars['Boolean']>,
 };
 
+export type CustomMetadata = {
+   __typename?: 'CustomMetadata',
+  meta?: Maybe<Array<Maybe<CustomMetadataMeta>>>,
+};
+
+export type CustomMetadataAttrs = {
+   __typename?: 'CustomMetadataAttrs',
+  key?: Maybe<Scalars['String']>,
+  value?: Maybe<Scalars['String']>,
+};
+
+export type CustomMetadataAttrsInput = {
+  key?: Maybe<Scalars['String']>,
+  value?: Maybe<Scalars['String']>,
+};
+
+export type CustomMetadataInput = {
+  id: Scalars['ID'],
+  section?: Maybe<Scalars['String']>,
+  attrs?: Maybe<Array<Maybe<CustomMetadataAttrsInput>>>,
+};
+
+export type CustomMetadataMeta = {
+   __typename?: 'CustomMetadataMeta',
+  section: Scalars['String'],
+  _attrs?: Maybe<Array<Maybe<CustomMetadataAttrs>>>,
+};
+
 export type DataSource = {
    __typename?: 'DataSource',
   id: Scalars['ID'],
@@ -2138,6 +2166,7 @@ export type Mutation = {
   sendDeliveryReport?: Maybe<Scalars['Boolean']>,
   sendInviteReply?: Maybe<InviteReplyResponse>,
   sendShareNotification?: Maybe<Scalars['Boolean']>,
+  setCustomMetadata?: Maybe<Scalars['Boolean']>,
   setMailboxMetadata?: Maybe<Scalars['Boolean']>,
   snoozeCalendarItem?: Maybe<Scalars['Boolean']>,
   dismissCalendarItem?: Maybe<Scalars['Boolean']>,
@@ -2535,6 +2564,11 @@ export type MutationSendShareNotificationArgs = {
 };
 
 
+export type MutationSetCustomMetadataArgs = {
+  customMetaData: CustomMetadataInput
+};
+
+
 export type MutationSetMailboxMetadataArgs = {
   section?: Maybe<Scalars['String']>,
   attrs: MailboxMetadataSectionAttrsInput
@@ -2856,6 +2890,7 @@ export type Query = {
   getConversation?: Maybe<Conversation>,
   getFilterRules?: Maybe<Array<Maybe<Filter>>>,
   getFolder?: Maybe<Folder>,
+  getCustomMetadata?: Maybe<CustomMetadata>,
   getMailboxMetadata?: Maybe<MailboxMetadata>,
   getMessage?: Maybe<MessageInfo>,
   getMessagesMetadata?: Maybe<Array<Maybe<MessageInfo>>>,
@@ -3050,6 +3085,18 @@ export type QueryGetFolderArgs = {
   depth?: Maybe<Scalars['Int']>,
   traverseMountpoints?: Maybe<Scalars['Boolean']>,
   folder?: Maybe<GetFolderFolderInput>
+};
+
+
+/** 
+ * Zimbra GraphQL Queries
+ * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
+ * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
+ * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
+ */
+export type QueryGetCustomMetadataArgs = {
+  id: Scalars['ID'],
+  section?: Maybe<Scalars['String']>
 };
 
 

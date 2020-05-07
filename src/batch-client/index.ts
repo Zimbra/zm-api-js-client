@@ -88,6 +88,10 @@ import {
 	coerceStringToBoolean
 } from '../utils/coerce-boolean';
 import { mapValuesDeep } from '../utils/map-values-deep';
+import {
+	normalizeCustomMetaDataAttrs,
+	setCustomMetaDataBody
+} from '../utils/normalize-attrs-custommetadata';
 import { normalizeEmailAddresses } from '../utils/normalize-email-addresses';
 import {
 	getAttachmentUrl,
@@ -114,6 +118,7 @@ import {
 	GetContactFrequencyOptions,
 	GetContactOptions,
 	GetConversationOptions,
+	GetCustomMetadataOptions,
 	GetFolderOptions,
 	GetMailboxMetadataOptions,
 	GetMessageOptions,
@@ -710,6 +715,29 @@ export class ZimbraBatchClient {
 			return c;
 		});
 
+	public getCustomMetadata = ({ id, section }: GetCustomMetadataOptions) =>
+		this.jsonRequest({
+			name: 'GetCustomMetadata',
+			body: {
+				id,
+				meta: {
+					section
+				}
+			}
+		}).then((res: any) => {
+			//ensure _attrs is not undefined in each section to aid graphql reading/writing
+			if (res.meta) {
+				res.meta = res.meta.map((entry: any) => {
+					if (!entry._attrs) {
+						entry._attrs = {};
+					}
+					entry = normalizeCustomMetaDataAttrs(entry);
+					return entry;
+				});
+			}
+			return mapValuesDeep(res, coerceStringToBoolean);
+		});
+
 	public getDataSources = () =>
 		this.jsonRequest({
 			name: 'GetDataSources'
@@ -1238,7 +1266,7 @@ export class ZimbraBatchClient {
 	public saveDocument = (document: SaveDocumentInput) =>
 		this.jsonRequest({
 			name: 'SaveDocument',
-			body:denormalize(SaveDocuments)(document),
+			body: denormalize(SaveDocuments)(document),
 			singleRequest: true
 		}).then(Boolean);
 
@@ -1312,6 +1340,12 @@ export class ZimbraBatchClient {
 	public setCsrfToken = (csrfToken: string) => {
 		this.csrfToken = csrfToken;
 	};
+
+	public setCustomMetadata = (variables: any) =>
+		this.jsonRequest({
+			name: 'SetCustomMetadata',
+			body: setCustomMetaDataBody(variables.customMetaData)
+		}).then(Boolean);
 
 	public setJwtToken = (jwtToken: string) => {
 		this.jwtToken = jwtToken;
