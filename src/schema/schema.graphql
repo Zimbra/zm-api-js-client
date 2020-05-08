@@ -1304,6 +1304,7 @@ type Preferences {
 	zimbraPrefPasswordRecoveryAddressStatus: PasswordRecoveryAddressStatus
 	zimbraPrefSaveToSent: Boolean
 	zimbraPrefShowFragments: Boolean
+	zimbraPrefSlackCalendarReminderEnabled: Boolean
 	zimbraPrefSortOrder: String
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
@@ -2165,6 +2166,7 @@ input PreferencesInput {
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
 	zimbraPrefSaveToSent: Boolean
 	zimbraPrefShowFragments: Boolean
+	zimbraPrefSlackCalendarReminderEnabled: Boolean
 	zimbraPrefSortOrder: String
 	zimbraPrefWebClientOfflineBrowserKey: String
 	zimbraPrefTimeZoneId: String
