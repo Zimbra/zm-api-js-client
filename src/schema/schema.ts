@@ -5,6 +5,7 @@ import {
 	AddMsgInput,
 	CalendarItemInput,
 	ClientInfoInput,
+	CounterAppointmentInput,
 	CreateContactInput,
 	CreateIdentityInput,
 	CreateMountpointInput,
@@ -47,6 +48,7 @@ import {
 	ActionOptions,
 	ActionType,
 	ApplyFilterRulesOptions,
+	AppointmentOptions,
 	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
@@ -136,6 +138,8 @@ export function createZimbraSchema(
 
 					return client.getFolder(variables as GetFolderOptions);
 				},
+				getAppointment: (_: any, variables) =>
+					client.getAppointment(variables as AppointmentOptions),
 				getAppointments: (_: any, variables) =>
 					client.search(variables as SearchOptions),
 				getTasks: (_: any, variables) =>
@@ -286,6 +290,10 @@ export function createZimbraSchema(
 					client.deleteAppointment(appointment as DeleteAppointmentInput),
 				checkCalendar: (_, variables) =>
 					client.checkCalendar(variables as FolderActionCheckCalendarInput),
+				counterAppointment: (_, { counterAppointmentInvite }) =>
+					client.counterAppointment(
+						counterAppointmentInvite as CounterAppointmentInput
+					),
 				createCalendar: (_, { name, color, url }) =>
 					client.createFolder({
 						name,
@@ -308,6 +316,10 @@ export function createZimbraSchema(
 					client.saveDocument(document as SaveDocumentInput),
 				changeFolderColor: (_, variables) =>
 					client.changeFolderColor(variables as FolderActionChangeColorInput),
+				declineCounterAppointment: (_, { counterAppointmentInvite }) =>
+					client.declineCounterAppointment(
+						counterAppointmentInvite as CounterAppointmentInput
+					),
 				folderAction: (_, { action }) => client.folderAction(action),
 				forwardAppointment: (_, { appointmentInvite }) =>
 					client.forwardAppointment(
