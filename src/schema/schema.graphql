@@ -304,7 +304,7 @@ type AuthResponse {
 	authToken: [AuthToken]
 	twoFactorAuthRequired: TwoFactorAuthRequired
 	trustedDevicesEnabled: TrustedDevicesEnabled
-	lifetime: Int
+	lifetime: Float
 	session: Session
 	skin: [Skin]
 	csrfToken: CsrfToken
@@ -1183,7 +1183,7 @@ type AccountInfoAttrs {
 	zimbraFeatureTrustedDevicesEnabled: Boolean
 	zimbraFeatureAppSpecificPasswordsEnabled: Boolean
 	zimbraFeatureMailPriorityEnabled: Boolean
-	zimbraFileUploadMaxSize: Int
+	zimbraFileUploadMaxSize: Float
 	zimbraMailAlias: [String]
 	zimbraFeatureTaggingEnabled: Boolean
 	zimbraIdentityMaxNumEntries: Int
