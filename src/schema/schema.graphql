@@ -392,6 +392,7 @@ type Instance {
 	revision: Float # rev
 	status: InviteCompletionStatus
 	isOrganizer: Boolean # isOrg
+	exceptId: [DtTimeInfo]
 }
 
 type Alarm {
@@ -697,6 +698,7 @@ type InviteComponent {
 	x_uid: String
 	aid: String
 	method: String
+	exceptId: [DtTimeInfo]
 }
 
 type DtTimeInfo {
@@ -713,7 +715,7 @@ type Invitation { # <inv>
 	recurrenceId: String # recurId
 	tz: CalTZInfo
 	components: [InviteComponent]! # comp
-	replies: [InviteReplies]! # replies
+	replies: [InviteReplies] # replies
 	mimeParts: MimePart
 }
 
@@ -735,6 +737,11 @@ type TzOnsetInfo { # <standard>, <daylight>
 	hour: Int
 	min: Int
 	sec: Int
+}
+
+type AppointmentInfo { # <appt>; aka AppointmentHitInfo
+	id: ID!
+	invitations: [Invitation] # inv
 }
 
 type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
@@ -1318,6 +1325,10 @@ type Preferences {
 	zimbraPrefTagTreeOpen: Boolean
 }
 
+type GetAppointmentResponse {
+	appointment: [AppointmentInfo]
+}
+
 type NameId {
 	id: ID
 	name: String
@@ -1806,6 +1817,25 @@ input CalendarItemMessageInput {
 	replyType: InviteReplyType #rt
 }
 
+input CounterAppointmentInput {
+	id: ID!
+	modifiedSequence: Float
+	revision: Float
+	componentNum: Int # comp
+	message: CounterAppointmentMessageInput!
+}
+
+input CounterAppointmentMessageInput {
+	origId: ID #origid
+	folderId: ID #l
+	subject: String #su
+	invitations: CalendarCounterAppointmentInput #inv
+	mimeParts: [MimePartInput] #mp
+	emailAddresses: [MailItemEmailAddressInput] #e
+	attachments: [AttachmentInput] #attach
+	replyType: InviteReplyType #rt
+}
+
 input SendMessageInput {
 	id: ID #id
 	origId: ID #origid
@@ -1828,6 +1858,10 @@ input CalendarItemInviteInput {
 	components: [CalendarItemInviteComponentInput]!
 }
 
+input CalendarCounterAppointmentInput {
+	components: [CalendarItemInviteComponentCounterInput]!
+}
+
 input MailItemEmailAddressInput {
 	address: String!
 	name: String
@@ -1835,7 +1869,7 @@ input MailItemEmailAddressInput {
 }
 
 input CalendarItemInviteComponentInput {
-	name: String!
+	name: String
 	location: String
 	start: CalendarItemDateTimeInput
 	end: CalendarItemDateTimeInput
@@ -1867,6 +1901,28 @@ input CalendarItemDateTimeInput {
 input CalendarOptionalItemDateTimeInput {
 	timezone: String
 	date: String
+}
+
+input CalendarItemInviteComponentCounterInput {
+	name: String!
+	location: String
+	start: CalendarItemDateTimeInput!
+	end: CalendarItemDateTimeInput!
+	exceptId: CalendarOptionalItemDateTimeInput
+	freeBusy: FreeBusyStatus
+	allDay: Boolean
+	organizer: CalendarItemOrganizerInput
+	recurrence: CalendarItemRecurrenceInput
+	attendees: [CalendarItemAttendeesInput]
+	alarms: [CalendarItemAlarmInput]
+	class: CalendarItemClass
+	uid: String
+	priority: String
+	percentComplete: String
+	status: InviteCompletionStatus
+	noBlob: Boolean
+	description: [CalendarItemInviteComponentDescriptionInput]
+	draft: Boolean
 }
 
 type CalendarItemAttendee {
@@ -2734,6 +2790,9 @@ type Query {
 		offset: Int!
 		types: SearchType
 	): SearchResponse
+	getAppointment(
+		id: ID!
+	): GetAppointmentResponse
 	getTasks(
 		query: String!
 		limit: Int!
@@ -2882,6 +2941,9 @@ type Mutation {
 	checkCalendar(id: ID!, value: Boolean!): Boolean
 	contactAction(id: ID, ids: [ID!], folderId: ID, op: String!): ActionOpResponse
 	conversationAction(ids: [ID!]!, op: String!): Boolean
+	counterAppointment(
+		counterAppointmentInvite: CounterAppointmentInput!
+	): Boolean
 	createAppointment(
 		accountName: String
 		appointment: CalendarItemInput!
@@ -2916,6 +2978,9 @@ type Mutation {
 	): Folder
 	createSignature(signature: SignatureInput!): SignatureResponse
 	createTask(task: CalendarItemInput!): Boolean
+	declineCounterAppointment(
+		counterAppointmentInvite: CounterAppointmentInput!
+	): Boolean
 	deleteAppointment(appointment: DeleteAppointmentInput!): Boolean
 	deleteExternalAccount(id: ID!): Boolean
 	deleteSignature(signature: NameIdInput!): Boolean
