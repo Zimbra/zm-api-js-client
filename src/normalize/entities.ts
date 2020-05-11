@@ -431,6 +431,8 @@ const contactFields = {
 	l: 'folderId',
 	rev: 'revision',
 	sf: 'sortField',
+	t: 'tags',
+	tn: 'tagNames',
 	_attrs: ['attributes', ContactAttributes]
 };
 
