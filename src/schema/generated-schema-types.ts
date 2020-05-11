@@ -741,6 +741,8 @@ export type Contact = {
   sortField?: Maybe<Scalars['String']>;
   fileAsStr?: Maybe<Scalars['String']>;
   memberOf?: Maybe<Scalars['String']>;
+  tags?: Maybe<Scalars['String']>;
+  tagNames?: Maybe<Scalars['String']>;
   attributes?: Maybe<ContactAttributes>;
   members?: Maybe<Array<Maybe<ContactListMember>>>;
 };
@@ -2323,6 +2325,7 @@ export type MutationContactActionArgs = {
   ids?: Maybe<Array<Scalars['ID']>>;
   folderId?: Maybe<Scalars['ID']>;
   op: Scalars['String'];
+  tagNames?: Maybe<Scalars['String']>;
 };
 
 

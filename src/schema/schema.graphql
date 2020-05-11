@@ -1460,6 +1460,8 @@ type Contact {
 	sortField: String
 	fileAsStr: String
 	memberOf: String
+	tags: String # t
+	tagNames: String # tn
 	attributes: ContactAttributes
 	members: [ContactListMember]
 }
@@ -3006,7 +3008,7 @@ type Mutation {
 		contentType: String
 	): ProfileImageChangeResponse
 	checkCalendar(id: ID!, value: Boolean!): Boolean
-	contactAction(id: ID, ids: [ID!], folderId: ID, op: String!): ActionOpResponse
+	contactAction(id: ID, ids: [ID!], folderId: ID, op: String!, tagNames: String): ActionOpResponse
 	conversationAction(ids: [ID!]!, op: String!): Boolean
 	counterAppointment(
 		counterAppointmentInvite: CounterAppointmentInput!
