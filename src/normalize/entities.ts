@@ -470,12 +470,18 @@ export const Document = new Entity({
 	ct: 'contentType'
 });
 
+export const MessagePartInputForDocuments = new Entity({
+	id: 'messageId',
+	part: 'attachmentPart'
+})
+
 export const SaveDocument = new Entity({
 	l: 'folderId',
 	name: 'name',
 	ver: 'version', //same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest
 	ct: 'contentType',
-	descEnabled: 'descriptionEnabled'
+	descEnabled: 'descriptionEnabled',
+	m: ['messageData', MessagePartInputForDocuments]
 });
 
 export const SearchResponse = new Entity({

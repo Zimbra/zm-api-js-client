@@ -86,7 +86,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureTrustedDevicesEnabled?: Maybe<Scalars['Boolean']>,
   zimbraFeatureAppSpecificPasswordsEnabled?: Maybe<Scalars['Boolean']>,
   zimbraFeatureMailPriorityEnabled?: Maybe<Scalars['Boolean']>,
-  zimbraFileUploadMaxSize?: Maybe<Scalars['Int']>,
+  zimbraFileUploadMaxSize?: Maybe<Scalars['Float']>,
   zimbraMailAlias?: Maybe<Array<Maybe<Scalars['String']>>>,
   zimbraFeatureTaggingEnabled?: Maybe<Scalars['Boolean']>,
   zimbraIdentityMaxNumEntries?: Maybe<Scalars['Int']>,
@@ -251,6 +251,12 @@ export enum AlarmRelatedTo {
   End = 'END'
 }
 
+export type AppointmentInfo = {
+   __typename?: 'AppointmentInfo',
+  id: Scalars['ID'],
+  invitations?: Maybe<Array<Maybe<Invitation>>>,
+};
+
 export type AppSpecificPassword = {
    __typename?: 'AppSpecificPassword',
   appName?: Maybe<Scalars['String']>,
@@ -286,7 +292,7 @@ export type AuthResponse = {
   authToken?: Maybe<Array<Maybe<AuthToken>>>,
   twoFactorAuthRequired?: Maybe<TwoFactorAuthRequired>,
   trustedDevicesEnabled?: Maybe<TrustedDevicesEnabled>,
-  lifetime?: Maybe<Scalars['Int']>,
+  lifetime?: Maybe<Scalars['Float']>,
   session?: Maybe<Session>,
   skin?: Maybe<Array<Maybe<Skin>>>,
   csrfToken?: Maybe<CsrfToken>,
@@ -388,6 +394,10 @@ export type BySetPosRule = {
   poslist?: Maybe<Scalars['Int']>,
 };
 
+export type CalendarCounterAppointmentInput = {
+  components: Array<Maybe<CalendarItemInviteComponentCounterInput>>,
+};
+
 export type CalendarItemAlarm = {
    __typename?: 'CalendarItemAlarm',
   action: AlarmAction,
@@ -475,12 +485,6 @@ export type CalendarItemDateTimeInput = {
   date: Scalars['String'],
 };
 
-export type AppointmentInfo = {
-  __typename?: 'AppointmentInfo', 
-  id: Scalars['ID'],
-  invitations?: Maybe<Array<Maybe<Invitation>>>,
-  }
-  
 export type CalendarItemHitInfo = {
    __typename?: 'CalendarItemHitInfo',
   alarm?: Maybe<Scalars['Boolean']>,
@@ -533,12 +537,34 @@ export type CalendarItemInput = {
   message: CalendarItemMessageInput,
 };
 
+export type CalendarItemInviteComponentCounterInput = {
+  name: Scalars['String'],
+  location?: Maybe<Scalars['String']>,
+  start: CalendarItemDateTimeInput,
+  end: CalendarItemDateTimeInput,
+  exceptId?: Maybe<CalendarOptionalItemDateTimeInput>,
+  freeBusy?: Maybe<FreeBusyStatus>,
+  allDay?: Maybe<Scalars['Boolean']>,
+  organizer?: Maybe<CalendarItemOrganizerInput>,
+  recurrence?: Maybe<CalendarItemRecurrenceInput>,
+  attendees?: Maybe<Array<Maybe<CalendarItemAttendeesInput>>>,
+  alarms?: Maybe<Array<Maybe<CalendarItemAlarmInput>>>,
+  class?: Maybe<CalendarItemClass>,
+  uid?: Maybe<Scalars['String']>,
+  priority?: Maybe<Scalars['String']>,
+  percentComplete?: Maybe<Scalars['String']>,
+  status?: Maybe<InviteCompletionStatus>,
+  noBlob?: Maybe<Scalars['Boolean']>,
+  description?: Maybe<Array<Maybe<CalendarItemInviteComponentDescriptionInput>>>,
+  draft?: Maybe<Scalars['Boolean']>,
+};
+
 export type CalendarItemInviteComponentDescriptionInput = {
   _content?: Maybe<Scalars['String']>,
 };
 
 export type CalendarItemInviteComponentInput = {
-  name: Scalars['String'],
+  name?: Maybe<Scalars['String']>,
   location?: Maybe<Scalars['String']>,
   start?: Maybe<CalendarItemDateTimeInput>,
   end?: Maybe<CalendarItemDateTimeInput>,
@@ -960,6 +986,25 @@ export type ConversationConditionInput = {
   where?: Maybe<Scalars['String']>,
   index?: Maybe<Scalars['Int']>,
   negative?: Maybe<Scalars['Boolean']>,
+};
+
+export type CounterAppointmentInput = {
+  id: Scalars['ID'],
+  modifiedSequence?: Maybe<Scalars['Float']>,
+  revision?: Maybe<Scalars['Float']>,
+  componentNum?: Maybe<Scalars['Int']>,
+  message: CounterAppointmentMessageInput,
+};
+
+export type CounterAppointmentMessageInput = {
+  origId?: Maybe<Scalars['ID']>,
+  folderId?: Maybe<Scalars['ID']>,
+  subject?: Maybe<Scalars['String']>,
+  invitations?: Maybe<CalendarCounterAppointmentInput>,
+  mimeParts?: Maybe<Array<Maybe<MimePartInput>>>,
+  emailAddresses?: Maybe<Array<Maybe<MailItemEmailAddressInput>>>,
+  attachments?: Maybe<Array<Maybe<AttachmentInput>>>,
+  replyType?: Maybe<InviteReplyType>,
 };
 
 export type CreateAppSpecificPasswordResponse = {
@@ -1469,51 +1514,6 @@ export enum FolderView {
   Comment = 'comment'
 }
 
-export type CalendarItemInviteComponentCounterInput = {
-  name: Scalars['String'],
-  location?: Maybe<Scalars['String']>,
-  start?: Maybe<CalendarItemDateTimeInput>,
-  end?: Maybe<CalendarItemDateTimeInput>,
-  exceptId?: Maybe<CalendarOptionalItemDateTimeInput>,
-  freeBusy?: Maybe<FreeBusyStatus>,
-  allDay?: Maybe<Scalars['Boolean']>,
-  organizer?: Maybe<CalendarItemOrganizerInput>,
-  recurrence?: Maybe<CalendarItemRecurrenceInput>,
-  attendees?: Maybe<Array<Maybe<CalendarItemAttendeesInput>>>,
-  alarms?: Maybe<Array<Maybe<CalendarItemAlarmInput>>>,
-  class: CalendarItemClass,
-  priority?: Maybe<Scalars['String']>,
-  percentComplete?: Maybe<Scalars['String']>,
-  status?: Maybe<InviteCompletionStatus>,
-  uid?: Maybe<Scalars['String']>
-  noBlob?: Maybe<Scalars['Boolean']>,
-  description?: Maybe<Array<Maybe<CalendarItemInviteComponentDescriptionInput>>>,
-  draft?: Maybe<Scalars['Boolean']>,
-};
-
-export type CalendarCounterAppointmentInput = {
-  components: Array<Maybe<CalendarItemInviteComponentCounterInput>>,
-};
-
-export type CounterAppointmentMessageInput = {
-  origId?: Maybe<Scalars['ID']>,
-  folderId?: Maybe<Scalars['ID']>,
-  subject?: Maybe<Scalars['String']>,
-  invitations?: Maybe<CalendarCounterAppointmentInput>,
-  mimeParts?: Maybe<Array<Maybe<MimePartInput>>>,
-  emailAddresses?: Maybe<Array<Maybe<MailItemEmailAddressInput>>>,
-  attachments?: Maybe<Array<Maybe<AttachmentInput>>>,
-  replyType?: Maybe<InviteReplyType>,
-};
-
-export type CounterAppointmentInput = {
-  id: Scalars['ID'],
-  modifiedSequence?: Maybe<Scalars['Int']>,
-  revision?: Maybe<Scalars['Float']>,
-  componentNum: Scalars['String'],
-  message?: Maybe<CounterAppointmentMessageInput>,
-}
-
 export type ForwardAppointmentInput = {
   id: Scalars['ID'],
   message: ForwardMessageInput,
@@ -1565,6 +1565,11 @@ export enum GalSearchType {
   Resource = 'resource',
   Group = 'group'
 }
+
+export type GetAppointmentResponse = {
+   __typename?: 'GetAppointmentResponse',
+  appointment?: Maybe<Array<Maybe<AppointmentInfo>>>,
+};
 
 /** Include one of these fields to query for a folder */
 export type GetFolderFolderInput = {
@@ -1771,7 +1776,7 @@ export type Invitation = {
   recurrenceId?: Maybe<Scalars['String']>,
   tz?: Maybe<CalTzInfo>,
   components: Array<Maybe<InviteComponent>>,
-  replies: Array<Maybe<InviteReplies>>,
+  replies?: Maybe<Array<Maybe<InviteReplies>>>,
   mimeParts?: Maybe<MimePart>,
 };
 
@@ -2047,6 +2052,11 @@ export type MessageInfo = MailItem & {
   local?: Maybe<Scalars['Boolean']>,
 };
 
+export type MessagePartForDocument = {
+  messageId: Scalars['ID'],
+  attachmentPart: Scalars['String'],
+};
+
 export type MimeHeaderCondition = {
    __typename?: 'MimeHeaderCondition',
   header?: Maybe<Scalars['String']>,
@@ -2166,6 +2176,7 @@ export type Mutation = {
   checkCalendar?: Maybe<Scalars['Boolean']>,
   contactAction?: Maybe<ActionOpResponse>,
   conversationAction?: Maybe<Scalars['Boolean']>,
+  counterAppointment?: Maybe<Scalars['Boolean']>,
   createAppointment?: Maybe<Scalars['Boolean']>,
   createAppointmentException?: Maybe<Scalars['Boolean']>,
   createAppSpecificPassword?: Maybe<CreateAppSpecificPasswordResponse>,
@@ -2181,6 +2192,7 @@ export type Mutation = {
   createSearchFolder?: Maybe<Folder>,
   createSignature?: Maybe<SignatureResponse>,
   createTask?: Maybe<Scalars['Boolean']>,
+  declineCounterAppointment?: Maybe<Scalars['Boolean']>,
   deleteAppointment?: Maybe<Scalars['Boolean']>,
   deleteExternalAccount?: Maybe<Scalars['Boolean']>,
   deleteSignature?: Maybe<Scalars['Boolean']>,
@@ -2320,6 +2332,11 @@ export type MutationConversationActionArgs = {
 };
 
 
+export type MutationCounterAppointmentArgs = {
+  counterAppointmentInvite: CounterAppointmentInput
+};
+
+
 export type MutationCreateAppointmentArgs = {
   accountName?: Maybe<Scalars['String']>,
   appointment: CalendarItemInput
@@ -2406,6 +2423,11 @@ export type MutationCreateSignatureArgs = {
 
 export type MutationCreateTaskArgs = {
   task: CalendarItemInput
+};
+
+
+export type MutationDeclineCounterAppointmentArgs = {
+  counterAppointmentInvite: CounterAppointmentInput
 };
 
 
@@ -2942,8 +2964,8 @@ export type Query = {
   discoverRights?: Maybe<DiscoverRights>,
   freeBusy?: Maybe<Array<Maybe<FreeBusy>>>,
   getContact?: Maybe<Array<Maybe<Contact>>>,
-  getAppointment?: Maybe<GetAppointmentResponse>,
   getAppointments?: Maybe<SearchResponse>,
+  getAppointment?: Maybe<GetAppointmentResponse>,
   getReminders?: Maybe<RemindersResponse>,
   getTasks?: Maybe<SearchResponse>,
   getAppSpecificPasswords?: Maybe<AppSpecificPasswordsResponse>,
@@ -3087,6 +3109,17 @@ export type QueryGetAppointmentsArgs = {
   limit: Scalars['Int'],
   offset: Scalars['Int'],
   types?: Maybe<SearchType>
+};
+
+
+/** 
+ * Zimbra GraphQL Queries
+ * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
+ * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
+ * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
+ */
+export type QueryGetAppointmentArgs = {
+  id: Scalars['ID']
 };
 
 
@@ -3480,6 +3513,7 @@ export type SaveDocumentInput = {
   version?: Maybe<Scalars['Float']>,
   contentType?: Maybe<Scalars['String']>,
   upload?: Maybe<UploadDocument>,
+  messageData?: Maybe<Array<Maybe<MessagePartForDocument>>>,
   descriptionEnabled?: Maybe<Scalars['Boolean']>,
 };
 
@@ -3513,11 +3547,6 @@ export type SearchFolderInput = {
   id: Scalars['ID'],
   query: Scalars['String'],
   types: FolderView,
-};
-
-export type GetAppointmentResponse = {
-  __typename?: 'GetAppointmentResponse',
-  appointment?: Maybe<Array<Maybe<AppointmentInfo>>>,
 };
 
 export type SearchResponse = {

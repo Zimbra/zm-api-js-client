@@ -2707,6 +2707,11 @@ input uploadDocument {
 	id: ID! #id
 }
 
+input messagePartForDocument {
+	messageId: ID! #id
+	attachmentPart: String! #part
+}
+
 input SaveDocumentInput {
 	id: ID #id
 	folderId: ID #l
@@ -2714,6 +2719,7 @@ input SaveDocumentInput {
 	version: Float  #ver  # Note :same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest
 	contentType: String #ct
 	upload: uploadDocument #upload with a id
+	messageData: [messagePartForDocument] #m
  	descriptionEnabled: Boolean  #descEnabled
 }
 
