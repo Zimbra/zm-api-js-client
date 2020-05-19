@@ -473,7 +473,7 @@ export const Document = new Entity({
 export const MessagePartInputForDocuments = new Entity({
 	id: 'messageId',
 	part: 'attachmentPart'
-})
+});
 
 export const SaveDocument = new Entity({
 	l: 'folderId',

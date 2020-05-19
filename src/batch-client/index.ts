@@ -3,6 +3,7 @@ import castArray from 'lodash/castArray';
 import get from 'lodash/get';
 import isError from 'lodash/isError';
 import mapValues from 'lodash/mapValues';
+import emitter from 'mitt';
 import { denormalize, normalize } from '../normalize';
 import {
 	AccountRights,
@@ -129,7 +130,6 @@ import {
 	GetSMimePublicCertsOptions,
 	LoginOptions,
 	ModifyProfileImageOptions,
-	NotificationHandler,
 	RecoverAccountOptions,
 	RelatedContactsOptions,
 	ResetPasswordOptions,
@@ -193,6 +193,10 @@ function updateAbsoluteFolderPath(
 }
 
 export class ZimbraBatchClient {
+	public notificationsEmitter: any;
+	public notificationsEvents: any = {
+		notify: 'notify'
+	};
 	public origin: string;
 	public sessionId: any;
 	public soapPathname: string;
@@ -200,7 +204,6 @@ export class ZimbraBatchClient {
 	private csrfToken?: string;
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
 	private jwtToken?: string;
-	private notificationHandler?: NotificationHandler;
 	private sessionHandler?: SessionHandler;
 	private userAgent?: {};
 
@@ -214,7 +217,7 @@ export class ZimbraBatchClient {
 				? options.zimbraOrigin
 				: DEFAULT_HOSTNAME;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
-		this.notificationHandler = options.notificationHandler;
+		this.notificationsEmitter = new (emitter as any)();
 
 		// Used for sending batch requests
 		this.batchDataLoader = new DataLoader(this.batchDataHandler, {
@@ -1477,13 +1480,13 @@ export class ZimbraBatchClient {
 
 			this.checkAndUpdateSessionId(sessionId);
 
-			if (notifications && this.notificationHandler) {
-				// as notification handling happens in synchronous way, if the notifications count is really higher (for bulk operations)
-				// the UI would freeze because of the JavaScript execution time. Hence, delayed the notification handling to give some time
-				// for the render to happen in the JavaScript event loop
-				setTimeout(() => {
-					this.notificationHandler && this.notificationHandler(notifications);
-				}, 100);
+			if (notifications && this.notificationsEmitter) {
+				// emit the notifications on the emitter which can be handled by the calling client
+				this.notificationsEmitter &&
+					this.notificationsEmitter.emit(
+						this.notificationsEvents.notify,
+						notifications
+					);
 			}
 
 			return response.requests.map((r, i) => {
@@ -1517,8 +1520,11 @@ export class ZimbraBatchClient {
 
 			this.checkAndUpdateSessionId(sessionId);
 
-			if (notifications && this.notificationHandler) {
-				this.notificationHandler(notifications);
+			if (notifications && this.notificationsEmitter) {
+				this.notificationsEmitter.emit(
+					this.notificationsEvents.notify,
+					notifications
+				);
 			}
 
 			return isError(response) ? [response] : [response.body];
