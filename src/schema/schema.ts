@@ -41,7 +41,6 @@ import { ZimbraSchemaOptions } from './types';
 
 import { ZimbraBatchClient } from '../batch-client';
 import { coerceBooleanToString } from '../utils/coerce-boolean';
-import { ZimbraNotifications } from './notifications';
 
 import { GraphQLSchema } from 'graphql';
 import {
@@ -83,13 +82,9 @@ export function createZimbraSchema(
 	options: ZimbraSchemaOptions
 ): { client: ZimbraBatchClient; schema: GraphQLSchema } {
 	const { cache, getApolloClient, ...clientOptions } = options;
-	const notifications = cache
-		? new ZimbraNotifications({ cache, getApolloClient })
-		: undefined;
 	const sessionHandler = cache ? new SessionHandler({ cache }) : undefined;
 	const client = new ZimbraBatchClient({
 		...clientOptions,
-		notificationHandler: notifications && notifications.notificationHandler,
 		sessionHandler
 	});
 
