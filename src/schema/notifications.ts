@@ -502,7 +502,7 @@ export class ZimbraNotifications {
 					flags: item.flags || item.flag,
 					folderId: item.folderId,
 					emailAddresses: item.emailAddresses,
-					excerpt: item.excerpt,
+					excerpt: item.excerpt || '',
 					__typename: 'NewMail'
 				});
 		});
