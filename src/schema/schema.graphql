@@ -1896,6 +1896,8 @@ input ExistingAttachmentInput {
 
 input DocumentInput {
 	id: ID
+	path: String
+	optional: Int
 }
 
 input AttachmentInput {
