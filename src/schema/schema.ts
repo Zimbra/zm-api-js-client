@@ -12,6 +12,7 @@ import {
 	CreateTagInput,
 	CustomMetadataInput,
 	DeleteAppointmentInput,
+	DeleteIdentityInput,
 	EnableTwoFactorAuthInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
@@ -383,7 +384,8 @@ export function createZimbraSchema(
 					client.createIdentity(variables as CreateIdentityInput),
 				modifyIdentity: (_, variables) =>
 					client.modifyIdentity(variables as ModifyIdentityInput).then(Boolean),
-
+				deleteIdentity: (_, variables) =>
+					client.deleteIdentity(variables as DeleteIdentityInput).then(Boolean),
 				modifyPrefs: (_, { prefs }) =>
 					client.modifyPrefs(prefs as PreferencesInput),
 				modifyProps: (_, { props }) =>
