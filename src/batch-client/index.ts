@@ -62,6 +62,7 @@ import {
 	CreateMountpointInput,
 	CreateTagInput,
 	DeleteAppointmentInput,
+	DeleteIdentityInput,
 	EnableTwoFactorAuthInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
@@ -465,13 +466,13 @@ export class ZimbraBatchClient {
 		}).then(res => normalize(Folder)(res.folder[0]));
 	};
 
-	public createIdentity = ({ name, attrs }: CreateIdentityInput) =>
+	public createIdentity = ({ attrs, ...rest }: CreateIdentityInput) =>
 		this.jsonRequest({
 			name: 'CreateIdentity',
 			namespace: Namespace.Account,
 			body: {
 				identity: {
-					name,
+					...rest,
 					_attrs: mapValues(attrs, coerceBooleanToString)
 				}
 			},
@@ -546,6 +547,16 @@ export class ZimbraBatchClient {
 			name: 'DeleteDataSource',
 			body: {
 				dsrc: { id }
+			},
+			singleRequest: true
+		}).then(Boolean);
+
+	public deleteIdentity = (identity: DeleteIdentityInput) =>
+		this.jsonRequest({
+			name: 'DeleteIdentity',
+			namespace: Namespace.Account,
+			body: {
+				identity
 			},
 			singleRequest: true
 		}).then(Boolean);
@@ -1131,13 +1142,13 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(Boolean);
 
-	public modifyIdentity = ({ id, attrs }: ModifyIdentityInput) =>
+	public modifyIdentity = ({ attrs, ...rest }: ModifyIdentityInput) =>
 		this.jsonRequest({
 			name: 'ModifyIdentity',
 			namespace: Namespace.Account,
 			body: {
 				identity: {
-					id,
+					...rest,
 					_attrs: mapValues(attrs, coerceBooleanToString)
 				}
 			},

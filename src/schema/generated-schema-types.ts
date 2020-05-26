@@ -1128,6 +1128,11 @@ export type DeleteAppointmentInput = {
   message?: Maybe<CalendarItemMessageInput>;
 };
 
+export type DeleteIdentityInput = {
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+};
+
 export type DiscoverRights = {
   __typename?: 'DiscoverRights';
   targets?: Maybe<Array<Maybe<Targets>>>;
@@ -2196,6 +2201,7 @@ export type Mutation = {
   createTask?: Maybe<Scalars['Boolean']>;
   declineCounterAppointment?: Maybe<Scalars['Boolean']>;
   deleteAppointment?: Maybe<Scalars['Boolean']>;
+  deleteIdentity?: Maybe<Scalars['Boolean']>;
   deleteExternalAccount?: Maybe<Scalars['Boolean']>;
   deleteSignature?: Maybe<Scalars['Boolean']>;
   generateScratchCodes?: Maybe<ScratchCodes>;
@@ -2436,6 +2442,12 @@ export type MutationDeclineCounterAppointmentArgs = {
 
 export type MutationDeleteAppointmentArgs = {
   appointment: DeleteAppointmentInput;
+};
+
+
+export type MutationDeleteIdentityArgs = {
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
 };
 
 

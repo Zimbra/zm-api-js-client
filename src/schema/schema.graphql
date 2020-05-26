@@ -2296,6 +2296,11 @@ input ModifyIdentityInput {
 	attrs: IdentityAttrsInput
 }
 
+input DeleteIdentityInput {
+	id: ID!
+	name: String
+}
+
 input CreateIdentityInput {
 	name: String!
 	attrs: IdentityAttrsInput
@@ -3051,6 +3056,7 @@ type Mutation {
 		counterAppointmentInvite: CounterAppointmentInput!
 	): Boolean
 	deleteAppointment(appointment: DeleteAppointmentInput!): Boolean
+	deleteIdentity(id: ID!, name: String): Boolean
 	deleteExternalAccount(id: ID!): Boolean
 	deleteSignature(signature: NameIdInput!): Boolean
 	generateScratchCodes(username: String!): ScratchCodes
