@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 import get from 'lodash/get';
 import omitBy from 'lodash/omitBy';
 import uniqBy from 'lodash/uniqBy';
+import events from 'mitt';
 import { ZimbraInMemoryCache } from '../apollo/zimbra-in-memory-cache';
 import { Notification } from '../batch-client/types';
 import { normalize } from '../normalize';
@@ -36,6 +37,10 @@ const writeNewMailQuery = gql`
 	}
 `;
 
+const EVENT_EMMITER = {
+	appt: 'notify-appointments'
+};
+
 function itemsForKey(notification: any, key: string) {
 	const modifiedItems = get(notification, `modified.${key}`, []);
 	const createdItems = get(notification, `created.${key}`, []);
@@ -45,17 +50,19 @@ function itemsForKey(notification: any, key: string) {
 function findDataId(
 	client: ZimbraInMemoryCache,
 	partialDataId: string = '$ROOT_QUERY',
-	predicate: (d: string) => any
+	predicate: (d: string) => any,
+	returnFirstResult: Boolean = true
 ) {
 	const data =
 		client && get(client, 'cache.data.data', get(client, 'data.data'));
 	if (!data) {
 		return;
 	}
-	return Object.keys(data).filter(
-		(dataId: string) =>
-			dataId.indexOf(partialDataId) !== -1 && predicate(dataId)
-	)[0];
+	const results = Object.keys(data).filter((dataId: string) => {
+		return dataId.indexOf(partialDataId) !== -1 && predicate(dataId);
+	});
+
+	return returnFirstResult ? results[0] : results;
 }
 
 function addNewItemToList(itemList: any, item: any, sortBy: any) {
@@ -99,22 +106,34 @@ function generateFragmentName(name: string, id: string = '') {
 }
 
 export class ZimbraNotifications {
+	public notifier: any;
 	private cache: ZimbraInMemoryCache;
 	private getApolloClient: Function;
 
 	constructor(options: ZimbraNotificationsOptions) {
 		this.cache = options.cache;
 		this.getApolloClient = options.getApolloClient;
+
+		this.notifier = new (events as any)();
 	}
 
 	public notificationHandler = (notification: Notification) => {
 		console.log('[Cache] Handling Notification', notification);
+		// Update through cache and broadcast changes
 		this.handleMailboxNotifications(notification);
 		this.handleFolderNotifications(notification);
 		this.handleConversationNotifications(notification);
 		this.handleMessageNotifications(notification);
 		this.handleContactNotifications(notification);
 		this.handleTagsNotifications(notification);
+
+		// Broadcast changes after updating cache
+		setTimeout(() => {
+			console.log('Broadcast');
+			this.broadcastCacheUpdates();
+		}, 500);
+
+		this.handleAppointmentNotifications(notification);
 	};
 
 	/**
@@ -148,13 +167,9 @@ export class ZimbraNotifications {
 			// Otherwise, the latest values of the variables would be used, which can have been updated by the loop iterations that executed
 			// after the timeout was set and before it was executed.
 			setTimeout(
-				((i, ITERATIONS, batch) => () => {
+				(batch => () => {
 					processorFn(batch);
-					// broadcast updates in the last iteration
-					if (i === ITERATIONS - 1) {
-						this.broadcastCacheUpdates();
-					}
-				})(i, ITERATIONS, batch),
+				})(batch),
 				TIMEOUT
 			);
 		}
@@ -181,6 +196,11 @@ export class ZimbraNotifications {
 				return folder.id;
 			}
 		}
+	};
+
+	private handleAppointmentNotifications = (notification: Notification) => {
+		const items = itemsForKey(notification, 'appt');
+		this.notifier.emit(EVENT_EMMITER['appt'], items);
 	};
 
 	private handleContactNotifications = (notification: Notification) => {
@@ -250,7 +270,7 @@ export class ZimbraNotifications {
 
 			const queryRegex = new RegExp(query);
 
-			const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId => {
+			const id: any = findDataId(this.cache, '$ROOT_QUERY.search', dataId => {
 				// check if query does not contain NOT #type:group but contains #type:group
 				if (
 					query.indexOf(notTypeGroup) === -1 &&
@@ -321,7 +341,7 @@ export class ZimbraNotifications {
 		Object.keys(searchResponse).forEach(query => {
 			const queryRegex = new RegExp(query);
 
-			const id = findDataId(this.cache, '$ROOT_QUERY.search', dataId => {
+			const id: any = findDataId(this.cache, '$ROOT_QUERY.search', dataId => {
 				// check if query does not contain NOT #type:group but contains #type:group
 				if (
 					query.indexOf(notTypeGroup) === -1 &&
@@ -410,7 +430,7 @@ export class ZimbraNotifications {
 
 		if (Object.keys(mbxItems).length) {
 			const accInfoRegExp = /^AccountInfo/;
-			const id = findDataId(this.cache, 'AccountInfo', dataId =>
+			const id: any = findDataId(this.cache, 'AccountInfo', dataId =>
 				accInfoRegExp.test(dataId)
 			);
 
