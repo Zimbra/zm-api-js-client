@@ -18,6 +18,7 @@ export interface BaseRequestOptions {
 	accountName?: string | null;
 	credentials?: RequestCredentials;
 	csrfToken?: string | null;
+	fetchOptions?: any;
 	headers?: any;
 	jwtToken?: string | null;
 	origin?: string;
