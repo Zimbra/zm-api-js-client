@@ -2818,6 +2818,11 @@ export type NewMountpointSpec = {
   parentFolderId?: Maybe<Scalars['ID']>;
 };
 
+export type NoOpResponse = {
+  __typename?: 'NoOpResponse';
+  waitDisallowed?: Maybe<Scalars['Boolean']>;
+};
+
 export type NotifyAction = {
   __typename?: 'NotifyAction';
   address?: Maybe<Scalars['String']>;
@@ -3087,7 +3092,7 @@ export type Query = {
   getDeviceStatus?: Maybe<Array<Maybe<Device>>>;
   getWhiteBlackList?: Maybe<WhiteBlackList>;
   getWorkingHours?: Maybe<Array<Maybe<WorkingHours>>>;
-  noop?: Maybe<Scalars['Boolean']>;
+  noop?: Maybe<NoOpResponse>;
   getPreferences?: Maybe<Preferences>;
   getDataSources: DataSources;
   getIdentities?: Maybe<Identities>;
@@ -3269,6 +3274,12 @@ export type QueryGetWorkingHoursArgs = {
   names: Array<Scalars['String']>;
   start?: Maybe<Scalars['Float']>;
   end?: Maybe<Scalars['Float']>;
+};
+
+
+export type QueryNoopArgs = {
+  wait?: Maybe<Scalars['Int']>;
+  limitToOneBlocked?: Maybe<Scalars['Int']>;
 };
 
 

@@ -3,7 +3,6 @@ import castArray from 'lodash/castArray';
 import get from 'lodash/get';
 import isError from 'lodash/isError';
 import mapValues from 'lodash/mapValues';
-import emitter from 'mitt';
 import { denormalize, normalize } from '../normalize';
 import {
 	AccountRights,
@@ -132,6 +131,7 @@ import {
 	GetSMimePublicCertsOptions,
 	LoginOptions,
 	ModifyProfileImageOptions,
+	NoOpOptions,
 	RecoverAccountOptions,
 	RelatedContactsOptions,
 	ResetPasswordOptions,
@@ -144,6 +144,8 @@ import {
 	WorkingHoursOptions,
 	ZimbraClientOptions
 } from './types';
+
+import { Notifier } from './notifier';
 
 const DEBUG = false;
 
@@ -223,10 +225,7 @@ function convertStringAndArrayValues(value: any) {
 }
 
 export class ZimbraBatchClient {
-	public notificationsEmitter: any;
-	public notificationsEvents: any = {
-		notify: 'notify'
-	};
+	public notifier: Notifier;
 	public origin: string;
 	public sessionId: any;
 	public soapPathname: string;
@@ -247,7 +246,8 @@ export class ZimbraBatchClient {
 				? options.zimbraOrigin
 				: DEFAULT_HOSTNAME;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
-		this.notificationsEmitter = new (emitter as any)();
+
+		this.notifier = new Notifier();
 
 		// Used for sending batch requests
 		this.batchDataLoader = new DataLoader(this.batchDataHandler, {
@@ -672,7 +672,9 @@ export class ZimbraBatchClient {
 		}).then(Boolean);
 
 	public downloadAttachment = ({ id, part }: any) =>
-		this.download({ url:`/service/home/~/?auth=co&id=${id}&part=${part}` }).then(({ content }: any) => ({
+		this.download({
+			url: `/service/home/~/?auth=co&id=${id}&part=${part}`
+		}).then(({ content }: any) => ({
 			id: `${id}_${part}`,
 			content
 		}));
@@ -684,10 +686,12 @@ export class ZimbraBatchClient {
 		}));
 
 	public downloadMessage = ({ id, isSecure }: any) =>
-		this.download({ isSecure , url:`/service/home/~/?auth=co&id=${id}` }).then(({ content }: any) => ({
-			id,
-			content
-		}));
+		this.download({ isSecure, url: `/service/home/~/?auth=co&id=${id}` }).then(
+			({ content }: any) => ({
+				id,
+				content
+			})
+		);
 
 	public enableTwoFactorAuth = ({
 		name,
@@ -1357,7 +1361,16 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		});
 
-	public noop = () => this.jsonRequest({ name: 'NoOp' }).then(Boolean);
+	public noop = ({ wait, limitToOneBlocked }: NoOpOptions, fetchOptions: any) =>
+		this.jsonRequest({
+			name: 'NoOp',
+			body: {
+				wait,
+				limitToOneBlocked
+			},
+			singleRequest: true,
+			fetchOptions
+		}).then(resp => resp);
 
 	public recoverAccount = ({ channel, email, op }: RecoverAccountOptions) =>
 		this.jsonRequest({
@@ -1655,13 +1668,8 @@ export class ZimbraBatchClient {
 
 			this.checkAndUpdateSessionId(sessionId);
 
-			if (notifications && this.notificationsEmitter) {
-				// emit the notifications on the emitter which can be handled by the calling client
-				this.notificationsEmitter &&
-					this.notificationsEmitter.emit(
-						this.notificationsEvents.notify,
-						notifications
-					);
+			if (notifications && this.notifier) {
+				this.notifier.handleNotifications(notifications);
 			}
 
 			return response.requests.map((r, i) => {
@@ -1695,29 +1703,23 @@ export class ZimbraBatchClient {
 
 			this.checkAndUpdateSessionId(sessionId);
 
-			if (notifications && this.notificationsEmitter) {
-				this.notificationsEmitter.emit(
-					this.notificationsEvents.notify,
-					notifications
-				);
+			if (notifications && this.notifier) {
+				this.notifier.handleNotifications(notifications);
 			}
 
 			return isError(response) ? [response] : [response.body];
 		});
 
-	private download = ({ isSecure , url}: any) =>
-		fetch(
-			`${this.origin}${url}`,
-			{
-				headers: {
-					...(isSecure && { 'X-Zimbra-Encoding': 'x-base64' }),
-					...(this.csrfToken && {
-						'X-Zimbra-Csrf-Token': this.csrfToken
-					})
-				},
-				credentials: 'include'
-			}
-		).then(response => {
+	private download = ({ isSecure, url }: any) =>
+		fetch(`${this.origin}${url}`, {
+			headers: {
+				...(isSecure && { 'X-Zimbra-Encoding': 'x-base64' }),
+				...(this.csrfToken && {
+					'X-Zimbra-Csrf-Token': this.csrfToken
+				})
+			},
+			credentials: 'include'
+		}).then(response => {
 			if (response.ok) {
 				return response.text().then(content => {
 					if (!content) {
@@ -1743,7 +1745,10 @@ export class ZimbraBatchClient {
 			this.sessionId ||
 			(this.sessionHandler && this.sessionHandler.readSessionId()),
 		origin: this.origin,
-		userAgent: this.userAgent
+		userAgent: this.userAgent,
+		...(this.notifier.getSequenceNumber() && {
+			sessionSeq: this.notifier.getSequenceNumber()
+		})
 	});
 
 	private normalizeMessage = (message: any) =>
