@@ -67,6 +67,7 @@ import {
 	GetSMimePublicCertsOptions,
 	LoginOptions,
 	ModifyProfileImageOptions,
+	NoOpOptions,
 	RecoverAccountOptions,
 	RelatedContactsOptions,
 	ResetPasswordOptions,
@@ -104,8 +105,7 @@ export function createZimbraSchema(
 				discoverRights: client.discoverRights,
 				downloadAttachment: (_, variables) =>
 					client.downloadAttachment(variables),
-				downloadDocument: (_, variables) =>
-					client.downloadDocument(variables),
+				downloadDocument: (_, variables) => client.downloadDocument(variables),
 				downloadMessage: (_, variables, context = {}) => {
 					const { local } = context;
 
@@ -179,7 +179,8 @@ export function createZimbraSchema(
 				getDataSources: client.getDataSources,
 				getIdentities: client.getIdentities,
 				getSignatures: client.getSignatures,
-				noop: client.noop,
+				noop: (_, variables, context = {}) =>
+					client.noop(variables as NoOpOptions, context.fetchOptions),
 				recoverAccount: (_, variables) =>
 					client.recoverAccount(variables as RecoverAccountOptions),
 				relatedContacts: (_, variables) =>

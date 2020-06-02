@@ -2164,6 +2164,11 @@ export type MimePartInput = {
   attachments?: Maybe<Array<Maybe<AttachmentInput>>>;
 };
 
+export enum Mode {
+  Text = 'text',
+  Html = 'html'
+}
+
 export type ModifyAppointmentResponse = {
   __typename?: 'ModifyAppointmentResponse';
   appointmentId?: Maybe<Scalars['ID']>;
@@ -2190,11 +2195,6 @@ export type ModifyZimletPrefsResponse = {
   __typename?: 'ModifyZimletPrefsResponse';
   zimlet?: Maybe<Array<Maybe<ZimletPref>>>;
 };
-
-export enum Mode {
-  Text = 'text',
-  Html = 'html'
-}
 
 export type MsgWithGroupInfo = MailItem & {
   __typename?: 'MsgWithGroupInfo';
@@ -2791,6 +2791,11 @@ export type NewMountpointSpec = {
   parentFolderId?: Maybe<Scalars['ID']>;
 };
 
+export type NoOpResponse = {
+  __typename?: 'NoOpResponse';
+  waitDisallowed?: Maybe<Scalars['Boolean']>;
+};
+
 export type NotifyAction = {
   __typename?: 'NotifyAction';
   address?: Maybe<Scalars['String']>;
@@ -3065,7 +3070,7 @@ export type Query = {
   getTrustedDevices?: Maybe<GetTrustedDevicesResponse>;
   getWhiteBlackList?: Maybe<WhiteBlackList>;
   getWorkingHours?: Maybe<Array<Maybe<WorkingHours>>>;
-  noop?: Maybe<Scalars['Boolean']>;
+  noop?: Maybe<NoOpResponse>;
   getPreferences?: Maybe<Preferences>;
   getDataSources: DataSources;
   getIdentities?: Maybe<Identities>;
@@ -3390,6 +3395,18 @@ export type QueryGetWorkingHoursArgs = {
   names: Array<Scalars['String']>;
   start?: Maybe<Scalars['Float']>;
   end?: Maybe<Scalars['Float']>;
+};
+
+
+/**
+ * Zimbra GraphQL Queries
+ * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
+ * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
+ * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
+ */
+export type QueryNoopArgs = {
+  wait?: Maybe<Scalars['Int']>;
+  limitToOneBlocked?: Maybe<Scalars['Int']>;
 };
 
 
