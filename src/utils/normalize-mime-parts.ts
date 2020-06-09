@@ -92,7 +92,7 @@ export function normalizeMimeParts(
 			let isBody = false,
 				type = normalizeType(part.contentType),
 				disposition = normalizeDisposition(part.contentDisposition),
-				content = part.content; //getPartContent(part);
+				content = part.content || ''; //getPartContent(part);
 
 			// obey scapi's isBody flag:
 			if (isBody) acc.body = content;
