@@ -1297,11 +1297,12 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(Boolean);
 
-	public saveDraft = (options: SendMessageInput) =>
+	public saveDraft = (message: SendMessageInput, accountName: string) =>
 		this.jsonRequest({
 			name: 'SaveDraft',
-			body: denormalize(SendMessageInfo)(options),
-			singleRequest: true
+			body: denormalize(SendMessageInfo)({ message }),
+			singleRequest: true,
+			accountName
 		}).then(({ m: messages }) => ({
 			message: messages && messages.map(this.normalizeMessage)
 		}));
@@ -1348,11 +1349,12 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(res => normalize(CalendarItemHitInfo)(res));
 
-	public sendMessage = (body: SendMessageInput) =>
+	public sendMessage = (message: SendMessageInput, accountName: string) =>
 		this.jsonRequest({
 			name: 'SendMsg',
-			body: denormalize(SendMessageInfo)(body),
-			singleRequest: true
+			body: denormalize(SendMessageInfo)({ message }),
+			singleRequest: true,
+			accountName: accountName
 		}).then(normalize(SendMessageInfo));
 
 	public sendShareNotification = (body: ShareNotificationInput) =>

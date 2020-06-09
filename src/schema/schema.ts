@@ -400,10 +400,13 @@ export function createZimbraSchema(
 					client.modifySearchFolder(variables as SearchFolderInput),
 				deleteSignature: (_, variables) =>
 					client.deleteSignature(variables as NameIdInput),
-				saveDraft: (_, variables) =>
-					client.saveDraft(variables as SendMessageInput),
-				sendMessage: (_, variables) =>
-					client.sendMessage(variables as SendMessageInput),
+				saveDraft: (_, { message, accountName }) =>
+					client.saveDraft(message as SendMessageInput, accountName as string),
+				sendMessage: (_, { message, accountName }) =>
+					client.sendMessage(
+						message as SendMessageInput,
+						accountName as string
+					),
 				sendDeliveryReport: (_, { messageId }) =>
 					client.sendDeliveryReport(messageId),
 				uploadMessage: (_, { value }) => client.uploadMessage(value),

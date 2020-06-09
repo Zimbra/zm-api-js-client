@@ -1322,11 +1322,11 @@ type Preferences {
 	zimbraPrefCalendarWorkingHours: String
 	zimbraPrefCalendarApptReminderWarningTime: Int
 	zimbraPrefCalendarShowPastDueReminders: Boolean
-	zimbraPrefCalendarToasterEnabled: Boolean,
+	zimbraPrefCalendarToasterEnabled: Boolean
 	zimbraPrefComposeDirection: String
-	zimbraPrefHtmlEditorDefaultFontColor: String,
-	zimbraPrefHtmlEditorDefaultFontFamily: String,
-	zimbraPrefHtmlEditorDefaultFontSize: String,
+	zimbraPrefHtmlEditorDefaultFontColor: String
+	zimbraPrefHtmlEditorDefaultFontFamily: String
+	zimbraPrefHtmlEditorDefaultFontSize: String
 	zimbraPrefMailToasterEnabled: Boolean
 	zimbraPrefShowAllNewMailNotifications: Boolean
 	zimbraPrefDefaultCalendarId: ID
@@ -1387,7 +1387,7 @@ type Document {
 	name: String #name
 	version: Float #same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest
 	contentType: String #ct
- 	descriptionEnabled: Boolean #descEnabled
+	descriptionEnabled: Boolean #descEnabled
 	date: Float #l
 	changeDate: Float #md
 	modifiedSequence: Float #ms
@@ -1404,7 +1404,6 @@ type Document {
 	revisedCreationDate: Float #cd
 	lockOwnerId: ID #loid
 }
-
 
 type SearchResponse {
 	contacts: [Contact]
@@ -1704,7 +1703,6 @@ input CustomMetadataInput {
 	section: String
 	attrs: [CustomMetadataAttrsInput]
 }
-
 
 input EmailAddressInput {
 	email: String!
@@ -2247,11 +2245,11 @@ input PreferencesInput {
 	zimbraPrefCalendarWorkingHours: String
 	zimbraPrefCalendarApptReminderWarningTime: Int
 	zimbraPrefCalendarShowPastDueReminders: Boolean
-	zimbraPrefCalendarToasterEnabled: Boolean,
-	zimbraPrefComposeDirection: String,
-	zimbraPrefHtmlEditorDefaultFontColor: String,
-	zimbraPrefHtmlEditorDefaultFontFamily: String,
-	zimbraPrefHtmlEditorDefaultFontSize: String,
+	zimbraPrefCalendarToasterEnabled: Boolean
+	zimbraPrefComposeDirection: String
+	zimbraPrefHtmlEditorDefaultFontColor: String
+	zimbraPrefHtmlEditorDefaultFontFamily: String
+	zimbraPrefHtmlEditorDefaultFontSize: String
 	zimbraPrefMailToasterEnabled: Boolean
 	zimbraPrefShowAllNewMailNotifications: Boolean
 	zimbraPrefDelegatedSendSaveTarget: PrefDelegatedSendSaveTarget
@@ -2509,7 +2507,6 @@ input ForwardMessageInput {
 	emailAddresses: [MailItemEmailAddressInput] #e
 }
 
-
 input ShareNotificationInput {
 	action: ShareInputAction
 	item: ShareNotificationItemInput!
@@ -2685,7 +2682,6 @@ input AddMsgInput {
 	meta: String
 }
 
-
 input SaveMessageDataInput {
 	id: ID!
 	content: String!
@@ -2716,11 +2712,11 @@ input SaveDocumentInput {
 	id: ID #id
 	folderId: ID #l
 	name: String #name
-	version: Float  #ver  # Note :same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest
+	version: Float #ver  # Note :same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest
 	contentType: String #ct
 	upload: uploadDocument #upload with a id
 	messageData: [messagePartForDocument] #m
- 	descriptionEnabled: Boolean  #descEnabled
+	descriptionEnabled: Boolean #descEnabled
 }
 
 ##### SMIME Certificates type #####
@@ -2810,7 +2806,6 @@ type CreateAppSpecificPasswordResponse {
 	password: String
 }
 
-
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2849,9 +2844,7 @@ type Query {
 		offset: Int!
 		types: SearchType
 	): SearchResponse
-	getAppointment(
-		id: ID!
-	): GetAppointmentResponse
+	getAppointment(id: ID!): GetAppointmentResponse
 	getReminders(
 		calExpandInstStart: Float!
 		calExpandInstEnd: Float!
@@ -2891,10 +2884,7 @@ type Query {
 		traverseMountpoints: Boolean
 		folder: GetFolderFolderInput
 	): Folder
-	getCustomMetadata(
-		id: ID!
-		section: String
-	): CustomMetadata
+	getCustomMetadata(id: ID!, section: String): CustomMetadata
 	getMailboxMetadata(section: String): MailboxMetadata
 	getMessage(
 		id: ID!
@@ -3112,8 +3102,11 @@ type Mutation {
 	revokeOtherTrustedDevices: Boolean
 	revokeRights(input: RevokeRightsInput!): RightsResponse
 	revokeTrustedDevice: Boolean
-	saveDraft(message: SendMessageInput!): SaveDraftResponse
-	sendMessage(message: SendMessageInput!): SendMessageResponse
+	saveDraft(message: SendMessageInput!, accountName: String): SaveDraftResponse
+	sendMessage(
+		message: SendMessageInput!
+		accountName: String
+	): SendMessageResponse
 	sendDeliveryReport(messageId: ID!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
