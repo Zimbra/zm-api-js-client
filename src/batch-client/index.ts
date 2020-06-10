@@ -192,6 +192,33 @@ function updateAbsoluteFolderPath(
 		return folder;
 	});
 }
+/**
+ * Return an empty string in case it's empty array or null value, else return an Array.
+ *
+ * Server accepts '' and [] considering following scenarios.
+ * 1. 'Single email / folder id' for single item. - Legacy follow this.
+ * 2. Array [email, ...] for 1 or more items.
+ * 3. '' to set value to empty. (Refer following cases)
+ *
+ * > [] - No changes to reflect on server.
+ * > '' - Set value to empty for given field.
+ *
+ * So, while submitting data to server, we consider 1st and 2nd case as 1st case only (due to
+ * graphQL's single data type limitation). and 3rd case as it is.
+ *
+ * While retrieving data from Server, it returns,
+ * 1. String for single item
+ * 2. Array for multiple items
+ * 3. '' for empty value
+ * So, We convert such item values to array.
+ *
+ * @param value An Array or empty String
+ * @returns Non-empty Array or empty String
+ */
+function convertStringAndArrayValues(value: any) {
+	const result = [].concat(value).filter(Boolean);
+	return result.length ? result : '';
+}
 
 export class ZimbraBatchClient {
 	public notificationsEmitter: any;
@@ -473,11 +500,51 @@ export class ZimbraBatchClient {
 			body: {
 				identity: {
 					...rest,
-					_attrs: mapValues(attrs, coerceBooleanToString)
+					_attrs: {
+						...mapValues(attrs, coerceBooleanToString),
+						zimbraPrefWhenSentToAddresses: convertStringAndArrayValues(
+							get(attrs, 'zimbraPrefWhenSentToAddresses')
+						),
+						zimbraPrefWhenInFolderIds: convertStringAndArrayValues(
+							get(attrs, 'zimbraPrefWhenInFolderIds')
+						)
+					}
 				}
 			},
 			singleRequest: true
-		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
+		}).then(res => {
+			const mappedResult = mapValuesDeep(res, coerceStringToBoolean);
+			const {
+				_attrs: {
+					zimbraPrefWhenSentToAddresses,
+					zimbraPrefWhenInFolderIds,
+					...restAttr
+				},
+				...restIdentityProps
+			} = get(mappedResult, 'identity.0');
+
+			return {
+				...mappedResult,
+				identity: [
+					{
+						...restIdentityProps,
+						_attrs: {
+							...restAttr,
+							...(zimbraPrefWhenSentToAddresses && {
+								zimbraPrefWhenSentToAddresses: []
+									.concat(zimbraPrefWhenSentToAddresses)
+									.filter(Boolean)
+							}),
+							...(zimbraPrefWhenInFolderIds && {
+								zimbraPrefWhenInFolderIds: []
+									.concat(zimbraPrefWhenInFolderIds)
+									.filter(Boolean)
+							})
+						}
+					}
+				]
+			};
+		});
 
 	public createMountpoint = (_options: CreateMountpointInput) =>
 		this.jsonRequest({
@@ -841,7 +908,39 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetIdentities',
 			namespace: Namespace.Account
-		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
+		}).then(({ identity, ...restResult }: any) => {
+			const updatedIdentity: any = identity.map(
+				({
+					_attrs: {
+						zimbraPrefWhenInFolderIds,
+						zimbraPrefWhenSentToAddresses,
+						...restAttrs
+					},
+					...restIdentity
+				}: any) => ({
+					...restIdentity,
+					_attrs: {
+						...restAttrs,
+						// Doesn't required to be converted using `convertStringAndArrayValues` as
+						// graphQL expects it to be an array
+						zimbraPrefWhenInFolderIds: []
+							.concat(zimbraPrefWhenInFolderIds)
+							.filter(Boolean),
+						zimbraPrefWhenSentToAddresses: []
+							.concat(zimbraPrefWhenSentToAddresses)
+							.filter(Boolean)
+					}
+				})
+			);
+
+			return mapValuesDeep(
+				{
+					...restResult,
+					identity: updatedIdentity
+				},
+				coerceStringToBoolean
+			);
+		});
 
 	public getMailboxMetadata = ({ section }: GetMailboxMetadataOptions) =>
 		this.jsonRequest({
@@ -1150,7 +1249,15 @@ export class ZimbraBatchClient {
 			body: {
 				identity: {
 					...rest,
-					_attrs: mapValues(attrs, coerceBooleanToString)
+					_attrs: {
+						...mapValues(attrs, coerceBooleanToString),
+						zimbraPrefWhenSentToAddresses: convertStringAndArrayValues(
+							get(attrs, 'zimbraPrefWhenSentToAddresses')
+						),
+						zimbraPrefWhenInFolderIds: convertStringAndArrayValues(
+							get(attrs, 'zimbraPrefWhenInFolderIds')
+						)
+					}
 				}
 			},
 			singleRequest: true

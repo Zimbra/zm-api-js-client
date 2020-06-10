@@ -1312,6 +1312,10 @@ type IdentityAttrs {
 	zimbraPrefReplyToDisplay: String
 	zimbraPrefReplyToEnabled: Boolean
 	zimbraPrefSentMailFolder: String
+	zimbraPrefWhenInFolderIds: [String]
+	zimbraPrefWhenInFoldersEnabled: Boolean
+	zimbraPrefWhenSentToAddresses: [String]
+	zimbraPrefWhenSentToEnabled: Boolean
 }
 
 type Preferences {
@@ -2546,6 +2550,10 @@ input IdentityAttrsInput {
 	zimbraPrefReplyToDisplay: String
 	zimbraPrefReplyToEnabled: Boolean
 	zimbraPrefSentMailFolder: String
+	zimbraPrefWhenInFolderIds: [String]
+	zimbraPrefWhenInFoldersEnabled: Boolean
+	zimbraPrefWhenSentToAddresses: [String]
+	zimbraPrefWhenSentToEnabled: Boolean
 }
 
 input ExternalAccountAddInput {
