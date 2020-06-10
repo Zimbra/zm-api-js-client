@@ -801,7 +801,8 @@ export class ZimbraBatchClient {
 					if (
 						!folder.view ||
 						folder.view === FolderView.Message ||
-						folder.view === FolderView.Contact
+						folder.view === FolderView.Contact ||
+						folder.view === FolderView.Document
 					) {
 						const {
 							absFolderPath,
