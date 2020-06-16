@@ -1420,6 +1420,41 @@ type SearchResponse {
 	hit: [Hit]
 }
 
+type CalResourceAttributes {
+	description: String
+	email: String
+	fullName: String
+	zimbraCalResLocationDisplayName: String
+	zimbraCalResSite: String
+	zimbraCalResBuilding: String
+	zimbraCalResFloor: String
+	zimbraCalResRoom: String
+	zimbraCalResCapacity: String
+	zimbraCalResType: String
+	zimbraCalResContactEmail: String
+	zimbraCalResContactPhone: String
+	zimbraCalResContactName: String
+	street: String
+	city: String #l
+	state: String #st
+	country: String #co
+	postalCode: String
+}
+
+type CalResource {
+	id: ID!
+	name: String
+	_attrs: CalResourceAttributes
+}
+
+type SearchCalendarResourcesResponse {
+	calresource: [CalResource]
+	more: Boolean
+	offset: Int
+	sortBy: String
+	paginationSupported: Boolean
+}
+
 type RemindersResponse {
 	tasks: [ReminderItemHitInfo]
 	appointments: [ReminderItemHitInfo]
@@ -1465,6 +1500,7 @@ type Contact {
 	attributes: ContactAttributes
 	members: [ContactListMember]
 }
+
 
 type OtherContactAttribute {
 	key: String
@@ -2814,6 +2850,22 @@ type CreateAppSpecificPasswordResponse {
 	password: String
 }
 
+input ConditionInput {
+	attr: String
+	op: String
+	value: String
+}
+
+input ConditionsInput {
+	cond: [ConditionInput]
+}
+
+input SearchConditionsInput {
+	conds: ConditionsInput
+}
+
+
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -2954,6 +3006,14 @@ type Query {
 		resultMode: String,
 		inDumpster: Boolean
 	): SearchResponse
+
+	searchCalendarResources(
+		limit: Int
+		needExp: Boolean
+		offset: Int
+		attrs: String
+		searchFilter: SearchConditionsInput
+	): SearchCalendarResourcesResponse
 
 	searchGal(
 		needIsOwner: Boolean
