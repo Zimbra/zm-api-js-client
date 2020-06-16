@@ -1357,6 +1357,7 @@ type Preferences {
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
+	zimbraPrefBriefcaseReadingPaneLocation: ReadingPaneLocation
 	zimbraPrefPasswordRecoveryAddress: String
 	zimbraPrefPasswordRecoveryAddressStatus: PasswordRecoveryAddressStatus
 	zimbraPrefSaveToSent: Boolean
@@ -2316,6 +2317,7 @@ input PreferencesInput {
 	zimbraPrefOutOfOfficeUntilDate: String
 	zimbraPrefReadingPaneEnabled: Boolean
 	zimbraPrefReadingPaneLocation: ReadingPaneLocation
+	zimbraPrefBriefcaseReadingPaneLocation: ReadingPaneLocation
 	zimbraPrefSaveToSent: Boolean
 	zimbraPrefShowFragments: Boolean
 	zimbraPrefSlackCalendarReminderEnabled: Boolean
@@ -2898,6 +2900,7 @@ type Query {
 	clientInfo(domain: String!): ClientInfoType
 	downloadMessage(id: ID!, isSecure: Boolean): SMimeMessage
 	downloadAttachment(id: ID!, part: ID!): Attachment
+	downloadDocument(id: ID!, url: String!): Attachment
 	discoverRights: DiscoverRights
 	freeBusy(names: [String!]!, start: Float, end: Float): [FreeBusy]
 	getContact(

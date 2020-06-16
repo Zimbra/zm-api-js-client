@@ -672,13 +672,19 @@ export class ZimbraBatchClient {
 		}).then(Boolean);
 
 	public downloadAttachment = ({ id, part }: any) =>
-		this.download({ id, part }).then(({ id, part, content }: any) => ({
+		this.download({ url:`/service/home/~/?auth=co&id=${id}&part=${part}` }).then(({ content }: any) => ({
 			id: `${id}_${part}`,
 			content
 		}));
 
+	public downloadDocument = ({ id, url }: any) =>
+		this.download({ url }).then(({ content }: any) => ({
+			id: id,
+			content
+		}));
+
 	public downloadMessage = ({ id, isSecure }: any) =>
-		this.download({ id, isSecure }).then(({ id, content }: any) => ({
+		this.download({ isSecure , url:`/service/home/~/?auth=co&id=${id}` }).then(({ content }: any) => ({
 			id,
 			content
 		}));
@@ -1660,11 +1666,9 @@ export class ZimbraBatchClient {
 			return isError(response) ? [response] : [response.body];
 		});
 
-	private download = ({ id, part, isSecure }: any) =>
+	private download = ({ isSecure , url}: any) =>
 		fetch(
-			`${this.origin}/service/home/~/?auth=co&id=${id}${
-				part ? `&part=${part}` : ''
-			}`,
+			`${this.origin}${url}`,
 			{
 				headers: {
 					...(isSecure && { 'X-Zimbra-Encoding': 'x-base64' }),
@@ -1682,14 +1686,12 @@ export class ZimbraBatchClient {
 					}
 
 					return {
-						id,
-						part,
 						content
 					};
 				});
 			}
 		});
-
+	
 	/**
 	 * These options are included on every request.
 	 */

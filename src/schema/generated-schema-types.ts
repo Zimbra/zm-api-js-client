@@ -2907,6 +2907,7 @@ export type Preferences = {
   zimbraPrefOutOfOfficeUntilDate?: Maybe<Scalars['String']>;
   zimbraPrefReadingPaneEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefReadingPaneLocation?: Maybe<ReadingPaneLocation>;
+  zimbraPrefBriefcaseReadingPaneLocation?: Maybe<ReadingPaneLocation>;
   zimbraPrefPasswordRecoveryAddress?: Maybe<Scalars['String']>;
   zimbraPrefPasswordRecoveryAddressStatus?: Maybe<PasswordRecoveryAddressStatus>;
   zimbraPrefSaveToSent?: Maybe<Scalars['Boolean']>;
@@ -2961,6 +2962,7 @@ export type PreferencesInput = {
   zimbraPrefOutOfOfficeUntilDate?: Maybe<Scalars['String']>;
   zimbraPrefReadingPaneEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefReadingPaneLocation?: Maybe<ReadingPaneLocation>;
+  zimbraPrefBriefcaseReadingPaneLocation?: Maybe<ReadingPaneLocation>;
   zimbraPrefSaveToSent?: Maybe<Scalars['Boolean']>;
   zimbraPrefShowFragments?: Maybe<Scalars['Boolean']>;
   zimbraPrefSlackCalendarReminderEnabled?: Maybe<Scalars['Boolean']>;
@@ -3026,6 +3028,7 @@ export type Query = {
   clientInfo?: Maybe<ClientInfoType>;
   downloadMessage?: Maybe<SMimeMessage>;
   downloadAttachment?: Maybe<Attachment>;
+  downloadDocument?: Maybe<Attachment>;
   discoverRights?: Maybe<DiscoverRights>;
   freeBusy?: Maybe<Array<Maybe<FreeBusy>>>;
   getContact?: Maybe<Array<Maybe<Contact>>>;
@@ -3132,6 +3135,18 @@ export type QueryDownloadMessageArgs = {
 export type QueryDownloadAttachmentArgs = {
   id: Scalars['ID'];
   part: Scalars['ID'];
+};
+
+
+/**
+ * Zimbra GraphQL Queries
+ * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
+ * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
+ * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
+ */
+export type QueryDownloadDocumentArgs = {
+  id: Scalars['ID'];
+  url: Scalars['String'];
 };
 
 
