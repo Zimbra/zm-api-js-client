@@ -2191,6 +2191,11 @@ export type ModifyZimletPrefsResponse = {
   zimlet?: Maybe<Array<Maybe<ZimletPref>>>;
 };
 
+export enum Mode {
+  Text = 'text',
+  Html = 'html'
+}
+
 export type MsgWithGroupInfo = MailItem & {
   __typename?: 'MsgWithGroupInfo';
   id?: Maybe<Scalars['ID']>;
@@ -2884,6 +2889,7 @@ export type Preferences = {
   zimbraPrefCalendarShowPastDueReminders?: Maybe<Scalars['Boolean']>;
   zimbraPrefCalendarToasterEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefComposeDirection?: Maybe<Scalars['String']>;
+  zimbraPrefComposeFormat?: Maybe<Mode>;
   zimbraPrefHtmlEditorDefaultFontColor?: Maybe<Scalars['String']>;
   zimbraPrefHtmlEditorDefaultFontFamily?: Maybe<Scalars['String']>;
   zimbraPrefHtmlEditorDefaultFontSize?: Maybe<Scalars['String']>;
@@ -2900,6 +2906,7 @@ export type Preferences = {
   zimbraPrefMailSendReadReceipts?: Maybe<PrefMailSendReadReceipts>;
   zimbraPrefMailTrustedSenderList?: Maybe<Array<Maybe<Scalars['String']>>>;
   zimbraPrefMarkMsgRead?: Maybe<Scalars['Int']>;
+  zimbraPrefMessageViewHtmlPreferred?: Maybe<Scalars['Boolean']>;
   zimbraPrefOutOfOfficeFromDate?: Maybe<Scalars['String']>;
   zimbraPrefOutOfOfficeExternalReply?: Maybe<Scalars['String']>;
   zimbraPrefOutOfOfficeExternalReplyEnabled?: Maybe<Scalars['Boolean']>;
@@ -2941,6 +2948,7 @@ export type PreferencesInput = {
   zimbraPrefCalendarShowPastDueReminders?: Maybe<Scalars['Boolean']>;
   zimbraPrefCalendarToasterEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefComposeDirection?: Maybe<Scalars['String']>;
+  zimbraPrefComposeFormat?: Maybe<Mode>;
   zimbraPrefHtmlEditorDefaultFontColor?: Maybe<Scalars['String']>;
   zimbraPrefHtmlEditorDefaultFontFamily?: Maybe<Scalars['String']>;
   zimbraPrefHtmlEditorDefaultFontSize?: Maybe<Scalars['String']>;
@@ -2955,6 +2963,7 @@ export type PreferencesInput = {
   zimbraPrefMailSendReadReceipts?: Maybe<PrefMailSendReadReceipts>;
   zimbraPrefMailTrustedSenderList?: Maybe<Array<Maybe<Scalars['String']>>>;
   zimbraPrefMarkMsgRead?: Maybe<Scalars['Int']>;
+  zimbraPrefMessageViewHtmlPreferred?: Maybe<Scalars['Boolean']>;
   zimbraPrefOutOfOfficeFromDate?: Maybe<Scalars['String']>;
   zimbraPrefOutOfOfficeExternalReply?: Maybe<Scalars['String']>;
   zimbraPrefOutOfOfficeExternalReplyEnabled?: Maybe<Scalars['Boolean']>;
