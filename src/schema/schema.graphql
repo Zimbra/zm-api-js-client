@@ -297,6 +297,11 @@ enum PrefClientType {
 	standard
 }
 
+enum Mode {
+	text
+	html
+}
+
 type CsrfToken {
 	_content: String
 }
@@ -1332,6 +1337,7 @@ type Preferences {
 	zimbraPrefCalendarShowPastDueReminders: Boolean
 	zimbraPrefCalendarToasterEnabled: Boolean
 	zimbraPrefComposeDirection: String
+	zimbraPrefComposeFormat: Mode
 	zimbraPrefHtmlEditorDefaultFontColor: String
 	zimbraPrefHtmlEditorDefaultFontFamily: String
 	zimbraPrefHtmlEditorDefaultFontSize: String
@@ -1348,6 +1354,7 @@ type Preferences {
 	zimbraPrefMailSendReadReceipts: PrefMailSendReadReceipts
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
+	zimbraPrefMessageViewHtmlPreferred: Boolean
 	zimbraPrefOutOfOfficeFromDate: String
 	zimbraPrefOutOfOfficeExternalReply: String
 	zimbraPrefOutOfOfficeExternalReplyEnabled: Boolean
@@ -2294,6 +2301,7 @@ input PreferencesInput {
 	zimbraPrefCalendarShowPastDueReminders: Boolean
 	zimbraPrefCalendarToasterEnabled: Boolean
 	zimbraPrefComposeDirection: String
+	zimbraPrefComposeFormat: Mode
 	zimbraPrefHtmlEditorDefaultFontColor: String
 	zimbraPrefHtmlEditorDefaultFontFamily: String
 	zimbraPrefHtmlEditorDefaultFontSize: String
@@ -2308,6 +2316,7 @@ input PreferencesInput {
 	zimbraPrefMailSendReadReceipts: PrefMailSendReadReceipts
 	zimbraPrefMailTrustedSenderList: [String]
 	zimbraPrefMarkMsgRead: Int
+	zimbraPrefMessageViewHtmlPreferred: Boolean
 	zimbraPrefOutOfOfficeFromDate: String
 	zimbraPrefOutOfOfficeExternalReply: String
 	zimbraPrefOutOfOfficeExternalReplyEnabled: Boolean
