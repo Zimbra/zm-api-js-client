@@ -13,6 +13,7 @@ npm install @zimbra/api-client
 
 ## Features
 
+
 ### Schema
 
 A GraphQL Schema that maps Zimbra SOAP resources to GraphQL types is a core tenant of Zimbra GraphQL. This schema includes many of the common resources used in Zimbra SOAP commands such as `Search`, or `GetFolder`.
