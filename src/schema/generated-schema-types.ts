@@ -2636,11 +2636,13 @@ export type MutationRevokeRightsArgs = {
 
 export type MutationSaveDraftArgs = {
   message: SendMessageInput;
+  accountName?: Maybe<Scalars['String']>;
 };
 
 
 export type MutationSendMessageArgs = {
   message: SendMessageInput;
+  accountName?: Maybe<Scalars['String']>;
 };
 
 
