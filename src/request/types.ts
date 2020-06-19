@@ -2,7 +2,8 @@ export enum Namespace {
 	Account = 'urn:zimbraAccount',
 	Admin = 'urn:zimbraAdmin',
 	Mail = 'urn:zimbraMail',
-	All = 'urn:zimbra'
+	All = 'urn:zimbra',
+	Sync = 'urn:zimbraSync'
 }
 
 export type SessionId = string;

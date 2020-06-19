@@ -1175,6 +1175,20 @@ export type DeleteIdentityInput = {
   name?: Maybe<Scalars['String']>;
 };
 
+export type Device = {
+  __typename?: 'Device';
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  firstReqReceived?: Maybe<Scalars['Int']>;
+  lastPolicyUpdate?: Maybe<Scalars['Int']>;
+  lastUsedDate?: Maybe<Scalars['String']>;
+  protocol?: Maybe<Scalars['Float']>;
+  provisionable?: Maybe<Scalars['Boolean']>;
+  status?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['String']>;
+  ua?: Maybe<Scalars['String']>;
+};
+
 export type DiscoverRights = {
   __typename?: 'DiscoverRights';
   targets?: Maybe<Array<Maybe<Targets>>>;
@@ -2308,6 +2322,9 @@ export type Mutation = {
   setRecoveryAccount?: Maybe<Scalars['Boolean']>;
   createTag?: Maybe<Tag>;
   tagAction?: Maybe<Scalars['Boolean']>;
+  suspendDeviceSync?: Maybe<Device>;
+  resumeDeviceSync?: Maybe<Device>;
+  removeDeviceSync?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -2762,6 +2779,21 @@ export type MutationTagActionArgs = {
   action?: Maybe<FolderActionInput>;
 };
 
+
+export type MutationSuspendDeviceSyncArgs = {
+  deviceId?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationResumeDeviceSyncArgs = {
+  deviceId?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationRemoveDeviceSyncArgs = {
+  deviceId?: Maybe<Scalars['String']>;
+};
+
 export type NameId = {
   __typename?: 'NameId';
   id?: Maybe<Scalars['ID']>;
@@ -3063,6 +3095,7 @@ export type Query = {
   getScratchCodes?: Maybe<ScratchCodes>;
   getSearchFolder?: Maybe<Folder>;
   getTrustedDevices?: Maybe<GetTrustedDevicesResponse>;
+  getDeviceStatus?: Maybe<Array<Maybe<Device>>>;
   getWhiteBlackList?: Maybe<WhiteBlackList>;
   getWorkingHours?: Maybe<Array<Maybe<WorkingHours>>>;
   noop?: Maybe<Scalars['Boolean']>;

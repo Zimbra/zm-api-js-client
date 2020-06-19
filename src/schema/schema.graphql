@@ -2849,6 +2849,19 @@ type GetTrustedDevicesResponse {
 	thisDeviceTrusted: Boolean
 }
 
+type Device {
+	id: ID
+	name: String
+	firstReqReceived: Int
+	lastPolicyUpdate: Int
+	lastUsedDate: String
+	protocol: Float
+	provisionable: Boolean
+	status: Int
+	type: String
+	ua: String
+}
+
 type AppSpecificPassword {
 	appName: String
 	created: Float
@@ -2990,6 +3003,7 @@ type Query {
 	getScratchCodes(username: String!): ScratchCodes
 	getSearchFolder: Folder
 	getTrustedDevices: GetTrustedDevicesResponse
+	getDeviceStatus: [Device]
 	getWhiteBlackList: WhiteBlackList
 	getWorkingHours(names: [String!]!, start: Float, end: Float): [WorkingHours]
 	noop: Boolean
@@ -3219,6 +3233,9 @@ type Mutation {
 	): Boolean
 	createTag(tag: CreateTagInput): Tag
 	tagAction(action: FolderActionInput): Boolean
+	suspendDeviceSync(deviceId: String) : Device
+	resumeDeviceSync(deviceId: String) : Device
+	removeDeviceSync(deviceId: String) : Boolean
 }
 
 schema {
