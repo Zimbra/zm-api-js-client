@@ -208,6 +208,7 @@ enum FolderView {
 	chat
 	note
 	comment
+	unknown
 }
 
 enum GalSearchType {
