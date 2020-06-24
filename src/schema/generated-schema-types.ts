@@ -1558,7 +1558,8 @@ export enum FolderView {
   Task = 'task',
   Chat = 'chat',
   Note = 'note',
-  Comment = 'comment'
+  Comment = 'comment',
+  Unknown = 'unknown'
 }
 
 export type ForwardAppointmentInput = {
