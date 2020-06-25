@@ -71,6 +71,7 @@ import {
 	RelatedContactsOptions,
 	ResetPasswordOptions,
 	SaveDocumentInput,
+	SearchCalendarResourcesOptions,
 	SearchOptions,
 	SetRecoveryAccountOptions,
 	ShareInfoOptions,
@@ -190,6 +191,10 @@ export function createZimbraSchema(
 
 					return client.search(variables as SearchOptions);
 				},
+				searchCalendarResources: (_: any, variables) =>
+					client.searchCalendarResources(
+						variables as SearchCalendarResourcesOptions
+					),
 				searchGal: (_, variables) =>
 					client.searchGal(variables as SearchOptions),
 				shareInfo: (_, variables) =>

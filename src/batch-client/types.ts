@@ -184,6 +184,23 @@ export interface SearchOptions {
 	types?: SearchType;
 }
 
+export interface SearchCalendarResourcesCondition {
+	attr?: String;
+	op?: String;
+	value?: String;
+}
+export interface SearchCalendarResourcesOptions {
+	attrs?: string;
+	limit?: number;
+	needExp?: boolean;
+	offset?: number;
+	searchFilter?: {
+		conds?: {
+			cond?: Array<SearchCalendarResourcesCondition>;
+		};
+	};
+}
+
 export interface ShareInfoOptions {
 	grantee?: Grantee;
 	includeSelf?: Boolean;

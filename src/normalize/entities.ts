@@ -495,6 +495,20 @@ export const SearchResponse = new Entity({
 	hit: Hit
 });
 
+export const CalResourceAttributes = new Entity({
+	l: 'city',
+	st: 'state',
+	co: 'country'
+});
+
+export const CalResource = new Entity({
+	_attrs: ['_attrs', CalResourceAttributes]
+});
+
+export const SearchCalendarResourcesResponse = new Entity({
+	calresource: ['calresource', CalResource]
+});
+
 export const GetAppointmentResponse = new Entity({
 	appt: ['appointment', AppointmentInfo]
 });

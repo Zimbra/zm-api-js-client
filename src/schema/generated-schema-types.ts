@@ -59,6 +59,7 @@ export type AccountInfo = {
 export type AccountInfoAttrs = {
   __typename?: 'AccountInfoAttrs';
   displayName?: Maybe<Scalars['String']>;
+  zimbraDumpsterEnabled?: Maybe<Scalars['Boolean']>;
   zimbraIsAdminAccount?: Maybe<Scalars['Boolean']>;
   zimbraIsDelegatedAdminAccount?: Maybe<Scalars['Boolean']>;
   zimbraFeatureMailEnabled?: Maybe<Scalars['Boolean']>;
@@ -691,6 +692,35 @@ export type CalOrganizer = {
   sentBy?: Maybe<Scalars['String']>;
 };
 
+export type CalResource = {
+  __typename?: 'CalResource';
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  _attrs?: Maybe<CalResourceAttributes>;
+};
+
+export type CalResourceAttributes = {
+  __typename?: 'CalResourceAttributes';
+  description?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  fullName?: Maybe<Scalars['String']>;
+  zimbraCalResLocationDisplayName?: Maybe<Scalars['String']>;
+  zimbraCalResSite?: Maybe<Scalars['String']>;
+  zimbraCalResBuilding?: Maybe<Scalars['String']>;
+  zimbraCalResFloor?: Maybe<Scalars['String']>;
+  zimbraCalResRoom?: Maybe<Scalars['String']>;
+  zimbraCalResCapacity?: Maybe<Scalars['String']>;
+  zimbraCalResType?: Maybe<Scalars['String']>;
+  zimbraCalResContactEmail?: Maybe<Scalars['String']>;
+  zimbraCalResContactPhone?: Maybe<Scalars['String']>;
+  zimbraCalResContactName?: Maybe<Scalars['String']>;
+  street?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  postalCode?: Maybe<Scalars['String']>;
+};
+
 export type CalTzInfo = {
   __typename?: 'CalTZInfo';
   id?: Maybe<Scalars['String']>;
@@ -723,6 +753,16 @@ export type ClientInfoInput = {
 export type ClientInfoType = {
   __typename?: 'ClientInfoType';
   attributes?: Maybe<ClientInfoAttributes>;
+};
+
+export type ConditionInput = {
+  attr?: Maybe<Scalars['String']>;
+  op?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+export type ConditionsInput = {
+  cond?: Maybe<Array<Maybe<ConditionInput>>>;
 };
 
 export enum ConnectionType {
@@ -2644,11 +2684,13 @@ export type MutationRevokeRightsArgs = {
 
 export type MutationSaveDraftArgs = {
   message: SendMessageInput;
+  accountName?: Maybe<Scalars['String']>;
 };
 
 
 export type MutationSendMessageArgs = {
   message: SendMessageInput;
+  accountName?: Maybe<Scalars['String']>;
 };
 
 
@@ -3022,6 +3064,7 @@ export type Query = {
    * [[Query Tips]](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips)
    */
   search?: Maybe<SearchResponse>;
+  searchCalendarResources?: Maybe<SearchCalendarResourcesResponse>;
   searchGal?: Maybe<SearchResponse>;
   taskFolders?: Maybe<Array<Maybe<Folder>>>;
   getTag?: Maybe<Array<Maybe<Tag>>>;
@@ -3368,24 +3411,39 @@ export type QueryShareInfoArgs = {
  * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
  */
 export type QuerySearchArgs = {
-  contact?: Maybe<Scalars['String']>,
-  cursor?: Maybe<Cursor>,
-  fetch?: Maybe<Scalars['String']>,
-  fullConversation?: Maybe<Scalars['Boolean']>,
-  limit?: Maybe<Scalars['Int']>,
-  needExp?: Maybe<Scalars['Boolean']>,
-  memberOf?: Maybe<Scalars['Boolean']>,
-  offset?: Maybe<Scalars['Int']>,
-  query?: Maybe<Scalars['String']>,
-  recip?: Maybe<Scalars['Int']>,
-  sortBy?: Maybe<SortBy>,
-  types?: Maybe<SearchType>,
-  resultMode?: Maybe<Scalars['String']>,
-  inDumpster?: Maybe<Scalars['Boolean']>
+  contact?: Maybe<Scalars['String']>;
+  cursor?: Maybe<Cursor>;
+  fetch?: Maybe<Scalars['String']>;
+  fullConversation?: Maybe<Scalars['Boolean']>;
+  limit?: Maybe<Scalars['Int']>;
+  needExp?: Maybe<Scalars['Boolean']>;
+  memberOf?: Maybe<Scalars['Boolean']>;
+  offset?: Maybe<Scalars['Int']>;
+  query?: Maybe<Scalars['String']>;
+  recip?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<SortBy>;
+  types?: Maybe<SearchType>;
+  resultMode?: Maybe<Scalars['String']>;
+  inDumpster?: Maybe<Scalars['Boolean']>;
 };
 
 
-/** 
+/**
+ * Zimbra GraphQL Queries
+ * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
+ * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
+ * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
+ */
+export type QuerySearchCalendarResourcesArgs = {
+  limit?: Maybe<Scalars['Int']>;
+  needExp?: Maybe<Scalars['Boolean']>;
+  offset?: Maybe<Scalars['Int']>;
+  attrs?: Maybe<Scalars['String']>;
+  searchFilter?: Maybe<SearchConditionsInput>;
+};
+
+
+/**
  * Zimbra GraphQL Queries
  * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
  * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -3565,6 +3623,19 @@ export type ScratchCodes = {
 export type ScratchCodeType = {
   __typename?: 'ScratchCodeType';
   _content?: Maybe<Scalars['String']>;
+};
+
+export type SearchCalendarResourcesResponse = {
+  __typename?: 'SearchCalendarResourcesResponse';
+  calresource?: Maybe<Array<Maybe<CalResource>>>;
+  more?: Maybe<Scalars['Boolean']>;
+  offset?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<Scalars['String']>;
+  paginationSupported?: Maybe<Scalars['Boolean']>;
+};
+
+export type SearchConditionsInput = {
+  conds?: Maybe<ConditionsInput>;
 };
 
 export type SearchFolderInput = {

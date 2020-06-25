@@ -35,6 +35,7 @@ import {
 	InviteReply,
 	MessageInfo,
 	SaveDocuments,
+	SearchCalendarResourcesResponse,
 	SearchResponse,
 	SendMessageInfo,
 	ShareNotification,
@@ -135,6 +136,7 @@ import {
 	RelatedContactsOptions,
 	ResetPasswordOptions,
 	SaveDocumentInput,
+	SearchCalendarResourcesOptions,
 	SearchOptions,
 	SessionHandler,
 	SetRecoveryAccountOptions,
@@ -1442,6 +1444,13 @@ export class ZimbraBatchClient {
 			}
 			return normalized;
 		});
+
+	public searchCalendarResources = (options: SearchCalendarResourcesOptions) =>
+		this.jsonRequest({
+			name: 'SearchCalendarResources',
+			body: options,
+			namespace: Namespace.Account
+		}).then(normalize(SearchCalendarResourcesResponse));
 
 	public searchGal = (options: SearchOptions) =>
 		this.jsonRequest({
