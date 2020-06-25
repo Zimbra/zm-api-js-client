@@ -1199,6 +1199,8 @@ type AccountZimletConfigInfo {
 
 type AccountInfoAttrs {
 	displayName: String
+	zimbraDomainTrialConvertAtExpiration: Boolean
+	zimbraDomainTrialExpirationDate: String
 	zimbraDumpsterEnabled: Boolean
 	zimbraIsAdminAccount: Boolean
 	zimbraIsDelegatedAdminAccount: Boolean
