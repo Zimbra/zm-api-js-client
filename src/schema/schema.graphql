@@ -1214,6 +1214,20 @@ type AccountInfoAttrs {
 	zimbraFeatureCalendarEnabled: Boolean
 	zimbraFeatureBriefcasesEnabled: Boolean
 	zimbraFeatureRelatedContactsEnabled: Boolean
+	zimbraPasswordMinAlphaChars: Int
+	zimbraPasswordMinNumericChars: Int
+	zimbraPasswordMinUpperCaseChars: Int
+	zimbraPasswordMinDigitsOrPuncs: Int
+	zimbraPasswordMinPunctuationChars: Int
+	zimbraPasswordMaxLength: Int
+	zimbraPasswordMinLength: Int
+	zimbraPasswordMinLowerCaseChars: Int
+	zimbraPasswordMinAge: Int
+	zimbraPasswordMaxAge: Int
+	zimbraPasswordEnforceHistory: Int
+	zimbraPasswordModifiedTime: Int
+	zimbraPasswordAllowedChars: String
+	zimbraPasswordAllowedPunctuationChars: String
 	zimbraFeatureChangePasswordEnabled: Boolean
 	zimbraFeatureResetPasswordStatus: ResetPasswordStatus
 	zimbraFeatureWebClientOfflineAccessEnabled: Boolean
