@@ -59,6 +59,8 @@ export type AccountInfo = {
 export type AccountInfoAttrs = {
   __typename?: 'AccountInfoAttrs';
   displayName?: Maybe<Scalars['String']>;
+  zimbraDomainTrialConvertAtExpiration?: Maybe<Scalars['Boolean']>;
+  zimbraDomainTrialExpirationDate?: Maybe<Scalars['String']>;
   zimbraDumpsterEnabled?: Maybe<Scalars['Boolean']>;
   zimbraIsAdminAccount?: Maybe<Scalars['Boolean']>;
   zimbraIsDelegatedAdminAccount?: Maybe<Scalars['Boolean']>;
