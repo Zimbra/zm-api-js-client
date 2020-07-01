@@ -1792,6 +1792,20 @@ export type ImportanceConditionInput = {
   negative?: Maybe<Scalars['Boolean']>;
 };
 
+export type ImportStatus = {
+  __typename?: 'ImportStatus';
+  id?: Maybe<Scalars['ID']>;
+  isRunning?: Maybe<Scalars['Boolean']>;
+  success?: Maybe<Scalars['Boolean']>;
+  error?: Maybe<Scalars['String']>;
+};
+
+export type ImportStatusResponse = {
+  __typename?: 'ImportStatusResponse';
+  imap?: Maybe<Array<Maybe<ImportStatus>>>;
+  pop3?: Maybe<Array<Maybe<ImportStatus>>>;
+};
+
 export type Instance = {
   __typename?: 'Instance';
   start?: Maybe<Scalars['Float']>;
@@ -3088,6 +3102,7 @@ export type Query = {
   getPreferences?: Maybe<Preferences>;
   getDataSources: DataSources;
   getIdentities?: Maybe<Identities>;
+  getImportStatus?: Maybe<ImportStatusResponse>;
   getSignatures?: Maybe<Signatures>;
   recoverAccount?: Maybe<RecoverAccount>;
   relatedContacts?: Maybe<Array<Maybe<RelatedContact>>>;

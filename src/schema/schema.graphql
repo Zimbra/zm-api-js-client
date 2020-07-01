@@ -853,6 +853,18 @@ input ExternalAccount {
 	password: String!
 }
 
+type ImportStatus {
+	id: ID
+	isRunning: Boolean
+	success: Boolean
+	error: String
+}
+
+type ImportStatusResponse {
+	imap: [ImportStatus]
+	pop3: [ImportStatus]
+}
+
 type FreeBusyInstance {
 	start: Float
 	end: Float
@@ -3011,6 +3023,7 @@ type Query {
 	getPreferences: Preferences
 	getDataSources: DataSources!
 	getIdentities: Identities
+	getImportStatus: ImportStatusResponse
 	getSignatures: Signatures
 
 	recoverAccount(
