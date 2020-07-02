@@ -860,7 +860,7 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetDeviceStatus',
 			namespace: Namespace.Sync
-		}).then(res => get(res, 'device', []));
+		}).then(res => get(res, 'device') || []);
 
 	public getFilterRules = () =>
 		this.jsonRequest({
@@ -1730,7 +1730,7 @@ export class ZimbraBatchClient {
 				});
 			}
 		});
-	
+
 	/**
 	 * These options are included on every request.
 	 */
