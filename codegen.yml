@@ -1,5 +1,4 @@
-schema:
-  - ".tmp/introspected-schema.json"
+schema: 'src/schema/schema.graphql'
 overwrite: true
 generates:
   src/schema/generated-schema-types.ts:
