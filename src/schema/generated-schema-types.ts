@@ -20,7 +20,6 @@ export type AccountAceInfo = {
   checkGrantee?: Maybe<Scalars['Boolean']>;
 };
 
-/** Used by GrantRightsRequest */
 export type AccountAceInfoInput = {
   zimbraId?: Maybe<Scalars['ID']>;
   granteeType: GranteeType;
@@ -189,7 +188,6 @@ export type AddRecurrenceInfo = {
   exclude?: Maybe<Array<Maybe<ExcludeRecurrenceInfo>>>;
   except?: Maybe<Array<Maybe<ExceptionRuleInfo>>>;
   cancel?: Maybe<Array<Maybe<CancelRuleInfo>>>;
-  /** dates: SingleDates # TODO */
   rule?: Maybe<Array<Maybe<SimpleRepeatingRule>>>;
 };
 
@@ -862,7 +860,6 @@ export type ContactAttributes = {
   otherState?: Maybe<Scalars['String']>;
   otherStreet?: Maybe<Scalars['String']>;
   otherURL?: Maybe<Scalars['String']>;
-  /** Used for contact lists */
   fileAs?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
   other?: Maybe<Array<Maybe<OtherContactAttribute>>>;
@@ -938,7 +935,6 @@ export type ContactAttrsInput = {
   otherState?: Maybe<Scalars['String']>;
   otherStreet?: Maybe<Scalars['String']>;
   otherURL?: Maybe<Scalars['String']>;
-  /** Used for contact lists */
   fileAs?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
   other?: Maybe<Array<Maybe<OtherContactAttributeInput>>>;
@@ -1517,13 +1513,11 @@ export type Folder = {
   deletable?: Maybe<Scalars['Boolean']>;
 };
 
-/** Special case of FolderAction for `changeFolderColor` resolver */
 export type FolderActionChangeColorInput = {
   id: Scalars['ID'];
   color: Scalars['Int'];
 };
 
-/** Special case of FolderAction for `checkCalendar` resolver */
 export type FolderActionCheckCalendarInput = {
   id: Scalars['ID'];
   value?: Maybe<Scalars['Boolean']>;
@@ -1621,7 +1615,6 @@ export type GetAppointmentResponse = {
   appointment?: Maybe<Array<Maybe<AppointmentInfo>>>;
 };
 
-/** Include one of these fields to query for a folder */
 export type GetFolderFolderInput = {
   uuid?: Maybe<Scalars['ID']>;
   parentFolderId?: Maybe<Scalars['ID']>;
@@ -1644,7 +1637,6 @@ export type Grantee = {
   name?: Maybe<Scalars['String']>;
 };
 
-/** https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/acl.md */
 export enum GranteeType {
   Usr = 'usr',
   Grp = 'grp',
@@ -1851,7 +1843,6 @@ export enum InviteCompletionStatus {
 
 export type InviteComponent = {
   __typename?: 'InviteComponent';
-  /** duration: DurationInfo # dur - TODO */
   alarms?: Maybe<Array<Maybe<CalendarItemAlarm>>>;
   recurrence?: Maybe<Array<Maybe<RecurrenceInfo>>>;
   allDay?: Maybe<Scalars['Boolean']>;
@@ -2164,6 +2155,11 @@ export type MimePartInput = {
   attachments?: Maybe<Array<Maybe<AttachmentInput>>>;
 };
 
+export enum Mode {
+  Text = 'text',
+  Html = 'html'
+}
+
 export type ModifyAppointmentResponse = {
   __typename?: 'ModifyAppointmentResponse';
   appointmentId?: Maybe<Scalars['ID']>;
@@ -2190,11 +2186,6 @@ export type ModifyZimletPrefsResponse = {
   __typename?: 'ModifyZimletPrefsResponse';
   zimlet?: Maybe<Array<Maybe<ZimletPref>>>;
 };
-
-export enum Mode {
-  Text = 'text',
-  Html = 'html'
-}
 
 export type MsgWithGroupInfo = MailItem & {
   __typename?: 'MsgWithGroupInfo';
@@ -3026,12 +3017,6 @@ export type PropList = {
   prop?: Maybe<Array<Maybe<Prop>>>;
 };
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type Query = {
   __typename?: 'Query';
   accountInfo?: Maybe<AccountInfo>;
@@ -3073,11 +3058,6 @@ export type Query = {
   recoverAccount?: Maybe<RecoverAccount>;
   relatedContacts?: Maybe<Array<Maybe<RelatedContact>>>;
   shareInfo?: Maybe<Array<Maybe<ShareInfo>>>;
-  /**
-   * Perform a search for a variety types using a flexible query interface.
-   * [[SOAP Search API Documentation]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/zimbraMail/Search.html)
-   * [[Query Tips]](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips)
-   */
   search?: Maybe<SearchResponse>;
   searchCalendarResources?: Maybe<SearchCalendarResourcesResponse>;
   searchGal?: Maybe<SearchResponse>;
@@ -3086,12 +3066,6 @@ export type Query = {
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryAutoCompleteArgs = {
   name?: Maybe<Scalars['String']>;
   type?: Maybe<GalSearchType>;
@@ -3101,12 +3075,6 @@ export type QueryAutoCompleteArgs = {
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryAutoCompleteGalArgs = {
   limit?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
@@ -3115,59 +3083,29 @@ export type QueryAutoCompleteGalArgs = {
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryClientInfoArgs = {
   domain: Scalars['String'];
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryDownloadMessageArgs = {
   id: Scalars['ID'];
   isSecure?: Maybe<Scalars['Boolean']>;
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryDownloadAttachmentArgs = {
   id: Scalars['ID'];
   part: Scalars['ID'];
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryDownloadDocumentArgs = {
   id: Scalars['ID'];
   url: Scalars['String'];
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryFreeBusyArgs = {
   names: Array<Scalars['String']>;
   start?: Maybe<Scalars['Float']>;
@@ -3175,12 +3113,6 @@ export type QueryFreeBusyArgs = {
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryGetContactArgs = {
   id?: Maybe<Scalars['ID']>;
   ids?: Maybe<Array<Scalars['ID']>>;
@@ -3189,12 +3121,6 @@ export type QueryGetContactArgs = {
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryGetAppointmentsArgs = {
   calExpandInstStart: Scalars['Float'];
   calExpandInstEnd: Scalars['Float'];
@@ -3205,23 +3131,11 @@ export type QueryGetAppointmentsArgs = {
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryGetAppointmentArgs = {
   id: Scalars['ID'];
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryGetRemindersArgs = {
   calExpandInstStart: Scalars['Float'];
   calExpandInstEnd: Scalars['Float'];
@@ -3232,12 +3146,6 @@ export type QueryGetRemindersArgs = {
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryGetTasksArgs = {
   query: Scalars['String'];
   limit: Scalars['Int'];
@@ -3246,12 +3154,6 @@ export type QueryGetTasksArgs = {
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryGetContactFrequencyArgs = {
   email: Scalars['String'];
   by: Scalars['String'];
@@ -3260,12 +3162,6 @@ export type QueryGetContactFrequencyArgs = {
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryGetConversationArgs = {
   id: Scalars['ID'];
   header?: Maybe<Array<Maybe<MailItemHeaderInput>>>;
@@ -3276,12 +3172,6 @@ export type QueryGetConversationArgs = {
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryGetFolderArgs = {
   visible?: Maybe<Scalars['Boolean']>;
   needGranteeName?: Maybe<Scalars['Boolean']>;
@@ -3292,35 +3182,17 @@ export type QueryGetFolderArgs = {
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryGetCustomMetadataArgs = {
   id: Scalars['ID'];
   section?: Maybe<Scalars['String']>;
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryGetMailboxMetadataArgs = {
   section?: Maybe<Scalars['String']>;
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryGetMessageArgs = {
   id: Scalars['ID'];
   header?: Maybe<Array<Maybe<MailItemHeaderInput>>>;
@@ -3335,57 +3207,27 @@ export type QueryGetMessageArgs = {
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryGetMessagesMetadataArgs = {
   ids: Array<Scalars['ID']>;
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryGetRightsArgs = {
   input: GetRightsInput;
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryGetSMimePublicCertsArgs = {
   contactAddr: Scalars['String'];
   store: Scalars['String'];
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryGetScratchCodesArgs = {
   username: Scalars['String'];
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryGetWorkingHoursArgs = {
   names: Array<Scalars['String']>;
   start?: Maybe<Scalars['Float']>;
@@ -3393,12 +3235,6 @@ export type QueryGetWorkingHoursArgs = {
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryRecoverAccountArgs = {
   op: RecoverAccountOp;
   email: Scalars['String'];
@@ -3406,23 +3242,11 @@ export type QueryRecoverAccountArgs = {
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryRelatedContactsArgs = {
   email: Scalars['String'];
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QueryShareInfoArgs = {
   internal?: Maybe<Scalars['Boolean']>;
   includeSelf?: Maybe<Scalars['Boolean']>;
@@ -3431,12 +3255,6 @@ export type QueryShareInfoArgs = {
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QuerySearchArgs = {
   contact?: Maybe<Scalars['String']>;
   cursor?: Maybe<Cursor>;
@@ -3455,12 +3273,6 @@ export type QuerySearchArgs = {
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QuerySearchCalendarResourcesArgs = {
   limit?: Maybe<Scalars['Int']>;
   needExp?: Maybe<Scalars['Boolean']>;
@@ -3470,12 +3282,6 @@ export type QuerySearchCalendarResourcesArgs = {
 };
 
 
-/**
- * Zimbra GraphQL Queries
- * - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
- * - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
- * - [[SOAP XML-to-JSON Documentation]](https://wiki.zimbra.com/wiki/Json_format_to_represent_soap)
- */
 export type QuerySearchGalArgs = {
   needIsOwner?: Maybe<Scalars['Boolean']>;
   needIsMember?: Maybe<NeedIsMemberType>;
@@ -3511,7 +3317,6 @@ export type RecurrenceInfo = {
   exclude?: Maybe<Array<Maybe<ExcludeRecurrenceInfo>>>;
   except?: Maybe<Array<Maybe<ExceptionRuleInfo>>>;
   cancel?: Maybe<Array<Maybe<CancelRuleInfo>>>;
-  /** dates: [SingleDates] # TODO */
   rule?: Maybe<Array<Maybe<SimpleRepeatingRule>>>;
 };
 
