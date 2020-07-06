@@ -469,7 +469,8 @@ export const Document = new Entity({
 	cr: 'revisonCreator',
 	cd: 'revisedCreationDate',
 	loid: 'lockOwnerId',
-	ct: 'contentType'
+	ct: 'contentType',
+	f: 'flags'
 });
 
 export const MessagePartInputForDocuments = new Entity({

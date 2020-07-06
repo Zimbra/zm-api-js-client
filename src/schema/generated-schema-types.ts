@@ -1218,6 +1218,7 @@ export type Document = {
   revisonCreator?: Maybe<Scalars['String']>;
   revisedCreationDate?: Maybe<Scalars['Float']>;
   lockOwnerId?: Maybe<Scalars['ID']>;
+  flags?: Maybe<Scalars['String']>;
 };
 
 export type DocumentInput = {
