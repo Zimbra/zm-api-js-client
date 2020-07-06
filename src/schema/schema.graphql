@@ -1419,6 +1419,7 @@ type Document {
 	revisonCreator: String #cr
 	revisedCreationDate: Float #cd
 	lockOwnerId: ID #loid
+	flags: String #f
 }
 
 type SearchResponse {
