@@ -4,6 +4,7 @@ export class Notifier {
 	private emitter: any;
 	private eventName: string = 'notify';
 	private sequenceNo: number = 0;
+	private processedSequences = new Map();
 
 	constructor() {
 		this.emitter = new (emitter as any)();
@@ -21,13 +22,23 @@ export class Notifier {
 
 	public getSequenceNumber = () => this.sequenceNo;
 
+	public setSequenceNumber = (number: number) => (this.sequenceNo = number);
+
 	/**
 	 * Receives the notification object to be emitted
 	 * @param {Object} notifications Notification object to be handled
 	 */
 	public handleNotifications = (notifications: any) => {
-		// emit the notifications on the emitter which can be handled by the calling client
-		this.emitter && this.emitter.emit(this.eventName, notifications);
+		// update the sequence number
+		if (notifications && notifications.seq && !this.processedSequences.has(notifications.seq)) {
+			if (notifications.seq > this.sequenceNo) {
+				this.sequenceNo = notifications.seq;
+			}
+			this.processedSequences.set(notifications.seq, true);
+			// emit the notifications on the emitter which can be handled by the calling client
+			this.emitter && this.emitter.emit(this.eventName, notifications);
+		}
+
 	};
 
 	/**
@@ -39,6 +50,4 @@ export class Notifier {
 			this.emitter.off(this.eventName, handler);
 		}
 	};
-
-	public setSequenceNumber = (number: number) => (this.sequenceNo = number);
 }
