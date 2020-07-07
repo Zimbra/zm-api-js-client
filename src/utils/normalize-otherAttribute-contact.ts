@@ -106,6 +106,17 @@ export function normalizeOtherAttr(data: any) {
 	return data.map((contact: any) => {
 		let other: any = [];
 
+		let castValueOfNickname: any = contact._attrs['nickname'];
+
+		if (castValueOfNickname) {
+			// Ideally we shouldn't get the nickname as type of Array as we are not supporting the multiple nicknames
+			// this only happens when user import PST using legacy by using tool name Zimbra PST Migration Wizard
+			// So, here if nickname is array then use its first element as nickname
+			contact._attrs['nickname'] = Array.isArray(castValueOfNickname)
+				? castValueOfNickname[0]
+				: castValueOfNickname;
+		}
+
 		Object.keys(contact._attrs)
 			.filter(key => !supportedContactAttributes.includes(key))
 			.forEach(
@@ -114,17 +125,20 @@ export function normalizeOtherAttr(data: any) {
 					other.push({ key, value: contact._attrs[key] }) &&
 					delete contact._attrs[key]
 			);
+
 		const otherAttributewithCustomKey = other
 			.filter((o: any) => o.key.match('custom\\d+'))
 			.sort(
 				(a: any, b: any) =>
 					Number(a.key.match(/(\d+)/g)[0]) - Number(b.key.match(/(\d+)/g)[0])
 			);
+
 		const remainingOtherAttribute = differenceBy(
 			other,
 			otherAttributewithCustomKey,
 			'key'
 		).sort((a: any, b: any) => a.key.localeCompare(b.key));
+
 		return {
 			...contact,
 			_attrs: {
