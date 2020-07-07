@@ -796,7 +796,7 @@ export class ZimbraBatchClient {
 				},
 				...rest
 			}
-		}).then(res => res.cn.map((contact: any) => normalize(Contact)(contact)));
+		}).then(res => normalize(Contact)(normalizeOtherAttr(res.cn)));
 
 	public getContactFrequency = (options: GetContactFrequencyOptions) =>
 		this.jsonRequest({
@@ -1691,7 +1691,7 @@ export class ZimbraBatchClient {
 				});
 			}
 		});
-	
+
 	/**
 	 * These options are included on every request.
 	 */
