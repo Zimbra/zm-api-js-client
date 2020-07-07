@@ -173,6 +173,7 @@ export function createZimbraSchema(
 				getSMimePublicCerts: (_, variables) =>
 					client.getSMimePublicCerts(variables as GetSMimePublicCertsOptions),
 				getTrustedDevices: client.getTrustedDevices,
+				getDeviceStatus: client.getDeviceStatus,
 				getWorkingHours: (_, variables) =>
 					client.getWorkingHours(variables as WorkingHoursOptions),
 				getPreferences: client.getPreferences,
@@ -454,7 +455,16 @@ export function createZimbraSchema(
 				modifyWhiteBlackList: (_, { whiteBlackList }) =>
 					client.modifyWhiteBlackList(whiteBlackList as WhiteBlackListInput),
 				createTag: (_, { tag }) => client.createTag(tag as CreateTagInput),
-				tagAction: (_, { action }) => client.action(ActionType.tag, action)
+				tagAction: (_, { action }) => client.action(ActionType.tag, action),
+				suspendDeviceSync: (_, { deviceId }) => {
+					client.suspendDeviceSync(deviceId);
+				},
+				resumeDeviceSync: (_, { deviceId }) => {
+					client.resumeDeviceSync(deviceId);
+				},
+				removeDeviceSync: (_, { deviceId }) => {
+					client.removeDeviceSync(deviceId);
+				}
 			}
 		}
 	});

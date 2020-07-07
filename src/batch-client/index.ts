@@ -856,6 +856,12 @@ export class ZimbraBatchClient {
 			name: 'GetDataSources'
 		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
 
+	public getDeviceStatus = () =>
+		this.jsonRequest({
+			name: 'GetDeviceStatus',
+			namespace: Namespace.Sync
+		}).then(res => get(res, 'device') || []);
+
 	public getFilterRules = () =>
 		this.jsonRequest({
 			name: 'GetFilterRules'
@@ -1373,6 +1379,17 @@ export class ZimbraBatchClient {
 			}
 		}).then(resp => resp.relatedContacts.relatedContact);
 
+	public removeDeviceSync = (deviceId: String) =>
+		this.jsonRequest({
+			name: 'RemoveDevice',
+			namespace: Namespace.Sync,
+			body: {
+				device: {
+					id: deviceId
+				}
+			}
+		});
+
 	public resetPassword = ({ password }: ResetPasswordOptions) =>
 		this.jsonRequest({
 			name: 'ResetPassword',
@@ -1384,6 +1401,17 @@ export class ZimbraBatchClient {
 		}).then(() => true);
 
 	public resolve = (path: string) => `${this.origin}${path}`;
+
+	public resumeDeviceSync = (deviceId: String) =>
+		this.jsonRequest({
+			name: 'ResumeDevice',
+			namespace: Namespace.Sync,
+			body: {
+				device: {
+					id: deviceId
+				}
+			}
+		});
 
 	public revokeAppSpecificPassword = (appName: string) =>
 		this.jsonRequest({
@@ -1544,6 +1572,17 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(Boolean);
 
+	public suspendDeviceSync = (deviceId: String) =>
+		this.jsonRequest({
+			name: 'SuspendDevice',
+			namespace: Namespace.Sync,
+			body: {
+				device: {
+					id: deviceId
+				}
+			}
+		});
+
 	public taskFolders = () =>
 		this.jsonRequest({
 			name: 'GetFolder',
@@ -1691,7 +1730,7 @@ export class ZimbraBatchClient {
 				});
 			}
 		});
-	
+
 	/**
 	 * These options are included on every request.
 	 */
