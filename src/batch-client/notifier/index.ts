@@ -3,8 +3,8 @@ import emitter from 'mitt';
 export class Notifier {
 	private emitter: any;
 	private eventName: string = 'notify';
-	private sequenceNo: number = 0;
 	private processedSequences = new Map();
+	private sequenceNo: number = 0;
 
 	constructor() {
 		this.emitter = new (emitter as any)();
@@ -22,15 +22,17 @@ export class Notifier {
 
 	public getSequenceNumber = () => this.sequenceNo;
 
-	public setSequenceNumber = (number: number) => (this.sequenceNo = number);
-
 	/**
 	 * Receives the notification object to be emitted
 	 * @param {Object} notifications Notification object to be handled
 	 */
 	public handleNotifications = (notifications: any) => {
 		// update the sequence number
-		if (notifications && notifications.seq && !this.processedSequences.has(notifications.seq)) {
+		if (
+			notifications &&
+			notifications.seq &&
+			!this.processedSequences.has(notifications.seq)
+		) {
 			if (notifications.seq > this.sequenceNo) {
 				this.sequenceNo = notifications.seq;
 			}
@@ -38,7 +40,16 @@ export class Notifier {
 			// emit the notifications on the emitter which can be handled by the calling client
 			this.emitter && this.emitter.emit(this.eventName, notifications);
 		}
+	};
 
+	/**
+	 * Resets the sequence and processed notifications data upon refresh
+	 * @param {Object} refresh refresh data object returned by the server
+	 */
+	public handleRefresh = (refresh: any) => {
+		console.info('[Cache] refresh received', refresh);
+		this.sequenceNo = 0;
+		this.processedSequences.clear();
 	};
 
 	/**
@@ -50,4 +61,6 @@ export class Notifier {
 			this.emitter.off(this.eventName, handler);
 		}
 	};
+
+	public setSequenceNumber = (number: number) => (this.sequenceNo = number);
 }

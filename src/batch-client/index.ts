@@ -1626,11 +1626,18 @@ export class ZimbraBatchClient {
 		}).then(response => {
 			const sessionId = get(response, 'header.context.session.id');
 			const notifications = get(response, 'header.context.notify.0');
+			const refresh = get(response, 'header.context.refresh');
 
 			this.checkAndUpdateSessionId(sessionId);
 
-			if (notifications && this.notifier) {
-				this.notifier.handleNotifications(notifications);
+			if (this.notifier) {
+				if (refresh) {
+					this.notifier.handleRefresh(refresh);
+				}
+
+				if (notifications) {
+					this.notifier.handleNotifications(notifications);
+				}
 			}
 
 			return response.requests.map((r, i) => {
