@@ -47,7 +47,7 @@ export class Notifier {
 	 * @param {Object} refresh refresh data object returned by the server
 	 */
 	public handleRefresh = (refresh: any) => {
-		console.info('[Cache] refresh received', refresh);
+		console.info('[Cache] refresh received', refresh, new Date());
 		this.sequenceNo = 0;
 		this.processedSequences.clear();
 	};
