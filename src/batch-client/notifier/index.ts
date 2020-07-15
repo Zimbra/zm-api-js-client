@@ -2,7 +2,7 @@ import emitter from 'mitt';
 
 export class Notifier {
 	private emitter: any;
-	private eventName: string = 'notify';
+	private events = { notify: 'notify', refresh: 'refresh' };
 	private processedSequences = new Map();
 	private sequenceNo: number = 0;
 
@@ -14,9 +14,19 @@ export class Notifier {
 	 * Registers the handlers to the notify event
 	 * @param {Function} handler a handler to be registered
 	 */
-	public addHandler = (handler: Function) => {
+	public addNotifyHandler = (handler: Function) => {
 		if (handler) {
-			this.emitter.on(this.eventName, handler);
+			this.emitter.on(this.events.notify, handler);
+		}
+	};
+
+	/**
+	 * Registers the handlers to the refresh event
+	 * @param {Function} handler a handler to be registered
+	 */
+	public addRefreshHandler = (handler: Function) => {
+		if (handler) {
+			this.emitter.on(this.events.refresh, handler);
 		}
 	};
 
@@ -38,7 +48,7 @@ export class Notifier {
 			}
 			this.processedSequences.set(notifications.seq, true);
 			// emit the notifications on the emitter which can be handled by the calling client
-			this.emitter && this.emitter.emit(this.eventName, notifications);
+			this.emitter && this.emitter.emit(this.events.notify, notifications);
 		}
 	};
 
@@ -50,15 +60,27 @@ export class Notifier {
 		console.info('[Cache] refresh received', refresh, new Date());
 		this.sequenceNo = 0;
 		this.processedSequences.clear();
+		// emit the refresh on the emitter which can be handled by the calling client
+		this.emitter && this.emitter.emit(this.events.refresh, refresh);
 	};
 
 	/**
 	 * Removes the handler from the emitter
 	 * @param {Function} handler Handler to be removed
 	 */
-	public removeHandler = (handler: Function) => {
+	public removeNotifyHandler = (handler: Function) => {
 		if (handler) {
-			this.emitter.off(this.eventName, handler);
+			this.emitter.off(this.events.notify, handler);
+		}
+	};
+
+	/**
+	 * Removes the handler from the emitter
+	 * @param {Function} handler Handler to be removed
+	 */
+	public removeRefreshHandler = (handler: Function) => {
+		if (handler) {
+			this.emitter.off(this.events.refresh, handler);
 		}
 	};
 
