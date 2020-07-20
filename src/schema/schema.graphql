@@ -1271,6 +1271,7 @@ type DataSource {
 	isEnabled: Boolean
 	name: String
 	pollingInterval: Float
+	leaveOnServer: Boolean
 	port: String
 	replyToAddress: String
 	replyToDisplay: String
@@ -2637,7 +2638,6 @@ input ExternalAccountModifyAttrsInput {
 	accountType: AccountType
 	defaultSignature: ID
 	description: String
-	emailAddress: String
 	fromDisplay: String
 	name: String
 	replyToAddress: String
@@ -2646,7 +2646,10 @@ input ExternalAccountModifyAttrsInput {
 	storeAndForward: String
 	useAddressForForwardReply: Boolean
 	username: String
+	password: String
 	host: String
+	l: ID! # TODO: Normalize to `folderId`
+	leaveOnServer: Boolean
 	signatureValue: String
 	importOnly: Boolean
 	forwardReplySignature: ID
@@ -2655,6 +2658,7 @@ input ExternalAccountModifyAttrsInput {
 	port: String
 	smtpPort: String
 }
+
 input EnableTwoFactorAuthInput {
 	name: String!
 	password: String

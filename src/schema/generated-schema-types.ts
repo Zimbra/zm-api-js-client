@@ -1126,6 +1126,7 @@ export type DataSource = {
   isEnabled?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
   pollingInterval?: Maybe<Scalars['Float']>;
+  leaveOnServer?: Maybe<Scalars['Boolean']>;
   port?: Maybe<Scalars['String']>;
   replyToAddress?: Maybe<Scalars['String']>;
   replyToDisplay?: Maybe<Scalars['String']>;
@@ -1319,7 +1320,6 @@ export type ExternalAccountModifyAttrsInput = {
   accountType?: Maybe<AccountType>;
   defaultSignature?: Maybe<Scalars['ID']>;
   description?: Maybe<Scalars['String']>;
-  emailAddress?: Maybe<Scalars['String']>;
   fromDisplay?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   replyToAddress?: Maybe<Scalars['String']>;
@@ -1328,7 +1328,10 @@ export type ExternalAccountModifyAttrsInput = {
   storeAndForward?: Maybe<Scalars['String']>;
   useAddressForForwardReply?: Maybe<Scalars['Boolean']>;
   username?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
   host?: Maybe<Scalars['String']>;
+  l: Scalars['ID'];
+  leaveOnServer?: Maybe<Scalars['Boolean']>;
   signatureValue?: Maybe<Scalars['String']>;
   importOnly?: Maybe<Scalars['Boolean']>;
   forwardReplySignature?: Maybe<Scalars['ID']>;
