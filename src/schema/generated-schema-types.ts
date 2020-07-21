@@ -78,7 +78,6 @@ export type AccountInfoAttrs = {
   zimbraPasswordMinAge?: Maybe<Scalars['Int']>;
   zimbraPasswordMaxAge?: Maybe<Scalars['Int']>;
   zimbraPasswordEnforceHistory?: Maybe<Scalars['Int']>;
-  zimbraPasswordModifiedTime?: Maybe<Scalars['Int']>;
   zimbraPasswordAllowedChars?: Maybe<Scalars['String']>;
   zimbraPasswordAllowedPunctuationChars?: Maybe<Scalars['String']>;
   zimbraFeatureChangePasswordEnabled?: Maybe<Scalars['Boolean']>;

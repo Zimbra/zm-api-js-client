@@ -1237,7 +1237,6 @@ type AccountInfoAttrs {
 	zimbraPasswordMinAge: Int
 	zimbraPasswordMaxAge: Int
 	zimbraPasswordEnforceHistory: Int
-	zimbraPasswordModifiedTime: Int
 	zimbraPasswordAllowedChars: String
 	zimbraPasswordAllowedPunctuationChars: String
 	zimbraFeatureChangePasswordEnabled: Boolean
