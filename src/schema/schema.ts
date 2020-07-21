@@ -179,6 +179,7 @@ export function createZimbraSchema(
 				getPreferences: client.getPreferences,
 				getDataSources: client.getDataSources,
 				getIdentities: client.getIdentities,
+				getImportStatus: client.getImportStatus,
 				getSignatures: client.getSignatures,
 				noop: (_, variables, context = {}) =>
 					client.noop(variables as NoOpOptions, context.fetchOptions),

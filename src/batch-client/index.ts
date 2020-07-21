@@ -960,6 +960,11 @@ export class ZimbraBatchClient {
 			);
 		});
 
+	public getImportStatus = () =>
+		this.jsonRequest({
+			name: 'GetImportStatus'
+		});
+
 	public getMailboxMetadata = ({ section }: GetMailboxMetadataOptions) =>
 		this.jsonRequest({
 			name: 'GetMailboxMetadata',
