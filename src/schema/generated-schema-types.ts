@@ -66,6 +66,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureMailEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureCalendarEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureBriefcasesEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureMobileSyncEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureRelatedContactsEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPasswordMinAlphaChars?: Maybe<Scalars['Int']>;
   zimbraPasswordMinNumericChars?: Maybe<Scalars['Int']>;
