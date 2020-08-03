@@ -117,6 +117,15 @@ export function normalizeOtherAttr(data: any) {
 				: castValueOfNickname;
 		}
 
+		let castValueOfUserCert: any = contact._attrs['userCertificate'];
+
+		if (castValueOfUserCert) {
+			// To Do:- Handle multiple UserCertificates for a contact
+			contact._attrs['userCertificate'] = Array.isArray(castValueOfUserCert)
+				? castValueOfUserCert[0]
+				: castValueOfUserCert;
+		}
+
 		Object.keys(contact._attrs)
 			.filter(key => !supportedContactAttributes.includes(key))
 			.forEach(
