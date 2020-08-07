@@ -29,6 +29,8 @@ import {
 	FreeBusy,
 	FreeBusyInstance,
 	GetAppointmentResponse,
+	GetDocumentShareURLEntity,
+	GetDocumentShareURLResponseEntity,
 	GetFolderRequest as GetFolderRequestEntity,
 	GetRightsRequest,
 	InviteReply,
@@ -125,6 +127,7 @@ import {
 	GetContactOptions,
 	GetConversationOptions,
 	GetCustomMetadataOptions,
+	GetDocumentShareURLOptions,
 	GetFolderOptions,
 	GetMailboxMetadataOptions,
 	GetMessageOptions,
@@ -315,7 +318,7 @@ export class ZimbraBatchClient {
 
 		try {
 			({ flags, tags, tagNames, date } = JSON.parse(meta));
-		} catch (err) {}
+		} catch (err) { }
 
 		return this.jsonRequest({
 			name: 'AddMsg',
@@ -865,6 +868,13 @@ export class ZimbraBatchClient {
 			name: 'GetDeviceStatus',
 			namespace: Namespace.Sync
 		}).then(res => get(res, 'device') || []);
+
+	public getDocumentShareURL = (options: GetDocumentShareURLOptions) =>
+		this.jsonRequest({
+			name: 'GetDocumentShareURL',
+			body: denormalize(GetDocumentShareURLEntity)(options),
+			singleRequest: true
+		}).then(res => normalize(GetDocumentShareURLResponseEntity)(res));
 
 	public getFilterRules = () =>
 		this.jsonRequest({

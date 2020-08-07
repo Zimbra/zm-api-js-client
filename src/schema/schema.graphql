@@ -1932,6 +1932,10 @@ type AutoCompleteMatch {
 	fileas: String
 }
 
+type GetDocumentShareURLResponse {
+	content: String
+}
+
 input CalendarItemInput {
 	id: ID
 	modifiedSequence: Float
@@ -2709,6 +2713,13 @@ input GetFolderFolderInput {
 	path: String # Fully qualifed folder path
 }
 
+input GetDocumentShareURLItemInput {
+	folderId: ID
+	id: ID
+	name: String
+	path: String 
+}
+
 input Cursor {
 	id: ID
 	sortField: String
@@ -3006,6 +3017,7 @@ type Query {
 		needExp: Boolean
 		fetch: String
 	): Conversation
+	getDocumentShareURL(item: GetDocumentShareURLItemInput): GetDocumentShareURLResponse
 	getFilterRules: [Filter]
 	getFolder(
 		visible: Boolean
