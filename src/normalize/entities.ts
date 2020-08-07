@@ -604,6 +604,18 @@ export const GetFolderRequest = new Entity({
 	folder: GetFolderSpec
 });
 
+const GetDocumentShareURLItemEntity = new Entity({
+	l: 'folderId'
+});
+
+export const GetDocumentShareURLEntity = new Entity({
+	item: ['item', GetDocumentShareURLItemEntity]
+});
+
+export const GetDocumentShareURLResponseEntity = new Entity({
+	_content: 'content'
+});
+
 const ContactInputAttributes = new Entity({
 	n: 'name',
 	_content: 'content'

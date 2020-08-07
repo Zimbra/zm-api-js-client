@@ -114,6 +114,17 @@ export interface GetFolderOptions {
 	visible?: boolean;
 }
 
+export interface GetDocumentShareURLItemOptions {
+	folderId?: string;
+	id?: string;
+	name?: string;
+	path?: string;
+}
+
+export interface GetDocumentShareURLOptions {
+	item: GetDocumentShareURLItemOptions;
+}
+
 export interface GetCustomMetadataOptions {
 	id: string;
 	section: string;

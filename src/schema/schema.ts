@@ -61,6 +61,7 @@ import {
 	GetContactOptions,
 	GetConversationOptions,
 	GetCustomMetadataOptions,
+	GetDocumentShareURLOptions,
 	GetFolderOptions,
 	GetMailboxMetadataOptions,
 	GetMessageOptions,
@@ -127,6 +128,9 @@ export function createZimbraSchema(
 					client.getConversation(variables as GetConversationOptions),
 				getCustomMetadata: (_: any, variables) =>
 					client.getCustomMetadata(variables as GetCustomMetadataOptions),
+
+				getDocumentShareURL: (_: any, variables) =>
+					client.getDocumentShareURL(variables as GetDocumentShareURLOptions),
 				getFilterRules: client.getFilterRules,
 				getFolder: (_: any, variables, context = {}) => {
 					const { local } = context;

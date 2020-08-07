@@ -1647,6 +1647,18 @@ export type GetAppointmentResponse = {
   appointment?: Maybe<Array<Maybe<AppointmentInfo>>>;
 };
 
+export type GetDocumentShareUrlItemInput = {
+  folderId?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  path?: Maybe<Scalars['String']>;
+};
+
+export type GetDocumentShareUrlResponse = {
+  __typename?: 'GetDocumentShareURLResponse';
+  content?: Maybe<Scalars['String']>;
+};
+
 export type GetFolderFolderInput = {
   uuid?: Maybe<Scalars['ID']>;
   parentFolderId?: Maybe<Scalars['ID']>;
@@ -3106,6 +3118,7 @@ export type Query = {
   getAvailableLocales?: Maybe<Array<Maybe<Locale>>>;
   getContactFrequency?: Maybe<ContactFrequencyResponse>;
   getConversation?: Maybe<Conversation>;
+  getDocumentShareURL?: Maybe<GetDocumentShareUrlResponse>;
   getFilterRules?: Maybe<Array<Maybe<Filter>>>;
   getFolder?: Maybe<Folder>;
   getCustomMetadata?: Maybe<CustomMetadata>;
@@ -3240,6 +3253,11 @@ export type QueryGetConversationArgs = {
   max?: Maybe<Scalars['Int']>;
   needExp?: Maybe<Scalars['Boolean']>;
   fetch?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryGetDocumentShareUrlArgs = {
+  item?: Maybe<GetDocumentShareUrlItemInput>;
 };
 
 
