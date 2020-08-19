@@ -40,7 +40,8 @@ import {
 	SearchResponse,
 	SendMessageInfo,
 	ShareNotification,
-	Tag
+	Tag,
+	ZimletConfigEntity
 } from '../normalize/entities';
 import {
 	batchJsonRequest,
@@ -282,7 +283,20 @@ export class ZimbraBatchClient {
 					status: res.license.status,
 					attr: mapValuesDeep(res.license.attr, coerceStringToBoolean)
 				}
-			})
+			}),
+			zimlets: {
+				zimlet:
+					get(res, 'zimlets.zimlet') &&
+					get(res, 'zimlets.zimlet').map(
+						({ zimlet, zimletContext, zimletConfig }: any) => ({
+							zimlet,
+							zimletContext,
+							...(zimletConfig && {
+								zimletConfig: normalize(ZimletConfigEntity)(zimletConfig)
+							})
+						})
+					)
+			}
 		}));
 
 	public action = (type: ActionType, options: ActionOptions) => {
