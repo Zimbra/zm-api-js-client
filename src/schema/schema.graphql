@@ -1206,13 +1206,25 @@ type AccountZimletDesc {
 	zimbraXZimletCompatibleSemVer: String
 }
 
+type ZimletConfigProperty {
+	name: String
+	content: String
+}
+
+type ZimletConfigGlobal {
+	property: [ZimletConfigProperty]
+}
+
+type ZimletConfigHost {
+	property: [ZimletConfigProperty]
+}
+
 type AccountZimletConfigInfo {
+	global: [ZimletConfigGlobal]
+	host: [ZimletConfigHost]
+	property: [ZimletConfigProperty]
 	name: String
 	version: String
-	description: String
-	extension: String
-	target: String
-	label: String
 }
 
 type AccountInfoAttrs {

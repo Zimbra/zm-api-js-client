@@ -690,3 +690,21 @@ export const Tag = new Entity({
 export const Mailbox = new Entity({
 	s: 'used'
 });
+
+export const ZimletConfigPropertyEntity = new Entity({
+	_content: 'content'
+});
+
+export const ZimletConfigGlobalEntity = new Entity({
+	property: ['property', ZimletConfigPropertyEntity]
+});
+
+export const ZimletConfigHostEntity = new Entity({
+	property: ['property', ZimletConfigPropertyEntity]
+});
+
+export const ZimletConfigEntity = new Entity({
+	global: ['global', ZimletConfigGlobalEntity],
+	host: ['host', ZimletConfigHostEntity],
+	property: ['property', ZimletConfigPropertyEntity]
+});

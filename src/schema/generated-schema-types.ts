@@ -121,12 +121,11 @@ export type AccountZimlet = {
 
 export type AccountZimletConfigInfo = {
   __typename?: 'AccountZimletConfigInfo';
+  global?: Maybe<Array<Maybe<ZimletConfigGlobal>>>;
+  host?: Maybe<Array<Maybe<ZimletConfigHost>>>;
+  property?: Maybe<Array<Maybe<ZimletConfigProperty>>>;
   name?: Maybe<Scalars['String']>;
   version?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  extension?: Maybe<Scalars['String']>;
-  target?: Maybe<Scalars['String']>;
-  label?: Maybe<Scalars['String']>;
 };
 
 export type AccountZimletContext = {
@@ -3933,6 +3932,22 @@ export type WorkingHoursInstance = {
   __typename?: 'WorkingHoursInstance';
   start?: Maybe<Scalars['Float']>;
   end?: Maybe<Scalars['Float']>;
+};
+
+export type ZimletConfigGlobal = {
+  __typename?: 'ZimletConfigGlobal';
+  property?: Maybe<Array<Maybe<ZimletConfigProperty>>>;
+};
+
+export type ZimletConfigHost = {
+  __typename?: 'ZimletConfigHost';
+  property?: Maybe<Array<Maybe<ZimletConfigProperty>>>;
+};
+
+export type ZimletConfigProperty = {
+  __typename?: 'ZimletConfigProperty';
+  name?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
 };
 
 export type ZimletPref = {
