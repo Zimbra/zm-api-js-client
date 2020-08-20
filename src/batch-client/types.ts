@@ -250,6 +250,7 @@ export interface ActionOptions {
 	ids?: Array<string>;
 	name?: string;
 	op: string;
+	recursive?: Boolean;
 	rgb?: string;
 	tagNames?: string;
 }
