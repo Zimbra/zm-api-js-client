@@ -3141,7 +3141,8 @@ type Mutation {
 		folderId: ID
 		rgb: String
 		tagNames: String
-		name: String
+		name: String,
+		recursive: Boolean
 	): Boolean
 	applyFilterRules(ids: String!, filterRules: [FilterRuleInput]): [String]
 	testExternalAccount(
