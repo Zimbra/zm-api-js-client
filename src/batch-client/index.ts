@@ -310,7 +310,7 @@ export class ZimbraBatchClient {
 					...denormalize(ActionOptionsEntity)(rest)
 				}
 			},
-			singleRequest: true
+			singleRequest: false
 		}).then(Boolean);
 	};
 
