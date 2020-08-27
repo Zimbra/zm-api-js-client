@@ -1239,6 +1239,7 @@ type AccountInfoAttrs {
 	zimbraFeatureBriefcasesEnabled: Boolean
 	zimbraFeatureMobileSyncEnabled: Boolean
 	zimbraFeatureRelatedContactsEnabled: Boolean
+	zimbraPasswordBlockCommonEnabled: Boolean
 	zimbraPasswordMinAlphaChars: Int
 	zimbraPasswordMinNumericChars: Int
 	zimbraPasswordMinUpperCaseChars: Int
@@ -3154,6 +3155,7 @@ type Mutation {
 	saveDocument(document: SaveDocumentInput): Boolean
 	changeFolderColor(id: ID!, color: Int!): Boolean
 	changePassword(
+		dryRun: Boolean
 		loginNewPassword: String!
 		password: String!
 		username: String!

@@ -68,6 +68,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureBriefcasesEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureMobileSyncEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureRelatedContactsEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraPasswordBlockCommonEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPasswordMinAlphaChars?: Maybe<Scalars['Int']>;
   zimbraPasswordMinNumericChars?: Maybe<Scalars['Int']>;
   zimbraPasswordMinUpperCaseChars?: Maybe<Scalars['Int']>;
@@ -2416,6 +2417,7 @@ export type MutationChangeFolderColorArgs = {
 
 
 export type MutationChangePasswordArgs = {
+  dryRun?: Maybe<Scalars['Boolean']>;
   loginNewPassword: Scalars['String'];
   password: Scalars['String'];
   username: Scalars['String'];
