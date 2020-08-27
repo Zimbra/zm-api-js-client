@@ -220,6 +220,7 @@ export interface ShareInfoOptions {
 }
 
 export interface ChangePasswordOptions {
+	dryRun: boolean;
 	loginNewPassword: string;
 	password: string;
 	username: string;

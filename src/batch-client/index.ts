@@ -401,7 +401,8 @@ export class ZimbraBatchClient {
 	public changePassword = ({
 		loginNewPassword,
 		password,
-		username
+		username,
+		dryRun = false
 	}: ChangePasswordOptions) =>
 		this.jsonRequest({
 			name: 'ChangePassword',
@@ -412,7 +413,8 @@ export class ZimbraBatchClient {
 					_content: username
 				},
 				oldPassword: password,
-				password: loginNewPassword
+				password: loginNewPassword,
+				dryRun
 			},
 			singleRequest: true
 		});
