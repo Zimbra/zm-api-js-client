@@ -2624,6 +2624,7 @@ export type MutationItemActionArgs = {
   ids?: Maybe<Array<Maybe<Scalars['ID']>>>;
   folderId?: Maybe<Scalars['ID']>;
   op: Scalars['String'];
+  tagNames?: Maybe<Scalars['String']>;
 };
 
 
