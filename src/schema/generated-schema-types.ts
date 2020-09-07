@@ -2374,6 +2374,7 @@ export type MutationActionArgs = {
   rgb?: Maybe<Scalars['String']>;
   tagNames?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  recursive?: Maybe<Scalars['Boolean']>;
 };
 
 
