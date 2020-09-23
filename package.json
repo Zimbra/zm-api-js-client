@@ -80,6 +80,6 @@
 		"tslint-config-prettier": "^1.18.0",
 		"tslint-plugin-prettier": "^2.3.0",
 		"typescript": "^4.0.3",
-		"uglifyjs": "^2.4.11"
+		"uglify-js": "^3.12.1"
 	}
 }

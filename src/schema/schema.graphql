@@ -1909,6 +1909,7 @@ type MimePart {
 	mimeParts: [MimePart]
 	url: String
 	messageId: ID
+	base64: String
 }
 
 type ActionData {
@@ -1936,6 +1937,7 @@ input MimePartInput {
 	url: String
 	messageId: ID
 	attachments: [AttachmentInput]
+	base64: String
 }
 
 input ExistingAttachmentInput {
