@@ -72,7 +72,7 @@ export type AccountInfo = {
   props?: Maybe<PropList>;
   zimlets?: Maybe<AccountZimlet>;
   cos?: Maybe<AccountCos>;
-  pasteitcleanedEnabled?: Maybe<Scalars['Boolean']>;
+ pasteitcleanedEnabled?: Maybe<Scalars['Boolean']>;
 };
 
 export type AccountInfoAttrs = {
