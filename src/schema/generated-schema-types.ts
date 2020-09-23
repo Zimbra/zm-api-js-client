@@ -2035,6 +2035,7 @@ export type MimePart = {
   mimeParts?: Maybe<Array<Maybe<MimePart>>>;
   url?: Maybe<Scalars['String']>;
   messageId?: Maybe<Scalars['ID']>;
+  base64?: Maybe<Scalars['String']>;
 };
 
 export type ActionData = {
