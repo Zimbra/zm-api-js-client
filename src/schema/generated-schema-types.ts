@@ -2110,6 +2110,7 @@ export type MimePart = {
   mimeParts?: Maybe<Array<Maybe<MimePart>>>;
   url?: Maybe<Scalars['String']>;
   messageId?: Maybe<Scalars['ID']>;
+  base64?: Maybe<Scalars['String']>;
 };
 
 export type ActionData = {
@@ -2138,6 +2139,7 @@ export type MimePartInput = {
   url?: Maybe<Scalars['String']>;
   messageId?: Maybe<Scalars['ID']>;
   attachments?: Maybe<Array<Maybe<AttachmentInput>>>;
+  base64?: Maybe<Scalars['String']>;
 };
 
 export type ExistingAttachmentInput = {
