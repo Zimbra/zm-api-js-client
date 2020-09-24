@@ -1726,12 +1726,12 @@ export class ZimbraBatchClient {
 			this.checkAndUpdateSessionId(sessionId);
 
 			if (this.notifier) {
-				if (refresh) {
-					this.notifier.handleRefresh(refresh);
-				}
-
 				if (notifications) {
 					this.notifier.handleNotifications(notifications);
+				}
+
+				if (refresh) {
+					this.notifier.handleRefresh(refresh);
 				}
 			}
 
@@ -1768,12 +1768,12 @@ export class ZimbraBatchClient {
 			this.checkAndUpdateSessionId(sessionId);
 
 			if (this.notifier) {
-				if (refresh) {
-					this.notifier.handleRefresh(refresh);
-				}
-
 				if (notifications) {
 					this.notifier.handleNotifications(notifications);
+				}
+
+				if (refresh) {
+					this.notifier.handleRefresh(refresh);
 				}
 			}
 
@@ -1816,7 +1816,7 @@ export class ZimbraBatchClient {
 			(this.sessionHandler && this.sessionHandler.readSessionId()),
 		origin: this.origin,
 		userAgent: this.userAgent,
-		...(this.notifier.getSequenceNumber() && {
+		...(typeof this.notifier.getSequenceNumber() !== 'undefined' && {
 			sessionSeq: this.notifier.getSequenceNumber()
 		})
 	});
