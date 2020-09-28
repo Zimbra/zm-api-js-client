@@ -168,6 +168,14 @@ export type AclGrant = {
   key?: Maybe<Scalars['String']>;
 };
 
+export type ActionData = {
+  __typename?: 'ActionData';
+  address?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  op?: Maybe<Scalars['String']>;
+  zimbraId?: Maybe<Scalars['ID']>;
+};
+
 export type ActionOpResponse = {
   __typename?: 'ActionOpResponse';
   action?: Maybe<ActionOpResponseData>;
@@ -1213,6 +1221,7 @@ export type DismissInput = {
 export type Document = {
   __typename?: 'Document';
   id?: Maybe<Scalars['ID']>;
+  acl?: Maybe<Acl>;
   folderId?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
   version?: Maybe<Scalars['Float']>;
@@ -1234,6 +1243,11 @@ export type Document = {
   revisedCreationDate?: Maybe<Scalars['Float']>;
   lockOwnerId?: Maybe<Scalars['ID']>;
   flags?: Maybe<Scalars['String']>;
+};
+
+export type DocumentActionData = {
+  __typename?: 'DocumentActionData';
+  action?: Maybe<ActionData>;
 };
 
 export type DocumentInput = {
@@ -2312,6 +2326,7 @@ export type Mutation = {
   generateScratchCodes?: Maybe<ScratchCodes>;
   grantRights?: Maybe<RightsResponse>;
   folderAction?: Maybe<Scalars['Boolean']>;
+  documentAction?: Maybe<DocumentActionData>;
   forwardAppointmentInvite?: Maybe<Scalars['Boolean']>;
   forwardAppointment?: Maybe<Scalars['Boolean']>;
   itemAction?: Maybe<Scalars['Boolean']>;
@@ -2582,6 +2597,11 @@ export type MutationGrantRightsArgs = {
 
 
 export type MutationFolderActionArgs = {
+  action: FolderActionInput;
+};
+
+
+export type MutationDocumentActionArgs = {
   action: FolderActionInput;
 };
 
@@ -2863,6 +2883,10 @@ export type NewMountpointSpec = {
 export type NoOpResponse = {
   __typename?: 'NoOpResponse';
   waitDisallowed?: Maybe<Scalars['Boolean']>;
+};
+
+export type Notes = {
+  _content?: Maybe<Scalars['String']>;
 };
 
 export type NotifyAction = {
@@ -3682,7 +3706,7 @@ export type ShareNotificationInput = {
   action?: Maybe<ShareInputAction>;
   item: ShareNotificationItemInput;
   address: ShareNotificaitonEmailAddressInput;
-  notes?: Maybe<Scalars['String']>;
+  notes?: Maybe<Notes>;
 };
 
 export type ShareNotificationItemInput = {
