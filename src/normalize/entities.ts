@@ -393,6 +393,7 @@ export const ActionOptions = new Entity({
 	tn: 'tagNames',
 	f: 'flags',
 	zid: 'zimbraId',
+	d: 'address',
 	grant: ACLGrant
 });
 
@@ -460,6 +461,7 @@ export const Appointment = new Entity({
 
 export const Document = new Entity({
 	...commonFieldForMessageAndDocuments,
+	acl: ACL,
 	luuid: 'folderUuid',
 	mdver: 'metadataVersion',
 	meta: 'metaData',
@@ -707,4 +709,13 @@ export const ZimletConfigEntity = new Entity({
 	global: ['global', ZimletConfigGlobalEntity],
 	host: ['host', ZimletConfigHostEntity],
 	property: ['property', ZimletConfigPropertyEntity]
+});
+
+export const ActionData = new Entity({
+	d: 'address',
+	zid: 'zimbraId'
+})
+
+export const DocumentActionData = new Entity({
+	action : ['action', ActionData]
 });

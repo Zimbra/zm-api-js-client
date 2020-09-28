@@ -1439,6 +1439,7 @@ type SignatureResponse {
 
 type Document {
 	id: ID #id
+	acl: ACL #list of users having grant on a document
 	folderId: ID #l
 	name: String #name
 	version: Float #same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest
@@ -1888,6 +1889,18 @@ type MimePart {
 	messageId: ID
 }
 
+type ActionData {
+	address: String
+	id: ID
+	op: String
+	zimbraId: ID
+}
+
+
+type DocumentActionData {
+	action: ActionData
+}
+
 input MimePartInput {
 	body: Boolean
 	filename: String
@@ -2293,7 +2306,7 @@ input GrantInput {
 	key: String
 	password: String
 	permissions: String!
-	zimbraId: ID
+	zimbraId: ID,
 }
 
 input Right {
@@ -2622,7 +2635,7 @@ input ShareNotificationInput {
 	action: ShareInputAction
 	item: ShareNotificationItemInput!
 	address: ShareNotificaitonEmailAddressInput!
-	notes: String
+	notes: Notes
 }
 
 input ShareNotificationItemInput {
@@ -2667,6 +2680,10 @@ input ExternalAccountAddInput {
 	password: String!
 	port: String!
 	username: String!
+}
+
+input Notes {
+	_content: String
 }
 
 input ExternalAccountTestInput {
@@ -3214,6 +3231,7 @@ type Mutation {
 	generateScratchCodes(username: String!): ScratchCodes
 	grantRights(input: GrantRightsInput!): RightsResponse
 	folderAction(action: FolderActionInput!): Boolean
+	documentAction(action: FolderActionInput!): DocumentActionData
 	forwardAppointmentInvite(
 		appointmentInvite: ForwardAppointmentInviteInput!
 	): Boolean

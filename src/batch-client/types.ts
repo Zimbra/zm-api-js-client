@@ -263,7 +263,8 @@ export enum ActionType {
 	folder = 'FolderAction',
 	item = 'ItemAction',
 	message = 'MsgAction',
-	tag = 'TagAction'
+	tag = 'TagAction',
+	document = 'DocumentAction'
 }
 
 export enum ActionResultType {

@@ -22,6 +22,7 @@ import {
 	CreateMountpointRequest,
 	CreateSignatureRequest,
 	DiscoverRightsResponse,
+	DocumentActionData,
 	Filter,
 	Folder,
 	ForwardAppointmentInfo,
@@ -306,12 +307,27 @@ export class ZimbraBatchClient {
 			name: type,
 			body: {
 				action: {
-					id: id || (ids || []).join(','),
+					id: id || [ids].join(','),
 					...denormalize(ActionOptionsEntity)(rest)
 				}
 			},
 			singleRequest: true
 		}).then(Boolean);
+	};
+
+	public documentActionResponse = (type: ActionType, options: ActionOptions) => {
+		const { id, ...rest } = options;
+
+		return this.jsonRequest({
+			name: type,
+			body: {
+				action: {
+					id: [id].join(','),
+					...denormalize(ActionOptionsEntity)(rest)
+				}
+			},
+			singleRequest: true
+		}).then(normalize(DocumentActionData));
 	};
 
 	public addExternalAccount = ({
@@ -748,6 +764,9 @@ export class ZimbraBatchClient {
 
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);
+
+	public documentAction = (options: ActionOptions) =>
+		this.documentActionResponse(ActionType.document, options);
 
 	public forwardAppointment = (body: ForwardAppointmentInput) =>
 		this.jsonRequest({
@@ -1189,7 +1208,7 @@ export class ZimbraBatchClient {
 
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);
-
+		
 	public jsonRequest = (options: JsonRequestOptions) =>
 		// If account name is present that means we will not be able to batch requests
 		this[options.singleRequest ? 'dataLoader' : 'batchDataLoader'].load(
