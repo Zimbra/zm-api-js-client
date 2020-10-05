@@ -1,17 +1,10 @@
-import babel from 'rollup-plugin-babel';
-import typescript from 'rollup-plugin-typescript2';
+import babel from '@rollup/plugin-babel';
+import typescript from '@rollup/plugin-typescript';
 import graphql from 'rollup-plugin-graphql';
 import localResolve from 'rollup-plugin-local-resolve';
-import nodeResolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
+import nodeResolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 import pkg from './package.json';
-import * as graphqlType from 'graphql/type';
-import * as graphqlLanguage from 'graphql/language';
-import * as graphqlExecution from 'graphql/execution';
-import * as graphqlSubscription from 'graphql/subscription';
-import * as graphqlError from 'graphql/error';
-import * as graphqlUtilities from 'graphql/utilities';
-import * as graphqlValidators from 'graphql/validation';
 
 let FORMAT = process.env.FORMAT;
 
@@ -35,24 +28,12 @@ export default {
 		nodeResolve({
 			extensions: [ '.js', '.ts', '.json' ]
 		}),
-		commonjs({
-			namedExports: {
-				// 'graphql-tools': [ 'makeExecutableSchema' ],
-				'graphql/type': Object.keys(graphqlType),
-				'graphql/language': Object.keys(graphqlLanguage),
-				'graphql/execution': Object.keys(graphqlExecution),
-				'graphql/subscription': Object.keys(graphqlSubscription),
-				'graphql/error': Object.keys(graphqlError),
-				'graphql/utilities': Object.keys(graphqlUtilities),
-				'graphql/validation': Object.keys(graphqlValidators)
-			}
-		}),
-		typescript({
-			typescript: require('typescript')
-		}),
+		commonjs(),
+		typescript(),
 		babel({
 			extensions: ['.ts'],
-			exclude: 'node_modules/**'
+			exclude: 'node_modules/**',
+			babelHelpers: 'bundled'
 		})
 	],
 	output: {
