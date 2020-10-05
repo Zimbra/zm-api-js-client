@@ -3,7 +3,6 @@
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
 		"declaration": false,
-		"outDir": "dist",
 		"jsx": "react",
 		"jsxFactory": "h",
 		"lib": ["dom", "es2015", "es2016"],
