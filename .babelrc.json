@@ -1,0 +1,18 @@
+{
+	"presets": [
+		["@babel/preset-env", { "targets": "defaults" }],
+		"@babel/typescript"
+	],
+	"plugins": [
+		"@babel/proposal-class-properties",
+		"lodash"
+	],
+	"env": {
+		"test": {
+			"presets": [
+				["@babel/preset-env", { "targets": "defaults" }],
+				"@babel/typescript"
+			]
+		}
+	}
+}
