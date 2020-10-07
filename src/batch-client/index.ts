@@ -36,6 +36,7 @@ import {
 	GetRightsRequest,
 	InviteReply,
 	MessageInfo,
+	SaveDocument,
 	SaveDocuments,
 	SearchCalendarResourcesResponse,
 	SearchResponse,
@@ -315,7 +316,10 @@ export class ZimbraBatchClient {
 		}).then(Boolean);
 	};
 
-	public documentActionResponse = (type: ActionType, options: ActionOptions) => {
+	public documentActionResponse = (
+		type: ActionType,
+		options: ActionOptions
+	) => {
 		const { id, ...rest } = options;
 
 		return this.jsonRequest({
@@ -1208,7 +1212,7 @@ export class ZimbraBatchClient {
 
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);
-		
+
 	public jsonRequest = (options: JsonRequestOptions) =>
 		// If account name is present that means we will not be able to batch requests
 		this[options.singleRequest ? 'dataLoader' : 'batchDataLoader'].load(
@@ -1513,7 +1517,9 @@ export class ZimbraBatchClient {
 			name: 'SaveDocument',
 			body: denormalize(SaveDocuments)(document),
 			singleRequest: true
-		}).then(Boolean);
+		}).then(({ doc }) => ({
+			document: doc.map((d: any) => normalize(SaveDocument)(d))
+		}));
 
 	public saveDraft = (message: SendMessageInput, accountName: string) =>
 		this.jsonRequest({

@@ -2295,7 +2295,7 @@ export type Mutation = {
   addExternalAccount?: Maybe<Scalars['ID']>;
   addMessage?: Maybe<MessageInfo>;
   cancelTask?: Maybe<Scalars['Boolean']>;
-  saveDocument?: Maybe<Scalars['Boolean']>;
+  saveDocument?: Maybe<SaveDocumentResponse>;
   changeFolderColor?: Maybe<Scalars['Boolean']>;
   changePassword?: Maybe<AuthResponse>;
   modifyProfileImage?: Maybe<ProfileImageChangeResponse>;
@@ -3541,6 +3541,13 @@ export type RightsResponse = {
   access?: Maybe<Array<Maybe<AccountAceInfo>>>;
 };
 
+export type SaveDocument = {
+  __typename?: 'SaveDocument';
+  id?: Maybe<Scalars['ID']>;
+  version?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+};
+
 export type SaveDocumentInput = {
   id?: Maybe<Scalars['ID']>;
   folderId?: Maybe<Scalars['ID']>;
@@ -3550,6 +3557,11 @@ export type SaveDocumentInput = {
   upload?: Maybe<UploadDocument>;
   messageData?: Maybe<Array<Maybe<MessagePartForDocument>>>;
   descriptionEnabled?: Maybe<Scalars['Boolean']>;
+};
+
+export type SaveDocumentResponse = {
+  __typename?: 'SaveDocumentResponse';
+  document?: Maybe<Array<Maybe<SaveDocument>>>;
 };
 
 export type SaveDraftResponse = {
