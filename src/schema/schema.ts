@@ -333,8 +333,7 @@ export function createZimbraSchema(
 						counterAppointmentInvite as CounterAppointmentInput
 					),
 				folderAction: (_, { action }) => client.folderAction(action),
-				documentAction: (_, { action }) =>
-					client.documentAction(action),
+				documentAction: (_, { action }) => client.documentAction(action),
 				forwardAppointment: (_, { appointmentInvite }) =>
 					client.forwardAppointment(
 						appointmentInvite as ForwardAppointmentInput
@@ -346,11 +345,11 @@ export function createZimbraSchema(
 				generateScratchCodes: client.generateScratchCodes,
 				grantRights: (_, variables) =>
 					client.grantRights(variables.input as GrantRightsInput),
-				sendShareNotification: (_, { shareNotification }) => 
+				sendShareNotification: (_, { shareNotification }) =>
 					client.sendShareNotification(
 						shareNotification as ShareNotificationInput
 					),
-				
+
 				testExternalAccount: (_, { externalAccount }) =>
 					client.testExternalAccount(
 						externalAccount as ExternalAccountTestInput

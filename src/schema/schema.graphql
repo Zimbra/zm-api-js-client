@@ -2861,6 +2861,16 @@ input SaveDocumentInput {
 	descriptionEnabled: Boolean #descEnabled
 }
 
+type SaveDocument {
+	id: ID
+	version: Int
+	name: String
+}
+
+type SaveDocumentResponse {
+	document: [SaveDocument] 
+}
+
 ##### SMIME Certificates type #####
 
 type SMimePublicCert {
@@ -3169,7 +3179,7 @@ type Mutation {
 	addExternalAccount(externalAccount: ExternalAccountAddInput!): ID
 	addMessage(message: AddMsgInput!): MessageInfo
 	cancelTask(inviteId: ID!): Boolean
-	saveDocument(document: SaveDocumentInput): Boolean
+	saveDocument(document: SaveDocumentInput): SaveDocumentResponse
 	changeFolderColor(id: ID!, color: Int!): Boolean
 	changePassword(
 		dryRun: Boolean
