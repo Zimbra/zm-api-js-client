@@ -36,6 +36,7 @@ import {
 	GetRightsRequest,
 	InviteReply,
 	MessageInfo,
+	SaveDocument,
 	SaveDocuments,
 	SearchCalendarResourcesResponse,
 	SearchResponse,
@@ -313,21 +314,6 @@ export class ZimbraBatchClient {
 			},
 			singleRequest: true
 		}).then(Boolean);
-	};
-
-	public documentActionResponse = (type: ActionType, options: ActionOptions) => {
-		const { id, ...rest } = options;
-
-		return this.jsonRequest({
-			name: type,
-			body: {
-				action: {
-					id: [id].join(','),
-					...denormalize(ActionOptionsEntity)(rest)
-				}
-			},
-			singleRequest: true
-		}).then(normalize(DocumentActionData));
 	};
 
 	public addExternalAccount = ({
@@ -706,6 +692,27 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(Boolean);
 
+	public documentAction = (options: ActionOptions) =>
+		this.documentActionResponse(ActionType.document, options);
+
+	public documentActionResponse = (
+		type: ActionType,
+		options: ActionOptions
+	) => {
+		const { id, ...rest } = options;
+
+		return this.jsonRequest({
+			name: type,
+			body: {
+				action: {
+					id: [id].join(','),
+					...denormalize(ActionOptionsEntity)(rest)
+				}
+			},
+			singleRequest: true
+		}).then(normalize(DocumentActionData));
+	};
+
 	public downloadAttachment = ({ id, part }: any) =>
 		this.download({
 			url: `/service/home/~/?auth=co&id=${id}&part=${part}`
@@ -764,9 +771,6 @@ export class ZimbraBatchClient {
 
 	public folderAction = (options: ActionOptions) =>
 		this.action(ActionType.folder, options);
-
-	public documentAction = (options: ActionOptions) =>
-		this.documentActionResponse(ActionType.document, options);
 
 	public forwardAppointment = (body: ForwardAppointmentInput) =>
 		this.jsonRequest({
@@ -1208,7 +1212,7 @@ export class ZimbraBatchClient {
 
 	public itemAction = (options: ActionOptions) =>
 		this.action(ActionType.item, options);
-		
+
 	public jsonRequest = (options: JsonRequestOptions) =>
 		// If account name is present that means we will not be able to batch requests
 		this[options.singleRequest ? 'dataLoader' : 'batchDataLoader'].load(
@@ -1513,7 +1517,9 @@ export class ZimbraBatchClient {
 			name: 'SaveDocument',
 			body: denormalize(SaveDocuments)(document),
 			singleRequest: true
-		}).then(Boolean);
+		}).then(({ doc }) => ({
+			document: doc.map((d: any) => normalize(SaveDocument)(d))
+		}));
 
 	public saveDraft = (message: SendMessageInput, accountName: string) =>
 		this.jsonRequest({

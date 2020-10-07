@@ -714,8 +714,8 @@ export const ZimletConfigEntity = new Entity({
 export const ActionData = new Entity({
 	d: 'address',
 	zid: 'zimbraId'
-})
+});
 
 export const DocumentActionData = new Entity({
-	action : ['action', ActionData]
+	action: ['action', ActionData]
 });
