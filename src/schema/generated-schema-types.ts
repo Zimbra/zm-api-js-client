@@ -2986,6 +2986,7 @@ export type Preferences = {
   zimbraPrefCalendarApptReminderWarningTime?: Maybe<Scalars['Int']>;
   zimbraPrefCalendarShowPastDueReminders?: Maybe<Scalars['Boolean']>;
   zimbraPrefCalendarToasterEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraPrefCalendarAlwaysShowMiniCal?: Maybe<Scalars['Boolean']>;
   zimbraPrefComposeDirection?: Maybe<Scalars['String']>;
   zimbraPrefComposeFormat?: Maybe<Mode>;
   zimbraPrefHtmlEditorDefaultFontColor?: Maybe<Scalars['String']>;
@@ -3045,6 +3046,7 @@ export type PreferencesInput = {
   zimbraPrefCalendarApptReminderWarningTime?: Maybe<Scalars['Int']>;
   zimbraPrefCalendarShowPastDueReminders?: Maybe<Scalars['Boolean']>;
   zimbraPrefCalendarToasterEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraPrefCalendarAlwaysShowMiniCal?: Maybe<Scalars['Boolean']>;
   zimbraPrefComposeDirection?: Maybe<Scalars['String']>;
   zimbraPrefComposeFormat?: Maybe<Mode>;
   zimbraPrefHtmlEditorDefaultFontColor?: Maybe<Scalars['String']>;
