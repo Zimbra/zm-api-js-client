@@ -12,6 +12,7 @@ export { types };
 import {
 	Contact,
 	Conversation,
+	Document,
 	Folder as FolderEntity,
 	Mailbox,
 	MessageInfo,
@@ -21,6 +22,7 @@ import {
 const entities = {
 	Contact,
 	Conversation,
+	Document,
 	FolderEntity,
 	Mailbox,
 	MessageInfo,
