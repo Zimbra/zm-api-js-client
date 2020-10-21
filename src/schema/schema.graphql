@@ -1279,6 +1279,7 @@ type AccountInfoAttrs {
 	zimbraFeatureTaggingEnabled: Boolean
 	zimbraIdentityMaxNumEntries: Int
 	zimbraFeatureIdentitiesEnabled: Boolean
+	zimbraFeatureMailSendLaterEnabled: Boolean
 }
 
 type AccountCos {

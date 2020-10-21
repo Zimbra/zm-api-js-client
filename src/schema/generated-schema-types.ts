@@ -1,4 +1,5 @@
 export type Maybe<T> = T | null;
+export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -108,6 +109,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureTaggingEnabled?: Maybe<Scalars['Boolean']>;
   zimbraIdentityMaxNumEntries?: Maybe<Scalars['Int']>;
   zimbraFeatureIdentitiesEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureMailSendLaterEnabled?: Maybe<Scalars['Boolean']>;
 };
 
 export enum AccountType {
