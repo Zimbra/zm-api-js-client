@@ -3255,7 +3255,7 @@ type Mutation {
 		appointmentInvite: ForwardAppointmentInviteInput!
 	): Boolean
 	forwardAppointment(appointmentInvite: ForwardAppointmentInput!): Boolean
-	itemAction(id: ID, ids: [ID], folderId: ID, op: String!, tagNames: String): Boolean
+	itemAction(id: ID, ids: [ID], folderId: ID, op: String!, tagNames: String, name: String): Boolean
 	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
 	logout: Boolean
 	login(
