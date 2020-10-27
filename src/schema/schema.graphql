@@ -2751,7 +2751,7 @@ input GetDocumentShareURLItemInput {
 	folderId: ID
 	id: ID
 	name: String
-	path: String 
+	path: String
 }
 
 input Cursor {
@@ -3299,7 +3299,10 @@ type Mutation {
 		email: String!
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
-	resetPassword(password: String!): Boolean
+	resetPassword(
+		password: String!,
+		dryRun: Boolean
+	): Boolean
 	revokeAppSpecificPassword(appName: String!): Boolean
 	revokeOtherTrustedDevices: Boolean
 	revokeRights(input: RevokeRightsInput!): RightsResponse

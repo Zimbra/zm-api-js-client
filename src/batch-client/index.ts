@@ -1457,12 +1457,13 @@ export class ZimbraBatchClient {
 			}
 		});
 
-	public resetPassword = ({ password }: ResetPasswordOptions) =>
+	public resetPassword = ({ password, dryRun }: ResetPasswordOptions) =>
 		this.jsonRequest({
 			name: 'ResetPassword',
 			namespace: Namespace.Account,
 			body: {
-				password
+				password,
+				dryRun
 			},
 			singleRequest: true
 		}).then(() => true);
