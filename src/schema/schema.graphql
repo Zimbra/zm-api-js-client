@@ -1271,6 +1271,7 @@ type AccountInfoAttrs {
 	zimbraFeatureTwoFactorAuthRequired: Boolean
 	zimbraFeatureViewInHtmlEnabled: Boolean
 	zimbraFeatureZulipChatEnabled: Boolean
+	zimbraFeatureDocumentEditingEnabled: Boolean
 	zimbraTwoFactorAuthEnabled: Boolean
 	zimbraFeatureTrustedDevicesEnabled: Boolean
 	zimbraFeatureAppSpecificPasswordsEnabled: Boolean
