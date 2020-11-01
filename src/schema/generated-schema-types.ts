@@ -101,6 +101,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureTwoFactorAuthRequired?: Maybe<Scalars['Boolean']>;
   zimbraFeatureViewInHtmlEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureZulipChatEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureDocumentEditingEnabled?: Maybe<Scalars['Boolean']>;
   zimbraTwoFactorAuthEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureTrustedDevicesEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureAppSpecificPasswordsEnabled?: Maybe<Scalars['Boolean']>;
