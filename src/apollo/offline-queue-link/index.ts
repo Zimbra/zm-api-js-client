@@ -1,9 +1,11 @@
 import {
 	ApolloLink,
+	FetchResult,
 	NextLink,
 	Observable,
+	Observer,
 	Operation
-} from '@apollo/client/core';
+} from '@apollo/client';
 import castArray from 'lodash/castArray';
 import { SyncOfflineOperations } from '../sync-offline-operations';
 import { DedupedByQueueError } from './errors';
@@ -114,8 +116,7 @@ export class OfflineQueueLink extends ApolloLink {
 
 	purge = () => Promise.resolve(this.storage.removeItem(this.storeKey));
 
-	// @ts-ignore
-	request(operation: Operation, forward?: NextLink) {
+	request(operation: Operation, forward: NextLink) {
 		const {
 			skipQueue,
 			cancelQueues,
@@ -132,7 +133,7 @@ export class OfflineQueueLink extends ApolloLink {
 			return forward(operation);
 		}
 
-		return new Observable(observer => {
+		return new Observable<FetchResult>((observer: Observer<FetchResult>) => {
 			const entry = { operation, forward, observer };
 
 			if (offlineQueueName) {
@@ -143,7 +144,6 @@ export class OfflineQueueLink extends ApolloLink {
 				// If the provided offlineQueueName is not self-cancelled, set this entry as
 				// the head of the given named queue.
 				if (!~castArray(cancelQueues).indexOf(offlineQueueName)) {
-					// @ts-ignore
 					this.namedQueues[offlineQueueName] = entry;
 				}
 			}
@@ -153,9 +153,8 @@ export class OfflineQueueLink extends ApolloLink {
 				castArray(cancelQueues).forEach(this.cancelNamedQueue);
 			}
 
-			// @ts-ignore
 			this.enqueue(entry);
-			// @ts-ignore
+
 			return () => this.dequeue(entry);
 		});
 	}
