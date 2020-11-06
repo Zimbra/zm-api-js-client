@@ -113,6 +113,7 @@ export type AccountInfoAttrs = {
   zimbraIdentityMaxNumEntries?: Maybe<Scalars['Int']>;
   zimbraFeatureIdentitiesEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureMailSendLaterEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeaturePowerPasteEnabled?: Maybe<Scalars['Boolean']>;
 };
 
 export enum AccountType {
@@ -3039,6 +3040,7 @@ export type Preferences = {
   zimbraPrefMailForwardingAddress?: Maybe<Scalars['String']>;
   zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefTagTreeOpen?: Maybe<Scalars['Boolean']>;
+  zimbraPrefPowerPasteEnabled?: Maybe<Scalars['Boolean']>;
 };
 
 export type PreferencesInput = {
@@ -3095,6 +3097,7 @@ export type PreferencesInput = {
   zimbraPrefMailForwardingAddress?: Maybe<Scalars['String']>;
   zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefTagTreeOpen?: Maybe<Scalars['Boolean']>;
+  zimbraPrefPowerPasteEnabled?: Maybe<Scalars['Boolean']>;
 };
 
 export enum PrefMailSelectAfterDelete {

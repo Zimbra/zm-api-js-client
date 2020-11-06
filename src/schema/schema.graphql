@@ -1283,6 +1283,7 @@ type AccountInfoAttrs {
 	zimbraIdentityMaxNumEntries: Int
 	zimbraFeatureIdentitiesEnabled: Boolean
 	zimbraFeatureMailSendLaterEnabled: Boolean
+	zimbraFeaturePowerPasteEnabled: Boolean
 }
 
 type AccountCos {
@@ -1427,6 +1428,7 @@ type Preferences {
 	zimbraPrefMailForwardingAddress: String
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
 	zimbraPrefTagTreeOpen: Boolean
+	zimbraPrefPowerPasteEnabled: Boolean
 }
 
 type GetAppointmentResponse {
@@ -2410,6 +2412,7 @@ input PreferencesInput {
 	zimbraPrefMailForwardingAddress: String
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
 	zimbraPrefTagTreeOpen: Boolean
+	zimbraPrefPowerPasteEnabled: Boolean
 }
 
 input ModifyIdentityInput {
