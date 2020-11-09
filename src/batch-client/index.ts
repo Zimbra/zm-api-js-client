@@ -950,10 +950,10 @@ export class ZimbraBatchClient {
 						 *  server also returns this id in notfications. The original id is stored in userId.
 						 */
 
-						if (folder.view === FolderView.Contact) {
-							(folder.userId = folder.id),
-								(folder.id = `${ownerZimbraId}:${sharedItemId}`);
-						}
+						//if (folder.view === FolderView.Contact) {
+						folder.userId = folder.id;
+						folder.id = `${ownerZimbraId}:${sharedItemId}`;
+						//}
 						if (oname && folders) {
 							folder.folders = updateAbsoluteFolderPath(
 								oname,
