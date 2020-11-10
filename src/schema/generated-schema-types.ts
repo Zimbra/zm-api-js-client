@@ -2758,6 +2758,7 @@ export type MutationRecoverAccountArgs = {
 
 export type MutationResetPasswordArgs = {
   password: Scalars['String'];
+  dryRun?: Maybe<Scalars['Boolean']>;
 };
 
 
