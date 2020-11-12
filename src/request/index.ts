@@ -54,7 +54,7 @@ function _responseParseHandler(response: Response): Promise<ParsedResponse> {
 			return response;
 		});
 	} catch (e) {
-		(response as ParsedResponse).parseError = e;
+		(response as ParsedResponse).parseError = <any>e;
 		return Promise.resolve(response);
 	}
 }
@@ -97,7 +97,7 @@ function faultError(response: ParsedResponse, faults: any) {
  * Create one key per SOAP command name, with a value
  * containing an array of the requests for that command.
  */
-function batchBody(requests: Array<RequestOptions>) {
+function batchBody(requests: ReadonlyArray<RequestOptions>) {
 	return reduce(
 		requests,
 		(body: { [key: string]: any }, request) => {

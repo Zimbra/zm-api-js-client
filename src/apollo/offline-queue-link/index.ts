@@ -127,7 +127,7 @@ export class OfflineQueueLink extends ApolloLink {
 	// Returns a Promise that resolves after all operations are processed
 	// regardless of success.
 	retry = () =>
-		new Promise(resolve => {
+		new Promise<void>(resolve => {
 			let outstandingReqs = this.operationQueue.length;
 			if (!outstandingReqs) {
 				return resolve();
