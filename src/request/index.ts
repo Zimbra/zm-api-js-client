@@ -99,7 +99,7 @@ function faultError(response: ParsedResponse, faults: any) {
  * Create one key per SOAP command name, with a value
  * containing an array of the requests for that command.
  */
-function batchBody(requests: Array<RequestOptions>) {
+function batchBody(requests: ReadonlyArray<RequestOptions>) {
 	return reduce(
 		requests,
 		(body: { [key: string]: any }, request) => {
