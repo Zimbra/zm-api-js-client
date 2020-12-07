@@ -37,6 +37,16 @@ export enum ShareInputAction {
   Expire = 'expire'
 }
 
+export enum SaveDocumentAction {
+  Create = 'create'
+}
+
+export enum SaveDocumentType {
+  Document = 'document',
+  Presentation = 'presentation',
+  Spreadsheet = 'spreadsheet'
+}
+
 export enum FreeBusyStatus {
   F = 'F',
   B = 'B',
@@ -3020,6 +3030,8 @@ export type SaveDocumentInput = {
   upload?: Maybe<UploadDocument>;
   messageData?: Maybe<Array<Maybe<MessagePartForDocument>>>;
   descriptionEnabled?: Maybe<Scalars['Boolean']>;
+  action?: Maybe<SaveDocumentAction>;
+  type?: Maybe<SaveDocumentType>;
 };
 
 export type SaveDocument = {
