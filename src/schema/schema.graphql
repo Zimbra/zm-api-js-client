@@ -26,6 +26,16 @@ enum ShareInputAction {
 	expire
 }
 
+enum SaveDocumentAction {
+	create
+}
+
+enum SaveDocumentType {
+	document
+	presentation
+	spreadsheet
+}
+
 enum FreeBusyStatus {
 	F # Free
 	B # Busy
@@ -2868,6 +2878,8 @@ input SaveDocumentInput {
 	upload: uploadDocument #upload with a id
 	messageData: [messagePartForDocument] #m
 	descriptionEnabled: Boolean #descEnabled
+	action: SaveDocumentAction
+	type: SaveDocumentType
 }
 
 type SaveDocument {
