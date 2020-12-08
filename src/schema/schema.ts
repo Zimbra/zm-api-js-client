@@ -261,13 +261,14 @@ export function createZimbraSchema(
 					client.createAppSpecificPassword(appName),
 				conversationAction: (_, variables) =>
 					client.conversationAction(variables as ActionOptions),
-				createFolder: (_, variables, context) => {
+				createFolder: (_, { isLocalFolder, ...variables }, context) => {
 					const { local } = context;
 
 					if (local) {
-						return localStoreClient.createFolder(
-							variables as CreateFolderOptions
-						);
+						return localStoreClient.createFolder({
+							isLocalFolder,
+							...variables
+						} as CreateFolderOptions);
 					}
 					return client.createFolder(variables as CreateFolderOptions);
 				},
