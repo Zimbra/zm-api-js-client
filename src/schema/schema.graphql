@@ -3312,6 +3312,7 @@ type Mutation {
 		name: String!
 		parentFolderId: ID
 		url: String
+		isLocalFolder: Boolean
 		view: FolderView
 	): Folder
 	createIdentity(name: String!, attrs: IdentityAttrsInput): Identities
