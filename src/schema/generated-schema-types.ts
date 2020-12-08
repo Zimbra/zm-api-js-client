@@ -3701,6 +3701,7 @@ export type MutationCreateFolderArgs = {
   name: Scalars['String'];
   parentFolderId?: Maybe<Scalars['ID']>;
   url?: Maybe<Scalars['String']>;
+  isLocalFolder?: Maybe<Scalars['Boolean']>;
   view?: Maybe<FolderView>;
 };
 
