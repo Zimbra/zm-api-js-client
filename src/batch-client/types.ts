@@ -281,6 +281,7 @@ export interface CreateFolderOptions {
 	color?: number;
 	fetchIfExists?: boolean;
 	flags?: string;
+	isLocalFolder?: boolean;
 	name: string;
 	parentFolderId?: string;
 	url?: string;
