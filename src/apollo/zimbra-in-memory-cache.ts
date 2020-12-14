@@ -46,6 +46,19 @@ function createPossibleTypes(possibleTypesFactory = Object) {
 	});
 }
 
+const typePolicies = {
+	Query: {
+		fields: {
+			accountInfo: {
+				merge: true
+			},
+			getPreferences: {
+				merge: true
+			}
+		}
+	}
+};
+
 /**
  * Provide a light wrapper over Apollo's inmemory cache with
  * special optimizations for identifying Zimbra object types via
@@ -58,6 +71,7 @@ export class ZimbraInMemoryCache extends InMemoryCache {
 		}
 		super({
 			dataIdFromObject,
+			typePolicies,
 			...config
 		});
 	}
