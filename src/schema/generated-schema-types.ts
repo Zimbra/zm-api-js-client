@@ -1994,6 +1994,8 @@ export type MailboxMetadataAttrs = {
   zimbraPrefUndoSendEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefUndoSendTimeout?: Maybe<Scalars['Int']>;
   archivedFolder?: Maybe<Scalars['String']>;
+  privacyOverlayPrefs_showOverlay?: Maybe<Scalars['Boolean']>;
+  privacyOverlayPrefs_timeOut?: Maybe<Scalars['Int']>;
   zimbraPrefSMIMEDefaultSetting?: Maybe<Scalars['String']>;
   zimbraPrefSMIMELastOperation?: Maybe<Scalars['String']>;
   zimbraPrefContactSourceFolderID?: Maybe<Scalars['String']>;
@@ -2027,6 +2029,8 @@ export type MailboxMetadataSectionAttrsInput = {
   zimbraPrefUndoSendEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefUndoSendTimeout?: Maybe<Scalars['Int']>;
   archivedFolder?: Maybe<Scalars['String']>;
+  privacyOverlayPrefs_showOverlay?: Maybe<Scalars['Boolean']>;
+  privacyOverlayPrefs_timeOut?: Maybe<Scalars['Int']>;
   zimbraPrefSMIMEDefaultSetting?: Maybe<Scalars['String']>;
   zimbraPrefSMIMELastOperation?: Maybe<Scalars['String']>;
   zimbraPrefContactSourceFolderID?: Maybe<Scalars['String']>;

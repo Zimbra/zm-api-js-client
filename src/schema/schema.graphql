@@ -1856,6 +1856,8 @@ type MailboxMetadataAttrs {
 	zimbraPrefUndoSendEnabled: Boolean
 	zimbraPrefUndoSendTimeout: Int
 	archivedFolder: String
+	privacyOverlayPrefs_showOverlay: Boolean
+	privacyOverlayPrefs_timeOut: Int
 	zimbraPrefSMIMEDefaultSetting: String
 	zimbraPrefSMIMELastOperation: String
 	zimbraPrefContactSourceFolderID: String
@@ -1887,6 +1889,8 @@ input MailboxMetadataSectionAttrsInput {
 	zimbraPrefUndoSendEnabled: Boolean
 	zimbraPrefUndoSendTimeout: Int
 	archivedFolder: String
+	privacyOverlayPrefs_showOverlay: Boolean
+	privacyOverlayPrefs_timeOut: Int
 	zimbraPrefSMIMEDefaultSetting: String
 	zimbraPrefSMIMELastOperation: String
 	zimbraPrefContactSourceFolderID: String
