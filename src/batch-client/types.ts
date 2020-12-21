@@ -240,6 +240,7 @@ export interface LoginOptions {
 	tokenType?: string;
 	twoFactorCode?: string;
 	username: string;
+	authToken: string;
 }
 
 export interface ActionOptions {

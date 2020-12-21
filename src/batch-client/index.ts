@@ -1227,7 +1227,8 @@ export class ZimbraBatchClient {
 		persistAuthTokenCookie = true,
 		twoFactorCode,
 		deviceTrusted,
-		csrfTokenSecured
+		csrfTokenSecured,
+		authToken
 	}: LoginOptions) =>
 		this.jsonRequest({
 			name: 'Auth',
@@ -1245,6 +1246,12 @@ export class ZimbraBatchClient {
 					recoveryCode: {
 						verifyAccount: true,
 						_content: recoveryCode
+					}
+				}),
+				...(authToken && {
+					authToken: {
+						verifyAccount: false,
+						_content: authToken
 					}
 				}),
 				...(twoFactorCode && { twoFactorCode }),

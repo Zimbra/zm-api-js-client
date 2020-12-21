@@ -2889,7 +2889,7 @@ type SaveDocument {
 }
 
 type SaveDocumentResponse {
-	document: [SaveDocument] 
+	document: [SaveDocument]
 }
 
 ##### SMIME Certificates type #####
@@ -3279,6 +3279,7 @@ type Mutation {
 		twoFactorCode: String
 		deviceTrusted: Boolean
 		csrfTokenSecured: Boolean!
+		authToken: String
 	): AuthResponse
 	enableTwoFactorAuth(
 		options: EnableTwoFactorAuthInput!
