@@ -1170,6 +1170,7 @@ type AccountInfo {
 	props: PropList
 	zimlets: AccountZimlet
 	cos: AccountCos
+	powerpasteEnabled: Boolean
 }
 
 type OnlyEmailAddress {
