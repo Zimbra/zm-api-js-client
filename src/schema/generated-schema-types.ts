@@ -1262,7 +1262,7 @@ export type AccountInfo = {
   props?: Maybe<PropList>;
   zimlets?: Maybe<AccountZimlet>;
   cos?: Maybe<AccountCos>;
-  powerpasteEnabled?: Maybe<Scalars['Boolean']>;
+  pasteitcleanedEnabled?: Maybe<Scalars['Boolean']>;
 };
 
 export type OnlyEmailAddress = {
