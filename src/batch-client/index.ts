@@ -150,6 +150,7 @@ import {
 	ZimbraClientOptions
 } from './types';
 
+import { CASTING_PREFS } from './constants';
 import { Notifier } from './notifier';
 
 const DEBUG = false;
@@ -1082,10 +1083,15 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		}).then(res => {
 			let prefs: any = mapValuesDeep(res._attrs, coerceStringToBoolean);
-			prefs.zimbraPrefMailTrustedSenderList =
-				typeof prefs.zimbraPrefMailTrustedSenderList === 'string'
-					? castArray(prefs.zimbraPrefMailTrustedSenderList)
-					: prefs.zimbraPrefMailTrustedSenderList;
+
+			for (const pref in prefs) {
+				if (CASTING_PREFS.indexOf(pref) !== -1) {
+					prefs[pref] =
+						typeof prefs[pref] === 'string'
+							? castArray(prefs[pref])
+							: prefs[pref];
+				}
+			}
 			return prefs;
 		});
 
@@ -1334,15 +1340,27 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		});
 
-	public modifyPrefs = (prefs: PreferencesInput) =>
-		this.jsonRequest({
+	public modifyPrefs = (prefs: PreferencesInput) => {
+		let attrs: any = mapValuesDeep(prefs, coerceBooleanToString);
+
+		for (const pref in attrs) {
+			if (CASTING_PREFS.indexOf(pref) !== -1) {
+				attrs[pref] =
+					attrs[pref] instanceof Array && attrs[pref].length === 0
+						? ''
+						: attrs[pref];
+			}
+		}
+
+		return this.jsonRequest({
 			name: 'ModifyPrefs',
 			namespace: Namespace.Account,
 			body: {
-				_attrs: mapValuesDeep(prefs, coerceBooleanToString)
+				_attrs: attrs
 			},
 			singleRequest: true
 		}).then(Boolean);
+	};
 
 	public modifyProfileImage = ({
 		content,
