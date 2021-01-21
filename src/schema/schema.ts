@@ -4,7 +4,6 @@ import mapValues from 'lodash/mapValues';
 import {
 	AddMsgInput,
 	CalendarItemInput,
-	ClientInfoInput,
 	CounterAppointmentInput,
 	CreateContactInput,
 	CreateIdentityInput,
@@ -52,6 +51,7 @@ import {
 	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
+	ClientInfoInput,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
 	ExternalAccountDeleteInput,
