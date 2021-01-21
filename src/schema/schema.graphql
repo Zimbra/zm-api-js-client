@@ -3103,6 +3103,7 @@ type Query {
 		depth: Int
 		traverseMountpoints: Boolean
 		folder: GetFolderFolderInput
+		local: Boolean
 	): Folder
 	getCustomMetadata(id: ID!, section: String): CustomMetadata
 	getMailboxMetadata(section: String): MailboxMetadata
