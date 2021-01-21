@@ -3152,6 +3152,7 @@ type Query {
 		depth: Int
 		traverseMountpoints: Boolean
 		folder: GetFolderFolderInput
+		local: Boolean
 	): Folder
 	getHAB(
 		habRootGroupId: ID
