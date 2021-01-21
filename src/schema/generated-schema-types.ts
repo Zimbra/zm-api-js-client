@@ -3350,6 +3350,7 @@ export type QueryGetFolderArgs = {
   depth?: Maybe<Scalars['Int']>;
   traverseMountpoints?: Maybe<Scalars['Boolean']>;
   folder?: Maybe<GetFolderFolderInput>;
+  local?: Maybe<Scalars['Boolean']>;
 };
 
 

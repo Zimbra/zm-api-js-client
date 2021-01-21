@@ -112,6 +112,7 @@ export interface GetFolderOptions {
 	traverseMountpoints?: boolean;
 	view?: FolderView;
 	visible?: boolean;
+	local: boolean;
 }
 
 export interface GetDocumentShareURLItemOptions {
