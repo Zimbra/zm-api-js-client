@@ -1402,6 +1402,8 @@ export type AccountInfoAttrs = {
   zimbraFeatureMailSendLaterEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeaturePowerPasteEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureConversationsEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureImapDataSourceEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeaturePop3DataSourceEnabled?: Maybe<Scalars['Boolean']>;
 };
 
 export type AccountCos = {

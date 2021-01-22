@@ -1297,6 +1297,8 @@ type AccountInfoAttrs {
 	zimbraFeatureMailSendLaterEnabled: Boolean
 	zimbraFeaturePowerPasteEnabled: Boolean
 	zimbraFeatureConversationsEnabled: Boolean
+	zimbraFeatureImapDataSourceEnabled: Boolean
+	zimbraFeaturePop3DataSourceEnabled: Boolean
 }
 
 type AccountCos {
@@ -2892,7 +2894,7 @@ type SaveDocument {
 }
 
 type SaveDocumentResponse {
-	document: [SaveDocument] 
+	document: [SaveDocument]
 }
 
 ##### SMIME Certificates type #####
