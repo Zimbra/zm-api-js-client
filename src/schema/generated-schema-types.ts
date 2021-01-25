@@ -1400,6 +1400,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureIdentitiesEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureMailSendLaterEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeaturePowerPasteEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureConversationsEnabled?: Maybe<Scalars['Boolean']>;
 };
 
 export type AccountCos = {
