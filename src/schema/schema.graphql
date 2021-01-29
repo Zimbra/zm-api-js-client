@@ -2997,6 +2997,14 @@ type CreateAppSpecificPasswordResponse {
 	password: String
 }
 
+type ResetPasswordResponseAttributes {
+	_attrs: AccountInfoAttrs
+}
+
+type ResetPasswordResponse {
+	attrs: ResetPasswordResponseAttributes
+}
+
 input ConditionInput {
 	attr: String
 	op: String
@@ -3322,9 +3330,11 @@ type Mutation {
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
 	resetPassword(
-		password: String!,
-		dryRun: Boolean
-	): Boolean
+		password: String,
+		dryRun: Boolean,
+		getPasswordRules: Boolean,
+		cancelResetPassword: Boolean
+	): ResetPasswordResponse
 	revokeAppSpecificPassword(appName: String!): Boolean
 	revokeOtherTrustedDevices: Boolean
 	revokeRights(input: RevokeRightsInput!): RightsResponse

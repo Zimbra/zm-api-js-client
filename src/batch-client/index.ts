@@ -1474,16 +1474,18 @@ export class ZimbraBatchClient {
 			}
 		});
 
-	public resetPassword = ({ password, dryRun }: ResetPasswordOptions) =>
+	public resetPassword = ({ password, dryRun, getPasswordRules, cancelResetPassword }: ResetPasswordOptions) =>
 		this.jsonRequest({
 			name: 'ResetPassword',
 			namespace: Namespace.Account,
 			body: {
 				password,
-				dryRun
+				dryRun,
+				getPasswordRules,
+				cancelResetPassword
 			},
 			singleRequest: true
-		}).then(() => true);
+		})
 
 	public resolve = (path: string) => `${this.origin}${path}`;
 
