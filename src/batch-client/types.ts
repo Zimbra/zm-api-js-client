@@ -331,6 +331,8 @@ export interface RecoverAccountOptions {
 export interface ResetPasswordOptions {
 	dryRun: boolean;
 	password: string;
+	getPasswordRules: boolean;
+	cancelResetPassword: boolean;
 }
 
 export interface ExternalAccountModifyInput {
