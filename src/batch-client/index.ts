@@ -60,7 +60,6 @@ import {
 import {
 	AddMsgInput,
 	CalendarItemInput,
-	ClientInfoInput,
 	CounterAppointmentInput,
 	CreateContactInput,
 	CreateIdentityInput,
@@ -427,13 +426,13 @@ export class ZimbraBatchClient {
 			op: value ? 'check' : '!check'
 		});
 
-	public clientInfo = ({ domain }: ClientInfoInput) =>
+	public clientInfo = ({ by, domain }: any) =>
 		this.jsonRequest({
 			name: 'ClientInfo',
 			body: {
 				domain: [
 					{
-						by: 'name',
+						by: by,
 						_content: domain
 					}
 				]

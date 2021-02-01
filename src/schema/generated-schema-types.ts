@@ -519,6 +519,7 @@ export type ClientInfoAttributes = {
   __typename?: 'ClientInfoAttributes';
   zimbraWebClientLoginURL?: Maybe<Scalars['String']>;
   zimbraWebClientLogoutURL?: Maybe<Scalars['String']>;
+  zimbraFeatureResetPasswordStatus?: Maybe<ResetPasswordStatus>;
 };
 
 export type ClientInfoType = {
@@ -1819,10 +1820,6 @@ export type Tag = {
 export type OtherContactAttributeInput = {
   key?: Maybe<Scalars['String']>;
   value?: Maybe<Scalars['String']>;
-};
-
-export type ClientInfoInput = {
-  domain?: Maybe<Scalars['String']>;
 };
 
 export type ContactAttrsInput = {
@@ -3249,7 +3246,8 @@ export type QueryAutoCompleteGalArgs = {
 
 
 export type QueryClientInfoArgs = {
-  domain: Scalars['String'];
+  by?: Maybe<Scalars['String']>;
+  domain?: Maybe<Scalars['String']>;
 };
 
 

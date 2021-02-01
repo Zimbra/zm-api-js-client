@@ -483,6 +483,7 @@ interface MailItem {
 type ClientInfoAttributes {
 	zimbraWebClientLoginURL: String
 	zimbraWebClientLogoutURL: String
+	zimbraFeatureResetPasswordStatus: ResetPasswordStatus
 }
 
 type ClientInfoType {
@@ -1685,10 +1686,6 @@ type Tag {
 input OtherContactAttributeInput {
 	key: String
 	value: String
-}
-
-input ClientInfoInput {
-	domain: String
 }
 
 input ContactAttrsInput {
@@ -3033,7 +3030,7 @@ type Query {
 		type: GalSearchType
 		needExp: Boolean
 	): AutoCompleteGALResponse
-	clientInfo(domain: String!): ClientInfoType
+	clientInfo(by: String, domain: String): ClientInfoType
 	downloadMessage(id: ID!, isSecure: Boolean): SMimeMessage
 	downloadAttachment(id: ID!, part: ID!): Attachment
 	downloadDocument(id: ID!, url: String!): Attachment

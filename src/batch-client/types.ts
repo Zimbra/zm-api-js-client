@@ -83,6 +83,11 @@ export interface WorkingHoursOptions {
 	start: number;
 }
 
+export interface ClientInfoInput {
+	by: string;
+	domain: string;
+}
+
 export interface GetContactOptions {
 	derefGroupMember: boolean;
 	id: string;
