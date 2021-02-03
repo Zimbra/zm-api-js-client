@@ -124,8 +124,15 @@ export function createZimbraSchema(
 					client.clientInfo(variables as ClientInfoInput),
 				getContactFrequency: (_, variables: any) =>
 					client.getContactFrequency(variables as GetContactFrequencyOptions),
-				getConversation: (_, variables) =>
-					client.getConversation(variables as GetConversationOptions),
+				getConversation: (_, variables, context = {}) => {
+					const { local } = context;
+
+					if (local) {
+						return localStoreClient.getConversation(variables as GetConversationOptions);
+					}
+
+					return client.getConversation(variables as GetConversationOptions)
+				},
 				getCustomMetadata: (_: any, variables) =>
 					client.getCustomMetadata(variables as GetCustomMetadataOptions),
 
