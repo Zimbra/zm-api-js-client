@@ -3164,6 +3164,16 @@ export type CreateAppSpecificPasswordResponse = {
   password?: Maybe<Scalars['String']>;
 };
 
+export type ResetPasswordResponseAttributes = {
+  __typename?: 'ResetPasswordResponseAttributes';
+  _attrs?: Maybe<AccountInfoAttrs>;
+};
+
+export type ResetPasswordResponse = {
+  __typename?: 'ResetPasswordResponse';
+  attrs?: Maybe<ResetPasswordResponseAttributes>;
+};
+
 export type ConditionInput = {
   attr?: Maybe<Scalars['String']>;
   op?: Maybe<Scalars['String']>;
@@ -3537,7 +3547,7 @@ export type Mutation = {
   prefOutOfOfficeReply?: Maybe<Scalars['String']>;
   prefOutOfOfficeUntilDate?: Maybe<Scalars['String']>;
   recoverAccount?: Maybe<RecoverAccount>;
-  resetPassword?: Maybe<Scalars['Boolean']>;
+  resetPassword?: Maybe<ResetPasswordResponse>;
   revokeAppSpecificPassword?: Maybe<Scalars['Boolean']>;
   revokeOtherTrustedDevices?: Maybe<Scalars['Boolean']>;
   revokeRights?: Maybe<RightsResponse>;
@@ -3935,8 +3945,10 @@ export type MutationRecoverAccountArgs = {
 
 
 export type MutationResetPasswordArgs = {
-  password: Scalars['String'];
+  password?: Maybe<Scalars['String']>;
   dryRun?: Maybe<Scalars['Boolean']>;
+  getPasswordRules?: Maybe<Scalars['Boolean']>;
+  cancelResetPassword?: Maybe<Scalars['Boolean']>;
 };
 
 
