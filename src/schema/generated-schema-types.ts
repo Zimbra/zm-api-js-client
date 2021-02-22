@@ -1206,6 +1206,7 @@ export type Folder = {
   userId?: Maybe<Scalars['ID']>;
   broken?: Maybe<Scalars['Boolean']>;
   deletable?: Maybe<Scalars['Boolean']>;
+  unreadDescendent?: Maybe<Scalars['Boolean']>;
 };
 
 export type Acl = {

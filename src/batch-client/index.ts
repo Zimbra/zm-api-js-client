@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import isError from 'lodash/isError';
 import mapValues from 'lodash/mapValues';
 import { denormalize, normalize } from '../normalize';
+import { USER_FOLDER_IDS } from './constants'
 import {
 	AccountRights,
 	ActionOptions as ActionOptionsEntity,
@@ -168,6 +169,51 @@ function normalizeMessage(
 		normalizeMimeParts(normalizedMessage, { origin, jwtToken })
 	);
 }
+
+const hasUnreadDescendent = (folder: any): any => {
+
+	const unreadDescendent = get (folder,'unreadDescendent' )
+	
+	if (
+		folder[
+			folder.id === USER_FOLDER_IDS.DRAFTS || folder.name === 'Outbox'
+				? 'nonFolderItemCount'
+				: 'unread'
+		] > 0 ||
+		unreadDescendent
+	) {
+		return true;
+	}
+
+	const folderArray = get(folder, 'folders') || [];
+	for (let i = 0, len = folderArray.length; i < len; i++) {
+		return hasUnreadDescendent(folderArray[i]);
+	}
+
+	return false;
+};
+
+const setUnreadDescendentFlag = (folder: any) => {
+	const folderArray = get(folder, 'folders') || [];
+	const view = get(folder, 'view');
+
+	// setting this flag only in message view has we dont want to show unread count in
+	// other views
+	if (!view || view === FolderView.Message) {
+		folder = {
+			...folder,
+			unreadDescendent: hasUnreadDescendent(folder)
+		};
+
+		if (folderArray) {
+			folder = {
+				...folder,
+				folders: folderArray.map(setUnreadDescendentFlag)
+			};
+		}
+	}
+	return folder;
+};
 
 /**
  * This function is required because the API returns Subfolder data for shared folder
@@ -930,6 +976,15 @@ export class ZimbraBatchClient {
 			const foldersResponse = normalize(Folder)(res);
 			const folders = get(foldersResponse, 'folders.0', {});
 
+			if (folders.folders) {
+				folders.folders = folders.folders.map(setUnreadDescendentFlag);
+			}
+			if (folders.linkedFolders) {
+				folders.linkedFolders = folders.linkedFolders.map(
+					setUnreadDescendentFlag
+				);
+			}
+
 			if (folders.linkedFolders) {
 				folders.linkedFolders = folders.linkedFolders.map((folder: any) => {
 					if (
@@ -1474,7 +1529,12 @@ export class ZimbraBatchClient {
 			}
 		});
 
-	public resetPassword = ({ password, dryRun, getPasswordRules, cancelResetPassword }: ResetPasswordOptions) =>
+	public resetPassword = ({
+		password,
+		dryRun,
+		getPasswordRules,
+		cancelResetPassword
+	}: ResetPasswordOptions) =>
 		this.jsonRequest({
 			name: 'ResetPassword',
 			namespace: Namespace.Account,
@@ -1485,7 +1545,7 @@ export class ZimbraBatchClient {
 				cancelResetPassword
 			},
 			singleRequest: true
-		})
+		});
 
 	public resolve = (path: string) => `${this.origin}${path}`;
 
