@@ -1122,6 +1122,7 @@ type Folder {
 	userId: ID
 	broken: Boolean #shared folder link is broken or not
 	deletable: Boolean
+	unreadDescendent: Boolean
 }
 
 type ACL {
