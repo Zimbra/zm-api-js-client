@@ -69,6 +69,7 @@ export interface ZimbraClientOptions {
 	soapPathname?: string;
 	userAgent?: UserAgent;
 	zimbraOrigin?: string;
+	authToken?: string;
 }
 
 export interface FreeBusyOptions {
