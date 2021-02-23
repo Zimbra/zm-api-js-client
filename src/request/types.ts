@@ -27,6 +27,7 @@ export interface BaseRequestOptions {
 	singleRequest?: boolean;
 	soapPathname?: string;
 	userAgent?: UserAgent;
+	authToken?: string;
 }
 
 export interface RequestOptions {

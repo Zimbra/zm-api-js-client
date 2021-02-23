@@ -241,12 +241,14 @@ export class ZimbraBatchClient {
 	private jwtToken?: string;
 	private sessionHandler?: SessionHandler;
 	private userAgent?: {};
+	private authToken?: string;
 
 	constructor(options: ZimbraClientOptions = {}) {
 		this.sessionHandler = options.sessionHandler;
 		this.userAgent = options.userAgent;
 		this.jwtToken = options.jwtToken;
 		this.csrfToken = options.csrfToken;
+		this.authToken = options.authToken;
 		this.origin =
 			options.zimbraOrigin !== undefined
 				? options.zimbraOrigin
@@ -1830,6 +1832,9 @@ export class ZimbraBatchClient {
 		jwtToken: this.jwtToken,
 		...(addCsrfToken && {
 			csrfToken: this.csrfToken
+		}),
+		...(this.authToken && {
+			authToken: this.authToken
 		}),
 		sessionId:
 			this.sessionId ||
