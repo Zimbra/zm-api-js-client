@@ -13,7 +13,7 @@ import {
 	SingleBatchRequestResponse,
 	SOAPHeader
 } from './types';
-
+import fetch from 'cross-fetch';
 export const DEFAULT_HOSTNAME = '/@zimbra';
 export const DEFAULT_SOAP_PATHNAME = '/service/soap';
 
@@ -243,6 +243,10 @@ export function jsonRequest(
 		header.context.csrfToken = requestOptions.csrfToken;
 	}
 
+	if (requestOptions.authToken) {
+		options.headers['Cookie'] = `ZM_AUTH_TOKEN=${requestOptions.authToken}`;
+	}
+
 	const body = {
 		[soapRequestName]: soapCommandBody(options)
 	};
@@ -255,6 +259,7 @@ export function jsonRequest(
 		};
 	}
 
+	// @TODO: Remove third-party(cross-fetch) dependency.
 	return fetch(url, {
 		method: 'POST',
 		credentials: options.credentials,
