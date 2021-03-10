@@ -427,7 +427,7 @@ export type Instance = {
   freeBusyActual?: Maybe<FreeBusyStatus>;
   inviteId?: Maybe<Scalars['ID']>;
   location?: Maybe<Scalars['String']>;
-  modifiedSequence?: Maybe<Scalars['Int']>;
+  modifiedSequence?: Maybe<Scalars['Float']>;
   name?: Maybe<Scalars['String']>;
   organizer?: Maybe<CalOrganizer>;
   otherAttendees?: Maybe<Scalars['Boolean']>;
@@ -459,7 +459,7 @@ export type ModifyAppointmentResponse = {
   appointmentId?: Maybe<Scalars['ID']>;
   calendarItemId?: Maybe<Scalars['ID']>;
   inviteId?: Maybe<Scalars['ID']>;
-  modifiedSequence?: Maybe<Scalars['Int']>;
+  modifiedSequence?: Maybe<Scalars['Float']>;
   revision?: Maybe<Scalars['Float']>;
 };
 
@@ -508,7 +508,7 @@ export type MailItem = {
   tagNames?: Maybe<Scalars['String']>;
   revision?: Maybe<Scalars['Float']>;
   changeDate?: Maybe<Scalars['Float']>;
-  modifiedSequence?: Maybe<Scalars['Int']>;
+  modifiedSequence?: Maybe<Scalars['Float']>;
   invitations?: Maybe<Array<Maybe<InviteInfo>>>;
   sortField?: Maybe<Scalars['String']>;
   share?: Maybe<Array<Maybe<ShareNotification>>>;
@@ -543,7 +543,7 @@ export type MessageInfo = MailItem & {
   tagNames?: Maybe<Scalars['String']>;
   revision?: Maybe<Scalars['Float']>;
   changeDate?: Maybe<Scalars['Float']>;
-  modifiedSequence?: Maybe<Scalars['Int']>;
+  modifiedSequence?: Maybe<Scalars['Float']>;
   invitations?: Maybe<Array<Maybe<InviteInfo>>>;
   sortField?: Maybe<Scalars['String']>;
   mimeParts?: Maybe<Array<Maybe<MimePart>>>;
@@ -578,13 +578,13 @@ export type Conversation = MailItem & {
   tagNames?: Maybe<Scalars['String']>;
   revision?: Maybe<Scalars['Float']>;
   changeDate?: Maybe<Scalars['Float']>;
-  modifiedSequence?: Maybe<Scalars['Int']>;
+  modifiedSequence?: Maybe<Scalars['Float']>;
   invitations?: Maybe<Array<Maybe<InviteInfo>>>;
   sortField?: Maybe<Scalars['String']>;
   messages?: Maybe<Array<Maybe<MessageInfo>>>;
   messagesMetaData?: Maybe<Array<Maybe<MessageInfo>>>;
-  numMessages?: Maybe<Scalars['Int']>;
-  unread?: Maybe<Scalars['Int']>;
+  numMessages?: Maybe<Scalars['Float']>;
+  unread?: Maybe<Scalars['Float']>;
   share?: Maybe<Array<Maybe<ShareNotification>>>;
   replyType?: Maybe<Scalars['String']>;
 };
@@ -610,7 +610,7 @@ export type MsgWithGroupInfo = MailItem & {
   tagNames?: Maybe<Scalars['String']>;
   revision?: Maybe<Scalars['Float']>;
   changeDate?: Maybe<Scalars['Float']>;
-  modifiedSequence?: Maybe<Scalars['Int']>;
+  modifiedSequence?: Maybe<Scalars['Float']>;
   invitations?: Maybe<Array<Maybe<InviteInfo>>>;
   sortField?: Maybe<Scalars['String']>;
   share?: Maybe<Array<Maybe<ShareNotification>>>;
@@ -759,7 +759,7 @@ export type InviteComponent = {
   priority?: Maybe<Scalars['String']>;
   utcRecurrenceId?: Maybe<Scalars['String']>;
   rsvp?: Maybe<Scalars['Boolean']>;
-  sequence?: Maybe<Scalars['Int']>;
+  sequence?: Maybe<Scalars['Float']>;
   start?: Maybe<Array<Maybe<DtTimeInfo>>>;
   status?: Maybe<InviteCompletionStatus>;
   uid?: Maybe<Scalars['String']>;
@@ -779,7 +779,7 @@ export type DtTimeInfo = {
 export type Invitation = {
   __typename?: 'Invitation';
   type: Scalars['String'];
-  sequenceNumber: Scalars['Int'];
+  sequenceNumber: Scalars['Float'];
   id: Scalars['Int'];
   componentNum: Scalars['Int'];
   recurrenceId?: Maybe<Scalars['String']>;
@@ -840,7 +840,7 @@ export type CalendarItemHitInfo = {
   isOrganizer?: Maybe<Scalars['Boolean']>;
   isRecurring?: Maybe<Scalars['Boolean']>;
   location?: Maybe<Scalars['String']>;
-  modifiedSequence?: Maybe<Scalars['Int']>;
+  modifiedSequence?: Maybe<Scalars['Float']>;
   name?: Maybe<Scalars['String']>;
   organizer?: Maybe<CalOrganizer>;
   otherAttendees?: Maybe<Scalars['Boolean']>;
@@ -884,7 +884,7 @@ export type ReminderItemHitInfo = {
   isOrganizer?: Maybe<Scalars['Boolean']>;
   isRecurring?: Maybe<Scalars['Boolean']>;
   location?: Maybe<Scalars['String']>;
-  modifiedSequence?: Maybe<Scalars['Int']>;
+  modifiedSequence?: Maybe<Scalars['Float']>;
   name?: Maybe<Scalars['String']>;
   organizer?: Maybe<CalOrganizer>;
   otherAttendees?: Maybe<Scalars['Boolean']>;
@@ -1186,7 +1186,7 @@ export type Folder = {
   uuid?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
   oname?: Maybe<Scalars['String']>;
-  nonFolderItemCount?: Maybe<Scalars['Int']>;
+  nonFolderItemCount?: Maybe<Scalars['Float']>;
   nonFolderItemCountTotal?: Maybe<Scalars['Float']>;
   linkedFolders?: Maybe<Array<Maybe<Folder>>>;
   folders?: Maybe<Array<Maybe<Folder>>>;
@@ -1195,7 +1195,7 @@ export type Folder = {
   revision?: Maybe<Scalars['Float']>;
   view?: Maybe<FolderView>;
   parentFolderId?: Maybe<Scalars['ID']>;
-  unread?: Maybe<Scalars['Int']>;
+  unread?: Maybe<Scalars['Float']>;
   query?: Maybe<Scalars['String']>;
   permissions?: Maybe<Scalars['String']>;
   ownerZimbraId?: Maybe<Scalars['ID']>;
@@ -1816,7 +1816,7 @@ export type Tag = {
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
   color?: Maybe<Scalars['Int']>;
-  unread?: Maybe<Scalars['Int']>;
+  unread?: Maybe<Scalars['Float']>;
 };
 
 export type OtherContactAttributeInput = {
