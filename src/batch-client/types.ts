@@ -70,6 +70,7 @@ export interface ZimbraClientOptions {
 	userAgent?: UserAgent;
 	zimbraOrigin?: string;
 	authToken?: string;
+	requestAPI?: any;
 }
 
 export interface FreeBusyOptions {
