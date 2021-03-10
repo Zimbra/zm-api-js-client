@@ -39,7 +39,6 @@
 	"license": "BSD-3-Clause",
 	"dependencies": {
 		"@apollo/client": "^3.2.1",
-		"cross-fetch": "^3.0.6",
 		"dataloader": "^1.4.0",
 		"graphql": "^15.3.0",
 		"graphql-tools": "^6.2.3",

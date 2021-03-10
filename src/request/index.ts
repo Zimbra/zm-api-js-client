@@ -13,9 +13,14 @@ import {
 	SingleBatchRequestResponse,
 	SOAPHeader
 } from './types';
-import fetch from 'cross-fetch';
 export const DEFAULT_HOSTNAME = '/@zimbra';
 export const DEFAULT_SOAP_PATHNAME = '/service/soap';
+
+let requestAPI: any;
+
+export function setRequestAPI(httpRequestAPI: any) {
+	requestAPI = httpRequestAPI;
+}
 
 function soapCommandBody(options: RequestOptions) {
 	return {
@@ -259,8 +264,9 @@ export function jsonRequest(
 		};
 	}
 
-	// @TODO: Remove third-party(cross-fetch) dependency.
-	return fetch(url, {
+	// Use received `requestAPI` passed as params instead of default fetch API
+	// to make `jsonRequest` method compatible with unsupported platforms, i.e. node.js
+	return (requestAPI || fetch)(url, {
 		method: 'POST',
 		credentials: options.credentials,
 		body: JSON.stringify({
@@ -271,7 +277,7 @@ export function jsonRequest(
 		...(fetchOptions && fetchOptions)
 	})
 		.then(parseJSON)
-		.then(response => {
+		.then((response: any) => {
 			const globalFault = get(response.parsed, 'Body.Fault');
 
 			if (globalFault) {
