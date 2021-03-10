@@ -400,7 +400,7 @@ type Instance {
 	freeBusyActual: FreeBusyStatus # fba
 	inviteId: ID #invId
 	location: String # loc
-	modifiedSequence: Int # ms
+	modifiedSequence: Float # ms
 	name: String
 	organizer: CalOrganizer # or
 	otherAttendees: Boolean
@@ -429,7 +429,7 @@ type ModifyAppointmentResponse {
 	appointmentId: ID #appointmentId
 	calendarItemId: ID #calItemId
 	inviteId: ID #invId
-	modifiedSequence: Int # ms
+	modifiedSequence: Float # ms
 	revision: Float # rev
 }
 
@@ -473,7 +473,7 @@ interface MailItem {
 	tagNames: String # tn
 	revision: Float # rev
 	changeDate: Float # md
-	modifiedSequence: Int # ms
+	modifiedSequence: Float # ms
 	invitations: [InviteInfo] # inv
 	sortField: String # sf, Sort field used for cursor-based pagination
 	share: [ShareNotification] # shr
@@ -505,7 +505,7 @@ type MessageInfo implements MailItem {
 	tagNames: String # tn
 	revision: Float # rev
 	changeDate: Float # md
-	modifiedSequence: Int # ms
+	modifiedSequence: Float # ms
 	invitations: [InviteInfo] # inv
 	sortField: String # sf, Sort field used for cursor-based pagination
 	mimeParts: [MimePart]
@@ -539,13 +539,13 @@ type Conversation implements MailItem {
 	tagNames: String # tn
 	revision: Float # rev
 	changeDate: Float # md
-	modifiedSequence: Int # ms
+	modifiedSequence: Float # ms
 	invitations: [InviteInfo] # inv
 	sortField: String # sf, Sort field used for cursor-based pagination
 	messages: [MessageInfo]
 	messagesMetaData: [MessageInfo]
-	numMessages: Int # n, Number of messages in this conversation
-	unread: Int # u
+	numMessages: Float # n, Number of messages in this conversation
+	unread: Float # u
 	share: [ShareNotification] # shr
 	replyType: String #rt
 }
@@ -570,7 +570,7 @@ type MsgWithGroupInfo implements MailItem {
 	tagNames: String # tn
 	revision: Float # rev
 	changeDate: Float # md
-	modifiedSequence: Int # ms
+	modifiedSequence: Float # ms
 	invitations: [InviteInfo] # inv
 	sortField: String # sf, Sort field used for cursor-based pagination
 	share: [ShareNotification] # shr
@@ -708,7 +708,7 @@ type InviteComponent {
 	priority: String
 	utcRecurrenceId: String #ridZ
 	rsvp: Boolean
-	sequence: Int # seq
+	sequence: Float # seq
 	start: [DtTimeInfo] # s
 	status: InviteCompletionStatus
 	uid: String
@@ -726,7 +726,7 @@ type DtTimeInfo {
 
 type Invitation { # <inv>
 	type: String!
-	sequenceNumber: Int! # seq
+	sequenceNumber: Float! # seq
 	id: Int!
 	componentNum: Int! # compNum
 	recurrenceId: String # recurId
@@ -783,7 +783,7 @@ type CalendarItemHitInfo { # <appt>; aka AppointmentHitInfo
 	isOrganizer: Boolean # isOrg
 	isRecurring: Boolean # recur
 	location: String # loc
-	modifiedSequence: Int # ms
+	modifiedSequence: Float # ms
 	name: String
 	organizer: CalOrganizer # or
 	otherAttendees: Boolean
@@ -826,7 +826,7 @@ type ReminderItemHitInfo { # <appt>; aka AppointmentHitInfo
 	isOrganizer: Boolean # isOrg
 	isRecurring: Boolean # recur
 	location: String # loc
-	modifiedSequence: Int # ms
+	modifiedSequence: Float # ms
 	name: String
 	organizer: CalOrganizer # or
 	otherAttendees: Boolean
@@ -1102,7 +1102,7 @@ type Folder {
 	uuid: ID
 	name: String
 	oname: String
-	nonFolderItemCount: Int # Number of non-subfolder items in folder
+	nonFolderItemCount: Float # Number of non-subfolder items in folder
 	nonFolderItemCountTotal: Float # Total size of all of non-subfolder items in folder
 	linkedFolders: [Folder] # Folders this user has linked from other users nested in this Folder
 	folders: [Folder] # Folders nested in this Folder
@@ -1111,7 +1111,7 @@ type Folder {
 	revision: Float
 	view: FolderView
 	parentFolderId: ID
-	unread: Int
+	unread: Float
 	query: String
 	permissions: String # It will be available on linked folders only
 	ownerZimbraId: ID
@@ -1682,7 +1682,7 @@ type Tag {
 	id: ID
 	name: String
 	color: Int
-	unread: Int
+	unread: Float
 }
 
 input OtherContactAttributeInput {
