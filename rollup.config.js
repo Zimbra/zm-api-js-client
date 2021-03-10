@@ -15,8 +15,8 @@ let external = FORMAT==='es' ?
 	Object.keys(pkg.dependencies)
 		.concat(
 			['castArray', 'get','isError', 'isObject', 'mapValues', 'reduce', 'omitBy', 'uniqBy', 'concat', 'uniqBy', 'differenceBy', 'forEach'].map(v => 'lodash/'+v),
-			['graphql', '@graphql-tools/schema', 'cross-fetch']) :
-	['@graphql-tools/schema', 'cross-fetch'];
+			['graphql', '@graphql-tools/schema']) :
+	['@graphql-tools/schema'];
 
 
 export default {
