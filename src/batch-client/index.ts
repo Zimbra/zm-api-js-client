@@ -49,7 +49,8 @@ import {
 	batchJsonRequest,
 	DEFAULT_HOSTNAME,
 	DEFAULT_SOAP_PATHNAME,
-	jsonRequest
+	jsonRequest,
+	setRequestAPI
 } from '../request';
 import {
 	JsonRequestOptions,
@@ -312,6 +313,10 @@ export class ZimbraBatchClient {
 			batch: false,
 			cache: false
 		});
+
+		if(options.requestAPI){
+			setRequestAPI(options.requestAPI);
+		}
 	}
 
 	public accountInfo = () =>
