@@ -360,6 +360,14 @@ Folder.addMapping({
 });
 export { Folder };
 
+export const HabGroup = new Entity({
+	_attrs: 'attributes'
+});
+
+export const DlGroupMember = new Entity({
+	_attrs: 'attributes'
+});
+
 const ForwardMessageInput = new Entity({
 	e: ['emailAddresses', MailItemEmailAddress],
 	mp: ['mimeParts', MimePart],

@@ -1125,6 +1125,39 @@ type Folder {
 	unreadDescendent: Boolean
 }
 
+type DlAttrs {
+	commonName: String
+	displayName: String
+	lastName: String
+}
+
+type DlGroupMember {
+	name: String
+	attributes: DlAttrs
+}
+
+type HabGroup {
+	name: String
+	id: String
+	parentHabGroupId: ID
+	seniorityIndex: Int
+	attributes: HabGroupAttrs
+	habGroups: [ HabGroup ]
+}
+
+type HabGroupAttrs {
+	cn: String
+	displayName: String
+	mail: String
+	uid: String
+	zimbraCreateTimestamp: String
+	zimbraHABSeniorityIndex: String
+	zimbraId: ID
+	zimbraMailAlias: String
+	zimbraMailHost: String
+	zimbraMailStatus: String
+}
+
 type ACL {
 	grant: [ACLGrant]
 }
@@ -1141,6 +1174,14 @@ type ACLGrant {
 type LicenseAttrs {
 	name: String!
 	_content: Boolean!
+}
+
+type habRootId {
+	_content: String
+}
+
+type HabRoots {
+	hab: [ habRootId ]
 }
 
 type License {
@@ -1168,6 +1209,7 @@ type AccountInfo {
 	soapURL: String
 	version: String
 	attrs: AccountInfoAttrs
+	habRoots: HabRoots
 	license: License
 	props: PropList
 	zimlets: AccountZimlet
@@ -1304,6 +1346,7 @@ type AccountInfoAttrs {
 	zimbraSignupRecoveryEmail: String
 	zimbraTrialExpirationDate: String
 	zimbraTrialConvertAtExpiration: Boolean
+	zimbraHierarchicalAddressBookRoot: String
 }
 
 type AccountCos {
@@ -3107,6 +3150,14 @@ type Query {
 		traverseMountpoints: Boolean
 		folder: GetFolderFolderInput
 	): Folder
+	getHAB(
+		habRootGroupId: ID
+	): HabGroup
+	getDistributionListMembers(
+		limit: Int,
+		offset: Int,
+		dl: String
+	): [DlGroupMember]
 	getCustomMetadata(id: ID!, section: String): CustomMetadata
 	getMailboxMetadata(section: String): MailboxMetadata
 	getMessage(
