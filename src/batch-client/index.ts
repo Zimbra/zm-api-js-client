@@ -34,6 +34,8 @@ import {
 	GetDocumentShareURLResponseEntity,
 	GetFolderRequest as GetFolderRequestEntity,
 	GetRightsRequest,
+	HabGroup,
+	DlGroupMember,
 	InviteReply,
 	MessageInfo,
 	SaveDocument,
@@ -191,6 +193,19 @@ const hasUnreadDescendent = (folder: any): any => {
 
 	return false;
 };
+
+const updateGroupName = (habGroup: any) => ({
+	...habGroup,
+	name: get(habGroup, 'attributes.displayName')
+});
+
+const updateGroupNameRecur = (habGroups: any) => (
+	habGroups.map((habGroup: any) => {
+		habGroup = updateGroupName(normalize(HabGroup)(habGroup));
+		habGroup.habGroup && (habGroup.habGroups = [...updateGroupNameRecur(habGroup.habGroup)]);
+		return habGroup;
+	})
+);
 
 const setUnreadDescendentFlag = (folder: any) => {
 	const folderArray = get(folder, 'folders') || [];
@@ -968,6 +983,34 @@ export class ZimbraBatchClient {
 		}).then(res =>
 			normalize(Filter)(get(res, 'filterRules.0.filterRule') || [])
 		);
+
+	public getHAB = (habRootGroupId: string) =>
+		this.jsonRequest({
+			name: 'GetHAB',
+			body: {
+				habRootGroupId
+			},
+			namespace: Namespace.Account
+		}).then(res => {
+			const habGroups = get(res, 'ou.0');
+			return {
+				...habGroups,
+				habGroups : [...updateGroupNameRecur(habGroups.habGroup)]
+			};
+		});
+
+	public getDistributionListMembers = (limit: String, offset: String, dl: String) =>
+		this.jsonRequest({
+			name: 'GetDistributionListMembers',
+			body: {
+				dl : {
+					_content: dl
+				},
+				limit,
+				offset
+			},
+			namespace: Namespace.Account
+		}).then(res => normalize(DlGroupMember)(get(res, 'groupMembers.0.groupMember')) || []);
 
 	public getFolder = (options: GetFolderOptions) => {
 		return this.jsonRequest({

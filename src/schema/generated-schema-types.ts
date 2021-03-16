@@ -1209,6 +1209,48 @@ export type Folder = {
   unreadDescendent?: Maybe<Scalars['Boolean']>;
 };
 
+export type DlAttrs = {
+  __typename?: 'DlAttrs';
+  commonName?: Maybe<Scalars['String']>;
+  displayName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+};
+
+export type DlGroupMember = {
+  __typename?: 'DlGroupMember';
+  name?: Maybe<Scalars['String']>;
+  attributes?: Maybe<DlAttrs>;
+};
+
+export type DlGroupMembers = {
+  __typename?: 'DlGroupMembers';
+  groupMember?: Maybe<Array<Maybe<DlGroupMember>>>;
+};
+
+export type HabGroup = {
+  __typename?: 'HabGroup';
+  name?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  parentHabGroupId?: Maybe<Scalars['ID']>;
+  seniorityIndex?: Maybe<Scalars['Int']>;
+  attributes?: Maybe<HabGroupAttrs>;
+  habGroups?: Maybe<Array<Maybe<HabGroup>>>;
+};
+
+export type HabGroupAttrs = {
+  __typename?: 'HabGroupAttrs';
+  cn?: Maybe<Scalars['String']>;
+  displayName?: Maybe<Scalars['String']>;
+  mail?: Maybe<Scalars['String']>;
+  uid?: Maybe<Scalars['String']>;
+  zimbraCreateTimestamp?: Maybe<Scalars['String']>;
+  zimbraHABSeniorityIndex?: Maybe<Scalars['String']>;
+  zimbraId?: Maybe<Scalars['ID']>;
+  zimbraMailAlias?: Maybe<Scalars['String']>;
+  zimbraMailHost?: Maybe<Scalars['String']>;
+  zimbraMailStatus?: Maybe<Scalars['String']>;
+};
+
 export type Acl = {
   __typename?: 'ACL';
   grant?: Maybe<Array<Maybe<AclGrant>>>;
@@ -1228,6 +1270,16 @@ export type LicenseAttrs = {
   __typename?: 'LicenseAttrs';
   name: Scalars['String'];
   _content: Scalars['Boolean'];
+};
+
+export type HabRootId = {
+  __typename?: 'habRootId';
+  _content?: Maybe<Scalars['String']>;
+};
+
+export type HabRoots = {
+  __typename?: 'HabRoots';
+  hab?: Maybe<Array<Maybe<HabRootId>>>;
 };
 
 export type License = {
@@ -1260,6 +1312,7 @@ export type AccountInfo = {
   soapURL?: Maybe<Scalars['String']>;
   version?: Maybe<Scalars['String']>;
   attrs?: Maybe<AccountInfoAttrs>;
+  habRoots?: Maybe<HabRoots>;
   license?: Maybe<License>;
   props?: Maybe<PropList>;
   zimlets?: Maybe<AccountZimlet>;
@@ -1409,6 +1462,7 @@ export type AccountInfoAttrs = {
   zimbraSignupRecoveryEmail?: Maybe<Scalars['String']>;
   zimbraTrialExpirationDate?: Maybe<Scalars['String']>;
   zimbraTrialConvertAtExpiration?: Maybe<Scalars['Boolean']>;
+  zimbraHierarchicalAddressBookRoot?: Maybe<Scalars['String']>;
 };
 
 export type AccountCos = {
@@ -3217,6 +3271,8 @@ export type Query = {
   getDocumentShareURL?: Maybe<GetDocumentShareUrlResponse>;
   getFilterRules?: Maybe<Array<Maybe<Filter>>>;
   getFolder?: Maybe<Folder>;
+  getHAB?: Maybe<HabGroup>;
+  getDistributionListMembers?: Maybe<DlGroupMembers>;
   getCustomMetadata?: Maybe<CustomMetadata>;
   getMailboxMetadata?: Maybe<MailboxMetadata>;
   getMessage?: Maybe<MessageInfo>;
@@ -3365,6 +3421,18 @@ export type QueryGetFolderArgs = {
   depth?: Maybe<Scalars['Int']>;
   traverseMountpoints?: Maybe<Scalars['Boolean']>;
   folder?: Maybe<GetFolderFolderInput>;
+};
+
+
+export type QueryGetHabArgs = {
+  habRootGroupId?: Maybe<Scalars['ID']>;
+};
+
+
+export type QueryGetDistributionListMembersArgs = {
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  dl?: Maybe<Scalars['String']>;
 };
 
 
