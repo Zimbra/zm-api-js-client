@@ -4,7 +4,6 @@ import get from 'lodash/get';
 import isError from 'lodash/isError';
 import mapValues from 'lodash/mapValues';
 import { denormalize, normalize } from '../normalize';
-import { USER_FOLDER_IDS } from './constants'
 import {
 	AccountRights,
 	ActionOptions as ActionOptionsEntity,
@@ -113,6 +112,7 @@ import {
 	createContactBody,
 	normalizeOtherAttr
 } from '../utils/normalize-otherAttribute-contact';
+import { USER_FOLDER_IDS } from './constants';
 import {
 	ActionOptions,
 	ActionType,
@@ -171,9 +171,8 @@ function normalizeMessage(
 }
 
 const hasUnreadDescendent = (folder: any): any => {
+	const unreadDescendent = get(folder, 'unreadDescendent');
 
-	const unreadDescendent = get (folder,'unreadDescendent' )
-	
 	if (
 		folder[
 			folder.id === USER_FOLDER_IDS.DRAFTS || folder.name === 'Outbox'
