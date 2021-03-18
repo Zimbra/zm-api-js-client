@@ -3264,6 +3264,7 @@ type Mutation {
 		rgb: String
 		tagNames: String
 		name: String,
+		isLocal: Boolean,
 		recursive: Boolean
 	): Boolean
 	applyFilterRules(ids: String!, filterRules: [FilterRuleInput]): [String]
