@@ -262,6 +262,7 @@ export interface ActionOptions {
 	recursive?: Boolean;
 	rgb?: string;
 	tagNames?: string;
+	isLocal?: boolean;
 }
 
 export enum ActionType {
