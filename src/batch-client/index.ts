@@ -301,13 +301,13 @@ export class ZimbraBatchClient {
 	public origin: string;
 	public sessionId: any;
 	public soapPathname: string;
+	private authToken?: string;
 	private batchDataLoader: DataLoader<RequestOptions, RequestBody>;
 	private csrfToken?: string;
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
 	private jwtToken?: string;
 	private sessionHandler?: SessionHandler;
 	private userAgent?: {};
-	private authToken?: string;
 
 	constructor(options: ZimbraClientOptions = {}) {
 		this.sessionHandler = options.sessionHandler;
@@ -335,7 +335,7 @@ export class ZimbraBatchClient {
 			cache: false
 		});
 
-		if(options.requestAPI){
+		if (options.requestAPI) {
 			setRequestAPI(options.requestAPI);
 		}
 	}
