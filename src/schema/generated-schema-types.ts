@@ -3302,6 +3302,7 @@ export type QueryClientInfoArgs = {
 export type QueryDownloadMessageArgs = {
   id: Scalars['ID'];
   isSecure?: Maybe<Scalars['Boolean']>;
+  isLocal?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -3426,6 +3427,7 @@ export type QueryGetMessageArgs = {
   id: Scalars['ID'];
   header?: Maybe<Array<Maybe<MailItemHeaderInput>>>;
   html?: Maybe<Scalars['Boolean']>;
+  isLocal?: Maybe<Scalars['Boolean']>;
   max?: Maybe<Scalars['Int']>;
   needExp?: Maybe<Scalars['Boolean']>;
   neuter?: Maybe<Scalars['Boolean']>;
