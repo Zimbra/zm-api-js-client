@@ -6,9 +6,8 @@ import {
 	Observer,
 	Operation
 } from '@apollo/client';
-import castArray from 'lodash/castArray';
+
 import { SyncOfflineOperations } from '../sync-offline-operations';
-import { DedupedByQueueError } from './errors';
 import {
 	OfflineQueueLinkOptions,
 	OperationEntry,
@@ -27,11 +26,6 @@ export class OfflineQueueLink extends ApolloLink {
 
 	// Backing storage: localStorage or AsyncStore works out of the box.
 	public storage: StorageProvider;
-
-	// Queues are named in order to be deduplicated or cancelled, such that an
-	// operation can cancel other operations in the queue. Useful for mutating an
-	// entity that only exists in the offline queue.
-	private namedQueues: { [key: string]: OperationEntry | undefined };
 
 	// All operations are queued when the link is closed. The queue is persisted
 	// to storage on any change.
@@ -53,27 +47,36 @@ export class OfflineQueueLink extends ApolloLink {
 			);
 		this.storage = storage;
 		this.storeKey = storeKey;
-		this.namedQueues = {};
 		this.operationQueue = [];
 		this.isOpen = isOpen;
 	}
 
-	cancelNamedQueue = (offlineQueueName: string) => {
-		const entry: OperationEntry | undefined = this.namedQueues[
-			offlineQueueName
-		];
-		if (entry) {
-			this.dequeue(entry);
-			if (entry.observer && entry.observer.error) {
-				entry.observer.error(new DedupedByQueueError());
-			}
-
-			this.namedQueues[offlineQueueName] = undefined;
-		}
-	};
-
 	close = () => {
 		this.isOpen = false;
+	};
+
+	cancelNamedQueue = (entry: OperationEntry) => {
+		let entryIndex = -1;
+		this.operationQueue.forEach((entryItem, index) => {
+			if (entry.offlineQuery === entryItem.offlineQuery) {
+				entryIndex = index;
+			}
+
+			if (entry.cancelQuery === entryItem.offlineQuery) {
+				this.operationQueue = [
+					...this.operationQueue.slice(0, index),
+					...this.operationQueue.slice(index + 1)
+				];
+				this.persist();
+			}
+		});
+		if (entryIndex !== -1) {
+			this.operationQueue[entryIndex] = entry;
+			this.persist();
+		} else {
+			this.enqueue(entry);
+		}
+
 	};
 
 	dequeue = (entry: OperationEntry) => {
@@ -84,7 +87,6 @@ export class OfflineQueueLink extends ApolloLink {
 				...this.operationQueue.slice(index + 1)
 			];
 		}
-
 		this.persist();
 	};
 
@@ -134,26 +136,18 @@ export class OfflineQueueLink extends ApolloLink {
 		}
 
 		return new Observable<FetchResult>((observer: Observer<FetchResult>) => {
-			const entry = { operation, forward, observer };
-
-			if (offlineQueueName) {
-				// Deduplication: Any queue with the same name is errored out when a newer
-				// operation with the same name is queued.
-				this.cancelNamedQueue(offlineQueueName);
-
-				// If the provided offlineQueueName is not self-cancelled, set this entry as
-				// the head of the given named queue.
-				if (!~castArray(cancelQueues).indexOf(offlineQueueName)) {
-					this.namedQueues[offlineQueueName] = entry;
-				}
+			const entry = {
+				operation,
+				forward,
+				observer,
+				offlineQuery: offlineQueueName,
+				cancelQuery: cancelQueues
+			};
+			if (offlineQueueName || cancelQueues) {
+				this.cancelNamedQueue(entry);
+			} else {
+				this.enqueue(entry);
 			}
-
-			// An operation can cancel multiple other operations.
-			if (cancelQueues) {
-				castArray(cancelQueues).forEach(this.cancelNamedQueue);
-			}
-
-			this.enqueue(entry);
 
 			return () => this.dequeue(entry);
 		});
