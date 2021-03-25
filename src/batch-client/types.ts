@@ -61,16 +61,16 @@ export type SessionHandler = {
 };
 
 export interface ZimbraClientOptions {
+	authToken?: string;
 	csrfToken?: string;
 	jwtToken?: string;
 	localStoreClient?: any;
 	notificationHandler?: NotificationHandler;
+	requestAPI?: any;
 	sessionHandler?: SessionHandler;
 	soapPathname?: string;
 	userAgent?: UserAgent;
 	zimbraOrigin?: string;
-	authToken?: string;
-	requestAPI?: any;
 }
 
 export interface FreeBusyOptions {
@@ -115,11 +115,11 @@ export interface GetFolderOptions {
 		path?: string;
 		uuid?: string;
 	};
+	local?: boolean;
 	needGranteeName?: boolean;
 	traverseMountpoints?: boolean;
 	view?: FolderView;
 	visible?: boolean;
-	local: boolean;
 }
 
 export interface GetDocumentShareURLItemOptions {
@@ -150,6 +150,7 @@ export interface GetMailItemOptions {
 	html?: boolean;
 	id: string;
 	ids: [String];
+	isLocal?: boolean;
 	max?: number;
 	needExp?: boolean;
 }
@@ -257,12 +258,12 @@ export interface ActionOptions {
 	folderId?: string;
 	id?: string;
 	ids?: Array<string>;
+	isLocal?: boolean;
 	name?: string;
 	op: string;
 	recursive?: Boolean;
 	rgb?: string;
 	tagNames?: string;
-	isLocal?: boolean;
 }
 
 export enum ActionType {
