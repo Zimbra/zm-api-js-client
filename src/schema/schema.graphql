@@ -3044,7 +3044,7 @@ type Query {
 		needExp: Boolean
 	): AutoCompleteGALResponse
 	clientInfo(by: String, domain: String): ClientInfoType
-	downloadMessage(id: ID!, isSecure: Boolean): SMimeMessage
+	downloadMessage(id: ID!, isSecure: Boolean, isLocal: Boolean): SMimeMessage
 	downloadAttachment(id: ID!, part: ID!): Attachment
 	downloadDocument(id: ID!, url: String!): Attachment
 	discoverRights: DiscoverRights
@@ -3111,6 +3111,7 @@ type Query {
 		id: ID!
 		header: [MailItemHeaderInput]
 		html: Boolean
+		isLocal: Boolean
 		max: Int
 		needExp: Boolean
 		neuter: Boolean
@@ -3119,7 +3120,7 @@ type Query {
 		read: Boolean
 		ridZ: String
 	): MessageInfo
-	getMessagesMetadata(ids: [ID!]!): [MessageInfo]
+	getMessagesMetadata(ids: [ID!]!, isLocal: Boolean): [MessageInfo]
 	getRights(input: GetRightsInput!): RightsResponse
 	getSMimePublicCerts(
 		contactAddr: String!
