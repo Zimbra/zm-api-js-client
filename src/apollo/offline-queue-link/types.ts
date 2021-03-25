@@ -11,6 +11,8 @@ export type OperationEntry = {
 	forward: NextLink;
 	observer: Observer<FetchResult>;
 	operation: Operation;
+	offlineQuery?: string;
+	cancelQuery?: string;
 };
 
 export type OfflineOperationEntry = {
