@@ -3016,6 +3016,7 @@ type Device {
 	firstReqReceived: Int
 	lastPolicyUpdate: Int
 	lastUsedDate: String
+	lastUpdatedBy: String
 	protocol: Float
 	provisionable: Boolean
 	status: Int
@@ -3420,9 +3421,14 @@ type Mutation {
 	): Boolean
 	createTag(tag: CreateTagInput): Tag
 	tagAction(action: FolderActionInput): Boolean
-	suspendDeviceSync(deviceId: String) : Device
-	resumeDeviceSync(deviceId: String) : Device
+	quarantineDeviceSync(deviceId: String) : Device
+	allowDeviceSync(deviceId: String) : Device
 	removeDeviceSync(deviceId: String) : Boolean
+	blockDeviceSync(deviceId: String) : Device
+	accountOnlyRemoteWipeSync(deviceId: String) : Device
+	cancelPendingAccountOnlyRemoteWipeSync(deviceId: String) : Device
+	remoteWipeSync(deviceId: String) : Device
+	cancelPendingRemoteWipeSync(deviceId: String) : Device
 }
 
 schema {
