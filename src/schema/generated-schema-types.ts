@@ -1216,6 +1216,7 @@ export type Device = {
   firstReqReceived?: Maybe<Scalars['Int']>;
   lastPolicyUpdate?: Maybe<Scalars['Int']>;
   lastUsedDate?: Maybe<Scalars['String']>;
+  lastUpdatedBy?: Maybe<Scalars['String']>;
   protocol?: Maybe<Scalars['Float']>;
   provisionable?: Maybe<Scalars['Boolean']>;
   status?: Maybe<Scalars['Int']>;
@@ -2430,9 +2431,14 @@ export type Mutation = {
   setRecoveryAccount?: Maybe<Scalars['Boolean']>;
   createTag?: Maybe<Tag>;
   tagAction?: Maybe<Scalars['Boolean']>;
-  suspendDeviceSync?: Maybe<Device>;
-  resumeDeviceSync?: Maybe<Device>;
+  quarantineDeviceSync?: Maybe<Device>;
+  allowDeviceSync?: Maybe<Device>;
   removeDeviceSync?: Maybe<Scalars['Boolean']>;
+  blockDeviceSync?: Maybe<Device>;
+  accountOnlyRemoteWipeSync?: Maybe<Device>;
+  cancelPendingAccountOnlyRemoteWipeSync?: Maybe<Device>;
+  remoteWipeSync?: Maybe<Device>;
+  cancelPendingRemoteWipeSync?: Maybe<Device>;
 };
 
 
@@ -2900,17 +2906,42 @@ export type MutationTagActionArgs = {
 };
 
 
-export type MutationSuspendDeviceSyncArgs = {
+export type MutationQuarantineDeviceSyncArgs = {
   deviceId?: Maybe<Scalars['String']>;
 };
 
 
-export type MutationResumeDeviceSyncArgs = {
+export type MutationAllowDeviceSyncArgs = {
   deviceId?: Maybe<Scalars['String']>;
 };
 
 
 export type MutationRemoveDeviceSyncArgs = {
+  deviceId?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationBlockDeviceSyncArgs = {
+  deviceId?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationAccountOnlyRemoteWipeSyncArgs = {
+  deviceId?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationCancelPendingAccountOnlyRemoteWipeSyncArgs = {
+  deviceId?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationRemoteWipeSyncArgs = {
+  deviceId?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationCancelPendingRemoteWipeSyncArgs = {
   deviceId?: Maybe<Scalars['String']>;
 };
 

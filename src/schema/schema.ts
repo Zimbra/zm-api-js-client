@@ -467,14 +467,29 @@ export function createZimbraSchema(
 					client.modifyWhiteBlackList(whiteBlackList as WhiteBlackListInput),
 				createTag: (_, { tag }) => client.createTag(tag as CreateTagInput),
 				tagAction: (_, { action }) => client.action(ActionType.tag, action),
-				suspendDeviceSync: (_, { deviceId }) => {
-					client.suspendDeviceSync(deviceId);
+				quarantineDeviceSync: (_, { deviceId }) => {
+					client.quarantineDeviceSync(deviceId);
 				},
-				resumeDeviceSync: (_, { deviceId }) => {
-					client.resumeDeviceSync(deviceId);
+				allowDeviceSync: (_, { deviceId }) => {
+					client.allowDeviceSync(deviceId);
 				},
 				removeDeviceSync: (_, { deviceId }) => {
 					client.removeDeviceSync(deviceId);
+				},
+				blockDeviceSync: (_, { deviceId }) => {
+					client.blockDeviceSync(deviceId);
+				},
+				accountOnlyRemoteWipeSync: (_, { deviceId }) => {
+					client.accountOnlyRemoteWipeSync(deviceId);
+				},
+				cancelPendingAccountOnlyRemoteWipeSync: (_, { deviceId }) => {
+					client.cancelPendingAccountOnlyRemoteWipeSync(deviceId);
+				},
+				remoteWipeSync: (_, { deviceId }) => {
+					client.remoteWipeSync(deviceId);
+				},
+				cancelPendingRemoteWipeSync: (_, { deviceId }) => {
+					client.cancelPendingRemoteWipeSync(deviceId);
 				}
 			}
 		}

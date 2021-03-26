@@ -367,6 +367,17 @@ export class ZimbraBatchClient {
 			}
 		}));
 
+	public accountOnlyRemoteWipeSync = (deviceId: String) =>
+		this.jsonRequest({
+			name: 'AccountOnlyRemoteWipe',
+			namespace: Namespace.Sync,
+			body: {
+				device: {
+					id: deviceId
+				}
+			}
+		});
+
 	public action = (type: ActionType, options: ActionOptions) => {
 		const { ids, id, ...rest } = options;
 
@@ -420,6 +431,17 @@ export class ZimbraBatchClient {
 		}).then(normalize(MessageInfo));
 	};
 
+	public allowDeviceSync = (deviceId: String) =>
+		this.jsonRequest({
+			name: 'AllowDevice',
+			namespace: Namespace.Sync,
+			body: {
+				device: {
+					id: deviceId
+				}
+			}
+		});
+
 	public applyFilterRules = ({ ids, filterRules }: ApplyFilterRulesOptions) =>
 		this.jsonRequest({
 			name: 'ApplyFilterRules',
@@ -448,6 +470,39 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account,
 			body: options
 		}).then(res => normalize(AutoCompleteGALResponse)(res));
+
+	public blockDeviceSync = (deviceId: String) =>
+		this.jsonRequest({
+			name: 'BlockDevice',
+			namespace: Namespace.Sync,
+			body: {
+				device: {
+					id: deviceId
+				}
+			}
+		});
+
+	public cancelPendingAccountOnlyRemoteWipeSync = (deviceId: String) =>
+		this.jsonRequest({
+			name: 'CancelPendingAccountOnlyRemoteWipe',
+			namespace: Namespace.Sync,
+			body: {
+				device: {
+					id: deviceId
+				}
+			}
+		});
+
+	public cancelPendingRemoteWipeSync = (deviceId: String) =>
+		this.jsonRequest({
+			name: 'CancelPendingRemoteWipe',
+			namespace: Namespace.Sync,
+			body: {
+				device: {
+					id: deviceId
+				}
+			}
+		});
 
 	public cancelTask = ({ inviteId }: any) =>
 		this.jsonRequest({
@@ -1553,6 +1608,17 @@ export class ZimbraBatchClient {
 			fetchOptions
 		}).then(resp => resp);
 
+	public quarantineDeviceSync = (deviceId: String) =>
+		this.jsonRequest({
+			name: 'QuarantineDevice',
+			namespace: Namespace.Sync,
+			body: {
+				device: {
+					id: deviceId
+				}
+			}
+		});
+
 	public recoverAccount = ({ channel, email, op }: RecoverAccountOptions) =>
 		this.jsonRequest({
 			name: 'RecoverAccount',
@@ -1572,6 +1638,17 @@ export class ZimbraBatchClient {
 				}
 			}
 		}).then(resp => resp.relatedContacts.relatedContact);
+
+	public remoteWipeSync = (deviceId: String) =>
+		this.jsonRequest({
+			name: 'RemoteWipe',
+			namespace: Namespace.Sync,
+			body: {
+				device: {
+					id: deviceId
+				}
+			}
+		});
 
 	public removeDeviceSync = (deviceId: String) =>
 		this.jsonRequest({
@@ -1603,17 +1680,6 @@ export class ZimbraBatchClient {
 		});
 
 	public resolve = (path: string) => `${this.origin}${path}`;
-
-	public resumeDeviceSync = (deviceId: String) =>
-		this.jsonRequest({
-			name: 'ResumeDevice',
-			namespace: Namespace.Sync,
-			body: {
-				device: {
-					id: deviceId
-				}
-			}
-		});
 
 	public revokeAppSpecificPassword = (appName: string) =>
 		this.jsonRequest({
@@ -1775,17 +1841,6 @@ export class ZimbraBatchClient {
 			},
 			singleRequest: true
 		}).then(Boolean);
-
-	public suspendDeviceSync = (deviceId: String) =>
-		this.jsonRequest({
-			name: 'SuspendDevice',
-			namespace: Namespace.Sync,
-			body: {
-				device: {
-					id: deviceId
-				}
-			}
-		});
 
 	public taskFolders = () =>
 		this.jsonRequest({
