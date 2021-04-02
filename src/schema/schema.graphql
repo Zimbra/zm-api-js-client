@@ -1302,6 +1302,8 @@ type AccountInfoAttrs {
 	zimbraFeaturePop3DataSourceEnabled: Boolean
 	zimbraSignupAffiliate: String
 	zimbraSignupRecoveryEmail: String
+	zimbraTrialExpirationDate: String
+	zimbraTrialConvertAtExpiration: Boolean
 }
 
 type AccountCos {
