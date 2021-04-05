@@ -158,7 +158,7 @@ const DEBUG = false;
 
 function normalizeMessage(
 	message: { [key: string]: any },
-	{ origin, jwtToken }: { jwtToken?: string; origin?: string }
+	{ origin, jwtToken, isDesktop }: { jwtToken?: string; origin?: string; isDesktop?: string; }
 ) {
 	const normalizedMessage = normalize(MessageInfo)(message);
 	normalizedMessage.attributes =
@@ -166,7 +166,7 @@ function normalizeMessage(
 		mapValuesDeep(normalizedMessage.attributes, coerceStringToBoolean);
 
 	return normalizeEmailAddresses(
-		normalizeMimeParts(normalizedMessage, { origin, jwtToken })
+		normalizeMimeParts(normalizedMessage, { origin, jwtToken, isDesktop })
 	);
 }
 
@@ -280,6 +280,7 @@ export class ZimbraBatchClient {
 	public origin: string;
 	public sessionId: any;
 	public soapPathname: string;
+	public localStoreClient: any;
 	private batchDataLoader: DataLoader<RequestOptions, RequestBody>;
 	private csrfToken?: string;
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
@@ -297,6 +298,7 @@ export class ZimbraBatchClient {
 				? options.zimbraOrigin
 				: DEFAULT_HOSTNAME;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
+		this.localStoreClient = options.localStoreClient;
 
 		this.notifier = new Notifier();
 
@@ -1903,6 +1905,7 @@ export class ZimbraBatchClient {
 	private normalizeMessage = (message: any) =>
 		normalizeMessage(message, {
 			origin: this.origin,
-			jwtToken: this.jwtToken
+			jwtToken: this.jwtToken,
+			isDesktop: this.localStoreClient
 		});
 }
