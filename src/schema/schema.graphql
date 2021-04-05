@@ -1904,6 +1904,7 @@ type MimePart {
 	part: ID # Mime part name
 	content: String
 	contentId: String
+	contentLocation: String
 	contentType: String
 	contentDisposition: String
 	size: Float # Size in bytes
