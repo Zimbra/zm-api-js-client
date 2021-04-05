@@ -1405,6 +1405,10 @@ export type AccountInfoAttrs = {
   zimbraFeatureConversationsEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureImapDataSourceEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeaturePop3DataSourceEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraSignupAffiliate?: Maybe<Scalars['String']>;
+  zimbraSignupRecoveryEmail?: Maybe<Scalars['String']>;
+  zimbraTrialExpirationDate?: Maybe<Scalars['String']>;
+  zimbraTrialConvertAtExpiration?: Maybe<Scalars['Boolean']>;
 };
 
 export type AccountCos = {

@@ -1300,6 +1300,10 @@ type AccountInfoAttrs {
 	zimbraFeatureConversationsEnabled: Boolean
 	zimbraFeatureImapDataSourceEnabled: Boolean
 	zimbraFeaturePop3DataSourceEnabled: Boolean
+	zimbraSignupAffiliate: String
+	zimbraSignupRecoveryEmail: String
+	zimbraTrialExpirationDate: String
+	zimbraTrialConvertAtExpiration: Boolean
 }
 
 type AccountCos {
