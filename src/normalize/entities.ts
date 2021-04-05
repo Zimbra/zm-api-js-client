@@ -10,6 +10,7 @@ import { Entity } from '.';
 const MimePart = new Entity({
 	cd: 'contentDisposition',
 	ci: 'contentId',
+	cl: 'contentLocation',
 	ct: 'contentType',
 	s: 'size',
 	part: 'part',

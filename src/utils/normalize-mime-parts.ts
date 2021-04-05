@@ -170,5 +170,20 @@ export function normalizeMimeParts(
 	// Default to null if not exist to unset the key if this is an update.
 	message.autoSendTime = message.autoSendTime || null;
 
+	// Some mail clients add contentId and contentLocation to attachment data even though it's not inline attachments
+	// we are fixing it here
+	// @TODO we should extend this to check if we have any placeholder in body for inline attachments then only consider it as inline attachment
+	if (
+		message.text &&
+		!message.html &&
+		message.attachments &&
+		message.attachments.some((att: { contentId: any; contentDisposition: any; }) => att.contentId && !att.contentDisposition)
+	) {
+		message.attachments.forEach((att: { contentId: any; contentLocation: any; }) => {
+			delete att.contentId;
+			delete att.contentLocation;
+		});
+	}
+
 	return message;
 }
