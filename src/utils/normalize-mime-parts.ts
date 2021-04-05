@@ -174,7 +174,9 @@ export function normalizeMimeParts(
 	// we are fixing it here
 	// @TODO we should extend this to check if we have any placeholder in body for inline attachments then only consider it as inline attachment
 	if (
-		message.text && !message.html &&
+		message.text &&
+		!message.html &&
+		message.attachments &&
 		message.attachments.some((att: { contentId: any; contentDisposition: any; }) => att.contentId && !att.contentDisposition)
 	) {
 		message.attachments.forEach((att: { contentId: any; contentLocation: any; }) => {
