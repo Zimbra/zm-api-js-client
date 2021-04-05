@@ -2045,6 +2045,7 @@ export type MimePart = {
   part?: Maybe<Scalars['ID']>;
   content?: Maybe<Scalars['String']>;
   contentId?: Maybe<Scalars['String']>;
+  contentLocation?: Maybe<Scalars['String']>;
   contentType?: Maybe<Scalars['String']>;
   contentDisposition?: Maybe<Scalars['String']>;
   size?: Maybe<Scalars['Float']>;
