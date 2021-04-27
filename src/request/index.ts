@@ -16,10 +16,10 @@ import {
 export const DEFAULT_HOSTNAME = '/@zimbra';
 export const DEFAULT_SOAP_PATHNAME = '/service/soap';
 
-let requestAPI: any;
+let customFetch: any;
 
-export function setRequestAPI(httpRequestAPI: any) {
-	requestAPI = httpRequestAPI;
+export function setCustomFetch(httpRequestAPI: any) {
+	customFetch = httpRequestAPI;
 }
 
 function soapCommandBody(options: RequestOptions) {
@@ -248,6 +248,7 @@ export function jsonRequest(
 		header.context.csrfToken = requestOptions.csrfToken;
 	}
 
+	// Allow to set Auth Token in Cookie in case `ZimbraBatchClient` is used on non-web platforms, like nodejs
 	if (requestOptions.authToken) {
 		options.headers['Cookie'] = `ZM_AUTH_TOKEN=${requestOptions.authToken}`;
 	}
@@ -264,9 +265,9 @@ export function jsonRequest(
 		};
 	}
 
-	// Use received `requestAPI` passed as params instead of default fetch API
+	// Use received `customFetch` passed as params instead of default fetch API
 	// to make `jsonRequest` method compatible with unsupported platforms, i.e. node.js
-	return (requestAPI || fetch)(url, {
+	return (customFetch || fetch)(url, {
 		method: 'POST',
 		credentials: options.credentials,
 		body: JSON.stringify({

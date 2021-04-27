@@ -52,7 +52,7 @@ import {
 	DEFAULT_HOSTNAME,
 	DEFAULT_SOAP_PATHNAME,
 	jsonRequest,
-	setRequestAPI
+	setCustomFetch
 } from '../request';
 import {
 	JsonRequestOptions,
@@ -335,8 +335,8 @@ export class ZimbraBatchClient {
 			cache: false
 		});
 
-		if (options.requestAPI) {
-			setRequestAPI(options.requestAPI);
+		if (options.customFetch) {
+			setCustomFetch(options.customFetch);
 		}
 	}
 
