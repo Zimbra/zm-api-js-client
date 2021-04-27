@@ -124,5 +124,13 @@ In addition, the request primitives are also available:
 import { jsonRequest, batchJsonRequest } from 'zimbra-graphql/request';
 ```
 
+### Provide Custom `Fetch` API
+By default, `ZimbraBatchClient` uses [fetch api](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) of browser. In case, `ZimbraBatchClient` is used on non-browser platforms (i.e. NodeJS App), it will throw an error, such as: _**fetch is not defined.**_
+
+In such case, `customFetch` option key allows to override or provide third-party fetch module/method.
+```javascript
+const client = new ZimbraBatchClient({ customFetch: myCustomFetchMethod });
+```
+
 ### Hacking on the Client
 See the [wiki](https://github.com/Zimbra/zm-api-js-client/wiki) for details on how to add new APIs to the client.
