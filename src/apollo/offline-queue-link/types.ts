@@ -1,5 +1,5 @@
 import { FetchResult, NextLink, Operation } from '@apollo/client';
-import { Observer } from 'zen-observable-ts';
+import { Observer } from '@apollo/client';
 
 export interface OfflineQueueLinkOptions {
 	isOpen?: boolean;
@@ -8,11 +8,11 @@ export interface OfflineQueueLinkOptions {
 }
 
 export type OperationEntry = {
+	cancelQuery?: string;
 	forward: NextLink;
 	observer: Observer<FetchResult>;
-	operation: Operation;
 	offlineQuery?: string;
-	cancelQuery?: string;
+	operation: Operation;
 };
 
 export type OfflineOperationEntry = {
