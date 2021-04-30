@@ -55,6 +55,27 @@ export class OfflineQueueLink extends ApolloLink {
 		this.isOpen = false;
 	};
 
+	dequeue = (entry: OperationEntry) => {
+		const index = this.operationQueue.indexOf(entry);
+		if (index !== -1) {
+			this.operationQueue = [
+				...this.operationQueue.slice(0, index),
+				...this.operationQueue.slice(index + 1)
+			];
+		}
+		this.persist();
+	};
+
+	enqueue = (entry: OperationEntry) => {
+		this.operationQueue.push(entry);
+		this.persist();
+	};
+
+	getSize = () =>
+		Promise.resolve(this.storage.getItem(this.storeKey)).then(
+			d => (d || '').length
+		);
+
 	handleCancelAndOfflineQueue = (entry: OperationEntry) => {
 		let entryIndex = -1;
 		this.operationQueue.forEach((entryItem, index) => {
@@ -76,29 +97,7 @@ export class OfflineQueueLink extends ApolloLink {
 		} else {
 			this.enqueue(entry);
 		}
-
 	};
-
-	dequeue = (entry: OperationEntry) => {
-		const index = this.operationQueue.indexOf(entry);
-		if (index !== -1) {
-			this.operationQueue = [
-				...this.operationQueue.slice(0, index),
-				...this.operationQueue.slice(index + 1)
-			];
-		}
-		this.persist();
-	};
-
-	enqueue = (entry: OperationEntry) => {
-		this.operationQueue.push(entry);
-		this.persist();
-	};
-
-	getSize = () =>
-		Promise.resolve(this.storage.getItem(this.storeKey)).then(
-			d => (d || '').length
-		);
 
 	open = ({ apolloClient }: { apolloClient?: any } = {}) => {
 		if (!apolloClient) return;

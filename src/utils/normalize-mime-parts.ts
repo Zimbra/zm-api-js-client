@@ -71,7 +71,11 @@ export function getProfileImageUrl(
 
 export function normalizeMimeParts(
 	message: { [key: string]: any },
-	{ origin, jwtToken, isDesktop }: { jwtToken?: string; origin?: string; isDesktop?: string; }
+	{
+		origin,
+		jwtToken,
+		isDesktop
+	}: { isDesktop?: string; jwtToken?: string; origin?: string }
 ) {
 	const processAttachment = ({ ...attachment }) => {
 		attachment.messageId = attachment.messageId || message.id;
@@ -179,12 +183,17 @@ export function normalizeMimeParts(
 		message.text &&
 		!message.html &&
 		message.attachments &&
-		message.attachments.some((att: { contentId: any; contentDisposition: any; }) => att.contentId && !att.contentDisposition)
+		message.attachments.some(
+			(att: { contentDisposition: any; contentId: any }) =>
+				att.contentId && !att.contentDisposition
+		)
 	) {
-		message.attachments.forEach((att: { contentId: any; contentLocation: any; }) => {
-			delete att.contentId;
-			delete att.contentLocation;
-		});
+		message.attachments.forEach(
+			(att: { contentId: any; contentLocation: any }) => {
+				delete att.contentId;
+				delete att.contentLocation;
+			}
+		);
 	}
 
 	return message;
