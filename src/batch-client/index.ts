@@ -1053,7 +1053,7 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		}).then(
 			res =>
-				normalize(DlGroupMember)(get(res, 'groupMembers.0.groupMember')) || []
+				normalize(DlGroupMember)(get(res, 'groupMembers.0.groupMember') || [])
 		);
 
 	public getDocumentShareURL = (options: GetDocumentShareURLOptions) =>
