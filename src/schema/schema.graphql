@@ -1142,7 +1142,7 @@ type HabGroup {
 	parentHabGroupId: ID
 	seniorityIndex: Int
 	attributes: HabGroupAttrs
-	habGroups: [ HabGroup ]
+	habGroups: [HabGroup]
 }
 
 type HabGroupAttrs {
@@ -1181,7 +1181,7 @@ type habRootId {
 }
 
 type HabRoots {
-	hab: [ habRootId ]
+	hab: [habRootId]
 }
 
 type License {
@@ -1333,6 +1333,9 @@ type AccountInfoAttrs {
 	zimbraFeatureAppSpecificPasswordsEnabled: Boolean
 	zimbraFeatureMailPriorityEnabled: Boolean
 	zimbraFileUploadMaxSize: Float
+	zimbraFileUploadMaxSizePerFile: Float
+	zimbraMailAttachmentMaxSize: Float
+	zimbraMtaMaxMessageSize: Float
 	zimbraMailAlias: [String]
 	zimbraFeatureTaggingEnabled: Boolean
 	zimbraIdentityMaxNumEntries: Int
@@ -1627,7 +1630,6 @@ type Contact {
 	attributes: ContactAttributes
 	members: [ContactListMember]
 }
-
 
 type OtherContactAttribute {
 	key: String
@@ -1967,7 +1969,6 @@ type ActionData {
 	op: String
 	zimbraId: ID
 }
-
 
 type DocumentActionData {
 	action: ActionData
@@ -2379,7 +2380,7 @@ input GrantInput {
 	key: String
 	password: String
 	permissions: String!
-	zimbraId: ID,
+	zimbraId: ID
 }
 
 input Right {
@@ -3071,8 +3072,6 @@ input SearchConditionsInput {
 	conds: ConditionsInput
 }
 
-
-
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -3143,7 +3142,9 @@ type Query {
 		needExp: Boolean
 		fetch: String
 	): Conversation
-	getDocumentShareURL(item: GetDocumentShareURLItemInput): GetDocumentShareURLResponse
+	getDocumentShareURL(
+		item: GetDocumentShareURLItemInput
+	): GetDocumentShareURLResponse
 	getFilterRules: [Filter]
 	getFolder(
 		visible: Boolean
@@ -3154,12 +3155,10 @@ type Query {
 		folder: GetFolderFolderInput
 		local: Boolean
 	): Folder
-	getHAB(
-		habRootGroupId: ID
-	): HabGroup
+	getHAB(habRootGroupId: ID): HabGroup
 	getDistributionListMembers(
-		limit: Int,
-		offset: Int,
+		limit: Int
+		offset: Int
 		dl: String
 	): [DlGroupMember]
 	getCustomMetadata(id: ID!, section: String): CustomMetadata
@@ -3224,7 +3223,7 @@ type Query {
 		recip: Int
 		sortBy: SortBy
 		types: SearchType
-		resultMode: String,
+		resultMode: String
 		inDumpster: Boolean
 	): SearchResponse
 
@@ -3265,8 +3264,8 @@ type Mutation {
 		folderId: ID
 		rgb: String
 		tagNames: String
-		name: String,
-		isLocal: Boolean,
+		name: String
+		isLocal: Boolean
 		recursive: Boolean
 	): Boolean
 	applyFilterRules(ids: String!, filterRules: [FilterRuleInput]): [String]
@@ -3289,7 +3288,13 @@ type Mutation {
 		contentType: String
 	): ProfileImageChangeResponse
 	checkCalendar(id: ID!, value: Boolean!): Boolean
-	contactAction(id: ID, ids: [ID!], folderId: ID, op: String!, tagNames: String): ActionOpResponse
+	contactAction(
+		id: ID
+		ids: [ID!]
+		folderId: ID
+		op: String!
+		tagNames: String
+	): ActionOpResponse
 	conversationAction(ids: [ID!]!, op: String!): Boolean
 	counterAppointment(
 		counterAppointmentInvite: CounterAppointmentInput!
@@ -3344,7 +3349,14 @@ type Mutation {
 		appointmentInvite: ForwardAppointmentInviteInput!
 	): Boolean
 	forwardAppointment(appointmentInvite: ForwardAppointmentInput!): Boolean
-	itemAction(id: ID, ids: [ID], folderId: ID, op: String!, tagNames: String, name: String): Boolean
+	itemAction(
+		id: ID
+		ids: [ID]
+		folderId: ID
+		op: String!
+		tagNames: String
+		name: String
+	): Boolean
 	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
 	logout: Boolean
 	login(
@@ -3394,9 +3406,9 @@ type Mutation {
 		channel: SetRecoveryAccountChannel!
 	): RecoverAccount
 	resetPassword(
-		password: String,
-		dryRun: Boolean,
-		getPasswordRules: Boolean,
+		password: String
+		dryRun: Boolean
+		getPasswordRules: Boolean
 		cancelResetPassword: Boolean
 	): ResetPasswordResponse
 	revokeAppSpecificPassword(appName: String!): Boolean
@@ -3427,14 +3439,14 @@ type Mutation {
 	): Boolean
 	createTag(tag: CreateTagInput): Tag
 	tagAction(action: FolderActionInput): Boolean
-	quarantineDeviceSync(deviceId: String) : Device
-	allowDeviceSync(deviceId: String) : Device
-	removeDeviceSync(deviceId: String) : Boolean
-	blockDeviceSync(deviceId: String) : Device
-	accountOnlyRemoteWipeSync(deviceId: String) : Device
-	cancelPendingAccountOnlyRemoteWipeSync(deviceId: String) : Device
-	remoteWipeSync(deviceId: String) : Device
-	cancelPendingRemoteWipeSync(deviceId: String) : Device
+	quarantineDeviceSync(deviceId: String): Device
+	allowDeviceSync(deviceId: String): Device
+	removeDeviceSync(deviceId: String): Boolean
+	blockDeviceSync(deviceId: String): Device
+	accountOnlyRemoteWipeSync(deviceId: String): Device
+	cancelPendingAccountOnlyRemoteWipeSync(deviceId: String): Device
+	remoteWipeSync(deviceId: String): Device
+	cancelPendingRemoteWipeSync(deviceId: String): Device
 }
 
 schema {
