@@ -127,6 +127,9 @@ export type AccountInfoAttrs = {
   zimbraFeatureAppSpecificPasswordsEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureMailPriorityEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFileUploadMaxSize?: Maybe<Scalars['Float']>;
+  zimbraFileUploadMaxSizePerFile?: Maybe<Scalars['Float']>;
+  zimbraMailAttachmentMaxSize?: Maybe<Scalars['Float']>;
+  zimbraMtaMaxMessageSize?: Maybe<Scalars['Float']>;
   zimbraMailAlias?: Maybe<Array<Maybe<Scalars['String']>>>;
   zimbraFeatureTaggingEnabled?: Maybe<Scalars['Boolean']>;
   zimbraIdentityMaxNumEntries?: Maybe<Scalars['Int']>;
