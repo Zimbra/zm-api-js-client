@@ -72,7 +72,7 @@ export type AccountInfo = {
   props?: Maybe<PropList>;
   zimlets?: Maybe<AccountZimlet>;
   cos?: Maybe<AccountCos>;
- pasteitcleanedEnabled?: Maybe<Scalars['Boolean']>;
+  pasteitcleanedEnabled?: Maybe<Scalars['Boolean']>;
 };
 
 export type AccountInfoAttrs = {
@@ -2272,6 +2272,7 @@ export type MimePart = {
   mimeParts?: Maybe<Array<Maybe<MimePart>>>;
   url?: Maybe<Scalars['String']>;
   messageId?: Maybe<Scalars['ID']>;
+  base64?: Maybe<Scalars['String']>;
 };
 
 export type MimePartInput = {
@@ -2287,6 +2288,7 @@ export type MimePartInput = {
   url?: Maybe<Scalars['String']>;
   messageId?: Maybe<Scalars['ID']>;
   attachments?: Maybe<Array<Maybe<AttachmentInput>>>;
+  base64?: Maybe<Scalars['String']>;
 };
 
 export enum Mode {
@@ -2457,6 +2459,7 @@ export type MutationActionArgs = {
   rgb?: Maybe<Scalars['String']>;
   tagNames?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  isLocal?: Maybe<Scalars['Boolean']>;
   recursive?: Maybe<Scalars['Boolean']>;
 };
 
@@ -2589,6 +2592,7 @@ export type MutationCreateFolderArgs = {
   name: Scalars['String'];
   parentFolderId?: Maybe<Scalars['ID']>;
   url?: Maybe<Scalars['String']>;
+  isLocalFolder?: Maybe<Scalars['Boolean']>;
   view?: Maybe<FolderView>;
 };
 
@@ -3443,6 +3447,7 @@ export type QueryGetMessageArgs = {
 
 export type QueryGetMessagesMetadataArgs = {
   ids: Array<Scalars['ID']>;
+  isLocal?: Maybe<Scalars['Boolean']>;
 };
 
 
