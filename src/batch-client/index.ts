@@ -1911,7 +1911,7 @@ export class ZimbraBatchClient {
 		});
 	};
 
-	private batchDataHandler = (requests: Array<RequestOptions>) =>
+	private batchDataHandler = (requests: ReadonlyArray<RequestOptions>) =>
 		batchJsonRequest({
 			requests,
 			...this.getAdditionalRequestOptions()
@@ -1952,7 +1952,7 @@ export class ZimbraBatchClient {
 		}
 	};
 
-	private dataHandler = (requests: Array<JsonRequestOptions>) =>
+	private dataHandler = (requests: ReadonlyArray<JsonRequestOptions>) =>
 		jsonRequest({
 			...requests[0],
 			// check if login request then don't add csrfToken
