@@ -2847,7 +2847,7 @@ input InstanceDate {
 input DeleteAppointmentInput {
 	instanceDate: InstanceDate
 	inviteId: String!
-	componentNum: String!
+	componentNum: Int!
 	start: Int
 	message: CalendarItemMessageInput
 }

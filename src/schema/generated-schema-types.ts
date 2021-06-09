@@ -1202,7 +1202,7 @@ export type DateConditionInput = {
 export type DeleteAppointmentInput = {
   instanceDate?: Maybe<InstanceDate>;
   inviteId: Scalars['String'];
-  componentNum: Scalars['String'];
+  componentNum: Scalars['Int'];
   start?: Maybe<Scalars['Int']>;
   message?: Maybe<CalendarItemMessageInput>;
 };
