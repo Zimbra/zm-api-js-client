@@ -202,6 +202,7 @@ export interface SearchOptions {
 	sortBy?: SortBy;
 	type?: GalSearchType;
 	types?: SearchType;
+	name?: string;
 }
 
 export interface SearchCalendarResourcesCondition {
