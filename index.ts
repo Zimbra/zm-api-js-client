@@ -1,3 +1,6 @@
+// https://github.com/graphql/dataloader/issues/249
+import 'setimmediate';
+
 export { createZimbraSchema, schema } from './src/schema/schema';
 export { ZimbraBatchClient } from './src/batch-client';
 export { LocalBatchLink } from './src/apollo/local-batch-link';
