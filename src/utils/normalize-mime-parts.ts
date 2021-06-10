@@ -77,9 +77,10 @@ export function normalizeMimeParts(
 		isDesktop
 	}: { isDesktop?: string; jwtToken?: string; origin?: string }
 ) {
-	const processAttachment = ({ ...attachment }) => {
+	const processAttachment = ({ ...attachment }, updatedContentDisposition='') => {
 		attachment.messageId = attachment.messageId || message.id;
 		attachment.url = getAttachmentUrl(attachment, { origin, jwtToken });
+		attachment.contentDisposition = updatedContentDisposition || attachment.contentDisposition;
 		attachment.contentId = attachment.contentId
 			? normalizeCid(attachment.contentId)
 			: ~normalizeType(attachment.contentType).indexOf('image/') &&
@@ -150,13 +151,14 @@ export function normalizeMimeParts(
 
 			// remaining non-body, non-enclosure parts are attachments:
 			if (!isBody && type.split('/')[0] !== 'multipart') {
-				let mode =
-					disposition === 'inline' ? 'inlineAttachments' : 'attachments';
+				const contentDisposition = part.contentId && 'inline'
+				const mode =
+					contentDisposition === 'inline'  ? 'inlineAttachments' : 'attachments';
 
 				part.contentType !== 'application/pkcs7-mime' &&
 					part.contentType !== 'application/pkcs7-signature' &&
 					part.contentType !== 'application/x-pkcs7-signature' &&
-					(acc[mode] || (acc[mode] = [])).push(processAttachment(part));
+					(acc[mode] || (acc[mode] = [])).push(processAttachment(part, contentDisposition));
 
 				if (isDesktop) {
 					message.attributes = message.attributes || {};

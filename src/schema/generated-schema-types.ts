@@ -1283,7 +1283,9 @@ export type DocumentActionData = {
 };
 
 export type DocumentInput = {
-  id?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']>,
+  path?: Maybe<Scalars['String']>,
+  optional?: Maybe<Scalars['Int']>,
 };
 
 export type DtTimeInfo = {
