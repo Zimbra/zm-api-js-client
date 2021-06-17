@@ -830,8 +830,10 @@ export type Contact = {
 export type ContactAttributes = {
   __typename?: 'ContactAttributes';
   firstName?: Maybe<Scalars['String']>;
+  phoneticFirstName?: Maybe<Scalars['String']>;
   middleName?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
+  phoneticLastName?: Maybe<Scalars['String']>;
   fullName?: Maybe<Scalars['String']>;
   maidenName?: Maybe<Scalars['String']>;
   namePrefix?: Maybe<Scalars['String']>;
@@ -907,8 +909,10 @@ export type ContactAttributes = {
 
 export type ContactAttrsInput = {
   firstName?: Maybe<Scalars['String']>;
+  phoneticFirstName?: Maybe<Scalars['String']>;
   middleName?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
+  phoneticLastName?: Maybe<Scalars['String']>;
   fullName?: Maybe<Scalars['String']>;
   maidenName?: Maybe<Scalars['String']>;
   namePrefix?: Maybe<Scalars['String']>;
