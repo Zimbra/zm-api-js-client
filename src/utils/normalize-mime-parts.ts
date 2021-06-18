@@ -77,9 +77,21 @@ export function normalizeMimeParts(
 		isDesktop
 	}: { isDesktop?: string; jwtToken?: string; origin?: string }
 ) {
-	const processAttachment = ({ ...attachment }) => {
+	const processAttachment = (
+		{ ...attachment },
+		forcedContentDisposition?: string
+	) => {
 		attachment.messageId = attachment.messageId || message.id;
 		attachment.url = getAttachmentUrl(attachment, { origin, jwtToken });
+
+		if (!attachment.contentDisposition) {
+			if (forcedContentDisposition === 'attachments') {
+				attachment.contentDisposition = 'attachment';
+			} else if (forcedContentDisposition === 'inlineAttachments') {
+				attachment.contentDisposition === 'inline';
+			}
+		}
+
 		attachment.contentId = attachment.contentId
 			? normalizeCid(attachment.contentId)
 			: ~normalizeType(attachment.contentType).indexOf('image/') &&
@@ -156,7 +168,7 @@ export function normalizeMimeParts(
 				part.contentType !== 'application/pkcs7-mime' &&
 					part.contentType !== 'application/pkcs7-signature' &&
 					part.contentType !== 'application/x-pkcs7-signature' &&
-					(acc[mode] || (acc[mode] = [])).push(processAttachment(part));
+					(acc[mode] || (acc[mode] = [])).push(processAttachment(part, mode));
 
 				if (isDesktop) {
 					message.attributes = message.attributes || {};
