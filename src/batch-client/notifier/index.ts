@@ -38,11 +38,7 @@ export class Notifier {
 	 */
 	public handleNotifications = (notifications: any) => {
 		// update the sequence number
-		if (
-			notifications &&
-			notifications.seq &&
-			!this.processedSequences.has(notifications.seq)
-		) {
+		if (notifications && notifications.seq && !this.processedSequences.has(notifications.seq)) {
 			if (notifications.seq > this.sequenceNo) {
 				this.sequenceNo = notifications.seq;
 			}

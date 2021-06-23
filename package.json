@@ -38,11 +38,13 @@
 	],
 	"repository": "Zimbra/zm-api-js-client",
 	"license": "BSD-3-Clause",
-  "tslintStaged": {
-    "tslintConfig": "tslint.json",
-    "include": [ "**/*.ts" ],
-    "exclude": []
-  },
+	"tslintStaged": {
+		"tslintConfig": "tslint.json",
+		"include": [
+			"**/*.ts"
+		],
+		"exclude": []
+	},
 	"dependencies": {
 		"@apollo/client": "^3.2.1",
 		"dataloader": "^1.4.0",

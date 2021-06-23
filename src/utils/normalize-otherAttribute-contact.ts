@@ -138,15 +138,12 @@ export function normalizeOtherAttr(data: any) {
 		const otherAttributewithCustomKey = other
 			.filter((o: any) => o.key.match('custom\\d+'))
 			.sort(
-				(a: any, b: any) =>
-					Number(a.key.match(/(\d+)/g)[0]) - Number(b.key.match(/(\d+)/g)[0])
+				(a: any, b: any) => Number(a.key.match(/(\d+)/g)[0]) - Number(b.key.match(/(\d+)/g)[0])
 			);
 
-		const remainingOtherAttribute = differenceBy(
-			other,
-			otherAttributewithCustomKey,
-			'key'
-		).sort((a: any, b: any) => a.key.localeCompare(b.key));
+		const remainingOtherAttribute = differenceBy(other, otherAttributewithCustomKey, 'key').sort(
+			(a: any, b: any) => a.key.localeCompare(b.key)
+		);
 
 		return {
 			...contact,

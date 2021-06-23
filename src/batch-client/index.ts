@@ -54,12 +54,7 @@ import {
 	jsonRequest,
 	setCustomFetch
 } from '../request';
-import {
-	JsonRequestOptions,
-	Namespace,
-	RequestBody,
-	RequestOptions
-} from '../request/types';
+import { JsonRequestOptions, Namespace, RequestBody, RequestOptions } from '../request/types';
 import {
 	AddMsgInput,
 	CalendarItemInput,
@@ -111,10 +106,7 @@ import {
 	getProfileImageUrl,
 	normalizeMimeParts
 } from '../utils/normalize-mime-parts';
-import {
-	createContactBody,
-	normalizeOtherAttr
-} from '../utils/normalize-otherAttribute-contact';
+import { createContactBody, normalizeOtherAttr } from '../utils/normalize-otherAttribute-contact';
 import { USER_FOLDER_IDS } from './constants';
 import {
 	ActionOptions,
@@ -161,11 +153,7 @@ const DEBUG = false;
 
 function normalizeMessage(
 	message: { [key: string]: any },
-	{
-		origin,
-		jwtToken,
-		isDesktop
-	}: { isDesktop?: string; jwtToken?: string; origin?: string }
+	{ origin, jwtToken, isDesktop }: { isDesktop?: string; jwtToken?: string; origin?: string }
 ) {
 	const normalizedMessage = normalize(MessageInfo)(message);
 	normalizedMessage.attributes =
@@ -207,8 +195,7 @@ const updateGroupName = (habGroup: any) => ({
 const updateGroupNameRecur = (habGroups: any) =>
 	habGroups.map((habGroup: any) => {
 		habGroup = updateGroupName(normalize(HabGroup)(habGroup));
-		habGroup.habGroup &&
-			(habGroup.habGroups = [...updateGroupNameRecur(habGroup.habGroup)]);
+		habGroup.habGroup && (habGroup.habGroups = [...updateGroupNameRecur(habGroup.habGroup)]);
 		return habGroup;
 	});
 
@@ -238,11 +225,7 @@ const setUnreadDescendentFlag = (folder: any) => {
  * This function is required because the API returns Subfolder data for shared folder
  * with Actual folder path (not mounted folder path). This could lead to 404 "NO SUCH FOLDER EXISTS ERROR".
  */
-function updateAbsoluteFolderPath(
-	originalName: any,
-	parentFolderAbsPath: string,
-	folders: any
-) {
+function updateAbsoluteFolderPath(originalName: any, parentFolderAbsPath: string, folders: any) {
 	return folders.map((folder: any) => {
 		// When the entire mailbox is shared with another user, in that case, the originalName would
 		// have the value as "USER_ROOT", for that instance we need to append the value to the absFolderPath
@@ -250,18 +233,11 @@ function updateAbsoluteFolderPath(
 		if (originalName === 'USER_ROOT') {
 			folder.absFolderPath = `${parentFolderAbsPath}${folder.absFolderPath}`;
 		} else {
-			folder.absFolderPath = folder.absFolderPath.replace(
-				`/${originalName}`,
-				parentFolderAbsPath
-			);
+			folder.absFolderPath = folder.absFolderPath.replace(`/${originalName}`, parentFolderAbsPath);
 		}
 
 		if (folder.folders) {
-			folder.folders = updateAbsoluteFolderPath(
-				originalName,
-				parentFolderAbsPath,
-				folder.folders
-			);
+			folder.folders = updateAbsoluteFolderPath(originalName, parentFolderAbsPath, folder.folders);
 		}
 
 		return folder;
@@ -315,10 +291,7 @@ export class ZimbraBatchClient {
 		this.jwtToken = options.jwtToken;
 		this.csrfToken = options.csrfToken;
 		this.authToken = options.authToken;
-		this.origin =
-			options.zimbraOrigin !== undefined
-				? options.zimbraOrigin
-				: DEFAULT_HOSTNAME;
+		this.origin = options.zimbraOrigin !== undefined ? options.zimbraOrigin : DEFAULT_HOSTNAME;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
 		this.localStoreClient = options.localStoreClient;
 
@@ -362,15 +335,13 @@ export class ZimbraBatchClient {
 			zimlets: {
 				zimlet:
 					get(res, 'zimlets.zimlet') &&
-					get(res, 'zimlets.zimlet').map(
-						({ zimlet, zimletContext, zimletConfig }: any) => ({
-							zimlet,
-							zimletContext,
-							...(zimletConfig && {
-								zimletConfig: normalize(ZimletConfigEntity)(zimletConfig)
-							})
+					get(res, 'zimlets.zimlet').map(({ zimlet, zimletContext, zimletConfig }: any) => ({
+						zimlet,
+						zimletContext,
+						...(zimletConfig && {
+							zimletConfig: normalize(ZimletConfigEntity)(zimletConfig)
 						})
-					)
+					}))
 			}
 		}));
 
@@ -400,10 +371,7 @@ export class ZimbraBatchClient {
 		}).then(Boolean);
 	};
 
-	public addExternalAccount = ({
-		accountType,
-		...accountInfo
-	}: ExternalAccountAddInput) =>
+	public addExternalAccount = ({ accountType, ...accountInfo }: ExternalAccountAddInput) =>
 		this.jsonRequest({
 			name: 'CreateDataSource',
 			body: {
@@ -570,8 +538,7 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		}).then(res => normalize(ClientInfoResponse)(res));
 
-	public contactAction = (options: ActionOptions) =>
-		this.action(ActionType.contact, options);
+	public contactAction = (options: ActionOptions) => this.action(ActionType.contact, options);
 
 	public conversationAction = (options: ActionOptions) =>
 		this.action(ActionType.conversation, options);
@@ -583,10 +550,7 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(Boolean);
 
-	public createAppointment = (
-		accountName: string,
-		appointment: CalendarItemInput
-	) =>
+	public createAppointment = (accountName: string, appointment: CalendarItemInput) =>
 		this.jsonRequest({
 			name: 'CreateAppointment',
 			body: {
@@ -596,10 +560,7 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(Boolean);
 
-	public createAppointmentException = (
-		accountName: string,
-		appointment: CalendarItemInput
-	) =>
+	public createAppointmentException = (accountName: string, appointment: CalendarItemInput) =>
 		this.jsonRequest({
 			name: 'CreateAppointmentException',
 			body: {
@@ -666,11 +627,7 @@ export class ZimbraBatchClient {
 		}).then(res => {
 			const mappedResult = mapValuesDeep(res, coerceStringToBoolean);
 			const {
-				_attrs: {
-					zimbraPrefWhenSentToAddresses,
-					zimbraPrefWhenInFolderIds,
-					...restAttr
-				},
+				_attrs: { zimbraPrefWhenSentToAddresses, zimbraPrefWhenInFolderIds, ...restAttr },
 				...restIdentityProps
 			} = get(mappedResult, 'identity.0');
 
@@ -687,9 +644,7 @@ export class ZimbraBatchClient {
 									.filter(Boolean)
 							}),
 							...(zimbraPrefWhenInFolderIds && {
-								zimbraPrefWhenInFolderIds: []
-									.concat(zimbraPrefWhenInFolderIds)
-									.filter(Boolean)
+								zimbraPrefWhenInFolderIds: [].concat(zimbraPrefWhenInFolderIds).filter(Boolean)
 							})
 						}
 					}
@@ -823,10 +778,7 @@ export class ZimbraBatchClient {
 	public documentAction = (options: ActionOptions) =>
 		this.documentActionResponse(ActionType.document, options);
 
-	public documentActionResponse = (
-		type: ActionType,
-		options: ActionOptions
-	) => {
+	public documentActionResponse = (type: ActionType, options: ActionOptions) => {
 		const { id, ...rest } = options;
 
 		return this.jsonRequest({
@@ -897,8 +849,7 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		});
 
-	public folderAction = (options: ActionOptions) =>
-		this.action(ActionType.folder, options);
+	public folderAction = (options: ActionOptions) => this.action(ActionType.folder, options);
 
 	public forwardAppointment = (body: ForwardAppointmentInput) =>
 		this.jsonRequest({
@@ -1036,11 +987,7 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Sync
 		}).then(res => get(res, 'device') || []);
 
-	public getDistributionListMembers = (
-		limit: String,
-		offset: String,
-		dl: String
-	) =>
+	public getDistributionListMembers = (limit: String, offset: String, dl: String) =>
 		this.jsonRequest({
 			name: 'GetDistributionListMembers',
 			body: {
@@ -1051,10 +998,7 @@ export class ZimbraBatchClient {
 				offset
 			},
 			namespace: Namespace.Account
-		}).then(
-			res =>
-				normalize(DlGroupMember)(get(res, 'groupMembers.0.groupMember') || [])
-		);
+		}).then(res => normalize(DlGroupMember)(get(res, 'groupMembers.0.groupMember') || []));
 
 	public getDocumentShareURL = (options: GetDocumentShareURLOptions) =>
 		this.jsonRequest({
@@ -1066,9 +1010,7 @@ export class ZimbraBatchClient {
 	public getFilterRules = () =>
 		this.jsonRequest({
 			name: 'GetFilterRules'
-		}).then(res =>
-			normalize(Filter)(get(res, 'filterRules.0.filterRule') || [])
-		);
+		}).then(res => normalize(Filter)(get(res, 'filterRules.0.filterRule') || []));
 
 	public getFolder = (options: GetFolderOptions) => {
 		return this.jsonRequest({
@@ -1082,9 +1024,7 @@ export class ZimbraBatchClient {
 				folders.folders = folders.folders.map(setUnreadDescendentFlag);
 			}
 			if (folders.linkedFolders) {
-				folders.linkedFolders = folders.linkedFolders.map(
-					setUnreadDescendentFlag
-				);
+				folders.linkedFolders = folders.linkedFolders.map(setUnreadDescendentFlag);
 			}
 
 			if (folders.linkedFolders) {
@@ -1095,28 +1035,17 @@ export class ZimbraBatchClient {
 						folder.view === FolderView.Contact ||
 						folder.view === FolderView.Document
 					) {
-						const {
-							absFolderPath,
-							oname,
-							folders,
-							ownerZimbraId,
-							sharedItemId
-						} = folder;
+						const { absFolderPath, oname, folders, ownerZimbraId, sharedItemId } = folder;
 
 						/** changed the id to zimbraId:sharedItemId, which is required while moving contact to shared folder and
 						 *  server also returns this id in notfications. The original id is stored in userId.
 						 */
 
 						if (folder.view === FolderView.Contact) {
-							(folder.userId = folder.id),
-								(folder.id = `${ownerZimbraId}:${sharedItemId}`);
+							(folder.userId = folder.id), (folder.id = `${ownerZimbraId}:${sharedItemId}`);
 						}
 						if (oname && folders) {
-							folder.folders = updateAbsoluteFolderPath(
-								oname,
-								absFolderPath,
-								folders
-							);
+							folder.folders = updateAbsoluteFolderPath(oname, absFolderPath, folders);
 						}
 					}
 
@@ -1150,11 +1079,7 @@ export class ZimbraBatchClient {
 		}).then(({ identity, ...restResult }: any) => {
 			const updatedIdentity: any = identity.map(
 				({
-					_attrs: {
-						zimbraPrefWhenInFolderIds,
-						zimbraPrefWhenSentToAddresses,
-						...restAttrs
-					},
+					_attrs: { zimbraPrefWhenInFolderIds, zimbraPrefWhenSentToAddresses, ...restAttrs },
 					...restIdentity
 				}: any) => ({
 					...restIdentity,
@@ -1162,12 +1087,8 @@ export class ZimbraBatchClient {
 						...restAttrs,
 						// Doesn't required to be converted using `convertStringAndArrayValues` as
 						// graphQL expects it to be an array
-						zimbraPrefWhenInFolderIds: []
-							.concat(zimbraPrefWhenInFolderIds)
-							.filter(Boolean),
-						zimbraPrefWhenSentToAddresses: []
-							.concat(zimbraPrefWhenSentToAddresses)
-							.filter(Boolean)
+						zimbraPrefWhenInFolderIds: [].concat(zimbraPrefWhenInFolderIds).filter(Boolean),
+						zimbraPrefWhenSentToAddresses: [].concat(zimbraPrefWhenSentToAddresses).filter(Boolean)
 					}
 				})
 			);
@@ -1203,15 +1124,7 @@ export class ZimbraBatchClient {
 			return mapValuesDeep(res, coerceStringToBoolean);
 		});
 
-	public getMessage = ({
-		id,
-		html,
-		raw,
-		header,
-		read,
-		max,
-		ridZ
-	}: GetMessageOptions) =>
+	public getMessage = ({ id, html, raw, header, read, max, ridZ }: GetMessageOptions) =>
 		this.jsonRequest({
 			name: 'GetMsg',
 			body: {
@@ -1258,10 +1171,7 @@ export class ZimbraBatchClient {
 
 			for (const pref in prefs) {
 				if (CASTING_PREFS.indexOf(pref) !== -1) {
-					prefs[pref] =
-						typeof prefs[pref] === 'string'
-							? castArray(prefs[pref])
-							: prefs[pref];
+					prefs[pref] = typeof prefs[pref] === 'string' ? castArray(prefs[pref]) : prefs[pref];
 				}
 			}
 			return prefs;
@@ -1295,9 +1205,7 @@ export class ZimbraBatchClient {
 	public getSearchFolder = () =>
 		this.jsonRequest({
 			name: 'GetSearchFolder'
-		}).then((res: any) =>
-			res.search ? { folders: normalize(Folder)(res.search) } : {}
-		);
+		}).then((res: any) => (res.search ? { folders: normalize(Folder)(res.search) } : {}));
 
 	public getSignatures = () =>
 		this.jsonRequest({
@@ -1340,9 +1248,7 @@ export class ZimbraBatchClient {
 
 			return {
 				...normalized,
-				tasks: normalized.task
-					? normalized.task.map(normalize(CalendarItemHitInfo))
-					: []
+				tasks: normalized.task ? normalized.task.map(normalize(CalendarItemHitInfo)) : []
 			};
 		});
 
@@ -1374,10 +1280,7 @@ export class ZimbraBatchClient {
 			body: denormalize(AccountRights)(body)
 		}).then(normalize(AccountRights));
 
-	public importExternalAccount = ({
-		accountType,
-		id
-	}: ExternalAccountImportInput) =>
+	public importExternalAccount = ({ accountType, id }: ExternalAccountImportInput) =>
 		this.jsonRequest({
 			name: 'ImportData',
 			body: {
@@ -1387,14 +1290,11 @@ export class ZimbraBatchClient {
 			}
 		}).then(Boolean);
 
-	public itemAction = (options: ActionOptions) =>
-		this.action(ActionType.item, options);
+	public itemAction = (options: ActionOptions) => this.action(ActionType.item, options);
 
 	public jsonRequest = (options: JsonRequestOptions) =>
 		// If account name is present that means we will not be able to batch requests
-		this[options.singleRequest ? 'dataLoader' : 'batchDataLoader'].load(
-			options
-		);
+		this[options.singleRequest ? 'dataLoader' : 'batchDataLoader'].load(options);
 
 	public login = ({
 		username,
@@ -1439,13 +1339,9 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		}).then(Boolean);
 
-	public messageAction = (options: ActionOptions) =>
-		this.action(ActionType.message, options);
+	public messageAction = (options: ActionOptions) => this.action(ActionType.message, options);
 
-	public modifyAppointment = (
-		accountName: string,
-		appointment: CalendarItemInput
-	) =>
+	public modifyAppointment = (accountName: string, appointment: CalendarItemInput) =>
 		this.jsonRequest({
 			name: 'ModifyAppointment',
 			body: {
@@ -1462,11 +1358,7 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(res => normalize(Contact)(normalizeOtherAttr(res.cn)[0]));
 
-	public modifyExternalAccount = ({
-		id,
-		type: accountType,
-		attrs
-	}: ExternalAccountModifyInput) =>
+	public modifyExternalAccount = ({ id, type: accountType, attrs }: ExternalAccountModifyInput) =>
 		this.jsonRequest({
 			name: 'ModifyDataSource',
 			body: {
@@ -1517,10 +1409,7 @@ export class ZimbraBatchClient {
 
 		for (const pref in attrs) {
 			if (CASTING_PREFS.indexOf(pref) !== -1) {
-				attrs[pref] =
-					attrs[pref] instanceof Array && attrs[pref].length === 0
-						? ''
-						: attrs[pref];
+				attrs[pref] = attrs[pref] instanceof Array && attrs[pref].length === 0 ? '' : attrs[pref];
 			}
 		}
 
@@ -1534,10 +1423,7 @@ export class ZimbraBatchClient {
 		}).then(Boolean);
 	};
 
-	public modifyProfileImage = ({
-		content,
-		contentType
-	}: ModifyProfileImageOptions) => {
+	public modifyProfileImage = ({ content, contentType }: ModifyProfileImageOptions) => {
 		return this.jsonRequest({
 			name: 'ModifyProfileImage',
 			body: {
@@ -1858,19 +1744,14 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => normalize(Folder)(res.folder[0].folder));
 
-	public testExternalAccount = ({
-		accountType,
-		...accountInfo
-	}: ExternalAccountTestInput) =>
+	public testExternalAccount = ({ accountType, ...accountInfo }: ExternalAccountTestInput) =>
 		this.jsonRequest({
 			name: 'TestDataSource',
 			body: {
 				[<string>accountType]: mapValuesDeep(accountInfo, coerceBooleanToString)
 			},
 			singleRequest: true
-		}).then(res =>
-			mapValuesDeep(get(res, `${accountType}.0`), coerceStringToBoolean)
-		);
+		}).then(res => mapValuesDeep(get(res, `${accountType}.0`), coerceStringToBoolean));
 
 	public uploadMessage = (message: string): any => {
 		const contentDisposition = 'attachment';
@@ -1934,11 +1815,7 @@ export class ZimbraBatchClient {
 
 			return response.requests.map((r, i) => {
 				if (DEBUG) {
-					console.log(
-						`[Batch Client Request] ${requests[i].name}`,
-						requests[i].body,
-						r
-					);
+					console.log(`[Batch Client Request] ${requests[i].name}`, requests[i].body, r);
 				}
 				return isError(r) ? r : r.body;
 			});
@@ -2011,9 +1888,7 @@ export class ZimbraBatchClient {
 		...(this.authToken && {
 			authToken: this.authToken
 		}),
-		sessionId:
-			this.sessionId ||
-			(this.sessionHandler && this.sessionHandler.readSessionId()),
+		sessionId: this.sessionId || (this.sessionHandler && this.sessionHandler.readSessionId()),
 		origin: this.origin,
 		userAgent: this.userAgent,
 		...(typeof this.notifier.getSequenceNumber() !== 'undefined' && {

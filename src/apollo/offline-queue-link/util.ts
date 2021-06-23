@@ -17,10 +17,8 @@ export function isMutationOperation({ query }: Operation) {
 export function deriveOfflineQueue(
 	operationQueue: Array<OperationEntry>
 ): Array<OfflineOperationEntry> {
-	return operationQueue.map(
-		({ operation: { query, variables } }: OperationEntry) => ({
-			[isMutationOperation(<Operation>{ query }) ? 'mutation' : 'query']: query,
-			variables
-		})
-	);
+	return operationQueue.map(({ operation: { query, variables } }: OperationEntry) => ({
+		[isMutationOperation(<Operation>{ query }) ? 'mutation' : 'query']: query,
+		variables
+	}));
 }

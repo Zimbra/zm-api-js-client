@@ -16,11 +16,7 @@ function normalizeDisposition(contentDisposition: string) {
 /** reduce()-like iteration over nested MIME parts */
 function reduceMimeParts(
 	obj: any,
-	iterator: (
-		part: any,
-		i: number,
-		acc: { [key: string]: any }
-	) => { [key: string]: any },
+	iterator: (part: any, i: number, acc: { [key: string]: any }) => { [key: string]: any },
 	accumulator: {}
 ) {
 	let parts = obj.mimeParts;
@@ -40,11 +36,9 @@ export function getAttachmentUrl(
 	{ origin = '', jwtToken }: { jwtToken?: string; origin?: string }
 ) {
 	let { messageId, mid, part } = attachment;
-	return `${origin}/service/home/~/?auth=${
-		jwtToken ? 'jwt' : 'co'
-	}&id=${encodeURIComponent(messageId || mid)}&part=${encodeURIComponent(
-		part
-	)}${jwtToken ? `&zjwt=${jwtToken}` : ''}`;
+	return `${origin}/service/home/~/?auth=${jwtToken ? 'jwt' : 'co'}&id=${encodeURIComponent(
+		messageId || mid
+	)}&part=${encodeURIComponent(part)}${jwtToken ? `&zjwt=${jwtToken}` : ''}`;
 }
 
 export function getContactProfileImageUrl(
@@ -64,18 +58,12 @@ export function getProfileImageUrl(
 ) {
 	return `${origin}/service/home/~/?max_width=100&max_height=100&auth=${
 		jwtToken ? 'jwt' : 'co'
-	}&id=${encodeURIComponent(profileImageId)}${
-		jwtToken ? `&zjwt=${jwtToken}` : ''
-	}`;
+	}&id=${encodeURIComponent(profileImageId)}${jwtToken ? `&zjwt=${jwtToken}` : ''}`;
 }
 
 export function normalizeMimeParts(
 	message: { [key: string]: any },
-	{
-		origin,
-		jwtToken,
-		isDesktop
-	}: { isDesktop?: string; jwtToken?: string; origin?: string }
+	{ origin, jwtToken, isDesktop }: { isDesktop?: string; jwtToken?: string; origin?: string }
 ) {
 	const processAttachment = ({ ...attachment }) => {
 		attachment.messageId = attachment.messageId || message.id;
@@ -103,14 +91,9 @@ export function normalizeMimeParts(
 
 			// if not explicitly an attachment, discover html/text body:
 			if (disposition !== 'attachment') {
-				let bodyType =
-					type === 'text/html' ? 'html' : type === 'text/plain' && 'text';
+				let bodyType = type === 'text/html' ? 'html' : type === 'text/plain' && 'text';
 
-				if (
-					~type.indexOf('image/') &&
-					disposition === 'inline' &&
-					!part.contentId
-				) {
+				if (~type.indexOf('image/') && disposition === 'inline' && !part.contentId) {
 					/**
 					 * Different email clients work in different ways.
 					 * E.g. iOS email client doesn't put `contentId` for image inline attachments when there are other type (normal) of attachments as well in email body.
@@ -150,8 +133,7 @@ export function normalizeMimeParts(
 
 			// remaining non-body, non-enclosure parts are attachments:
 			if (!isBody && type.split('/')[0] !== 'multipart') {
-				let mode =
-					disposition === 'inline' ? 'inlineAttachments' : 'attachments';
+				let mode = disposition === 'inline' ? 'inlineAttachments' : 'attachments';
 
 				part.contentType !== 'application/pkcs7-mime' &&
 					part.contentType !== 'application/pkcs7-signature' &&
@@ -160,8 +142,7 @@ export function normalizeMimeParts(
 
 				if (isDesktop) {
 					message.attributes = message.attributes || {};
-					message.attributes.isEncrypted =
-						part.contentType === 'application/pkcs7-mime';
+					message.attributes.isEncrypted = part.contentType === 'application/pkcs7-mime';
 					message.attributes.isSigned =
 						part.contentType === 'application/pkcs7-signature' ||
 						part.contentType === 'application/x-pkcs7-signature';
@@ -184,16 +165,13 @@ export function normalizeMimeParts(
 		!message.html &&
 		message.attachments &&
 		message.attachments.some(
-			(att: { contentDisposition: any; contentId: any }) =>
-				att.contentId && !att.contentDisposition
+			(att: { contentDisposition: any; contentId: any }) => att.contentId && !att.contentDisposition
 		)
 	) {
-		message.attachments.forEach(
-			(att: { contentId: any; contentLocation: any }) => {
-				delete att.contentId;
-				delete att.contentLocation;
-			}
-		);
+		message.attachments.forEach((att: { contentId: any; contentLocation: any }) => {
+			delete att.contentId;
+			delete att.contentLocation;
+		});
 	}
 
 	return message;

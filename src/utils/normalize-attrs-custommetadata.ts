@@ -22,9 +22,7 @@ export function normalizeCustomMetaDataAttrs(data: any) {
 	let attrs: any = [];
 
 	Object.keys(data._attrs).forEach(
-		key =>
-			typeof data._attrs[key] === 'string' &&
-			attrs.push({ key, value: data._attrs[key] })
+		key => typeof data._attrs[key] === 'string' && attrs.push({ key, value: data._attrs[key] })
 	);
 	return {
 		...data,

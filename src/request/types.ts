@@ -16,6 +16,7 @@ export interface UserAgent {
 export interface BaseRequestOptions {
 	accountId?: string;
 	accountName?: string | null;
+	authToken?: string;
 	credentials?: RequestCredentials;
 	csrfToken?: string | null;
 	fetchOptions?: any;
@@ -27,7 +28,6 @@ export interface BaseRequestOptions {
 	singleRequest?: boolean;
 	soapPathname?: string;
 	userAgent?: UserAgent;
-	authToken?: string;
 }
 
 export interface RequestOptions {
@@ -36,9 +36,7 @@ export interface RequestOptions {
 	namespace?: Namespace;
 }
 
-export interface JsonRequestOptions
-	extends BaseRequestOptions,
-		RequestOptions {}
+export interface JsonRequestOptions extends BaseRequestOptions, RequestOptions {}
 
 export interface BatchRequestOptions extends BaseRequestOptions {
 	requests: Array<RequestOptions>;

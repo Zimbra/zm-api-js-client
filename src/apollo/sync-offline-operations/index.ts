@@ -1,7 +1,4 @@
-import {
-	OfflineOperationEntry,
-	StorageProvider
-} from '../offline-queue-link/types';
+import { OfflineOperationEntry, StorageProvider } from '../offline-queue-link/types';
 
 import { SyncOfflineOperationsOptions } from './types';
 
@@ -21,9 +18,7 @@ export class SyncOfflineOperations {
 				'Apollo Client instance is required when syncing data, please assign value to it'
 			);
 		if (!storage)
-			throw new Error(
-				'Storage can be window.localStorage or AsyncStorage but was not set'
-			);
+			throw new Error('Storage can be window.localStorage or AsyncStorage but was not set');
 
 		this.apolloClient = apolloClient;
 		this.storage = storage;
@@ -33,8 +28,7 @@ export class SyncOfflineOperations {
 
 	addOfflineData = (queue: Array<OfflineOperationEntry> = []) => {
 		//add only if there is a value
-		if (queue && queue.length > 0)
-			this.storage.setItem(this.storeKey, JSON.stringify(queue));
+		if (queue && queue.length > 0) this.storage.setItem(this.storeKey, JSON.stringify(queue));
 	};
 
 	clearOfflineData = () => {
@@ -49,9 +43,7 @@ export class SyncOfflineOperations {
 	};
 
 	init = () =>
-		this.getOfflineData().then(
-			stored => (this.offlineData = (stored && JSON.parse(stored)) || [])
-		);
+		this.getOfflineData().then(stored => (this.offlineData = (stored && JSON.parse(stored)) || []));
 
 	sync = () => {
 		//if there is no offline data  then just exit
@@ -61,12 +53,10 @@ export class SyncOfflineOperations {
 
 		return Promise.all(
 			this.offlineData.map(item =>
-				this.apolloClient['mutation' in item ? 'mutate' : 'query'](item).catch(
-					() => {
-						//set the errored item back to the stash
-						uncommitted.push(item);
-					}
-				)
+				this.apolloClient['mutation' in item ? 'mutate' : 'query'](item).catch(() => {
+					//set the errored item back to the stash
+					uncommitted.push(item);
+				})
 			)
 		)
 			.catch(e => console.warn('SyncOfflineOperations::sync ERR:', e))

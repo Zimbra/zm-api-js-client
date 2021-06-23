@@ -86,9 +86,7 @@ function faultReasonText(faults: any = []): string {
 }
 
 function faultError(response: ParsedResponse, faults: any) {
-	const error = new Error(
-		`Fault error: ${faults ? faultReasonText(faults) : 'Unknown Error'}`
-	);
+	const error = new Error(`Fault error: ${faults ? faultReasonText(faults) : 'Unknown Error'}`);
 	(error as SingleBatchRequestError).response = response;
 	(error as SingleBatchRequestError).parseError = response.parseError;
 	(error as SingleBatchRequestError).faults = faults;
@@ -135,10 +133,7 @@ function batchResponse(requests: any, response: RequestResponse) {
 		...res,
 		requests: reduce(
 			requests,
-			(
-				responses: Array<SingleBatchRequestResponse | SingleBatchRequestError>,
-				request
-			) => {
+			(responses: Array<SingleBatchRequestResponse | SingleBatchRequestError>, request) => {
 				const batchResponses = batchBody[`${request.name}Response`];
 				const index = indexes[request.name];
 				const response: any = batchResponses && batchResponses[index || 0];
@@ -163,9 +158,7 @@ function batchResponse(requests: any, response: RequestResponse) {
 	};
 }
 
-export function batchJsonRequest(
-	options: BatchRequestOptions
-): Promise<BatchRequestResponse> {
+export function batchJsonRequest(options: BatchRequestOptions): Promise<BatchRequestResponse> {
 	const { requests, ...requestOptions } = options;
 	const body = batchBody(requests);
 
@@ -177,17 +170,12 @@ export function batchJsonRequest(
 	}).then(res => batchResponse(requests, res));
 }
 
-export function jsonRequest(
-	requestOptions: JsonRequestOptions
-): Promise<RequestResponse> {
+export function jsonRequest(requestOptions: JsonRequestOptions): Promise<RequestResponse> {
 	const options = {
 		...requestOptions,
 		credentials: requestOptions.credentials || 'include',
 		headers: requestOptions.headers || {},
-		origin:
-			requestOptions.origin !== undefined
-				? requestOptions.origin
-				: DEFAULT_HOSTNAME,
+		origin: requestOptions.origin !== undefined ? requestOptions.origin : DEFAULT_HOSTNAME,
 		soapPathname: requestOptions.soapPathname || DEFAULT_SOAP_PATHNAME,
 		namespace: requestOptions.namespace || Namespace.Mail
 	};
