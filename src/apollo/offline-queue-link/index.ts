@@ -1,18 +1,7 @@
-import {
-	ApolloLink,
-	FetchResult,
-	NextLink,
-	Observable,
-	Observer,
-	Operation
-} from '@apollo/client';
+import { ApolloLink, FetchResult, NextLink, Observable, Observer, Operation } from '@apollo/client';
 
 import { SyncOfflineOperations } from '../sync-offline-operations';
-import {
-	OfflineQueueLinkOptions,
-	OperationEntry,
-	StorageProvider
-} from './types';
+import { OfflineQueueLinkOptions, OperationEntry, StorageProvider } from './types';
 import { deriveOfflineQueue, hasSensitiveVariables } from './util';
 
 /**
@@ -34,17 +23,11 @@ export class OfflineQueueLink extends ApolloLink {
 	// The key used to store the persisted operations in storage.
 	private storeKey: string;
 
-	constructor({
-		storage,
-		storeKey = '@offlineQueueKey',
-		isOpen = true
-	}: OfflineQueueLinkOptions) {
+	constructor({ storage, storeKey = '@offlineQueueKey', isOpen = true }: OfflineQueueLinkOptions) {
 		super();
 
 		if (!storage)
-			throw new Error(
-				'Storage can be window.localStorage or AsyncStorage but was not set'
-			);
+			throw new Error('Storage can be window.localStorage or AsyncStorage but was not set');
 		this.storage = storage;
 		this.storeKey = storeKey;
 		this.operationQueue = [];
@@ -71,10 +54,7 @@ export class OfflineQueueLink extends ApolloLink {
 		this.persist();
 	};
 
-	getSize = () =>
-		Promise.resolve(this.storage.getItem(this.storeKey)).then(
-			d => (d || '').length
-		);
+	getSize = () => Promise.resolve(this.storage.getItem(this.storeKey)).then(d => (d || '').length);
 
 	handleCancelAndOfflineQueue = (entry: OperationEntry) => {
 		let entryIndex = -1;
@@ -109,24 +89,15 @@ export class OfflineQueueLink extends ApolloLink {
 
 	persist = () =>
 		Promise.resolve(
-			this.storage.setItem(
-				this.storeKey,
-				JSON.stringify(deriveOfflineQueue(this.operationQueue))
-			)
+			this.storage.setItem(this.storeKey, JSON.stringify(deriveOfflineQueue(this.operationQueue)))
 		);
 
 	purge = () => Promise.resolve(this.storage.removeItem(this.storeKey));
 
 	request(operation: Operation, forward: NextLink) {
-		const {
-			skipQueue,
-			cancelQueues,
-			offlineQueueName,
-			local
-		} = operation.getContext();
+		const { skipQueue, cancelQueues, offlineQueueName, local } = operation.getContext();
 
-		const isForwarding =
-			this.isOpen || local || skipQueue || hasSensitiveVariables(operation);
+		const isForwarding = this.isOpen || local || skipQueue || hasSensitiveVariables(operation);
 
 		if (isForwarding && forward) {
 			// This link does nothing if the link is open, the operation skips the

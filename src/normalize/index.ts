@@ -2,11 +2,7 @@ import reduce from 'lodash/reduce';
 
 import { EntityMapping, EntityMappingValue, NormalizedKey } from './types';
 
-function normalizeKey(
-	key: string,
-	schema: Entity,
-	inverse: Boolean = false
-): NormalizedKey {
+function normalizeKey(key: string, schema: Entity, inverse: Boolean = false): NormalizedKey {
 	const getKey = inverse ? schema.inverseKey : schema.key;
 	const schemaValue = getKey(key);
 
@@ -107,19 +103,13 @@ export class Entity {
 	}
 }
 
-export function normalize(
-	schema: Entity
-): (data: any | Array<any>) => any | Array<any> {
+export function normalize(schema: Entity): (data: any | Array<any>) => any | Array<any> {
 	return function (data) {
-		return Array.isArray(data)
-			? data.map(v => _normalize(v, schema))
-			: _normalize(data, schema);
+		return Array.isArray(data) ? data.map(v => _normalize(v, schema)) : _normalize(data, schema);
 	};
 }
 
-export function denormalize(
-	schema: Entity
-): (data: any | Array<any>) => any | Array<any> {
+export function denormalize(schema: Entity): (data: any | Array<any>) => any | Array<any> {
 	return function (data) {
 		return Array.isArray(data)
 			? data.map(v => _normalize(v, schema, true))

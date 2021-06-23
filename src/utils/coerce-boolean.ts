@@ -1,6 +1,4 @@
-export function coerceBooleanToString<T>(
-	val: boolean | T
-): string | boolean | T {
+export function coerceBooleanToString<T>(val: boolean | T): string | boolean | T {
 	if (val === true) {
 		return 'TRUE';
 	}
@@ -10,9 +8,7 @@ export function coerceBooleanToString<T>(
 	return val;
 }
 
-export function coerceStringToBoolean<T>(
-	val: string | T
-): boolean | string | T {
+export function coerceStringToBoolean<T>(val: string | T): boolean | string | T {
 	if (val === 'true' || val === 'TRUE') {
 		return true;
 	}

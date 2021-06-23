@@ -82,9 +82,10 @@ import {
 import schema from './schema.graphql';
 import { SessionHandler } from './session-handler';
 
-export function createZimbraSchema(
-	options: ZimbraSchemaOptions
-): { client: ZimbraBatchClient; schema: GraphQLSchema } {
+export function createZimbraSchema(options: ZimbraSchemaOptions): {
+	client: ZimbraBatchClient;
+	schema: GraphQLSchema;
+} {
 	const { cache, getApolloClient, ...clientOptions } = options;
 	const sessionHandler = cache ? new SessionHandler({ cache }) : undefined;
 	const client = new ZimbraBatchClient({
@@ -99,13 +100,11 @@ export function createZimbraSchema(
 		resolvers: {
 			Query: {
 				accountInfo: client.accountInfo,
-				autoComplete: (_, variables) =>
-					client.autoComplete(variables as AutoCompleteOptions),
+				autoComplete: (_, variables) => client.autoComplete(variables as AutoCompleteOptions),
 				autoCompleteGAL: (_, variables) =>
 					client.autoCompleteGAL(variables as AutoCompleteGALOptions),
 				discoverRights: client.discoverRights,
-				downloadAttachment: (_, variables) =>
-					client.downloadAttachment(variables),
+				downloadAttachment: (_, variables) => client.downloadAttachment(variables),
 				downloadDocument: (_, variables) => client.downloadDocument(variables),
 				downloadMessage: (_, variables, context = {}) => {
 					const { local } = context;
@@ -116,12 +115,9 @@ export function createZimbraSchema(
 
 					return client.downloadMessage(variables);
 				},
-				freeBusy: (_, variables) =>
-					client.freeBusy(variables as FreeBusyOptions),
-				getContact: (_, variables) =>
-					client.getContact(variables as GetContactOptions),
-				clientInfo: (_, variables) =>
-					client.clientInfo(variables as ClientInfoInput),
+				freeBusy: (_, variables) => client.freeBusy(variables as FreeBusyOptions),
+				getContact: (_, variables) => client.getContact(variables as GetContactOptions),
+				clientInfo: (_, variables) => client.clientInfo(variables as ClientInfoInput),
 				getContactFrequency: (_, variables: any) =>
 					client.getContactFrequency(variables as GetContactFrequencyOptions),
 				getConversation: (_, variables) =>
@@ -146,12 +142,9 @@ export function createZimbraSchema(
 					client.getDistributionListMembers(limit, offset, dl),
 				getAppointment: (_: any, variables) =>
 					client.getAppointment(variables as AppointmentOptions),
-				getAppointments: (_: any, variables) =>
-					client.search(variables as SearchOptions),
-				getReminders: (_: any, variables) =>
-					client.search(variables as SearchOptions),
-				getTasks: (_: any, variables) =>
-					client.getTasks(variables as SearchOptions),
+				getAppointments: (_: any, variables) => client.search(variables as SearchOptions),
+				getReminders: (_: any, variables) => client.search(variables as SearchOptions),
+				getTasks: (_: any, variables) => client.getTasks(variables as SearchOptions),
 				getAvailableLocales: (_: any) => client.getAvailableLocales(),
 				getMailboxMetadata: (_: any, variables) =>
 					client.getMailboxMetadata(variables as GetMailboxMetadataOptions),
@@ -167,22 +160,18 @@ export function createZimbraSchema(
 					const { local } = context;
 
 					if (local) {
-						return localStoreClient.getMessagesMetadata(
-							variables as GetMessageOptions
-						);
+						return localStoreClient.getMessagesMetadata(variables as GetMessageOptions);
 					}
 					return client.getMessagesMetadata(variables as GetMessageOptions);
 				},
-				getRights: (_, variables) =>
-					client.getRights(variables as GetRightsInput),
+				getRights: (_, variables) => client.getRights(variables as GetRightsInput),
 				getScratchCodes: client.getScratchCodes,
 				getSearchFolder: client.getSearchFolder,
 				getSMimePublicCerts: (_, variables) =>
 					client.getSMimePublicCerts(variables as GetSMimePublicCertsOptions),
 				getTrustedDevices: client.getTrustedDevices,
 				getDeviceStatus: client.getDeviceStatus,
-				getWorkingHours: (_, variables) =>
-					client.getWorkingHours(variables as WorkingHoursOptions),
+				getWorkingHours: (_, variables) => client.getWorkingHours(variables as WorkingHoursOptions),
 				getPreferences: client.getPreferences,
 				getDataSources: client.getDataSources,
 				getIdentities: client.getIdentities,
@@ -190,8 +179,7 @@ export function createZimbraSchema(
 				getSignatures: client.getSignatures,
 				noop: (_, variables, context = {}) =>
 					client.noop(variables as NoOpOptions, context.fetchOptions),
-				recoverAccount: (_, variables) =>
-					client.recoverAccount(variables as RecoverAccountOptions),
+				recoverAccount: (_, variables) => client.recoverAccount(variables as RecoverAccountOptions),
 				relatedContacts: (_, variables) =>
 					client.relatedContacts(variables as RelatedContactsOptions),
 				search: (_, variables, context = {}) => {
@@ -204,13 +192,9 @@ export function createZimbraSchema(
 					return client.search(variables as SearchOptions);
 				},
 				searchCalendarResources: (_: any, variables) =>
-					client.searchCalendarResources(
-						variables as SearchCalendarResourcesOptions
-					),
-				searchGal: (_, variables) =>
-					client.searchGal(variables as SearchOptions),
-				shareInfo: (_, variables) =>
-					client.shareInfo(variables as ShareInfoOptions),
+					client.searchCalendarResources(variables as SearchCalendarResourcesOptions),
+				searchGal: (_, variables) => client.searchGal(variables as SearchOptions),
+				shareInfo: (_, variables) => client.shareInfo(variables as ShareInfoOptions),
 				taskFolders: client.taskFolders,
 				getWhiteBlackList: client.getWhiteBlackList,
 				getAppSpecificPasswords: client.getAppSpecificPasswords,
@@ -241,25 +225,19 @@ export function createZimbraSchema(
 				applyFilterRules: (_, variables) =>
 					client.applyFilterRules(variables as ApplyFilterRulesOptions),
 				cancelTask: (_, variables) => client.cancelTask(variables),
-				itemAction: (_, variables) =>
-					client.itemAction(variables as ActionOptions),
+				itemAction: (_, variables) => client.itemAction(variables as ActionOptions),
 				login: (_, variables) => client.login(variables as LoginOptions),
 				logout: client.logout,
 				disableTwoFactorAuth: client.disableTwoFactorAuth,
 				enableTwoFactorAuth: (_, { options }) =>
 					client.enableTwoFactorAuth(options as EnableTwoFactorAuthInput),
-				messageAction: (_, variables) =>
-					client.messageAction(variables as ActionOptions),
-				changePassword: (_, variables) =>
-					client.changePassword(variables as ChangePasswordOptions),
+				messageAction: (_, variables) => client.messageAction(variables as ActionOptions),
+				changePassword: (_, variables) => client.changePassword(variables as ChangePasswordOptions),
 				modifyProfileImage: (_, variables) =>
 					client.modifyProfileImage(variables as ModifyProfileImageOptions),
-				contactAction: (_, variables) =>
-					client.contactAction(variables as ActionOptions),
-				createAppSpecificPassword: (_, { appName }) =>
-					client.createAppSpecificPassword(appName),
-				conversationAction: (_, variables) =>
-					client.conversationAction(variables as ActionOptions),
+				contactAction: (_, variables) => client.contactAction(variables as ActionOptions),
+				createAppSpecificPassword: (_, { appName }) => client.createAppSpecificPassword(appName),
+				conversationAction: (_, variables) => client.conversationAction(variables as ActionOptions),
 				createFolder: (_, { isLocalFolder, ...variables }, context) => {
 					const { local } = context;
 
@@ -273,33 +251,20 @@ export function createZimbraSchema(
 				},
 				createSearchFolder: (_, variables) =>
 					client.createSearchFolder(variables as CreateSearchFolderOptions),
-				createContact: (_, { contact }) =>
-					client.createContact(contact as CreateContactInput),
-				createContactList: (_, { contact }) =>
-					client.createContact(contact as CreateContactInput),
-				modifyContact: (_, { contact }) =>
-					client.modifyContact(contact as ModifyContactInput),
-				modifyContactList: (_, { contact }) =>
-					client.modifyContact(contact as ModifyContactInput),
+				createContact: (_, { contact }) => client.createContact(contact as CreateContactInput),
+				createContactList: (_, { contact }) => client.createContact(contact as CreateContactInput),
+				modifyContact: (_, { contact }) => client.modifyContact(contact as ModifyContactInput),
+				modifyContactList: (_, { contact }) => client.modifyContact(contact as ModifyContactInput),
 				createAppointment: (_, { accountName, appointment }) =>
-					client.createAppointment(
-						accountName,
-						appointment as CalendarItemInput
-					),
+					client.createAppointment(accountName, appointment as CalendarItemInput),
 				snoozeCalendarItem: (_, { appointment, task }) =>
 					client.snoozeCalendarItem(appointment, task),
 				dismissCalendarItem: (_, { appointment, task }) =>
 					client.dismissCalendarItem(appointment, task),
 				createAppointmentException: (_, { accountName, appointment }) =>
-					client.createAppointmentException(
-						accountName,
-						appointment as CalendarItemInput
-					),
+					client.createAppointmentException(accountName, appointment as CalendarItemInput),
 				modifyAppointment: (_, { accountName, appointment }) =>
-					client.modifyAppointment(
-						accountName,
-						appointment as CalendarItemInput
-					),
+					client.modifyAppointment(accountName, appointment as CalendarItemInput),
 				createMountpoint: (_, variables) =>
 					client.createMountpoint(variables as CreateMountpointInput),
 				deleteAppointment: (_, { appointment }) =>
@@ -307,9 +272,7 @@ export function createZimbraSchema(
 				checkCalendar: (_, variables) =>
 					client.checkCalendar(variables as FolderActionCheckCalendarInput),
 				counterAppointment: (_, { counterAppointmentInvite }) =>
-					client.counterAppointment(
-						counterAppointmentInvite as CounterAppointmentInput
-					),
+					client.counterAppointment(counterAppointmentInvite as CounterAppointmentInput),
 				createCalendar: (_, { name, color, url }) =>
 					client.createFolder({
 						name,
@@ -328,36 +291,24 @@ export function createZimbraSchema(
 						}
 					} as CreateMountpointInput),
 
-				saveDocument: (_, document) =>
-					client.saveDocument(document as SaveDocumentInput),
+				saveDocument: (_, document) => client.saveDocument(document as SaveDocumentInput),
 				changeFolderColor: (_, variables) =>
 					client.changeFolderColor(variables as FolderActionChangeColorInput),
 				declineCounterAppointment: (_, { counterAppointmentInvite }) =>
-					client.declineCounterAppointment(
-						counterAppointmentInvite as CounterAppointmentInput
-					),
+					client.declineCounterAppointment(counterAppointmentInvite as CounterAppointmentInput),
 				folderAction: (_, { action }) => client.folderAction(action),
 				documentAction: (_, { action }) => client.documentAction(action),
 				forwardAppointment: (_, { appointmentInvite }) =>
-					client.forwardAppointment(
-						appointmentInvite as ForwardAppointmentInput
-					),
+					client.forwardAppointment(appointmentInvite as ForwardAppointmentInput),
 				forwardAppointmentInvite: (_, { appointmentInvite }) =>
-					client.forwardAppointmentInvite(
-						appointmentInvite as ForwardAppointmentInviteInput
-					),
+					client.forwardAppointmentInvite(appointmentInvite as ForwardAppointmentInviteInput),
 				generateScratchCodes: client.generateScratchCodes,
-				grantRights: (_, variables) =>
-					client.grantRights(variables.input as GrantRightsInput),
+				grantRights: (_, variables) => client.grantRights(variables.input as GrantRightsInput),
 				sendShareNotification: (_, { shareNotification }) =>
-					client.sendShareNotification(
-						shareNotification as ShareNotificationInput
-					),
+					client.sendShareNotification(shareNotification as ShareNotificationInput),
 
 				testExternalAccount: (_, { externalAccount }) =>
-					client.testExternalAccount(
-						externalAccount as ExternalAccountTestInput
-					),
+					client.testExternalAccount(externalAccount as ExternalAccountTestInput),
 				addExternalAccount: (_, { externalAccount }) =>
 					client.addExternalAccount(externalAccount as ExternalAccountAddInput),
 				modifyExternalAccount: (_, variables) =>
@@ -365,9 +316,7 @@ export function createZimbraSchema(
 				deleteExternalAccount: (_, variables) =>
 					client.deleteExternalAccount(variables as ExternalAccountDeleteInput),
 				importExternalAccount: (_, { externalAccount }) =>
-					client.importExternalAccount(
-						externalAccount as ExternalAccountImportInput
-					),
+					client.importExternalAccount(externalAccount as ExternalAccountImportInput),
 				prefEnableOutOfOfficeAlertOnLogin: (_, { value }) =>
 					client
 						.modifyPrefs({
@@ -390,9 +339,7 @@ export function createZimbraSchema(
 						.then(() => value),
 
 				prefOutOfOfficeUntilDate: (_, { value }) =>
-					client
-						.modifyPrefs({ zimbraPrefOutOfOfficeUntilDate: value })
-						.then(() => value),
+					client.modifyPrefs({ zimbraPrefOutOfOfficeUntilDate: value }).then(() => value),
 
 				prefOutOfOfficeReply: (_, { value }) =>
 					client
@@ -400,53 +347,37 @@ export function createZimbraSchema(
 							zimbraPrefOutOfOfficeReply: value
 						})
 						.then(() => value),
-				createIdentity: (_, variables) =>
-					client.createIdentity(variables as CreateIdentityInput),
+				createIdentity: (_, variables) => client.createIdentity(variables as CreateIdentityInput),
 				modifyIdentity: (_, variables) =>
 					client.modifyIdentity(variables as ModifyIdentityInput).then(Boolean),
 				deleteIdentity: (_, variables) =>
 					client.deleteIdentity(variables as DeleteIdentityInput).then(Boolean),
-				modifyPrefs: (_, { prefs }) =>
-					client.modifyPrefs(prefs as PreferencesInput),
-				modifyProps: (_, { props }) =>
-					client.modifyProps(props as Array<PropertiesInput>),
+				modifyPrefs: (_, { prefs }) => client.modifyPrefs(prefs as PreferencesInput),
+				modifyProps: (_, { props }) => client.modifyProps(props as Array<PropertiesInput>),
 				modifyZimletPrefs: (_, { zimlets }) =>
 					client.modifyZimletPrefs(zimlets as Array<ZimletPreferenceInput>),
 				modifyFilterRules: (_, { filters }) =>
 					client.modifyFilterRules(filters as Array<FilterInput>),
-				createSignature: (_, variables) =>
-					client.createSignature(variables as SignatureInput),
-				modifySignature: (_, variables) =>
-					client.modifySignature(variables as SignatureInput),
+				createSignature: (_, variables) => client.createSignature(variables as SignatureInput),
+				modifySignature: (_, variables) => client.modifySignature(variables as SignatureInput),
 				modifySearchFolder: (_, variables) =>
 					client.modifySearchFolder(variables as SearchFolderInput),
-				deleteSignature: (_, variables) =>
-					client.deleteSignature(variables as NameIdInput),
+				deleteSignature: (_, variables) => client.deleteSignature(variables as NameIdInput),
 				saveDraft: (_, { message, accountName }) =>
 					client.saveDraft(message as SendMessageInput, accountName as string),
 				sendMessage: (_, { message, accountName }) =>
-					client.sendMessage(
-						message as SendMessageInput,
-						accountName as string
-					),
-				sendDeliveryReport: (_, { messageId }) =>
-					client.sendDeliveryReport(messageId),
+					client.sendMessage(message as SendMessageInput, accountName as string),
+				sendDeliveryReport: (_, { messageId }) => client.sendDeliveryReport(messageId),
 				uploadMessage: (_, { value }) => client.uploadMessage(value),
-				createTask: (_, { task }) =>
-					client.createTask(task as CalendarItemInput),
-				modifyTask: (_, { task }) =>
-					client.modifyTask(task as CalendarItemInput),
+				createTask: (_, { task }) => client.createTask(task as CalendarItemInput),
+				modifyTask: (_, { task }) => client.modifyTask(task as CalendarItemInput),
 				sendInviteReply: (_, { inviteReply }) =>
 					client.sendInviteReply(inviteReply as InviteReplyInput),
-				recoverAccount: (_, variables) =>
-					client.recoverAccount(variables as RecoverAccountOptions),
-				resetPassword: (_, variables) =>
-					client.resetPassword(variables as ResetPasswordOptions),
-				revokeAppSpecificPassword: (_, { appName }) =>
-					client.revokeAppSpecificPassword(appName),
+				recoverAccount: (_, variables) => client.recoverAccount(variables as RecoverAccountOptions),
+				resetPassword: (_, variables) => client.resetPassword(variables as ResetPasswordOptions),
+				revokeAppSpecificPassword: (_, { appName }) => client.revokeAppSpecificPassword(appName),
 				revokeOtherTrustedDevices: client.revokeOtherTrustedDevices,
-				revokeRights: (_, variables) =>
-					client.revokeRights(variables.input as RevokeRightsInput),
+				revokeRights: (_, variables) => client.revokeRights(variables.input as RevokeRightsInput),
 				revokeTrustedDevice: client.revokeTrustedDevice,
 				setCustomMetadata: (_, customMetadata) =>
 					client.setCustomMetadata(customMetadata as CustomMetadataInput),
