@@ -362,11 +362,14 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 				modifySignature: (_, variables) => client.modifySignature(variables as SignatureInput),
 				modifySearchFolder: (_, variables) =>
 					client.modifySearchFolder(variables as SearchFolderInput),
-				deleteSignature: (_, variables) => client.deleteSignature(variables as NameIdInput),
-				saveDraft: (_, { message, accountName }) =>
-					client.saveDraft(message as SendMessageInput, accountName as string),
-				sendMessage: (_, { message, accountName }) =>
-					client.sendMessage(message as SendMessageInput, accountName as string),
+				deleteSignature: (_, variables) =>
+					client.deleteSignature(variables as NameIdInput),
+				saveDraft: (_, { message, accountName }, context = {}) => 
+					(context.local ? localStoreClient : client)
+					.saveDraft(message as SendMessageInput, accountName as string),
+				sendMessage: (_, { message, accountName }, context = {}) =>
+					(context.local ? localStoreClient : client)
+					.sendMessage(message as SendMessageInput, accountName as string),
 				sendDeliveryReport: (_, { messageId }) => client.sendDeliveryReport(messageId),
 				uploadMessage: (_, { value }) => client.uploadMessage(value),
 				createTask: (_, { task }) => client.createTask(task as CalendarItemInput),
