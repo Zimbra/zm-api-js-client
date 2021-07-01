@@ -1,5 +1,6 @@
 import DataLoader from 'dataloader';
 import castArray from 'lodash/castArray';
+import differenceWith from 'lodash/differenceWith';
 import get from 'lodash/get';
 import isError from 'lodash/isError';
 import mapValues from 'lodash/mapValues';
@@ -280,6 +281,7 @@ export class ZimbraBatchClient {
 	private authToken?: string;
 	private batchDataLoader: DataLoader<RequestOptions, RequestBody>;
 	private csrfToken?: string;
+	private customFetch: any;
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
 	private jwtToken?: string;
 	private sessionHandler?: SessionHandler;
@@ -294,6 +296,7 @@ export class ZimbraBatchClient {
 		this.origin = options.zimbraOrigin !== undefined ? options.zimbraOrigin : DEFAULT_HOSTNAME;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
 		this.localStoreClient = options.localStoreClient;
+		this.customFetch = options.customFetch;
 
 		this.notifier = new Notifier();
 
@@ -308,8 +311,8 @@ export class ZimbraBatchClient {
 			cache: false
 		});
 
-		if (options.customFetch) {
-			setCustomFetch(options.customFetch);
+		if (this.customFetch) {
+			setCustomFetch(this.customFetch);
 		}
 	}
 
@@ -432,6 +435,54 @@ export class ZimbraBatchClient {
 			const ids = get(res, 'm[0].ids');
 			return ids ? ids.split(',') : [];
 		});
+
+	// For offline Drafts
+	public attach = (files: any, { ...message }) => {
+		const promises = castArray(files).map(file => this.localStoreClient.attach({ file, message }));
+
+		return Promise.all(promises).then(attached => {
+			// After all uploads have completed, add attachments to the message and save it as a draft.
+			attached.forEach((attachment, index) => {
+				if (attachment) {
+					const file = files[index];
+					if (attachment.contentDisposition === 'inline') {
+						const { base64, url, part, messageId } = attachment;
+						const contentType = file.type || file.contentType;
+						const fileAttributes = {
+							filename: file.name || file.filename,
+							contentType,
+							size: file.size,
+							contentId: file.contentId,
+							contentDisposition: file.contentDisposition,
+							...(part && { part }),
+							...(messageId && { messageId }),
+							...(base64 && { base64 }),
+							...(url
+								? { url }
+								: base64 && contentType && { url: `data:${contentType};base64,${base64}` })
+						};
+						message.inlineAttachments = [
+							...(message.inlineAttachments || []).map(({ __typename, ...rest }: any) => ({
+								...rest
+							})),
+							fileAttributes
+						];
+					} else {
+						message.attachments = [...(message.attachments || []), attachment];
+					}
+				}
+			});
+
+			message.uploadingFileList = differenceWith(
+				message.uploadingFileList,
+				attached,
+				(fileFromList: any, fileFromAttachment) =>
+					(fileFromList.name || fileFromList.filename) === fileFromAttachment.filename
+			);
+
+			return message;
+		});
+	};
 
 	public autoComplete = (options: AutoCompleteOptions) =>
 		this.jsonRequest({
@@ -1758,20 +1809,23 @@ export class ZimbraBatchClient {
 		const filename = 'message.eml';
 		const contentType = 'message/rfc822';
 
-		return fetch(`${this.origin}/service/upload?fmt=raw`, {
+		return (this.customFetch || fetch)(`${this.origin}/service/upload?fmt=raw`, {
 			method: 'POST',
 			body: message,
 			headers: {
 				'Content-Disposition': `${contentDisposition}; filename="${filename}"`,
 				'Content-Type': contentType,
+				...(this.authToken && {
+					Cookie: `ZM_AUTH_TOKEN=${this.authToken}`
+				}),
 				...(this.csrfToken && {
 					'X-Zimbra-Csrf-Token': this.csrfToken
 				})
 			},
 			credentials: 'include'
-		}).then(response => {
+		}).then((response: any) => {
 			if (response.ok) {
-				return response.text().then(result => {
+				return response.text().then((result: any) => {
 					if (!result) {
 						return null;
 					}
