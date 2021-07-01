@@ -280,6 +280,7 @@ export class ZimbraBatchClient {
 	private authToken?: string;
 	private batchDataLoader: DataLoader<RequestOptions, RequestBody>;
 	private csrfToken?: string;
+	private customFetch: any;
 	private dataLoader: DataLoader<RequestOptions, RequestBody>;
 	private jwtToken?: string;
 	private sessionHandler?: SessionHandler;
@@ -294,6 +295,7 @@ export class ZimbraBatchClient {
 		this.origin = options.zimbraOrigin !== undefined ? options.zimbraOrigin : DEFAULT_HOSTNAME;
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
 		this.localStoreClient = options.localStoreClient;
+		this.customFetch = options.customFetch;
 
 		this.notifier = new Notifier();
 
@@ -308,8 +310,8 @@ export class ZimbraBatchClient {
 			cache: false
 		});
 
-		if (options.customFetch) {
-			setCustomFetch(options.customFetch);
+		if (this.customFetch) {
+			setCustomFetch(this.customFetch);
 		}
 	}
 
@@ -432,6 +434,9 @@ export class ZimbraBatchClient {
 			const ids = get(res, 'm[0].ids');
 			return ids ? ids.split(',') : [];
 		});
+
+	// For offline Drafts
+	public attach = (files: any, message: any) => this.localStoreClient.attach({ files, message });
 
 	public autoComplete = (options: AutoCompleteOptions) =>
 		this.jsonRequest({
@@ -1758,20 +1763,23 @@ export class ZimbraBatchClient {
 		const filename = 'message.eml';
 		const contentType = 'message/rfc822';
 
-		return fetch(`${this.origin}/service/upload?fmt=raw`, {
+		return (this.customFetch || fetch)(`${this.origin}/service/upload?fmt=raw`, {
 			method: 'POST',
 			body: message,
 			headers: {
 				'Content-Disposition': `${contentDisposition}; filename="${filename}"`,
 				'Content-Type': contentType,
+				...(this.authToken && {
+					Cookie: `ZM_AUTH_TOKEN=${this.authToken}`
+				}),
 				...(this.csrfToken && {
 					'X-Zimbra-Csrf-Token': this.csrfToken
 				})
 			},
 			credentials: 'include'
-		}).then(response => {
+		}).then((response: any) => {
 			if (response.ok) {
-				return response.text().then(result => {
+				return response.text().then((result: any) => {
 					if (!result) {
 						return null;
 					}
