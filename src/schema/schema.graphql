@@ -2089,6 +2089,7 @@ input SendMessageInput {
 	mimeParts: [MimePartInput] #mp
 	emailAddresses: [MailItemEmailAddressInput] #e
 	attachments: [AttachmentInput] #attach
+	inlineAttachments: [MimePartInput] #attach
 }
 
 input CalendarItemInviteInput {
