@@ -51,7 +51,8 @@
 		"graphql": "^15.3.0",
 		"graphql-tools": "^7.0.4",
 		"lodash": "^4.17.21",
-		"mitt": "^2.1.0"
+		"mitt": "^2.1.0",
+		"setimmediate": "^1.0.5"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.12.1",
