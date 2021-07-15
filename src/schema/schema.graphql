@@ -1638,8 +1638,10 @@ type OtherContactAttribute {
 
 type ContactAttributes {
 	firstName: String
+	phoneticFirstName: String
 	middleName: String
 	lastName: String
+	phoneticLastName: String
 	fullName: String
 	maidenName: String
 	namePrefix: String
@@ -1742,8 +1744,10 @@ input OtherContactAttributeInput {
 
 input ContactAttrsInput {
 	firstName: String
+	phoneticFirstName: String
 	middleName: String
 	lastName: String
+	phoneticLastName: String
 	fullName: String
 	maidenName: String
 	namePrefix: String
