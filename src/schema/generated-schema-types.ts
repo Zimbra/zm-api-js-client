@@ -3825,6 +3825,7 @@ export type SendMessageInput = {
   mimeParts?: Maybe<Array<Maybe<MimePartInput>>>;
   emailAddresses?: Maybe<Array<Maybe<MailItemEmailAddressInput>>>;
   attachments?: Maybe<Array<Maybe<AttachmentInput>>>;
+  inlineAttachments?: Maybe<Array<Maybe<MimePartInput>>>;
 };
 
 export type SendMessageResponse = {
