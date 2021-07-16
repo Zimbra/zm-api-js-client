@@ -438,7 +438,7 @@ export class ZimbraBatchClient {
 
 	// For offline Drafts
 	public attach = (files: any, { ...message }) => {
-		const promises = castArray(files).map(file => this.localStoreClient.attach({ file, message }));
+		const promises = castArray(files).map(file => this.localStoreClient.attach({ file }));
 
 		return Promise.all(promises).then(attached => {
 			// After all uploads have completed, add attachments to the message and save it as a draft.
@@ -468,7 +468,10 @@ export class ZimbraBatchClient {
 							fileAttributes
 						];
 					} else {
-						message.attachments = [...(message.attachments || []), attachment];
+						message.attachments = [...(message.attachments || []), {
+							...attachment,
+							part: `${(message.attachments || []).length + 2}`
+						}];
 					}
 				}
 			});
@@ -480,7 +483,7 @@ export class ZimbraBatchClient {
 					(fileFromList.name || fileFromList.filename) === fileFromAttachment.filename
 			);
 
-			return message;
+			return this.localStoreClient.writeAttachmentsToEML(message);
 		});
 	};
 
