@@ -5,7 +5,7 @@ version: 2.1
 config: &config
   working_directory: ~/repo
   docker:
-    - image: circleci/node:8
+    - image: cimg/node:lts
 
 persist-workspace: &persist-workspace
   persist_to_workspace:
@@ -67,14 +67,6 @@ jobs:
           name: Lint typescript source code
           command: npm run lint
 
-  validate-package-lock:
-    <<: *config
-    steps:
-      - *attach-workspace
-      - run:
-          name: Check for synacor related npm refs in package-lock.json
-          command: npm run test:no-synacor-npm-refs
-
   security-audit:
     <<: *config
     steps:
@@ -107,10 +99,6 @@ workflows:
       - build
 
       - security-audit
-
-      - validate-package-lock:
-          requires:
-            - build
 
       - lint:
           requires:
