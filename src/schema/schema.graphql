@@ -1495,6 +1495,7 @@ type Preferences {
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
 	zimbraPrefTagTreeOpen: Boolean
 	zimbraPrefPowerPasteEnabled: Boolean
+	zimbraPrefDisplayTimeInMailList: Boolean
 }
 
 type GetAppointmentResponse {
@@ -2481,6 +2482,7 @@ input PreferencesInput {
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
 	zimbraPrefTagTreeOpen: Boolean
 	zimbraPrefPowerPasteEnabled: Boolean
+	zimbraPrefDisplayTimeInMailList: Boolean
 }
 
 input ModifyIdentityInput {

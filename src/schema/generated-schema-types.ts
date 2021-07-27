@@ -3147,6 +3147,7 @@ export type Preferences = {
   zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefTagTreeOpen?: Maybe<Scalars['Boolean']>;
   zimbraPrefPowerPasteEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraPrefDisplayTimeInMailList?: Maybe<Scalars['Boolean']>;
 };
 
 export type PreferencesInput = {
@@ -3204,6 +3205,7 @@ export type PreferencesInput = {
   zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefTagTreeOpen?: Maybe<Scalars['Boolean']>;
   zimbraPrefPowerPasteEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraPrefDisplayTimeInMailList?: Maybe<Scalars['Boolean']>;
 };
 
 export type ProfileImageChangeResponse = {
