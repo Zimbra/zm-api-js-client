@@ -65,10 +65,7 @@ export function normalizeMimeParts(
 	message: { [key: string]: any },
 	{ origin, jwtToken, isDesktop }: { isDesktop?: string; jwtToken?: string; origin?: string }
 ) {
-	const processAttachment = (
-		{ ...attachment },
-		forcedContentDisposition?: string
-	) => {
+	const processAttachment = ({ ...attachment }, forcedContentDisposition?: string) => {
 		attachment.messageId = attachment.messageId || message.id;
 		attachment.url = getAttachmentUrl(attachment, { origin, jwtToken });
 

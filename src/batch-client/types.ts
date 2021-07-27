@@ -193,6 +193,7 @@ export interface SearchOptions {
 	fullConversation?: boolean;
 	inDumpster?: boolean;
 	limit?: number;
+	name?: string;
 	needExp?: boolean;
 	needIsMember?: NeedIsMemberType;
 	needIsOwner?: boolean;
@@ -202,7 +203,6 @@ export interface SearchOptions {
 	sortBy?: SortBy;
 	type?: GalSearchType;
 	types?: SearchType;
-	name?: string;
 }
 
 export interface SearchCalendarResourcesCondition {
