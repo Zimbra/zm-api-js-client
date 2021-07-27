@@ -1,23 +1,23 @@
 {
-	"compilerOptions": {
-		"allowSyntheticDefaultImports": true,
-		"esModuleInterop": true,
-		"declaration": false,
-		"jsx": "react",
-		"jsxFactory": "h",
-		"lib": ["dom", "es2015", "es2016"],
-		"module": "ESNext",
-		"moduleResolution": "node",
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"removeComments": true,
-		"skipLibCheck": true,
-		"sourceMap": true,
-		"strict": true,
-		"target": "esnext"
-	},
-	"include": [
-		"./src/**/*",
-		"./*.ts"
-    ]
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "declaration": false,
+    "jsx": "react",
+    "jsxFactory": "h",
+    "lib": ["dom", "es2015", "es2016"],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "esnext"
+  },
+  "include": [
+    "./src/**/*",
+    "./*.ts"
+  ]
 }
