@@ -44,6 +44,7 @@ import {
 	SearchResponse,
 	SendMessageInfo,
 	ShareNotification,
+	SmimeCertInfoResponse,
 	Tag,
 	ZimletConfigEntity
 } from '../normalize/entities';
@@ -82,6 +83,7 @@ import {
 	ModifyIdentityInput,
 	PreferencesInput,
 	RevokeRightsInput,
+	SaveSMimeCertInputUpload,
 	SearchFolderInput,
 	SendMessageInput,
 	ShareNotificationInput,
@@ -1233,6 +1235,12 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
 
+	public getSMimeCertInfo = () =>
+		this.jsonRequest({
+			name: 'GetSmimeCertificateInfo',
+			namespace: Namespace.Account
+		}).then(certificate => normalize(SmimeCertInfoResponse)(certificate || {}));
+
 	public getSMimePublicCerts = (options: GetSMimePublicCertsOptions) =>
 		this.jsonRequest({
 			name: 'GetSMIMEPublicCerts',
@@ -1644,6 +1652,16 @@ export class ZimbraBatchClient {
 		}).then(({ m: messages }) => ({
 			message: messages && messages.map(this.normalizeMessage)
 		}));
+
+	public saveSMimeCert = (upload: SaveSMimeCertInputUpload, password: string) =>
+		this.jsonRequest({
+			name: 'SaveSmimeCertificate',
+			body: {
+				upload,
+				password
+			},
+			namespace: Namespace.Account
+		}).then(certificate => normalize(SmimeCertInfoResponse)(certificate || {}));
 
 	public search = (options: SearchOptions) =>
 		this.jsonRequest({
