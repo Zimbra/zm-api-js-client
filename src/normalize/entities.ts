@@ -527,6 +527,44 @@ export const GetAppointmentResponse = new Entity({
 	appt: ['appointment', AppointmentInfo]
 });
 
+const SmimeCertsSubjectRfc822Name = new Entity({
+	_content: 'content'
+});
+
+const SmimeCertsSubjectAltName = new Entity({
+	rfc822Name: ['rfc822Name', SmimeCertsSubjectRfc822Name]
+});
+
+const SmimeCertsIssuedBy = new Entity({
+	c: 'country',
+	cn: 'commonName',
+	emailAddress: 'emailAddress',
+	l: 'locality',
+	o: 'organizationName',
+	st: 'state'
+});
+
+const SmimeCertsIssuedTo = new Entity({
+	c: 'country',
+	cn: 'commonName',
+	emailAddress: 'emailAddress',
+	o: 'organizationName',
+	ou: 'organizationUnit',
+	st: 'state'
+});
+
+const SmimeCerts = new Entity({
+	issuedBy: ['issuedBy', SmimeCertsIssuedBy],
+	issuedTo: ['issuedTo', SmimeCertsIssuedTo],
+	pubCertId: 'publicCertificateId',
+	pvtKeyId: 'privateKeyId',
+	subjectAltName: ['subjectAltName', SmimeCertsSubjectAltName]
+});
+
+export const SmimeCertInfoResponse = new Entity({
+	certificate: ['certificates', SmimeCerts]
+});
+
 const RedirectAction = new Entity({
 	a: 'address'
 });

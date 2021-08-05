@@ -2444,6 +2444,7 @@ export type Mutation = {
   revokeTrustedDevice?: Maybe<Scalars['Boolean']>;
   saveDocument?: Maybe<SaveDocumentResponse>;
   saveDraft?: Maybe<SaveDraftResponse>;
+  saveSMimeCert?: Maybe<SmimeCertInfoResponse>;
   sendDeliveryReport?: Maybe<Scalars['Boolean']>;
   sendInviteReply?: Maybe<InviteReplyResponse>;
   sendMessage?: Maybe<SendMessageResponse>;
@@ -2904,6 +2905,12 @@ export type MutationSaveDraftArgs = {
 };
 
 
+export type MutationSaveSMimeCertArgs = {
+  password?: Maybe<Scalars['String']>;
+  upload: SaveSMimeCertInputUpload;
+};
+
+
 export type MutationSendDeliveryReportArgs = {
   messageId: Scalars['ID'];
 };
@@ -3279,6 +3286,7 @@ export type Query = {
   getPreferences?: Maybe<Preferences>;
   getReminders?: Maybe<RemindersResponse>;
   getRights?: Maybe<RightsResponse>;
+  getSMimeCertInfo?: Maybe<SmimeCertInfoResponse>;
   getSMimePublicCerts?: Maybe<SMimePublicCertsResponse>;
   getScratchCodes?: Maybe<ScratchCodes>;
   getSearchFolder?: Maybe<Folder>;
@@ -3461,6 +3469,11 @@ export type QueryGetRemindersArgs = {
 
 export type QueryGetRightsArgs = {
   input: GetRightsInput;
+};
+
+
+export type QueryGetSMimeCertInfoArgs = {
+  certId?: Maybe<Scalars['String']>;
 };
 
 
@@ -3761,6 +3774,10 @@ export type SaveMessageDataInput = {
   meta: Scalars['String'];
 };
 
+export type SaveSMimeCertInputUpload = {
+  id?: Maybe<Scalars['String']>;
+};
+
 export type ScratchCode = {
   __typename?: 'ScratchCode';
   scratchCode?: Maybe<Array<Maybe<ScratchCodeType>>>;
@@ -3977,6 +3994,66 @@ export type SizeConditionInput = {
 export type Skin = {
   __typename?: 'Skin';
   _content?: Maybe<Scalars['String']>;
+};
+
+export type SmimeCertInfoResponse = {
+  __typename?: 'SmimeCertInfoResponse';
+  certificates?: Maybe<Array<Maybe<SmimeCerts>>>;
+};
+
+export type SmimeCerts = {
+  __typename?: 'SmimeCerts';
+  default?: Maybe<Scalars['Boolean']>;
+  emailAddress?: Maybe<Scalars['String']>;
+  issuedBy?: Maybe<SmimeCertsIssuedBy>;
+  issuedTo?: Maybe<SmimeCertsIssuedTo>;
+  privateKeyId?: Maybe<Scalars['String']>;
+  publicCertificateId?: Maybe<Scalars['String']>;
+  signature?: Maybe<SmimeCertsSignature>;
+  subjectAltName?: Maybe<SmimeCertsSubjectAltName>;
+  validity?: Maybe<SmimeCertsValidity>;
+};
+
+export type SmimeCertsIssuedBy = {
+  __typename?: 'SmimeCertsIssuedBy';
+  commonName?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  emailAddress?: Maybe<Scalars['String']>;
+  locality?: Maybe<Scalars['String']>;
+  organizationName?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+};
+
+export type SmimeCertsIssuedTo = {
+  __typename?: 'SmimeCertsIssuedTo';
+  commonName?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  emailAddress?: Maybe<Scalars['String']>;
+  organizationName?: Maybe<Scalars['String']>;
+  organizationUnit?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+};
+
+export type SmimeCertsSignature = {
+  __typename?: 'SmimeCertsSignature';
+  algorithm?: Maybe<Scalars['String']>;
+  serialNo?: Maybe<Scalars['String']>;
+};
+
+export type SmimeCertsSubjectAltName = {
+  __typename?: 'SmimeCertsSubjectAltName';
+  rfc822Name?: Maybe<Array<Maybe<SmimeCertsSubjectRfc822Name>>>;
+};
+
+export type SmimeCertsSubjectRfc822Name = {
+  __typename?: 'SmimeCertsSubjectRfc822Name';
+  content?: Maybe<Scalars['String']>;
+};
+
+export type SmimeCertsValidity = {
+  __typename?: 'SmimeCertsValidity';
+  endDate?: Maybe<Scalars['Float']>;
+  startDate?: Maybe<Scalars['Float']>;
 };
 
 export type SnoozeInput = {
