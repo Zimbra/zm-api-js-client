@@ -2111,6 +2111,10 @@ input SendMessageInput {
 	inlineAttachments: [MimePartInput] #attach
 }
 
+input SaveSMimeCertInputUpload {
+	id: String
+}
+
 input CalendarItemInviteInput {
 	components: [CalendarItemInviteComponentInput]!
 }
@@ -2987,6 +2991,58 @@ type SMimePublicCertsResponse {
 	certs: [SMimePublicCerts]
 }
 
+type SmimeCertsIssuedBy {
+	country: String
+	commonName: String
+	emailAddress: String
+	locality: String
+	organizationName: String
+	state: String
+}
+
+type SmimeCertsIssuedTo {
+	country: String
+	commonName: String
+	emailAddress: String
+	organizationName: String
+	organizationUnit: String
+	state: String
+}
+
+type SmimeCertsSignature {
+	algorithm: String
+	serialNo: String
+}
+
+type SmimeCertsSubjectRfc822Name {
+	content: String
+}
+
+type SmimeCertsSubjectAltName {
+	rfc822Name: [SmimeCertsSubjectRfc822Name]
+}
+
+type SmimeCertsValidity {
+	endDate: Float
+	startDate: Float
+}
+
+type SmimeCerts {
+	default: Boolean
+	emailAddress: String
+	issuedBy: SmimeCertsIssuedBy
+	issuedTo: SmimeCertsIssuedTo
+	publicCertificateId: String
+	privateKeyId: String
+	signature: SmimeCertsSignature
+	subjectAltName: SmimeCertsSubjectAltName
+	validity: SmimeCertsValidity
+}
+
+type SmimeCertInfoResponse {
+	certificates: [SmimeCerts]
+}
+
 type SMimeMessage {
 	id: ID
 	content: String
@@ -3203,6 +3259,7 @@ type Query {
 		contactAddr: String!
 		store: String!
 	): SMimePublicCertsResponse
+	getSMimeCertInfo(certId: String): SmimeCertInfoResponse
 	getScratchCodes(username: String!): ScratchCodes
 	getSearchFolder: Folder
 	getTrustedDevices: GetTrustedDevicesResponse
@@ -3444,6 +3501,7 @@ type Mutation {
 		sign: Boolean
 		encrypt: Boolean
 	): SendMessageResponse
+	saveSMimeCert(upload: SaveSMimeCertInputUpload!, password: String): SmimeCertInfoResponse
 	sendDeliveryReport(messageId: ID!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
