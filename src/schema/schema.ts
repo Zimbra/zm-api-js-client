@@ -30,6 +30,7 @@ import {
 	PreferencesInput,
 	PropertiesInput,
 	RevokeRightsInput,
+	SaveSMimeCertInputUpload,
 	SearchFolderInput,
 	SendMessageInput,
 	ShareNotificationInput,
@@ -169,6 +170,7 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 				getSearchFolder: client.getSearchFolder,
 				getSMimePublicCerts: (_, variables) =>
 					client.getSMimePublicCerts(variables as GetSMimePublicCertsOptions),
+				getSMimeCertInfo: client.getSMimeCertInfo,
 				getTrustedDevices: client.getTrustedDevices,
 				getDeviceStatus: client.getDeviceStatus,
 				getWorkingHours: (_, variables) => client.getWorkingHours(variables as WorkingHoursOptions),
@@ -368,11 +370,15 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 						message as SendMessageInput,
 						accountName as string
 					),
-				sendMessage: (_, { message, accountName }, context = {}) =>
+				sendMessage: (_, { message, accountName, sign = false, encrypt = false }, context = {}) =>
 					(context.local ? localStoreClient : client).sendMessage(
 						message as SendMessageInput,
-						accountName as string
+						accountName as string,
+						sign as Boolean,
+						encrypt as Boolean
 					),
+				saveSMimeCert: (_, { upload, password }) =>
+					client.saveSMimeCert(upload as SaveSMimeCertInputUpload, password as string),
 				sendDeliveryReport: (_, { messageId }) => client.sendDeliveryReport(messageId),
 				uploadMessage: (_, { value }) => client.uploadMessage(value),
 				createTask: (_, { task }) => client.createTask(task as CalendarItemInput),
