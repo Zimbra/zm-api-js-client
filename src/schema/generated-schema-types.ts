@@ -2916,7 +2916,9 @@ export type MutationSendInviteReplyArgs = {
 
 export type MutationSendMessageArgs = {
   accountName?: Maybe<Scalars['String']>;
+  encrypt?: Maybe<Scalars['Boolean']>;
   message: SendMessageInput;
+  sign?: Maybe<Scalars['Boolean']>;
 };
 
 

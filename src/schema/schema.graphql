@@ -3436,6 +3436,8 @@ type Mutation {
 	sendMessage(
 		message: SendMessageInput!
 		accountName: String
+		sign: Boolean
+		encrypt: Boolean
 	): SendMessageResponse
 	sendDeliveryReport(messageId: ID!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
