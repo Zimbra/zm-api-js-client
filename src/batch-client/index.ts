@@ -1693,10 +1693,19 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(res => normalize(CalendarItemHitInfo)(res));
 
-	public sendMessage = (message: SendMessageInput, accountName: string) =>
+	public sendMessage = (
+		message: SendMessageInput,
+		accountName: string,
+		sign: Boolean,
+		encrypt: Boolean
+	) =>
 		this.jsonRequest({
-			name: 'SendMsg',
-			body: denormalize(SendMessageInfo)({ message }),
+			name: !(sign || encrypt) ? 'SendMsg' : 'SendSecureMsg',
+			body: {
+				...denormalize(SendMessageInfo)({ message }),
+				...(sign && { sign: true }),
+				...(encrypt && { encrypt: true })
+			},
 			singleRequest: true,
 			accountName: accountName
 		}).then(normalize(SendMessageInfo));
