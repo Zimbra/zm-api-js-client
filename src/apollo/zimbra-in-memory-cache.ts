@@ -20,6 +20,9 @@ const dataIdFromObject = (object: any) => {
 			// `zwc:implicit`.
 			return dataIdFromPath(object, 'meta.0.section');
 		case 'Folder':
+			if (object.local && object.local !== null) {
+				return `${defaultDataIdFromObject(object)}:local`;
+			}
 			if (object.id === '1') {
 				// Cache the root folder based on both ID and UUID from server
 				return `${object.__typename}:${object.id}:${object.uuid}`;
