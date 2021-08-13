@@ -2465,6 +2465,7 @@ export type MutationActionArgs = {
   name?: Maybe<Scalars['String']>;
   isLocal?: Maybe<Scalars['Boolean']>;
   recursive?: Maybe<Scalars['Boolean']>;
+  destFolderLocal?: Maybe<Scalars['Boolean']>;
 };
 
 

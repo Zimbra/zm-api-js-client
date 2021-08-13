@@ -3274,6 +3274,7 @@ type Mutation {
 		name: String
 		isLocal: Boolean
 		recursive: Boolean
+		destFolderLocal: Boolean
 	): Boolean
 	applyFilterRules(ids: String!, filterRules: [FilterRuleInput]): [String]
 	testExternalAccount(
