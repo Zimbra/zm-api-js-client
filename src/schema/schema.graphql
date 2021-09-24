@@ -490,6 +490,8 @@ type ClientInfoType {
 	attributes: ClientInfoAttributes
 }
 
+# whenever change/remove key then update the object accordingly in zm-x-web/src/notifications/messages.js on emptyMessage object.
+# otherwise notification will be failed.
 type MessageInfo implements MailItem {
 	id: ID
 	size: Float # s
