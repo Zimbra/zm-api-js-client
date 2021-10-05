@@ -260,7 +260,7 @@ export function jsonRequest(requestOptions: JsonRequestOptions): Promise<Request
 	return (customFetch || fetch)(url, {
 		...(customFetch && {
 			agent: new https.Agent({
-				rejectUnauthorized: false
+				rejectUnauthorized: process.env.NODE_ENV === 'production'
 			})
 		}),
 		method: 'POST',

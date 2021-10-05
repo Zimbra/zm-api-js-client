@@ -1767,7 +1767,7 @@ export class ZimbraBatchClient {
 		return (this.customFetch || fetch)(`${this.origin}/service/upload?fmt=raw`, {
 			...(this.customFetch && {
 				agent: new https.Agent({
-					rejectUnauthorized: false
+					rejectUnauthorized: process.env.NODE_ENV === 'production'
 				})
 			}),
 			method: 'POST',
