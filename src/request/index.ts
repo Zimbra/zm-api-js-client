@@ -1,3 +1,4 @@
+import https from 'https';
 import get from 'lodash/get';
 import reduce from 'lodash/reduce';
 import {
@@ -13,6 +14,7 @@ import {
 	SingleBatchRequestResponse,
 	SOAPHeader
 } from './types';
+
 export const DEFAULT_HOSTNAME = '/@zimbra';
 export const DEFAULT_SOAP_PATHNAME = '/service/soap';
 
@@ -256,6 +258,11 @@ export function jsonRequest(requestOptions: JsonRequestOptions): Promise<Request
 	// Use received `customFetch` passed as params instead of default fetch API
 	// to make `jsonRequest` method compatible with unsupported platforms, i.e. node.js
 	return (customFetch || fetch)(url, {
+		...(customFetch && {
+			agent: new https.Agent({
+				rejectUnauthorized: false
+			})
+		}),
 		method: 'POST',
 		credentials: options.credentials,
 		body: JSON.stringify({

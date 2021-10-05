@@ -1,4 +1,5 @@
 import DataLoader from 'dataloader';
+import https from 'https';
 import castArray from 'lodash/castArray';
 import get from 'lodash/get';
 import isError from 'lodash/isError';
@@ -1764,6 +1765,11 @@ export class ZimbraBatchClient {
 		const contentType = 'message/rfc822';
 
 		return (this.customFetch || fetch)(`${this.origin}/service/upload?fmt=raw`, {
+			...(this.customFetch && {
+				agent: new https.Agent({
+					rejectUnauthorized: false
+				})
+			}),
 			method: 'POST',
 			body: message,
 			headers: {
