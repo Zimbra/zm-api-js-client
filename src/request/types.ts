@@ -39,7 +39,7 @@ export interface RequestOptions {
 export interface JsonRequestOptions extends BaseRequestOptions, RequestOptions {}
 
 export interface BatchRequestOptions extends BaseRequestOptions {
-	requests: Array<RequestOptions>;
+	requests: ReadonlyArray<RequestOptions>;
 }
 
 export interface RequestResponse {

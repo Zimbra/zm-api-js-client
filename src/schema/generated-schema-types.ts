@@ -19,60 +19,60 @@ export type Acl = {
 export type AclGrant = {
   __typename?: 'ACLGrant';
   address?: Maybe<Scalars['String']>;
-  permissions?: Maybe<Scalars['String']>;
   granteeType?: Maybe<GranteeType>;
-  zimbraId?: Maybe<Scalars['ID']>;
-  password?: Maybe<Scalars['String']>;
   key?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+  permissions?: Maybe<Scalars['String']>;
+  zimbraId?: Maybe<Scalars['ID']>;
 };
 
 export type AccountAceInfo = {
   __typename?: 'AccountACEInfo';
-  zimbraId?: Maybe<Scalars['ID']>;
-  granteeType: GranteeType;
-  right: Scalars['String'];
   address?: Maybe<Scalars['String']>;
+  checkGrantee?: Maybe<Scalars['Boolean']>;
+  deny?: Maybe<Scalars['Boolean']>;
+  granteeType: GranteeType;
   key?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
-  deny?: Maybe<Scalars['Boolean']>;
-  checkGrantee?: Maybe<Scalars['Boolean']>;
+  right: Scalars['String'];
+  zimbraId?: Maybe<Scalars['ID']>;
 };
 
 export type AccountAceInfoInput = {
-  zimbraId?: Maybe<Scalars['ID']>;
-  granteeType: GranteeType;
-  right: Scalars['String'];
   address?: Maybe<Scalars['String']>;
+  checkGrantee?: Maybe<Scalars['Boolean']>;
+  deny?: Maybe<Scalars['Boolean']>;
+  granteeType: GranteeType;
   key?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
-  deny?: Maybe<Scalars['Boolean']>;
-  checkGrantee?: Maybe<Scalars['Boolean']>;
+  right: Scalars['String'];
+  zimbraId?: Maybe<Scalars['ID']>;
 };
 
 export type AccountCos = {
   __typename?: 'AccountCos';
-  name?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type AccountInfo = {
   __typename?: 'AccountInfo';
+  attrs?: Maybe<AccountInfoAttrs>;
+  changePasswordURL?: Maybe<Scalars['String']>;
+  cos?: Maybe<AccountCos>;
+  habRoots?: Maybe<HabRoots>;
   id: Scalars['ID'];
+  license?: Maybe<License>;
   name?: Maybe<Scalars['String']>;
+  pasteitcleanedEnabled?: Maybe<Scalars['Boolean']>;
+  profileImageId?: Maybe<Scalars['Int']>;
+  props?: Maybe<PropList>;
   publicURL?: Maybe<Scalars['String']>;
   rest?: Maybe<Scalars['String']>;
-  used?: Maybe<Scalars['String']>;
-  profileImageId?: Maybe<Scalars['Int']>;
-  changePasswordURL?: Maybe<Scalars['String']>;
   soapURL?: Maybe<Scalars['String']>;
+  used?: Maybe<Scalars['String']>;
   version?: Maybe<Scalars['String']>;
-  attrs?: Maybe<AccountInfoAttrs>;
-  habRoots?: Maybe<HabRoots>;
-  license?: Maybe<License>;
-  props?: Maybe<PropList>;
   zimlets?: Maybe<AccountZimlet>;
-  cos?: Maybe<AccountCos>;
-  pasteitcleanedEnabled?: Maybe<Scalars['Boolean']>;
 };
 
 export type AccountInfoAttrs = {
@@ -82,68 +82,68 @@ export type AccountInfoAttrs = {
   zimbraDomainTrialConvertAtExpiration?: Maybe<Scalars['Boolean']>;
   zimbraDomainTrialExpirationDate?: Maybe<Scalars['String']>;
   zimbraDumpsterEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraIsAdminAccount?: Maybe<Scalars['Boolean']>;
-  zimbraIsDelegatedAdminAccount?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureMailEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureCalendarEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureBriefcasesEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureMobileSyncEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureRelatedContactsEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraPasswordBlockCommonEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraPasswordMinAlphaChars?: Maybe<Scalars['Int']>;
-  zimbraPasswordMinNumericChars?: Maybe<Scalars['Int']>;
-  zimbraPasswordMinUpperCaseChars?: Maybe<Scalars['Int']>;
-  zimbraPasswordMinDigitsOrPuncs?: Maybe<Scalars['Int']>;
-  zimbraPasswordMinPunctuationChars?: Maybe<Scalars['Int']>;
-  zimbraPasswordMaxLength?: Maybe<Scalars['Int']>;
-  zimbraPasswordMinLength?: Maybe<Scalars['Int']>;
-  zimbraPasswordMinLowerCaseChars?: Maybe<Scalars['Int']>;
-  zimbraPasswordMinAge?: Maybe<Scalars['Int']>;
-  zimbraPasswordMaxAge?: Maybe<Scalars['Int']>;
-  zimbraPasswordEnforceHistory?: Maybe<Scalars['Int']>;
-  zimbraPasswordAllowedChars?: Maybe<Scalars['String']>;
-  zimbraPasswordAllowedPunctuationChars?: Maybe<Scalars['String']>;
-  zimbraFeatureChangePasswordEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureResetPasswordStatus?: Maybe<ResetPasswordStatus>;
-  zimbraFeatureWebClientOfflineAccessEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraMailBlacklistMaxNumEntries?: Maybe<Scalars['Int']>;
-  zimbraMailQuota?: Maybe<Scalars['String']>;
-  zimbraPublicSharingEnabled?: Maybe<Scalars['Boolean']>;
   zimbraExternalSharingEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureGalEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureGalAutoCompleteEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureOutOfOfficeReplyEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureAppSpecificPasswordsEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureBriefcasesEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureCalendarEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureChangePasswordEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureConversationsEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureDocumentEditingEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureFiltersEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureReadReceiptsEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureSharingEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureGalAutoCompleteEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureGalEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureIdentitiesEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureImapDataSourceEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureMailEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureMailPriorityEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureMailSendLaterEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureManageZimlets?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureMobileSyncEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureOutOfOfficeReplyEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeaturePop3DataSourceEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeaturePowerPasteEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureReadReceiptsEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureRelatedContactsEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureResetPasswordStatus?: Maybe<ResetPasswordStatus>;
+  zimbraFeatureSharingEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureTaggingEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureTrustedDevicesEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureTwoFactorAuthAvailable?: Maybe<Scalars['Boolean']>;
   zimbraFeatureTwoFactorAuthRequired?: Maybe<Scalars['Boolean']>;
   zimbraFeatureViewInHtmlEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureWebClientOfflineAccessEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureZulipChatEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureDocumentEditingEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraTwoFactorAuthEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureTrustedDevicesEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureAppSpecificPasswordsEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureMailPriorityEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFileUploadMaxSize?: Maybe<Scalars['Float']>;
   zimbraFileUploadMaxSizePerFile?: Maybe<Scalars['Float']>;
-  zimbraMailAttachmentMaxSize?: Maybe<Scalars['Float']>;
-  zimbraMtaMaxMessageSize?: Maybe<Scalars['Float']>;
-  zimbraMailAlias?: Maybe<Array<Maybe<Scalars['String']>>>;
-  zimbraFeatureTaggingEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraHierarchicalAddressBookRoot?: Maybe<Scalars['String']>;
   zimbraIdentityMaxNumEntries?: Maybe<Scalars['Int']>;
-  zimbraFeatureIdentitiesEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureMailSendLaterEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeaturePowerPasteEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureConversationsEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureImapDataSourceEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeaturePop3DataSourceEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraIsAdminAccount?: Maybe<Scalars['Boolean']>;
+  zimbraIsDelegatedAdminAccount?: Maybe<Scalars['Boolean']>;
+  zimbraMailAlias?: Maybe<Array<Maybe<Scalars['String']>>>;
+  zimbraMailAttachmentMaxSize?: Maybe<Scalars['Float']>;
+  zimbraMailBlacklistMaxNumEntries?: Maybe<Scalars['Int']>;
+  zimbraMailQuota?: Maybe<Scalars['String']>;
+  zimbraMtaMaxMessageSize?: Maybe<Scalars['Float']>;
+  zimbraPasswordAllowedChars?: Maybe<Scalars['String']>;
+  zimbraPasswordAllowedPunctuationChars?: Maybe<Scalars['String']>;
+  zimbraPasswordBlockCommonEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraPasswordEnforceHistory?: Maybe<Scalars['Int']>;
+  zimbraPasswordMaxAge?: Maybe<Scalars['Int']>;
+  zimbraPasswordMaxLength?: Maybe<Scalars['Int']>;
+  zimbraPasswordMinAge?: Maybe<Scalars['Int']>;
+  zimbraPasswordMinAlphaChars?: Maybe<Scalars['Int']>;
+  zimbraPasswordMinDigitsOrPuncs?: Maybe<Scalars['Int']>;
+  zimbraPasswordMinLength?: Maybe<Scalars['Int']>;
+  zimbraPasswordMinLowerCaseChars?: Maybe<Scalars['Int']>;
+  zimbraPasswordMinNumericChars?: Maybe<Scalars['Int']>;
+  zimbraPasswordMinPunctuationChars?: Maybe<Scalars['Int']>;
+  zimbraPasswordMinUpperCaseChars?: Maybe<Scalars['Int']>;
+  zimbraPublicSharingEnabled?: Maybe<Scalars['Boolean']>;
   zimbraSignupAffiliate?: Maybe<Scalars['String']>;
   zimbraSignupRecoveryEmail?: Maybe<Scalars['String']>;
-  zimbraTrialExpirationDate?: Maybe<Scalars['String']>;
   zimbraTrialConvertAtExpiration?: Maybe<Scalars['Boolean']>;
-  zimbraHierarchicalAddressBookRoot?: Maybe<Scalars['String']>;
+  zimbraTrialExpirationDate?: Maybe<Scalars['String']>;
+  zimbraTwoFactorAuthEnabled?: Maybe<Scalars['Boolean']>;
 };
 
 export enum AccountType {
@@ -160,33 +160,33 @@ export type AccountZimletConfigInfo = {
   __typename?: 'AccountZimletConfigInfo';
   global?: Maybe<Array<Maybe<ZimletConfigGlobal>>>;
   host?: Maybe<Array<Maybe<ZimletConfigHost>>>;
-  property?: Maybe<Array<Maybe<ZimletConfigProperty>>>;
   name?: Maybe<Scalars['String']>;
+  property?: Maybe<Array<Maybe<ZimletConfigProperty>>>;
   version?: Maybe<Scalars['String']>;
 };
 
 export type AccountZimletContext = {
   __typename?: 'AccountZimletContext';
   baseUrl?: Maybe<Scalars['String']>;
-  priority?: Maybe<Scalars['Int']>;
   presence?: Maybe<ZimletPresence>;
+  priority?: Maybe<Scalars['Int']>;
 };
 
 export type AccountZimletDesc = {
   __typename?: 'AccountZimletDesc';
-  name?: Maybe<Scalars['String']>;
-  version?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   extension?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  version?: Maybe<Scalars['String']>;
   zimbraXZimletCompatibleSemVer?: Maybe<Scalars['String']>;
 };
 
 export type AccountZimletInfo = {
   __typename?: 'AccountZimletInfo';
-  zimletContext?: Maybe<Array<Maybe<AccountZimletContext>>>;
   zimlet?: Maybe<Array<Maybe<AccountZimletDesc>>>;
   zimletConfig?: Maybe<Array<Maybe<AccountZimletConfigInfo>>>;
+  zimletContext?: Maybe<Array<Maybe<AccountZimletContext>>>;
 };
 
 export type ActionData = {
@@ -219,55 +219,55 @@ export enum ActionTypeName {
 }
 
 export type AddMsgInput = {
-  folderId: Scalars['ID'];
   absFolderPath?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
+  folderId: Scalars['ID'];
   meta?: Maybe<Scalars['String']>;
 };
 
 export type AddRecurrenceInfo = {
   __typename?: 'AddRecurrenceInfo';
   add?: Maybe<Array<Maybe<AddRecurrenceInfo>>>;
-  exclude?: Maybe<Array<Maybe<ExcludeRecurrenceInfo>>>;
-  except?: Maybe<Array<Maybe<ExceptionRuleInfo>>>;
   cancel?: Maybe<Array<Maybe<CancelRuleInfo>>>;
+  except?: Maybe<Array<Maybe<ExceptionRuleInfo>>>;
+  exclude?: Maybe<Array<Maybe<ExcludeRecurrenceInfo>>>;
   rule?: Maybe<Array<Maybe<SimpleRepeatingRule>>>;
 };
 
 export type AddressCondition = {
   __typename?: 'AddressCondition';
-  header: Scalars['String'];
-  part: Scalars['String'];
-  stringComparison: Scalars['String'];
   caseSensitive?: Maybe<Scalars['Boolean']>;
-  value: Scalars['String'];
-  valueComparison?: Maybe<Scalars['String']>;
   countComparison?: Maybe<Scalars['String']>;
+  header: Scalars['String'];
   index?: Maybe<Scalars['Int']>;
   negative?: Maybe<Scalars['Boolean']>;
+  part: Scalars['String'];
+  stringComparison: Scalars['String'];
+  value: Scalars['String'];
+  valueComparison?: Maybe<Scalars['String']>;
 };
 
 export type AddressConditionInput = {
-  header: Scalars['String'];
-  part: Scalars['String'];
-  stringComparison: Scalars['String'];
   caseSensitive?: Maybe<Scalars['Boolean']>;
-  value: Scalars['String'];
-  valueComparison?: Maybe<Scalars['String']>;
   countComparison?: Maybe<Scalars['String']>;
+  header: Scalars['String'];
   index?: Maybe<Scalars['Int']>;
   negative?: Maybe<Scalars['Boolean']>;
+  part: Scalars['String'];
+  stringComparison: Scalars['String'];
+  value: Scalars['String'];
+  valueComparison?: Maybe<Scalars['String']>;
 };
 
 export enum AddressType {
-  F = 'f',
-  T = 't',
-  C = 'c',
   B = 'b',
-  R = 'r',
-  S = 's',
+  C = 'c',
+  F = 'f',
   N = 'n',
-  Rf = 'rf'
+  R = 'r',
+  Rf = 'rf',
+  S = 's',
+  T = 't'
 }
 
 export type Alarm = {
@@ -281,18 +281,18 @@ export type Alarm = {
 };
 
 export enum AlarmAction {
-  Display = 'DISPLAY',
   Audio = 'AUDIO',
+  Display = 'DISPLAY',
   Email = 'EMAIL',
+  None = 'NONE',
   Procedure = 'PROCEDURE',
   XYahooCalendarActionIm = 'X_YAHOO_CALENDAR_ACTION_IM',
-  XYahooCalendarActionMobile = 'X_YAHOO_CALENDAR_ACTION_MOBILE',
-  None = 'NONE'
+  XYahooCalendarActionMobile = 'X_YAHOO_CALENDAR_ACTION_MOBILE'
 }
 
 export enum AlarmRelatedTo {
-  Start = 'START',
-  End = 'END'
+  End = 'END',
+  Start = 'START'
 }
 
 export type AppSpecificPassword = {
@@ -321,8 +321,8 @@ export type AppointmentInfo = {
 
 export type Attachment = {
   __typename?: 'Attachment';
-  id?: Maybe<Scalars['ID']>;
   content?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
 };
 
 export type AttachmentInput = {
@@ -334,12 +334,12 @@ export type AttachmentInput = {
 export type AuthResponse = {
   __typename?: 'AuthResponse';
   authToken?: Maybe<Array<Maybe<AuthToken>>>;
-  twoFactorAuthRequired?: Maybe<TwoFactorAuthRequired>;
-  trustedDevicesEnabled?: Maybe<TrustedDevicesEnabled>;
+  csrfToken?: Maybe<CsrfToken>;
   lifetime?: Maybe<Scalars['Float']>;
   session?: Maybe<Session>;
   skin?: Maybe<Array<Maybe<Skin>>>;
-  csrfToken?: Maybe<CsrfToken>;
+  trustedDevicesEnabled?: Maybe<TrustedDevicesEnabled>;
+  twoFactorAuthRequired?: Maybe<TwoFactorAuthRequired>;
 };
 
 export type AuthToken = {
@@ -354,26 +354,26 @@ export type AutoCompleteGalResponse = {
 
 export type AutoCompleteMatch = {
   __typename?: 'AutoCompleteMatch';
-  email?: Maybe<Scalars['String']>;
-  type?: Maybe<AutoCompleteMatchType>;
-  ranking?: Maybe<Scalars['Int']>;
-  isGroup?: Maybe<Scalars['Boolean']>;
-  exp?: Maybe<Scalars['Boolean']>;
-  id?: Maybe<Scalars['ID']>;
-  folderId?: Maybe<Scalars['ID']>;
-  display?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['String']>;
-  middle?: Maybe<Scalars['String']>;
-  last?: Maybe<Scalars['String']>;
-  full?: Maybe<Scalars['String']>;
-  nick?: Maybe<Scalars['String']>;
   company?: Maybe<Scalars['String']>;
+  display?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  exp?: Maybe<Scalars['Boolean']>;
   fileas?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['String']>;
+  folderId?: Maybe<Scalars['ID']>;
+  full?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  isGroup?: Maybe<Scalars['Boolean']>;
+  last?: Maybe<Scalars['String']>;
+  middle?: Maybe<Scalars['String']>;
+  nick?: Maybe<Scalars['String']>;
+  ranking?: Maybe<Scalars['Int']>;
+  type?: Maybe<AutoCompleteMatchType>;
 };
 
 export enum AutoCompleteMatchType {
-  Gal = 'gal',
   Contact = 'contact',
+  Gal = 'gal',
   RankingTable = 'rankingTable'
 }
 
@@ -406,16 +406,16 @@ export type BasicConditionInput = {
 export type BodyCondition = {
   __typename?: 'BodyCondition';
   caseSensitive?: Maybe<Scalars['Boolean']>;
-  value?: Maybe<Scalars['String']>;
   index?: Maybe<Scalars['Int']>;
   negative?: Maybe<Scalars['Boolean']>;
+  value?: Maybe<Scalars['String']>;
 };
 
 export type BodyConditionInput = {
   caseSensitive?: Maybe<Scalars['Boolean']>;
-  value?: Maybe<Scalars['String']>;
   index?: Maybe<Scalars['Int']>;
   negative?: Maybe<Scalars['Boolean']>;
+  value?: Maybe<Scalars['String']>;
 };
 
 export type ByDayRule = {
@@ -442,48 +442,48 @@ export type CalOrganizer = {
   __typename?: 'CalOrganizer';
   address?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
   sentBy?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export type CalResource = {
   __typename?: 'CalResource';
+  _attrs?: Maybe<CalResourceAttributes>;
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
-  _attrs?: Maybe<CalResourceAttributes>;
 };
 
 export type CalResourceAttributes = {
   __typename?: 'CalResourceAttributes';
+  city?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   fullName?: Maybe<Scalars['String']>;
-  zimbraCalResLocationDisplayName?: Maybe<Scalars['String']>;
-  zimbraCalResSite?: Maybe<Scalars['String']>;
-  zimbraCalResBuilding?: Maybe<Scalars['String']>;
-  zimbraCalResFloor?: Maybe<Scalars['String']>;
-  zimbraCalResRoom?: Maybe<Scalars['String']>;
-  zimbraCalResCapacity?: Maybe<Scalars['String']>;
-  zimbraCalResType?: Maybe<Scalars['String']>;
-  zimbraCalResContactEmail?: Maybe<Scalars['String']>;
-  zimbraCalResContactPhone?: Maybe<Scalars['String']>;
-  zimbraCalResContactName?: Maybe<Scalars['String']>;
-  street?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  state?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
   postalCode?: Maybe<Scalars['String']>;
+  state?: Maybe<Scalars['String']>;
+  street?: Maybe<Scalars['String']>;
+  zimbraCalResBuilding?: Maybe<Scalars['String']>;
+  zimbraCalResCapacity?: Maybe<Scalars['String']>;
+  zimbraCalResContactEmail?: Maybe<Scalars['String']>;
+  zimbraCalResContactName?: Maybe<Scalars['String']>;
+  zimbraCalResContactPhone?: Maybe<Scalars['String']>;
+  zimbraCalResFloor?: Maybe<Scalars['String']>;
+  zimbraCalResLocationDisplayName?: Maybe<Scalars['String']>;
+  zimbraCalResRoom?: Maybe<Scalars['String']>;
+  zimbraCalResSite?: Maybe<Scalars['String']>;
+  zimbraCalResType?: Maybe<Scalars['String']>;
 };
 
 export type CalTzInfo = {
   __typename?: 'CalTZInfo';
-  id?: Maybe<Scalars['String']>;
-  timezoneStdOffset?: Maybe<Scalars['Int']>;
-  timezoneDaylightOffset?: Maybe<Scalars['Int']>;
-  stdname?: Maybe<Scalars['String']>;
-  dayname?: Maybe<Scalars['String']>;
-  standard?: Maybe<TzOnsetInfo>;
   daylight?: Maybe<TzOnsetInfo>;
+  dayname?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  standard?: Maybe<TzOnsetInfo>;
+  stdname?: Maybe<Scalars['String']>;
+  timezoneDaylightOffset?: Maybe<Scalars['Int']>;
+  timezoneStdOffset?: Maybe<Scalars['Int']>;
 };
 
 export type CalendarCounterAppointmentInput = {
@@ -493,8 +493,8 @@ export type CalendarCounterAppointmentInput = {
 export type CalendarItemAlarm = {
   __typename?: 'CalendarItemAlarm';
   action: AlarmAction;
-  trigger?: Maybe<Array<Maybe<CalendarItemAlarmTrigger>>>;
   attendees?: Maybe<Array<Maybe<CalendarItemAlarmAttendees>>>;
+  trigger?: Maybe<Array<Maybe<CalendarItemAlarmTrigger>>>;
 };
 
 export type CalendarItemAlarmAttendees = {
@@ -508,8 +508,8 @@ export type CalendarItemAlarmAttendeesInput = {
 
 export type CalendarItemAlarmInput = {
   action: AlarmAction;
-  trigger: CalendarItemAlarmTriggerInput;
   attendees?: Maybe<CalendarItemAlarmAttendeesInput>;
+  trigger: CalendarItemAlarmTriggerInput;
 };
 
 export type CalendarItemAlarmTrigger = {
@@ -522,70 +522,72 @@ export type CalendarItemAlarmTriggerAbsoluteInput = {
 };
 
 export type CalendarItemAlarmTriggerInput = {
-  relative?: Maybe<CalendarItemAlarmTriggerRelativeInput>;
   absolute?: Maybe<CalendarItemAlarmTriggerAbsoluteInput>;
+  relative?: Maybe<CalendarItemAlarmTriggerRelativeInput>;
 };
 
 export type CalendarItemAlarmTriggerRelative = {
   __typename?: 'CalendarItemAlarmTriggerRelative';
-  weeks?: Maybe<Scalars['Int']>;
   days?: Maybe<Scalars['Int']>;
   hours?: Maybe<Scalars['Int']>;
   minutes?: Maybe<Scalars['Int']>;
-  seconds?: Maybe<Scalars['Int']>;
-  relatedTo?: Maybe<AlarmRelatedTo>;
   negative?: Maybe<Scalars['Boolean']>;
+  relatedTo?: Maybe<AlarmRelatedTo>;
+  seconds?: Maybe<Scalars['Int']>;
+  weeks?: Maybe<Scalars['Int']>;
 };
 
 export type CalendarItemAlarmTriggerRelativeInput = {
-  weeks?: Maybe<Scalars['Int']>;
   days?: Maybe<Scalars['Int']>;
   hours?: Maybe<Scalars['Int']>;
   minutes?: Maybe<Scalars['Int']>;
-  seconds?: Maybe<Scalars['Int']>;
-  relatedTo?: Maybe<AlarmRelatedTo>;
   negative?: Maybe<Scalars['Boolean']>;
+  relatedTo?: Maybe<AlarmRelatedTo>;
+  seconds?: Maybe<Scalars['Int']>;
+  weeks?: Maybe<Scalars['Int']>;
 };
 
 export type CalendarItemAttendee = {
   __typename?: 'CalendarItemAttendee';
-  role?: Maybe<ParticipationRole>;
-  participationStatus?: Maybe<ParticipationStatus>;
-  rsvp?: Maybe<Scalars['Boolean']>;
   address?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
   calendarUserType?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  participationStatus?: Maybe<ParticipationStatus>;
+  role?: Maybe<ParticipationRole>;
+  rsvp?: Maybe<Scalars['Boolean']>;
 };
 
 export type CalendarItemAttendeesInput = {
-  role?: Maybe<ParticipationRole>;
-  participationStatus?: Maybe<ParticipationStatus>;
-  rsvp?: Maybe<Scalars['Boolean']>;
   address: Scalars['String'];
-  name?: Maybe<Scalars['String']>;
   calendarUserType?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  participationStatus?: Maybe<ParticipationStatus>;
+  role?: Maybe<ParticipationRole>;
+  rsvp?: Maybe<Scalars['Boolean']>;
 };
 
 export enum CalendarItemClass {
+  Con = 'CON',
   Pri = 'PRI',
-  Pub = 'PUB',
-  Con = 'CON'
+  Pub = 'PUB'
 }
 
 export type CalendarItemDateTimeInput = {
-  timezone?: Maybe<Scalars['String']>;
   date: Scalars['String'];
+  timezone?: Maybe<Scalars['String']>;
 };
 
 export type CalendarItemHitInfo = {
   __typename?: 'CalendarItemHitInfo';
+  aid?: Maybe<Scalars['String']>;
   alarm?: Maybe<Scalars['Boolean']>;
+  alarmData?: Maybe<Array<Maybe<Alarm>>>;
   allDay?: Maybe<Scalars['Boolean']>;
   changeDate?: Maybe<Scalars['Float']>;
   class: CalendarItemClass;
   componentNum?: Maybe<Scalars['Int']>;
   date?: Maybe<Scalars['Float']>;
-  timezoneOffset?: Maybe<Scalars['Int']>;
+  draft?: Maybe<Scalars['Boolean']>;
   duration?: Maybe<Scalars['Float']>;
   excerpt?: Maybe<Scalars['String']>;
   flags?: Maybe<Scalars['String']>;
@@ -593,7 +595,6 @@ export type CalendarItemHitInfo = {
   freeBusy?: Maybe<FreeBusyStatus>;
   freeBusyActual?: Maybe<FreeBusyStatus>;
   id: Scalars['ID'];
-  alarmData?: Maybe<Array<Maybe<Alarm>>>;
   instances?: Maybe<Array<Maybe<Instance>>>;
   invitations?: Maybe<Array<Maybe<Invitation>>>;
   inviteId: Scalars['ID'];
@@ -602,53 +603,52 @@ export type CalendarItemHitInfo = {
   location?: Maybe<Scalars['String']>;
   modifiedSequence?: Maybe<Scalars['Float']>;
   name?: Maybe<Scalars['String']>;
+  neverSent?: Maybe<Scalars['Boolean']>;
   organizer?: Maybe<CalOrganizer>;
   otherAttendees?: Maybe<Scalars['Boolean']>;
   participationStatus?: Maybe<ParticipationStatus>;
   percentComplete?: Maybe<Scalars['String']>;
   priority?: Maybe<Scalars['String']>;
   revision?: Maybe<Scalars['Float']>;
-  utcRecurrenceId?: Maybe<Scalars['String']>;
   size?: Maybe<Scalars['Float']>;
   sortField?: Maybe<Scalars['String']>;
   status?: Maybe<InviteCompletionStatus>;
   tagNames?: Maybe<Scalars['String']>;
   tags?: Maybe<Scalars['String']>;
+  timezoneOffset?: Maybe<Scalars['Int']>;
   uid?: Maybe<Scalars['String']>;
+  utcRecurrenceId?: Maybe<Scalars['String']>;
   x_uid?: Maybe<Scalars['String']>;
-  aid?: Maybe<Scalars['String']>;
-  draft?: Maybe<Scalars['Boolean']>;
-  neverSent?: Maybe<Scalars['Boolean']>;
 };
 
 export type CalendarItemInput = {
+  componentNum?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['ID']>;
+  message: CalendarItemMessageInput;
   modifiedSequence?: Maybe<Scalars['Float']>;
   revision?: Maybe<Scalars['Float']>;
-  componentNum?: Maybe<Scalars['Int']>;
-  message: CalendarItemMessageInput;
 };
 
 export type CalendarItemInviteComponentCounterInput = {
-  name: Scalars['String'];
-  location?: Maybe<Scalars['String']>;
-  start: CalendarItemDateTimeInput;
+  alarms?: Maybe<Array<Maybe<CalendarItemAlarmInput>>>;
+  allDay?: Maybe<Scalars['Boolean']>;
+  attendees?: Maybe<Array<Maybe<CalendarItemAttendeesInput>>>;
+  class?: Maybe<CalendarItemClass>;
+  description?: Maybe<Array<Maybe<CalendarItemInviteComponentDescriptionInput>>>;
+  draft?: Maybe<Scalars['Boolean']>;
   end: CalendarItemDateTimeInput;
   exceptId?: Maybe<CalendarOptionalItemDateTimeInput>;
   freeBusy?: Maybe<FreeBusyStatus>;
-  allDay?: Maybe<Scalars['Boolean']>;
-  organizer?: Maybe<CalendarItemOrganizerInput>;
-  recurrence?: Maybe<CalendarItemRecurrenceInput>;
-  attendees?: Maybe<Array<Maybe<CalendarItemAttendeesInput>>>;
-  alarms?: Maybe<Array<Maybe<CalendarItemAlarmInput>>>;
-  class?: Maybe<CalendarItemClass>;
-  uid?: Maybe<Scalars['String']>;
-  priority?: Maybe<Scalars['String']>;
-  percentComplete?: Maybe<Scalars['String']>;
-  status?: Maybe<InviteCompletionStatus>;
+  location?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   noBlob?: Maybe<Scalars['Boolean']>;
-  description?: Maybe<Array<Maybe<CalendarItemInviteComponentDescriptionInput>>>;
-  draft?: Maybe<Scalars['Boolean']>;
+  organizer?: Maybe<CalendarItemOrganizerInput>;
+  percentComplete?: Maybe<Scalars['String']>;
+  priority?: Maybe<Scalars['String']>;
+  recurrence?: Maybe<CalendarItemRecurrenceInput>;
+  start: CalendarItemDateTimeInput;
+  status?: Maybe<InviteCompletionStatus>;
+  uid?: Maybe<Scalars['String']>;
 };
 
 export type CalendarItemInviteComponentDescriptionInput = {
@@ -656,24 +656,24 @@ export type CalendarItemInviteComponentDescriptionInput = {
 };
 
 export type CalendarItemInviteComponentInput = {
-  name?: Maybe<Scalars['String']>;
-  location?: Maybe<Scalars['String']>;
-  start?: Maybe<CalendarItemDateTimeInput>;
+  alarms?: Maybe<Array<Maybe<CalendarItemAlarmInput>>>;
+  allDay?: Maybe<Scalars['Boolean']>;
+  attendees?: Maybe<Array<Maybe<CalendarItemAttendeesInput>>>;
+  class: CalendarItemClass;
+  description?: Maybe<Array<Maybe<CalendarItemInviteComponentDescriptionInput>>>;
+  draft?: Maybe<Scalars['Boolean']>;
   end?: Maybe<CalendarItemDateTimeInput>;
   exceptId?: Maybe<CalendarOptionalItemDateTimeInput>;
   freeBusy?: Maybe<FreeBusyStatus>;
-  allDay?: Maybe<Scalars['Boolean']>;
-  organizer?: Maybe<CalendarItemOrganizerInput>;
-  recurrence?: Maybe<CalendarItemRecurrenceInput>;
-  attendees?: Maybe<Array<Maybe<CalendarItemAttendeesInput>>>;
-  alarms?: Maybe<Array<Maybe<CalendarItemAlarmInput>>>;
-  class: CalendarItemClass;
-  priority?: Maybe<Scalars['String']>;
-  percentComplete?: Maybe<Scalars['String']>;
-  status?: Maybe<InviteCompletionStatus>;
+  location?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
   noBlob?: Maybe<Scalars['Boolean']>;
-  description?: Maybe<Array<Maybe<CalendarItemInviteComponentDescriptionInput>>>;
-  draft?: Maybe<Scalars['Boolean']>;
+  organizer?: Maybe<CalendarItemOrganizerInput>;
+  percentComplete?: Maybe<Scalars['String']>;
+  priority?: Maybe<Scalars['String']>;
+  recurrence?: Maybe<CalendarItemRecurrenceInput>;
+  start?: Maybe<CalendarItemDateTimeInput>;
+  status?: Maybe<InviteCompletionStatus>;
 };
 
 export type CalendarItemInviteInput = {
@@ -681,13 +681,13 @@ export type CalendarItemInviteInput = {
 };
 
 export type CalendarItemMessageInput = {
+  attachments?: Maybe<Array<Maybe<AttachmentInput>>>;
+  emailAddresses?: Maybe<Array<Maybe<MailItemEmailAddressInput>>>;
   folderId?: Maybe<Scalars['ID']>;
-  subject?: Maybe<Scalars['String']>;
   invitations?: Maybe<CalendarItemInviteInput>;
   mimeParts?: Maybe<Array<Maybe<MimePartInput>>>;
-  emailAddresses?: Maybe<Array<Maybe<MailItemEmailAddressInput>>>;
-  attachments?: Maybe<Array<Maybe<AttachmentInput>>>;
   replyType?: Maybe<InviteReplyType>;
+  subject?: Maybe<Scalars['String']>;
 };
 
 export type CalendarItemOrganizerInput = {
@@ -735,12 +735,12 @@ export type CalendarItemRecurrenceEndDateInput = {
 };
 
 export enum CalendarItemRecurrenceFrequency {
-  Sec = 'SEC',
-  Min = 'MIN',
-  Hou = 'HOU',
   Dai = 'DAI',
-  Wee = 'WEE',
+  Hou = 'HOU',
+  Min = 'MIN',
   Mon = 'MON',
+  Sec = 'SEC',
+  Wee = 'WEE',
   Yea = 'YEA'
 }
 
@@ -754,40 +754,40 @@ export type CalendarItemRecurrenceIntervalInput = {
 };
 
 export type CalendarItemRecurrenceRuleInput = {
-  interval?: Maybe<CalendarItemRecurrenceIntervalInput>;
-  frequency?: Maybe<CalendarItemRecurrenceFrequency>;
-  count?: Maybe<CalendarItemRecurrenceEndCountInput>;
-  until?: Maybe<CalendarItemRecurrenceEndDateInput>;
   byday?: Maybe<CalendarItemRecurrenceByDayInput>;
-  bymonthday?: Maybe<CalendarItemRecurrenceByMonthDayInput>;
   bymonth?: Maybe<CalendarItemRecurrenceByMonthInput>;
+  bymonthday?: Maybe<CalendarItemRecurrenceByMonthDayInput>;
   bysetpos?: Maybe<CalendarItemRecurrenceBySetPosInput>;
+  count?: Maybe<CalendarItemRecurrenceEndCountInput>;
+  frequency?: Maybe<CalendarItemRecurrenceFrequency>;
+  interval?: Maybe<CalendarItemRecurrenceIntervalInput>;
+  until?: Maybe<CalendarItemRecurrenceEndDateInput>;
 };
 
 export type CalendarItemReply = {
   __typename?: 'CalendarItemReply';
-  participationStatus?: Maybe<ParticipationStatus>;
   attendee?: Maybe<Scalars['String']>;
+  participationStatus?: Maybe<ParticipationStatus>;
 };
 
 export type CalendarOptionalItemDateTimeInput = {
-  timezone?: Maybe<Scalars['String']>;
   date?: Maybe<Scalars['String']>;
+  timezone?: Maybe<Scalars['String']>;
 };
 
 export type CancelRuleInfo = {
   __typename?: 'CancelRuleInfo';
   rangeType?: Maybe<Scalars['Int']>;
   recurId?: Maybe<Scalars['String']>;
-  tz?: Maybe<Scalars['String']>;
   ridZ?: Maybe<Scalars['String']>;
+  tz?: Maybe<Scalars['String']>;
 };
 
 export type ClientInfoAttributes = {
   __typename?: 'ClientInfoAttributes';
+  zimbraFeatureResetPasswordStatus?: Maybe<ResetPasswordStatus>;
   zimbraWebClientLoginURL?: Maybe<Scalars['String']>;
   zimbraWebClientLogoutURL?: Maybe<Scalars['String']>;
-  zimbraFeatureResetPasswordStatus?: Maybe<ResetPasswordStatus>;
 };
 
 export type ClientInfoType = {
@@ -814,174 +814,174 @@ export enum ConnectionType {
 
 export type Contact = {
   __typename?: 'Contact';
-  id: Scalars['ID'];
+  attributes?: Maybe<ContactAttributes>;
   date?: Maybe<Scalars['Float']>;
+  fileAsStr?: Maybe<Scalars['String']>;
   folderId?: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
+  memberOf?: Maybe<Scalars['String']>;
+  members?: Maybe<Array<Maybe<ContactListMember>>>;
   revision?: Maybe<Scalars['Float']>;
   sortField?: Maybe<Scalars['String']>;
-  fileAsStr?: Maybe<Scalars['String']>;
-  memberOf?: Maybe<Scalars['String']>;
-  tags?: Maybe<Scalars['String']>;
   tagNames?: Maybe<Scalars['String']>;
-  attributes?: Maybe<ContactAttributes>;
-  members?: Maybe<Array<Maybe<ContactListMember>>>;
+  tags?: Maybe<Scalars['String']>;
 };
 
 export type ContactAttributes = {
   __typename?: 'ContactAttributes';
-  firstName?: Maybe<Scalars['String']>;
-  phoneticFirstName?: Maybe<Scalars['String']>;
-  middleName?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
-  phoneticLastName?: Maybe<Scalars['String']>;
-  fullName?: Maybe<Scalars['String']>;
-  maidenName?: Maybe<Scalars['String']>;
-  namePrefix?: Maybe<Scalars['String']>;
-  nameSuffix?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  email2?: Maybe<Scalars['String']>;
-  workEmail?: Maybe<Scalars['String']>;
-  workEmail2?: Maybe<Scalars['String']>;
-  homeEmail?: Maybe<Scalars['String']>;
-  homeEmail2?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  phone2?: Maybe<Scalars['String']>;
+  anniversary?: Maybe<Scalars['String']>;
+  assistantPhone?: Maybe<Scalars['String']>;
+  birthday?: Maybe<Scalars['String']>;
+  callbackPhone?: Maybe<Scalars['String']>;
+  carPhone?: Maybe<Scalars['String']>;
+  company?: Maybe<Scalars['String']>;
   companyPhone?: Maybe<Scalars['String']>;
   companyPhone2?: Maybe<Scalars['String']>;
-  otherPhone?: Maybe<Scalars['String']>;
-  otherPhone2?: Maybe<Scalars['String']>;
-  mobilePhone?: Maybe<Scalars['String']>;
-  mobilePhone2?: Maybe<Scalars['String']>;
-  homePhone?: Maybe<Scalars['String']>;
-  homePhone2?: Maybe<Scalars['String']>;
-  workPhone?: Maybe<Scalars['String']>;
-  workPhone2?: Maybe<Scalars['String']>;
-  pager?: Maybe<Scalars['String']>;
-  pager2?: Maybe<Scalars['String']>;
+  department?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  email2?: Maybe<Scalars['String']>;
+  fileAs?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  fullName?: Maybe<Scalars['String']>;
+  homeCity?: Maybe<Scalars['String']>;
+  homeCountry?: Maybe<Scalars['String']>;
+  homeEmail?: Maybe<Scalars['String']>;
+  homeEmail2?: Maybe<Scalars['String']>;
   homeFax?: Maybe<Scalars['String']>;
   homeFax2?: Maybe<Scalars['String']>;
-  workFax?: Maybe<Scalars['String']>;
-  workFax2?: Maybe<Scalars['String']>;
+  homePhone?: Maybe<Scalars['String']>;
+  homePhone2?: Maybe<Scalars['String']>;
+  homePostalCode?: Maybe<Scalars['String']>;
+  homeState?: Maybe<Scalars['String']>;
+  homeStreet?: Maybe<Scalars['String']>;
+  homeURL?: Maybe<Scalars['String']>;
   imAddress?: Maybe<Scalars['String']>;
   imAddress1?: Maybe<Scalars['String']>;
   imAddress2?: Maybe<Scalars['String']>;
   imAddress3?: Maybe<Scalars['String']>;
   imAddress4?: Maybe<Scalars['String']>;
   imAddress5?: Maybe<Scalars['String']>;
-  nickname?: Maybe<Scalars['String']>;
-  homeStreet?: Maybe<Scalars['String']>;
-  homeCity?: Maybe<Scalars['String']>;
-  homeState?: Maybe<Scalars['String']>;
-  homePostalCode?: Maybe<Scalars['String']>;
-  homeCountry?: Maybe<Scalars['String']>;
-  homeURL?: Maybe<Scalars['String']>;
-  workStreet?: Maybe<Scalars['String']>;
-  workCity?: Maybe<Scalars['String']>;
-  workState?: Maybe<Scalars['String']>;
-  workPostalCode?: Maybe<Scalars['String']>;
-  workCountry?: Maybe<Scalars['String']>;
-  workURL?: Maybe<Scalars['String']>;
-  jobTitle?: Maybe<Scalars['String']>;
-  company?: Maybe<Scalars['String']>;
-  department?: Maybe<Scalars['String']>;
-  birthday?: Maybe<Scalars['String']>;
-  anniversary?: Maybe<Scalars['String']>;
-  website?: Maybe<Scalars['String']>;
-  notes?: Maybe<Scalars['String']>;
-  thumbnailPhoto?: Maybe<Scalars['String']>;
   image?: Maybe<ContactImage>;
-  userCertificate?: Maybe<Scalars['String']>;
-  zimbraCalResType?: Maybe<Scalars['String']>;
-  assistantPhone?: Maybe<Scalars['String']>;
-  callbackPhone?: Maybe<Scalars['String']>;
-  carPhone?: Maybe<Scalars['String']>;
+  jobTitle?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  maidenName?: Maybe<Scalars['String']>;
+  middleName?: Maybe<Scalars['String']>;
+  mobilePhone?: Maybe<Scalars['String']>;
+  mobilePhone2?: Maybe<Scalars['String']>;
+  namePrefix?: Maybe<Scalars['String']>;
+  nameSuffix?: Maybe<Scalars['String']>;
+  nickname?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  other?: Maybe<Array<Maybe<OtherContactAttribute>>>;
   otherCity?: Maybe<Scalars['String']>;
   otherCountry?: Maybe<Scalars['String']>;
   otherFax?: Maybe<Scalars['String']>;
+  otherPhone?: Maybe<Scalars['String']>;
+  otherPhone2?: Maybe<Scalars['String']>;
   otherPostalCode?: Maybe<Scalars['String']>;
   otherState?: Maybe<Scalars['String']>;
   otherStreet?: Maybe<Scalars['String']>;
   otherURL?: Maybe<Scalars['String']>;
-  fileAs?: Maybe<Scalars['String']>;
+  pager?: Maybe<Scalars['String']>;
+  pager2?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  phone2?: Maybe<Scalars['String']>;
+  phoneticFirstName?: Maybe<Scalars['String']>;
+  phoneticLastName?: Maybe<Scalars['String']>;
+  thumbnailPhoto?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
-  other?: Maybe<Array<Maybe<OtherContactAttribute>>>;
+  userCertificate?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  workCity?: Maybe<Scalars['String']>;
+  workCountry?: Maybe<Scalars['String']>;
+  workEmail?: Maybe<Scalars['String']>;
+  workEmail2?: Maybe<Scalars['String']>;
+  workFax?: Maybe<Scalars['String']>;
+  workFax2?: Maybe<Scalars['String']>;
+  workPhone?: Maybe<Scalars['String']>;
+  workPhone2?: Maybe<Scalars['String']>;
+  workPostalCode?: Maybe<Scalars['String']>;
+  workState?: Maybe<Scalars['String']>;
+  workStreet?: Maybe<Scalars['String']>;
+  workURL?: Maybe<Scalars['String']>;
+  zimbraCalResType?: Maybe<Scalars['String']>;
 };
 
 export type ContactAttrsInput = {
-  firstName?: Maybe<Scalars['String']>;
-  phoneticFirstName?: Maybe<Scalars['String']>;
-  middleName?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
-  phoneticLastName?: Maybe<Scalars['String']>;
-  fullName?: Maybe<Scalars['String']>;
-  maidenName?: Maybe<Scalars['String']>;
-  namePrefix?: Maybe<Scalars['String']>;
-  nameSuffix?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  email2?: Maybe<Scalars['String']>;
-  workEmail?: Maybe<Scalars['String']>;
-  workEmail2?: Maybe<Scalars['String']>;
-  homeEmail?: Maybe<Scalars['String']>;
-  homeEmail2?: Maybe<Scalars['String']>;
-  phone?: Maybe<Scalars['String']>;
-  phone2?: Maybe<Scalars['String']>;
+  anniversary?: Maybe<Scalars['String']>;
+  assistantPhone?: Maybe<Scalars['String']>;
+  birthday?: Maybe<Scalars['String']>;
+  callbackPhone?: Maybe<Scalars['String']>;
+  carPhone?: Maybe<Scalars['String']>;
+  company?: Maybe<Scalars['String']>;
   companyPhone?: Maybe<Scalars['String']>;
   companyPhone2?: Maybe<Scalars['String']>;
-  otherPhone?: Maybe<Scalars['String']>;
-  otherPhone2?: Maybe<Scalars['String']>;
-  mobilePhone?: Maybe<Scalars['String']>;
-  mobilePhone2?: Maybe<Scalars['String']>;
+  department?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  email2?: Maybe<Scalars['String']>;
+  fileAs?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  fullName?: Maybe<Scalars['String']>;
+  homeCity?: Maybe<Scalars['String']>;
+  homeCountry?: Maybe<Scalars['String']>;
+  homeEmail?: Maybe<Scalars['String']>;
+  homeEmail2?: Maybe<Scalars['String']>;
+  homeFax?: Maybe<Scalars['String']>;
+  homeFax2?: Maybe<Scalars['String']>;
   homePhone?: Maybe<Scalars['String']>;
   homePhone2?: Maybe<Scalars['String']>;
-  workPhone?: Maybe<Scalars['String']>;
-  workPhone2?: Maybe<Scalars['String']>;
-  pager?: Maybe<Scalars['String']>;
-  pager2?: Maybe<Scalars['String']>;
-  homeFax2?: Maybe<Scalars['String']>;
-  workFax2?: Maybe<Scalars['String']>;
+  homePostalCode?: Maybe<Scalars['String']>;
+  homeState?: Maybe<Scalars['String']>;
+  homeStreet?: Maybe<Scalars['String']>;
+  homeURL?: Maybe<Scalars['String']>;
   imAddress?: Maybe<Scalars['String']>;
   imAddress1?: Maybe<Scalars['String']>;
   imAddress2?: Maybe<Scalars['String']>;
   imAddress3?: Maybe<Scalars['String']>;
   imAddress4?: Maybe<Scalars['String']>;
   imAddress5?: Maybe<Scalars['String']>;
-  nickname?: Maybe<Scalars['String']>;
-  homeStreet?: Maybe<Scalars['String']>;
-  homeCity?: Maybe<Scalars['String']>;
-  homeFax?: Maybe<Scalars['String']>;
-  homeState?: Maybe<Scalars['String']>;
-  homePostalCode?: Maybe<Scalars['String']>;
-  homeCountry?: Maybe<Scalars['String']>;
-  homeURL?: Maybe<Scalars['String']>;
-  workFax?: Maybe<Scalars['String']>;
-  workStreet?: Maybe<Scalars['String']>;
-  workCity?: Maybe<Scalars['String']>;
-  workState?: Maybe<Scalars['String']>;
-  workPostalCode?: Maybe<Scalars['String']>;
-  workCountry?: Maybe<Scalars['String']>;
-  workURL?: Maybe<Scalars['String']>;
-  jobTitle?: Maybe<Scalars['String']>;
-  company?: Maybe<Scalars['String']>;
-  department?: Maybe<Scalars['String']>;
-  birthday?: Maybe<Scalars['String']>;
-  anniversary?: Maybe<Scalars['String']>;
-  website?: Maybe<Scalars['String']>;
-  notes?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['String']>;
-  userCertificate?: Maybe<Scalars['String']>;
-  assistantPhone?: Maybe<Scalars['String']>;
-  callbackPhone?: Maybe<Scalars['String']>;
-  carPhone?: Maybe<Scalars['String']>;
+  jobTitle?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+  maidenName?: Maybe<Scalars['String']>;
+  middleName?: Maybe<Scalars['String']>;
+  mobilePhone?: Maybe<Scalars['String']>;
+  mobilePhone2?: Maybe<Scalars['String']>;
+  namePrefix?: Maybe<Scalars['String']>;
+  nameSuffix?: Maybe<Scalars['String']>;
+  nickname?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  other?: Maybe<Array<Maybe<OtherContactAttributeInput>>>;
   otherCity?: Maybe<Scalars['String']>;
   otherCountry?: Maybe<Scalars['String']>;
   otherFax?: Maybe<Scalars['String']>;
+  otherPhone?: Maybe<Scalars['String']>;
+  otherPhone2?: Maybe<Scalars['String']>;
   otherPostalCode?: Maybe<Scalars['String']>;
   otherState?: Maybe<Scalars['String']>;
   otherStreet?: Maybe<Scalars['String']>;
   otherURL?: Maybe<Scalars['String']>;
-  fileAs?: Maybe<Scalars['String']>;
+  pager?: Maybe<Scalars['String']>;
+  pager2?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  phone2?: Maybe<Scalars['String']>;
+  phoneticFirstName?: Maybe<Scalars['String']>;
+  phoneticLastName?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
-  other?: Maybe<Array<Maybe<OtherContactAttributeInput>>>;
+  userCertificate?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  workCity?: Maybe<Scalars['String']>;
+  workCountry?: Maybe<Scalars['String']>;
+  workEmail?: Maybe<Scalars['String']>;
+  workEmail2?: Maybe<Scalars['String']>;
+  workFax?: Maybe<Scalars['String']>;
+  workFax2?: Maybe<Scalars['String']>;
+  workPhone?: Maybe<Scalars['String']>;
+  workPhone2?: Maybe<Scalars['String']>;
+  workPostalCode?: Maybe<Scalars['String']>;
+  workState?: Maybe<Scalars['String']>;
+  workStreet?: Maybe<Scalars['String']>;
+  workURL?: Maybe<Scalars['String']>;
 };
 
 export type ContactFrequencyData = {
@@ -1002,8 +1002,8 @@ export type ContactFrequencyResponse = {
 };
 
 export type ContactFrequencySpec = {
-  range: Scalars['String'];
   interval: Scalars['String'];
+  range: Scalars['String'];
 };
 
 export type ContactImage = {
@@ -1035,60 +1035,60 @@ export enum ContactType {
 
 export type Conversation = MailItem & {
   __typename?: 'Conversation';
-  id?: Maybe<Scalars['ID']>;
-  size?: Maybe<Scalars['Float']>;
-  date?: Maybe<Scalars['Float']>;
-  folderId?: Maybe<Scalars['ID']>;
-  subject?: Maybe<Scalars['String']>;
-  excerpt?: Maybe<Scalars['String']>;
-  emailAddresses?: Maybe<Array<Maybe<EmailAddress>>>;
-  conversationId?: Maybe<Scalars['ID']>;
-  flags?: Maybe<Scalars['String']>;
-  tags?: Maybe<Scalars['String']>;
-  tagNames?: Maybe<Scalars['String']>;
-  revision?: Maybe<Scalars['Float']>;
   changeDate?: Maybe<Scalars['Float']>;
-  modifiedSequence?: Maybe<Scalars['Float']>;
+  conversationId?: Maybe<Scalars['ID']>;
+  date?: Maybe<Scalars['Float']>;
+  emailAddresses?: Maybe<Array<Maybe<EmailAddress>>>;
+  excerpt?: Maybe<Scalars['String']>;
+  flags?: Maybe<Scalars['String']>;
+  folderId?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']>;
   invitations?: Maybe<Array<Maybe<InviteInfo>>>;
-  sortField?: Maybe<Scalars['String']>;
   messages?: Maybe<Array<Maybe<MessageInfo>>>;
   messagesMetaData?: Maybe<Array<Maybe<MessageInfo>>>;
+  modifiedSequence?: Maybe<Scalars['Float']>;
   numMessages?: Maybe<Scalars['Float']>;
-  unread?: Maybe<Scalars['Float']>;
-  share?: Maybe<Array<Maybe<ShareNotification>>>;
   replyType?: Maybe<Scalars['String']>;
+  revision?: Maybe<Scalars['Float']>;
+  share?: Maybe<Array<Maybe<ShareNotification>>>;
+  size?: Maybe<Scalars['Float']>;
+  sortField?: Maybe<Scalars['String']>;
+  subject?: Maybe<Scalars['String']>;
+  tagNames?: Maybe<Scalars['String']>;
+  tags?: Maybe<Scalars['String']>;
+  unread?: Maybe<Scalars['Float']>;
 };
 
 export type ConversationCondition = {
   __typename?: 'ConversationCondition';
-  where?: Maybe<Scalars['String']>;
   index?: Maybe<Scalars['Int']>;
   negative?: Maybe<Scalars['Boolean']>;
+  where?: Maybe<Scalars['String']>;
 };
 
 export type ConversationConditionInput = {
-  where?: Maybe<Scalars['String']>;
   index?: Maybe<Scalars['Int']>;
   negative?: Maybe<Scalars['Boolean']>;
+  where?: Maybe<Scalars['String']>;
 };
 
 export type CounterAppointmentInput = {
+  componentNum?: Maybe<Scalars['Int']>;
   id: Scalars['ID'];
+  message: CounterAppointmentMessageInput;
   modifiedSequence?: Maybe<Scalars['Float']>;
   revision?: Maybe<Scalars['Float']>;
-  componentNum?: Maybe<Scalars['Int']>;
-  message: CounterAppointmentMessageInput;
 };
 
 export type CounterAppointmentMessageInput = {
-  origId?: Maybe<Scalars['ID']>;
+  attachments?: Maybe<Array<Maybe<AttachmentInput>>>;
+  emailAddresses?: Maybe<Array<Maybe<MailItemEmailAddressInput>>>;
   folderId?: Maybe<Scalars['ID']>;
-  subject?: Maybe<Scalars['String']>;
   invitations?: Maybe<CalendarCounterAppointmentInput>;
   mimeParts?: Maybe<Array<Maybe<MimePartInput>>>;
-  emailAddresses?: Maybe<Array<Maybe<MailItemEmailAddressInput>>>;
-  attachments?: Maybe<Array<Maybe<AttachmentInput>>>;
+  origId?: Maybe<Scalars['ID']>;
   replyType?: Maybe<InviteReplyType>;
+  subject?: Maybe<Scalars['String']>;
 };
 
 export type CreateAppSpecificPasswordResponse = {
@@ -1097,14 +1097,14 @@ export type CreateAppSpecificPasswordResponse = {
 };
 
 export type CreateContactInput = {
+  attributes: ContactAttrsInput;
   folderId?: Maybe<Scalars['ID']>;
   tagNames?: Maybe<Scalars['String']>;
-  attributes: ContactAttrsInput;
 };
 
 export type CreateIdentityInput = {
-  name: Scalars['String'];
   attrs?: Maybe<IdentityAttrsInput>;
+  name: Scalars['String'];
 };
 
 export type CreateMountpointInput = {
@@ -1112,8 +1112,8 @@ export type CreateMountpointInput = {
 };
 
 export type CreateTagInput = {
-  name: Scalars['String'];
   color?: Maybe<Scalars['Int']>;
+  name: Scalars['String'];
 };
 
 export type CsrfToken = {
@@ -1122,10 +1122,10 @@ export type CsrfToken = {
 };
 
 export type Cursor = {
-  id?: Maybe<Scalars['ID']>;
-  sortField?: Maybe<Scalars['String']>;
   endSortVal?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
   includeOffset?: Maybe<Scalars['Boolean']>;
+  sortField?: Maybe<Scalars['String']>;
 };
 
 export type CustomMetadata = {
@@ -1145,70 +1145,70 @@ export type CustomMetadataAttrsInput = {
 };
 
 export type CustomMetadataInput = {
+  attrs?: Maybe<Array<Maybe<CustomMetadataAttrsInput>>>;
   id: Scalars['ID'];
   section?: Maybe<Scalars['String']>;
-  attrs?: Maybe<Array<Maybe<CustomMetadataAttrsInput>>>;
 };
 
 export type CustomMetadataMeta = {
   __typename?: 'CustomMetadataMeta';
-  section: Scalars['String'];
   _attrs?: Maybe<Array<Maybe<CustomMetadataAttrs>>>;
+  section: Scalars['String'];
 };
 
 export type DataSource = {
   __typename?: 'DataSource';
-  id: Scalars['ID'];
   connectionType?: Maybe<Scalars['String']>;
   defaultSignature?: Maybe<Scalars['ID']>;
   emailAddress?: Maybe<Scalars['String']>;
-  l?: Maybe<Scalars['ID']>;
+  failingSince?: Maybe<Scalars['String']>;
   forwardReplySignature?: Maybe<Scalars['ID']>;
   fromDisplay?: Maybe<Scalars['String']>;
   host?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
   importOnly?: Maybe<Scalars['Boolean']>;
   isEnabled?: Maybe<Scalars['Boolean']>;
+  l?: Maybe<Scalars['ID']>;
+  lastError?: Maybe<StringContent>;
+  leaveOnServer?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
   pollingInterval?: Maybe<Scalars['Float']>;
-  leaveOnServer?: Maybe<Scalars['Boolean']>;
   port?: Maybe<Scalars['String']>;
   replyToAddress?: Maybe<Scalars['String']>;
   replyToDisplay?: Maybe<Scalars['String']>;
   smtpPort?: Maybe<Scalars['String']>;
   useAddressForForwardReply?: Maybe<Scalars['Boolean']>;
   username?: Maybe<Scalars['String']>;
-  failingSince?: Maybe<Scalars['String']>;
-  lastError?: Maybe<StringContent>;
 };
 
 export type DataSources = {
   __typename?: 'DataSources';
+  cal?: Maybe<Array<Maybe<DataSource>>>;
   imap?: Maybe<Array<Maybe<DataSource>>>;
   pop3?: Maybe<Array<Maybe<DataSource>>>;
-  cal?: Maybe<Array<Maybe<DataSource>>>;
 };
 
 export type DateCondition = {
   __typename?: 'DateCondition';
-  dateComparison?: Maybe<Scalars['String']>;
   date?: Maybe<Scalars['Float']>;
+  dateComparison?: Maybe<Scalars['String']>;
   index?: Maybe<Scalars['Int']>;
   negative?: Maybe<Scalars['Boolean']>;
 };
 
 export type DateConditionInput = {
-  dateComparison?: Maybe<Scalars['String']>;
   date?: Maybe<Scalars['Float']>;
+  dateComparison?: Maybe<Scalars['String']>;
   index?: Maybe<Scalars['Int']>;
   negative?: Maybe<Scalars['Boolean']>;
 };
 
 export type DeleteAppointmentInput = {
+  componentNum: Scalars['Int'];
   instanceDate?: Maybe<InstanceDate>;
   inviteId: Scalars['String'];
-  componentNum: Scalars['Int'];
-  start?: Maybe<Scalars['Int']>;
   message?: Maybe<CalendarItemMessageInput>;
+  start?: Maybe<Scalars['Int']>;
 };
 
 export type DeleteIdentityInput = {
@@ -1218,12 +1218,12 @@ export type DeleteIdentityInput = {
 
 export type Device = {
   __typename?: 'Device';
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
   firstReqReceived?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
   lastPolicyUpdate?: Maybe<Scalars['Int']>;
-  lastUsedDate?: Maybe<Scalars['String']>;
   lastUpdatedBy?: Maybe<Scalars['String']>;
+  lastUsedDate?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
   protocol?: Maybe<Scalars['Float']>;
   provisionable?: Maybe<Scalars['Boolean']>;
   status?: Maybe<Scalars['Int']>;
@@ -1237,8 +1237,8 @@ export type DiscoverRights = {
 };
 
 export type DismissInput = {
-  id: Scalars['ID'];
   dismissedAt: Scalars['Float'];
+  id: Scalars['ID'];
 };
 
 export type DlAttrs = {
@@ -1250,35 +1250,35 @@ export type DlAttrs = {
 
 export type DlGroupMember = {
   __typename?: 'DlGroupMember';
-  name?: Maybe<Scalars['String']>;
   attributes?: Maybe<DlAttrs>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type Document = {
   __typename?: 'Document';
-  id?: Maybe<Scalars['ID']>;
   acl?: Maybe<Acl>;
-  folderId?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  version?: Maybe<Scalars['Float']>;
-  contentType?: Maybe<Scalars['String']>;
-  descriptionEnabled?: Maybe<Scalars['Boolean']>;
-  date?: Maybe<Scalars['Float']>;
   changeDate?: Maybe<Scalars['Float']>;
+  contentType?: Maybe<Scalars['String']>;
+  date?: Maybe<Scalars['Float']>;
+  descriptionEnabled?: Maybe<Scalars['Boolean']>;
+  flags?: Maybe<Scalars['String']>;
+  folderId?: Maybe<Scalars['ID']>;
+  folderUuid?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  lastEditedAccount?: Maybe<Scalars['String']>;
+  lockOwnerId?: Maybe<Scalars['ID']>;
+  metadataVersion?: Maybe<Scalars['Float']>;
   modifiedSequence?: Maybe<Scalars['Float']>;
+  name?: Maybe<Scalars['String']>;
+  revisedCreationDate?: Maybe<Scalars['Float']>;
   revision?: Maybe<Scalars['Float']>;
+  revisonCreator?: Maybe<Scalars['String']>;
   size?: Maybe<Scalars['Float']>;
   sortField?: Maybe<Scalars['String']>;
-  tags?: Maybe<Scalars['String']>;
   tagNames?: Maybe<Scalars['String']>;
+  tags?: Maybe<Scalars['String']>;
   uuid?: Maybe<Scalars['ID']>;
-  folderUuid?: Maybe<Scalars['String']>;
-  metadataVersion?: Maybe<Scalars['Float']>;
-  lastEditedAccount?: Maybe<Scalars['String']>;
-  revisonCreator?: Maybe<Scalars['String']>;
-  revisedCreationDate?: Maybe<Scalars['Float']>;
-  lockOwnerId?: Maybe<Scalars['ID']>;
-  flags?: Maybe<Scalars['String']>;
+  version?: Maybe<Scalars['Float']>;
 };
 
 export type DocumentActionData = {
@@ -1300,9 +1300,9 @@ export type DtTimeInfo = {
 export type EmailAddress = {
   __typename?: 'EmailAddress';
   address?: Maybe<Scalars['String']>;
+  displayName?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
 };
 
 export type EmailAddressInput = {
@@ -1312,35 +1312,35 @@ export type EmailAddressInput = {
 };
 
 export type EnableTwoFactorAuthInput = {
+  authToken?: Maybe<Scalars['String']>;
+  csrfTokenSecured: Scalars['Boolean'];
   name: Scalars['String'];
   password?: Maybe<Scalars['String']>;
   twoFactorCode?: Maybe<Scalars['String']>;
-  authToken?: Maybe<Scalars['String']>;
-  csrfTokenSecured: Scalars['Boolean'];
 };
 
 export type EnableTwoFactorAuthResponse = {
   __typename?: 'EnableTwoFactorAuthResponse';
-  secret?: Maybe<Array<Maybe<Secret>>>;
-  scratchCodes?: Maybe<Array<Maybe<ScratchCode>>>;
   authToken?: Maybe<Array<Maybe<AuthToken>>>;
   csrfToken?: Maybe<Array<Maybe<CsrfToken>>>;
+  scratchCodes?: Maybe<Array<Maybe<ScratchCode>>>;
+  secret?: Maybe<Array<Maybe<Secret>>>;
 };
 
 export type ExceptionRuleInfo = {
   __typename?: 'ExceptionRuleInfo';
-  rangeType?: Maybe<Scalars['Int']>;
-  recurId?: Maybe<Scalars['String']>;
-  tz?: Maybe<Scalars['String']>;
-  ridZ?: Maybe<Scalars['String']>;
   add?: Maybe<Array<Maybe<AddRecurrenceInfo>>>;
   exclude?: Maybe<Array<Maybe<ExcludeRecurrenceInfo>>>;
+  rangeType?: Maybe<Scalars['Int']>;
+  recurId?: Maybe<Scalars['String']>;
+  ridZ?: Maybe<Scalars['String']>;
+  tz?: Maybe<Scalars['String']>;
 };
 
 export type ExcludeRecurrenceInfo = {
   __typename?: 'ExcludeRecurrenceInfo';
-  exclude?: Maybe<Array<Maybe<ExcludeRecurrenceInfo>>>;
   except?: Maybe<Array<Maybe<ExceptionRuleInfo>>>;
+  exclude?: Maybe<Array<Maybe<ExcludeRecurrenceInfo>>>;
 };
 
 export type ExistingAttachmentInput = {
@@ -1349,15 +1349,15 @@ export type ExistingAttachmentInput = {
 };
 
 export type ExternalAccount = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
   accountType?: Maybe<AccountType>;
-  isEnabled?: Maybe<Scalars['Int']>;
-  host: Scalars['String'];
-  port: Scalars['String'];
   connectionType?: Maybe<ConnectionType>;
-  username: Scalars['String'];
+  host: Scalars['String'];
+  id: Scalars['ID'];
+  isEnabled?: Maybe<Scalars['Int']>;
+  name: Scalars['String'];
   password: Scalars['String'];
+  port: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type ExternalAccountAddInput = {
@@ -1380,29 +1380,29 @@ export type ExternalAccountImportInput = {
 };
 
 export type ExternalAccountModifyAttrsInput = {
-  id?: Maybe<Scalars['ID']>;
   accountType?: Maybe<AccountType>;
+  connectionType?: Maybe<ConnectionType>;
   defaultSignature?: Maybe<Scalars['ID']>;
   description?: Maybe<Scalars['String']>;
+  forwardReplySignature?: Maybe<Scalars['ID']>;
   fromDisplay?: Maybe<Scalars['String']>;
+  host?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  importOnly?: Maybe<Scalars['Boolean']>;
+  isEnabled?: Maybe<Scalars['Boolean']>;
+  l: Scalars['ID'];
+  leaveOnServer?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+  port?: Maybe<Scalars['String']>;
   replyToAddress?: Maybe<Scalars['String']>;
   replyToDisplay?: Maybe<Scalars['String']>;
   replyToEnabled?: Maybe<Scalars['Boolean']>;
+  signatureValue?: Maybe<Scalars['String']>;
+  smtpPort?: Maybe<Scalars['String']>;
   storeAndForward?: Maybe<Scalars['String']>;
   useAddressForForwardReply?: Maybe<Scalars['Boolean']>;
   username?: Maybe<Scalars['String']>;
-  password?: Maybe<Scalars['String']>;
-  host?: Maybe<Scalars['String']>;
-  l: Scalars['ID'];
-  leaveOnServer?: Maybe<Scalars['Boolean']>;
-  signatureValue?: Maybe<Scalars['String']>;
-  importOnly?: Maybe<Scalars['Boolean']>;
-  forwardReplySignature?: Maybe<Scalars['ID']>;
-  connectionType?: Maybe<ConnectionType>;
-  isEnabled?: Maybe<Scalars['Boolean']>;
-  port?: Maybe<Scalars['String']>;
-  smtpPort?: Maybe<Scalars['String']>;
 };
 
 export type ExternalAccountTestInput = {
@@ -1411,78 +1411,81 @@ export type ExternalAccountTestInput = {
   emailAddress?: Maybe<Scalars['String']>;
   host: Scalars['String'];
   leaveOnServer?: Maybe<Scalars['Boolean']>;
+  password: Scalars['String'];
   port: Scalars['String'];
   username: Scalars['String'];
-  password: Scalars['String'];
 };
 
 export type ExternalAccountTestResponse = {
   __typename?: 'ExternalAccountTestResponse';
-  success: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
+  success: Scalars['Boolean'];
 };
 
 export type FileIntoAction = {
   __typename?: 'FileIntoAction';
-  folderPath?: Maybe<Scalars['String']>;
   copy?: Maybe<Scalars['Boolean']>;
+  folderPath?: Maybe<Scalars['String']>;
   index?: Maybe<Scalars['Int']>;
 };
 
 export type FileIntoActionInput = {
-  folderPath?: Maybe<Scalars['String']>;
   copy?: Maybe<Scalars['Boolean']>;
+  folderPath?: Maybe<Scalars['String']>;
   index?: Maybe<Scalars['Int']>;
 };
 
 export type Filter = {
   __typename?: 'Filter';
-  name: Scalars['String'];
-  active: Scalars['Boolean'];
   actions?: Maybe<Array<Maybe<FilterAction>>>;
+  active: Scalars['Boolean'];
   conditions?: Maybe<Array<Maybe<FilterCondition>>>;
+  name: Scalars['String'];
 };
 
 export type FilterAction = {
   __typename?: 'FilterAction';
-  keep?: Maybe<Array<Maybe<BasicAction>>>;
   discard?: Maybe<Array<Maybe<BasicAction>>>;
   fileInto?: Maybe<Array<Maybe<FileIntoAction>>>;
   flag?: Maybe<Array<Maybe<FlagAction>>>;
-  tag?: Maybe<Array<Maybe<TagAction>>>;
+  keep?: Maybe<Array<Maybe<BasicAction>>>;
+  notify?: Maybe<Array<Maybe<NotifyAction>>>;
   redirect?: Maybe<Array<Maybe<RedirectAction>>>;
   reply?: Maybe<Array<Maybe<ReplyAction>>>;
-  notify?: Maybe<Array<Maybe<NotifyAction>>>;
   stop?: Maybe<Array<Maybe<BasicAction>>>;
+  tag?: Maybe<Array<Maybe<TagAction>>>;
 };
 
 export type FilterActionInput = {
-  keep?: Maybe<Array<Maybe<BasicActionInput>>>;
   discard?: Maybe<Array<Maybe<BasicActionInput>>>;
   fileInto?: Maybe<Array<Maybe<FileIntoActionInput>>>;
   flag?: Maybe<Array<Maybe<FlagActionInput>>>;
-  tag?: Maybe<Array<Maybe<TagActionInput>>>;
+  keep?: Maybe<Array<Maybe<BasicActionInput>>>;
+  notify?: Maybe<Array<Maybe<NotifyActionInput>>>;
   redirect?: Maybe<Array<Maybe<RedirectActionInput>>>;
   reply?: Maybe<Array<Maybe<ReplyActionInput>>>;
-  notify?: Maybe<Array<Maybe<NotifyActionInput>>>;
   stop?: Maybe<Array<Maybe<BasicActionInput>>>;
+  tag?: Maybe<Array<Maybe<TagActionInput>>>;
 };
 
 export type FilterCondition = {
   __typename?: 'FilterCondition';
-  allOrAny: FilterMatchCondition;
-  addressBook?: Maybe<Array<Maybe<HeaderCheckCondition>>>;
   address?: Maybe<Array<Maybe<AddressCondition>>>;
+  addressBook?: Maybe<Array<Maybe<HeaderCheckCondition>>>;
+  allOrAny: FilterMatchCondition;
   attachment?: Maybe<Array<Maybe<BasicCondition>>>;
   body?: Maybe<Array<Maybe<BodyCondition>>>;
   bulk?: Maybe<Array<Maybe<BasicCondition>>>;
+  communityConnections?: Maybe<Array<Maybe<BasicCondition>>>;
+  communityContent?: Maybe<Array<Maybe<BasicCondition>>>;
+  communityRequests?: Maybe<Array<Maybe<BasicCondition>>>;
   contactRanking?: Maybe<Array<Maybe<HeaderCheckCondition>>>;
   conversation?: Maybe<Array<Maybe<ConversationCondition>>>;
   date?: Maybe<Array<Maybe<DateCondition>>>;
   facebook?: Maybe<Array<Maybe<BasicCondition>>>;
   flag?: Maybe<Array<Maybe<FlagCondition>>>;
-  headerExists?: Maybe<Array<Maybe<HeaderCheckCondition>>>;
   header?: Maybe<Array<Maybe<HeaderCondition>>>;
+  headerExists?: Maybe<Array<Maybe<HeaderCheckCondition>>>;
   importance?: Maybe<Array<Maybe<ImportanceCondition>>>;
   invite?: Maybe<Array<Maybe<InviteCondition>>>;
   linkedin?: Maybe<Array<Maybe<BasicCondition>>>;
@@ -1491,25 +1494,25 @@ export type FilterCondition = {
   mimeHeader?: Maybe<Array<Maybe<MimeHeaderCondition>>>;
   size?: Maybe<Array<Maybe<SizeCondition>>>;
   twitter?: Maybe<Array<Maybe<BasicCondition>>>;
-  communityRequests?: Maybe<Array<Maybe<BasicCondition>>>;
-  communityContent?: Maybe<Array<Maybe<BasicCondition>>>;
-  communityConnections?: Maybe<Array<Maybe<BasicCondition>>>;
 };
 
 export type FilterConditionInput = {
-  allOrAny: FilterMatchCondition;
-  addressBook?: Maybe<Array<Maybe<HeaderCheckConditionInput>>>;
   address?: Maybe<Array<Maybe<AddressConditionInput>>>;
+  addressBook?: Maybe<Array<Maybe<HeaderCheckConditionInput>>>;
+  allOrAny: FilterMatchCondition;
   attachment?: Maybe<Array<Maybe<BasicConditionInput>>>;
   body?: Maybe<Array<Maybe<BodyConditionInput>>>;
   bulk?: Maybe<Array<Maybe<BasicConditionInput>>>;
+  communityConnections?: Maybe<Array<Maybe<BasicConditionInput>>>;
+  communityContent?: Maybe<Array<Maybe<BasicConditionInput>>>;
+  communityRequests?: Maybe<Array<Maybe<BasicConditionInput>>>;
   contactRanking?: Maybe<Array<Maybe<HeaderCheckConditionInput>>>;
   conversation?: Maybe<Array<Maybe<ConversationConditionInput>>>;
   date?: Maybe<Array<Maybe<DateConditionInput>>>;
   facebook?: Maybe<Array<Maybe<BasicConditionInput>>>;
   flag?: Maybe<Array<Maybe<FlagConditionInput>>>;
-  headerExists?: Maybe<Array<Maybe<HeaderCheckConditionInput>>>;
   header?: Maybe<Array<Maybe<HeaderConditionInput>>>;
+  headerExists?: Maybe<Array<Maybe<HeaderCheckConditionInput>>>;
   importance?: Maybe<Array<Maybe<ImportanceConditionInput>>>;
   invite?: Maybe<Array<Maybe<InviteConditionInput>>>;
   linkedin?: Maybe<Array<Maybe<BasicConditionInput>>>;
@@ -1518,16 +1521,13 @@ export type FilterConditionInput = {
   mimeHeader?: Maybe<Array<Maybe<MimeHeaderConditionInput>>>;
   size?: Maybe<Array<Maybe<SizeConditionInput>>>;
   twitter?: Maybe<Array<Maybe<BasicConditionInput>>>;
-  communityRequests?: Maybe<Array<Maybe<BasicConditionInput>>>;
-  communityContent?: Maybe<Array<Maybe<BasicConditionInput>>>;
-  communityConnections?: Maybe<Array<Maybe<BasicConditionInput>>>;
 };
 
 export type FilterInput = {
-  name: Scalars['String'];
-  active: Scalars['Boolean'];
   actions?: Maybe<Array<Maybe<FilterActionInput>>>;
+  active: Scalars['Boolean'];
   conditions?: Maybe<Array<Maybe<FilterConditionInput>>>;
+  name: Scalars['String'];
 };
 
 export enum FilterMatchCondition {
@@ -1567,38 +1567,38 @@ export type Folder = {
   __typename?: 'Folder';
   absFolderPath?: Maybe<Scalars['String']>;
   acl?: Maybe<Acl>;
+  broken?: Maybe<Scalars['Boolean']>;
   color?: Maybe<Scalars['Int']>;
+  deletable?: Maybe<Scalars['Boolean']>;
+  droppable?: Maybe<Scalars['Boolean']>;
   flags?: Maybe<Scalars['String']>;
+  folders?: Maybe<Array<Maybe<Folder>>>;
   id?: Maybe<Scalars['ID']>;
-  uuid?: Maybe<Scalars['ID']>;
+  linkedFolders?: Maybe<Array<Maybe<Folder>>>;
+  local?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
-  oname?: Maybe<Scalars['String']>;
   nonFolderItemCount?: Maybe<Scalars['Float']>;
   nonFolderItemCountTotal?: Maybe<Scalars['Float']>;
-  linkedFolders?: Maybe<Array<Maybe<Folder>>>;
-  folders?: Maybe<Array<Maybe<Folder>>>;
-  search?: Maybe<Array<Maybe<Folder>>>;
+  oname?: Maybe<Scalars['String']>;
   owner?: Maybe<Scalars['String']>;
-  revision?: Maybe<Scalars['Float']>;
-  view?: Maybe<FolderView>;
-  parentFolderId?: Maybe<Scalars['ID']>;
-  unread?: Maybe<Scalars['Float']>;
-  query?: Maybe<Scalars['String']>;
-  permissions?: Maybe<Scalars['String']>;
   ownerZimbraId?: Maybe<Scalars['ID']>;
+  parentFolderId?: Maybe<Scalars['ID']>;
+  permissions?: Maybe<Scalars['String']>;
+  query?: Maybe<Scalars['String']>;
+  revision?: Maybe<Scalars['Float']>;
+  search?: Maybe<Array<Maybe<Folder>>>;
   sharedItemId?: Maybe<Scalars['ID']>;
-  url?: Maybe<Scalars['String']>;
-  local?: Maybe<Scalars['Boolean']>;
-  droppable?: Maybe<Scalars['Boolean']>;
-  userId?: Maybe<Scalars['ID']>;
-  broken?: Maybe<Scalars['Boolean']>;
-  deletable?: Maybe<Scalars['Boolean']>;
+  unread?: Maybe<Scalars['Float']>;
   unreadDescendent?: Maybe<Scalars['Boolean']>;
+  url?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['ID']>;
+  uuid?: Maybe<Scalars['ID']>;
+  view?: Maybe<FolderView>;
 };
 
 export type FolderActionChangeColorInput = {
-  id: Scalars['ID'];
   color: Scalars['Int'];
+  id: Scalars['ID'];
 };
 
 export type FolderActionCheckCalendarInput = {
@@ -1607,44 +1607,44 @@ export type FolderActionCheckCalendarInput = {
 };
 
 export type FolderActionInput = {
-  id: Scalars['ID'];
-  op: Scalars['String'];
-  grant?: Maybe<Array<Maybe<GrantInput>>>;
-  name?: Maybe<Scalars['String']>;
-  folderId?: Maybe<Scalars['ID']>;
-  zimbraId?: Maybe<Scalars['ID']>;
   color?: Maybe<Scalars['Int']>;
+  folderId?: Maybe<Scalars['ID']>;
+  grant?: Maybe<Array<Maybe<GrantInput>>>;
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  op: Scalars['String'];
+  zimbraId?: Maybe<Scalars['ID']>;
 };
 
 export type FolderQueryInput = {
-  uuid?: Maybe<Scalars['ID']>;
   id?: Maybe<Scalars['ID']>;
+  uuid?: Maybe<Scalars['ID']>;
   view?: Maybe<FolderView>;
 };
 
 export enum FolderView {
-  Search = 'search',
-  Folder = 'folder',
-  Tag = 'tag',
-  Conversation = 'conversation',
-  Message = 'message',
-  Contact = 'contact',
-  Document = 'document',
   Appointment = 'appointment',
-  Virtual = 'virtual',
-  Remote = 'remote',
-  Wiki = 'wiki',
-  Task = 'task',
   Chat = 'chat',
-  Note = 'note',
   Comment = 'comment',
-  Unknown = 'unknown'
+  Contact = 'contact',
+  Conversation = 'conversation',
+  Document = 'document',
+  Folder = 'folder',
+  Message = 'message',
+  Note = 'note',
+  Remote = 'remote',
+  Search = 'search',
+  Tag = 'tag',
+  Task = 'task',
+  Unknown = 'unknown',
+  Virtual = 'virtual',
+  Wiki = 'wiki'
 }
 
 export type ForwardAppointmentInput = {
+  exceptId?: Maybe<ForwardExceptIdInput>;
   id: Scalars['ID'];
   message: ForwardMessageInput;
-  exceptId?: Maybe<ForwardExceptIdInput>;
 };
 
 export type ForwardAppointmentInviteInput = {
@@ -1653,44 +1653,44 @@ export type ForwardAppointmentInviteInput = {
 };
 
 export type ForwardExceptIdInput = {
-  timezone: Scalars['String'];
   date: Scalars['String'];
+  timezone: Scalars['String'];
 };
 
 export type ForwardMessageInput = {
-  subject?: Maybe<Scalars['String']>;
-  mimeParts?: Maybe<Array<Maybe<MimePartInput>>>;
   emailAddresses?: Maybe<Array<Maybe<MailItemEmailAddressInput>>>;
+  mimeParts?: Maybe<Array<Maybe<MimePartInput>>>;
+  subject?: Maybe<Scalars['String']>;
 };
 
 export type FreeBusy = {
   __typename?: 'FreeBusy';
-  id: Scalars['String'];
-  tentative?: Maybe<Array<Maybe<FreeBusyInstance>>>;
   busy?: Maybe<Array<Maybe<FreeBusyInstance>>>;
-  unavailable?: Maybe<Array<Maybe<FreeBusyInstance>>>;
-  nodata?: Maybe<Array<Maybe<FreeBusyInstance>>>;
   free?: Maybe<Array<Maybe<FreeBusyInstance>>>;
+  id: Scalars['String'];
+  nodata?: Maybe<Array<Maybe<FreeBusyInstance>>>;
+  tentative?: Maybe<Array<Maybe<FreeBusyInstance>>>;
+  unavailable?: Maybe<Array<Maybe<FreeBusyInstance>>>;
 };
 
 export type FreeBusyInstance = {
   __typename?: 'FreeBusyInstance';
-  start?: Maybe<Scalars['Float']>;
   end?: Maybe<Scalars['Float']>;
+  start?: Maybe<Scalars['Float']>;
 };
 
 export enum FreeBusyStatus {
-  F = 'F',
   B = 'B',
-  T = 'T',
-  O = 'O'
+  F = 'F',
+  O = 'O',
+  T = 'T'
 }
 
 export enum GalSearchType {
-  All = 'all',
   Account = 'account',
-  Resource = 'resource',
-  Group = 'group'
+  All = 'all',
+  Group = 'group',
+  Resource = 'resource'
 }
 
 export type GetAppointmentResponse = {
@@ -1711,9 +1711,9 @@ export type GetDocumentShareUrlResponse = {
 };
 
 export type GetFolderFolderInput = {
-  uuid?: Maybe<Scalars['ID']>;
   parentFolderId?: Maybe<Scalars['ID']>;
   path?: Maybe<Scalars['String']>;
+  uuid?: Maybe<Scalars['ID']>;
 };
 
 export type GetRightsInput = {
@@ -1741,30 +1741,30 @@ export type GrantRightsInput = {
 
 export type Grantee = {
   id?: Maybe<Scalars['ID']>;
-  type?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 export enum GranteeType {
-  Usr = 'usr',
-  Grp = 'grp',
-  Egp = 'egp',
-  Dom = 'dom',
   All = 'all',
-  Pub = 'pub',
+  Cos = 'cos',
+  Dom = 'dom',
+  Egp = 'egp',
+  Grp = 'grp',
   Guest = 'guest',
   Key = 'key',
-  Cos = 'cos'
+  Pub = 'pub',
+  Usr = 'usr'
 }
 
 export type HabGroup = {
   __typename?: 'HabGroup';
-  name?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  parentHabGroupId?: Maybe<Scalars['ID']>;
-  seniorityIndex?: Maybe<Scalars['Int']>;
   attributes?: Maybe<HabGroupAttrs>;
   habGroups?: Maybe<Array<Maybe<HabGroup>>>;
+  id?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  parentHabGroupId?: Maybe<Scalars['ID']>;
+  seniorityIndex?: Maybe<Scalars['Int']>;
 };
 
 export type HabGroupAttrs = {
@@ -1801,25 +1801,25 @@ export type HeaderCheckConditionInput = {
 
 export type HeaderCondition = {
   __typename?: 'HeaderCondition';
-  header?: Maybe<Scalars['String']>;
-  stringComparison?: Maybe<Scalars['String']>;
-  valueComparison?: Maybe<Scalars['String']>;
-  countComparison?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
   caseSensitive?: Maybe<Scalars['Boolean']>;
+  countComparison?: Maybe<Scalars['String']>;
+  header?: Maybe<Scalars['String']>;
   index?: Maybe<Scalars['Int']>;
   negative?: Maybe<Scalars['Boolean']>;
+  stringComparison?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+  valueComparison?: Maybe<Scalars['String']>;
 };
 
 export type HeaderConditionInput = {
-  header?: Maybe<Scalars['String']>;
-  stringComparison?: Maybe<Scalars['String']>;
-  valueComparison?: Maybe<Scalars['String']>;
-  countComparison?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
   caseSensitive?: Maybe<Scalars['Boolean']>;
+  countComparison?: Maybe<Scalars['String']>;
+  header?: Maybe<Scalars['String']>;
   index?: Maybe<Scalars['Int']>;
   negative?: Maybe<Scalars['Boolean']>;
+  stringComparison?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+  valueComparison?: Maybe<Scalars['String']>;
 };
 
 export type Hit = {
@@ -1835,21 +1835,21 @@ export type Identities = {
 
 export type Identity = {
   __typename?: 'Identity';
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
   _attrs?: Maybe<IdentityAttrs>;
   defaultSignature?: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
 };
 
 export type IdentityAttrs = {
   __typename?: 'IdentityAttrs';
-  zimbraPrefIdentityId: Scalars['ID'];
   zimbraPrefDefaultSignatureId?: Maybe<Scalars['ID']>;
-  zimbraPrefForwardReplySignatureId?: Maybe<Scalars['ID']>;
   zimbraPrefForwardReplyFormat?: Maybe<Scalars['String']>;
+  zimbraPrefForwardReplySignatureId?: Maybe<Scalars['ID']>;
   zimbraPrefFromAddress?: Maybe<Scalars['String']>;
   zimbraPrefFromAddressType?: Maybe<Scalars['String']>;
   zimbraPrefFromDisplay?: Maybe<Scalars['String']>;
+  zimbraPrefIdentityId: Scalars['ID'];
   zimbraPrefIdentityName?: Maybe<Scalars['String']>;
   zimbraPrefMailSignatureStyle?: Maybe<Scalars['String']>;
   zimbraPrefReplyToAddress?: Maybe<Scalars['String']>;
@@ -1863,13 +1863,13 @@ export type IdentityAttrs = {
 };
 
 export type IdentityAttrsInput = {
-  zimbraPrefIdentityId?: Maybe<Scalars['ID']>;
   zimbraPrefDefaultSignatureId?: Maybe<Scalars['ID']>;
-  zimbraPrefForwardReplySignatureId?: Maybe<Scalars['ID']>;
   zimbraPrefForwardReplyFormat?: Maybe<Scalars['String']>;
+  zimbraPrefForwardReplySignatureId?: Maybe<Scalars['ID']>;
   zimbraPrefFromAddress?: Maybe<Scalars['String']>;
   zimbraPrefFromAddressType?: Maybe<Scalars['String']>;
   zimbraPrefFromDisplay?: Maybe<Scalars['String']>;
+  zimbraPrefIdentityId?: Maybe<Scalars['ID']>;
   zimbraPrefIdentityName?: Maybe<Scalars['String']>;
   zimbraPrefMailSignatureStyle?: Maybe<Scalars['String']>;
   zimbraPrefReplyToAddress?: Maybe<Scalars['String']>;
@@ -1884,10 +1884,10 @@ export type IdentityAttrsInput = {
 
 export type ImportStatus = {
   __typename?: 'ImportStatus';
+  error?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   isRunning?: Maybe<Scalars['Boolean']>;
   success?: Maybe<Scalars['Boolean']>;
-  error?: Maybe<Scalars['String']>;
 };
 
 export type ImportStatusResponse = {
@@ -1898,8 +1898,8 @@ export type ImportStatusResponse = {
 
 export enum Importance {
   High = 'high',
-  Normal = 'normal',
-  Low = 'low'
+  Low = 'low',
+  Normal = 'normal'
 }
 
 export type ImportanceCondition = {
@@ -1917,23 +1917,22 @@ export type ImportanceConditionInput = {
 
 export type Instance = {
   __typename?: 'Instance';
-  start?: Maybe<Scalars['Float']>;
-  dueDate?: Maybe<Scalars['Float']>;
-  tzoDue?: Maybe<Scalars['Int']>;
-  utcRecurrenceId?: Maybe<Scalars['String']>;
-  isException?: Maybe<Scalars['Boolean']>;
   alarm?: Maybe<Scalars['Boolean']>;
   allDay?: Maybe<Scalars['Boolean']>;
   changeDate?: Maybe<Scalars['Float']>;
   class?: Maybe<CalendarItemClass>;
   componentNum?: Maybe<Scalars['Int']>;
   date?: Maybe<Scalars['Float']>;
+  dueDate?: Maybe<Scalars['Float']>;
   duration?: Maybe<Scalars['Float']>;
+  exceptId?: Maybe<Array<Maybe<DtTimeInfo>>>;
   excerpt?: Maybe<Scalars['String']>;
   flags?: Maybe<Scalars['String']>;
   freeBusy?: Maybe<FreeBusyStatus>;
   freeBusyActual?: Maybe<FreeBusyStatus>;
   inviteId?: Maybe<Scalars['ID']>;
+  isException?: Maybe<Scalars['Boolean']>;
+  isOrganizer?: Maybe<Scalars['Boolean']>;
   location?: Maybe<Scalars['String']>;
   modifiedSequence?: Maybe<Scalars['Float']>;
   name?: Maybe<Scalars['String']>;
@@ -1941,9 +1940,10 @@ export type Instance = {
   otherAttendees?: Maybe<Scalars['Boolean']>;
   participationStatus?: Maybe<ParticipationStatus>;
   revision?: Maybe<Scalars['Float']>;
+  start?: Maybe<Scalars['Float']>;
   status?: Maybe<InviteCompletionStatus>;
-  isOrganizer?: Maybe<Scalars['Boolean']>;
-  exceptId?: Maybe<Array<Maybe<DtTimeInfo>>>;
+  tzoDue?: Maybe<Scalars['Int']>;
+  utcRecurrenceId?: Maybe<Scalars['String']>;
 };
 
 export type InstanceDate = {
@@ -1957,32 +1957,32 @@ export type IntervalRule = {
 
 export type Invitation = {
   __typename?: 'Invitation';
-  type: Scalars['String'];
-  sequenceNumber: Scalars['Float'];
-  id: Scalars['Int'];
   componentNum: Scalars['Int'];
-  recurrenceId?: Maybe<Scalars['String']>;
-  tz?: Maybe<CalTzInfo>;
   components: Array<Maybe<InviteComponent>>;
-  replies?: Maybe<Array<Maybe<InviteReplies>>>;
+  id: Scalars['Int'];
   mimeParts?: Maybe<MimePart>;
+  recurrenceId?: Maybe<Scalars['String']>;
+  replies?: Maybe<Array<Maybe<InviteReplies>>>;
+  sequenceNumber: Scalars['Float'];
+  type: Scalars['String'];
+  tz?: Maybe<CalTzInfo>;
 };
 
 export enum InviteCompletionStatus {
-  Need = 'NEED',
-  Tent = 'TENT',
-  Conf = 'CONF',
   Canc = 'CANC',
   Comp = 'COMP',
+  Conf = 'CONF',
+  Deferred = 'DEFERRED',
   Inpr = 'INPR',
-  Waiting = 'WAITING',
-  Deferred = 'DEFERRED'
+  Need = 'NEED',
+  Tent = 'TENT',
+  Waiting = 'WAITING'
 }
 
 export type InviteComponent = {
   __typename?: 'InviteComponent';
+  aid?: Maybe<Scalars['String']>;
   alarms?: Maybe<Array<Maybe<CalendarItemAlarm>>>;
-  recurrence?: Maybe<Array<Maybe<RecurrenceInfo>>>;
   allDay?: Maybe<Scalars['Boolean']>;
   attendees?: Maybe<Array<Maybe<CalendarItemAttendee>>>;
   calendarItemId?: Maybe<Scalars['ID']>;
@@ -1993,8 +1993,8 @@ export type InviteComponent = {
   date?: Maybe<Scalars['Float']>;
   description?: Maybe<Array<Maybe<StringContent>>>;
   draft?: Maybe<Scalars['Boolean']>;
-  neverSent?: Maybe<Scalars['Boolean']>;
   end?: Maybe<Array<Maybe<DtTimeInfo>>>;
+  exceptId?: Maybe<Array<Maybe<DtTimeInfo>>>;
   excerpt?: Maybe<Scalars['String']>;
   freeBusy?: Maybe<FreeBusyStatus>;
   freeBusyActual?: Maybe<FreeBusyStatus>;
@@ -2002,41 +2002,41 @@ export type InviteComponent = {
   isException?: Maybe<Scalars['Boolean']>;
   isOrganizer?: Maybe<Scalars['Boolean']>;
   location?: Maybe<Scalars['String']>;
+  method?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  neverSent?: Maybe<Scalars['Boolean']>;
   noBlob?: Maybe<Scalars['Boolean']>;
   organizer?: Maybe<CalOrganizer>;
   percentComplete?: Maybe<Scalars['String']>;
   priority?: Maybe<Scalars['String']>;
-  utcRecurrenceId?: Maybe<Scalars['String']>;
+  recurrence?: Maybe<Array<Maybe<RecurrenceInfo>>>;
   rsvp?: Maybe<Scalars['Boolean']>;
   sequence?: Maybe<Scalars['Float']>;
   start?: Maybe<Array<Maybe<DtTimeInfo>>>;
   status?: Maybe<InviteCompletionStatus>;
   uid?: Maybe<Scalars['String']>;
+  utcRecurrenceId?: Maybe<Scalars['String']>;
   x_uid?: Maybe<Scalars['String']>;
-  aid?: Maybe<Scalars['String']>;
-  method?: Maybe<Scalars['String']>;
-  exceptId?: Maybe<Array<Maybe<DtTimeInfo>>>;
 };
 
 export type InviteCondition = {
   __typename?: 'InviteCondition';
-  methods?: Maybe<Array<Maybe<Scalars['String']>>>;
   index?: Maybe<Scalars['Int']>;
+  methods?: Maybe<Array<Maybe<Scalars['String']>>>;
   negative?: Maybe<Scalars['Boolean']>;
 };
 
 export type InviteConditionInput = {
-  methods?: Maybe<Array<Maybe<Scalars['String']>>>;
   index?: Maybe<Scalars['Int']>;
+  methods?: Maybe<Array<Maybe<Scalars['String']>>>;
   negative?: Maybe<Scalars['Boolean']>;
 };
 
 export type InviteInfo = {
   __typename?: 'InviteInfo';
-  type?: Maybe<InviteType>;
   components?: Maybe<Array<Maybe<InviteComponent>>>;
   replies?: Maybe<Array<Maybe<InviteReplies>>>;
+  type?: Maybe<InviteType>;
 };
 
 export type InviteReplies = {
@@ -2046,17 +2046,17 @@ export type InviteReplies = {
 
 export type InviteReplyInput = {
   componentNum: Scalars['Int'];
-  id: Scalars['ID'];
-  verb: InviteReplyVerb;
-  updateOrganizer?: Maybe<Scalars['Boolean']>;
-  message?: Maybe<CalendarItemMessageInput>;
   exceptId?: Maybe<InstanceDate>;
+  id: Scalars['ID'];
+  message?: Maybe<CalendarItemMessageInput>;
+  updateOrganizer?: Maybe<Scalars['Boolean']>;
+  verb: InviteReplyVerb;
 };
 
 export type InviteReplyResponse = {
   __typename?: 'InviteReplyResponse';
-  inviteId?: Maybe<Scalars['ID']>;
   calendarItemId?: Maybe<Scalars['ID']>;
+  inviteId?: Maybe<Scalars['ID']>;
 };
 
 export enum InviteReplyType {
@@ -2077,53 +2077,53 @@ export enum InviteType {
 
 export type License = {
   __typename?: 'License';
-  status: LicenseStatus;
   attr?: Maybe<Array<Maybe<LicenseAttrs>>>;
+  status: LicenseStatus;
 };
 
 export type LicenseAttrs = {
   __typename?: 'LicenseAttrs';
-  name: Scalars['String'];
   _content: Scalars['Boolean'];
+  name: Scalars['String'];
 };
 
 export enum LicenseStatus {
-  Ok = 'OK',
-  NotInstalled = 'NOT_INSTALLED',
-  NotActivated = 'NOT_ACTIVATED',
-  InFuture = 'IN_FUTURE',
+  ActivationGracePeriod = 'ACTIVATION_GRACE_PERIOD',
   Expired = 'EXPIRED',
   Invalid = 'INVALID',
+  InFuture = 'IN_FUTURE',
   LicenseGracePeriod = 'LICENSE_GRACE_PERIOD',
-  ActivationGracePeriod = 'ACTIVATION_GRACE_PERIOD'
+  NotActivated = 'NOT_ACTIVATED',
+  NotInstalled = 'NOT_INSTALLED',
+  Ok = 'OK'
 }
 
 export type Locale = {
   __typename?: 'Locale';
   id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
   localName?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type MailItem = {
-  id?: Maybe<Scalars['ID']>;
-  size?: Maybe<Scalars['Float']>;
+  changeDate?: Maybe<Scalars['Float']>;
+  conversationId?: Maybe<Scalars['ID']>;
   date?: Maybe<Scalars['Float']>;
-  folderId?: Maybe<Scalars['ID']>;
-  subject?: Maybe<Scalars['String']>;
   emailAddresses?: Maybe<Array<Maybe<EmailAddress>>>;
   excerpt?: Maybe<Scalars['String']>;
-  conversationId?: Maybe<Scalars['ID']>;
   flags?: Maybe<Scalars['String']>;
-  tags?: Maybe<Scalars['String']>;
-  tagNames?: Maybe<Scalars['String']>;
-  revision?: Maybe<Scalars['Float']>;
-  changeDate?: Maybe<Scalars['Float']>;
-  modifiedSequence?: Maybe<Scalars['Float']>;
+  folderId?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']>;
   invitations?: Maybe<Array<Maybe<InviteInfo>>>;
-  sortField?: Maybe<Scalars['String']>;
-  share?: Maybe<Array<Maybe<ShareNotification>>>;
+  modifiedSequence?: Maybe<Scalars['Float']>;
   replyType?: Maybe<Scalars['String']>;
+  revision?: Maybe<Scalars['Float']>;
+  share?: Maybe<Array<Maybe<ShareNotification>>>;
+  size?: Maybe<Scalars['Float']>;
+  sortField?: Maybe<Scalars['String']>;
+  subject?: Maybe<Scalars['String']>;
+  tagNames?: Maybe<Scalars['String']>;
+  tags?: Maybe<Scalars['String']>;
 };
 
 export type MailItemEmailAddressInput = {
@@ -2143,57 +2143,57 @@ export type MailboxMetadata = {
 
 export type MailboxMetadataAttrs = {
   __typename?: 'MailboxMetadataAttrs';
+  archivedFolder?: Maybe<Scalars['String']>;
+  privacyOverlayPrefs_showOverlay?: Maybe<Scalars['Boolean']>;
+  privacyOverlayPrefs_timeOut?: Maybe<Scalars['Int']>;
+  zimbraPrefContactSourceFolderID?: Maybe<Scalars['String']>;
   zimbraPrefCustomFolderTreeOpen?: Maybe<Scalars['Boolean']>;
   zimbraPrefDateFormat?: Maybe<Scalars['String']>;
-  zimbraPrefSharedFolderTreeOpen?: Maybe<Scalars['Boolean']>;
-  zimbraPrefFoldersExpanded?: Maybe<Scalars['String']>;
   zimbraPrefFolderTreeSash?: Maybe<Scalars['Int']>;
+  zimbraPrefFoldersExpanded?: Maybe<Scalars['String']>;
   zimbraPrefGenerateLinkPreviews?: Maybe<Scalars['Boolean']>;
   zimbraPrefGroupByList?: Maybe<Scalars['String']>;
   zimbraPrefMessageListDensity?: Maybe<Scalars['String']>;
   zimbraPrefMultitasking?: Maybe<Scalars['String']>;
   zimbraPrefReadingPaneSashHorizontal?: Maybe<Scalars['Int']>;
   zimbraPrefReadingPaneSashVertical?: Maybe<Scalars['Int']>;
+  zimbraPrefSMIMEDefaultSetting?: Maybe<Scalars['String']>;
+  zimbraPrefSMIMELastOperation?: Maybe<Scalars['String']>;
+  zimbraPrefSharedFolderTreeOpen?: Maybe<Scalars['Boolean']>;
   zimbraPrefSmartFolderTreeOpen?: Maybe<Scalars['Boolean']>;
   zimbraPrefTimeFormat?: Maybe<Scalars['String']>;
   zimbraPrefUndoSendEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefUndoSendTimeout?: Maybe<Scalars['Int']>;
-  archivedFolder?: Maybe<Scalars['String']>;
-  privacyOverlayPrefs_showOverlay?: Maybe<Scalars['Boolean']>;
-  privacyOverlayPrefs_timeOut?: Maybe<Scalars['Int']>;
-  zimbraPrefSMIMEDefaultSetting?: Maybe<Scalars['String']>;
-  zimbraPrefSMIMELastOperation?: Maybe<Scalars['String']>;
-  zimbraPrefContactSourceFolderID?: Maybe<Scalars['String']>;
 };
 
 export type MailboxMetadataMeta = {
   __typename?: 'MailboxMetadataMeta';
-  section: Scalars['String'];
   _attrs: MailboxMetadataAttrs;
+  section: Scalars['String'];
 };
 
 export type MailboxMetadataSectionAttrsInput = {
+  archivedFolder?: Maybe<Scalars['String']>;
+  privacyOverlayPrefs_showOverlay?: Maybe<Scalars['Boolean']>;
+  privacyOverlayPrefs_timeOut?: Maybe<Scalars['Int']>;
+  zimbraPrefContactSourceFolderID?: Maybe<Scalars['String']>;
   zimbraPrefCustomFolderTreeOpen?: Maybe<Scalars['Boolean']>;
   zimbraPrefDateFormat?: Maybe<Scalars['String']>;
-  zimbraPrefSharedFolderTreeOpen?: Maybe<Scalars['Boolean']>;
-  zimbraPrefFoldersExpanded?: Maybe<Scalars['String']>;
   zimbraPrefFolderTreeSash?: Maybe<Scalars['Int']>;
+  zimbraPrefFoldersExpanded?: Maybe<Scalars['String']>;
   zimbraPrefGenerateLinkPreviews?: Maybe<Scalars['Boolean']>;
   zimbraPrefGroupByList?: Maybe<Scalars['String']>;
   zimbraPrefMessageListDensity?: Maybe<Scalars['String']>;
   zimbraPrefMultitasking?: Maybe<Scalars['String']>;
   zimbraPrefReadingPaneSashHorizontal?: Maybe<Scalars['Int']>;
   zimbraPrefReadingPaneSashVertical?: Maybe<Scalars['Int']>;
+  zimbraPrefSMIMEDefaultSetting?: Maybe<Scalars['String']>;
+  zimbraPrefSMIMELastOperation?: Maybe<Scalars['String']>;
+  zimbraPrefSharedFolderTreeOpen?: Maybe<Scalars['Boolean']>;
   zimbraPrefSmartFolderTreeOpen?: Maybe<Scalars['Boolean']>;
   zimbraPrefTimeFormat?: Maybe<Scalars['String']>;
   zimbraPrefUndoSendEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefUndoSendTimeout?: Maybe<Scalars['Int']>;
-  archivedFolder?: Maybe<Scalars['String']>;
-  privacyOverlayPrefs_showOverlay?: Maybe<Scalars['Boolean']>;
-  privacyOverlayPrefs_timeOut?: Maybe<Scalars['Int']>;
-  zimbraPrefSMIMEDefaultSetting?: Maybe<Scalars['String']>;
-  zimbraPrefSMIMELastOperation?: Maybe<Scalars['String']>;
-  zimbraPrefContactSourceFolderID?: Maybe<Scalars['String']>;
 };
 
 export type MaxAppPasswords = {
@@ -2209,95 +2209,95 @@ export type MessageAttributes = {
 
 export type MessageInfo = MailItem & {
   __typename?: 'MessageInfo';
-  id?: Maybe<Scalars['ID']>;
-  size?: Maybe<Scalars['Float']>;
-  date?: Maybe<Scalars['Float']>;
-  folderId?: Maybe<Scalars['ID']>;
-  origId?: Maybe<Scalars['ID']>;
-  subject?: Maybe<Scalars['String']>;
-  emailAddresses?: Maybe<Array<Maybe<EmailAddress>>>;
-  excerpt?: Maybe<Scalars['String']>;
-  conversationId?: Maybe<Scalars['ID']>;
-  flags?: Maybe<Scalars['String']>;
-  tags?: Maybe<Scalars['String']>;
-  tagNames?: Maybe<Scalars['String']>;
-  revision?: Maybe<Scalars['Float']>;
-  changeDate?: Maybe<Scalars['Float']>;
-  modifiedSequence?: Maybe<Scalars['Float']>;
-  invitations?: Maybe<Array<Maybe<InviteInfo>>>;
-  sortField?: Maybe<Scalars['String']>;
-  mimeParts?: Maybe<Array<Maybe<MimePart>>>;
-  to?: Maybe<Array<Maybe<EmailAddress>>>;
-  from?: Maybe<Array<Maybe<EmailAddress>>>;
-  cc?: Maybe<Array<Maybe<EmailAddress>>>;
-  bcc?: Maybe<Array<Maybe<EmailAddress>>>;
-  sender?: Maybe<Array<Maybe<EmailAddress>>>;
-  html?: Maybe<Scalars['String']>;
-  text?: Maybe<Scalars['String']>;
   attachments?: Maybe<Array<Maybe<MimePart>>>;
-  inlineAttachments?: Maybe<Array<Maybe<MimePart>>>;
-  share?: Maybe<Array<Maybe<ShareNotification>>>;
-  replyType?: Maybe<Scalars['String']>;
   attributes?: Maybe<MessageAttributes>;
   autoSendTime?: Maybe<Scalars['Float']>;
+  bcc?: Maybe<Array<Maybe<EmailAddress>>>;
+  cc?: Maybe<Array<Maybe<EmailAddress>>>;
+  changeDate?: Maybe<Scalars['Float']>;
+  conversationId?: Maybe<Scalars['ID']>;
+  date?: Maybe<Scalars['Float']>;
+  emailAddresses?: Maybe<Array<Maybe<EmailAddress>>>;
+  excerpt?: Maybe<Scalars['String']>;
+  flags?: Maybe<Scalars['String']>;
+  folderId?: Maybe<Scalars['ID']>;
+  from?: Maybe<Array<Maybe<EmailAddress>>>;
+  html?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  inlineAttachments?: Maybe<Array<Maybe<MimePart>>>;
+  invitations?: Maybe<Array<Maybe<InviteInfo>>>;
   local?: Maybe<Scalars['Boolean']>;
+  mimeParts?: Maybe<Array<Maybe<MimePart>>>;
+  modifiedSequence?: Maybe<Scalars['Float']>;
+  origId?: Maybe<Scalars['ID']>;
+  replyType?: Maybe<Scalars['String']>;
+  revision?: Maybe<Scalars['Float']>;
+  sender?: Maybe<Array<Maybe<EmailAddress>>>;
+  share?: Maybe<Array<Maybe<ShareNotification>>>;
+  size?: Maybe<Scalars['Float']>;
+  sortField?: Maybe<Scalars['String']>;
+  subject?: Maybe<Scalars['String']>;
+  tagNames?: Maybe<Scalars['String']>;
+  tags?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
+  to?: Maybe<Array<Maybe<EmailAddress>>>;
 };
 
 export type MimeHeaderCondition = {
   __typename?: 'MimeHeaderCondition';
-  header?: Maybe<Scalars['String']>;
-  stringComparison?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
   caseSensitive?: Maybe<Scalars['Boolean']>;
+  header?: Maybe<Scalars['String']>;
   index?: Maybe<Scalars['Int']>;
   negative?: Maybe<Scalars['Boolean']>;
+  stringComparison?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
 };
 
 export type MimeHeaderConditionInput = {
-  header?: Maybe<Scalars['String']>;
-  stringComparison?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
   caseSensitive?: Maybe<Scalars['Boolean']>;
+  header?: Maybe<Scalars['String']>;
   index?: Maybe<Scalars['Int']>;
   negative?: Maybe<Scalars['Boolean']>;
+  stringComparison?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
 };
 
 export type MimePart = {
   __typename?: 'MimePart';
+  base64?: Maybe<Scalars['String']>;
   body?: Maybe<Scalars['Boolean']>;
-  filename?: Maybe<Scalars['String']>;
-  part?: Maybe<Scalars['ID']>;
   content?: Maybe<Scalars['String']>;
+  contentDisposition?: Maybe<Scalars['String']>;
   contentId?: Maybe<Scalars['String']>;
   contentLocation?: Maybe<Scalars['String']>;
   contentType?: Maybe<Scalars['String']>;
-  contentDisposition?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Float']>;
-  mimeParts?: Maybe<Array<Maybe<MimePart>>>;
-  url?: Maybe<Scalars['String']>;
+  filename?: Maybe<Scalars['String']>;
   messageId?: Maybe<Scalars['ID']>;
-  base64?: Maybe<Scalars['String']>;
+  mimeParts?: Maybe<Array<Maybe<MimePart>>>;
+  part?: Maybe<Scalars['ID']>;
+  size?: Maybe<Scalars['Float']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export type MimePartInput = {
-  body?: Maybe<Scalars['Boolean']>;
-  filename?: Maybe<Scalars['String']>;
-  part?: Maybe<Scalars['ID']>;
-  content?: Maybe<Scalars['String']>;
-  contentId?: Maybe<Scalars['String']>;
-  contentType?: Maybe<Scalars['String']>;
-  contentDisposition?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['Float']>;
-  mimeParts?: Maybe<Array<Maybe<MimePartInput>>>;
-  url?: Maybe<Scalars['String']>;
-  messageId?: Maybe<Scalars['ID']>;
   attachments?: Maybe<Array<Maybe<AttachmentInput>>>;
   base64?: Maybe<Scalars['String']>;
+  body?: Maybe<Scalars['Boolean']>;
+  content?: Maybe<Scalars['String']>;
+  contentDisposition?: Maybe<Scalars['String']>;
+  contentId?: Maybe<Scalars['String']>;
+  contentType?: Maybe<Scalars['String']>;
+  filename?: Maybe<Scalars['String']>;
+  messageId?: Maybe<Scalars['ID']>;
+  mimeParts?: Maybe<Array<Maybe<MimePartInput>>>;
+  part?: Maybe<Scalars['ID']>;
+  size?: Maybe<Scalars['Float']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export enum Mode {
-  Text = 'text',
-  Html = 'html'
+  Html = 'html',
+  Text = 'text'
 }
 
 export type ModifyAppointmentResponse = {
@@ -2310,16 +2310,16 @@ export type ModifyAppointmentResponse = {
 };
 
 export type ModifyContactInput = {
-  id: Scalars['ID'];
-  folderId?: Maybe<Scalars['ID']>;
-  tagNames?: Maybe<Scalars['String']>;
   attributes: ContactAttrsInput;
+  folderId?: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
   memberOps?: Maybe<Array<Maybe<ContactListOps>>>;
+  tagNames?: Maybe<Scalars['String']>;
 };
 
 export type ModifyIdentityInput = {
-  id: Scalars['ID'];
   attrs?: Maybe<IdentityAttrsInput>;
+  id: Scalars['ID'];
 };
 
 export type ModifyZimletPrefsResponse = {
@@ -2329,154 +2329,148 @@ export type ModifyZimletPrefsResponse = {
 
 export type MsgWithGroupInfo = MailItem & {
   __typename?: 'MsgWithGroupInfo';
-  id?: Maybe<Scalars['ID']>;
-  i4uid?: Maybe<Scalars['Int']>;
-  cif?: Maybe<Scalars['String']>;
-  origid?: Maybe<Scalars['String']>;
-  entityId?: Maybe<Scalars['ID']>;
-  forAcct?: Maybe<Scalars['String']>;
   autoSendTime?: Maybe<Scalars['Float']>;
-  size?: Maybe<Scalars['Float']>;
-  date?: Maybe<Scalars['Float']>;
-  folderId?: Maybe<Scalars['ID']>;
-  subject?: Maybe<Scalars['String']>;
-  emailAddresses?: Maybe<Array<Maybe<EmailAddress>>>;
-  excerpt?: Maybe<Scalars['String']>;
-  conversationId?: Maybe<Scalars['ID']>;
-  flags?: Maybe<Scalars['String']>;
-  tags?: Maybe<Scalars['String']>;
-  tagNames?: Maybe<Scalars['String']>;
-  revision?: Maybe<Scalars['Float']>;
   changeDate?: Maybe<Scalars['Float']>;
-  modifiedSequence?: Maybe<Scalars['Float']>;
+  cif?: Maybe<Scalars['String']>;
+  conversationId?: Maybe<Scalars['ID']>;
+  date?: Maybe<Scalars['Float']>;
+  emailAddresses?: Maybe<Array<Maybe<EmailAddress>>>;
+  entityId?: Maybe<Scalars['ID']>;
+  excerpt?: Maybe<Scalars['String']>;
+  flags?: Maybe<Scalars['String']>;
+  folderId?: Maybe<Scalars['ID']>;
+  forAcct?: Maybe<Scalars['String']>;
+  i4uid?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['ID']>;
   invitations?: Maybe<Array<Maybe<InviteInfo>>>;
-  sortField?: Maybe<Scalars['String']>;
-  share?: Maybe<Array<Maybe<ShareNotification>>>;
+  modifiedSequence?: Maybe<Scalars['Float']>;
+  origid?: Maybe<Scalars['String']>;
   replyType?: Maybe<Scalars['String']>;
+  revision?: Maybe<Scalars['Float']>;
+  share?: Maybe<Array<Maybe<ShareNotification>>>;
+  size?: Maybe<Scalars['Float']>;
+  sortField?: Maybe<Scalars['String']>;
+  subject?: Maybe<Scalars['String']>;
+  tagNames?: Maybe<Scalars['String']>;
+  tags?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  accountOnlyRemoteWipeSync?: Maybe<Device>;
   action?: Maybe<Scalars['Boolean']>;
-  applyFilterRules?: Maybe<Array<Maybe<Scalars['String']>>>;
-  testExternalAccount?: Maybe<ExternalAccountTestResponse>;
   addExternalAccount?: Maybe<Scalars['ID']>;
   addMessage?: Maybe<MessageInfo>;
+  allowDeviceSync?: Maybe<Device>;
+  applyFilterRules?: Maybe<Array<Maybe<Scalars['String']>>>;
+  blockDeviceSync?: Maybe<Device>;
+  cancelPendingAccountOnlyRemoteWipeSync?: Maybe<Device>;
+  cancelPendingRemoteWipeSync?: Maybe<Device>;
   cancelTask?: Maybe<Scalars['Boolean']>;
-  saveDocument?: Maybe<SaveDocumentResponse>;
   changeFolderColor?: Maybe<Scalars['Boolean']>;
   changePassword?: Maybe<AuthResponse>;
-  modifyProfileImage?: Maybe<ProfileImageChangeResponse>;
   checkCalendar?: Maybe<Scalars['Boolean']>;
   contactAction?: Maybe<ActionOpResponse>;
   conversationAction?: Maybe<Scalars['Boolean']>;
   counterAppointment?: Maybe<Scalars['Boolean']>;
+  createAppSpecificPassword?: Maybe<CreateAppSpecificPasswordResponse>;
   createAppointment?: Maybe<Scalars['Boolean']>;
   createAppointmentException?: Maybe<Scalars['Boolean']>;
-  createAppSpecificPassword?: Maybe<CreateAppSpecificPasswordResponse>;
   createCalendar?: Maybe<Folder>;
   createContact?: Maybe<Contact>;
   createContactList?: Maybe<Contact>;
-  modifyContact?: Maybe<Contact>;
-  modifyContactList?: Maybe<Contact>;
   createFolder?: Maybe<Folder>;
   createIdentity?: Maybe<Identities>;
   createMountpoint?: Maybe<Scalars['Boolean']>;
-  createSharedCalendar?: Maybe<Scalars['Boolean']>;
   createSearchFolder?: Maybe<Folder>;
+  createSharedCalendar?: Maybe<Scalars['Boolean']>;
   createSignature?: Maybe<SignatureResponse>;
+  createTag?: Maybe<Tag>;
   createTask?: Maybe<Scalars['Boolean']>;
   declineCounterAppointment?: Maybe<Scalars['Boolean']>;
   deleteAppointment?: Maybe<Scalars['Boolean']>;
-  deleteIdentity?: Maybe<Scalars['Boolean']>;
   deleteExternalAccount?: Maybe<Scalars['Boolean']>;
+  deleteIdentity?: Maybe<Scalars['Boolean']>;
   deleteSignature?: Maybe<Scalars['Boolean']>;
+  disableTwoFactorAuth?: Maybe<Scalars['Boolean']>;
+  dismissCalendarItem?: Maybe<Scalars['Boolean']>;
+  documentAction?: Maybe<DocumentActionData>;
+  enableTwoFactorAuth?: Maybe<EnableTwoFactorAuthResponse>;
+  folderAction?: Maybe<Scalars['Boolean']>;
+  forwardAppointment?: Maybe<Scalars['Boolean']>;
+  forwardAppointmentInvite?: Maybe<Scalars['Boolean']>;
   generateScratchCodes?: Maybe<ScratchCodes>;
   grantRights?: Maybe<RightsResponse>;
-  folderAction?: Maybe<Scalars['Boolean']>;
-  documentAction?: Maybe<DocumentActionData>;
-  forwardAppointmentInvite?: Maybe<Scalars['Boolean']>;
-  forwardAppointment?: Maybe<Scalars['Boolean']>;
-  itemAction?: Maybe<Scalars['Boolean']>;
   importExternalAccount?: Maybe<Scalars['Boolean']>;
-  logout?: Maybe<Scalars['Boolean']>;
+  itemAction?: Maybe<Scalars['Boolean']>;
   login?: Maybe<AuthResponse>;
-  enableTwoFactorAuth?: Maybe<EnableTwoFactorAuthResponse>;
-  disableTwoFactorAuth?: Maybe<Scalars['Boolean']>;
+  logout?: Maybe<Scalars['Boolean']>;
   messageAction?: Maybe<Scalars['Boolean']>;
-  modifyExternalAccount?: Maybe<Scalars['Boolean']>;
   modifyAppointment?: Maybe<ModifyAppointmentResponse>;
+  modifyContact?: Maybe<Contact>;
+  modifyContactList?: Maybe<Contact>;
+  modifyExternalAccount?: Maybe<Scalars['Boolean']>;
+  modifyFilterRules?: Maybe<Scalars['Boolean']>;
   modifyIdentity?: Maybe<Scalars['Boolean']>;
   modifyPrefs?: Maybe<Scalars['Boolean']>;
+  modifyProfileImage?: Maybe<ProfileImageChangeResponse>;
   modifyProps?: Maybe<Scalars['Boolean']>;
-  modifyZimletPrefs?: Maybe<ModifyZimletPrefsResponse>;
-  modifyFilterRules?: Maybe<Scalars['Boolean']>;
-  modifySignature?: Maybe<Scalars['Boolean']>;
   modifySearchFolder?: Maybe<Scalars['Boolean']>;
+  modifySignature?: Maybe<Scalars['Boolean']>;
   modifyTask?: Maybe<Scalars['Boolean']>;
   modifyWhiteBlackList?: Maybe<Scalars['Boolean']>;
+  modifyZimletPrefs?: Maybe<ModifyZimletPrefsResponse>;
   moveTask?: Maybe<Scalars['String']>;
   prefEnableOutOfOfficeAlertOnLogin?: Maybe<Scalars['Boolean']>;
   prefEnableOutOfOfficeReply?: Maybe<Scalars['Boolean']>;
   prefOutOfOfficeFromDate?: Maybe<Scalars['String']>;
   prefOutOfOfficeReply?: Maybe<Scalars['String']>;
   prefOutOfOfficeUntilDate?: Maybe<Scalars['String']>;
+  quarantineDeviceSync?: Maybe<Device>;
   recoverAccount?: Maybe<RecoverAccount>;
+  remoteWipeSync?: Maybe<Device>;
+  removeDeviceSync?: Maybe<Scalars['Boolean']>;
   resetPassword?: Maybe<ResetPasswordResponse>;
   revokeAppSpecificPassword?: Maybe<Scalars['Boolean']>;
   revokeOtherTrustedDevices?: Maybe<Scalars['Boolean']>;
   revokeRights?: Maybe<RightsResponse>;
   revokeTrustedDevice?: Maybe<Scalars['Boolean']>;
+  saveDocument?: Maybe<SaveDocumentResponse>;
   saveDraft?: Maybe<SaveDraftResponse>;
-  sendMessage?: Maybe<SendMessageResponse>;
   sendDeliveryReport?: Maybe<Scalars['Boolean']>;
   sendInviteReply?: Maybe<InviteReplyResponse>;
+  sendMessage?: Maybe<SendMessageResponse>;
   sendShareNotification?: Maybe<Scalars['Boolean']>;
   setCustomMetadata?: Maybe<Scalars['Boolean']>;
   setMailboxMetadata?: Maybe<Scalars['Boolean']>;
-  snoozeCalendarItem?: Maybe<Scalars['Boolean']>;
-  dismissCalendarItem?: Maybe<Scalars['Boolean']>;
-  uploadMessage?: Maybe<Scalars['String']>;
   setRecoveryAccount?: Maybe<Scalars['Boolean']>;
-  createTag?: Maybe<Tag>;
+  snoozeCalendarItem?: Maybe<Scalars['Boolean']>;
   tagAction?: Maybe<Scalars['Boolean']>;
-  quarantineDeviceSync?: Maybe<Device>;
-  allowDeviceSync?: Maybe<Device>;
-  removeDeviceSync?: Maybe<Scalars['Boolean']>;
-  blockDeviceSync?: Maybe<Device>;
-  accountOnlyRemoteWipeSync?: Maybe<Device>;
-  cancelPendingAccountOnlyRemoteWipeSync?: Maybe<Device>;
-  remoteWipeSync?: Maybe<Device>;
-  cancelPendingRemoteWipeSync?: Maybe<Device>;
+  testExternalAccount?: Maybe<ExternalAccountTestResponse>;
+  uploadMessage?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationAccountOnlyRemoteWipeSyncArgs = {
+  deviceId?: Maybe<Scalars['String']>;
 };
 
 
 export type MutationActionArgs = {
-  type: ActionTypeName;
-  id?: Maybe<Scalars['ID']>;
-  ids?: Maybe<Array<Scalars['ID']>>;
-  op: Scalars['String'];
   color?: Maybe<Scalars['Int']>;
   constraints?: Maybe<Scalars['String']>;
+  destFolderLocal?: Maybe<Scalars['Boolean']>;
   flags?: Maybe<Scalars['String']>;
   folderId?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']>;
+  ids?: Maybe<Array<Scalars['ID']>>;
+  isLocal?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+  op: Scalars['String'];
+  recursive?: Maybe<Scalars['Boolean']>;
   rgb?: Maybe<Scalars['String']>;
   tagNames?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  isLocal?: Maybe<Scalars['Boolean']>;
-  recursive?: Maybe<Scalars['Boolean']>;
-  destFolderLocal?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type MutationApplyFilterRulesArgs = {
-  ids: Scalars['String'];
-  filterRules?: Maybe<Array<Maybe<FilterRuleInput>>>;
-};
-
-
-export type MutationTestExternalAccountArgs = {
-  externalAccount: ExternalAccountTestInput;
+  type: ActionTypeName;
 };
 
 
@@ -2490,19 +2484,40 @@ export type MutationAddMessageArgs = {
 };
 
 
+export type MutationAllowDeviceSyncArgs = {
+  deviceId?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationApplyFilterRulesArgs = {
+  filterRules?: Maybe<Array<Maybe<FilterRuleInput>>>;
+  ids: Scalars['String'];
+};
+
+
+export type MutationBlockDeviceSyncArgs = {
+  deviceId?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationCancelPendingAccountOnlyRemoteWipeSyncArgs = {
+  deviceId?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationCancelPendingRemoteWipeSyncArgs = {
+  deviceId?: Maybe<Scalars['String']>;
+};
+
+
 export type MutationCancelTaskArgs = {
   inviteId: Scalars['ID'];
 };
 
 
-export type MutationSaveDocumentArgs = {
-  document?: Maybe<SaveDocumentInput>;
-};
-
-
 export type MutationChangeFolderColorArgs = {
-  id: Scalars['ID'];
   color: Scalars['Int'];
+  id: Scalars['ID'];
 };
 
 
@@ -2514,12 +2529,6 @@ export type MutationChangePasswordArgs = {
 };
 
 
-export type MutationModifyProfileImageArgs = {
-  content?: Maybe<Scalars['String']>;
-  contentType?: Maybe<Scalars['String']>;
-};
-
-
 export type MutationCheckCalendarArgs = {
   id: Scalars['ID'];
   value: Scalars['Boolean'];
@@ -2527,9 +2536,9 @@ export type MutationCheckCalendarArgs = {
 
 
 export type MutationContactActionArgs = {
+  folderId?: Maybe<Scalars['ID']>;
   id?: Maybe<Scalars['ID']>;
   ids?: Maybe<Array<Scalars['ID']>>;
-  folderId?: Maybe<Scalars['ID']>;
   op: Scalars['String'];
   tagNames?: Maybe<Scalars['String']>;
 };
@@ -2546,6 +2555,11 @@ export type MutationCounterAppointmentArgs = {
 };
 
 
+export type MutationCreateAppSpecificPasswordArgs = {
+  appName: Scalars['String'];
+};
+
+
 export type MutationCreateAppointmentArgs = {
   accountName?: Maybe<Scalars['String']>;
   appointment: CalendarItemInput;
@@ -2558,14 +2572,9 @@ export type MutationCreateAppointmentExceptionArgs = {
 };
 
 
-export type MutationCreateAppSpecificPasswordArgs = {
-  appName: Scalars['String'];
-};
-
-
 export type MutationCreateCalendarArgs = {
-  name: Scalars['String'];
   color: Scalars['Int'];
+  name: Scalars['String'];
   url?: Maybe<Scalars['String']>;
 };
 
@@ -2580,40 +2589,25 @@ export type MutationCreateContactListArgs = {
 };
 
 
-export type MutationModifyContactArgs = {
-  contact: ModifyContactInput;
-};
-
-
-export type MutationModifyContactListArgs = {
-  contact: ModifyContactInput;
-};
-
-
 export type MutationCreateFolderArgs = {
   color?: Maybe<Scalars['Int']>;
   fetchIfExists?: Maybe<Scalars['Boolean']>;
   flags?: Maybe<Scalars['String']>;
+  isLocalFolder?: Maybe<Scalars['Boolean']>;
   name: Scalars['String'];
   parentFolderId?: Maybe<Scalars['ID']>;
   url?: Maybe<Scalars['String']>;
-  isLocalFolder?: Maybe<Scalars['Boolean']>;
   view?: Maybe<FolderView>;
 };
 
 
 export type MutationCreateIdentityArgs = {
-  name: Scalars['String'];
   attrs?: Maybe<IdentityAttrsInput>;
+  name: Scalars['String'];
 };
 
 
 export type MutationCreateMountpointArgs = {
-  link: NewMountpointSpec;
-};
-
-
-export type MutationCreateSharedCalendarArgs = {
   link: NewMountpointSpec;
 };
 
@@ -2626,8 +2620,18 @@ export type MutationCreateSearchFolderArgs = {
 };
 
 
+export type MutationCreateSharedCalendarArgs = {
+  link: NewMountpointSpec;
+};
+
+
 export type MutationCreateSignatureArgs = {
   signature: SignatureInput;
+};
+
+
+export type MutationCreateTagArgs = {
+  tag?: Maybe<CreateTagInput>;
 };
 
 
@@ -2646,19 +2650,50 @@ export type MutationDeleteAppointmentArgs = {
 };
 
 
+export type MutationDeleteExternalAccountArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type MutationDeleteIdentityArgs = {
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
 };
 
 
-export type MutationDeleteExternalAccountArgs = {
-  id: Scalars['ID'];
+export type MutationDeleteSignatureArgs = {
+  signature: NameIdInput;
 };
 
 
-export type MutationDeleteSignatureArgs = {
-  signature: NameIdInput;
+export type MutationDismissCalendarItemArgs = {
+  appointment?: Maybe<Array<Maybe<DismissInput>>>;
+  task?: Maybe<DismissInput>;
+};
+
+
+export type MutationDocumentActionArgs = {
+  action: FolderActionInput;
+};
+
+
+export type MutationEnableTwoFactorAuthArgs = {
+  options: EnableTwoFactorAuthInput;
+};
+
+
+export type MutationFolderActionArgs = {
+  action: FolderActionInput;
+};
+
+
+export type MutationForwardAppointmentArgs = {
+  appointmentInvite: ForwardAppointmentInput;
+};
+
+
+export type MutationForwardAppointmentInviteArgs = {
+  appointmentInvite: ForwardAppointmentInviteInput;
 };
 
 
@@ -2672,55 +2707,30 @@ export type MutationGrantRightsArgs = {
 };
 
 
-export type MutationFolderActionArgs = {
-  action: FolderActionInput;
-};
-
-
-export type MutationDocumentActionArgs = {
-  action: FolderActionInput;
-};
-
-
-export type MutationForwardAppointmentInviteArgs = {
-  appointmentInvite: ForwardAppointmentInviteInput;
-};
-
-
-export type MutationForwardAppointmentArgs = {
-  appointmentInvite: ForwardAppointmentInput;
-};
-
-
-export type MutationItemActionArgs = {
-  id?: Maybe<Scalars['ID']>;
-  ids?: Maybe<Array<Maybe<Scalars['ID']>>>;
-  folderId?: Maybe<Scalars['ID']>;
-  op: Scalars['String'];
-  tagNames?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-};
-
-
 export type MutationImportExternalAccountArgs = {
   externalAccount: ExternalAccountImportInput;
 };
 
 
-export type MutationLoginArgs = {
-  username: Scalars['String'];
-  password?: Maybe<Scalars['String']>;
-  recoveryCode?: Maybe<Scalars['String']>;
-  tokenType?: Maybe<Scalars['String']>;
-  persistAuthTokenCookie?: Maybe<Scalars['Boolean']>;
-  twoFactorCode?: Maybe<Scalars['String']>;
-  deviceTrusted?: Maybe<Scalars['Boolean']>;
-  csrfTokenSecured: Scalars['Boolean'];
+export type MutationItemActionArgs = {
+  folderId?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']>;
+  ids?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  name?: Maybe<Scalars['String']>;
+  op: Scalars['String'];
+  tagNames?: Maybe<Scalars['String']>;
 };
 
 
-export type MutationEnableTwoFactorAuthArgs = {
-  options: EnableTwoFactorAuthInput;
+export type MutationLoginArgs = {
+  csrfTokenSecured: Scalars['Boolean'];
+  deviceTrusted?: Maybe<Scalars['Boolean']>;
+  password?: Maybe<Scalars['String']>;
+  persistAuthTokenCookie?: Maybe<Scalars['Boolean']>;
+  recoveryCode?: Maybe<Scalars['String']>;
+  tokenType?: Maybe<Scalars['String']>;
+  twoFactorCode?: Maybe<Scalars['String']>;
+  username: Scalars['String'];
 };
 
 
@@ -2730,37 +2740,26 @@ export type MutationMessageActionArgs = {
 };
 
 
-export type MutationModifyExternalAccountArgs = {
-  id: Scalars['ID'];
-  type?: Maybe<AccountType>;
-  attrs: ExternalAccountModifyAttrsInput;
-};
-
-
 export type MutationModifyAppointmentArgs = {
   accountName?: Maybe<Scalars['String']>;
   appointment: CalendarItemInput;
 };
 
 
-export type MutationModifyIdentityArgs = {
+export type MutationModifyContactArgs = {
+  contact: ModifyContactInput;
+};
+
+
+export type MutationModifyContactListArgs = {
+  contact: ModifyContactInput;
+};
+
+
+export type MutationModifyExternalAccountArgs = {
+  attrs: ExternalAccountModifyAttrsInput;
   id: Scalars['ID'];
-  attrs?: Maybe<IdentityAttrsInput>;
-};
-
-
-export type MutationModifyPrefsArgs = {
-  prefs: PreferencesInput;
-};
-
-
-export type MutationModifyPropsArgs = {
-  props?: Maybe<Array<PropertiesInput>>;
-};
-
-
-export type MutationModifyZimletPrefsArgs = {
-  zimlets?: Maybe<Array<ZimletPreferenceInput>>;
+  type?: Maybe<AccountType>;
 };
 
 
@@ -2769,13 +2768,35 @@ export type MutationModifyFilterRulesArgs = {
 };
 
 
-export type MutationModifySignatureArgs = {
-  signature: SignatureInput;
+export type MutationModifyIdentityArgs = {
+  attrs?: Maybe<IdentityAttrsInput>;
+  id: Scalars['ID'];
+};
+
+
+export type MutationModifyPrefsArgs = {
+  prefs: PreferencesInput;
+};
+
+
+export type MutationModifyProfileImageArgs = {
+  content?: Maybe<Scalars['String']>;
+  contentType?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationModifyPropsArgs = {
+  props?: Maybe<Array<PropertiesInput>>;
 };
 
 
 export type MutationModifySearchFolderArgs = {
   search: SearchFolderInput;
+};
+
+
+export type MutationModifySignatureArgs = {
+  signature: SignatureInput;
 };
 
 
@@ -2789,9 +2810,14 @@ export type MutationModifyWhiteBlackListArgs = {
 };
 
 
+export type MutationModifyZimletPrefsArgs = {
+  zimlets?: Maybe<Array<ZimletPreferenceInput>>;
+};
+
+
 export type MutationMoveTaskArgs = {
-  inviteId: Scalars['ID'];
   destFolderId: Scalars['ID'];
+  inviteId: Scalars['ID'];
 };
 
 
@@ -2820,18 +2846,33 @@ export type MutationPrefOutOfOfficeUntilDateArgs = {
 };
 
 
+export type MutationQuarantineDeviceSyncArgs = {
+  deviceId?: Maybe<Scalars['String']>;
+};
+
+
 export type MutationRecoverAccountArgs = {
-  op: RecoverAccountOp;
-  email: Scalars['String'];
   channel: SetRecoveryAccountChannel;
+  email: Scalars['String'];
+  op: RecoverAccountOp;
+};
+
+
+export type MutationRemoteWipeSyncArgs = {
+  deviceId?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationRemoveDeviceSyncArgs = {
+  deviceId?: Maybe<Scalars['String']>;
 };
 
 
 export type MutationResetPasswordArgs = {
-  password?: Maybe<Scalars['String']>;
+  cancelResetPassword?: Maybe<Scalars['Boolean']>;
   dryRun?: Maybe<Scalars['Boolean']>;
   getPasswordRules?: Maybe<Scalars['Boolean']>;
-  cancelResetPassword?: Maybe<Scalars['Boolean']>;
+  password?: Maybe<Scalars['String']>;
 };
 
 
@@ -2845,15 +2886,14 @@ export type MutationRevokeRightsArgs = {
 };
 
 
-export type MutationSaveDraftArgs = {
-  message: SendMessageInput;
-  accountName?: Maybe<Scalars['String']>;
+export type MutationSaveDocumentArgs = {
+  document?: Maybe<SaveDocumentInput>;
 };
 
 
-export type MutationSendMessageArgs = {
-  message: SendMessageInput;
+export type MutationSaveDraftArgs = {
   accountName?: Maybe<Scalars['String']>;
+  message: SendMessageInput;
 };
 
 
@@ -2864,6 +2904,12 @@ export type MutationSendDeliveryReportArgs = {
 
 export type MutationSendInviteReplyArgs = {
   inviteReply: InviteReplyInput;
+};
+
+
+export type MutationSendMessageArgs = {
+  accountName?: Maybe<Scalars['String']>;
+  message: SendMessageInput;
 };
 
 
@@ -2878,25 +2924,8 @@ export type MutationSetCustomMetadataArgs = {
 
 
 export type MutationSetMailboxMetadataArgs = {
-  section?: Maybe<Scalars['String']>;
   attrs: MailboxMetadataSectionAttrsInput;
-};
-
-
-export type MutationSnoozeCalendarItemArgs = {
-  appointment?: Maybe<Array<Maybe<SnoozeInput>>>;
-  task?: Maybe<SnoozeInput>;
-};
-
-
-export type MutationDismissCalendarItemArgs = {
-  appointment?: Maybe<Array<Maybe<DismissInput>>>;
-  task?: Maybe<DismissInput>;
-};
-
-
-export type MutationUploadMessageArgs = {
-  value: Scalars['String'];
+  section?: Maybe<Scalars['String']>;
 };
 
 
@@ -2908,8 +2937,9 @@ export type MutationSetRecoveryAccountArgs = {
 };
 
 
-export type MutationCreateTagArgs = {
-  tag?: Maybe<CreateTagInput>;
+export type MutationSnoozeCalendarItemArgs = {
+  appointment?: Maybe<Array<Maybe<SnoozeInput>>>;
+  task?: Maybe<SnoozeInput>;
 };
 
 
@@ -2918,43 +2948,13 @@ export type MutationTagActionArgs = {
 };
 
 
-export type MutationQuarantineDeviceSyncArgs = {
-  deviceId?: Maybe<Scalars['String']>;
+export type MutationTestExternalAccountArgs = {
+  externalAccount: ExternalAccountTestInput;
 };
 
 
-export type MutationAllowDeviceSyncArgs = {
-  deviceId?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationRemoveDeviceSyncArgs = {
-  deviceId?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationBlockDeviceSyncArgs = {
-  deviceId?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationAccountOnlyRemoteWipeSyncArgs = {
-  deviceId?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationCancelPendingAccountOnlyRemoteWipeSyncArgs = {
-  deviceId?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationRemoteWipeSyncArgs = {
-  deviceId?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationCancelPendingRemoteWipeSyncArgs = {
-  deviceId?: Maybe<Scalars['String']>;
+export type MutationUploadMessageArgs = {
+  value: Scalars['String'];
 };
 
 export type NameId = {
@@ -2975,15 +2975,15 @@ export enum NeedIsMemberType {
 }
 
 export type NewMountpointSpec = {
+  color?: Maybe<Scalars['Int']>;
+  flags?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   owner?: Maybe<Scalars['String']>;
-  view?: Maybe<SearchType>;
-  flags?: Maybe<Scalars['String']>;
   ownerZimbraId?: Maybe<Scalars['ID']>;
-  sharedItemId?: Maybe<Scalars['ID']>;
-  color?: Maybe<Scalars['Int']>;
-  reminder?: Maybe<Scalars['Boolean']>;
   parentFolderId?: Maybe<Scalars['ID']>;
+  reminder?: Maybe<Scalars['Boolean']>;
+  sharedItemId?: Maybe<Scalars['ID']>;
+  view?: Maybe<SearchType>;
 };
 
 export type NoOpResponse = {
@@ -2998,20 +2998,20 @@ export type Notes = {
 export type NotifyAction = {
   __typename?: 'NotifyAction';
   address?: Maybe<Scalars['String']>;
-  subject?: Maybe<Scalars['String']>;
+  content?: Maybe<Array<Maybe<Scalars['String']>>>;
+  index?: Maybe<Scalars['Int']>;
   maxBodySize?: Maybe<Scalars['Int']>;
   origHeaders?: Maybe<Scalars['String']>;
-  index?: Maybe<Scalars['Int']>;
-  content?: Maybe<Array<Maybe<Scalars['String']>>>;
+  subject?: Maybe<Scalars['String']>;
 };
 
 export type NotifyActionInput = {
   address?: Maybe<Scalars['String']>;
-  subject?: Maybe<Scalars['String']>;
+  content?: Maybe<Array<Maybe<Scalars['String']>>>;
+  index?: Maybe<Scalars['Int']>;
   maxBodySize?: Maybe<Scalars['Int']>;
   origHeaders?: Maybe<Scalars['String']>;
-  index?: Maybe<Scalars['Int']>;
-  content?: Maybe<Array<Maybe<Scalars['String']>>>;
+  subject?: Maybe<Scalars['String']>;
 };
 
 export type OnlyEmailAddress = {
@@ -3031,31 +3031,31 @@ export type OtherContactAttributeInput = {
 };
 
 export type Owner = {
-  by?: Maybe<Scalars['String']>;
   _content?: Maybe<Scalars['String']>;
+  by?: Maybe<Scalars['String']>;
 };
 
 export enum ParticipationRole {
-  Req = 'REQ',
+  Non = 'NON',
   Opt = 'OPT',
-  Non = 'NON'
+  Req = 'REQ'
 }
 
 export enum ParticipationStatus {
-  Ne = 'NE',
   Ac = 'AC',
-  Te = 'TE',
-  De = 'DE',
-  Dg = 'DG',
   Co = 'CO',
+  De = 'DE',
+  Df = 'DF',
+  Dg = 'DG',
   In = 'IN',
-  Wa = 'WA',
-  Df = 'DF'
+  Ne = 'NE',
+  Te = 'TE',
+  Wa = 'WA'
 }
 
 export enum PasswordRecoveryAddressStatus {
-  Verified = 'verified',
-  Pending = 'pending'
+  Pending = 'pending',
+  Verified = 'verified'
 }
 
 export enum PrefCalendarInitialView {
@@ -3070,147 +3070,147 @@ export enum PrefCalendarInitialView {
 export enum PrefClientType {
   Advanced = 'advanced',
   Modern = 'modern',
-  Zimbrax = 'zimbrax',
-  Standard = 'standard'
+  Standard = 'standard',
+  Zimbrax = 'zimbrax'
 }
 
 export enum PrefDelegatedSendSaveTarget {
-  Owner = 'owner',
-  Sender = 'sender',
   Both = 'both',
-  None = 'none'
+  None = 'none',
+  Owner = 'owner',
+  Sender = 'sender'
 }
 
 export enum PrefMailSelectAfterDelete {
+  Adaptive = 'adaptive',
   Next = 'next',
-  Previous = 'previous',
-  Adaptive = 'adaptive'
+  Previous = 'previous'
 }
 
 export enum PrefMailSendReadReceipts {
-  Prompt = 'prompt',
   Always = 'always',
-  Never = 'never'
+  Never = 'never',
+  Prompt = 'prompt'
 }
 
 export type Preferences = {
   __typename?: 'Preferences';
+  zimbraPrefAppleIcalDelegationEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefAutoAddAppointmentsToCalendar?: Maybe<Scalars['Boolean']>;
+  zimbraPrefBriefcaseReadingPaneLocation?: Maybe<ReadingPaneLocation>;
+  zimbraPrefCalendarAlwaysShowMiniCal?: Maybe<Scalars['Boolean']>;
+  zimbraPrefCalendarApptReminderWarningTime?: Maybe<Scalars['Int']>;
   zimbraPrefCalendarAutoAddInvites?: Maybe<Scalars['Boolean']>;
   zimbraPrefCalendarFirstDayOfWeek?: Maybe<Scalars['Int']>;
   zimbraPrefCalendarInitialView?: Maybe<PrefCalendarInitialView>;
   zimbraPrefCalendarReminderEmail?: Maybe<Scalars['String']>;
-  zimbraPrefCalendarWorkingHours?: Maybe<Scalars['String']>;
-  zimbraPrefCalendarApptReminderWarningTime?: Maybe<Scalars['Int']>;
+  zimbraPrefCalendarShowDeclinedMeetings?: Maybe<Scalars['Boolean']>;
   zimbraPrefCalendarShowPastDueReminders?: Maybe<Scalars['Boolean']>;
   zimbraPrefCalendarToasterEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraPrefCalendarAlwaysShowMiniCal?: Maybe<Scalars['Boolean']>;
+  zimbraPrefCalendarWorkingHours?: Maybe<Scalars['String']>;
+  zimbraPrefClientType?: Maybe<PrefClientType>;
   zimbraPrefComposeDirection?: Maybe<Scalars['String']>;
   zimbraPrefComposeFormat?: Maybe<Mode>;
+  zimbraPrefDefaultCalendarId?: Maybe<Scalars['ID']>;
+  zimbraPrefDelegatedSendSaveTarget?: Maybe<PrefDelegatedSendSaveTarget>;
+  zimbraPrefDeleteInviteOnReply?: Maybe<Scalars['Boolean']>;
+  zimbraPrefDisplayExternalImages?: Maybe<Scalars['Boolean']>;
+  zimbraPrefDisplayTimeInMailList?: Maybe<Scalars['Boolean']>;
+  zimbraPrefGroupMailBy?: Maybe<Scalars['String']>;
   zimbraPrefHtmlEditorDefaultFontColor?: Maybe<Scalars['String']>;
   zimbraPrefHtmlEditorDefaultFontFamily?: Maybe<Scalars['String']>;
   zimbraPrefHtmlEditorDefaultFontSize?: Maybe<Scalars['String']>;
-  zimbraPrefMailToasterEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraPrefShowAllNewMailNotifications?: Maybe<Scalars['Boolean']>;
-  zimbraPrefDefaultCalendarId?: Maybe<Scalars['ID']>;
-  zimbraPrefDeleteInviteOnReply?: Maybe<Scalars['Boolean']>;
-  zimbraPrefDelegatedSendSaveTarget?: Maybe<PrefDelegatedSendSaveTarget>;
-  zimbraPrefDisplayExternalImages?: Maybe<Scalars['Boolean']>;
-  zimbraPrefGroupMailBy?: Maybe<Scalars['String']>;
+  zimbraPrefLocale?: Maybe<Scalars['String']>;
+  zimbraPrefMailForwardingAddress?: Maybe<Scalars['String']>;
+  zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefMailPollingInterval?: Maybe<Scalars['String']>;
   zimbraPrefMailRequestReadReceipts?: Maybe<Scalars['Boolean']>;
   zimbraPrefMailSelectAfterDelete?: Maybe<PrefMailSelectAfterDelete>;
   zimbraPrefMailSendReadReceipts?: Maybe<PrefMailSendReadReceipts>;
+  zimbraPrefMailToasterEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefMailTrustedSenderList?: Maybe<Array<Maybe<Scalars['String']>>>;
   zimbraPrefMarkMsgRead?: Maybe<Scalars['Int']>;
   zimbraPrefMessageViewHtmlPreferred?: Maybe<Scalars['Boolean']>;
-  zimbraPrefOutOfOfficeFromDate?: Maybe<Scalars['String']>;
   zimbraPrefOutOfOfficeExternalReply?: Maybe<Scalars['String']>;
   zimbraPrefOutOfOfficeExternalReplyEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraPrefOutOfOfficeFromDate?: Maybe<Scalars['String']>;
   zimbraPrefOutOfOfficeReply?: Maybe<Scalars['String']>;
   zimbraPrefOutOfOfficeReplyEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefOutOfOfficeStatusAlertOnLogin?: Maybe<Scalars['Boolean']>;
   zimbraPrefOutOfOfficeSuppressExternalReply?: Maybe<Scalars['Boolean']>;
   zimbraPrefOutOfOfficeUntilDate?: Maybe<Scalars['String']>;
-  zimbraPrefReadingPaneEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraPrefReadingPaneLocation?: Maybe<ReadingPaneLocation>;
-  zimbraPrefBriefcaseReadingPaneLocation?: Maybe<ReadingPaneLocation>;
   zimbraPrefPasswordRecoveryAddress?: Maybe<Scalars['String']>;
   zimbraPrefPasswordRecoveryAddressStatus?: Maybe<PasswordRecoveryAddressStatus>;
+  zimbraPrefPowerPasteEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraPrefReadingPaneEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraPrefReadingPaneLocation?: Maybe<ReadingPaneLocation>;
   zimbraPrefSaveToSent?: Maybe<Scalars['Boolean']>;
+  zimbraPrefShowAllNewMailNotifications?: Maybe<Scalars['Boolean']>;
   zimbraPrefShowFragments?: Maybe<Scalars['Boolean']>;
   zimbraPrefSlackCalendarReminderEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefSortOrder?: Maybe<Scalars['String']>;
-  zimbraPrefWebClientOfflineBrowserKey?: Maybe<Scalars['String']>;
-  zimbraPrefTimeZoneId?: Maybe<Scalars['String']>;
-  zimbraPrefLocale?: Maybe<Scalars['String']>;
-  zimbraPrefClientType?: Maybe<PrefClientType>;
-  zimbraPrefAppleIcalDelegationEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraPrefCalendarShowDeclinedMeetings?: Maybe<Scalars['Boolean']>;
-  zimbraPrefUseTimeZoneListInCalendar?: Maybe<Scalars['Boolean']>;
-  zimbraPrefMailForwardingAddress?: Maybe<Scalars['String']>;
-  zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefTagTreeOpen?: Maybe<Scalars['Boolean']>;
-  zimbraPrefPowerPasteEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraPrefDisplayTimeInMailList?: Maybe<Scalars['Boolean']>;
+  zimbraPrefTimeZoneId?: Maybe<Scalars['String']>;
+  zimbraPrefUseTimeZoneListInCalendar?: Maybe<Scalars['Boolean']>;
+  zimbraPrefWebClientOfflineBrowserKey?: Maybe<Scalars['String']>;
 };
 
 export type PreferencesInput = {
+  zimbraPrefAppleIcalDelegationEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefAutoAddAppointmentsToCalendar?: Maybe<Scalars['Boolean']>;
+  zimbraPrefBriefcaseReadingPaneLocation?: Maybe<ReadingPaneLocation>;
+  zimbraPrefCalendarAlwaysShowMiniCal?: Maybe<Scalars['Boolean']>;
+  zimbraPrefCalendarApptReminderWarningTime?: Maybe<Scalars['Int']>;
   zimbraPrefCalendarAutoAddInvites?: Maybe<Scalars['Boolean']>;
-  zimbraPrefDefaultCalendarId?: Maybe<Scalars['ID']>;
   zimbraPrefCalendarFirstDayOfWeek?: Maybe<Scalars['Int']>;
   zimbraPrefCalendarInitialView?: Maybe<PrefCalendarInitialView>;
   zimbraPrefCalendarReminderEmail?: Maybe<Scalars['String']>;
-  zimbraPrefCalendarWorkingHours?: Maybe<Scalars['String']>;
-  zimbraPrefCalendarApptReminderWarningTime?: Maybe<Scalars['Int']>;
+  zimbraPrefCalendarShowDeclinedMeetings?: Maybe<Scalars['Boolean']>;
   zimbraPrefCalendarShowPastDueReminders?: Maybe<Scalars['Boolean']>;
   zimbraPrefCalendarToasterEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraPrefCalendarAlwaysShowMiniCal?: Maybe<Scalars['Boolean']>;
+  zimbraPrefCalendarWorkingHours?: Maybe<Scalars['String']>;
+  zimbraPrefClientType?: Maybe<PrefClientType>;
   zimbraPrefComposeDirection?: Maybe<Scalars['String']>;
   zimbraPrefComposeFormat?: Maybe<Mode>;
+  zimbraPrefDefaultCalendarId?: Maybe<Scalars['ID']>;
+  zimbraPrefDelegatedSendSaveTarget?: Maybe<PrefDelegatedSendSaveTarget>;
+  zimbraPrefDisplayExternalImages?: Maybe<Scalars['Boolean']>;
+  zimbraPrefDisplayTimeInMailList?: Maybe<Scalars['Boolean']>;
+  zimbraPrefGroupMailBy?: Maybe<Scalars['String']>;
   zimbraPrefHtmlEditorDefaultFontColor?: Maybe<Scalars['String']>;
   zimbraPrefHtmlEditorDefaultFontFamily?: Maybe<Scalars['String']>;
   zimbraPrefHtmlEditorDefaultFontSize?: Maybe<Scalars['String']>;
-  zimbraPrefMailToasterEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraPrefShowAllNewMailNotifications?: Maybe<Scalars['Boolean']>;
-  zimbraPrefDelegatedSendSaveTarget?: Maybe<PrefDelegatedSendSaveTarget>;
-  zimbraPrefDisplayExternalImages?: Maybe<Scalars['Boolean']>;
-  zimbraPrefGroupMailBy?: Maybe<Scalars['String']>;
+  zimbraPrefLocale?: Maybe<Scalars['String']>;
+  zimbraPrefMailForwardingAddress?: Maybe<Scalars['String']>;
+  zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefMailPollingInterval?: Maybe<Scalars['String']>;
   zimbraPrefMailRequestReadReceipts?: Maybe<Scalars['Boolean']>;
   zimbraPrefMailSelectAfterDelete?: Maybe<PrefMailSelectAfterDelete>;
   zimbraPrefMailSendReadReceipts?: Maybe<PrefMailSendReadReceipts>;
+  zimbraPrefMailToasterEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefMailTrustedSenderList?: Maybe<Array<Maybe<Scalars['String']>>>;
   zimbraPrefMarkMsgRead?: Maybe<Scalars['Int']>;
   zimbraPrefMessageViewHtmlPreferred?: Maybe<Scalars['Boolean']>;
-  zimbraPrefOutOfOfficeFromDate?: Maybe<Scalars['String']>;
   zimbraPrefOutOfOfficeExternalReply?: Maybe<Scalars['String']>;
   zimbraPrefOutOfOfficeExternalReplyEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraPrefOutOfOfficeFromDate?: Maybe<Scalars['String']>;
   zimbraPrefOutOfOfficeReply?: Maybe<Scalars['String']>;
   zimbraPrefOutOfOfficeReplyEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefOutOfOfficeStatusAlertOnLogin?: Maybe<Scalars['Boolean']>;
   zimbraPrefOutOfOfficeSuppressExternalReply?: Maybe<Scalars['Boolean']>;
   zimbraPrefOutOfOfficeUntilDate?: Maybe<Scalars['String']>;
+  zimbraPrefPowerPasteEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefReadingPaneEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefReadingPaneLocation?: Maybe<ReadingPaneLocation>;
-  zimbraPrefBriefcaseReadingPaneLocation?: Maybe<ReadingPaneLocation>;
   zimbraPrefSaveToSent?: Maybe<Scalars['Boolean']>;
+  zimbraPrefShowAllNewMailNotifications?: Maybe<Scalars['Boolean']>;
   zimbraPrefShowFragments?: Maybe<Scalars['Boolean']>;
   zimbraPrefSlackCalendarReminderEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefSortOrder?: Maybe<Scalars['String']>;
-  zimbraPrefWebClientOfflineBrowserKey?: Maybe<Scalars['String']>;
-  zimbraPrefTimeZoneId?: Maybe<Scalars['String']>;
-  zimbraPrefLocale?: Maybe<Scalars['String']>;
-  zimbraPrefClientType?: Maybe<PrefClientType>;
-  zimbraPrefAppleIcalDelegationEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraPrefCalendarShowDeclinedMeetings?: Maybe<Scalars['Boolean']>;
-  zimbraPrefUseTimeZoneListInCalendar?: Maybe<Scalars['Boolean']>;
-  zimbraPrefMailForwardingAddress?: Maybe<Scalars['String']>;
-  zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefTagTreeOpen?: Maybe<Scalars['Boolean']>;
-  zimbraPrefPowerPasteEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraPrefDisplayTimeInMailList?: Maybe<Scalars['Boolean']>;
+  zimbraPrefTimeZoneId?: Maybe<Scalars['String']>;
+  zimbraPrefUseTimeZoneListInCalendar?: Maybe<Scalars['Boolean']>;
+  zimbraPrefWebClientOfflineBrowserKey?: Maybe<Scalars['String']>;
 };
 
 export type ProfileImageChangeResponse = {
@@ -3220,9 +3220,9 @@ export type ProfileImageChangeResponse = {
 
 export type Prop = {
   __typename?: 'Prop';
-  zimlet?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
   _content?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  zimlet?: Maybe<Scalars['String']>;
 };
 
 export type PropList = {
@@ -3231,9 +3231,9 @@ export type PropList = {
 };
 
 export type PropertiesInput = {
-  zimlet: Scalars['String'];
-  name: Scalars['String'];
   _content?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  zimlet: Scalars['String'];
 };
 
 export type Query = {
@@ -3242,81 +3242,74 @@ export type Query = {
   autoComplete?: Maybe<AutoCompleteResponse>;
   autoCompleteGAL?: Maybe<AutoCompleteGalResponse>;
   clientInfo?: Maybe<ClientInfoType>;
-  downloadMessage?: Maybe<SMimeMessage>;
+  discoverRights?: Maybe<DiscoverRights>;
   downloadAttachment?: Maybe<Attachment>;
   downloadDocument?: Maybe<Attachment>;
-  discoverRights?: Maybe<DiscoverRights>;
+  downloadMessage?: Maybe<SMimeMessage>;
   freeBusy?: Maybe<Array<Maybe<FreeBusy>>>;
-  getContact?: Maybe<Array<Maybe<Contact>>>;
-  getAppointments?: Maybe<SearchResponse>;
-  getAppointment?: Maybe<GetAppointmentResponse>;
-  getReminders?: Maybe<RemindersResponse>;
-  getTasks?: Maybe<SearchResponse>;
   getAppSpecificPasswords?: Maybe<AppSpecificPasswordsResponse>;
+  getAppointment?: Maybe<GetAppointmentResponse>;
+  getAppointments?: Maybe<SearchResponse>;
   getAvailableLocales?: Maybe<Array<Maybe<Locale>>>;
+  getContact?: Maybe<Array<Maybe<Contact>>>;
   getContactFrequency?: Maybe<ContactFrequencyResponse>;
   getConversation?: Maybe<Conversation>;
+  getCustomMetadata?: Maybe<CustomMetadata>;
+  getDataSources: DataSources;
+  getDeviceStatus?: Maybe<Array<Maybe<Device>>>;
+  getDistributionListMembers?: Maybe<Array<Maybe<DlGroupMember>>>;
   getDocumentShareURL?: Maybe<GetDocumentShareUrlResponse>;
   getFilterRules?: Maybe<Array<Maybe<Filter>>>;
   getFolder?: Maybe<Folder>;
   getHAB?: Maybe<HabGroup>;
-  getDistributionListMembers?: Maybe<Array<Maybe<DlGroupMember>>>;
-  getCustomMetadata?: Maybe<CustomMetadata>;
+  getIdentities?: Maybe<Identities>;
+  getImportStatus?: Maybe<ImportStatusResponse>;
   getMailboxMetadata?: Maybe<MailboxMetadata>;
   getMessage?: Maybe<MessageInfo>;
   getMessagesMetadata?: Maybe<Array<Maybe<MessageInfo>>>;
+  getPreferences?: Maybe<Preferences>;
+  getReminders?: Maybe<RemindersResponse>;
   getRights?: Maybe<RightsResponse>;
   getSMimePublicCerts?: Maybe<SMimePublicCertsResponse>;
   getScratchCodes?: Maybe<ScratchCodes>;
   getSearchFolder?: Maybe<Folder>;
+  getSignatures?: Maybe<Signatures>;
+  getTag?: Maybe<Array<Maybe<Tag>>>;
+  getTasks?: Maybe<SearchResponse>;
   getTrustedDevices?: Maybe<GetTrustedDevicesResponse>;
-  getDeviceStatus?: Maybe<Array<Maybe<Device>>>;
   getWhiteBlackList?: Maybe<WhiteBlackList>;
   getWorkingHours?: Maybe<Array<Maybe<WorkingHours>>>;
   noop?: Maybe<NoOpResponse>;
-  getPreferences?: Maybe<Preferences>;
-  getDataSources: DataSources;
-  getIdentities?: Maybe<Identities>;
-  getImportStatus?: Maybe<ImportStatusResponse>;
-  getSignatures?: Maybe<Signatures>;
   recoverAccount?: Maybe<RecoverAccount>;
   relatedContacts?: Maybe<Array<Maybe<RelatedContact>>>;
-  shareInfo?: Maybe<Array<Maybe<ShareInfo>>>;
   search?: Maybe<SearchResponse>;
   searchCalendarResources?: Maybe<SearchCalendarResourcesResponse>;
   searchGal?: Maybe<SearchResponse>;
+  shareInfo?: Maybe<Array<Maybe<ShareInfo>>>;
   taskFolders?: Maybe<Array<Maybe<Folder>>>;
-  getTag?: Maybe<Array<Maybe<Tag>>>;
 };
 
 
 export type QueryAutoCompleteArgs = {
-  name?: Maybe<Scalars['String']>;
-  type?: Maybe<GalSearchType>;
-  needExp?: Maybe<Scalars['Boolean']>;
   folders?: Maybe<Scalars['String']>;
   includeGal?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+  needExp?: Maybe<Scalars['Boolean']>;
+  type?: Maybe<GalSearchType>;
 };
 
 
 export type QueryAutoCompleteGalArgs = {
   limit?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
-  type?: Maybe<GalSearchType>;
   needExp?: Maybe<Scalars['Boolean']>;
+  type?: Maybe<GalSearchType>;
 };
 
 
 export type QueryClientInfoArgs = {
   by?: Maybe<Scalars['String']>;
   domain?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryDownloadMessageArgs = {
-  id: Scalars['ID'];
-  isSecure?: Maybe<Scalars['Boolean']>;
-  isLocal?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -3332,28 +3325,17 @@ export type QueryDownloadDocumentArgs = {
 };
 
 
+export type QueryDownloadMessageArgs = {
+  id: Scalars['ID'];
+  isLocal?: Maybe<Scalars['Boolean']>;
+  isSecure?: Maybe<Scalars['Boolean']>;
+};
+
+
 export type QueryFreeBusyArgs = {
+  end?: Maybe<Scalars['Float']>;
   names: Array<Scalars['String']>;
   start?: Maybe<Scalars['Float']>;
-  end?: Maybe<Scalars['Float']>;
-};
-
-
-export type QueryGetContactArgs = {
-  id?: Maybe<Scalars['ID']>;
-  ids?: Maybe<Array<Scalars['ID']>>;
-  derefGroupMember?: Maybe<Scalars['Boolean']>;
-  memberOf?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type QueryGetAppointmentsArgs = {
-  calExpandInstStart: Scalars['Float'];
-  calExpandInstEnd: Scalars['Float'];
-  query: Scalars['String'];
-  limit: Scalars['Int'];
-  offset: Scalars['Int'];
-  types?: Maybe<SearchType>;
 };
 
 
@@ -3362,67 +3344,39 @@ export type QueryGetAppointmentArgs = {
 };
 
 
-export type QueryGetRemindersArgs = {
-  calExpandInstStart: Scalars['Float'];
+export type QueryGetAppointmentsArgs = {
   calExpandInstEnd: Scalars['Float'];
-  query: Scalars['String'];
+  calExpandInstStart: Scalars['Float'];
   limit: Scalars['Int'];
   offset: Scalars['Int'];
+  query: Scalars['String'];
   types?: Maybe<SearchType>;
 };
 
 
-export type QueryGetTasksArgs = {
-  query: Scalars['String'];
-  limit: Scalars['Int'];
-  offset: Scalars['Int'];
-  types?: Maybe<SearchType>;
+export type QueryGetContactArgs = {
+  derefGroupMember?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['ID']>;
+  ids?: Maybe<Array<Scalars['ID']>>;
+  memberOf?: Maybe<Scalars['Boolean']>;
 };
 
 
 export type QueryGetContactFrequencyArgs = {
-  email: Scalars['String'];
   by: Scalars['String'];
+  email: Scalars['String'];
   offsetInMinutes?: Maybe<Scalars['String']>;
   spec?: Maybe<Array<ContactFrequencySpec>>;
 };
 
 
 export type QueryGetConversationArgs = {
-  id: Scalars['ID'];
+  fetch?: Maybe<Scalars['String']>;
   header?: Maybe<Array<Maybe<MailItemHeaderInput>>>;
   html?: Maybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
   max?: Maybe<Scalars['Int']>;
   needExp?: Maybe<Scalars['Boolean']>;
-  fetch?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryGetDocumentShareUrlArgs = {
-  item?: Maybe<GetDocumentShareUrlItemInput>;
-};
-
-
-export type QueryGetFolderArgs = {
-  visible?: Maybe<Scalars['Boolean']>;
-  needGranteeName?: Maybe<Scalars['Boolean']>;
-  view?: Maybe<FolderView>;
-  depth?: Maybe<Scalars['Int']>;
-  traverseMountpoints?: Maybe<Scalars['Boolean']>;
-  folder?: Maybe<GetFolderFolderInput>;
-  local?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type QueryGetHabArgs = {
-  habRootGroupId?: Maybe<Scalars['ID']>;
-};
-
-
-export type QueryGetDistributionListMembersArgs = {
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-  dl?: Maybe<Scalars['String']>;
 };
 
 
@@ -3432,15 +3386,43 @@ export type QueryGetCustomMetadataArgs = {
 };
 
 
+export type QueryGetDistributionListMembersArgs = {
+  dl?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryGetDocumentShareUrlArgs = {
+  item?: Maybe<GetDocumentShareUrlItemInput>;
+};
+
+
+export type QueryGetFolderArgs = {
+  depth?: Maybe<Scalars['Int']>;
+  folder?: Maybe<GetFolderFolderInput>;
+  local?: Maybe<Scalars['Boolean']>;
+  needGranteeName?: Maybe<Scalars['Boolean']>;
+  traverseMountpoints?: Maybe<Scalars['Boolean']>;
+  view?: Maybe<FolderView>;
+  visible?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type QueryGetHabArgs = {
+  habRootGroupId?: Maybe<Scalars['ID']>;
+};
+
+
 export type QueryGetMailboxMetadataArgs = {
   section?: Maybe<Scalars['String']>;
 };
 
 
 export type QueryGetMessageArgs = {
-  id: Scalars['ID'];
   header?: Maybe<Array<Maybe<MailItemHeaderInput>>>;
   html?: Maybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
   isLocal?: Maybe<Scalars['Boolean']>;
   max?: Maybe<Scalars['Int']>;
   needExp?: Maybe<Scalars['Boolean']>;
@@ -3455,6 +3437,16 @@ export type QueryGetMessageArgs = {
 export type QueryGetMessagesMetadataArgs = {
   ids: Array<Scalars['ID']>;
   isLocal?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type QueryGetRemindersArgs = {
+  calExpandInstEnd: Scalars['Float'];
+  calExpandInstStart: Scalars['Float'];
+  limit: Scalars['Int'];
+  offset: Scalars['Int'];
+  query: Scalars['String'];
+  types?: Maybe<SearchType>;
 };
 
 
@@ -3474,23 +3466,31 @@ export type QueryGetScratchCodesArgs = {
 };
 
 
+export type QueryGetTasksArgs = {
+  limit: Scalars['Int'];
+  offset: Scalars['Int'];
+  query: Scalars['String'];
+  types?: Maybe<SearchType>;
+};
+
+
 export type QueryGetWorkingHoursArgs = {
+  end?: Maybe<Scalars['Float']>;
   names: Array<Scalars['String']>;
   start?: Maybe<Scalars['Float']>;
-  end?: Maybe<Scalars['Float']>;
 };
 
 
 export type QueryNoopArgs = {
-  wait?: Maybe<Scalars['Int']>;
   limitToOneBlocked?: Maybe<Scalars['Int']>;
+  wait?: Maybe<Scalars['Int']>;
 };
 
 
 export type QueryRecoverAccountArgs = {
-  op: RecoverAccountOp;
-  email: Scalars['String'];
   channel: SetRecoveryAccountChannel;
+  email: Scalars['String'];
+  op: RecoverAccountOp;
 };
 
 
@@ -3499,57 +3499,57 @@ export type QueryRelatedContactsArgs = {
 };
 
 
-export type QueryShareInfoArgs = {
-  internal?: Maybe<Scalars['Boolean']>;
-  includeSelf?: Maybe<Scalars['Boolean']>;
-  grantee?: Maybe<Grantee>;
-  owner?: Maybe<Owner>;
-};
-
-
 export type QuerySearchArgs = {
   contact?: Maybe<Scalars['String']>;
   cursor?: Maybe<Cursor>;
   fetch?: Maybe<Scalars['String']>;
   fullConversation?: Maybe<Scalars['Boolean']>;
+  inDumpster?: Maybe<Scalars['Boolean']>;
   limit?: Maybe<Scalars['Int']>;
-  needExp?: Maybe<Scalars['Boolean']>;
   memberOf?: Maybe<Scalars['Boolean']>;
+  needExp?: Maybe<Scalars['Boolean']>;
   offset?: Maybe<Scalars['Int']>;
   query?: Maybe<Scalars['String']>;
   recip?: Maybe<Scalars['Int']>;
+  resultMode?: Maybe<Scalars['String']>;
   sortBy?: Maybe<SortBy>;
   types?: Maybe<SearchType>;
-  resultMode?: Maybe<Scalars['String']>;
-  inDumpster?: Maybe<Scalars['Boolean']>;
 };
 
 
 export type QuerySearchCalendarResourcesArgs = {
+  attrs?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Int']>;
   needExp?: Maybe<Scalars['Boolean']>;
   offset?: Maybe<Scalars['Int']>;
-  attrs?: Maybe<Scalars['String']>;
   searchFilter?: Maybe<SearchConditionsInput>;
 };
 
 
 export type QuerySearchGalArgs = {
-  needIsOwner?: Maybe<Scalars['Boolean']>;
-  needIsMember?: Maybe<NeedIsMemberType>;
-  type?: Maybe<GalSearchType>;
-  name?: Maybe<Scalars['String']>;
-  offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
   locale?: Maybe<Scalars['String']>;
-  sortBy?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
   needExp?: Maybe<Scalars['Boolean']>;
+  needIsMember?: Maybe<NeedIsMemberType>;
+  needIsOwner?: Maybe<Scalars['Boolean']>;
+  offset?: Maybe<Scalars['Int']>;
+  sortBy?: Maybe<Scalars['String']>;
+  type?: Maybe<GalSearchType>;
+};
+
+
+export type QueryShareInfoArgs = {
+  grantee?: Maybe<Grantee>;
+  includeSelf?: Maybe<Scalars['Boolean']>;
+  internal?: Maybe<Scalars['Boolean']>;
+  owner?: Maybe<Owner>;
 };
 
 export enum ReadingPaneLocation {
+  Bottom = 'bottom',
   Off = 'off',
-  Right = 'right',
-  Bottom = 'bottom'
+  Right = 'right'
 }
 
 export type RecoverAccount = {
@@ -3566,9 +3566,9 @@ export enum RecoverAccountOp {
 export type RecurrenceInfo = {
   __typename?: 'RecurrenceInfo';
   add?: Maybe<Array<Maybe<AddRecurrenceInfo>>>;
-  exclude?: Maybe<Array<Maybe<ExcludeRecurrenceInfo>>>;
-  except?: Maybe<Array<Maybe<ExceptionRuleInfo>>>;
   cancel?: Maybe<Array<Maybe<CancelRuleInfo>>>;
+  except?: Maybe<Array<Maybe<ExceptionRuleInfo>>>;
+  exclude?: Maybe<Array<Maybe<ExcludeRecurrenceInfo>>>;
   rule?: Maybe<Array<Maybe<SimpleRepeatingRule>>>;
 };
 
@@ -3588,19 +3588,21 @@ export type RedirectActionInput = {
 export type RelatedContact = {
   __typename?: 'RelatedContact';
   email?: Maybe<Scalars['String']>;
-  scope?: Maybe<Scalars['Int']>;
   p?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scalars['Int']>;
 };
 
 export type ReminderItemHitInfo = {
   __typename?: 'ReminderItemHitInfo';
+  aid?: Maybe<Scalars['String']>;
   alarm?: Maybe<Scalars['Boolean']>;
+  alarmData?: Maybe<Array<Maybe<Alarm>>>;
   allDay?: Maybe<Scalars['Boolean']>;
   changeDate?: Maybe<Scalars['Float']>;
   class: CalendarItemClass;
   componentNum?: Maybe<Scalars['Int']>;
   date?: Maybe<Scalars['Float']>;
-  timezoneOffset?: Maybe<Scalars['Int']>;
+  draft?: Maybe<Scalars['Boolean']>;
   duration?: Maybe<Scalars['Float']>;
   excerpt?: Maybe<Scalars['String']>;
   flags?: Maybe<Scalars['String']>;
@@ -3608,7 +3610,6 @@ export type ReminderItemHitInfo = {
   freeBusy?: Maybe<FreeBusyStatus>;
   freeBusyActual?: Maybe<FreeBusyStatus>;
   id: Scalars['ID'];
-  alarmData?: Maybe<Array<Maybe<Alarm>>>;
   instances?: Maybe<Array<Maybe<Instance>>>;
   invitations?: Maybe<Array<Maybe<Invitation>>>;
   inviteId: Scalars['ID'];
@@ -3617,40 +3618,39 @@ export type ReminderItemHitInfo = {
   location?: Maybe<Scalars['String']>;
   modifiedSequence?: Maybe<Scalars['Float']>;
   name?: Maybe<Scalars['String']>;
+  neverSent?: Maybe<Scalars['Boolean']>;
   organizer?: Maybe<CalOrganizer>;
   otherAttendees?: Maybe<Scalars['Boolean']>;
   participationStatus?: Maybe<ParticipationStatus>;
   percentComplete?: Maybe<Scalars['String']>;
   priority?: Maybe<Scalars['String']>;
   revision?: Maybe<Scalars['Float']>;
-  utcRecurrenceId?: Maybe<Scalars['String']>;
   size?: Maybe<Scalars['Float']>;
   sortField?: Maybe<Scalars['String']>;
   status?: Maybe<InviteCompletionStatus>;
   tagNames?: Maybe<Scalars['String']>;
   tags?: Maybe<Scalars['String']>;
+  timezoneOffset?: Maybe<Scalars['Int']>;
   uid?: Maybe<Scalars['String']>;
+  utcRecurrenceId?: Maybe<Scalars['String']>;
   x_uid?: Maybe<Scalars['String']>;
-  aid?: Maybe<Scalars['String']>;
-  draft?: Maybe<Scalars['Boolean']>;
-  neverSent?: Maybe<Scalars['Boolean']>;
 };
 
 export type RemindersResponse = {
   __typename?: 'RemindersResponse';
-  tasks?: Maybe<Array<Maybe<ReminderItemHitInfo>>>;
   appointments?: Maybe<Array<Maybe<ReminderItemHitInfo>>>;
+  tasks?: Maybe<Array<Maybe<ReminderItemHitInfo>>>;
 };
 
 export type ReplyAction = {
   __typename?: 'ReplyAction';
-  index?: Maybe<Scalars['Int']>;
   content?: Maybe<Array<Maybe<Scalars['String']>>>;
+  index?: Maybe<Scalars['Int']>;
 };
 
 export type ReplyActionInput = {
-  index?: Maybe<Scalars['Int']>;
   content?: Maybe<Array<Maybe<Scalars['String']>>>;
+  index?: Maybe<Scalars['Int']>;
 };
 
 export type ResetPasswordResponse = {
@@ -3664,8 +3664,8 @@ export type ResetPasswordResponseAttributes = {
 };
 
 export enum ResetPasswordStatus {
-  Enabled = 'enabled',
   Disabled = 'disabled',
+  Enabled = 'enabled',
   Suspended = 'suspended'
 }
 
@@ -3684,21 +3684,21 @@ export type RightsResponse = {
 
 export type SMimeMessage = {
   __typename?: 'SMimeMessage';
-  id?: Maybe<Scalars['ID']>;
   content?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
 };
 
 export type SMimePublicCert = {
   __typename?: 'SMimePublicCert';
-  store: Scalars['String'];
-  field: Scalars['String'];
   _content?: Maybe<Scalars['String']>;
+  field: Scalars['String'];
+  store: Scalars['String'];
 };
 
 export type SMimePublicCerts = {
   __typename?: 'SMimePublicCerts';
-  email?: Maybe<Scalars['String']>;
   cert?: Maybe<Array<Maybe<SMimePublicCert>>>;
+  email?: Maybe<Scalars['String']>;
 };
 
 export type SMimePublicCertsResponse = {
@@ -3709,8 +3709,8 @@ export type SMimePublicCertsResponse = {
 export type SaveDocument = {
   __typename?: 'SaveDocument';
   id?: Maybe<Scalars['ID']>;
-  version?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
+  version?: Maybe<Scalars['Int']>;
 };
 
 export enum SaveDocumentAction {
@@ -3718,16 +3718,16 @@ export enum SaveDocumentAction {
 }
 
 export type SaveDocumentInput = {
-  id?: Maybe<Scalars['ID']>;
-  folderId?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  version?: Maybe<Scalars['Float']>;
-  contentType?: Maybe<Scalars['String']>;
-  upload?: Maybe<UploadDocument>;
-  messageData?: Maybe<Array<Maybe<MessagePartForDocument>>>;
-  descriptionEnabled?: Maybe<Scalars['Boolean']>;
   action?: Maybe<SaveDocumentAction>;
+  contentType?: Maybe<Scalars['String']>;
+  descriptionEnabled?: Maybe<Scalars['Boolean']>;
+  folderId?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']>;
+  messageData?: Maybe<Array<Maybe<MessagePartForDocument>>>;
+  name?: Maybe<Scalars['String']>;
   type?: Maybe<SaveDocumentType>;
+  upload?: Maybe<UploadDocument>;
+  version?: Maybe<Scalars['Float']>;
 };
 
 export type SaveDocumentResponse = {
@@ -3747,8 +3747,8 @@ export type SaveDraftResponse = {
 };
 
 export type SaveMessageDataInput = {
-  id: Scalars['ID'];
   content: Scalars['String'];
+  id: Scalars['ID'];
   meta: Scalars['String'];
 };
 
@@ -3772,8 +3772,8 @@ export type SearchCalendarResourcesResponse = {
   calresource?: Maybe<Array<Maybe<CalResource>>>;
   more?: Maybe<Scalars['Boolean']>;
   offset?: Maybe<Scalars['Int']>;
-  sortBy?: Maybe<Scalars['String']>;
   paginationSupported?: Maybe<Scalars['Boolean']>;
+  sortBy?: Maybe<Scalars['String']>;
 };
 
 export type SearchConditionsInput = {
@@ -3788,27 +3788,27 @@ export type SearchFolderInput = {
 
 export type SearchResponse = {
   __typename?: 'SearchResponse';
-  contacts?: Maybe<Array<Maybe<Contact>>>;
-  messages?: Maybe<Array<Maybe<MessageInfo>>>;
-  conversations?: Maybe<Array<Maybe<Conversation>>>;
-  tasks?: Maybe<Array<Maybe<CalendarItemHitInfo>>>;
   appointments?: Maybe<Array<Maybe<CalendarItemHitInfo>>>;
+  contacts?: Maybe<Array<Maybe<Contact>>>;
+  conversations?: Maybe<Array<Maybe<Conversation>>>;
   documents?: Maybe<Array<Maybe<Document>>>;
+  hit?: Maybe<Array<Maybe<Hit>>>;
+  messages?: Maybe<Array<Maybe<MessageInfo>>>;
   more?: Maybe<Scalars['Boolean']>;
   offset?: Maybe<Scalars['Int']>;
-  sortBy?: Maybe<Scalars['String']>;
   paginationSupported?: Maybe<Scalars['Boolean']>;
-  hit?: Maybe<Array<Maybe<Hit>>>;
+  sortBy?: Maybe<Scalars['String']>;
+  tasks?: Maybe<Array<Maybe<CalendarItemHitInfo>>>;
 };
 
 export enum SearchType {
-  Conversation = 'conversation',
-  Message = 'message',
-  Contact = 'contact',
   Appointment = 'appointment',
+  Contact = 'contact',
+  Conversation = 'conversation',
+  Document = 'document',
+  Message = 'message',
   Task = 'task',
-  Wiki = 'wiki',
-  Document = 'document'
+  Wiki = 'wiki'
 }
 
 export type Secret = {
@@ -3817,22 +3817,22 @@ export type Secret = {
 };
 
 export type SendMessageInput = {
-  id?: Maybe<Scalars['ID']>;
-  origId?: Maybe<Scalars['ID']>;
-  folderId?: Maybe<Scalars['ID']>;
   attach?: Maybe<Array<Maybe<AttachmentInput>>>;
   attachmentId?: Maybe<Scalars['ID']>;
-  replyType?: Maybe<Scalars['String']>;
-  inReplyTo?: Maybe<Scalars['String']>;
-  flags?: Maybe<Scalars['String']>;
+  attachments?: Maybe<Array<Maybe<AttachmentInput>>>;
   autoSendTime?: Maybe<Scalars['Float']>;
   draftId?: Maybe<Scalars['ID']>;
-  entityId?: Maybe<Scalars['String']>;
-  subject?: Maybe<Scalars['String']>;
-  mimeParts?: Maybe<Array<Maybe<MimePartInput>>>;
   emailAddresses?: Maybe<Array<Maybe<MailItemEmailAddressInput>>>;
-  attachments?: Maybe<Array<Maybe<AttachmentInput>>>;
+  entityId?: Maybe<Scalars['String']>;
+  flags?: Maybe<Scalars['String']>;
+  folderId?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']>;
+  inReplyTo?: Maybe<Scalars['String']>;
   inlineAttachments?: Maybe<Array<Maybe<MimePartInput>>>;
+  mimeParts?: Maybe<Array<Maybe<MimePartInput>>>;
+  origId?: Maybe<Scalars['ID']>;
+  replyType?: Maybe<Scalars['String']>;
+  subject?: Maybe<Scalars['String']>;
 };
 
 export type SendMessageResponse = {
@@ -3842,8 +3842,8 @@ export type SendMessageResponse = {
 
 export type Session = {
   __typename?: 'Session';
-  id?: Maybe<Scalars['ID']>;
   _content?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
 };
 
 export enum SetRecoveryAccountChannel {
@@ -3851,10 +3851,10 @@ export enum SetRecoveryAccountChannel {
 }
 
 export enum SetRecoveryAccountOp {
-  SendCode = 'sendCode',
-  ValidateCode = 'validateCode',
   ResendCode = 'resendCode',
-  Reset = 'reset'
+  Reset = 'reset',
+  SendCode = 'sendCode',
+  ValidateCode = 'validateCode'
 }
 
 export type ShareInfo = {
@@ -3862,40 +3862,40 @@ export type ShareInfo = {
   folderId: Scalars['ID'];
   folderPath?: Maybe<Scalars['String']>;
   folderUuid?: Maybe<Scalars['String']>;
-  granteeName?: Maybe<Scalars['String']>;
   granteeDisplayName?: Maybe<Scalars['String']>;
   granteeId?: Maybe<Scalars['String']>;
+  granteeName?: Maybe<Scalars['String']>;
   granteeType?: Maybe<Scalars['String']>;
+  mid?: Maybe<Scalars['ID']>;
   ownerEmail?: Maybe<Scalars['String']>;
   ownerId?: Maybe<Scalars['String']>;
   ownerName?: Maybe<Scalars['String']>;
   rights?: Maybe<Scalars['String']>;
   view?: Maybe<FolderView>;
-  mid?: Maybe<Scalars['ID']>;
 };
 
 export enum ShareInputAction {
   Edit = 'edit',
-  Revoke = 'revoke',
-  Expire = 'expire'
+  Expire = 'expire',
+  Revoke = 'revoke'
 }
 
 export type ShareNotificaitonEmailAddressInput = {
   address: Scalars['String'];
-  type?: Maybe<AddressType>;
   personalName?: Maybe<Scalars['String']>;
+  type?: Maybe<AddressType>;
 };
 
 export type ShareNotification = {
   __typename?: 'ShareNotification';
-  truncated?: Maybe<Scalars['Boolean']>;
   content?: Maybe<Scalars['String']>;
+  truncated?: Maybe<Scalars['Boolean']>;
 };
 
 export type ShareNotificationInput = {
   action?: Maybe<ShareInputAction>;
-  item: ShareNotificationItemInput;
   address: ShareNotificaitonEmailAddressInput;
+  item: ShareNotificationItemInput;
   notes?: Maybe<Notes>;
 };
 
@@ -3905,27 +3905,27 @@ export type ShareNotificationItemInput = {
 
 export type Signature = {
   __typename?: 'Signature';
+  content?: Maybe<Array<Maybe<SignatureContent>>>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
-  content?: Maybe<Array<Maybe<SignatureContent>>>;
 };
 
 export type SignatureContent = {
   __typename?: 'SignatureContent';
-  type?: Maybe<Scalars['String']>;
   _content?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 export type SignatureContentInput = {
-  type?: Maybe<Scalars['String']>;
   _content?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 export type SignatureInput = {
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
   content?: Maybe<SignatureContentInput>;
   contentId?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type SignatureResponse = {
@@ -3940,29 +3940,29 @@ export type Signatures = {
 
 export type SimpleRepeatingRule = {
   __typename?: 'SimpleRepeatingRule';
+  byday?: Maybe<Array<Maybe<ByDayRule>>>;
+  bymonth?: Maybe<Array<Maybe<ByMonthRule>>>;
+  bymonthday?: Maybe<Array<Maybe<ByMonthDayRule>>>;
+  bysetpos?: Maybe<Array<Maybe<BySetPosRule>>>;
+  count?: Maybe<Array<Maybe<CalendarItemRecurrenceEndCount>>>;
   frequency?: Maybe<CalendarItemRecurrenceFrequency>;
   interval?: Maybe<Array<Maybe<IntervalRule>>>;
-  byday?: Maybe<Array<Maybe<ByDayRule>>>;
   until?: Maybe<Array<Maybe<CalendarItemRecurrenceEndDate>>>;
-  count?: Maybe<Array<Maybe<CalendarItemRecurrenceEndCount>>>;
-  bymonthday?: Maybe<Array<Maybe<ByMonthDayRule>>>;
-  bymonth?: Maybe<Array<Maybe<ByMonthRule>>>;
-  bysetpos?: Maybe<Array<Maybe<BySetPosRule>>>;
 };
 
 export type SizeCondition = {
   __typename?: 'SizeCondition';
-  numberComparison?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['String']>;
   index?: Maybe<Scalars['Int']>;
   negative?: Maybe<Scalars['Boolean']>;
+  numberComparison?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
 };
 
 export type SizeConditionInput = {
-  numberComparison?: Maybe<Scalars['String']>;
-  size?: Maybe<Scalars['String']>;
   index?: Maybe<Scalars['Int']>;
   negative?: Maybe<Scalars['Boolean']>;
+  numberComparison?: Maybe<Scalars['String']>;
+  size?: Maybe<Scalars['String']>;
 };
 
 export type Skin = {
@@ -3976,25 +3976,25 @@ export type SnoozeInput = {
 };
 
 export enum SortBy {
-  None = 'none',
-  DateAsc = 'dateAsc',
-  DateDesc = 'dateDesc',
-  SubjAsc = 'subjAsc',
-  SubjDesc = 'subjDesc',
-  NameAsc = 'nameAsc',
-  NameDesc = 'nameDesc',
-  RcptAsc = 'rcptAsc',
-  RcptDesc = 'rcptDesc',
   AttachAsc = 'attachAsc',
   AttachDesc = 'attachDesc',
+  DateAsc = 'dateAsc',
+  DateDesc = 'dateDesc',
   FlagAsc = 'flagAsc',
   FlagDesc = 'flagDesc',
+  NameAsc = 'nameAsc',
+  NameDesc = 'nameDesc',
+  None = 'none',
   PriorityAsc = 'priorityAsc',
   PriorityDesc = 'priorityDesc',
+  RcptAsc = 'rcptAsc',
+  RcptDesc = 'rcptDesc',
   ReadAsc = 'readAsc',
   ReadDesc = 'readDesc',
   SizeAsc = 'sizeAsc',
-  SizeDesc = 'sizeDesc'
+  SizeDesc = 'sizeDesc',
+  SubjAsc = 'subjAsc',
+  SubjDesc = 'subjDesc'
 }
 
 export type StringContent = {
@@ -4004,21 +4004,21 @@ export type StringContent = {
 
 export type Tag = {
   __typename?: 'Tag';
+  color?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
-  color?: Maybe<Scalars['Int']>;
   unread?: Maybe<Scalars['Float']>;
 };
 
 export type TagAction = {
   __typename?: 'TagAction';
-  tagName: Scalars['String'];
   index?: Maybe<Scalars['Int']>;
+  tagName: Scalars['String'];
 };
 
 export type TagActionInput = {
-  tagName: Scalars['String'];
   index?: Maybe<Scalars['Int']>;
+  tagName: Scalars['String'];
 };
 
 export type Target = {
@@ -4046,23 +4046,23 @@ export type TwoFactorAuthRequired = {
 
 export type TzOnsetInfo = {
   __typename?: 'TzOnsetInfo';
+  hour?: Maybe<Scalars['Int']>;
+  mday?: Maybe<Scalars['Int']>;
+  min?: Maybe<Scalars['Int']>;
+  mon?: Maybe<Scalars['Int']>;
+  sec?: Maybe<Scalars['Int']>;
   week?: Maybe<Scalars['Int']>;
   wkday?: Maybe<Scalars['Int']>;
-  mon?: Maybe<Scalars['Int']>;
-  mday?: Maybe<Scalars['Int']>;
-  hour?: Maybe<Scalars['Int']>;
-  min?: Maybe<Scalars['Int']>;
-  sec?: Maybe<Scalars['Int']>;
 };
 
 export enum Weekday {
-  Su = 'SU',
-  Mo = 'MO',
-  Tu = 'TU',
-  We = 'WE',
-  Th = 'TH',
   Fr = 'FR',
-  Sa = 'SA'
+  Mo = 'MO',
+  Sa = 'SA',
+  Su = 'SU',
+  Th = 'TH',
+  Tu = 'TU',
+  We = 'WE'
 }
 
 export type WhiteBlackAddress = {
@@ -4078,8 +4078,8 @@ export type WhiteBlackAddressOpts = {
 
 export type WhiteBlackList = {
   __typename?: 'WhiteBlackList';
-  whiteList: Array<Maybe<WhiteBlackListArr>>;
   blackList: Array<Maybe<WhiteBlackListArr>>;
+  whiteList: Array<Maybe<WhiteBlackListArr>>;
 };
 
 export type WhiteBlackListArr = {
@@ -4092,8 +4092,8 @@ export type WhiteBlackListArrInput = {
 };
 
 export type WhiteBlackListInput = {
-  whiteList?: Maybe<WhiteBlackListArrInput>;
   blackList?: Maybe<WhiteBlackListArrInput>;
+  whiteList?: Maybe<WhiteBlackListArrInput>;
 };
 
 export type WkDay = {
@@ -4109,18 +4109,18 @@ export type WkDayInput = {
 
 export type WorkingHours = {
   __typename?: 'WorkingHours';
-  id: Scalars['ID'];
-  tentative?: Maybe<Array<Maybe<WorkingHoursInstance>>>;
   busy?: Maybe<Array<Maybe<WorkingHoursInstance>>>;
-  unavailable?: Maybe<Array<Maybe<WorkingHoursInstance>>>;
-  nodata?: Maybe<Array<Maybe<WorkingHoursInstance>>>;
   free?: Maybe<Array<Maybe<WorkingHoursInstance>>>;
+  id: Scalars['ID'];
+  nodata?: Maybe<Array<Maybe<WorkingHoursInstance>>>;
+  tentative?: Maybe<Array<Maybe<WorkingHoursInstance>>>;
+  unavailable?: Maybe<Array<Maybe<WorkingHoursInstance>>>;
 };
 
 export type WorkingHoursInstance = {
   __typename?: 'WorkingHoursInstance';
-  start?: Maybe<Scalars['Float']>;
   end?: Maybe<Scalars['Float']>;
+  start?: Maybe<Scalars['Float']>;
 };
 
 export type ZimletConfigGlobal = {
@@ -4135,8 +4135,8 @@ export type ZimletConfigHost = {
 
 export type ZimletConfigProperty = {
   __typename?: 'ZimletConfigProperty';
-  name?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type ZimletPref = {
@@ -4151,9 +4151,9 @@ export type ZimletPreferenceInput = {
 };
 
 export enum ZimletPresence {
-  Mandatory = 'mandatory',
+  Disabled = 'disabled',
   Enabled = 'enabled',
-  Disabled = 'disabled'
+  Mandatory = 'mandatory'
 }
 
 export type HabRootId = {
@@ -4162,8 +4162,8 @@ export type HabRootId = {
 };
 
 export type MessagePartForDocument = {
-  messageId: Scalars['ID'];
   attachmentPart: Scalars['String'];
+  messageId: Scalars['ID'];
 };
 
 export type UploadDocument = {
