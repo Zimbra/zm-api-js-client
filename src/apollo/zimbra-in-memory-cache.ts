@@ -55,6 +55,39 @@ const typePolicies = {
 				merge: true
 			}
 		}
+	},
+	Contact: {
+		fields: {
+			attributes: {
+				merge: true
+			}
+		}
+	},
+	Conversation: {
+		fields: {
+			messages: {
+				// @TODO ideally we should write proper merge function here,
+				// but as our app is already handling at caller level
+				// we are just overwriting cache data here
+				merge: false
+			},
+			emailAddresses: {
+				// @TODO ideally we should write proper merge function here,
+				// but as our app is already handling at caller level
+				// we are just overwriting cache data here
+				merge: false
+			}
+		}
+	},
+	MessageInfo: {
+		fields: {
+			emailAddresses: {
+				// @TODO ideally we should write proper merge function here,
+				// but as our app is already handling at caller level
+				// we are just overwriting cache data here
+				merge: false
+			}
+		}
 	}
 };
 
