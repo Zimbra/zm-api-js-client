@@ -2230,6 +2230,7 @@ export type MessageInfo = MailItem & {
   mimeParts?: Maybe<Array<Maybe<MimePart>>>;
   modifiedSequence?: Maybe<Scalars['Float']>;
   origId?: Maybe<Scalars['ID']>;
+  replyTo?: Maybe<Array<Maybe<EmailAddress>>>;
   replyType?: Maybe<Scalars['String']>;
   revision?: Maybe<Scalars['Float']>;
   sender?: Maybe<Array<Maybe<EmailAddress>>>;

@@ -3,7 +3,8 @@ enum Mapping {
 	t = 'to',
 	c = 'cc',
 	b = 'bcc',
-	s = 'sender'
+	s = 'sender',
+	r = 'replyTo'
 }
 
 export function parseAddress(address: string) {
