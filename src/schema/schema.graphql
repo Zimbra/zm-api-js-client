@@ -516,6 +516,7 @@ type MessageInfo implements MailItem {
 	cc: [EmailAddress]
 	bcc: [EmailAddress]
 	sender: [EmailAddress]
+	replyTo: [EmailAddress]
 	html: String
 	text: String
 	attachments: [MimePart]
