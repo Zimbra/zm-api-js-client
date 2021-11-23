@@ -1306,7 +1306,7 @@ export class ZimbraBatchClient {
 		password,
 		recoveryCode,
 		tokenType,
-		persistAuthTokenCookie = true,
+		persistAuthTokenCookie,
 		twoFactorCode,
 		deviceTrusted,
 		csrfTokenSecured
