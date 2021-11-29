@@ -512,6 +512,8 @@ type MessageInfo implements MailItem {
 	modifiedSequence: Float # ms
 	invitations: [InviteInfo] # inv
 	sortField: String # sf, Sort field used for cursor-based pagination
+	decryptionErrorCode: String
+	certificate: [SmimeCert]
 	mimeParts: [MimePart]
 	to: [EmailAddress]
 	from: [EmailAddress]
@@ -526,6 +528,8 @@ type MessageInfo implements MailItem {
 	share: [ShareNotification] # shr
 	replyType: String #rt
 	attributes: MessageAttributes
+	isEncrypted: Boolean
+	isSigned: Boolean
 	autoSendTime: Float
 	local: Boolean
 	part: String
@@ -2991,7 +2995,7 @@ type SMimePublicCertsResponse {
 	certs: [SMimePublicCerts]
 }
 
-type SmimeCertsIssuedBy {
+type SmimeCertIssuedBy {
 	country: String
 	commonName: String
 	emailAddress: String
@@ -3000,7 +3004,7 @@ type SmimeCertsIssuedBy {
 	state: String
 }
 
-type SmimeCertsIssuedTo {
+type SmimeCertIssuedTo {
 	country: String
 	commonName: String
 	emailAddress: String
@@ -3009,38 +3013,39 @@ type SmimeCertsIssuedTo {
 	state: String
 }
 
-type SmimeCertsSignature {
+type SmimeCertSignature {
 	algorithm: String
 	serialNo: String
 }
 
-type SmimeCertsSubjectRfc822Name {
+type SmimeCertSubjectRfc822Name {
 	content: String
 }
 
-type SmimeCertsSubjectAltName {
-	rfc822Name: [SmimeCertsSubjectRfc822Name]
+type SmimeCertSubjectAltName {
+	rfc822Name: [SmimeCertSubjectRfc822Name]
 }
 
-type SmimeCertsValidity {
+type SmimeCertValidity {
 	endDate: Float
 	startDate: Float
 }
 
-type SmimeCerts {
+type SmimeCert {
 	default: Boolean
 	emailAddress: String
-	issuedBy: SmimeCertsIssuedBy
-	issuedTo: SmimeCertsIssuedTo
+	issuedBy: SmimeCertIssuedBy
+	issuedTo: SmimeCertIssuedTo
 	publicCertificateId: String
 	privateKeyId: String
-	signature: SmimeCertsSignature
-	subjectAltName: SmimeCertsSubjectAltName
-	validity: SmimeCertsValidity
+	signature: SmimeCertSignature
+	subjectAltName: SmimeCertSubjectAltName
+	validity: SmimeCertValidity
+	errorCode: String
 }
 
 type SmimeCertInfoResponse {
-	certificates: [SmimeCerts]
+	certificates: [SmimeCert]
 }
 
 type SMimeMessage {
