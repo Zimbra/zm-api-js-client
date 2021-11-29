@@ -157,10 +157,8 @@ function normalizeMessage(
 	message: { [key: string]: any },
 	{ origin, jwtToken, isDesktop }: { isDesktop?: string; jwtToken?: string; origin?: string }
 ) {
-	const normalizedMessage = normalize(MessageInfo)(message);
-	normalizedMessage.attributes =
-		normalizedMessage.attributes &&
-		mapValuesDeep(normalizedMessage.attributes, coerceStringToBoolean);
+	let normalizedMessage = normalize(MessageInfo)(message);
+	normalizedMessage = normalizedMessage && mapValuesDeep(normalizedMessage, coerceStringToBoolean);
 
 	return normalizeEmailAddresses(
 		normalizeMimeParts(normalizedMessage, { origin, jwtToken, isDesktop })
