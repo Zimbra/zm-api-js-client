@@ -200,6 +200,43 @@ MimePart.addMapping({
 	attach: ['attachments', AttachmentsInfo]
 });
 
+const SmimeCertsSubjectRfc822Name = new Entity({
+	_content: 'content'
+});
+
+const SmimeCertsSubjectAltName = new Entity({
+	rfc822Name: ['rfc822Name', SmimeCertsSubjectRfc822Name]
+});
+
+const commonSmimeCertsFields = {
+	c: 'country',
+	cn: 'commonName',
+	o: 'organizationName',
+	st: 'state'
+};
+
+const SmimeCertsIssuedBy = new Entity({
+	...commonSmimeCertsFields,
+	l: 'locality'
+});
+
+const SmimeCertsIssuedTo = new Entity({
+	...commonSmimeCertsFields,
+	ou: 'organizationUnit'
+});
+
+const SmimeCert = new Entity({
+	issuedBy: ['issuedBy', SmimeCertsIssuedBy],
+	issuedTo: ['issuedTo', SmimeCertsIssuedTo],
+	pubCertId: 'publicCertificateId',
+	pvtKeyId: 'privateKeyId',
+	subjectAltName: ['subjectAltName', SmimeCertsSubjectAltName]
+});
+
+export const SmimeCertInfoResponse = new Entity({
+	certificate: ['certificates', SmimeCert]
+});
+
 const commonMailItemFields = {
 	...commonMessageFields,
 	e: ['emailAddresses', MailItemEmailAddress],
@@ -209,7 +246,8 @@ const commonMailItemFields = {
 	su: 'subject',
 	origid: 'origId',
 	attach: ['attachments', AttachmentsInfo],
-	rt: 'replyType'
+	rt: 'replyType',
+	certificate: ['certificate', SmimeCert]
 };
 
 const SendMessageFields = new Entity({
@@ -525,44 +563,6 @@ export const SearchCalendarResourcesResponse = new Entity({
 
 export const GetAppointmentResponse = new Entity({
 	appt: ['appointment', AppointmentInfo]
-});
-
-const SmimeCertsSubjectRfc822Name = new Entity({
-	_content: 'content'
-});
-
-const SmimeCertsSubjectAltName = new Entity({
-	rfc822Name: ['rfc822Name', SmimeCertsSubjectRfc822Name]
-});
-
-const SmimeCertsIssuedBy = new Entity({
-	c: 'country',
-	cn: 'commonName',
-	emailAddress: 'emailAddress',
-	l: 'locality',
-	o: 'organizationName',
-	st: 'state'
-});
-
-const SmimeCertsIssuedTo = new Entity({
-	c: 'country',
-	cn: 'commonName',
-	emailAddress: 'emailAddress',
-	o: 'organizationName',
-	ou: 'organizationUnit',
-	st: 'state'
-});
-
-const SmimeCerts = new Entity({
-	issuedBy: ['issuedBy', SmimeCertsIssuedBy],
-	issuedTo: ['issuedTo', SmimeCertsIssuedTo],
-	pubCertId: 'publicCertificateId',
-	pvtKeyId: 'privateKeyId',
-	subjectAltName: ['subjectAltName', SmimeCertsSubjectAltName]
-});
-
-export const SmimeCertInfoResponse = new Entity({
-	certificate: ['certificates', SmimeCerts]
 });
 
 const RedirectAction = new Entity({
