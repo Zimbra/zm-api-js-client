@@ -2222,9 +2222,11 @@ export type MessageInfo = MailItem & {
   autoSendTime?: Maybe<Scalars['Float']>;
   bcc?: Maybe<Array<Maybe<EmailAddress>>>;
   cc?: Maybe<Array<Maybe<EmailAddress>>>;
+  certificate?: Maybe<Array<Maybe<SmimeCert>>>;
   changeDate?: Maybe<Scalars['Float']>;
   conversationId?: Maybe<Scalars['ID']>;
   date?: Maybe<Scalars['Float']>;
+  decryptionErrorCode?: Maybe<Scalars['String']>;
   emailAddresses?: Maybe<Array<Maybe<EmailAddress>>>;
   excerpt?: Maybe<Scalars['String']>;
   flags?: Maybe<Scalars['String']>;
@@ -2234,6 +2236,8 @@ export type MessageInfo = MailItem & {
   id?: Maybe<Scalars['ID']>;
   inlineAttachments?: Maybe<Array<Maybe<MimePart>>>;
   invitations?: Maybe<Array<Maybe<InviteInfo>>>;
+  isEncrypted?: Maybe<Scalars['Boolean']>;
+  isSigned?: Maybe<Scalars['Boolean']>;
   local?: Maybe<Scalars['Boolean']>;
   mimeParts?: Maybe<Array<Maybe<MimePart>>>;
   modifiedSequence?: Maybe<Scalars['Float']>;
@@ -4003,26 +4007,27 @@ export type Skin = {
   _content?: Maybe<Scalars['String']>;
 };
 
-export type SmimeCertInfoResponse = {
-  __typename?: 'SmimeCertInfoResponse';
-  certificates?: Maybe<Array<Maybe<SmimeCerts>>>;
-};
-
-export type SmimeCerts = {
-  __typename?: 'SmimeCerts';
+export type SmimeCert = {
+  __typename?: 'SmimeCert';
   default?: Maybe<Scalars['Boolean']>;
   emailAddress?: Maybe<Scalars['String']>;
-  issuedBy?: Maybe<SmimeCertsIssuedBy>;
-  issuedTo?: Maybe<SmimeCertsIssuedTo>;
+  errorCode?: Maybe<Scalars['String']>;
+  issuedBy?: Maybe<SmimeCertIssuedBy>;
+  issuedTo?: Maybe<SmimeCertIssuedTo>;
   privateKeyId?: Maybe<Scalars['String']>;
   publicCertificateId?: Maybe<Scalars['String']>;
-  signature?: Maybe<SmimeCertsSignature>;
-  subjectAltName?: Maybe<SmimeCertsSubjectAltName>;
-  validity?: Maybe<SmimeCertsValidity>;
+  signature?: Maybe<SmimeCertSignature>;
+  subjectAltName?: Maybe<SmimeCertSubjectAltName>;
+  validity?: Maybe<SmimeCertValidity>;
 };
 
-export type SmimeCertsIssuedBy = {
-  __typename?: 'SmimeCertsIssuedBy';
+export type SmimeCertInfoResponse = {
+  __typename?: 'SmimeCertInfoResponse';
+  certificates?: Maybe<Array<Maybe<SmimeCert>>>;
+};
+
+export type SmimeCertIssuedBy = {
+  __typename?: 'SmimeCertIssuedBy';
   commonName?: Maybe<Scalars['String']>;
   country?: Maybe<Scalars['String']>;
   emailAddress?: Maybe<Scalars['String']>;
@@ -4031,8 +4036,8 @@ export type SmimeCertsIssuedBy = {
   state?: Maybe<Scalars['String']>;
 };
 
-export type SmimeCertsIssuedTo = {
-  __typename?: 'SmimeCertsIssuedTo';
+export type SmimeCertIssuedTo = {
+  __typename?: 'SmimeCertIssuedTo';
   commonName?: Maybe<Scalars['String']>;
   country?: Maybe<Scalars['String']>;
   emailAddress?: Maybe<Scalars['String']>;
@@ -4041,24 +4046,24 @@ export type SmimeCertsIssuedTo = {
   state?: Maybe<Scalars['String']>;
 };
 
-export type SmimeCertsSignature = {
-  __typename?: 'SmimeCertsSignature';
+export type SmimeCertSignature = {
+  __typename?: 'SmimeCertSignature';
   algorithm?: Maybe<Scalars['String']>;
   serialNo?: Maybe<Scalars['String']>;
 };
 
-export type SmimeCertsSubjectAltName = {
-  __typename?: 'SmimeCertsSubjectAltName';
-  rfc822Name?: Maybe<Array<Maybe<SmimeCertsSubjectRfc822Name>>>;
+export type SmimeCertSubjectAltName = {
+  __typename?: 'SmimeCertSubjectAltName';
+  rfc822Name?: Maybe<Array<Maybe<SmimeCertSubjectRfc822Name>>>;
 };
 
-export type SmimeCertsSubjectRfc822Name = {
-  __typename?: 'SmimeCertsSubjectRfc822Name';
+export type SmimeCertSubjectRfc822Name = {
+  __typename?: 'SmimeCertSubjectRfc822Name';
   content?: Maybe<Scalars['String']>;
 };
 
-export type SmimeCertsValidity = {
-  __typename?: 'SmimeCertsValidity';
+export type SmimeCertValidity = {
+  __typename?: 'SmimeCertValidity';
   endDate?: Maybe<Scalars['Float']>;
   startDate?: Maybe<Scalars['Float']>;
 };
