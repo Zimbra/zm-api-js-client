@@ -30,7 +30,6 @@ function reduceMimeParts(
 
 	return accumulator;
 }
-
 export function getAttachmentUrl(
 	attachment: { [key: string]: any },
 	{ origin = '', jwtToken }: { jwtToken?: string; origin?: string }
@@ -144,7 +143,7 @@ export function normalizeMimeParts(
 			if (!isBody && type.split('/')[0] !== 'multipart') {
 				let mode = disposition === 'inline' ? 'inlineAttachments' : 'attachments';
 
-				part.contentType !== 'application/pkcs7-mime' &&
+
 					part.contentType !== 'application/pkcs7-signature' &&
 					part.contentType !== 'application/x-pkcs7-signature' &&
 					(acc[mode] || (acc[mode] = [])).push(processAttachment(part, mode));
