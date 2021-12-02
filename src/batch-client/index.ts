@@ -1027,6 +1027,20 @@ export class ZimbraBatchClient {
 
 			if (folders.folders) {
 				folders.folders = folders.folders.map(setUnreadDescendentFlag);
+
+				folders.folders = folders.folders.map((currentFolder: any) => {
+					if (currentFolder.linkedFolders) {
+						currentFolder.linkedFolders = currentFolder.linkedFolders.map((linkFolder: any) => {
+							const { absFolderPath, oname, folders } = linkFolder;
+
+							if (oname && folders) {
+								linkFolder.folders = updateAbsoluteFolderPath(oname, absFolderPath, folders);
+							}
+							return linkFolder;
+						});
+					}
+					return currentFolder;
+				});
 			}
 			if (folders.linkedFolders) {
 				folders.linkedFolders = folders.linkedFolders.map(setUnreadDescendentFlag);
