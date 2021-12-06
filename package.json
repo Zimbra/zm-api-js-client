@@ -19,7 +19,7 @@
     "build": "npm-run-all clean generateSchemaTypes rollup:* -p build:ts minify:* copySchema",
     "build:ts": "tsc --emitDeclarationOnly --declaration --outDir \"dist\"",
     "copySchema": "copyfiles -f src/schema/schema.graphql dist",
-    "rollup:cjs": "cross-var rollup -c rollup.config.js -m -f cjs -n zmApiJsClient $ndex.ts -o dist/zm-api-js-client.js",
+    "rollup:cjs": "cross-var rollup -c rollup.config.js -m -f cjs -n zmApiJsClient index.ts -o dist/zm-api-js-client.js",
     "rollup:umd": "cross-var rollup -c rollup.config.js -m -f umd -n zmApiJsClient index.ts -o dist/zm-api-js-client.umd.js",
     "rollup:esm": "cross-var rollup -c rollup.config.js -m -f es --environment FORMAT:es -n zmApiJsClient index.ts -o dist/zm-api-js-client.esm.js",
     "linkedBuild": "npm run rollup:esm -- --watch",
