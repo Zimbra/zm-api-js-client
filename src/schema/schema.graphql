@@ -1298,6 +1298,7 @@ type AccountInfoAttrs {
 	zimbraFeatureBriefcasesEnabled: Boolean
 	zimbraFeatureMobileSyncEnabled: Boolean
 	zimbraFeatureRelatedContactsEnabled: Boolean
+	zimbraFeatureMailForwardingInFiltersEnabled: Boolean
 	zimbraPasswordBlockCommonEnabled: Boolean
 	zimbraPasswordMinAlphaChars: Int
 	zimbraPasswordMinNumericChars: Int
