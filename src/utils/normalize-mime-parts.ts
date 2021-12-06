@@ -24,7 +24,8 @@ function reduceMimeParts(
 	if (parts && parts.length) {
 		for (let i = 0; i < parts.length; i++) {
 			accumulator = iterator(parts[i], i, accumulator);
-			reduceMimeParts(parts[i], iterator, accumulator);
+			if (parts[i].contentType !== 'message/rfc822')
+				reduceMimeParts(parts[i], iterator, accumulator);
 		}
 	}
 
