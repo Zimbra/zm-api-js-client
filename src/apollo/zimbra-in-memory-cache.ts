@@ -34,6 +34,11 @@ const dataIdFromObject = (object: any) => {
 		case 'ContactListMember':
 			// Contacts list members don't have ids
 			return `${object.type}:${object.value}`;
+		case 'MessageInfo':
+			if (object.part && object.part !== null) {
+				return `${defaultDataIdFromObject(object)}:${object.part}`;
+			}
+			return defaultDataIdFromObject(object);
 		default:
 			return defaultDataIdFromObject(object);
 	}

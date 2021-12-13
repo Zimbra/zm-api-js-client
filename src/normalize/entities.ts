@@ -104,6 +104,7 @@ const CalendarItemOrganizer = new Entity({
 
 const commonFieldForMessageAndDocuments = {
 	d: 'date',
+	sd: 'senderDate',
 	f: 'flags',
 	l: 'folderId',
 	md: 'changeDate',
@@ -112,7 +113,8 @@ const commonFieldForMessageAndDocuments = {
 	s: 'size',
 	sf: 'sortField',
 	t: 'tags',
-	tn: 'tagNames'
+	tn: 'tagNames',
+	part: 'part'
 };
 
 const commonMessageFields = {
