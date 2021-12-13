@@ -1143,7 +1143,7 @@ export class ZimbraBatchClient {
 			return mapValuesDeep(res, coerceStringToBoolean);
 		});
 
-	public getMessage = ({ id, html, raw, header, read, max, ridZ }: GetMessageOptions) =>
+	public getMessage = ({ id, html, raw, header, read, max, ridZ, part }: GetMessageOptions) =>
 		this.jsonRequest({
 			name: 'GetMsg',
 			body: {
@@ -1158,7 +1158,8 @@ export class ZimbraBatchClient {
 					// max body length (look for mp.truncated=1)
 					max: max || 250000,
 					raw: raw ? 1 : 0,
-					...(ridZ && { ridZ: ridZ })
+					...(ridZ && { ridZ: ridZ }),
+					...(part && { part: part })
 				}
 			}
 		}).then(res => (res && res.m ? this.normalizeMessage(res.m[0]) : null));

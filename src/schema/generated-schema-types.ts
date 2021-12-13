@@ -1051,6 +1051,7 @@ export type Conversation = MailItem & {
   numMessages?: Maybe<Scalars['Float']>;
   replyType?: Maybe<Scalars['String']>;
   revision?: Maybe<Scalars['Float']>;
+  senderDate?: Maybe<Scalars['Float']>;
   share?: Maybe<Array<Maybe<ShareNotification>>>;
   size?: Maybe<Scalars['Float']>;
   sortField?: Maybe<Scalars['String']>;
@@ -2119,6 +2120,7 @@ export type MailItem = {
   modifiedSequence?: Maybe<Scalars['Float']>;
   replyType?: Maybe<Scalars['String']>;
   revision?: Maybe<Scalars['Float']>;
+  senderDate?: Maybe<Scalars['Float']>;
   share?: Maybe<Array<Maybe<ShareNotification>>>;
   size?: Maybe<Scalars['Float']>;
   sortField?: Maybe<Scalars['String']>;
@@ -2231,10 +2233,12 @@ export type MessageInfo = MailItem & {
   mimeParts?: Maybe<Array<Maybe<MimePart>>>;
   modifiedSequence?: Maybe<Scalars['Float']>;
   origId?: Maybe<Scalars['ID']>;
+  part?: Maybe<Scalars['String']>;
   replyTo?: Maybe<Array<Maybe<EmailAddress>>>;
   replyType?: Maybe<Scalars['String']>;
   revision?: Maybe<Scalars['Float']>;
   sender?: Maybe<Array<Maybe<EmailAddress>>>;
+  senderDate?: Maybe<Scalars['Float']>;
   share?: Maybe<Array<Maybe<ShareNotification>>>;
   size?: Maybe<Scalars['Float']>;
   sortField?: Maybe<Scalars['String']>;
@@ -2349,6 +2353,7 @@ export type MsgWithGroupInfo = MailItem & {
   origid?: Maybe<Scalars['String']>;
   replyType?: Maybe<Scalars['String']>;
   revision?: Maybe<Scalars['Float']>;
+  senderDate?: Maybe<Scalars['Float']>;
   share?: Maybe<Array<Maybe<ShareNotification>>>;
   size?: Maybe<Scalars['Float']>;
   sortField?: Maybe<Scalars['String']>;
