@@ -2296,6 +2296,7 @@ export type MimePart = {
   mimeParts?: Maybe<Array<Maybe<MimePart>>>;
   part?: Maybe<Scalars['ID']>;
   size?: Maybe<Scalars['Float']>;
+  truncated?: Maybe<Scalars['Boolean']>;
   url?: Maybe<Scalars['String']>;
 };
 
@@ -2312,6 +2313,7 @@ export type MimePartInput = {
   mimeParts?: Maybe<Array<Maybe<MimePartInput>>>;
   part?: Maybe<Scalars['ID']>;
   size?: Maybe<Scalars['Float']>;
+  truncated?: Maybe<Scalars['Boolean']>;
   url?: Maybe<Scalars['String']>;
 };
 
