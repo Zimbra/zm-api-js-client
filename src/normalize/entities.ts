@@ -13,9 +13,7 @@ const MimePart = new Entity({
 	cl: 'contentLocation',
 	ct: 'contentType',
 	s: 'size',
-	part: 'part',
-	mid: 'messageId',
-	content: 'content'
+	mid: 'messageId'
 });
 
 const CalendarItemAlarmTriggerRelative = new Entity({

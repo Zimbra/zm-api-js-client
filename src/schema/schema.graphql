@@ -1981,6 +1981,7 @@ type MimePart {
 	url: String
 	messageId: ID
 	base64: String
+	truncated: Boolean
 }
 
 type ActionData {
@@ -2007,7 +2008,8 @@ input MimePartInput {
 	url: String
 	messageId: ID
 	attachments: [AttachmentInput]
-	base64: String
+	base64: String,
+	truncated: Boolean
 }
 
 input ExistingAttachmentInput {

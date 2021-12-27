@@ -1150,7 +1150,7 @@ export class ZimbraBatchClient {
 					needExp: 1,
 					neuter: 0,
 					// max body length (look for mp.truncated=1)
-					max: max || 250000,
+					...(max && { max: max }),
 					raw: raw ? 1 : 0,
 					...(ridZ && { ridZ: ridZ }),
 					...(part && { part: part })
