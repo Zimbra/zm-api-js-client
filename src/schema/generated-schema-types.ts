@@ -330,6 +330,7 @@ export type AttachmentInput = {
   attachmentId?: Maybe<Scalars['String']>;
   documents?: Maybe<Array<Maybe<DocumentInput>>>;
   existingAttachments?: Maybe<Array<Maybe<ExistingAttachmentInput>>>;
+  messages?: Maybe<Array<Maybe<DocumentInput>>>;
 };
 
 export type AuthResponse = {

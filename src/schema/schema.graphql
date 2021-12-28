@@ -2016,6 +2016,7 @@ input DocumentInput {
 input AttachmentInput {
 	attachmentId: String
 	documents: [DocumentInput]
+	messages: [DocumentInput]
 	existingAttachments: [ExistingAttachmentInput]
 }
 
