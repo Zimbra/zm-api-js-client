@@ -2013,10 +2013,14 @@ input DocumentInput {
 	id: ID
 }
 
+input EMLInput {
+	id: ID
+}
+
 input AttachmentInput {
 	attachmentId: String
 	documents: [DocumentInput]
-	messages: [DocumentInput]
+	messages: [EMLInput]
 	existingAttachments: [ExistingAttachmentInput]
 }
 
