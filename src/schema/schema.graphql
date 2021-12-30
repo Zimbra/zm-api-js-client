@@ -1643,6 +1643,7 @@ type Contact {
 	tagNames: String # tn
 	attributes: ContactAttributes
 	members: [ContactListMember]
+	certificate: [SmimeCert]
 }
 
 type OtherContactAttribute {

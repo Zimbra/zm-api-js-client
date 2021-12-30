@@ -817,6 +817,7 @@ export enum ConnectionType {
 export type Contact = {
   __typename?: 'Contact';
   attributes?: Maybe<ContactAttributes>;
+  certificate?: Maybe<Array<Maybe<SmimeCert>>>;
   date?: Maybe<Scalars['Float']>;
   fileAsStr?: Maybe<Scalars['String']>;
   folderId?: Maybe<Scalars['ID']>;
