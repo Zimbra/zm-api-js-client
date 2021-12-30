@@ -107,7 +107,7 @@ export function createContactBody(data: any) {
 		key !== 'other'
 			? contactAttrs.push({
 					name: key,
-					[key === 'image' ? 'aid' : 'content']: val
+					[key === 'image' || key === 'userCertificate' ? 'aid' : 'content']: val
 			  })
 			: forEach(val, otherValue =>
 					contactAttrs.push({
