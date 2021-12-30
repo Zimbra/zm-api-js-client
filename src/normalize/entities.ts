@@ -483,7 +483,8 @@ const contactFields = {
 	sf: 'sortField',
 	t: 'tags',
 	tn: 'tagNames',
-	_attrs: ['attributes', ContactAttributes]
+	_attrs: ['attributes', ContactAttributes],
+	certificate: ['certificate', SmimeCert]
 };
 
 const contactListMembers = new Entity({
