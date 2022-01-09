@@ -1,9 +1,8 @@
 import { defaultDataIdFromObject, InMemoryCache, InMemoryCacheConfig } from '@apollo/client';
-import get from 'lodash/get';
 
 const dataIdFromPath = (result: any, path: string) => {
 	if (result.__typename) {
-		const id = get(result, path);
+		const id = result?.[path];
 		return id ? `${result.__typename}:${id}` : defaultDataIdFromObject(result);
 	}
 };

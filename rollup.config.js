@@ -11,13 +11,10 @@ let FORMAT = process.env.FORMAT;
 // graphql-tools currently has a rollup build failure, so always call it an external until they fix it
 // otherwise, make all npm production dependencies external, plus their subpath usages
 // throughout the codebase, which rollup doesn't automatically pick up on
-let external = FORMAT==='es' ?
-	Object.keys(pkg.dependencies)
-		.concat(
-			['castArray', 'get','isError', 'isObject', 'mapValues', 'reduce', 'omitBy', 'uniqBy', 'concat', 'uniqBy', 'differenceBy', 'forEach'].map(v => 'lodash/'+v),
-			['graphql', '@graphql-tools/schema']) :
-	['@graphql-tools/schema'];
-
+let external =
+	FORMAT === 'es'
+		? Object.keys(pkg.dependencies).concat(['graphql', '@graphql-tools/schema'])
+		: ['@graphql-tools/schema'];
 
 export default {
 	external,
@@ -26,7 +23,7 @@ export default {
 		graphql(),
 		localResolve(),
 		nodeResolve({
-			extensions: [ '.js', '.ts', '.json' ]
+			extensions: ['.js', '.ts', '.json']
 		}),
 		commonjs(),
 		typescript(),
@@ -37,6 +34,6 @@ export default {
 		})
 	],
 	output: {
-		exports: FORMAT==='es' ? null : 'named'
-	},
+		exports: FORMAT === 'es' ? null : 'named'
+	}
 };

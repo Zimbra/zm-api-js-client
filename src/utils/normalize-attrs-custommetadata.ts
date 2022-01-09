@@ -1,14 +1,15 @@
-import forEach from 'lodash/forEach';
+import { objectForEach } from './utils';
 
 export function setCustomMetaDataBody(data: any) {
 	const { attrs, id, section } = data;
 	const customMetaAttrs = <Object[]>[];
 
-	forEach(attrs, ({ key, value }) =>
+	objectForEach(attrs, (value, key) =>
 		customMetaAttrs.push({
 			[key]: value
 		})
 	);
+
 	return {
 		id,
 		meta: {
@@ -21,9 +22,12 @@ export function setCustomMetaDataBody(data: any) {
 export function normalizeCustomMetaDataAttrs(data: any) {
 	let attrs: any = [];
 
-	Object.keys(data._attrs).forEach(
-		key => typeof data._attrs[key] === 'string' && attrs.push({ key, value: data._attrs[key] })
-	);
+	objectForEach(data._attrs, (value, key) => {
+		if (typeof data._attrs[key] === 'string') {
+			attrs.push({ key, value });
+		}
+	});
+
 	return {
 		...data,
 		_attrs: attrs

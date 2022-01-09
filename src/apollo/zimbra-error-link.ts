@@ -1,5 +1,5 @@
 import { ErrorLink } from '@apollo/client/link/error';
-import get from 'lodash/get';
+import { SingleBatchRequestError } from '../request/types';
 
 class ZimbraErrorLink extends ErrorLink {
 	handlers: any[] = [];
@@ -8,7 +8,8 @@ class ZimbraErrorLink extends ErrorLink {
 		super(({ graphQLErrors, networkError }) => {
 			graphQLErrors &&
 				graphQLErrors.map(({ message, originalError, ...rest }) => {
-					let errorCode = get(originalError, 'faults.0.Detail.Error.Code', '');
+					let error = <SingleBatchRequestError>originalError;
+					let errorCode = error?.faults?.[0]?.Detail?.Error?.Code;
 
 					this.executeHandlers({
 						errorCode,

@@ -1,9 +1,8 @@
 import { Operation } from '@apollo/client';
-import get from 'lodash/get';
 import { OfflineOperationEntry, OperationEntry } from './types';
 
 export function hasSensitiveVariables(operation: Operation) {
-	return !!get(operation, 'variables.password');
+	return !!operation?.variables?.password;
 }
 
 export function isMutationOperation({ query }: Operation) {

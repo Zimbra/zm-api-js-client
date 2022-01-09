@@ -4,8 +4,7 @@
     "@babel/typescript"
   ],
   "plugins": [
-    "@babel/proposal-class-properties",
-    "lodash"
+    "@babel/proposal-class-properties"
   ],
   "env": {
     "test": {
