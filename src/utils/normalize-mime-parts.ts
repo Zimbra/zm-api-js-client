@@ -144,8 +144,7 @@ export function normalizeMimeParts(
 			if (!isBody && type.split('/')[0] !== 'multipart') {
 				let mode = disposition === 'inline' ? 'inlineAttachments' : 'attachments';
 
-
-					part.contentType !== 'application/pkcs7-signature' &&
+				part.contentType !== 'application/pkcs7-signature' &&
 					part.contentType !== 'application/x-pkcs7-signature' &&
 					(acc[mode] || (acc[mode] = [])).push(processAttachment(part, mode));
 
