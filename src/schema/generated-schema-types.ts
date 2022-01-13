@@ -330,7 +330,7 @@ export type AttachmentInput = {
   attachmentId?: Maybe<Scalars['String']>;
   documents?: Maybe<Array<Maybe<DocumentInput>>>;
   existingAttachments?: Maybe<Array<Maybe<ExistingAttachmentInput>>>;
-  messages?: Maybe<Array<Maybe<DocumentInput>>>;
+  messages?: Maybe<Array<Maybe<EmlInput>>>;
 };
 
 export type AuthResponse = {
@@ -1298,6 +1298,10 @@ export type DtTimeInfo = {
   date?: Maybe<Scalars['String']>;
   timezone?: Maybe<Scalars['String']>;
   utc?: Maybe<Scalars['Float']>;
+};
+
+export type EmlInput = {
+  id?: Maybe<Scalars['ID']>;
 };
 
 export type EmailAddress = {
