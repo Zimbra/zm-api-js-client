@@ -1106,7 +1106,7 @@ export type CreateContactInput = {
 };
 
 export type CreateIdentityInput = {
-  attrs?: Maybe<IdentityAttrsInput>;
+  attrs: IdentityAttrsInput;
   name: Scalars['String'];
 };
 
@@ -2329,7 +2329,7 @@ export type ModifyContactInput = {
 };
 
 export type ModifyIdentityInput = {
-  attrs?: Maybe<IdentityAttrsInput>;
+  attrs: IdentityAttrsInput;
   id: Scalars['ID'];
 };
 

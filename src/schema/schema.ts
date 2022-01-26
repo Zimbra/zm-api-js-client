@@ -1,5 +1,5 @@
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import mapValues from 'lodash/mapValues';
+import { objectMapValues } from '../utils/utils';
 
 import {
 	AddMsgInput,
@@ -394,7 +394,7 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 							body: {
 								meta: {
 									section: variables.section,
-									_attrs: mapValues(variables.attrs, coerceBooleanToString)
+									_attrs: objectMapValues(variables.attrs, coerceBooleanToString)
 								}
 							}
 						})

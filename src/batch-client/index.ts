@@ -1,8 +1,4 @@
 import DataLoader from 'dataloader';
-import castArray from 'lodash/castArray';
-import get from 'lodash/get';
-import isError from 'lodash/isError';
-import mapValues from 'lodash/mapValues';
 import { denormalize, normalize } from '../normalize';
 import {
 	AccountRights,
@@ -107,6 +103,7 @@ import {
 	normalizeMimeParts
 } from '../utils/normalize-mime-parts';
 import { createContactBody, normalizeOtherAttr } from '../utils/normalize-otherAttribute-contact';
+import { castArray, isError, objectMapValues } from '../utils/utils';
 import { USER_FOLDER_IDS } from './constants';
 import {
 	ActionOptions,
@@ -149,8 +146,6 @@ import {
 import { CASTING_PREFS } from './constants';
 import { Notifier } from './notifier';
 
-const DEBUG = false;
-
 function normalizeMessage(
 	message: { [key: string]: any },
 	{ origin, jwtToken, isDesktop }: { isDesktop?: string; jwtToken?: string; origin?: string }
@@ -166,7 +161,7 @@ function normalizeMessage(
 }
 
 const hasUnreadDescendent = (folder: any): any => {
-	const unreadDescendent = get(folder, 'unreadDescendent');
+	const unreadDescendent = folder?.unreadDescendent;
 
 	if (
 		folder[
@@ -179,7 +174,7 @@ const hasUnreadDescendent = (folder: any): any => {
 		return true;
 	}
 
-	const folderArray = get(folder, 'folders') || [];
+	const folderArray = folder?.folders || [];
 	for (let i = 0, len = folderArray.length; i < len; i++) {
 		return hasUnreadDescendent(folderArray[i]);
 	}
@@ -189,7 +184,7 @@ const hasUnreadDescendent = (folder: any): any => {
 
 const updateGroupName = (habGroup: any) => ({
 	...habGroup,
-	name: get(habGroup, 'attributes.displayName')
+	name: habGroup?.attributes?.displayName
 });
 
 const updateGroupNameRecur = (habGroups: any) =>
@@ -200,8 +195,8 @@ const updateGroupNameRecur = (habGroups: any) =>
 	});
 
 const setUnreadDescendentFlag = (folder: any) => {
-	const folderArray = get(folder, 'folders') || [];
-	const view = get(folder, 'view');
+	const folderArray = folder?.folders || [];
+	const view = folder?.view;
 
 	// setting this flag only in message view has we dont want to show unread count in
 	// other views
@@ -326,9 +321,9 @@ export class ZimbraBatchClient {
 			...res,
 			attrs: {
 				...mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
-				zimbraMailAlias: [].concat(get(res, 'attrs._attrs.zimbraMailAlias', []))
+				zimbraMailAlias: [].concat(res?.attrs?._attrs?.zimbraMailAlias || [])
 			},
-			...(get(res, 'license.attr') && {
+			...(res?.license?.attr && {
 				license: {
 					status: res.license.status,
 					attr: mapValuesDeep(res.license.attr, coerceStringToBoolean)
@@ -336,8 +331,8 @@ export class ZimbraBatchClient {
 			}),
 			zimlets: {
 				zimlet:
-					get(res, 'zimlets.zimlet') &&
-					get(res, 'zimlets.zimlet').map(({ zimlet, zimletContext, zimletConfig }: any) => ({
+					res?.zimlets?.zimlet &&
+					res?.zimlets?.zimlet.map(({ zimlet, zimletContext, zimletConfig }: any) => ({
 						zimlet,
 						zimletContext,
 						...(zimletConfig && {
@@ -380,14 +375,16 @@ export class ZimbraBatchClient {
 				[<string>accountType]: mapValuesDeep(accountInfo, coerceBooleanToString)
 			},
 			singleRequest: true
-		}).then(res => get(res, `${accountType}.0.id`));
+		}).then(res => (accountType ? res?.[accountType]?.[0]?.id : null));
 
-	public addMessage = (options: AddMsgInput) => {
-		const { folderId, content, meta } = get(options, 'message');
+	public addMessage = (message: AddMsgInput) => {
+		const { folderId, content, meta } = message;
 		let flags, tags, tagNames, date;
 
 		try {
-			({ flags, tags, tagNames, date } = JSON.parse(meta));
+			if (meta) {
+				({ flags, tags, tagNames, date } = JSON.parse(meta));
+			}
 		} catch (err) {}
 
 		return this.jsonRequest({
@@ -431,7 +428,7 @@ export class ZimbraBatchClient {
 				}
 			}
 		}).then(res => {
-			const ids = get(res, 'm[0].ids');
+			const ids = res?.m?.[0]?.ids;
 			return ids ? ids.split(',') : [];
 		});
 
@@ -618,23 +615,21 @@ export class ZimbraBatchClient {
 				identity: {
 					...rest,
 					_attrs: {
-						...mapValues(attrs, coerceBooleanToString),
+						...objectMapValues(attrs, coerceBooleanToString),
 						zimbraPrefWhenSentToAddresses: convertStringAndArrayValues(
-							get(attrs, 'zimbraPrefWhenSentToAddresses')
+							attrs?.zimbraPrefWhenSentToAddresses
 						),
-						zimbraPrefWhenInFolderIds: convertStringAndArrayValues(
-							get(attrs, 'zimbraPrefWhenInFolderIds')
-						)
+						zimbraPrefWhenInFolderIds: convertStringAndArrayValues(attrs?.zimbraPrefWhenInFolderIds)
 					}
 				}
 			},
 			singleRequest: true
 		}).then(res => {
-			const mappedResult = mapValuesDeep(res, coerceStringToBoolean);
+			const mappedResult = <any>mapValuesDeep(res, coerceStringToBoolean);
 			const {
 				_attrs: { zimbraPrefWhenSentToAddresses, zimbraPrefWhenInFolderIds, ...restAttr },
 				...restIdentityProps
-			} = get(mappedResult, 'identity.0');
+			} = mappedResult?.identity?.[0];
 
 			return {
 				...mappedResult,
@@ -950,7 +945,7 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetConv',
 			body: {
-				c: mapValues(options, coerceBooleanToInt)
+				c: objectMapValues(options, coerceBooleanToInt)
 			}
 		}).then(res => {
 			const c = normalize(Conversation)(res.c[0]);
@@ -990,7 +985,7 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetDeviceStatus',
 			namespace: Namespace.Sync
-		}).then(res => get(res, 'device') || []);
+		}).then(res => res?.device || []);
 
 	public getDistributionListMembers = (limit: String, offset: String, dl: String) =>
 		this.jsonRequest({
@@ -1003,7 +998,7 @@ export class ZimbraBatchClient {
 				offset
 			},
 			namespace: Namespace.Account
-		}).then(res => normalize(DlGroupMember)(get(res, 'groupMembers.0.groupMember') || []));
+		}).then(res => normalize(DlGroupMember)(res?.groupMembers?.[0]?.groupMember || []));
 
 	public getDocumentShareURL = (options: GetDocumentShareURLOptions) =>
 		this.jsonRequest({
@@ -1015,7 +1010,7 @@ export class ZimbraBatchClient {
 	public getFilterRules = () =>
 		this.jsonRequest({
 			name: 'GetFilterRules'
-		}).then(res => normalize(Filter)(get(res, 'filterRules.0.filterRule') || []));
+		}).then(res => normalize(Filter)(res?.filterRules?.[0]?.filterRule || []));
 
 	public getFolder = (options: GetFolderOptions) => {
 		return this.jsonRequest({
@@ -1023,7 +1018,7 @@ export class ZimbraBatchClient {
 			body: denormalize(GetFolderRequestEntity)(options)
 		}).then(res => {
 			const foldersResponse = normalize(Folder)(res);
-			const folders = get(foldersResponse, 'folders.0', {});
+			const folders = foldersResponse?.folders?.[0] || {};
 
 			if (folders.folders) {
 				folders.folders = folders.folders.map(setUnreadDescendentFlag);
@@ -1084,7 +1079,7 @@ export class ZimbraBatchClient {
 			},
 			namespace: Namespace.Account
 		}).then(res => {
-			const habGroups = get(res, 'ou.0');
+			const habGroups = res?.ou?.[0];
 			return {
 				...habGroups,
 				habGroups: [...updateGroupNameRecur(habGroups.habGroup)]
@@ -1251,7 +1246,10 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'GetTag',
 			namespace: Namespace.Mail
-		}).then(({ tag = [] }) => tag.map(normalize(Tag)));
+		}).then(({ tag = [] }) => {
+			console.log(tag, tag.map(normalize(Tag)));
+			return tag.map(normalize(Tag));
+		});
 
 	public getTasks = (options: SearchOptions) =>
 		this.jsonRequest({
@@ -1411,13 +1409,11 @@ export class ZimbraBatchClient {
 				identity: {
 					...rest,
 					_attrs: {
-						...mapValues(attrs, coerceBooleanToString),
+						...objectMapValues(attrs, coerceBooleanToString),
 						zimbraPrefWhenSentToAddresses: convertStringAndArrayValues(
-							get(attrs, 'zimbraPrefWhenSentToAddresses')
+							attrs?.zimbraPrefWhenSentToAddresses
 						),
-						zimbraPrefWhenInFolderIds: convertStringAndArrayValues(
-							get(attrs, 'zimbraPrefWhenInFolderIds')
-						)
+						zimbraPrefWhenInFolderIds: convertStringAndArrayValues(attrs?.zimbraPrefWhenInFolderIds)
 					}
 				}
 			},
@@ -1771,7 +1767,9 @@ export class ZimbraBatchClient {
 				[<string>accountType]: mapValuesDeep(accountInfo, coerceBooleanToString)
 			},
 			singleRequest: true
-		}).then(res => mapValuesDeep(get(res, `${accountType}.0`), coerceStringToBoolean));
+		}).then(res =>
+			accountType ? mapValuesDeep(res?.[accountType]?.[0], coerceStringToBoolean) : null
+		);
 
 	public uploadMessage = (message: string): any => {
 		const contentDisposition = 'attachment';
@@ -1820,9 +1818,10 @@ export class ZimbraBatchClient {
 			requests,
 			...this.getAdditionalRequestOptions()
 		}).then(response => {
-			const sessionId = get(response, 'header.context.session.id');
-			const notifications = get(response, 'header.context.notify.0');
-			const refresh = get(response, 'header.context.refresh');
+			const respContext = response?.header?.context;
+			const sessionId = respContext?.session?.id;
+			const notifications = respContext?.notify?.[0];
+			const refresh = respContext?.refresh;
 
 			this.checkAndUpdateSessionId(sessionId);
 
@@ -1836,12 +1835,7 @@ export class ZimbraBatchClient {
 				}
 			}
 
-			return response.requests.map((r, i) => {
-				if (DEBUG) {
-					console.log(`[Batch Client Request] ${requests[i].name}`, requests[i].body, r);
-				}
-				return isError(r) ? r : r.body;
-			});
+			return response.responses.map(r => (isError(r) ? r : r.body));
 		});
 
 	private checkAndUpdateSessionId = (sessionId: any) => {
@@ -1858,9 +1852,10 @@ export class ZimbraBatchClient {
 			// check if login request then don't add csrfToken
 			...this.getAdditionalRequestOptions(requests[0].name !== 'Auth')
 		}).then(response => {
-			const sessionId = get(response, 'header.context.session.id');
-			const notifications = get(response, 'header.context.notify.0');
-			const refresh = get(response, 'header.context.refresh');
+			const respContext = response?.header?.context;
+			const sessionId = respContext?.session?.id;
+			const notifications = respContext?.notify?.[0];
+			const refresh = respContext?.refresh;
 
 			this.checkAndUpdateSessionId(sessionId);
 

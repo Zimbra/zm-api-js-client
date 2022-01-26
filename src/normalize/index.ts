@@ -1,5 +1,4 @@
-import reduce from 'lodash/reduce';
-
+import { objectReduce } from '../utils/utils';
 import { EntityMapping, EntityMappingValue, NormalizedKey } from './types';
 
 function normalizeKey(key: string, schema: Entity, inverse: Boolean = false): NormalizedKey {
@@ -20,9 +19,9 @@ function normalizeKey(key: string, schema: Entity, inverse: Boolean = false): No
 }
 
 function _normalize(data: {}, schema: Entity, inverse: Boolean = false) {
-	return reduce(
+	return objectReduce(
 		data,
-		(result: { [key: string]: any }, v, k) => {
+		(result: { [key: string]: any }, v: any[] | null, k: string) => {
 			const { key, nestedSchema } = normalizeKey(k, schema, inverse);
 			const type = typeof v;
 			if (Array.isArray(v)) {
@@ -75,9 +74,9 @@ export class Entity {
 	}
 
 	initInverseMapping(mapping: EntityMapping, accumulator = {}) {
-		return reduce(
+		return objectReduce(
 			mapping,
-			(result: EntityMapping, v: any, k) => {
+			(result: EntityMapping, v: any, k: any) => {
 				if (Array.isArray(v)) {
 					result[v[0]] = [k, v[1]];
 				} else if (typeof v === 'object' && !(v instanceof Entity)) {

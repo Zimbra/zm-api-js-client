@@ -2505,7 +2505,7 @@ input PreferencesInput {
 
 input ModifyIdentityInput {
 	id: ID!
-	attrs: IdentityAttrsInput
+	attrs: IdentityAttrsInput!
 }
 
 input DeleteIdentityInput {
@@ -2515,7 +2515,7 @@ input DeleteIdentityInput {
 
 input CreateIdentityInput {
 	name: String!
-	attrs: IdentityAttrsInput
+	attrs: IdentityAttrsInput!
 }
 
 input ZimletPreferenceInput {

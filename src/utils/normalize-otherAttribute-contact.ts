@@ -1,8 +1,6 @@
-import concat from 'lodash/concat';
-import differenceBy from 'lodash/differenceBy';
-import forEach from 'lodash/forEach';
 import { denormalize } from '../normalize';
 import { ContactInputRequest } from '../normalize/entities';
+import { arrayDifferenceBy, objectForEach } from './utils';
 
 const supportedContactAttributes = [
 	'firstName',
@@ -83,19 +81,20 @@ export function createContactBody(data: any) {
 	const { attributes, ...rest } = data;
 	const contactAttrs = <Object[]>[];
 
-	forEach(attributes, (val, key) =>
+	objectForEach(attributes, (val, key) =>
 		key !== 'other'
 			? contactAttrs.push({
 					name: key,
 					[key === 'image' ? 'aid' : 'content']: val
 			  })
-			: forEach(val, otherValue =>
+			: objectForEach(val, otherValue =>
 					contactAttrs.push({
 						name: otherValue.key,
 						_content: otherValue.value
 					})
 			  )
 	);
+
 	return {
 		cn: denormalize(ContactInputRequest)({
 			...rest,
@@ -143,15 +142,17 @@ export function normalizeOtherAttr(data: any) {
 				(a: any, b: any) => Number(a.key.match(/(\d+)/g)[0]) - Number(b.key.match(/(\d+)/g)[0])
 			);
 
-		const remainingOtherAttribute = differenceBy(other, otherAttributewithCustomKey, 'key').sort(
-			(a: any, b: any) => a.key.localeCompare(b.key)
-		);
+		const remainingOtherAttribute = arrayDifferenceBy(
+			other,
+			otherAttributewithCustomKey,
+			'key'
+		).sort((a: any, b: any) => a.key.localeCompare(b.key));
 
 		return {
 			...contact,
 			_attrs: {
 				...contact._attrs,
-				other: concat(otherAttributewithCustomKey, remainingOtherAttribute)
+				other: [...otherAttributewithCustomKey, ...remainingOtherAttribute]
 			}
 		};
 	});

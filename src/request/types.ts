@@ -63,10 +63,11 @@ export interface SingleBatchRequestResponse {
 }
 
 export interface BatchRequestResponse {
+	[x: string]: any;
 	header: any;
 	namespace: Namespace;
 	originalResponse: Response;
-	requests: Array<SingleBatchRequestResponse | SingleBatchRequestError>;
+	responses: Array<SingleBatchRequestResponse>;
 }
 
 export interface ParsedResponse extends Response {
