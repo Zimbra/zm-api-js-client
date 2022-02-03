@@ -65,6 +65,7 @@ const supportedContactAttributes = [
 	'website',
 	'notes',
 	'image',
+	'thumbnailPhoto',
 	'userCertificate',
 	'assistantPhone',
 	'callbackPhone',
@@ -78,6 +79,25 @@ const supportedContactAttributes = [
 	'otherURL',
 	'fileAs',
 	'type'
+];
+
+const ignoreAttributes = [
+	'modifyTimeStamp',
+	'createTimeStamp',
+	'zimbraId',
+	'objectClass',
+	'zimbraMailForwardingAddress',
+	'zimbraAccountCalendarUserType',
+	'zimbraCalResLocationDisplayName',
+	'zimbraCalResType',
+	'cardOwner',
+	'homeCardMessage',
+	'homePhotoURL',
+	'workCardMessage',
+	'workPhotoURL',
+	'firstLast',
+	'vcardXProps',
+	'imagepart'
 ];
 export function createContactBody(data: any) {
 	const { attributes, ...rest } = data;
@@ -129,7 +149,7 @@ export function normalizeOtherAttr(data: any) {
 		}
 
 		Object.keys(contact._attrs)
-			.filter(key => !supportedContactAttributes.includes(key))
+			.filter(key => !supportedContactAttributes.includes(key) && !ignoreAttributes.includes(key))
 			.forEach(
 				key =>
 					typeof contact._attrs[key] === 'string' &&
