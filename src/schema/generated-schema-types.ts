@@ -3048,6 +3048,7 @@ export type Owner = {
 };
 
 export enum ParticipationRole {
+  Cha = 'CHA',
   Non = 'NON',
   Opt = 'OPT',
   Req = 'REQ'
