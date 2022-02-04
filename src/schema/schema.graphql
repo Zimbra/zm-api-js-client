@@ -153,6 +153,7 @@ enum InviteCompletionStatus {
 enum ParticipationRole {
 	REQ # required
 	OPT # optional
+	CHA # chair
 	NON # informational purposes only
 }
 
