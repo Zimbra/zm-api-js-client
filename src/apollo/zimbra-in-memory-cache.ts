@@ -22,10 +22,12 @@ const dataIdFromObject = (object: any) => {
 		case 'Folder':
 			if (object.local && object.local !== null) {
 				return `${defaultDataIdFromObject(object)}:local`;
-			}
-			if (object.id === '1') {
+			} else if (object.id === '1') {
 				// Cache the root folder based on both ID and UUID from server
 				return `${object.__typename}:${object.id}:${object.uuid}`;
+			} else if (object.id?.includes(':')) {
+				// Generating unique ID for Caching the mounting folders based on ID and absFolderPath
+				return `${object.id}:${object.absFolderPath}`;
 			}
 			return defaultDataIdFromObject(object);
 		case 'AutoCompleteMatch':

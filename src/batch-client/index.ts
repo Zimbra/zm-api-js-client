@@ -233,13 +233,12 @@ function updateAbsoluteFolderPath(originalName: any, parentFolderAbsPath: string
 		if (originalName === 'USER_ROOT') {
 			folder.absFolderPath = `${parentFolderAbsPath}${folder.absFolderPath}`;
 		} else {
-			folder.absFolderPath = folder.absFolderPath.replace(`/${originalName}`, parentFolderAbsPath);
+			folder.absFolderPath = `${parentFolderAbsPath}/${folder.name}`;
 		}
 
 		if (folder.folders) {
-			folder.folders = updateAbsoluteFolderPath(originalName, parentFolderAbsPath, folder.folders);
+			folder.folders = updateAbsoluteFolderPath(originalName, folder.absFolderPath, folder.folders);
 		}
-
 		return folder;
 	});
 }
