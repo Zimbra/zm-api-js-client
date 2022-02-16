@@ -3699,6 +3699,7 @@ export type SMimeMessage = {
   __typename?: 'SMimeMessage';
   content?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
+  isSecure?: Maybe<Scalars['Boolean']>;
 };
 
 export type SMimePublicCert = {

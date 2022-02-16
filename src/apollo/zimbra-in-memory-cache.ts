@@ -41,6 +41,8 @@ const dataIdFromObject = (object: any) => {
 				return `${defaultDataIdFromObject(object)}:${object.part}`;
 			}
 			return defaultDataIdFromObject(object);
+		case 'SMimeMessage':
+			return `${defaultDataIdFromObject(object)}:${object.isSecure}`;
 		default:
 			return defaultDataIdFromObject(object);
 	}
