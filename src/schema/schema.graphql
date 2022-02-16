@@ -2991,6 +2991,7 @@ type SMimePublicCertsResponse {
 type SMimeMessage {
 	id: ID
 	content: String
+	isSecure: Boolean
 }
 
 type Attachment {

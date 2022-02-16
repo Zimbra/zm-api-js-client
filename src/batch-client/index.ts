@@ -815,7 +815,8 @@ export class ZimbraBatchClient {
 		this.download({ isSecure, url: `/service/home/~/?auth=co&id=${id}` }).then(
 			({ content }: any) => ({
 				id,
-				content
+				content,
+				isSecure
 			})
 		);
 
