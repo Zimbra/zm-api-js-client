@@ -1,3 +1,12 @@
+/** List of content type not show as attachment */
+const ignoreContentTypeToShowAsAttachment = [
+	'application/pkcs7-signature',
+	'application/x-pkcs7-signature',
+	'message/delivery-status', // present in Undelivered mail
+	'message/disposition-notification', // present in read-receipt response
+	'xml/x-zimbra-share' // present in folder share message
+];
+
 function normalizeCid(cid: string) {
 	return cid.replace(/[<>]/g, '');
 }
@@ -144,8 +153,7 @@ export function normalizeMimeParts(
 			if (!isBody && type.split('/')[0] !== 'multipart') {
 				let mode = disposition === 'inline' ? 'inlineAttachments' : 'attachments';
 
-				part.contentType !== 'application/pkcs7-signature' &&
-					part.contentType !== 'application/x-pkcs7-signature' &&
+				!ignoreContentTypeToShowAsAttachment.includes(part.contentType) &&
 					(acc[mode] || (acc[mode] = [])).push(processAttachment(part, mode));
 
 				if (isDesktop) {
