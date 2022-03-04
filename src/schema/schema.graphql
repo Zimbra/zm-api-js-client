@@ -3095,6 +3095,10 @@ input SearchConditionsInput {
 	conds: ConditionsInput
 }
 
+input DiscoverRightInput {
+	_content: String
+}
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -3118,7 +3122,7 @@ type Query {
 	downloadMessage(id: ID!, isSecure: Boolean, isLocal: Boolean): SMimeMessage
 	downloadAttachment(id: ID!, part: ID!): Attachment
 	downloadDocument(id: ID!, url: String!): Attachment
-	discoverRights: DiscoverRights
+	discoverRights(right: [DiscoverRightInput!]!): DiscoverRights
 	freeBusy(names: [String!]!, start: Float, end: Float): [FreeBusy]
 	getContact(
 		id: ID

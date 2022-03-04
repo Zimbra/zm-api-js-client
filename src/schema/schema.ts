@@ -54,6 +54,7 @@ import {
 	ClientInfoInput,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
+	DiscoverRightOptions,
 	ExternalAccountDeleteInput,
 	ExternalAccountModifyInput,
 	FreeBusyOptions,
@@ -103,7 +104,7 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 				autoComplete: (_, variables) => client.autoComplete(variables as AutoCompleteOptions),
 				autoCompleteGAL: (_, variables) =>
 					client.autoCompleteGAL(variables as AutoCompleteGALOptions),
-				discoverRights: client.discoverRights,
+				discoverRights: (_, variables) => client.discoverRights(variables as DiscoverRightOptions),
 				downloadAttachment: (_, variables) => client.downloadAttachment(variables),
 				downloadDocument: (_, variables) => client.downloadDocument(variables),
 				downloadMessage: (_, variables, context = {}) => {
