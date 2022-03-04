@@ -764,6 +764,12 @@ export class ZimbraBatchClient {
 					},
 					{
 						_content: 'sendOnBehalfOf'
+					},
+					{
+						_content: 'sendAsDistList'
+					},
+					{
+						_content: 'sendOnBehalfOfDistList'
 					}
 				]
 			}
