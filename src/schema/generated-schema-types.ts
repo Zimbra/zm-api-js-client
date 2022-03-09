@@ -792,6 +792,7 @@ export type ClientInfoAttributes = {
   zimbraFeatureResetPasswordStatus?: Maybe<ResetPasswordStatus>;
   zimbraWebClientLoginURL?: Maybe<Scalars['String']>;
   zimbraWebClientLogoutURL?: Maybe<Scalars['String']>;
+  zimbraWebClientSkipLogoff?: Maybe<Scalars['Boolean']>;
 };
 
 export type ClientInfoType = {
