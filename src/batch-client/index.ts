@@ -541,7 +541,7 @@ export class ZimbraBatchClient {
 			},
 			singleRequest: true,
 			namespace: Namespace.Account
-		}).then(res => normalize(ClientInfoResponse)(res));
+		}).then(res => normalize(ClientInfoResponse)(mapValuesDeep(res, coerceStringToBoolean)));
 
 	public contactAction = (options: ActionOptions) => this.action(ActionType.contact, options);
 
@@ -849,6 +849,41 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account,
 			singleRequest: true
 		});
+
+	public endSessionBeaconRequest = (options: JsonRequestOptions) => {
+		const body = {
+			Body: {
+				EndSessionRequest: {
+					_jsns: Namespace.Account
+				}
+			},
+			Header: {
+				context: {
+					_jsns: Namespace.All,
+					csrfToken: this.csrfToken,
+					account: {
+						by: 'name',
+						_content: options.accountName
+					},
+					session: {
+						id: this.sessionId,
+						_content: this.sessionId
+					},
+					userAgent: this.userAgent
+				}
+			}
+		};
+
+		try {
+			const blob = new Blob([JSON.stringify(body)]);
+			if (navigator) {
+				// In zimbra desktop client navigator is null
+				navigator.sendBeacon(`${this.origin}/service/soap`, blob);
+			}
+		} catch (e) {
+			throw new Error('Error on endSessionBeaconRequest request' + e);
+		}
+	};
 
 	public folderAction = (options: ActionOptions) => this.action(ActionType.folder, options);
 

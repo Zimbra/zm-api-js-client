@@ -485,6 +485,7 @@ interface MailItem {
 type ClientInfoAttributes {
 	zimbraWebClientLoginURL: String
 	zimbraWebClientLogoutURL: String
+	zimbraWebClientSkipLogoff: Boolean
 	zimbraFeatureResetPasswordStatus: ResetPasswordStatus
 }
 
