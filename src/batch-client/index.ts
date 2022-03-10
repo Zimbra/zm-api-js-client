@@ -120,6 +120,7 @@ import {
 	ChangePasswordOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
+	DiscoverRightOptions,
 	ExternalAccountDeleteInput,
 	ExternalAccountModifyInput,
 	FreeBusyOptions,
@@ -753,19 +754,12 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(Boolean);
 
-	public discoverRights = () =>
+	public discoverRights = ({ right }: DiscoverRightOptions) =>
 		this.jsonRequest({
 			name: 'DiscoverRights',
 			namespace: Namespace.Account,
 			body: {
-				right: [
-					{
-						_content: 'sendAs'
-					},
-					{
-						_content: 'sendOnBehalfOf'
-					}
-				]
+				right
 			}
 		}).then(res => normalize(DiscoverRightsResponse)(res));
 

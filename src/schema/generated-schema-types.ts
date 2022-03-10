@@ -1235,6 +1235,10 @@ export type Device = {
   ua?: Maybe<Scalars['String']>;
 };
 
+export type DiscoverRightInput = {
+  _content?: Maybe<Scalars['String']>;
+};
+
 export type DiscoverRights = {
   __typename?: 'DiscoverRights';
   targets?: Maybe<Array<Maybe<Targets>>>;
@@ -3338,6 +3342,11 @@ export type QueryAutoCompleteGalArgs = {
 export type QueryClientInfoArgs = {
   by?: Maybe<Scalars['String']>;
   domain?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryDiscoverRightsArgs = {
+  right: Array<DiscoverRightInput>;
 };
 
 

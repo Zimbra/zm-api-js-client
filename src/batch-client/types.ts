@@ -365,3 +365,10 @@ export interface NoOpOptions {
 	limitToOneBlocked: number;
 	wait: number;
 }
+
+export interface DiscoverRightInput {
+	_content: string;
+}
+export interface DiscoverRightOptions {
+	right: Array<DiscoverRightInput>;
+}
