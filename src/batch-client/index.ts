@@ -1684,7 +1684,12 @@ export class ZimbraBatchClient {
 			name: 'SearchGal',
 			body: options,
 			namespace: Namespace.Account
-		}).then(normalize(SearchResponse));
+		}).then(res => {
+			if (res.cn) {
+				res.cn = normalizeOtherAttr(res.cn);
+			}
+			return normalize(SearchResponse)(res);
+		});
 
 	public sendDeliveryReport = (messageId: string) =>
 		this.jsonRequest({
