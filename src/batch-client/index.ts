@@ -590,7 +590,7 @@ export class ZimbraBatchClient {
 	public createContact = (data: CreateContactInput) =>
 		this.jsonRequest({
 			name: 'CreateContact',
-			body: createContactBody(data),
+			body: createContactBody(data, this.localStoreClient !== undefined),
 			singleRequest: true
 		}).then(res => normalize(Contact)(normalizeOtherAttr(res.cn)[0]));
 
@@ -1374,7 +1374,7 @@ export class ZimbraBatchClient {
 	public modifyContact = (data: ModifyContactInput) =>
 		this.jsonRequest({
 			name: 'ModifyContact',
-			body: createContactBody(data),
+			body: createContactBody(data, this.localStoreClient !== undefined),
 			singleRequest: true
 		}).then(res => normalize(Contact)(normalizeOtherAttr(res.cn)[0]));
 
