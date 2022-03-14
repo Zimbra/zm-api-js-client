@@ -99,7 +99,7 @@ const ignoreAttributes = [
 	'vcardXProps',
 	'imagepart'
 ];
-export function createContactBody(data: any) {
+export function createContactBody(data: any, isDesktop: Boolean) {
 	const { attributes, ...rest } = data;
 	const contactAttrs = <Object[]>[];
 
@@ -107,7 +107,7 @@ export function createContactBody(data: any) {
 		key !== 'other'
 			? contactAttrs.push({
 					name: key,
-					[key === 'image' || key === 'userCertificate' ? 'aid' : 'content']: val
+					[key === 'image' || (!isDesktop && key === 'userCertificate') ? 'aid' : 'content']: val
 			  })
 			: forEach(val, otherValue =>
 					contactAttrs.push({
