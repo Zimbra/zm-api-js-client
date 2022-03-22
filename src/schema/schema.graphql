@@ -1361,6 +1361,7 @@ type AccountInfoAttrs {
 	zimbraFeaturePop3DataSourceEnabled: Boolean
 	zimbraSignupAffiliate: String
 	zimbraSignupRecoveryEmail: String
+	zimbraFeatureTasksEnabled: Boolean
 	zimbraTrialExpirationDate: String
 	zimbraTrialConvertAtExpiration: Boolean
 	zimbraHierarchicalAddressBookRoot: String
