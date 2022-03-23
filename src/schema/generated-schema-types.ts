@@ -869,8 +869,8 @@ export type ContactAttributes = {
   lastName?: Maybe<Scalars['String']>;
   maidenName?: Maybe<Scalars['String']>;
   middleName?: Maybe<Scalars['String']>;
-  mobile?: Maybe<Scalars['String']>;
-  mobile2?: Maybe<Scalars['String']>;
+  mobilePhone?: Maybe<Scalars['String']>;
+  mobilePhone2?: Maybe<Scalars['String']>;
   namePrefix?: Maybe<Scalars['String']>;
   nameSuffix?: Maybe<Scalars['String']>;
   nickname?: Maybe<Scalars['String']>;
@@ -946,8 +946,8 @@ export type ContactAttrsInput = {
   lastName?: Maybe<Scalars['String']>;
   maidenName?: Maybe<Scalars['String']>;
   middleName?: Maybe<Scalars['String']>;
-  mobile?: Maybe<Scalars['String']>;
-  mobile2?: Maybe<Scalars['String']>;
+  mobilePhone?: Maybe<Scalars['String']>;
+  mobilePhone2?: Maybe<Scalars['String']>;
   namePrefix?: Maybe<Scalars['String']>;
   nameSuffix?: Maybe<Scalars['String']>;
   nickname?: Maybe<Scalars['String']>;

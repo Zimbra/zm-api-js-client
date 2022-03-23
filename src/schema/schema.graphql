@@ -1672,8 +1672,8 @@ type ContactAttributes {
 	companyPhone2: String
 	otherPhone: String
 	otherPhone2: String
-	mobile: String
-	mobile2: String
+	mobilePhone: String
+	mobilePhone2: String
 	homePhone: String
 	homePhone2: String
 	workPhone: String
@@ -1776,8 +1776,8 @@ input ContactAttrsInput {
 	companyPhone2: String
 	otherPhone: String
 	otherPhone2: String
-	mobile: String
-	mobile2: String
+	mobilePhone: String
+	mobilePhone2: String
 	homePhone: String
 	homePhone2: String
 	workPhone: String
