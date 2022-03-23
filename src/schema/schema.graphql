@@ -1655,14 +1655,12 @@ type ContactAttributes {
 	workEmail2: String
 	homeEmail: String
 	homeEmail2: String
-	phone: String
-	phone2: String
 	companyPhone: String
 	companyPhone2: String
 	otherPhone: String
 	otherPhone2: String
-	mobilePhone: String
-	mobilePhone2: String
+	mobile: String
+	mobile2: String
 	homePhone: String
 	homePhone2: String
 	workPhone: String
@@ -1761,14 +1759,12 @@ input ContactAttrsInput {
 	workEmail2: String
 	homeEmail: String
 	homeEmail2: String
-	phone: String
-	phone2: String
 	companyPhone: String
 	companyPhone2: String
 	otherPhone: String
 	otherPhone2: String
-	mobilePhone: String
-	mobilePhone2: String
+	mobile: String
+	mobile2: String
 	homePhone: String
 	homePhone2: String
 	workPhone: String
