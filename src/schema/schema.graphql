@@ -2857,7 +2857,7 @@ input GetDocumentShareURLItemInput {
 
 input Cursor {
 	id: ID
-	sortField: String
+	sortVal: String
 	endSortVal: String
 	includeOffset: Boolean
 }
