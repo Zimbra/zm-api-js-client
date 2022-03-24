@@ -1344,6 +1344,7 @@ type AccountInfoAttrs {
 	zimbraFeatureDocumentEditingEnabled: Boolean
 	zimbraTwoFactorAuthEnabled: Boolean
 	zimbraFeatureTrustedDevicesEnabled: Boolean
+	zimbraFeatureAntispamEnabled: Boolean
 	zimbraFeatureAppSpecificPasswordsEnabled: Boolean
 	zimbraFeatureMailPriorityEnabled: Boolean
 	zimbraFileUploadMaxSize: Float

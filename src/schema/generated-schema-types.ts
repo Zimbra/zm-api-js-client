@@ -83,6 +83,7 @@ export type AccountInfoAttrs = {
   zimbraDomainTrialExpirationDate?: Maybe<Scalars['String']>;
   zimbraDumpsterEnabled?: Maybe<Scalars['Boolean']>;
   zimbraExternalSharingEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureAntispamEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureAppSpecificPasswordsEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureBriefcasesEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureCalendarEnabled?: Maybe<Scalars['Boolean']>;
