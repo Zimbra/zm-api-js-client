@@ -1019,6 +1019,39 @@ export class ZimbraBatchClient {
 			const foldersResponse = normalize(Folder)(res);
 			const folders = get(foldersResponse, 'folders.0', {});
 
+			let test = ( parent: any, folders: any) => {
+				// console.log('test', parent, folders);
+				if (folders.folders && !folders.linkedFolders) {
+				  folders.folders.map((f:any) => {
+					test(folders, f);
+					// console.log('map', f);
+				  });
+				  // let [f] = folders.folders;
+				  // console.log('map', f);
+				} else {
+				  if (folders.linkedFolders) {
+					if (folders.folders) {
+					  folders.folders.push(...folders.linkedFolders);
+					} else {
+					  folders['folders'] = [...folders.linkedFolders];
+					//   console.log('folders', folders);
+					  delete folders.linkedFolders;
+					}
+				  }
+			  
+				  return;
+				}
+			  };
+			  if(folders.folders){
+			  folders.folders.map((folder:any) => {
+				  if(folder.view === FolderView.Appointment){
+					test(foldersResponse, folders);
+				}
+			  }
+			  )
+			}
+			//   console.log(folders1);  
+
 			if (folders.folders) {
 				folders.folders = folders.folders.map(setUnreadDescendentFlag);
 
@@ -1061,11 +1094,11 @@ export class ZimbraBatchClient {
 							folder.folders = updateAbsoluteFolderPath(oname, absFolderPath, folders);
 						}
 					}
-
+					// console.log("folder",folder);
 					return folder;
 				});
 			}
-
+			// console.log("foldersResponse",foldersResponse);
 			return foldersResponse;
 		});
 	};
