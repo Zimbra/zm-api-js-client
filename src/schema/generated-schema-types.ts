@@ -1125,7 +1125,7 @@ export type Cursor = {
   endSortVal?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   includeOffset?: Maybe<Scalars['Boolean']>;
-  sortField?: Maybe<Scalars['String']>;
+  sortVal?: Maybe<Scalars['String']>;
 };
 
 export type CustomMetadata = {
