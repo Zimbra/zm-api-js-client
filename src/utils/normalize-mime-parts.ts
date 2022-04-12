@@ -7,6 +7,8 @@ const ignoreContentTypeToShowAsAttachment = [
 	'xml/x-zimbra-share' // present in folder share message
 ];
 
+const MORE_TEXT_TYPES = ['text/rfc822-headers'];
+
 function normalizeCid(cid: string) {
 	return cid.replace(/[<>]/g, '');
 }
@@ -139,13 +141,10 @@ export function normalizeMimeParts(
 						processAttachment(part)
 					);
 				} else if (bodyType && (!acc[bodyType] || disposition !== 'inline')) {
-					if ((bodyType === 'html' || bodyType === 'text') && acc[bodyType]) {
-						acc[bodyType] = acc[bodyType].concat(content);
-					} else {
-						acc[bodyType] = content;
-					}
-
+					acc[bodyType] = (acc[bodyType] || '').concat(content);
 					isBody = true;
+				} else if (!bodyType && disposition === 'inline' && MORE_TEXT_TYPES.includes(type)) {
+					acc.text = (acc.text || '').concat(content);
 				}
 			}
 
