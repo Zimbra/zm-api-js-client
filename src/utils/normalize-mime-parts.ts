@@ -109,11 +109,11 @@ export function normalizeMimeParts(
 			// obey scapi's isBody flag:
 			if (isBody) acc.body = content;
 
+			const isInline = disposition === 'inline';
+
 			// if not explicitly an attachment, discover html/text body:
 			if (disposition !== 'attachment') {
-				let bodyType = type === 'text/html' ? 'html' : type === 'text/plain' && 'text';
-
-				if (~type.indexOf('image/') && disposition === 'inline' && !part.contentId) {
+				if (isInline && ~type.indexOf('image/') && !part.contentId) {
 					/**
 					 * Different email clients work in different ways.
 					 * E.g. iOS email client doesn't put `contentId` for image inline attachments when there are other type (normal) of attachments as well in email body.
@@ -131,26 +131,24 @@ export function normalizeMimeParts(
 					);
 
 					acc['html'] = acc['text']; // And then update `html` part so that we render `html` in `viewer`.
-				} else if (
-					//bodyType can be either 'text/html' or 'text/plain' so to handle such inline attachments the below condition is added
-					part.filename &&
-					bodyType &&
-					disposition === 'inline'
-				) {
-					(acc['inlineAttachments'] || (acc['inlineAttachments'] = [])).concat(
-						processAttachment(part)
-					);
-				} else if (bodyType && (!acc[bodyType] || disposition !== 'inline')) {
-					acc[bodyType] = (acc[bodyType] || '').concat(content);
-					isBody = true;
-				} else if (!bodyType && disposition === 'inline' && MORE_TEXT_TYPES.includes(type)) {
-					acc.text = (acc.text || '').concat(content);
+				} else {
+					const isTextType = MORE_TEXT_TYPES.includes(type);
+					let bodyType =
+						type === 'text/html' ? 'html' : (type === 'text/plain' || isTextType) && 'text';
+
+					if (bodyType) {
+						//bodyType can be either 'text/html' or 'text/plain' so to handle such inline attachments the below condition is added
+						if (!(part.filename && isTextType && isInline)) {
+							isBody = true;
+						}
+						acc[bodyType] = (acc[bodyType] || '').concat(content);
+					}
 				}
 			}
 
 			// remaining non-body, non-enclosure parts are attachments:
 			if (!isBody && type.split('/')[0] !== 'multipart') {
-				let mode = disposition === 'inline' ? 'inlineAttachments' : 'attachments';
+				let mode = isInline ? 'inlineAttachments' : 'attachments';
 
 				!ignoreContentTypeToShowAsAttachment.includes(part.contentType) &&
 					(acc[mode] || (acc[mode] = [])).push(processAttachment(part, mode));
