@@ -2836,6 +2836,7 @@ input EnableTwoFactorAuthInput {
 	twoFactorCode: String
 	authToken: String
 	csrfTokenSecured: Boolean!
+	ignoreSameSite: Boolean
 }
 
 input ExternalAccountImportInput {
@@ -3459,6 +3460,7 @@ type Mutation {
 		twoFactorCode: String
 		deviceTrusted: Boolean
 		csrfTokenSecured: Boolean!
+		ignoreSameSite: Boolean
 	): AuthResponse
 	enableTwoFactorAuth(
 		options: EnableTwoFactorAuthInput!
