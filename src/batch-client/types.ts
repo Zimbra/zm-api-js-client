@@ -244,6 +244,7 @@ export interface ModifyProfileImageOptions {
 export interface LoginOptions {
 	csrfTokenSecured: boolean;
 	deviceTrusted?: boolean;
+	ignoreSameSite?: boolean;
 	password: string;
 	persistAuthTokenCookie?: boolean;
 	recoveryCode?: string;

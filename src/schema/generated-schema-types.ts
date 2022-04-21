@@ -1326,6 +1326,7 @@ export type EmailAddressInput = {
 export type EnableTwoFactorAuthInput = {
   authToken?: Maybe<Scalars['String']>;
   csrfTokenSecured: Scalars['Boolean'];
+  ignoreSameSite?: Maybe<Scalars['Boolean']>;
   name: Scalars['String'];
   password?: Maybe<Scalars['String']>;
   twoFactorCode?: Maybe<Scalars['String']>;
@@ -2749,6 +2750,7 @@ export type MutationItemActionArgs = {
 export type MutationLoginArgs = {
   csrfTokenSecured: Scalars['Boolean'];
   deviceTrusted?: Maybe<Scalars['Boolean']>;
+  ignoreSameSite?: Maybe<Scalars['Boolean']>;
   password?: Maybe<Scalars['String']>;
   persistAuthTokenCookie?: Maybe<Scalars['Boolean']>;
   recoveryCode?: Maybe<Scalars['String']>;

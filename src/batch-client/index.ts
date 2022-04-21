@@ -819,7 +819,8 @@ export class ZimbraBatchClient {
 		password,
 		authToken,
 		twoFactorCode,
-		csrfTokenSecured
+		csrfTokenSecured,
+		ignoreSameSite
 	}: EnableTwoFactorAuthInput) =>
 		this.jsonRequest({
 			name: 'EnableTwoFactorAuth',
@@ -842,6 +843,7 @@ export class ZimbraBatchClient {
 						_content: twoFactorCode
 					}
 				}),
+				...(ignoreSameSite && { ignoreSameSite }),
 				csrfTokenSecured
 			},
 			namespace: Namespace.Account,
@@ -1324,7 +1326,8 @@ export class ZimbraBatchClient {
 		persistAuthTokenCookie,
 		twoFactorCode,
 		deviceTrusted,
-		csrfTokenSecured
+		csrfTokenSecured,
+		ignoreSameSite
 	}: LoginOptions) =>
 		this.jsonRequest({
 			name: 'Auth',
@@ -1337,6 +1340,7 @@ export class ZimbraBatchClient {
 					by: 'name',
 					_content: username
 				},
+				...(ignoreSameSite && { ignoreSameSite }),
 				...(password && { password }),
 				...(recoveryCode && {
 					recoveryCode: {
