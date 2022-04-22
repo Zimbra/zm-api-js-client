@@ -889,6 +889,7 @@ export type ContactAttributes = {
   otherURL?: Maybe<Scalars['String']>;
   pager?: Maybe<Scalars['String']>;
   pager2?: Maybe<Scalars['String']>;
+  phoneticCompany?: Maybe<Scalars['String']>;
   phoneticFirstName?: Maybe<Scalars['String']>;
   phoneticLastName?: Maybe<Scalars['String']>;
   thumbnailPhoto?: Maybe<Scalars['String']>;
@@ -966,6 +967,7 @@ export type ContactAttrsInput = {
   otherURL?: Maybe<Scalars['String']>;
   pager?: Maybe<Scalars['String']>;
   pager2?: Maybe<Scalars['String']>;
+  phoneticCompany?: Maybe<Scalars['String']>;
   phoneticFirstName?: Maybe<Scalars['String']>;
   phoneticLastName?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
