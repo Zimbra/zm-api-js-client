@@ -7,6 +7,7 @@ import { ContactInputRequest } from '../normalize/entities';
 const supportedContactAttributes = [
 	'firstName',
 	'phoneticFirstName',
+	'phoneticCompany',
 	'middleName',
 	'lastName',
 	'phoneticLastName',
