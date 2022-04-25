@@ -1629,7 +1629,7 @@ export class ZimbraBatchClient {
 				cancelResetPassword
 			},
 			singleRequest: true
-		});
+		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
 
 	public resolve = (path: string) => `${this.origin}${path}`;
 
