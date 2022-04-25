@@ -128,6 +128,7 @@ export type AccountInfoAttrs = {
   zimbraMailBlacklistMaxNumEntries?: Maybe<Scalars['Int']>;
   zimbraMailQuota?: Maybe<Scalars['String']>;
   zimbraMtaMaxMessageSize?: Maybe<Scalars['Float']>;
+  zimbraPasswordAllowUsername?: Maybe<Scalars['Boolean']>;
   zimbraPasswordAllowedChars?: Maybe<Scalars['String']>;
   zimbraPasswordAllowedPunctuationChars?: Maybe<Scalars['String']>;
   zimbraPasswordBlockCommonEnabled?: Maybe<Scalars['Boolean']>;
