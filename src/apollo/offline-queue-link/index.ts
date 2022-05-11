@@ -1,4 +1,11 @@
-import { ApolloLink, FetchResult, NextLink, Observable, Observer, Operation } from '@apollo/client';
+import {
+	ApolloLink,
+	FetchResult,
+	NextLink,
+	Observable,
+	Observer,
+	Operation
+} from '@apollo/client/core';
 
 import { SyncOfflineOperations } from '../sync-offline-operations';
 import { OfflineQueueLinkOptions, OperationEntry, StorageProvider } from './types';

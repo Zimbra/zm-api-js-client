@@ -1,4 +1,4 @@
-import { ApolloLink, FetchResult, Observable, Operation } from '@apollo/client';
+import { ApolloLink, FetchResult, Observable, Operation } from '@apollo/client/core';
 import { BatchLink } from '@apollo/client/link/batch';
 import { graphql, print } from 'graphql';
 import events from 'mitt';
