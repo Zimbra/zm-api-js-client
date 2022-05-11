@@ -1,5 +1,4 @@
-import { FetchResult, NextLink, Operation } from '@apollo/client';
-import { Observer } from '@apollo/client';
+import { FetchResult, NextLink, Observer, Operation } from '@apollo/client/core';
 
 export interface OfflineQueueLinkOptions {
 	isOpen?: boolean;
