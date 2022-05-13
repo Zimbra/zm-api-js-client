@@ -682,8 +682,7 @@ export class ZimbraBatchClient {
 		this.jsonRequest({
 			name: 'CreateSignature',
 			namespace: Namespace.Account,
-			body: denormalize(CreateSignatureRequest)(options),
-			singleRequest: true
+			body: denormalize(CreateSignatureRequest)(options)
 		});
 
 	public createTag = (tag: CreateTagInput) =>
