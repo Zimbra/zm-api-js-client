@@ -108,6 +108,7 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 				discoverRights: (_, variables) => client.discoverRights(variables as DiscoverRightOptions),
 				downloadAttachment: (_, variables) => client.downloadAttachment(variables),
 				downloadDocument: (_, variables) => client.downloadDocument(variables),
+				listDocumentRevisions: (_, variables) => client.listDocumentRevisions(variables),
 				downloadMessage: (_, variables, context = {}) => {
 					const { local } = context;
 
