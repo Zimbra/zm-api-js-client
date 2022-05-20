@@ -1554,6 +1554,7 @@ type Document {
 	revisedCreationDate: Float #cd
 	lockOwnerId: ID #loid
 	flags: String #f
+	docs: [Document]
 }
 
 type SearchResponse {
@@ -3190,6 +3191,7 @@ type Query {
 	downloadMessage(id: ID!, isSecure: Boolean, isLocal: Boolean): SMimeMessage
 	downloadAttachment(id: ID!, part: ID!): Attachment
 	downloadDocument(id: ID!, url: String!): Attachment
+	listDocumentRevisions(id: ID!, version: Int!, count: Int!): Document
 	discoverRights(right: [DiscoverRightInput!]!): DiscoverRights
 	freeBusy(names: [String!]!, start: Float, end: Float): [FreeBusy]
 	getContact(
