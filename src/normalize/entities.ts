@@ -524,6 +524,10 @@ export const Document = new Entity({
 	f: 'flags'
 });
 
+export const ListDocumentRevisions = new Entity({
+	doc: ['documents', Document]
+});
+
 export const MessagePartInputForDocuments = new Entity({
 	id: 'messageId',
 	part: 'attachmentPart'

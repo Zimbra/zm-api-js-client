@@ -37,6 +37,7 @@ import {
 	GetRightsRequest,
 	HabGroup,
 	InviteReply,
+	ListDocumentRevisions,
 	MessageInfo,
 	SaveDocument,
 	SaveDocuments,
@@ -1351,6 +1352,33 @@ export class ZimbraBatchClient {
 	public jsonRequest = (options: JsonRequestOptions) =>
 		// If account name is present that means we will not be able to batch requests
 		this[options.singleRequest ? 'dataLoader' : 'batchDataLoader'].load(options);
+
+	public listDocumentRevisions = ({ id, version, count }: any) =>
+		this.jsonRequest({
+			name: 'ListDocumentRevisions',
+			namespace: Namespace.Mail,
+			body: {
+				doc: {
+					id,
+					ver: version,
+					count
+				}
+			}
+		}).then(response => {
+			const data = normalize(ListDocumentRevisions)(response);
+			const versionIds = data.documents.map((doc: any) => doc.version);
+			const maxVersion = Math.max(...versionIds);
+			const latestDocumentVersion = data.documents.find((doc: any) => doc.version === maxVersion);
+			const versionDocuments = data.documents.map((versionDoc: any) => ({
+				...versionDoc,
+				name: latestDocumentVersion.name
+			}));
+
+			return {
+				...latestDocumentVersion,
+				docs: versionDocuments
+			};
+		});
 
 	public login = ({
 		username,

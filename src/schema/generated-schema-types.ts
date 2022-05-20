@@ -1273,6 +1273,7 @@ export type Document = {
   contentType?: Maybe<Scalars['String']>;
   date?: Maybe<Scalars['Float']>;
   descriptionEnabled?: Maybe<Scalars['Boolean']>;
+  docs?: Maybe<Array<Maybe<Document>>>;
   flags?: Maybe<Scalars['String']>;
   folderId?: Maybe<Scalars['ID']>;
   folderUuid?: Maybe<Scalars['String']>;
@@ -3319,6 +3320,7 @@ export type Query = {
   getTrustedDevices?: Maybe<GetTrustedDevicesResponse>;
   getWhiteBlackList?: Maybe<WhiteBlackList>;
   getWorkingHours?: Maybe<Array<Maybe<WorkingHours>>>;
+  listDocumentRevisions?: Maybe<Document>;
   noop?: Maybe<NoOpResponse>;
   recoverAccount?: Maybe<RecoverAccount>;
   relatedContacts?: Maybe<Array<Maybe<RelatedContact>>>;
@@ -3528,6 +3530,13 @@ export type QueryGetWorkingHoursArgs = {
   end?: InputMaybe<Scalars['Float']>;
   names: Array<Scalars['String']>;
   start?: InputMaybe<Scalars['Float']>;
+};
+
+
+export type QueryListDocumentRevisionsArgs = {
+  count: Scalars['Int'];
+  id: Scalars['ID'];
+  version: Scalars['Int'];
 };
 
 
