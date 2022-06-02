@@ -2455,6 +2455,7 @@ export type Mutation = {
   prefOutOfOfficeFromDate?: Maybe<Scalars['String']>;
   prefOutOfOfficeReply?: Maybe<Scalars['String']>;
   prefOutOfOfficeUntilDate?: Maybe<Scalars['String']>;
+  purgeRevision?: Maybe<Scalars['Boolean']>;
   quarantineDeviceSync?: Maybe<Device>;
   recoverAccount?: Maybe<RecoverAccount>;
   remoteWipeSync?: Maybe<Device>;
@@ -2877,6 +2878,13 @@ export type MutationPrefOutOfOfficeUntilDateArgs = {
 };
 
 
+export type MutationPurgeRevisionArgs = {
+  id: Scalars['ID'];
+  includeOlderRevisions?: InputMaybe<Scalars['Int']>;
+  ver: Scalars['Int'];
+};
+
+
 export type MutationQuarantineDeviceSyncArgs = {
   deviceId?: InputMaybe<Scalars['String']>;
 };
@@ -3274,6 +3282,12 @@ export type PropertiesInput = {
   _content?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   zimlet: Scalars['String'];
+};
+
+export type PurgetRevisionInput = {
+  id: Scalars['ID'];
+  includeOlderRevisions?: InputMaybe<Scalars['Int']>;
+  ver: Scalars['Int'];
 };
 
 export type Query = {
