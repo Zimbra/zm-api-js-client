@@ -1587,6 +1587,20 @@ export class ZimbraBatchClient {
 			fetchOptions
 		}).then(resp => resp);
 
+	public purgeRevision = ({ id, ver, includeOlderRevisions }: any) =>
+		this.jsonRequest({
+			name: 'PurgeRevision',
+			namespace: Namespace.Mail,
+			body: {
+				revision: {
+					id,
+					ver,
+					includeOlderRevisions
+				}
+			},
+			singleRequest: true
+		}).then(Boolean);
+
 	public quarantineDeviceSync = (deviceId: String) =>
 		this.jsonRequest({
 			name: 'QuarantineDevice',

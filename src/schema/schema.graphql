@@ -2455,6 +2455,12 @@ input InviteReplyInput {
 	exceptId: InstanceDate
 }
 
+input PurgetRevisionInput {
+	id: ID! 
+	ver: Int!
+	includeOlderRevisions: Int
+}
+
 input PropertiesInput {
 	zimlet: String!
 	name: String!
@@ -3495,6 +3501,7 @@ type Mutation {
 	modifyTask(task: CalendarItemInput!): Boolean
 	modifyWhiteBlackList(whiteBlackList: WhiteBlackListInput!): Boolean
 	moveTask(inviteId: ID!, destFolderId: ID!): String
+	purgeRevision(id: ID!, ver: Int!, includeOlderRevisions: Int): Boolean
 	prefEnableOutOfOfficeAlertOnLogin(value: Boolean!): Boolean
 	prefEnableOutOfOfficeReply(value: Boolean!): Boolean
 	prefOutOfOfficeFromDate(value: String!): String
