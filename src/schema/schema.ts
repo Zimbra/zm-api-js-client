@@ -29,6 +29,7 @@ import {
 	NameIdInput,
 	PreferencesInput,
 	PropertiesInput,
+	PurgetRevisionInput,
 	RevokeRightsInput,
 	SaveSMimeCertInputUpload,
 	SearchFolderInput,
@@ -321,6 +322,7 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 					client.deleteExternalAccount(variables as ExternalAccountDeleteInput),
 				importExternalAccount: (_, { externalAccount }) =>
 					client.importExternalAccount(externalAccount as ExternalAccountImportInput),
+				purgeRevision: (_, variables) => client.purgeRevision(variables as PurgetRevisionInput),
 				prefEnableOutOfOfficeAlertOnLogin: (_, { value }) =>
 					client
 						.modifyPrefs({
