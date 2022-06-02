@@ -1354,6 +1354,7 @@ type AccountInfoAttrs {
 	zimbraMailAttachmentMaxSize: Float
 	zimbraMtaMaxMessageSize: Float
 	zimbraMailAlias: [String]
+	zimbraMailSignatureMaxLength: Float
 	zimbraFeatureTaggingEnabled: Boolean
 	zimbraIdentityMaxNumEntries: Int
 	zimbraFeatureIdentitiesEnabled: Boolean
