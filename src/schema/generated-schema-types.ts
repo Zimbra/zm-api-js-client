@@ -3795,6 +3795,7 @@ export type SaveDocumentInput = {
   action?: InputMaybe<SaveDocumentAction>;
   contentType?: InputMaybe<Scalars['String']>;
   descriptionEnabled?: InputMaybe<Scalars['Boolean']>;
+  document?: InputMaybe<SaveDocumentInput>;
   folderId?: InputMaybe<Scalars['ID']>;
   id?: InputMaybe<Scalars['ID']>;
   messageData?: InputMaybe<Array<InputMaybe<MessagePartForDocument>>>;
