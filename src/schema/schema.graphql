@@ -2981,6 +2981,7 @@ input SaveDocumentInput {
 	descriptionEnabled: Boolean #descEnabled
 	action: SaveDocumentAction
 	type: SaveDocumentType
+	document: SaveDocumentInput
 }
 
 type SaveDocument {
