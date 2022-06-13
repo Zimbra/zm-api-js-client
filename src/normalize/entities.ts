@@ -539,7 +539,8 @@ export const SaveDocument = new Entity({
 	ver: 'version', //same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest
 	ct: 'contentType',
 	descEnabled: 'descriptionEnabled',
-	m: ['messageData', MessagePartInputForDocuments]
+	m: ['messageData', MessagePartInputForDocuments],
+	doc: ['document', Document]
 });
 
 export const SearchResponse = new Entity({
