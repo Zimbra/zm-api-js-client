@@ -394,11 +394,12 @@ export class ZimbraBatchClient {
 		}).then(res => get(res, `${accountType}.0.id`));
 
 	public addMessage = (options: AddMsgInput) => {
-		const { folderId, content, meta } = get(options, 'message');
+		const message: any = get(options, 'message');
+		const { folderId, content, meta } = message;
 		let flags, tags, tagNames, date;
 
 		try {
-			({ flags, tags, tagNames, date } = JSON.parse(meta));
+			({ flags, tags, tagNames, date } = meta && JSON.parse(meta));
 		} catch (err) {}
 
 		return this.jsonRequest({
@@ -641,7 +642,7 @@ export class ZimbraBatchClient {
 			},
 			singleRequest: true
 		}).then(res => {
-			const mappedResult = mapValuesDeep(res, coerceStringToBoolean);
+			const mappedResult: any = mapValuesDeep(res, coerceStringToBoolean);
 			const {
 				_attrs: { zimbraPrefWhenSentToAddresses, zimbraPrefWhenInFolderIds, ...restAttr },
 				...restIdentityProps
