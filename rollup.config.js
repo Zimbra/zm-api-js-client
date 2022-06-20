@@ -1,7 +1,6 @@
 import babel from '@rollup/plugin-babel';
 import typescript from '@rollup/plugin-typescript';
-import graphql from 'rollup-plugin-graphql';
-import localResolve from 'rollup-plugin-local-resolve';
+import graphql from '@rollup/plugin-graphql';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import pkg from './package.json';
@@ -24,9 +23,9 @@ export default {
 	context: 'commonjsGlobal', // what should "this" be at the top level when it is used by another module
 	plugins: [
 		graphql(),
-		localResolve(),
 		nodeResolve({
-			extensions: [ '.js', '.ts', '.json' ]
+			extensions: [ '.js', '.ts', '.json' ],
+			preferBuiltins: false
 		}),
 		commonjs(),
 		typescript(),
