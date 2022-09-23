@@ -1554,6 +1554,7 @@ type Document {
 	revisedCreationDate: Float #cd
 	lockOwnerId: ID #loid
 	flags: String #f
+	permission: String #perm
 	docs: [Document]
 }
 
