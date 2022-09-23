@@ -521,7 +521,8 @@ export const Document = new Entity({
 	cd: 'revisedCreationDate',
 	loid: 'lockOwnerId',
 	ct: 'contentType',
-	f: 'flags'
+	f: 'flags',
+	perm: 'permission'
 });
 
 export const ListDocumentRevisions = new Entity({

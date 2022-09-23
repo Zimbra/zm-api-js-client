@@ -1283,6 +1283,7 @@ export type Document = {
   metadataVersion?: Maybe<Scalars['Float']>;
   modifiedSequence?: Maybe<Scalars['Float']>;
   name?: Maybe<Scalars['String']>;
+  permission?: Maybe<Scalars['String']>;
   revisedCreationDate?: Maybe<Scalars['Float']>;
   revision?: Maybe<Scalars['Float']>;
   revisonCreator?: Maybe<Scalars['String']>;
