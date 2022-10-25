@@ -3417,7 +3417,7 @@ type Mutation {
 		appointment: CalendarItemInput!
 	): Boolean
 	createAppSpecificPassword(appName: String!): CreateAppSpecificPasswordResponse
-	createCalendar(name: String!, color: Int!, url: String): Folder
+	createCalendar(name: String!, color: Int!, url: String, parentFolderId:ID): Folder
 	createContact(contact: CreateContactInput!): Contact
 	createContactList(contact: CreateContactInput!): Contact
 	modifyContact(contact: ModifyContactInput!): Contact

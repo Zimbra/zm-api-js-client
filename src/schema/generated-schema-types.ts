@@ -2609,6 +2609,7 @@ export type MutationCreateAppointmentExceptionArgs = {
 export type MutationCreateCalendarArgs = {
   color: Scalars['Int'];
   name: Scalars['String'];
+  parentFolderId?: InputMaybe<Scalars['ID']>;
   url?: InputMaybe<Scalars['String']>;
 };
 

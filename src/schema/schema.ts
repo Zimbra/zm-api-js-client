@@ -278,13 +278,14 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 					client.checkCalendar(variables as FolderActionCheckCalendarInput),
 				counterAppointment: (_, { counterAppointmentInvite }) =>
 					client.counterAppointment(counterAppointmentInvite as CounterAppointmentInput),
-				createCalendar: (_, { name, color, url }) =>
+				createCalendar: (_, { name, color, url, parentFolderId }) =>
 					client.createFolder({
 						name,
 						color,
 						url,
 						view: 'appointment',
-						flags: '#'
+						flags: '#',
+						parentFolderId
 					} as CreateFolderOptions),
 				createSharedCalendar: (_, { link }) =>
 					client.createMountpoint({
