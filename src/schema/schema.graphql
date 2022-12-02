@@ -535,6 +535,7 @@ type MessageInfo implements MailItem {
 	autoSendTime: Float
 	local: Boolean
 	part: String
+	meta: [CustomMetadataMeta]
 }
 
 type Conversation implements MailItem {
@@ -561,6 +562,7 @@ type Conversation implements MailItem {
 	unread: Float # u
 	share: [ShareNotification] # shr
 	replyType: String #rt
+	meta: [CustomMetadataMeta]
 }
 
 type MsgWithGroupInfo implements MailItem {

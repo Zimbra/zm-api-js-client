@@ -1053,6 +1053,7 @@ export type Conversation = MailItem & {
   invitations?: Maybe<Array<Maybe<InviteInfo>>>;
   messages?: Maybe<Array<Maybe<MessageInfo>>>;
   messagesMetaData?: Maybe<Array<Maybe<MessageInfo>>>;
+  meta?: Maybe<Array<Maybe<CustomMetadataMeta>>>;
   modifiedSequence?: Maybe<Scalars['Float']>;
   numMessages?: Maybe<Scalars['Float']>;
   replyType?: Maybe<Scalars['String']>;
@@ -2251,6 +2252,7 @@ export type MessageInfo = MailItem & {
   isEncrypted?: Maybe<Scalars['Boolean']>;
   isSigned?: Maybe<Scalars['Boolean']>;
   local?: Maybe<Scalars['Boolean']>;
+  meta?: Maybe<Array<Maybe<CustomMetadataMeta>>>;
   mimeParts?: Maybe<Array<Maybe<MimePart>>>;
   modifiedSequence?: Maybe<Scalars['Float']>;
   origId?: Maybe<Scalars['ID']>;
