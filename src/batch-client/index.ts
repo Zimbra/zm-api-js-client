@@ -159,6 +159,16 @@ function normalizeMessage(
 	message: { [key: string]: any },
 	{ origin, jwtToken, isDesktop }: { isDesktop?: string; jwtToken?: string; origin?: string }
 ) {
+	if (message?.meta) {
+		message.meta = message.meta.map((entry: any) => {
+			if (!entry._attrs) {
+				entry._attrs = {};
+			}
+			entry = normalizeCustomMetaDataAttrs(entry);
+			return entry;
+		});
+	}
+
 	let normalizedMessage = normalize(MessageInfo)(message);
 	normalizedMessage = normalizedMessage && mapValuesDeep(normalizedMessage, coerceStringToBoolean);
 
