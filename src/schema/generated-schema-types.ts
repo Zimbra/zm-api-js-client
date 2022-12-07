@@ -1162,7 +1162,7 @@ export type CustomMetadataInput = {
 export type CustomMetadataMeta = {
   __typename?: 'CustomMetadataMeta';
   _attrs?: Maybe<Array<Maybe<CustomMetadataAttrs>>>;
-  section: Scalars['String'];
+  section?: Maybe<Scalars['String']>;
 };
 
 export type DataSource = {

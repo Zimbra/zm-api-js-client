@@ -1633,7 +1633,7 @@ type CustomMetadataAttrs {
 }
 
 type CustomMetadataMeta {
-	section: String!
+	section: String
 	_attrs: [CustomMetadataAttrs]
 }
 
