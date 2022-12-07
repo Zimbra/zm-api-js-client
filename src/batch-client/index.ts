@@ -994,7 +994,8 @@ export class ZimbraBatchClient {
 				c: mapValues(options, coerceBooleanToInt)
 			}
 		}).then(res => {
-			const c = normalize(Conversation)(res.c[0]);
+			const conversation = this.normalizeConversation(res.c[0]);
+			const c = normalize(Conversation)(conversation);
 			c.messages = c.messages.map(this.normalizeMessage);
 			return c;
 		});
@@ -1756,6 +1757,9 @@ export class ZimbraBatchClient {
 				res.cn = normalizeOtherAttr(res.cn);
 			}
 			const normalized = normalize(SearchResponse)(res);
+			if (normalized.conversations) {
+				normalized.conversations = normalized.conversations.map(this.normalizeConversation);
+			}
 			if (normalized.messages) {
 				normalized.messages = normalized.messages.map(this.normalizeMessage);
 			}
@@ -2032,6 +2036,20 @@ export class ZimbraBatchClient {
 			sessionSeq: this.notifier.getSequenceNumber()
 		})
 	});
+
+	private normalizeConversation = (conversation: { [key: string]: any }) => {
+		if (conversation?.meta) {
+			conversation.meta = conversation.meta.map((entry: any) => {
+				if (!entry._attrs) {
+					entry._attrs = {};
+				}
+				entry = normalizeCustomMetaDataAttrs(entry);
+				return entry;
+			});
+		}
+
+		return conversation;
+	};
 
 	private normalizeMessage = (message: any) =>
 		normalizeMessage(message, {
