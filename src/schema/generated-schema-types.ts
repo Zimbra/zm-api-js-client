@@ -91,12 +91,14 @@ export type AccountInfoAttrs = {
   zimbraFeatureCalendarEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureChangePasswordEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureConversationsEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureDiscardInFiltersEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureDocumentEditingEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureFiltersEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureGalAutoCompleteEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureGalEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureIdentitiesEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureImapDataSourceEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureInstantNotify?: Maybe<Scalars['Boolean']>;
   zimbraFeatureMailEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureMailForwardingInFiltersEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureMailPriorityEnabled?: Maybe<Scalars['Boolean']>;
