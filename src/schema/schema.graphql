@@ -1373,6 +1373,8 @@ type AccountInfoAttrs {
 	zimbraTrialConvertAtExpiration: Boolean
 	zimbraHierarchicalAddressBookRoot: String
 	zimbraBlockEmailSendFromImapPop: Boolean
+	zimbraFeatureInstantNotify: Boolean
+	zimbraFeatureDiscardInFiltersEnabled: Boolean
 }
 
 type AccountCos {
@@ -2461,7 +2463,7 @@ input InviteReplyInput {
 }
 
 input PurgetRevisionInput {
-	id: ID! 
+	id: ID!
 	ver: Int!
 	includeOlderRevisions: Int
 }
