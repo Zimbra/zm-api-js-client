@@ -2901,7 +2901,7 @@ input DeleteAppointmentInput {
 input SignatureInput {
 	id: ID
 	name: String
-	content: SignatureContentInput
+	content: [SignatureContentInput]
 	contentId: String
 }
 
