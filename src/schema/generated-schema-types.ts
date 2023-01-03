@@ -79,6 +79,7 @@ export type AccountInfo = {
 export type AccountInfoAttrs = {
   __typename?: 'AccountInfoAttrs';
   displayName?: Maybe<Scalars['String']>;
+  zimbraBlockEmailSendFromImapPop?: Maybe<Scalars['Boolean']>;
   zimbraBrandingFolderName?: Maybe<Scalars['String']>;
   zimbraDomainTrialConvertAtExpiration?: Maybe<Scalars['Boolean']>;
   zimbraDomainTrialExpirationDate?: Maybe<Scalars['String']>;
