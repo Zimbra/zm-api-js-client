@@ -1372,6 +1372,7 @@ type AccountInfoAttrs {
 	zimbraTrialExpirationDate: String
 	zimbraTrialConvertAtExpiration: Boolean
 	zimbraHierarchicalAddressBookRoot: String
+	zimbraBlockEmailSendFromImapPop: Boolean
 }
 
 type AccountCos {
