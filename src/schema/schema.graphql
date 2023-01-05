@@ -487,6 +487,7 @@ type ClientInfoAttributes {
 	zimbraWebClientLogoutURL: String
 	zimbraWebClientSkipLogoff: Boolean
 	zimbraFeatureResetPasswordStatus: ResetPasswordStatus
+	zimbraHelpModernURL: String
 }
 
 type ClientInfoType {
