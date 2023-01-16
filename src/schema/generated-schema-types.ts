@@ -4005,7 +4005,7 @@ export type SignatureContentInput = {
 };
 
 export type SignatureInput = {
-  content?: InputMaybe<SignatureContentInput>;
+  content?: InputMaybe<Array<InputMaybe<SignatureContentInput>>>;
   contentId?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   name?: InputMaybe<Scalars['String']>;
