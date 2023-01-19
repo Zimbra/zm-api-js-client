@@ -1376,6 +1376,8 @@ type AccountInfoAttrs {
 	zimbraBlockEmailSendFromImapPop: Boolean
 	zimbraFeatureInstantNotify: Boolean
 	zimbraFeatureDiscardInFiltersEnabled: Boolean
+	zimbraFeatureAdminMailEnabled: Boolean
+	zimbraFeatureAdminPreferencesEnabled: Boolean
 }
 
 type AccountCos {
