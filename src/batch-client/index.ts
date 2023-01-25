@@ -249,7 +249,7 @@ function updateAbsoluteFolderPath(originalName: any, parentFolderAbsPath: string
 		}
 
 		if (folder.folders) {
-			folder.folders = updateAbsoluteFolderPath(originalName, parentFolderAbsPath, folder.folders);
+			folder.folders = updateAbsoluteFolderPath(folder.oname, folder.absFolderPath, folder.folders);
 		}
 		return folder;
 	});
