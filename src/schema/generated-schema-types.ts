@@ -1295,6 +1295,7 @@ export type Document = {
   revisedCreationDate?: Maybe<Scalars['Float']>;
   revision?: Maybe<Scalars['Float']>;
   revisonCreator?: Maybe<Scalars['String']>;
+  sfid?: Maybe<Scalars['ID']>;
   size?: Maybe<Scalars['Float']>;
   sortField?: Maybe<Scalars['String']>;
   tagNames?: Maybe<Scalars['String']>;
