@@ -1566,6 +1566,7 @@ type Document {
 	flags: String #f
 	permission: String #perm
 	docs: [Document]
+	sfid: ID
 }
 
 type SearchResponse {
