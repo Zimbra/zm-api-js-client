@@ -1232,6 +1232,7 @@ type AccountInfo {
 	zimlets: AccountZimlet
 	cos: AccountCos
 	pasteitcleanedEnabled: Boolean
+	adminDelegated: Boolean
 }
 
 type OnlyEmailAddress {

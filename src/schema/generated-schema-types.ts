@@ -58,6 +58,7 @@ export type AccountCos = {
 
 export type AccountInfo = {
   __typename?: 'AccountInfo';
+  adminDelegated?: Maybe<Scalars['Boolean']>;
   attrs?: Maybe<AccountInfoAttrs>;
   changePasswordURL?: Maybe<Scalars['String']>;
   cos?: Maybe<AccountCos>;
@@ -4007,7 +4008,7 @@ export type SignatureContentInput = {
 };
 
 export type SignatureInput = {
-  content?: InputMaybe<SignatureContentInput>;
+  content?: InputMaybe<Array<InputMaybe<SignatureContentInput>>>;
   contentId?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   name?: InputMaybe<Scalars['String']>;
