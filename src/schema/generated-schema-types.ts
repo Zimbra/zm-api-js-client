@@ -58,6 +58,7 @@ export type AccountCos = {
 
 export type AccountInfo = {
   __typename?: 'AccountInfo';
+  adminDelegated?: Maybe<Scalars['Boolean']>;
   attrs?: Maybe<AccountInfoAttrs>;
   changePasswordURL?: Maybe<Scalars['String']>;
   cos?: Maybe<AccountCos>;
