@@ -1140,6 +1140,7 @@ type Folder {
 	broken: Boolean #shared folder link is broken or not
 	deletable: Boolean
 	unreadDescendent: Boolean
+	types: String
 }
 
 type DlAttrs {
