@@ -1615,6 +1615,7 @@ export type Folder = {
   revision?: Maybe<Scalars['Float']>;
   search?: Maybe<Array<Maybe<Folder>>>;
   sharedItemId?: Maybe<Scalars['ID']>;
+  types?: Maybe<Scalars['String']>;
   unread?: Maybe<Scalars['Float']>;
   unreadDescendent?: Maybe<Scalars['Boolean']>;
   url?: Maybe<Scalars['String']>;
