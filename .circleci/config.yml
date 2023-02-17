@@ -6,6 +6,7 @@ config: &config
   working_directory: ~/repo
   docker:
     - image: cimg/node:14.18
+  resource_class: small
 
 persist-workspace: &persist-workspace
   persist_to_workspace:
