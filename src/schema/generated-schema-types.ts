@@ -106,6 +106,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureImportFolderEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureInstantNotify?: Maybe<Scalars['Boolean']>;
   zimbraFeatureMailEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureMailForwardingEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureMailForwardingInFiltersEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureMailPriorityEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureMailSendLaterEnabled?: Maybe<Scalars['Boolean']>;
