@@ -1379,6 +1379,8 @@ type AccountInfoAttrs {
 	zimbraFeatureDiscardInFiltersEnabled: Boolean
 	zimbraFeatureAdminMailEnabled: Boolean
 	zimbraFeatureAdminPreferencesEnabled: Boolean
+	zimbraFeatureImportFolderEnabled: Boolean
+	zimbraFeatureExportFolderEnabled: Boolean
 }
 
 type AccountCos {
