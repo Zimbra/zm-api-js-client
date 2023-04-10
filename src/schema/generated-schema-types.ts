@@ -4164,6 +4164,7 @@ export type Tag = {
   color?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
+  rgb?: Maybe<Scalars['String']>;
   unread?: Maybe<Scalars['Float']>;
 };
 
