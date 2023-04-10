@@ -1771,6 +1771,7 @@ type Tag {
 	name: String
 	color: Int
 	unread: Float
+	rgb: String
 }
 
 input OtherContactAttributeInput {
