@@ -3206,6 +3206,7 @@ export type Preferences = {
   zimbraPrefReadingPaneEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefReadingPaneLocation?: Maybe<ReadingPaneLocation>;
   zimbraPrefSaveToSent?: Maybe<Scalars['Boolean']>;
+  zimbraPrefSharedAddrBookAutoCompleteEnabled?: Maybe<Scalars['Boolean']>;
   zimbraPrefShowAllNewMailNotifications?: Maybe<Scalars['Boolean']>;
   zimbraPrefShowFragments?: Maybe<Scalars['Boolean']>;
   zimbraPrefSlackCalendarReminderEnabled?: Maybe<Scalars['Boolean']>;
@@ -3264,6 +3265,7 @@ export type PreferencesInput = {
   zimbraPrefReadingPaneEnabled?: InputMaybe<Scalars['Boolean']>;
   zimbraPrefReadingPaneLocation?: InputMaybe<ReadingPaneLocation>;
   zimbraPrefSaveToSent?: InputMaybe<Scalars['Boolean']>;
+  zimbraPrefSharedAddrBookAutoCompleteEnabled?: InputMaybe<Scalars['Boolean']>;
   zimbraPrefShowAllNewMailNotifications?: InputMaybe<Scalars['Boolean']>;
   zimbraPrefShowFragments?: InputMaybe<Scalars['Boolean']>;
   zimbraPrefSlackCalendarReminderEnabled?: InputMaybe<Scalars['Boolean']>;

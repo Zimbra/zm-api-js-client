@@ -1483,6 +1483,7 @@ type Preferences {
 	zimbraPrefHtmlEditorDefaultFontFamily: String
 	zimbraPrefHtmlEditorDefaultFontSize: String
 	zimbraPrefMailToasterEnabled: Boolean
+	zimbraPrefSharedAddrBookAutoCompleteEnabled: Boolean
 	zimbraPrefShowAllNewMailNotifications: Boolean
 	zimbraPrefDefaultCalendarId: ID
 	zimbraPrefDeleteInviteOnReply: Boolean
@@ -2497,6 +2498,7 @@ input PreferencesInput {
 	zimbraPrefHtmlEditorDefaultFontFamily: String
 	zimbraPrefHtmlEditorDefaultFontSize: String
 	zimbraPrefMailToasterEnabled: Boolean
+	zimbraPrefSharedAddrBookAutoCompleteEnabled: Boolean
 	zimbraPrefShowAllNewMailNotifications: Boolean
 	zimbraPrefDelegatedSendSaveTarget: PrefDelegatedSendSaveTarget
 	zimbraPrefDisplayExternalImages: Boolean
