@@ -1379,6 +1379,7 @@ type AccountInfoAttrs {
 	zimbraFeatureDiscardInFiltersEnabled: Boolean
 	zimbraFeatureAdminMailEnabled: Boolean
 	zimbraFeatureAdminPreferencesEnabled: Boolean
+	zimbraFeatureGroupCalendarEnabled: Boolean
 }
 
 type AccountCos {

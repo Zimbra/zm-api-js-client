@@ -99,6 +99,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureFiltersEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureGalAutoCompleteEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureGalEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureGroupCalendarEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureIdentitiesEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureImapDataSourceEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureInstantNotify?: Maybe<Scalars['Boolean']>;
