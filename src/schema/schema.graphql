@@ -1381,6 +1381,7 @@ type AccountInfoAttrs {
 	zimbraFeatureAdminPreferencesEnabled: Boolean
 	zimbraFeatureImportFolderEnabled: Boolean
 	zimbraFeatureExportFolderEnabled: Boolean
+	zimbraFeatureGroupCalendarEnabled: Boolean
 }
 
 type AccountCos {
