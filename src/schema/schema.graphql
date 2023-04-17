@@ -1334,6 +1334,7 @@ type AccountInfoAttrs {
 	zimbraFeatureResetPasswordStatus: ResetPasswordStatus
 	zimbraFeatureWebClientOfflineAccessEnabled: Boolean
 	zimbraMailBlacklistMaxNumEntries: Int
+	zimbraMailWhitelistMaxNumEntries: Int
 	zimbraMailQuota: String
 	zimbraPublicSharingEnabled: Boolean
 	zimbraExternalSharingEnabled: Boolean
