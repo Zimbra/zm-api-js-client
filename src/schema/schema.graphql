@@ -1141,6 +1141,21 @@ type Folder {
 	deletable: Boolean
 	unreadDescendent: Boolean
 	types: String
+	retentionPolicy: [RetentionPolicy]
+}
+
+type RetentionPolicy {
+	keep: [Policy]
+	purge: [Policy]
+}
+
+type Policy {
+	policy: [PolicyAttrs]
+}
+
+type PolicyAttrs {
+	lifetime: String
+	type: String
 }
 
 type DlAttrs {
@@ -2404,7 +2419,22 @@ input FolderActionInput {
 	name: String
 	folderId: ID
 	zimbraId: ID
-	color: Int
+	color: Int,
+	retentionPolicy: [RetentionPolicyInput]
+}
+
+input RetentionPolicyInput {
+	keep: [PolicyInput]
+	purge: [PolicyInput]
+}
+
+input PolicyInput {
+	policy: [PolicyAttrsInput]
+}
+
+input PolicyAttrsInput {
+	lifetime: String
+	type: String
 }
 
 input CreateTagInput {
