@@ -1618,6 +1618,7 @@ export type Folder = {
   parentFolderId?: Maybe<Scalars['ID']>;
   permissions?: Maybe<Scalars['String']>;
   query?: Maybe<Scalars['String']>;
+  retentionPolicy?: Maybe<Array<Maybe<RetentionPolicy>>>;
   revision?: Maybe<Scalars['Float']>;
   search?: Maybe<Array<Maybe<Folder>>>;
   sharedItemId?: Maybe<Scalars['ID']>;
@@ -1647,6 +1648,7 @@ export type FolderActionInput = {
   id: Scalars['ID'];
   name?: InputMaybe<Scalars['String']>;
   op: Scalars['String'];
+  retentionPolicy?: InputMaybe<Array<InputMaybe<RetentionPolicyInput>>>;
   zimbraId?: InputMaybe<Scalars['ID']>;
 };
 
@@ -3124,6 +3126,26 @@ export enum PasswordRecoveryAddressStatus {
   Verified = 'verified'
 }
 
+export type Policy = {
+  __typename?: 'Policy';
+  policy?: Maybe<Array<Maybe<PolicyAttrs>>>;
+};
+
+export type PolicyAttrs = {
+  __typename?: 'PolicyAttrs';
+  lifetime?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+export type PolicyAttrsInput = {
+  lifetime?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
+};
+
+export type PolicyInput = {
+  policy?: InputMaybe<Array<InputMaybe<PolicyAttrsInput>>>;
+};
+
 export enum PrefCalendarInitialView {
   Day = 'day',
   List = 'list',
@@ -3761,6 +3783,17 @@ export enum ResetPasswordStatus {
   Enabled = 'enabled',
   Suspended = 'suspended'
 }
+
+export type RetentionPolicy = {
+  __typename?: 'RetentionPolicy';
+  keep?: Maybe<Array<Maybe<Policy>>>;
+  purge?: Maybe<Array<Maybe<Policy>>>;
+};
+
+export type RetentionPolicyInput = {
+  keep?: InputMaybe<Array<InputMaybe<PolicyInput>>>;
+  purge?: InputMaybe<Array<InputMaybe<PolicyInput>>>;
+};
 
 export type RevokeRightsInput = {
   access?: InputMaybe<Array<InputMaybe<AccountAceInfoInput>>>;
