@@ -395,7 +395,8 @@ const Folder = new Entity({
 
 Folder.addMapping({
 	folder: ['folders', Folder],
-	link: ['linkedFolders', Folder]
+	link: ['linkedFolders', Folder],
+	search: ['search', Folder]
 });
 export { Folder };
 
