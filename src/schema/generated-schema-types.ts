@@ -109,6 +109,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureMailForwardingEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureMailForwardingInFiltersEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureMailPriorityEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureMailRecallEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureMailRecallTime?: Maybe<Scalars['Int']>;
   zimbraFeatureMailSendLaterEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureManageZimlets?: Maybe<Scalars['Boolean']>;
