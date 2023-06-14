@@ -1400,6 +1400,8 @@ type AccountInfoAttrs {
 	zimbraFeatureImportFolderEnabled: Boolean
 	zimbraFeatureExportFolderEnabled: Boolean
 	zimbraFeatureGroupCalendarEnabled: Boolean
+	zimbraFeatureMailRecallEnabled: Boolean
+	zimbraFeatureMailRecallTime: Int
 }
 
 type AccountCos {
