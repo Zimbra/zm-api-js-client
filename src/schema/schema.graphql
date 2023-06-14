@@ -1331,6 +1331,7 @@ type AccountInfoAttrs {
 	zimbraFeatureRelatedContactsEnabled: Boolean
 	zimbraFeatureMailForwardingEnabled: Boolean
 	zimbraFeatureMailForwardingInFiltersEnabled: Boolean
+	zimbraFeatureRetentionPolicyEnabled: Boolean
 	zimbraPasswordAllowUsername: Boolean
 	zimbraPasswordBlockCommonEnabled: Boolean
 	zimbraPasswordMinAlphaChars: Int
