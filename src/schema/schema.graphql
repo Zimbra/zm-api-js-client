@@ -2240,6 +2240,7 @@ type CalendarItemAttendee {
 	address: String
 	name: String
 	calendarUserType: String
+	displayName: String
 }
 
 type CalendarItemReply {
@@ -2254,6 +2255,7 @@ input CalendarItemAttendeesInput {
 	address: String!
 	name: String
 	calendarUserType: String
+	displayName: String
 }
 
 type CalendarItemAlarmTriggerRelative {

@@ -570,6 +570,7 @@ export type CalendarItemAttendee = {
   __typename?: 'CalendarItemAttendee';
   address?: Maybe<Scalars['String']>;
   calendarUserType?: Maybe<Scalars['String']>;
+  displayName?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   participationStatus?: Maybe<ParticipationStatus>;
   role?: Maybe<ParticipationRole>;
@@ -579,6 +580,7 @@ export type CalendarItemAttendee = {
 export type CalendarItemAttendeesInput = {
   address: Scalars['String'];
   calendarUserType?: InputMaybe<Scalars['String']>;
+  displayName?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   participationStatus?: InputMaybe<ParticipationStatus>;
   role?: InputMaybe<ParticipationRole>;
