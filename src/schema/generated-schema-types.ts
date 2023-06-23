@@ -118,6 +118,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureReadReceiptsEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureRelatedContactsEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureResetPasswordStatus?: Maybe<ResetPasswordStatus>;
+  zimbraFeatureRetentionPolicyEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureSharingEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureTaggingEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureTasksEnabled?: Maybe<Scalars['Boolean']>;
