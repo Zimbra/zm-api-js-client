@@ -337,6 +337,26 @@ export type AppointmentInfo = {
   invitations?: Maybe<Array<Maybe<Invitation>>>;
 };
 
+export type AttachDoc = {
+  __typename?: 'AttachDoc';
+  doc?: Maybe<Array<Maybe<AttachDocs>>>;
+};
+
+export type AttachDocInput = {
+  doc?: InputMaybe<Array<InputMaybe<AttachDocsInput>>>;
+};
+
+export type AttachDocs = {
+  __typename?: 'AttachDocs';
+  optional?: Maybe<Scalars['Int']>;
+  path?: Maybe<Scalars['String']>;
+};
+
+export type AttachDocsInput = {
+  optional?: InputMaybe<Scalars['Int']>;
+  path?: InputMaybe<Scalars['String']>;
+};
+
 export type Attachment = {
   __typename?: 'Attachment';
   content?: Maybe<Scalars['String']>;
@@ -345,6 +365,8 @@ export type Attachment = {
 
 export type AttachmentInput = {
   attachmentId?: InputMaybe<Scalars['String']>;
+  cd?: InputMaybe<Scalars['String']>;
+  ct?: InputMaybe<Scalars['String']>;
   documents?: InputMaybe<Array<InputMaybe<DocumentInput>>>;
   existingAttachments?: InputMaybe<Array<InputMaybe<ExistingAttachmentInput>>>;
   messages?: InputMaybe<Array<InputMaybe<EmlInput>>>;
@@ -1317,6 +1339,8 @@ export type DocumentActionData = {
 
 export type DocumentInput = {
   id?: InputMaybe<Scalars['ID']>;
+  optional?: InputMaybe<Scalars['Int']>;
+  path?: InputMaybe<Scalars['String']>;
 };
 
 export type DtTimeInfo = {
@@ -2310,6 +2334,7 @@ export type MimeHeaderConditionInput = {
 
 export type MimePart = {
   __typename?: 'MimePart';
+  attach?: Maybe<AttachDoc>;
   base64?: Maybe<Scalars['String']>;
   body?: Maybe<Scalars['Boolean']>;
   content?: Maybe<Scalars['String']>;
@@ -2327,6 +2352,7 @@ export type MimePart = {
 };
 
 export type MimePartInput = {
+  attach?: InputMaybe<AttachDocInput>;
   attachments?: InputMaybe<Array<InputMaybe<AttachmentInput>>>;
   base64?: InputMaybe<Scalars['String']>;
   body?: InputMaybe<Scalars['Boolean']>;
