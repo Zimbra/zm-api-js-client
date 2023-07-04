@@ -104,10 +104,43 @@ export function normalizeMimeParts(
 			let isBody = false,
 				type = normalizeType(part.contentType),
 				disposition = normalizeDisposition(part.contentDisposition),
+				parts = part.mimeParts,
 				content = part.content || ''; //getPartContent(part);
 
 			// obey scapi's isBody flag:
 			if (isBody) acc.body = content;
+
+			// for a part of type /image, if its contentId matches with src of an <img /> in text/html part,
+			// change its contentDisposition to "inline"
+			if (type === 'multipart/related') {
+				let htmlPart: any;
+
+				parts.forEach((subpart: any) => {
+					// first set the html
+					if (subpart.contentType === 'text/html') {
+						htmlPart = subpart;
+						return;
+					}
+
+					// then look for related image parts
+					if (
+						~subpart.contentType.indexOf('image/') &&
+						subpart.contentDisposition === 'attachment' &&
+						subpart.contentId &&
+						htmlPart.content
+					) {
+						// remove angle brackets from <contentId>
+						const contentId = subpart.contentId.slice(1, -1);
+						const bodyDom = new DOMParser().parseFromString(htmlPart.content, 'text/html');
+						const images = bodyDom?.querySelectorAll(`img[src="cid:${contentId}"]`) || [];
+
+						// change disposition to inline
+						if (images.length > 0) {
+							subpart.contentDisposition = 'inline';
+						}
+					}
+				});
+			}
 
 			const isInline = disposition === 'inline';
 
