@@ -2021,6 +2021,25 @@ type MimePart {
 	messageId: ID
 	base64: String
 	truncated: Boolean
+	attach: AttachDoc
+}
+
+type AttachDoc {
+	doc: [AttachDocs]
+}
+
+type AttachDocs {
+	path: String
+	optional: Int
+}
+
+input AttachDocInput {
+	doc: [AttachDocsInput]
+}
+
+input AttachDocsInput {
+	path: String
+	optional: Int
 }
 
 type ActionData {
@@ -2049,6 +2068,7 @@ input MimePartInput {
 	attachments: [AttachmentInput]
 	base64: String,
 	truncated: Boolean
+	attach: AttachDocInput
 }
 
 input ExistingAttachmentInput {
@@ -2058,6 +2078,8 @@ input ExistingAttachmentInput {
 
 input DocumentInput {
 	id: ID
+	path: String
+	optional: Int
 }
 
 input EMLInput {
@@ -2069,6 +2091,8 @@ input AttachmentInput {
 	documents: [DocumentInput]
 	messages: [EMLInput]
 	existingAttachments: [ExistingAttachmentInput]
+	ct: String
+	cd: String
 }
 
 type AutoCompleteResponse {
