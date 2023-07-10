@@ -1332,7 +1332,7 @@ type AccountInfoAttrs {
 	zimbraFeatureMailForwardingEnabled: Boolean
 	zimbraFeatureMailForwardingInFiltersEnabled: Boolean
 	zimbraFeatureRetentionPolicyEnabled: Boolean
-	zimbraPasswordAllowUsername: Boolean
+	zimbraFeatureAllowUsernameInPassword: Boolean
 	zimbraPasswordBlockCommonEnabled: Boolean
 	zimbraPasswordMinAlphaChars: Int
 	zimbraPasswordMinNumericChars: Int

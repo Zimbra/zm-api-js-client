@@ -88,6 +88,7 @@ export type AccountInfoAttrs = {
   zimbraExternalSharingEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureAdminMailEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureAdminPreferencesEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureAllowUsernameInPassword?: Maybe<Scalars['Boolean']>;
   zimbraFeatureAntispamEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureAppSpecificPasswordsEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureBriefcasesEnabled?: Maybe<Scalars['Boolean']>;
@@ -141,7 +142,6 @@ export type AccountInfoAttrs = {
   zimbraMailSignatureMaxLength?: Maybe<Scalars['Float']>;
   zimbraMailWhitelistMaxNumEntries?: Maybe<Scalars['Int']>;
   zimbraMtaMaxMessageSize?: Maybe<Scalars['Float']>;
-  zimbraPasswordAllowUsername?: Maybe<Scalars['Boolean']>;
   zimbraPasswordAllowedChars?: Maybe<Scalars['String']>;
   zimbraPasswordAllowedPunctuationChars?: Maybe<Scalars['String']>;
   zimbraPasswordBlockCommonEnabled?: Maybe<Scalars['Boolean']>;
