@@ -410,6 +410,7 @@ type Instance {
 	status: InviteCompletionStatus
 	isOrganizer: Boolean # isOrg
 	exceptId: [DtTimeInfo]
+	timezoneOffset: Int
 }
 
 type Alarm {

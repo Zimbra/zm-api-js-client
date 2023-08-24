@@ -131,7 +131,8 @@ const commonInviteFields = {
 	invId: 'inviteId',
 	loc: 'location',
 	or: ['organizer', CalendarItemOrganizer],
-	ridZ: 'utcRecurrenceId'
+	ridZ: 'utcRecurrenceId',
+	tzo: 'timezoneOffset'
 };
 
 const InviteComponent = new Entity({
@@ -368,7 +369,6 @@ export const CalendarItemHitInfo = new Entity({
 	recur: 'isRecurring',
 	ptst: 'participationStatus',
 	dur: 'duration',
-	tzo: 'timezoneOffset',
 	otherAtt: 'otherAttendees',
 	inst: ['instances', Instance],
 	inv: ['invitations', Invitation],
