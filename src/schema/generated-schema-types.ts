@@ -2003,6 +2003,7 @@ export type Instance = {
   revision?: Maybe<Scalars['Float']>;
   start?: Maybe<Scalars['Float']>;
   status?: Maybe<InviteCompletionStatus>;
+  timezoneOffset?: Maybe<Scalars['Int']>;
   tzoDue?: Maybe<Scalars['Int']>;
   utcRecurrenceId?: Maybe<Scalars['String']>;
 };
