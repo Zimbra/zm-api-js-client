@@ -448,7 +448,8 @@ type EmailAddress {
 	address: String
 	name: String
 	type: String
-	displayName: String
+	displayName: String,
+	isGroup: Boolean
 }
 
 type ShareNotification {
@@ -1165,10 +1166,19 @@ type DlAttrs {
 	lastName: String
 }
 
+type Dlm {
+	_content: String
+}
+
 type DlGroupMember {
 	name: String
 	attributes: DlAttrs
 }
+
+ type DLDetails {
+	dlm: [Dlm]
+	dlGroupMember: [DlGroupMember]
+ }
 
 type HabGroup {
 	name: String
@@ -1401,6 +1411,7 @@ type AccountInfoAttrs {
 	zimbraFeatureImportFolderEnabled: Boolean
 	zimbraFeatureExportFolderEnabled: Boolean
 	zimbraFeatureGroupCalendarEnabled: Boolean
+	zimbraFeatureDistributionListExpandMembersEnabled: Boolean
 }
 
 type AccountCos {
@@ -2279,6 +2290,7 @@ input CalendarItemAttendeesInput {
 	address: String!
 	name: String
 	calendarUserType: String
+	isGroup: Boolean
 }
 
 type CalendarItemAlarmTriggerRelative {
@@ -3340,7 +3352,7 @@ type Query {
 		limit: Int
 		offset: Int
 		dl: String
-	): [DlGroupMember]
+	): DLDetails
 	getCustomMetadata(id: ID!, section: String): CustomMetadata
 	getMailboxMetadata(section: String): MailboxMetadata
 	getMessage(

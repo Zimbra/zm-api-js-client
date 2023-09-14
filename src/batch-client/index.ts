@@ -1045,7 +1045,19 @@ export class ZimbraBatchClient {
 				offset
 			},
 			namespace: Namespace.Account
-		}).then(res => normalize(DlGroupMember)(get(res, 'groupMembers.0.groupMember') || []));
+		}).then(res => {
+			if (res?.dlm) {
+				return res;
+			} else {
+				const result = {
+					dlGroupMember:
+						res?.groupMembers?.length && res.groupMembers[0]?.groupMember
+							? normalize(DlGroupMember)(res.groupMembers[0].groupMember)
+							: []
+				};
+				return result;
+			}
+		});
 
 	public getDocumentShareURL = (options: GetDocumentShareURLOptions) =>
 		this.jsonRequest({
