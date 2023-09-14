@@ -96,6 +96,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureChangePasswordEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureConversationsEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureDiscardInFiltersEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureDistributionListExpandMembersEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureDocumentEditingEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureExportFolderEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureFiltersEnabled?: Maybe<Scalars['Boolean']>;
@@ -601,6 +602,7 @@ export type CalendarItemAttendee = {
 export type CalendarItemAttendeesInput = {
   address: Scalars['String'];
   calendarUserType?: InputMaybe<Scalars['String']>;
+  isGroup?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   participationStatus?: InputMaybe<ParticipationStatus>;
   role?: InputMaybe<ParticipationRole>;
@@ -1200,6 +1202,12 @@ export type CustomMetadataMeta = {
   section?: Maybe<Scalars['String']>;
 };
 
+export type DlDetails = {
+  __typename?: 'DLDetails';
+  dlGroupMember?: Maybe<Array<Maybe<DlGroupMember>>>;
+  dlm?: Maybe<Array<Maybe<Dlm>>>;
+};
+
 export type DataSource = {
   __typename?: 'DataSource';
   connectionType?: Maybe<Scalars['String']>;
@@ -1302,6 +1310,11 @@ export type DlGroupMember = {
   name?: Maybe<Scalars['String']>;
 };
 
+export type Dlm = {
+  __typename?: 'Dlm';
+  _content?: Maybe<Scalars['String']>;
+};
+
 export type Document = {
   __typename?: 'Document';
   acl?: Maybe<Acl>;
@@ -1358,6 +1371,7 @@ export type EmailAddress = {
   __typename?: 'EmailAddress';
   address?: Maybe<Scalars['String']>;
   displayName?: Maybe<Scalars['String']>;
+  isGroup?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
 };
@@ -3381,7 +3395,7 @@ export type Query = {
   getCustomMetadata?: Maybe<CustomMetadata>;
   getDataSources: DataSources;
   getDeviceStatus?: Maybe<Array<Maybe<Device>>>;
-  getDistributionListMembers?: Maybe<Array<Maybe<DlGroupMember>>>;
+  getDistributionListMembers?: Maybe<DlDetails>;
   getDocumentShareURL?: Maybe<GetDocumentShareUrlResponse>;
   getFilterRules?: Maybe<Array<Maybe<Filter>>>;
   getFolder?: Maybe<Folder>;
