@@ -1494,6 +1494,13 @@ export type ExternalAccountTestResponse = {
   success: Scalars['Boolean'];
 };
 
+export enum ExternalSendersType {
+  All = 'ALL',
+  Allnotinab = 'ALLNOTINAB',
+  Inab = 'INAB',
+  Insd = 'INSD'
+}
+
 export type FileIntoAction = {
   __typename?: 'FileIntoAction';
   copy?: Maybe<Scalars['Boolean']>;
@@ -3246,6 +3253,7 @@ export type Preferences = {
   zimbraPrefDeleteInviteOnReply?: Maybe<Scalars['Boolean']>;
   zimbraPrefDisplayExternalImages?: Maybe<Scalars['Boolean']>;
   zimbraPrefDisplayTimeInMailList?: Maybe<Scalars['Boolean']>;
+  zimbraPrefExternalSendersType?: Maybe<ExternalSendersType>;
   zimbraPrefGroupMailBy?: Maybe<Scalars['String']>;
   zimbraPrefHtmlEditorDefaultFontColor?: Maybe<Scalars['String']>;
   zimbraPrefHtmlEditorDefaultFontFamily?: Maybe<Scalars['String']>;
@@ -3307,6 +3315,7 @@ export type PreferencesInput = {
   zimbraPrefDelegatedSendSaveTarget?: InputMaybe<PrefDelegatedSendSaveTarget>;
   zimbraPrefDisplayExternalImages?: InputMaybe<Scalars['Boolean']>;
   zimbraPrefDisplayTimeInMailList?: InputMaybe<Scalars['Boolean']>;
+  zimbraPrefExternalSendersType?: InputMaybe<ExternalSendersType>;
   zimbraPrefGroupMailBy?: InputMaybe<Scalars['String']>;
   zimbraPrefHtmlEditorDefaultFontColor?: InputMaybe<Scalars['String']>;
   zimbraPrefHtmlEditorDefaultFontFamily?: InputMaybe<Scalars['String']>;
