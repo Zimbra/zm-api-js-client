@@ -20,6 +20,13 @@ enum SortBy {
 	sizeDesc
 }
 
+enum ExternalSendersType {
+	ALL
+	ALLNOTINAB
+	INAB
+	INSD
+}
+
 enum ShareInputAction {
 	edit
 	revoke
@@ -1522,6 +1529,7 @@ type Preferences {
 	zimbraPrefDeleteInviteOnReply: Boolean
 	zimbraPrefDelegatedSendSaveTarget: PrefDelegatedSendSaveTarget
 	zimbraPrefDisplayExternalImages: Boolean
+	zimbraPrefExternalSendersType: ExternalSendersType
 	zimbraPrefGroupMailBy: String
 	zimbraPrefMailPollingInterval: String
 	zimbraPrefMailRequestReadReceipts: Boolean
@@ -2568,6 +2576,7 @@ input PreferencesInput {
 	zimbraPrefCalendarAlwaysShowMiniCal: Boolean
 	zimbraPrefComposeDirection: String
 	zimbraPrefComposeFormat: Mode
+	zimbraPrefExternalSendersType: ExternalSendersType
 	zimbraPrefHtmlEditorDefaultFontColor: String
 	zimbraPrefHtmlEditorDefaultFontFamily: String
 	zimbraPrefHtmlEditorDefaultFontSize: String
