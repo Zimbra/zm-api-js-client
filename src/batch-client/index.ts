@@ -1047,6 +1047,7 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		}).then(res => {
 			if (res?.dlm) {
+				//added for PREAPPS-4851
 				return res;
 			} else {
 				const result = {
