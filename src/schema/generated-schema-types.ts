@@ -1206,6 +1206,8 @@ export type DlDetails = {
   __typename?: 'DLDetails';
   dlGroupMember?: Maybe<Array<Maybe<DlGroupMember>>>;
   dlm?: Maybe<Array<Maybe<Dlm>>>;
+  more?: Maybe<Scalars['Boolean']>;
+  total?: Maybe<Scalars['Int']>;
 };
 
 export type DataSource = {
