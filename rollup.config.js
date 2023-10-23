@@ -1,6 +1,6 @@
 import babel from '@rollup/plugin-babel';
 import typescript from '@rollup/plugin-typescript';
-import graphql from 'rollup-plugin-graphql';
+import graphql from '@rollup/plugin-graphql';
 import localResolve from 'rollup-plugin-local-resolve';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
