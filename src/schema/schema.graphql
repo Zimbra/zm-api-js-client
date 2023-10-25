@@ -1008,8 +1008,12 @@ type ImportanceCondition {
 	negative: Boolean
 }
 
+type MethodCondition {
+  _content: String
+}
+
 type InviteCondition {
-	methods: [String]
+	method: [MethodCondition]
 	index: Int
 	negative: Boolean
 }
@@ -2713,9 +2717,13 @@ input ImportanceConditionInput {
 }
 
 input InviteConditionInput {
-	methods: [String]
-	index: Int
-	negative: Boolean
+  method: [MethodInput]
+  index: Int
+  negative: Boolean
+}
+
+input MethodInput {
+  _content: String
 }
 
 input MimeHeaderConditionInput {
