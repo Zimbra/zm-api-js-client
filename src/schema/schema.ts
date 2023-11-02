@@ -220,12 +220,13 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 				},
 				addMessage: (_, variables, context = {}) => {
 					const { local } = context;
+					const { message } = variables;
 
 					if (local) {
 						return localStoreClient.addMessage(variables as AddMsgInput);
 					}
 
-					return client.addMessage(variables as AddMsgInput);
+					return client.addMessage(message as AddMsgInput);
 				},
 				applyFilterRules: (_, variables) =>
 					client.applyFilterRules(variables as ApplyFilterRulesOptions),
