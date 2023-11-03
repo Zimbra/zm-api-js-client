@@ -1182,7 +1182,28 @@ type DlGroupMember {
 	attributes: DlAttrs
 }
 
- type DLDetails {
+type DLSAttrs {
+	zimbraDistributionListSubscriptionPolicy: String
+	zimbraDistributionListUnsubscriptionPolicy: String
+	zimbraHideInGal: String
+}
+
+ type DLS {
+	d: String
+	dynamic: Boolean
+	id: String
+	isMember: Boolean
+	isOwner: Boolean
+	name: String
+	ref: String
+	_attrs: DLSAttrs
+ }
+
+  type DLSDetails {
+	dls: [DLS]
+ }
+
+  type DLDetails {
 	dlm: [Dlm]
 	dlGroupMember: [DlGroupMember]
 	more: Boolean,
@@ -3359,6 +3380,10 @@ type Query {
 		local: Boolean
 	): Folder
 	getHAB(habRootGroupId: ID): HabGroup
+	getAccountDistributionLists(
+		attrs: String
+		ownerOf: Int
+	): DLSDetails
 	getDistributionListMembers(
 		limit: Int
 		offset: Int
