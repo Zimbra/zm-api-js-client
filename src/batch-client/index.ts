@@ -942,9 +942,7 @@ export class ZimbraBatchClient {
 				ownerOf
 			},
 			namespace: Namespace.Account
-		}).then(res => {
-			return { dls: res?.dl ? res.dl : [] };
-		});
+		}).then(res => ({ dls: res?.dl || [] }));
 
 	public getAppointment = (options: AppointmentOptions) =>
 		this.jsonRequest({
