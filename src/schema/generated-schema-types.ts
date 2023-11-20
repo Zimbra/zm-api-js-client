@@ -1210,6 +1210,30 @@ export type DlDetails = {
   total?: Maybe<Scalars['Int']>;
 };
 
+export type Dls = {
+  __typename?: 'DLS';
+  _attrs?: Maybe<DlsAttrs>;
+  d?: Maybe<Scalars['String']>;
+  dynamic?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['String']>;
+  isMember?: Maybe<Scalars['Boolean']>;
+  isOwner?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+  ref?: Maybe<Scalars['String']>;
+};
+
+export type DlsAttrs = {
+  __typename?: 'DLSAttrs';
+  zimbraDistributionListSubscriptionPolicy?: Maybe<Scalars['String']>;
+  zimbraDistributionListUnsubscriptionPolicy?: Maybe<Scalars['String']>;
+  zimbraHideInGal?: Maybe<Scalars['String']>;
+};
+
+export type DlsDetails = {
+  __typename?: 'DLSDetails';
+  dls?: Maybe<Array<Maybe<Dls>>>;
+};
+
 export type DataSource = {
   __typename?: 'DataSource';
   connectionType?: Maybe<Scalars['String']>;
@@ -3396,6 +3420,7 @@ export type Query = {
   downloadDocument?: Maybe<Attachment>;
   downloadMessage?: Maybe<SMimeMessage>;
   freeBusy?: Maybe<Array<Maybe<FreeBusy>>>;
+  getAccountDistributionLists?: Maybe<DlsDetails>;
   getAppSpecificPasswords?: Maybe<AppSpecificPasswordsResponse>;
   getAppointment?: Maybe<GetAppointmentResponse>;
   getAppointments?: Maybe<SearchResponse>;
@@ -3492,6 +3517,12 @@ export type QueryFreeBusyArgs = {
   end?: InputMaybe<Scalars['Float']>;
   names: Array<Scalars['String']>;
   start?: InputMaybe<Scalars['Float']>;
+};
+
+
+export type QueryGetAccountDistributionListsArgs = {
+  attrs?: InputMaybe<Scalars['String']>;
+  ownerOf?: InputMaybe<Scalars['Int']>;
 };
 
 

@@ -142,6 +142,8 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 					return client.getFolder(variables as GetFolderOptions);
 				},
 				getHAB: (_, { habRootGroupId }) => client.getHAB(habRootGroupId),
+				getAccountDistributionLists: (_, { attrs, ownerOf }) =>
+					client.getAccountDistributionLists(attrs, ownerOf),
 				getDistributionListMembers: (_, { limit, offset, dl }) =>
 					client.getDistributionListMembers(limit, offset, dl),
 				getAppointment: (_: any, variables) =>

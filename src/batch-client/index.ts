@@ -934,6 +934,16 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		});
 
+	public getAccountDistributionLists = (attrs: String, ownerOf: number) =>
+		this.jsonRequest({
+			name: 'GetAccountDistributionLists',
+			body: {
+				attrs,
+				ownerOf
+			},
+			namespace: Namespace.Account
+		}).then(res => ({ dls: res?.dl || [] }));
+
 	public getAppointment = (options: AppointmentOptions) =>
 		this.jsonRequest({
 			name: 'GetAppointment',
