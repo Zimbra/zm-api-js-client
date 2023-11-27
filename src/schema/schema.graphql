@@ -1442,6 +1442,7 @@ type AccountInfoAttrs {
 	zimbraFeatureExportFolderEnabled: Boolean
 	zimbraFeatureGroupCalendarEnabled: Boolean
 	zimbraFeatureDistributionListExpandMembersEnabled: Boolean
+	zimbraFeatureDistributionListFolderEnabled: Boolean
 }
 
 type AccountCos {

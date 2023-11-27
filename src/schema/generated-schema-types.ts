@@ -97,6 +97,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureConversationsEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureDiscardInFiltersEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureDistributionListExpandMembersEnabled?: Maybe<Scalars['Boolean']>;
+  zimbraFeatureDistributionListFolderEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureDocumentEditingEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureExportFolderEnabled?: Maybe<Scalars['Boolean']>;
   zimbraFeatureFiltersEnabled?: Maybe<Scalars['Boolean']>;
