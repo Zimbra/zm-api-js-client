@@ -268,6 +268,10 @@ export const MessageInfo = new Entity({
 	...commonMailItemFields
 });
 
+export const SearchMessageInfo = new Entity({
+	...commonMailItemFields
+});
+
 export const AppointmentInfo = new Entity({
 	inv: ['invitations', Invitation]
 });
@@ -546,7 +550,7 @@ export const SaveDocument = new Entity({
 });
 
 export const SearchResponse = new Entity({
-	m: ['messages', MessageInfo],
+	m: ['messages', SearchMessageInfo],
 	c: ['conversations', SearchConversation],
 	cn: ['contacts', Contact],
 	appt: ['appointments', CalendarItemHitInfo],

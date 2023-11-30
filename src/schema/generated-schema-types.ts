@@ -4002,6 +4002,50 @@ export type SearchFolderInput = {
   types: FolderView;
 };
 
+export type SearchMessageInfo = MailItem & {
+  __typename?: 'SearchMessageInfo';
+  attachments?: Maybe<Array<Maybe<MimePart>>>;
+  attributes?: Maybe<MessageAttributes>;
+  autoSendTime?: Maybe<Scalars['Float']>;
+  bcc?: Maybe<Array<Maybe<EmailAddress>>>;
+  cc?: Maybe<Array<Maybe<EmailAddress>>>;
+  certificate?: Maybe<Array<Maybe<SmimeCert>>>;
+  changeDate?: Maybe<Scalars['Float']>;
+  conversationId?: Maybe<Scalars['ID']>;
+  date?: Maybe<Scalars['Float']>;
+  decryptionErrorCode?: Maybe<Scalars['String']>;
+  emailAddresses?: Maybe<Array<Maybe<EmailAddress>>>;
+  excerpt?: Maybe<Scalars['String']>;
+  flags?: Maybe<Scalars['String']>;
+  folderId?: Maybe<Scalars['ID']>;
+  from?: Maybe<Array<Maybe<EmailAddress>>>;
+  html?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  inlineAttachments?: Maybe<Array<Maybe<MimePart>>>;
+  invitations?: Maybe<Array<Maybe<InviteInfo>>>;
+  isEncrypted?: Maybe<Scalars['Boolean']>;
+  isSigned?: Maybe<Scalars['Boolean']>;
+  local?: Maybe<Scalars['Boolean']>;
+  meta?: Maybe<Array<Maybe<CustomMetadataMeta>>>;
+  mimeParts?: Maybe<Array<Maybe<MimePart>>>;
+  modifiedSequence?: Maybe<Scalars['Float']>;
+  origId?: Maybe<Scalars['ID']>;
+  part?: Maybe<Scalars['String']>;
+  replyTo?: Maybe<Array<Maybe<EmailAddress>>>;
+  replyType?: Maybe<Scalars['String']>;
+  revision?: Maybe<Scalars['Float']>;
+  sender?: Maybe<Array<Maybe<EmailAddress>>>;
+  senderDate?: Maybe<Scalars['Float']>;
+  share?: Maybe<Array<Maybe<ShareNotification>>>;
+  size?: Maybe<Scalars['Float']>;
+  sortField?: Maybe<Scalars['String']>;
+  subject?: Maybe<Scalars['String']>;
+  tagNames?: Maybe<Scalars['String']>;
+  tags?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
+  to?: Maybe<Array<Maybe<EmailAddress>>>;
+};
+
 export type SearchResponse = {
   __typename?: 'SearchResponse';
   appointments?: Maybe<Array<Maybe<CalendarItemHitInfo>>>;
@@ -4009,7 +4053,7 @@ export type SearchResponse = {
   conversations?: Maybe<Array<Maybe<Conversation>>>;
   documents?: Maybe<Array<Maybe<Document>>>;
   hit?: Maybe<Array<Maybe<Hit>>>;
-  messages?: Maybe<Array<Maybe<MessageInfo>>>;
+  messages?: Maybe<Array<Maybe<SearchMessageInfo>>>;
   more?: Maybe<Scalars['Boolean']>;
   offset?: Maybe<Scalars['Int']>;
   paginationSupported?: Maybe<Scalars['Boolean']>;
