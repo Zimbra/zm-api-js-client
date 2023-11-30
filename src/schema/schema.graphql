@@ -548,49 +548,6 @@ type MessageInfo implements MailItem {
 	meta: [CustomMetadataMeta]
 }
 
-type SearchMessageInfo implements MailItem {
-	id: ID
-	size: Float # s
-	date: Float # d
-	senderDate: Float # sd
-	folderId: ID # l
-	origId: ID #origid
-	subject: String # su
-	emailAddresses: [EmailAddress]
-	excerpt: String # fr
-	conversationId: ID # cid
-	flags: String # f
-	tags: String # t
-	tagNames: String # tn
-	revision: Float # rev
-	changeDate: Float # md
-	modifiedSequence: Float # ms
-	invitations: [InviteInfo] # inv
-	sortField: String # sf, Sort field used for cursor-based pagination
-	decryptionErrorCode: String
-	certificate: [SmimeCert]
-	mimeParts: [MimePart]
-	to: [EmailAddress]
-	from: [EmailAddress]
-	cc: [EmailAddress]
-	bcc: [EmailAddress]
-	sender: [EmailAddress]
-	replyTo: [EmailAddress]
-	html: String
-	text: String
-	attachments: [MimePart]
-	inlineAttachments: [MimePart]
-	share: [ShareNotification] # shr
-	replyType: String #rt
-	attributes: MessageAttributes
-	isEncrypted: Boolean
-	isSigned: Boolean
-	autoSendTime: Float
-	local: Boolean
-	part: String
-	meta: [CustomMetadataMeta]
-}
-
 type Conversation implements MailItem {
 	id: ID
 	size: Float # s
@@ -1679,7 +1636,7 @@ type Document {
 
 type SearchResponse {
 	contacts: [Contact]
-	messages: [SearchMessageInfo]
+	messages: [MessageInfo]
 	conversations: [Conversation]
 	tasks: [CalendarItemHitInfo]
 	appointments: [CalendarItemHitInfo]
