@@ -2718,6 +2718,7 @@ input HeaderCheckConditionInput {
 	header: String!
 	index: Int
 	negative: Boolean
+	type: String
 }
 
 input HeaderConditionInput {

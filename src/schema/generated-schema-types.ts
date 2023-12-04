@@ -1905,6 +1905,7 @@ export type HeaderCheckConditionInput = {
   header: Scalars['String'];
   index?: InputMaybe<Scalars['Int']>;
   negative?: InputMaybe<Scalars['Boolean']>;
+  type?: InputMaybe<Scalars['String']>;
 };
 
 export type HeaderCondition = {
