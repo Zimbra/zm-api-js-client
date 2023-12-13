@@ -1275,7 +1275,7 @@ export type DateCondition = {
 };
 
 export type DateConditionInput = {
-  date?: InputMaybe<Scalars['Float']>;
+  date?: InputMaybe<Scalars['String']>;
   dateComparison?: InputMaybe<Scalars['String']>;
   index?: InputMaybe<Scalars['Int']>;
   negative?: InputMaybe<Scalars['Boolean']>;
