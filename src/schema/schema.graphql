@@ -974,7 +974,7 @@ type ConversationCondition {
 
 type DateCondition {
 	dateComparison: String
-	date: Float # d
+	date: String # d
 	index: Int
 	negative: Boolean
 }

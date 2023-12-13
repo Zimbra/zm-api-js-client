@@ -1268,7 +1268,7 @@ export type DataSources = {
 
 export type DateCondition = {
   __typename?: 'DateCondition';
-  date?: Maybe<Scalars['Float']>;
+  date?: Maybe<Scalars['String']>;
   dateComparison?: Maybe<Scalars['String']>;
   index?: Maybe<Scalars['Int']>;
   negative?: Maybe<Scalars['Boolean']>;
