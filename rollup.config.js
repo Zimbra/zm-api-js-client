@@ -4,23 +4,21 @@ import graphql from '@rollup/plugin-graphql';
 import localResolve from 'rollup-plugin-local-resolve';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import pkg from './package.json';
+import { visualizer } from 'rollup-plugin-visualizer';
 
-let FORMAT = process.env.FORMAT;
+const FORMAT = process.env.FORMAT;
 
-// graphql-tools currently has a rollup build failure, so always call it an external until they fix it
-// otherwise, make all npm production dependencies external, plus their subpath usages
-// throughout the codebase, which rollup doesn't automatically pick up on
-let external = FORMAT==='es' ?
-	Object.keys(pkg.dependencies)
-		.concat(
-			['castArray', 'get','isError', 'isObject', 'mapValues', 'reduce', 'omitBy', 'uniqBy', 'concat', 'uniqBy', 'differenceBy', 'forEach'].map(v => 'lodash/'+v),
-			['graphql']) :
-	[];
+const externalDeps = [
+	'@apollo/client',
+	'graphql',
+	'lodash',
+	'mitt'
+];
 
+const getExternalDeps = id => externalDeps.find(pkgName => id.includes('/node_modules/' + pkgName  + '/'));
 
 export default {
-	external,
+	...(FORMAT==='es' && { external: getExternalDeps }),
 	context: 'commonjsGlobal', // what should "this" be at the top level when it is used by another module
 	plugins: [
 		graphql(),
@@ -34,9 +32,10 @@ export default {
 			extensions: ['.ts'],
 			exclude: 'node_modules/**',
 			babelHelpers: 'bundled'
-		})
+		}),
+		...(process.env.visualize ? [visualizer({ open: true }) ] : [])
 	],
 	output: {
 		exports: FORMAT==='es' ? null : 'named'
-	},
+	}
 };
