@@ -2132,13 +2132,13 @@ export type InviteComponent = {
 export type InviteCondition = {
   __typename?: 'InviteCondition';
   index?: Maybe<Scalars['Int']>;
-  methods?: Maybe<Array<Maybe<Scalars['String']>>>;
+  method?: Maybe<Array<Maybe<MethodCondition>>>;
   negative?: Maybe<Scalars['Boolean']>;
 };
 
 export type InviteConditionInput = {
   index?: InputMaybe<Scalars['Int']>;
-  methods?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  method?: InputMaybe<Array<InputMaybe<MethodInput>>>;
   negative?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -2360,6 +2360,15 @@ export type MessageInfo = MailItem & {
   tags?: Maybe<Scalars['String']>;
   text?: Maybe<Scalars['String']>;
   to?: Maybe<Array<Maybe<EmailAddress>>>;
+};
+
+export type MethodCondition = {
+  __typename?: 'MethodCondition';
+  _content?: Maybe<Scalars['String']>;
+};
+
+export type MethodInput = {
+  _content?: InputMaybe<Scalars['String']>;
 };
 
 export type MimeHeaderCondition = {
