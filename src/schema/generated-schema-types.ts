@@ -166,6 +166,8 @@ export type AccountInfoAttrs = {
   zimbraTrialConvertAtExpiration?: Maybe<Scalars['Boolean']['output']>;
   zimbraTrialExpirationDate?: Maybe<Scalars['String']['output']>;
   zimbraTwoFactorAuthEnabled?: Maybe<Scalars['Boolean']['output']>;
+  zimbraTwoFactorAuthMethodAllowed?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  zimbraTwoFactorAuthMethodEnabled?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
 };
 
 export enum AccountType {
@@ -1414,7 +1416,9 @@ export type EmailAddressInput = {
 export type EnableTwoFactorAuthInput = {
   authToken?: InputMaybe<Scalars['String']['input']>;
   csrfTokenSecured: Scalars['Boolean']['input'];
+  email?: InputMaybe<Scalars['String']['input']>;
   ignoreSameSite?: InputMaybe<Scalars['Boolean']['input']>;
+  method: Scalars['String']['input'];
   name: Scalars['String']['input'];
   password?: InputMaybe<Scalars['String']['input']>;
   twoFactorCode?: InputMaybe<Scalars['String']['input']>;
@@ -2804,6 +2808,11 @@ export type MutationDeleteSignatureArgs = {
 };
 
 
+export type MutationDisableTwoFactorAuthArgs = {
+  method: Scalars['String']['input'];
+};
+
+
 export type MutationDismissCalendarItemArgs = {
   appointment?: InputMaybe<Array<InputMaybe<DismissInput>>>;
   task?: InputMaybe<DismissInput>;
@@ -3318,6 +3327,7 @@ export type Preferences = {
   zimbraPrefPasswordRecoveryAddress?: Maybe<Scalars['String']['output']>;
   zimbraPrefPasswordRecoveryAddressStatus?: Maybe<PasswordRecoveryAddressStatus>;
   zimbraPrefPowerPasteEnabled?: Maybe<Scalars['Boolean']['output']>;
+  zimbraPrefPrimaryTwoFactorAuthMethod?: Maybe<Scalars['String']['output']>;
   zimbraPrefReadingPaneEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefReadingPaneLocation?: Maybe<ReadingPaneLocation>;
   zimbraPrefSaveToSent?: Maybe<Scalars['Boolean']['output']>;
@@ -3378,6 +3388,7 @@ export type PreferencesInput = {
   zimbraPrefOutOfOfficeSuppressExternalReply?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefOutOfOfficeUntilDate?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefPowerPasteEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  zimbraPrefPrimaryTwoFactorAuthMethod?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefReadingPaneEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefReadingPaneLocation?: InputMaybe<ReadingPaneLocation>;
   zimbraPrefSaveToSent?: InputMaybe<Scalars['Boolean']['input']>;
