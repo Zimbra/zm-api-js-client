@@ -1469,6 +1469,8 @@ type AccountInfoAttrs {
 	zimbraFeatureZulipChatEnabled: Boolean
 	zimbraFeatureDocumentEditingEnabled: Boolean
 	zimbraTwoFactorAuthEnabled: Boolean
+	zimbraTwoFactorAuthMethodAllowed: [String]
+	zimbraTwoFactorAuthMethodEnabled: [String]
 	zimbraFeatureTrustedDevicesEnabled: Boolean
 	zimbraFeatureAntispamEnabled: Boolean
 	zimbraFeatureAppSpecificPasswordsEnabled: Boolean
@@ -1651,6 +1653,7 @@ type Preferences {
 	zimbraPrefTagTreeOpen: Boolean
 	zimbraPrefPowerPasteEnabled: Boolean
 	zimbraPrefDisplayTimeInMailList: Boolean
+	zimbraPrefPrimaryTwoFactorAuthMethod: String
 }
 
 type GetAppointmentResponse {
@@ -2704,6 +2707,7 @@ input PreferencesInput {
 	zimbraPrefTagTreeOpen: Boolean
 	zimbraPrefPowerPasteEnabled: Boolean
 	zimbraPrefDisplayTimeInMailList: Boolean
+	zimbraPrefPrimaryTwoFactorAuthMethod: String
 }
 
 input ModifyIdentityInput {
@@ -3029,6 +3033,8 @@ input ExternalAccountModifyAttrsInput {
 
 input EnableTwoFactorAuthInput {
 	name: String!
+	method: String!
+	email: String
 	password: String
 	twoFactorCode: String
 	authToken: String
@@ -3708,7 +3714,7 @@ type Mutation {
 	enableTwoFactorAuth(
 		options: EnableTwoFactorAuthInput!
 	): EnableTwoFactorAuthResponse
-	disableTwoFactorAuth: Boolean
+	disableTwoFactorAuth(method: String!): Boolean
 	messageAction(ids: [ID!]!, op: String!): Boolean
 	modifyExternalAccount(
 		id: ID!
