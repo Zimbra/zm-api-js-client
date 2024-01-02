@@ -239,7 +239,7 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 				itemAction: (_, variables) => client.itemAction(variables as ActionOptions),
 				login: (_, variables) => client.login(variables as LoginOptions),
 				logout: client.logout,
-				disableTwoFactorAuth: client.disableTwoFactorAuth,
+				disableTwoFactorAuth: (_, { method }) => client.disableTwoFactorAuth(method),
 				enableTwoFactorAuth: (_, { options }) =>
 					client.enableTwoFactorAuth(options as EnableTwoFactorAuthInput),
 				messageAction: (_, variables) => client.messageAction(variables as ActionOptions),

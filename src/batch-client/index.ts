@@ -335,30 +335,37 @@ export class ZimbraBatchClient {
 			body: {
 				sections: 'mbox,attrs,zimlets,props'
 			}
-		}).then(res => ({
-			...res,
-			attrs: {
-				...mapValuesDeep(res.attrs._attrs, coerceStringToBoolean),
-				zimbraMailAlias: [].concat(get(res, 'attrs._attrs.zimbraMailAlias', []))
-			},
-			...(get(res, 'license.attr') && {
-				license: {
-					status: res.license.status,
-					attr: mapValuesDeep(res.license.attr, coerceStringToBoolean)
-				}
-			}),
-			zimlets: {
-				zimlet:
-					get(res, 'zimlets.zimlet') &&
-					get(res, 'zimlets.zimlet').map(({ zimlet, zimletContext, zimletConfig }: any) => ({
+		}).then(res => {
+			const {
+				zimbraMailAlias,
+				zimbraTwoFactorAuthMethodAllowed,
+				zimbraTwoFactorAuthMethodEnabled
+			} = res?.attrs?._attrs || {};
+			return {
+				...res,
+				attrs: {
+					...mapValuesDeep(res?.attrs?._attrs, coerceStringToBoolean),
+					zimbraMailAlias: [].concat(zimbraMailAlias || []),
+					zimbraTwoFactorAuthMethodAllowed: [].concat(zimbraTwoFactorAuthMethodAllowed || []),
+					zimbraTwoFactorAuthMethodEnabled: [].concat(zimbraTwoFactorAuthMethodEnabled || [])
+				},
+				...(res?.license?.attr && {
+					license: {
+						status: res.license.status,
+						attr: mapValuesDeep(res.license.attr, coerceStringToBoolean)
+					}
+				}),
+				zimlets: {
+					zimlet: res?.zimlets?.zimlet?.map(({ zimlet, zimletContext, zimletConfig }: any) => ({
 						zimlet,
 						zimletContext,
 						...(zimletConfig && {
 							zimletConfig: normalize(ZimletConfigEntity)(zimletConfig)
 						})
 					}))
-			}
-		}));
+				}
+			};
+		});
 
 	public accountOnlyRemoteWipeSync = (deviceId: String) =>
 		this.jsonRequest({
@@ -759,10 +766,15 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(Boolean);
 
-	public disableTwoFactorAuth = () =>
+	public disableTwoFactorAuth = (method: string) =>
 		this.jsonRequest({
 			name: 'DisableTwoFactorAuth',
 			namespace: Namespace.Account,
+			body: {
+				method: {
+					_content: method
+				}
+			},
 			singleRequest: true
 		}).then(Boolean);
 
@@ -838,6 +850,8 @@ export class ZimbraBatchClient {
 
 	public enableTwoFactorAuth = ({
 		name,
+		email,
+		method,
 		password,
 		authToken,
 		twoFactorCode,
@@ -850,6 +864,16 @@ export class ZimbraBatchClient {
 				name: {
 					_content: name
 				},
+				...(email && {
+					email: {
+						_content: email
+					}
+				}),
+				...(method && {
+					method: {
+						_content: method
+					}
+				}),
 				...(password && {
 					password: {
 						_content: password
