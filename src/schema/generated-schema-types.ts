@@ -3399,6 +3399,7 @@ export type Preferences = {
   zimbraPrefDisplayExternalImages?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefDisplayTimeInMailList?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefExternalSendersType?: Maybe<ExternalSendersType>;
+  zimbraPrefForwardReplyInOriginalFormat?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefGroupMailBy?: Maybe<Scalars['String']['output']>;
   zimbraPrefHtmlEditorDefaultFontColor?: Maybe<Scalars['String']['output']>;
   zimbraPrefHtmlEditorDefaultFontFamily?: Maybe<Scalars['String']['output']>;
