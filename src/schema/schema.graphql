@@ -1555,6 +1555,7 @@ type Preferences {
 	zimbraPrefCalendarAlwaysShowMiniCal: Boolean
 	zimbraPrefComposeDirection: String
 	zimbraPrefComposeFormat: Mode
+	zimbraPrefForwardReplyInOriginalFormat: Boolean
 	zimbraPrefHtmlEditorDefaultFontColor: String
 	zimbraPrefHtmlEditorDefaultFontFamily: String
 	zimbraPrefHtmlEditorDefaultFontSize: String
