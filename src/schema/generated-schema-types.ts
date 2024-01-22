@@ -168,12 +168,6 @@ export type AccountInfoAttrs = {
   zimbraTwoFactorAuthEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraTwoFactorAuthMethodAllowed?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   zimbraTwoFactorAuthMethodEnabled?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  zimbraTwoFactorAuthNumScratchCodes?: Maybe<Scalars['Int']['output']>;
-  zimbraTwoFactorAuthScratchCodes?: Maybe<Scalars['String']['output']>;
-  zimbraTwoFactorAuthSecret?: Maybe<Scalars['String']['output']>;
-  zimbraTwoFactorAuthSecretLength?: Maybe<Scalars['Int']['output']>;
-  zimbraTwoFactorCodeForEmail?: Maybe<Scalars['String']['output']>;
-  zimbraTwoFactorCodeLifetimeForEmail?: Maybe<Scalars['String']['output']>;
 };
 
 export enum AccountType {

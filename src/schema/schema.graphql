@@ -1415,12 +1415,6 @@ type AccountInfoAttrs {
 	zimbraTwoFactorAuthEnabled: Boolean
 	zimbraTwoFactorAuthMethodAllowed: [String]
 	zimbraTwoFactorAuthMethodEnabled: [String]
-	zimbraTwoFactorAuthSecret: String
-	zimbraTwoFactorAuthScratchCodes: String
-	zimbraTwoFactorAuthNumScratchCodes: Int
-	zimbraTwoFactorAuthSecretLength: Int
-	zimbraTwoFactorCodeForEmail: String
-	zimbraTwoFactorCodeLifetimeForEmail: String
 	zimbraFeatureTrustedDevicesEnabled: Boolean
 	zimbraFeatureAntispamEnabled: Boolean
 	zimbraFeatureAppSpecificPasswordsEnabled: Boolean
