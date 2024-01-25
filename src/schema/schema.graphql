@@ -1192,7 +1192,7 @@ type DLSAttrs {
 	zimbraHideInGal: String
 }
 
- type DLS {
+type DLS {
 	d: String
 	dynamic: Boolean
 	id: String
@@ -1201,18 +1201,74 @@ type DLSAttrs {
 	name: String
 	ref: String
 	_attrs: DLSAttrs
- }
+}
 
-  type DLSDetails {
+type DLSDetails {
 	dls: [DLS]
- }
+}
 
-  type DLDetails {
+type DLOwner {
+	id: String
+	name: String
+	type: String
+}
+
+type DLOwners {
+	owner: [DLOwner]
+}
+
+type DLAttributes {
+	description: String
+	displayName: String
+	mail: String
+	zimbraDistributionListSubscriptionPolicy: String
+	zimbraDistributionListUnsubscriptionPolicy: String
+	zimbraHideInGal: String
+	zimbraMailAlias: String
+	zimbraMailStatus: String
+	zimbraNotes: String
+}
+
+type SubscribeDistributionList {
+	status: String
+}
+
+type DLGrantee {
+	id: ID
+	type: String
+	name: String
+}
+
+type DLRight {
+	right: String
+	grantee: [DLGrantee]
+}
+
+type DLRights {
+	right: [DLRight]
+}
+
+type DLDetails {
+	dynamic: Boolean
+	id: String
+	isMember: Boolean
+	isOwner: Boolean
+	name: String
+	owners: [DLOwners]
+	rights: [DLRights]
+	_attrs: DLAttributes
+}
+
+type DL {
+	dl: [DLDetails]
+}
+
+type DLMembersDetails {
 	dlm: [Dlm]
 	dlGroupMember: [DlGroupMember]
 	more: Boolean,
 	total: Int
- }
+}
 
 type HabGroup {
 	name: String
@@ -3393,11 +3449,17 @@ type Query {
 		attrs: String
 		ownerOf: Int
 	): DLSDetails
+	getDistributionList(
+		needOwners: Boolean
+		needRights: String
+		dl: String
+		by: String
+	): DL
 	getDistributionListMembers(
 		limit: Int
 		offset: Int
 		dl: String
-	): DLDetails
+	): DLMembersDetails
 	getCustomMetadata(id: ID!, section: String): CustomMetadata
 	getMailboxMetadata(section: String): MailboxMetadata
 	getMessage(
@@ -3691,6 +3753,7 @@ type Mutation {
 	cancelPendingAccountOnlyRemoteWipeSync(deviceId: String): Device
 	remoteWipeSync(deviceId: String): Device
 	cancelPendingRemoteWipeSync(deviceId: String): Device
+	subscribeDistributionList(op: String!, by: String, dl: String!): String
 }
 
 schema {

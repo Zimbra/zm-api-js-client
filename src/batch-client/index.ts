@@ -1044,6 +1044,20 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Sync
 		}).then(res => get(res, 'device') || []);
 
+	public getDistributionList = (dl: String, needOwners: Boolean, needRights: String, by: String) =>
+		this.jsonRequest({
+			name: 'GetDistributionList',
+			body: {
+				dl: {
+					by,
+					_content: dl
+				},
+				needOwners,
+				needRights
+			},
+			namespace: Namespace.Account
+		});
+
 	public getDistributionListMembers = (limit: String, offset: String, dl: String) =>
 		this.jsonRequest({
 			name: 'GetDistributionListMembers',
@@ -1898,6 +1912,19 @@ export class ZimbraBatchClient {
 			},
 			singleRequest: true
 		}).then(Boolean);
+
+	public subscribeDistributionList = (op: String, by: String, dl: String) =>
+		this.jsonRequest({
+			name: 'SubscribeDistributionList',
+			body: {
+				dl: {
+					by,
+					_content: dl
+				},
+				op
+			},
+			namespace: Namespace.Account
+		}).then(res => res.status || '');
 
 	public taskFolders = () =>
 		this.jsonRequest({
