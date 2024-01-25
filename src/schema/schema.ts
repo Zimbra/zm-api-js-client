@@ -144,6 +144,8 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 				getHAB: (_, { habRootGroupId }) => client.getHAB(habRootGroupId),
 				getAccountDistributionLists: (_, { attrs, ownerOf }) =>
 					client.getAccountDistributionLists(attrs, ownerOf),
+				getDistributionList: (_, { dl, needOwners, needRights, by }) =>
+					client.getDistributionList(dl, needOwners, needRights, by),
 				getDistributionListMembers: (_, { limit, offset, dl }) =>
 					client.getDistributionListMembers(limit, offset, dl),
 				getAppointment: (_: any, variables) =>
@@ -442,7 +444,9 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 				},
 				cancelPendingRemoteWipeSync: (_, { deviceId }) => {
 					client.cancelPendingRemoteWipeSync(deviceId);
-				}
+				},
+				subscribeDistributionList: (_, { op, by, dl }) =>
+					client.subscribeDistributionList(op, by, dl)
 			}
 		}
 	});

@@ -1205,12 +1205,72 @@ export type CustomMetadataMeta = {
   section?: Maybe<Scalars['String']['output']>;
 };
 
+export type Dl = {
+  __typename?: 'DL';
+  dl?: Maybe<Array<Maybe<DlDetails>>>;
+};
+
+export type DlAttributes = {
+  __typename?: 'DLAttributes';
+  description?: Maybe<Scalars['String']['output']>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  mail?: Maybe<Scalars['String']['output']>;
+  zimbraDistributionListSubscriptionPolicy?: Maybe<Scalars['String']['output']>;
+  zimbraDistributionListUnsubscriptionPolicy?: Maybe<Scalars['String']['output']>;
+  zimbraHideInGal?: Maybe<Scalars['String']['output']>;
+  zimbraMailAlias?: Maybe<Scalars['String']['output']>;
+  zimbraMailStatus?: Maybe<Scalars['String']['output']>;
+  zimbraNotes?: Maybe<Scalars['String']['output']>;
+};
+
 export type DlDetails = {
   __typename?: 'DLDetails';
+  _attrs?: Maybe<DlAttributes>;
+  dynamic?: Maybe<Scalars['Boolean']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  isMember?: Maybe<Scalars['Boolean']['output']>;
+  isOwner?: Maybe<Scalars['Boolean']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  owners?: Maybe<Array<Maybe<DlOwners>>>;
+  rights?: Maybe<Array<Maybe<DlRights>>>;
+};
+
+export type DlGrantee = {
+  __typename?: 'DLGrantee';
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+};
+
+export type DlMembersDetails = {
+  __typename?: 'DLMembersDetails';
   dlGroupMember?: Maybe<Array<Maybe<DlGroupMember>>>;
   dlm?: Maybe<Array<Maybe<Dlm>>>;
   more?: Maybe<Scalars['Boolean']['output']>;
   total?: Maybe<Scalars['Int']['output']>;
+};
+
+export type DlOwner = {
+  __typename?: 'DLOwner';
+  id?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+};
+
+export type DlOwners = {
+  __typename?: 'DLOwners';
+  owner?: Maybe<Array<Maybe<DlOwner>>>;
+};
+
+export type DlRight = {
+  __typename?: 'DLRight';
+  grantee?: Maybe<Array<Maybe<DlGrantee>>>;
+  right?: Maybe<Scalars['String']['output']>;
+};
+
+export type DlRights = {
+  __typename?: 'DLRights';
+  right?: Maybe<Array<Maybe<DlRight>>>;
 };
 
 export type Dls = {
@@ -2582,6 +2642,7 @@ export type Mutation = {
   setMailboxMetadata?: Maybe<Scalars['Boolean']['output']>;
   setRecoveryAccount?: Maybe<Scalars['Boolean']['output']>;
   snoozeCalendarItem?: Maybe<Scalars['Boolean']['output']>;
+  subscribeDistributionList?: Maybe<Scalars['String']['output']>;
   tagAction?: Maybe<Scalars['Boolean']['output']>;
   testExternalAccount?: Maybe<ExternalAccountTestResponse>;
   uploadMessage?: Maybe<Scalars['String']['output']>;
@@ -3097,6 +3158,13 @@ export type MutationSnoozeCalendarItemArgs = {
 };
 
 
+export type MutationSubscribeDistributionListArgs = {
+  by?: InputMaybe<Scalars['String']['input']>;
+  dl: Scalars['String']['input'];
+  op: Scalars['String']['input'];
+};
+
+
 export type MutationTagActionArgs = {
   action?: InputMaybe<FolderActionInput>;
 };
@@ -3443,7 +3511,8 @@ export type Query = {
   getCustomMetadata?: Maybe<CustomMetadata>;
   getDataSources: DataSources;
   getDeviceStatus?: Maybe<Array<Maybe<Device>>>;
-  getDistributionListMembers?: Maybe<DlDetails>;
+  getDistributionList?: Maybe<Dl>;
+  getDistributionListMembers?: Maybe<DlMembersDetails>;
   getDocumentShareURL?: Maybe<GetDocumentShareUrlResponse>;
   getFilterRules?: Maybe<Array<Maybe<Filter>>>;
   getFolder?: Maybe<Folder>;
@@ -3582,6 +3651,14 @@ export type QueryGetConversationArgs = {
 export type QueryGetCustomMetadataArgs = {
   id: Scalars['ID']['input'];
   section?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetDistributionListArgs = {
+  by?: InputMaybe<Scalars['String']['input']>;
+  dl?: InputMaybe<Scalars['String']['input']>;
+  needOwners?: InputMaybe<Scalars['Boolean']['input']>;
+  needRights?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -4289,6 +4366,11 @@ export enum SortBy {
 export type StringContent = {
   __typename?: 'StringContent';
   _content?: Maybe<Scalars['String']['output']>;
+};
+
+export type SubscribeDistributionList = {
+  __typename?: 'SubscribeDistributionList';
+  status?: Maybe<Scalars['String']['output']>;
 };
 
 export type Tag = {
