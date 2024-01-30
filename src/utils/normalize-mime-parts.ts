@@ -105,7 +105,7 @@ export function normalizeMimeParts(
 				type = normalizeType(part.contentType),
 				disposition = normalizeDisposition(part.contentDisposition),
 				parts = part.mimeParts,
-				content = part.content || ''; //getPartContent(part);
+				content = part?.content || ''; //getPartContent(part);
 
 			// obey scapi's isBody flag:
 			if (isBody) acc.body = content;
@@ -127,7 +127,7 @@ export function normalizeMimeParts(
 						~subpart.contentType.indexOf('image/') &&
 						subpart.contentDisposition === 'attachment' &&
 						subpart.contentId &&
-						htmlPart.content
+						htmlPart?.content
 					) {
 						// remove angle brackets from <contentId>
 						const contentId = subpart.contentId.slice(1, -1);
