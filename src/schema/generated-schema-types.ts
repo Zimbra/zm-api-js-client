@@ -3371,6 +3371,7 @@ export type PreferencesInput = {
   zimbraPrefDisplayExternalImages?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefDisplayTimeInMailList?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefExternalSendersType?: InputMaybe<ExternalSendersType>;
+  zimbraPrefForwardReplyInOriginalFormat?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefGroupMailBy?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefHtmlEditorDefaultFontColor?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefHtmlEditorDefaultFontFamily?: InputMaybe<Scalars['String']['input']>;
