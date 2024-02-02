@@ -34,6 +34,7 @@ import {
 	SaveSMimeCertInputUpload,
 	SearchFolderInput,
 	SendMessageInput,
+	SendTwoFactorAuthCodeInput,
 	ShareNotificationInput,
 	SignatureInput,
 	WhiteBlackListInput,
@@ -315,7 +316,8 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 				grantRights: (_, variables) => client.grantRights(variables.input as GrantRightsInput),
 				sendShareNotification: (_, { shareNotification }) =>
 					client.sendShareNotification(shareNotification as ShareNotificationInput),
-
+				sendTwoFactorAuthCode: (_, { options }) =>
+					client.sendTwoFactorAuthCode(options as SendTwoFactorAuthCodeInput),
 				testExternalAccount: (_, { externalAccount }) =>
 					client.testExternalAccount(externalAccount as ExternalAccountTestInput),
 				addExternalAccount: (_, { externalAccount }) =>
