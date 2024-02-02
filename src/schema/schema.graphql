@@ -2681,6 +2681,7 @@ input PreferencesInput {
 	zimbraPrefCalendarAlwaysShowMiniCal: Boolean
 	zimbraPrefComposeDirection: String
 	zimbraPrefComposeFormat: Mode
+	zimbraPrefForwardReplyInOriginalFormat: Boolean
 	zimbraPrefExternalSendersType: ExternalSendersType
 	zimbraPrefHtmlEditorDefaultFontColor: String
 	zimbraPrefHtmlEditorDefaultFontFamily: String
