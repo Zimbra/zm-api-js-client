@@ -1210,6 +1210,29 @@ export type Dl = {
   dl?: Maybe<Array<Maybe<DlDetails>>>;
 };
 
+export type DlActionAttrInput = {
+  _content?: InputMaybe<Scalars['String']['input']>;
+  n?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type DlActionGranteeInput = {
+  _content?: InputMaybe<Scalars['String']['input']>;
+  by?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type DlActionInput = {
+  a?: InputMaybe<Array<InputMaybe<DlActionAttrInput>>>;
+  op?: InputMaybe<Scalars['String']['input']>;
+  owner?: InputMaybe<Array<InputMaybe<DlActionGranteeInput>>>;
+  right?: InputMaybe<DlActionRightInput>;
+};
+
+export type DlActionRightInput = {
+  grantee?: InputMaybe<Array<InputMaybe<DlActionGranteeInput>>>;
+  right?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type DlAttributes = {
   __typename?: 'DLAttributes';
   description?: Maybe<Scalars['String']['output']>;
@@ -1295,6 +1318,11 @@ export type DlsAttrs = {
 export type DlsDetails = {
   __typename?: 'DLSDetails';
   dls?: Maybe<Array<Maybe<Dls>>>;
+};
+
+export type DlSelectorInput = {
+  _content?: InputMaybe<Scalars['String']['input']>;
+  by?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type DataSource = {
@@ -1384,6 +1412,11 @@ export type DiscoverRights = {
 export type DismissInput = {
   dismissedAt: Scalars['Float']['input'];
   id: Scalars['ID']['input'];
+};
+
+export type DistributionListActionInput = {
+  action?: InputMaybe<DlActionInput>;
+  dl?: InputMaybe<DlSelectorInput>;
 };
 
 export type DlAttrs = {
@@ -2589,6 +2622,7 @@ export type Mutation = {
   deleteSignature?: Maybe<Scalars['Boolean']['output']>;
   disableTwoFactorAuth?: Maybe<Scalars['Boolean']['output']>;
   dismissCalendarItem?: Maybe<Scalars['Boolean']['output']>;
+  distributionListAction?: Maybe<Scalars['Boolean']['output']>;
   documentAction?: Maybe<DocumentActionData>;
   enableTwoFactorAuth?: Maybe<EnableTwoFactorAuthResponse>;
   folderAction?: Maybe<Scalars['Boolean']['output']>;
@@ -2868,6 +2902,11 @@ export type MutationDeleteSignatureArgs = {
 export type MutationDismissCalendarItemArgs = {
   appointment?: InputMaybe<Array<InputMaybe<DismissInput>>>;
   task?: InputMaybe<DismissInput>;
+};
+
+
+export type MutationDistributionListActionArgs = {
+  dlActions: DistributionListActionInput;
 };
 
 

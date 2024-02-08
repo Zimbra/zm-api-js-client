@@ -12,6 +12,7 @@ import {
 	CustomMetadataInput,
 	DeleteAppointmentInput,
 	DeleteIdentityInput,
+	DistributionListActionInput,
 	EnableTwoFactorAuthInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
@@ -446,7 +447,9 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 					client.cancelPendingRemoteWipeSync(deviceId);
 				},
 				subscribeDistributionList: (_, { op, by, dl }) =>
-					client.subscribeDistributionList(op, by, dl)
+					client.subscribeDistributionList(op, by, dl),
+				distributionListAction: (_, { dlActions }) =>
+					client.distributionListAction(dlActions as DistributionListActionInput)
 			}
 		}
 	});

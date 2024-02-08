@@ -3169,6 +3169,39 @@ input SaveDocumentInput {
 	document: SaveDocumentInput
 }
 
+input DLActionAttrInput {
+	n: String
+	_content: String
+}
+
+input DLActionGranteeInput {
+	by: String
+	type: String
+	_content: String
+}
+
+input DLActionRightInput {
+	right: String
+	grantee: [DLActionGranteeInput]
+}
+
+input DLActionInput {
+	op: String
+	a: [DLActionAttrInput]
+	right: DLActionRightInput
+	owner: [DLActionGranteeInput]
+}
+
+input DLSelectorInput {
+	by: String
+	_content: String
+}
+
+input DistributionListActionInput {
+	action: DLActionInput
+	dl: DLSelectorInput
+}
+
 type SaveDocument {
 	id: ID
 	version: Int
@@ -3754,6 +3787,7 @@ type Mutation {
 	remoteWipeSync(deviceId: String): Device
 	cancelPendingRemoteWipeSync(deviceId: String): Device
 	subscribeDistributionList(op: String!, by: String, dl: String!): String
+	distributionListAction(dlActions: DistributionListActionInput!): Boolean
 }
 
 schema {
