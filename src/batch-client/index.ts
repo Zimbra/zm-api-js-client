@@ -67,6 +67,7 @@ import {
 	CreateTagInput,
 	DeleteAppointmentInput,
 	DeleteIdentityInput,
+	DistributionListActionInput,
 	EnableTwoFactorAuthInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
@@ -781,6 +782,13 @@ export class ZimbraBatchClient {
 				task
 			},
 			singleRequest: true
+		}).then(Boolean);
+
+	public distributionListAction = (dlActions: DistributionListActionInput) =>
+		this.jsonRequest({
+			name: 'DistributionListAction',
+			body: dlActions,
+			namespace: Namespace.Account
 		}).then(Boolean);
 
 	public documentAction = (options: ActionOptions) =>
