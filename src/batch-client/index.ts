@@ -89,6 +89,7 @@ import {
 	SaveSMimeCertInputUpload,
 	SearchFolderInput,
 	SendMessageInput,
+	SendTwoFactorAuthCodeInput,
 	ShareNotificationInput,
 	SignatureInput,
 	WhiteBlackListInput,
@@ -1501,7 +1502,19 @@ export class ZimbraBatchClient {
 				...(deviceTrusted && { deviceTrusted })
 			},
 			namespace: Namespace.Account
-		}).then(res => mapValuesDeep(res, coerceStringToBoolean));
+		}).then(res => {
+			const zimbraTwoFactorAuthMethodAllowed = (
+				res?.zimbraTwoFactorAuthMethodAllowed?.method || []
+			).map((m: any) => m._content);
+			const zimbraTwoFactorAuthMethodEnabled = (
+				res?.zimbraTwoFactorAuthMethodEnabled?.method || []
+			).map((m: any) => m._content);
+			return {
+				...mapValuesDeep(res, coerceStringToBoolean),
+				...(zimbraTwoFactorAuthMethodAllowed && { zimbraTwoFactorAuthMethodAllowed }),
+				...(zimbraTwoFactorAuthMethodEnabled && { zimbraTwoFactorAuthMethodEnabled })
+			};
+		});
 
 	public logout = () =>
 		this.jsonRequest({
@@ -1904,6 +1917,22 @@ export class ZimbraBatchClient {
 			},
 			singleRequest: true
 		}).then(Boolean);
+
+	public sendTwoFactorAuthCode = ({ action, authToken }: SendTwoFactorAuthCodeInput) => {
+		return this.jsonRequest({
+			name: 'SendTwoFactorAuthCode',
+			namespace: Namespace.Account,
+			body: {
+				action: {
+					_content: action
+				},
+				authToken: {
+					_content: authToken
+				}
+			},
+			singleRequest: true
+		});
+	};
 
 	public setCsrfToken = (csrfToken: string) => {
 		this.csrfToken = csrfToken;
