@@ -328,6 +328,10 @@ type AuthResponse {
 	authToken: [AuthToken]
 	twoFactorAuthRequired: TwoFactorAuthRequired
 	trustedDevicesEnabled: TrustedDevicesEnabled
+	zimbraPrefPasswordRecoveryAddress: StringContent
+	zimbraPrefPrimaryTwoFactorAuthMethod: StringContent
+	zimbraTwoFactorAuthMethodAllowed: [String]
+	zimbraTwoFactorAuthMethodEnabled: [String]
 	lifetime: Float
 	session: Session
 	skin: [Skin]
@@ -351,6 +355,10 @@ type EnableTwoFactorAuthResponse {
 	scratchCodes: [ScratchCode]
 	authToken: [AuthToken]
 	csrfToken: [CsrfToken]
+}
+
+type SendTwoFactorAuthCodeResponse {
+	status: [StringContent]
 }
 
 type ProfileImageChangeResponse {
@@ -3042,6 +3050,11 @@ input EnableTwoFactorAuthInput {
 	ignoreSameSite: Boolean
 }
 
+input SendTwoFactorAuthCodeInput {
+	action: String!
+	authToken: String!
+}
+
 input ExternalAccountImportInput {
 	accountType: AccountType
 	id: ID!
@@ -3769,6 +3782,9 @@ type Mutation {
 	sendDeliveryReport(messageId: ID!): Boolean
 	sendInviteReply(inviteReply: InviteReplyInput!): InviteReplyResponse
 	sendShareNotification(shareNotification: ShareNotificationInput!): Boolean
+	sendTwoFactorAuthCode(
+		options: SendTwoFactorAuthCodeInput!
+	): SendTwoFactorAuthCodeResponse
 	setCustomMetadata(customMetaData: CustomMetadataInput!): Boolean
 	setMailboxMetadata(
 		section: String

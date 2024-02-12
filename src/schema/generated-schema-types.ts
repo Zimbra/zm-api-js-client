@@ -387,6 +387,10 @@ export type AuthResponse = {
   skin?: Maybe<Array<Maybe<Skin>>>;
   trustedDevicesEnabled?: Maybe<TrustedDevicesEnabled>;
   twoFactorAuthRequired?: Maybe<TwoFactorAuthRequired>;
+  zimbraPrefPasswordRecoveryAddress?: Maybe<StringContent>;
+  zimbraPrefPrimaryTwoFactorAuthMethod?: Maybe<StringContent>;
+  zimbraTwoFactorAuthMethodAllowed?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  zimbraTwoFactorAuthMethodEnabled?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
 };
 
 export type AuthToken = {
@@ -2677,6 +2681,7 @@ export type Mutation = {
   sendInviteReply?: Maybe<InviteReplyResponse>;
   sendMessage?: Maybe<SendMessageResponse>;
   sendShareNotification?: Maybe<Scalars['Boolean']['output']>;
+  sendTwoFactorAuthCode?: Maybe<SendTwoFactorAuthCodeResponse>;
   setCustomMetadata?: Maybe<Scalars['Boolean']['output']>;
   setMailboxMetadata?: Maybe<Scalars['Boolean']['output']>;
   setRecoveryAccount?: Maybe<Scalars['Boolean']['output']>;
@@ -3179,6 +3184,11 @@ export type MutationSendMessageArgs = {
 
 export type MutationSendShareNotificationArgs = {
   shareNotification: ShareNotificationInput;
+};
+
+
+export type MutationSendTwoFactorAuthCodeArgs = {
+  options: SendTwoFactorAuthCodeInput;
 };
 
 
@@ -4194,6 +4204,16 @@ export type SendMessageInput = {
 export type SendMessageResponse = {
   __typename?: 'SendMessageResponse';
   message?: Maybe<Array<Maybe<MsgWithGroupInfo>>>;
+};
+
+export type SendTwoFactorAuthCodeInput = {
+  action: Scalars['String']['input'];
+  authToken: Scalars['String']['input'];
+};
+
+export type SendTwoFactorAuthCodeResponse = {
+  __typename?: 'SendTwoFactorAuthCodeResponse';
+  status?: Maybe<Array<Maybe<StringContent>>>;
 };
 
 export type Session = {
