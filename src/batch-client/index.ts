@@ -22,6 +22,7 @@ import {
 	CreateMountpointRequest,
 	CreateSignatureRequest,
 	DiscoverRightsResponse,
+	DLActionEntity,
 	DlGroupMember,
 	DocumentActionData,
 	Filter,
@@ -784,10 +785,13 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(Boolean);
 
-	public distributionListAction = (dlActions: DistributionListActionInput) =>
+	public distributionListAction = ({ action, dl }: DistributionListActionInput) =>
 		this.jsonRequest({
 			name: 'DistributionListAction',
-			body: dlActions,
+			body: {
+				action: denormalize(DLActionEntity)(action),
+				dl
+			},
 			namespace: Namespace.Account
 		}).then(Boolean);
 
