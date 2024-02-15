@@ -1211,8 +1211,8 @@ export type Dl = {
 };
 
 export type DlActionAttrInput = {
-  _content?: InputMaybe<Scalars['String']['input']>;
-  n?: InputMaybe<Scalars['String']['input']>;
+  attributeName?: InputMaybe<Scalars['String']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type DlActionGranteeInput = {
@@ -1222,8 +1222,8 @@ export type DlActionGranteeInput = {
 };
 
 export type DlActionInput = {
-  a?: InputMaybe<Array<InputMaybe<DlActionAttrInput>>>;
-  op?: InputMaybe<Scalars['String']['input']>;
+  attributes?: InputMaybe<Array<InputMaybe<DlActionAttrInput>>>;
+  operation?: InputMaybe<Scalars['String']['input']>;
   owner?: InputMaybe<Array<InputMaybe<DlActionGranteeInput>>>;
   right?: InputMaybe<DlActionRightInput>;
 };

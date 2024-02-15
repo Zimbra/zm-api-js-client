@@ -3170,8 +3170,8 @@ input SaveDocumentInput {
 }
 
 input DLActionAttrInput {
-	n: String
-	_content: String
+	attributeName: String
+	content: String
 }
 
 input DLActionGranteeInput {
@@ -3186,8 +3186,8 @@ input DLActionRightInput {
 }
 
 input DLActionInput {
-	op: String
-	a: [DLActionAttrInput]
+	operation: String
+	attributes: [DLActionAttrInput]
 	right: DLActionRightInput
 	owner: [DLActionGranteeInput]
 }

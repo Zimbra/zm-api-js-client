@@ -775,3 +775,13 @@ export const ActionData = new Entity({
 export const DocumentActionData = new Entity({
 	action: ['action', ActionData]
 });
+
+export const DLActionAttrEntity = new Entity({
+	n: 'attributeName',
+	_content: 'content'
+});
+
+export const DLActionEntity = new Entity({
+	op: 'operation',
+	a: ['attributes', DLActionAttrEntity]
+});
