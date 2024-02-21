@@ -40,7 +40,7 @@ const dataIdFromObject = (object: any) => {
 			if (object.part && object.part !== null) {
 				return `${defaultDataIdFromObject(object)}:${object.part}`;
 			}
-			return defaultDataIdFromObject(object);
+			return `${defaultDataIdFromObject(object)}:${object.html ? 1 : 0}`;
 		case 'SMimeMessage':
 			return `${defaultDataIdFromObject(object)}:${object.isSecure}`;
 		case 'Document':
