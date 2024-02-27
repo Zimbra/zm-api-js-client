@@ -783,5 +783,6 @@ export const DLActionAttrEntity = new Entity({
 
 export const DLActionEntity = new Entity({
 	op: 'operation',
-	a: ['attributes', DLActionAttrEntity]
+	a: ['attributes', DLActionAttrEntity],
+	dlm: 'distributionListMembers'
 });

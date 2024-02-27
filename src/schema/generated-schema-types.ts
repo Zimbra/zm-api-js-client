@@ -1223,6 +1223,7 @@ export type DlActionGranteeInput = {
 
 export type DlActionInput = {
   attributes?: InputMaybe<Array<InputMaybe<DlActionAttrInput>>>;
+  distributionListMembers?: InputMaybe<Array<InputMaybe<DlMembersInput>>>;
   operation?: InputMaybe<Scalars['String']['input']>;
   owner?: InputMaybe<Array<InputMaybe<DlActionGranteeInput>>>;
   right?: InputMaybe<DlActionRightInput>;
@@ -1271,6 +1272,10 @@ export type DlMembersDetails = {
   dlm?: Maybe<Array<Maybe<Dlm>>>;
   more?: Maybe<Scalars['Boolean']['output']>;
   total?: Maybe<Scalars['Int']['output']>;
+};
+
+export type DlMembersInput = {
+  _content?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type DlOwner = {
