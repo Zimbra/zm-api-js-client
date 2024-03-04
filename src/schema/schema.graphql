@@ -3185,16 +3185,12 @@ input DLActionRightInput {
 	grantee: [DLActionGranteeInput]
 }
 
-input DLMembersInput {
-	_content: String
-}
-
 input DLActionInput {
 	operation: String
 	attributes: [DLActionAttrInput]
 	right: DLActionRightInput
 	owner: [DLActionGranteeInput]
-	distributionListMembers: [DLMembersInput]
+	distributionListMembers: [MethodInput]
 }
 
 input DLSelectorInput {
