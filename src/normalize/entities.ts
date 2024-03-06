@@ -243,6 +243,7 @@ const commonMailItemFields = {
 	inv: ['invitations', InviteInfo],
 	mp: ['mimeParts', MimePart],
 	shr: 'share',
+	dlSubs: 'subscribe',
 	su: 'subject',
 	origid: 'origId',
 	attach: ['attachments', AttachmentsInfo],
