@@ -1223,6 +1223,7 @@ export type DlActionGranteeInput = {
 
 export type DlActionInput = {
   attributes?: InputMaybe<Array<InputMaybe<DlActionAttrInput>>>;
+  distributionListMembers?: InputMaybe<Array<InputMaybe<MethodInput>>>;
   operation?: InputMaybe<Scalars['String']['input']>;
   owner?: InputMaybe<Array<InputMaybe<DlActionGranteeInput>>>;
   right?: InputMaybe<DlActionRightInput>;
