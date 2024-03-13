@@ -3400,6 +3400,7 @@ export type Preferences = {
   zimbraPrefDisplayExternalImages?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefDisplayTimeInMailList?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefExternalSendersType?: Maybe<ExternalSendersType>;
+  zimbraPrefForwardReplyInOriginalFormat?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefGroupMailBy?: Maybe<Scalars['String']['output']>;
   zimbraPrefHtmlEditorDefaultFontColor?: Maybe<Scalars['String']['output']>;
   zimbraPrefHtmlEditorDefaultFontFamily?: Maybe<Scalars['String']['output']>;
@@ -3462,6 +3463,7 @@ export type PreferencesInput = {
   zimbraPrefDisplayExternalImages?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefDisplayTimeInMailList?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefExternalSendersType?: InputMaybe<ExternalSendersType>;
+  zimbraPrefForwardReplyInOriginalFormat?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefGroupMailBy?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefHtmlEditorDefaultFontColor?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefHtmlEditorDefaultFontFamily?: InputMaybe<Scalars['String']['input']>;
