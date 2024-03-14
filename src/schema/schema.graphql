@@ -472,6 +472,10 @@ type ShareNotification {
 	content: String
 }
 
+type DLSubscribe {
+	content: String
+}
+
 type MessageAttributes {
 	isEncrypted: Boolean
 	isSigned: Boolean
@@ -496,6 +500,7 @@ interface MailItem {
 	invitations: [InviteInfo] # inv
 	sortField: String # sf, Sort field used for cursor-based pagination
 	share: [ShareNotification] # shr
+	subscribe: [DLSubscribe] # dlSub
 	replyType: String #rt
 }
 
@@ -546,6 +551,7 @@ type MessageInfo implements MailItem {
 	attachments: [MimePart]
 	inlineAttachments: [MimePart]
 	share: [ShareNotification] # shr
+	subscribe: [DLSubscribe] # dlSub
 	replyType: String #rt
 	attributes: MessageAttributes
 	isEncrypted: Boolean
@@ -579,6 +585,7 @@ type Conversation implements MailItem {
 	numMessages: Float # n, Number of messages in this conversation
 	unread: Float # u
 	share: [ShareNotification] # shr
+	subscribe: [DLSubscribe] # dlSub
 	replyType: String #rt
 	meta: [CustomMetadataMeta]
 }
@@ -608,6 +615,7 @@ type MsgWithGroupInfo implements MailItem {
 	invitations: [InviteInfo] # inv
 	sortField: String # sf, Sort field used for cursor-based pagination
 	share: [ShareNotification] # shr
+	subscribe: [DLSubscribe] # dlSub
 	replyType: String #rt
 }
 
@@ -3204,11 +3212,17 @@ input DLActionRightInput {
 	grantee: [DLActionGranteeInput]
 }
 
+input SubRequestInput {
+	op: String
+	_content: String
+}
+
 input DLActionInput {
 	operation: String
 	attributes: [DLActionAttrInput]
 	right: DLActionRightInput
 	owner: [DLActionGranteeInput]
+	subsReq: SubRequestInput
 	distributionListMembers: [MethodInput]
 }
 

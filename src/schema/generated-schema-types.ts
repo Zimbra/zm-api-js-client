@@ -1109,6 +1109,7 @@ export type Conversation = MailItem & {
   size?: Maybe<Scalars['Float']['output']>;
   sortField?: Maybe<Scalars['String']['output']>;
   subject?: Maybe<Scalars['String']['output']>;
+  subscribe?: Maybe<Array<Maybe<DlSubscribe>>>;
   tagNames?: Maybe<Scalars['String']['output']>;
   tags?: Maybe<Scalars['String']['output']>;
   unread?: Maybe<Scalars['Float']['output']>;
@@ -1233,6 +1234,7 @@ export type DlActionInput = {
   operation?: InputMaybe<Scalars['String']['input']>;
   owner?: InputMaybe<Array<InputMaybe<DlActionGranteeInput>>>;
   right?: InputMaybe<DlActionRightInput>;
+  subsReq?: InputMaybe<SubRequestInput>;
 };
 
 export type DlActionRightInput = {
@@ -1330,6 +1332,11 @@ export type DlsDetails = {
 export type DlSelectorInput = {
   _content?: InputMaybe<Scalars['String']['input']>;
   by?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type DlSubscribe = {
+  __typename?: 'DLSubscribe';
+  content?: Maybe<Scalars['String']['output']>;
 };
 
 export type DataSource = {
@@ -2337,6 +2344,7 @@ export type MailItem = {
   size?: Maybe<Scalars['Float']['output']>;
   sortField?: Maybe<Scalars['String']['output']>;
   subject?: Maybe<Scalars['String']['output']>;
+  subscribe?: Maybe<Array<Maybe<DlSubscribe>>>;
   tagNames?: Maybe<Scalars['String']['output']>;
   tags?: Maybe<Scalars['String']['output']>;
 };
@@ -2460,6 +2468,7 @@ export type MessageInfo = MailItem & {
   size?: Maybe<Scalars['Float']['output']>;
   sortField?: Maybe<Scalars['String']['output']>;
   subject?: Maybe<Scalars['String']['output']>;
+  subscribe?: Maybe<Array<Maybe<DlSubscribe>>>;
   tagNames?: Maybe<Scalars['String']['output']>;
   tags?: Maybe<Scalars['String']['output']>;
   text?: Maybe<Scalars['String']['output']>;
@@ -2588,6 +2597,7 @@ export type MsgWithGroupInfo = MailItem & {
   size?: Maybe<Scalars['Float']['output']>;
   sortField?: Maybe<Scalars['String']['output']>;
   subject?: Maybe<Scalars['String']['output']>;
+  subscribe?: Maybe<Array<Maybe<DlSubscribe>>>;
   tagNames?: Maybe<Scalars['String']['output']>;
   tags?: Maybe<Scalars['String']['output']>;
 };
@@ -4437,6 +4447,11 @@ export enum SortBy {
 export type StringContent = {
   __typename?: 'StringContent';
   _content?: Maybe<Scalars['String']['output']>;
+};
+
+export type SubRequestInput = {
+  _content?: InputMaybe<Scalars['String']['input']>;
+  op?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type SubscribeDistributionList = {
