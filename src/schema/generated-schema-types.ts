@@ -874,6 +874,7 @@ export type Contact = {
   fileAsStr?: Maybe<Scalars['String']['output']>;
   folderId?: Maybe<Scalars['ID']['output']>;
   id: Scalars['ID']['output'];
+  isOwner?: Maybe<Scalars['Boolean']['output']>;
   memberOf?: Maybe<Scalars['String']['output']>;
   members?: Maybe<Array<Maybe<ContactListMember>>>;
   revision?: Maybe<Scalars['Float']['output']>;
