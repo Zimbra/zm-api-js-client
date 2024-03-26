@@ -1800,6 +1800,7 @@ type Contact {
 	attributes: ContactAttributes
 	members: [ContactListMember]
 	certificate: [SmimeCert]
+	isOwner: Boolean
 }
 
 type OtherContactAttribute {
