@@ -510,6 +510,7 @@ type ClientInfoAttributes {
 	zimbraWebClientSkipLogoff: Boolean
 	zimbraFeatureResetPasswordStatus: ResetPasswordStatus
 	zimbraHelpModernURL: String
+	zimbraClassicWebClientDisabled: Boolean
 }
 
 type ClientInfoType {

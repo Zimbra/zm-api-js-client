@@ -837,6 +837,7 @@ export type CancelRuleInfo = {
 
 export type ClientInfoAttributes = {
   __typename?: 'ClientInfoAttributes';
+  zimbraClassicWebClientDisabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureResetPasswordStatus?: Maybe<ResetPasswordStatus>;
   zimbraHelpModernURL?: Maybe<Scalars['String']['output']>;
   zimbraWebClientLoginURL?: Maybe<Scalars['String']['output']>;
