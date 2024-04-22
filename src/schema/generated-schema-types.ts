@@ -1089,6 +1089,7 @@ export enum ContactType {
 
 export type Conversation = MailItem & {
   __typename?: 'Conversation';
+  _attrs?: Maybe<Array<Maybe<CustomHeader>>>;
   changeDate?: Maybe<Scalars['Float']['output']>;
   conversationId?: Maybe<Scalars['ID']['output']>;
   date?: Maybe<Scalars['Float']['output']>;
@@ -1183,6 +1184,12 @@ export type Cursor = {
   id?: InputMaybe<Scalars['ID']['input']>;
   includeOffset?: InputMaybe<Scalars['Boolean']['input']>;
   sortVal?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type CustomHeader = {
+  __typename?: 'CustomHeader';
+  key?: Maybe<Scalars['String']['output']>;
+  value?: Maybe<Scalars['String']['output']>;
 };
 
 export type CustomMetadata = {
@@ -2043,6 +2050,11 @@ export type HeaderConditionInput = {
   valueComparison?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type HeaderInput = {
+  _content?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Hit = {
   __typename?: 'Hit';
   id?: Maybe<Scalars['String']['output']>;
@@ -2433,6 +2445,7 @@ export type MessageAttributes = {
 
 export type MessageInfo = MailItem & {
   __typename?: 'MessageInfo';
+  _attrs?: Maybe<Array<Maybe<CustomHeader>>>;
   attachments?: Maybe<Array<Maybe<MimePart>>>;
   attributes?: Maybe<MessageAttributes>;
   autoSendTime?: Maybe<Scalars['Float']['output']>;
@@ -2575,6 +2588,7 @@ export type ModifyZimletPrefsResponse = {
 
 export type MsgWithGroupInfo = MailItem & {
   __typename?: 'MsgWithGroupInfo';
+  _attrs?: Maybe<Array<Maybe<CustomHeader>>>;
   autoSendTime?: Maybe<Scalars['Float']['output']>;
   changeDate?: Maybe<Scalars['Float']['output']>;
   cif?: Maybe<Scalars['String']['output']>;
@@ -3866,6 +3880,7 @@ export type QuerySearchArgs = {
   cursor?: InputMaybe<Cursor>;
   fetch?: InputMaybe<Scalars['String']['input']>;
   fullConversation?: InputMaybe<Scalars['Boolean']['input']>;
+  header?: InputMaybe<Array<InputMaybe<MailItemHeaderInput>>>;
   inDumpster?: InputMaybe<Scalars['Boolean']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   memberOf?: InputMaybe<Scalars['Boolean']['input']>;
@@ -4205,6 +4220,7 @@ export type SendMessageInput = {
   entityId?: InputMaybe<Scalars['String']['input']>;
   flags?: InputMaybe<Scalars['String']['input']>;
   folderId?: InputMaybe<Scalars['ID']['input']>;
+  header?: InputMaybe<Array<InputMaybe<HeaderInput>>>;
   id?: InputMaybe<Scalars['ID']['input']>;
   inReplyTo?: InputMaybe<Scalars['String']['input']>;
   inlineAttachments?: InputMaybe<Array<InputMaybe<MimePartInput>>>;
