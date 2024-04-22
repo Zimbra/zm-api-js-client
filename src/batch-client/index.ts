@@ -103,6 +103,7 @@ import {
 import { mapValuesDeep } from '../utils/map-values-deep';
 import {
 	normalizeCustomMetaDataAttrs,
+	normalizeHeaderAttrs,
 	setCustomMetaDataBody
 } from '../utils/normalize-attrs-custommetadata';
 import { normalizeEmailAddresses } from '../utils/normalize-email-addresses';
@@ -170,6 +171,9 @@ function normalizeMessage(
 			entry = normalizeCustomMetaDataAttrs(entry);
 			return entry;
 		});
+	}
+	if (message?._attrs) {
+		message._attrs = normalizeHeaderAttrs(message._attrs);
 	}
 
 	let normalizedMessage = normalize(MessageInfo)(message);

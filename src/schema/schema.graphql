@@ -560,6 +560,7 @@ type MessageInfo implements MailItem {
 	local: Boolean
 	part: String
 	meta: [CustomMetadataMeta]
+	_attrs: [CustomHeader]
 }
 
 type Conversation implements MailItem {
@@ -588,6 +589,7 @@ type Conversation implements MailItem {
 	subscribe: [DLSubscribe] # dlSub
 	replyType: String #rt
 	meta: [CustomMetadataMeta]
+	_attrs: [CustomHeader]
 }
 
 type MsgWithGroupInfo implements MailItem {
@@ -604,6 +606,7 @@ type MsgWithGroupInfo implements MailItem {
 	folderId: ID # l
 	subject: String # su
 	emailAddresses: [EmailAddress]
+	_attrs: [CustomHeader]
 	excerpt: String # fr
 	conversationId: ID # cid
 	flags: String # f
@@ -1782,6 +1785,11 @@ type SaveDraftResponse {
 	message: [MessageInfo]
 }
 
+type CustomHeader {
+	key: String
+	value: String
+}
+
 type CustomMetadataAttrs {
 	key: String
 	value: String
@@ -2305,6 +2313,12 @@ input SendMessageInput {
 	emailAddresses: [MailItemEmailAddressInput] #e
 	attachments: [AttachmentInput] #attach
 	inlineAttachments: [MimePartInput] #attach
+	header: [HeaderInput] #header
+}
+
+input HeaderInput {
+	name: String #name
+	_content: String #value
 }
 
 input SaveSMimeCertInputUpload {
@@ -3594,7 +3608,8 @@ type Query {
 		sortBy: SortBy
 		types: SearchType
 		resultMode: String
-		inDumpster: Boolean
+		inDumpster: Boolean,
+		header: [MailItemHeaderInput]
 	): SearchResponse
 
 	searchCalendarResources(

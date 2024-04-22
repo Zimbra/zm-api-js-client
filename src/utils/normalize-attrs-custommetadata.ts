@@ -29,3 +29,12 @@ export function normalizeCustomMetaDataAttrs(data: any) {
 		_attrs: attrs
 	};
 }
+
+export function normalizeHeaderAttrs(data: any) {
+	let attrs: any = [];
+
+	Object.keys(data).forEach(
+		key => typeof data[key] === 'string' && attrs.push({ key, value: data[key] })
+	);
+	return attrs;
+}
