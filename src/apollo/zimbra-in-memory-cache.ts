@@ -1,5 +1,8 @@
 import { defaultDataIdFromObject, InMemoryCache, InMemoryCacheConfig } from '@apollo/client/core';
 import get from 'lodash/get';
+import isEqual from 'lodash/isEqual';
+import uniqWith from 'lodash/uniqWith';
+import { EmailAddress } from './types';
 
 const dataIdFromPath = (result: any, path: string) => {
 	if (result.__typename) {
@@ -93,10 +96,9 @@ const typePolicies = {
 	MessageInfo: {
 		fields: {
 			emailAddresses: {
-				// @TODO ideally we should write proper merge function here,
-				// but as our app is already handling at caller level
-				// we are just overwriting cache data here
-				merge: false
+				merge(existing: EmailAddress[], incoming: EmailAddress[]) {
+					return uniqWith([...(existing || []), ...(incoming || [])], isEqual);
+				}
 			}
 		}
 	}
