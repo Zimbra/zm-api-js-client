@@ -1482,6 +1482,7 @@ type AccountInfoAttrs {
 	zimbraFeatureFiltersEnabled: Boolean
 	zimbraFeatureReadReceiptsEnabled: Boolean
 	zimbraFeatureSharingEnabled: Boolean
+	zimbraFeatureSharedFolderMobileSyncEnabled: Boolean
 	zimbraFeatureManageZimlets: Boolean
 	zimbraFeatureTwoFactorAuthAvailable: Boolean
 	zimbraFeatureTwoFactorAuthRequired: Boolean
@@ -2081,6 +2082,7 @@ type ShareInfo {
 	rights: String
 	view: FolderView
 	mid: ID
+	activeSyncDisabled: Boolean
 }
 
 type MailboxMetadataAttrs {
