@@ -124,6 +124,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureRelatedContactsEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureResetPasswordStatus?: Maybe<ResetPasswordStatus>;
   zimbraFeatureRetentionPolicyEnabled?: Maybe<Scalars['Boolean']['output']>;
+  zimbraFeatureSharedFolderMobileSyncEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureSharingEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureTaggingEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureTasksEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -4265,6 +4266,7 @@ export enum SetRecoveryAccountOp {
 
 export type ShareInfo = {
   __typename?: 'ShareInfo';
+  activeSyncDisabled?: Maybe<Scalars['Boolean']['output']>;
   folderId: Scalars['ID']['output'];
   folderPath?: Maybe<Scalars['String']['output']>;
   folderUuid?: Maybe<Scalars['String']['output']>;
