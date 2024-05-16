@@ -67,6 +67,9 @@ const typePolicies = {
 			},
 			getPreferences: {
 				merge: true
+			},
+			search: {
+				merge: true
 			}
 		}
 	},
@@ -97,7 +100,15 @@ const typePolicies = {
 		fields: {
 			emailAddresses: {
 				merge(existing: EmailAddress[], incoming: EmailAddress[]) {
+					const result = uniqWith([...(existing || []), ...(incoming || [])], isEqual);
+					console.log('emailAddresses ', existing, incoming, result);
 					return uniqWith([...(existing || []), ...(incoming || [])], isEqual);
+				}
+			},
+			id: {
+				merge(existing: any, incoming: any) {
+					console.log('id ', existing, incoming);
+					return incoming;
 				}
 			}
 		}
