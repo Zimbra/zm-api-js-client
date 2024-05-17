@@ -67,9 +67,6 @@ const typePolicies = {
 			},
 			getPreferences: {
 				merge: true
-			},
-			search: {
-				merge: true
 			}
 		}
 	},
