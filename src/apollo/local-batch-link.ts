@@ -24,17 +24,17 @@ export class LocalBatchLink extends ApolloLink {
 				let emittedResponse = false;
 				Promise.all(
 					operations.map((operation: Operation) => {
-						const query = print(operation.query);
 						const { operationName, variables = {} } = operation;
+						const params = {
+							schema: this.schema,
+							source: print(operation.query),
+							rootValue: null,
+							contextValue: operation.getContext() || options.context || {},
+							variableValues: variables,
+							operationName: operationName
+						};
 
-						return graphql(
-							this.schema,
-							query,
-							null,
-							operation.getContext() || options.context || {},
-							variables,
-							operationName
-						);
+						return graphql(params);
 					})
 				)
 					.then((results: FetchResult[]) => {
