@@ -3686,6 +3686,7 @@ export type QueryDownloadMessageArgs = {
 
 export type QueryFreeBusyArgs = {
   end?: InputMaybe<Scalars['Float']['input']>;
+  excludeUid?: InputMaybe<Scalars['String']['input']>;
   names: Array<Scalars['String']['input']>;
   start?: InputMaybe<Scalars['Float']['input']>;
 };
