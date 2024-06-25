@@ -952,13 +952,14 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(Boolean);
 
-	public freeBusy = ({ start, end, names }: FreeBusyOptions) =>
+	public freeBusy = ({ start, end, names, excludeUid }: FreeBusyOptions) =>
 		this.jsonRequest({
 			name: 'GetFreeBusy',
 			body: {
 				s: start,
 				e: end,
-				name: names.join(',')
+				name: names.join(','),
+				...(excludeUid && { excludeUid })
 			}
 		}).then(res => normalize(FreeBusy)(res.usr));
 
