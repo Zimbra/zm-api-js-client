@@ -75,6 +75,7 @@ export interface ZimbraClientOptions {
 
 export interface FreeBusyOptions {
 	end: number;
+	excludeUid: string;
 	names: Array<string>;
 	start: number;
 }

@@ -3472,7 +3472,7 @@ type Query {
 	downloadDocument(id: ID!, url: String!): Attachment
 	listDocumentRevisions(id: ID!, version: Int!, count: Int!): Document
 	discoverRights(right: [DiscoverRightInput!]!): DiscoverRights
-	freeBusy(names: [String!]!, start: Float, end: Float): [FreeBusy]
+	freeBusy(names: [String!]!, start: Float, end: Float, excludeUid: String): [FreeBusy]
 	getContact(
 		id: ID
 		ids: [ID!]
