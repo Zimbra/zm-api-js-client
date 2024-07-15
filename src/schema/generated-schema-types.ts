@@ -4205,6 +4205,7 @@ export enum SearchType {
   Document = 'document',
   Message = 'message',
   Task = 'task',
+  Unknown = 'unknown',
   Wiki = 'wiki'
 }
 
