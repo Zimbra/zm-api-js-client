@@ -1526,6 +1526,8 @@ type AccountInfoAttrs {
 	zimbraFeatureGroupCalendarEnabled: Boolean
 	zimbraFeatureDistributionListExpandMembersEnabled: Boolean
 	zimbraFeatureDistributionListFolderEnabled: Boolean
+	zimbraFeatureMailRecallEnabled: Boolean
+	zimbraFeatureMailRecallTime: Int
 }
 
 type AccountCos {
