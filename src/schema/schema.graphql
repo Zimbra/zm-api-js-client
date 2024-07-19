@@ -2745,6 +2745,7 @@ input PreferencesInput {
 	zimbraPrefPowerPasteEnabled: Boolean
 	zimbraPrefDisplayTimeInMailList: Boolean
 	zimbraPrefPrimaryTwoFactorAuthMethod: String
+	zimbraPrefDeleteInviteOnReply: Boolean
 }
 
 input ModifyIdentityInput {
