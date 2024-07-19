@@ -3507,6 +3507,7 @@ export type PreferencesInput = {
   zimbraPrefComposeFormat?: InputMaybe<Mode>;
   zimbraPrefDefaultCalendarId?: InputMaybe<Scalars['ID']['input']>;
   zimbraPrefDelegatedSendSaveTarget?: InputMaybe<PrefDelegatedSendSaveTarget>;
+  zimbraPrefDeleteInviteOnReply?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefDisplayExternalImages?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefDisplayTimeInMailList?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefExternalSendersType?: InputMaybe<ExternalSendersType>;
