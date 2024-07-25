@@ -841,6 +841,8 @@ export type ClientInfoAttributes = {
   zimbraClassicWebClientDisabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureResetPasswordStatus?: Maybe<ResetPasswordStatus>;
   zimbraHelpModernURL?: Maybe<Scalars['String']['output']>;
+  zimbraSkinLogoAppBanner?: Maybe<Scalars['String']['output']>;
+  zimbraSkinLogoLoginBanner?: Maybe<Scalars['String']['output']>;
   zimbraWebClientLoginURL?: Maybe<Scalars['String']['output']>;
   zimbraWebClientLogoutURL?: Maybe<Scalars['String']['output']>;
   zimbraWebClientSkipLogoff?: Maybe<Scalars['Boolean']['output']>;
