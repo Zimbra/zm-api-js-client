@@ -512,6 +512,8 @@ type ClientInfoAttributes {
 	zimbraFeatureResetPasswordStatus: ResetPasswordStatus
 	zimbraHelpModernURL: String
 	zimbraClassicWebClientDisabled: Boolean
+	zimbraSkinLogoLoginBanner: String
+	zimbraSkinLogoAppBanner: String
 }
 
 type ClientInfoType {
