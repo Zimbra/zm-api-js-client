@@ -37,6 +37,9 @@
     "graphql"
   ],
   "repository": "Zimbra/zm-api-js-client",
+  "engines": {
+    "node": ">=18.12.0"
+  },
   "license": "BSD-3-Clause",
   "lint-staged": {
     "**/*.ts": [
