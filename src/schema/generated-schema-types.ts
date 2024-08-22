@@ -1169,6 +1169,15 @@ export type CreateIdentityInput = {
   name: Scalars['String']['input'];
 };
 
+export type CreateModifyAppointmentResponse = {
+  __typename?: 'CreateModifyAppointmentResponse';
+  appointmentId?: Maybe<Scalars['ID']['output']>;
+  calendarItemId?: Maybe<Scalars['ID']['output']>;
+  inviteId?: Maybe<Scalars['ID']['output']>;
+  modifiedSequence?: Maybe<Scalars['Float']['output']>;
+  revision?: Maybe<Scalars['Float']['output']>;
+};
+
 export type CreateMountpointInput = {
   link?: InputMaybe<NewMountpointSpec>;
 };
@@ -2563,15 +2572,6 @@ export enum Mode {
   Text = 'text'
 }
 
-export type ModifyAppointmentResponse = {
-  __typename?: 'ModifyAppointmentResponse';
-  appointmentId?: Maybe<Scalars['ID']['output']>;
-  calendarItemId?: Maybe<Scalars['ID']['output']>;
-  inviteId?: Maybe<Scalars['ID']['output']>;
-  modifiedSequence?: Maybe<Scalars['Float']['output']>;
-  revision?: Maybe<Scalars['Float']['output']>;
-};
-
 export type ModifyContactInput = {
   attributes: ContactAttrsInput;
   folderId?: InputMaybe<Scalars['ID']['input']>;
@@ -2640,7 +2640,7 @@ export type Mutation = {
   conversationAction?: Maybe<Scalars['Boolean']['output']>;
   counterAppointment?: Maybe<Scalars['Boolean']['output']>;
   createAppSpecificPassword?: Maybe<CreateAppSpecificPasswordResponse>;
-  createAppointment?: Maybe<Scalars['Boolean']['output']>;
+  createAppointment?: Maybe<CreateModifyAppointmentResponse>;
   createAppointmentException?: Maybe<Scalars['Boolean']['output']>;
   createCalendar?: Maybe<Folder>;
   createContact?: Maybe<Contact>;
@@ -2673,7 +2673,7 @@ export type Mutation = {
   login?: Maybe<AuthResponse>;
   logout?: Maybe<Scalars['Boolean']['output']>;
   messageAction?: Maybe<Scalars['Boolean']['output']>;
-  modifyAppointment?: Maybe<ModifyAppointmentResponse>;
+  modifyAppointment?: Maybe<CreateModifyAppointmentResponse>;
   modifyContact?: Maybe<Contact>;
   modifyContactList?: Maybe<Contact>;
   modifyExternalAccount?: Maybe<Scalars['Boolean']['output']>;

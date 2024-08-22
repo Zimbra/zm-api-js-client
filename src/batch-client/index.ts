@@ -588,7 +588,7 @@ export class ZimbraBatchClient {
 			},
 			accountName,
 			singleRequest: true
-		}).then(Boolean);
+		}).then(res => normalize(CalendarItemCreateModifyRequest)(res));
 
 	public createAppointmentException = (accountName: string, appointment: CalendarItemInput) =>
 		this.jsonRequest({
