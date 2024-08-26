@@ -1,6 +1,5 @@
 import { defaultDataIdFromObject, InMemoryCache, InMemoryCacheConfig } from '@apollo/client/core';
 import get from 'lodash/get';
-import isEqual from 'lodash/isEqual';
 import uniqWith from 'lodash/uniqWith';
 import { EmailAddress } from './types';
 
@@ -97,7 +96,10 @@ const typePolicies = {
 		fields: {
 			emailAddresses: {
 				merge(existing: EmailAddress[], incoming: EmailAddress[]) {
-					return uniqWith([...(existing || []), ...(incoming || [])], isEqual);
+					return uniqWith(
+						[...(existing || []), ...(incoming || [])],
+						(a, b) => a.address === b.address && a.type === b.type
+					);
 				}
 			}
 		}
