@@ -443,7 +443,7 @@ type InviteReplyResponse {
 	calendarItemId: ID #calItemId
 }
 
-type CreateModifyAppointmentResponse {
+type ModifyAppointmentResponse {
 	appointmentId: ID #appointmentId
 	calendarItemId: ID #calItemId
 	inviteId: ID #invId
@@ -3695,7 +3695,7 @@ type Mutation {
 	createAppointment(
 		accountName: String
 		appointment: CalendarItemInput!
-	): CreateModifyAppointmentResponse
+	): Boolean
 	createAppointmentException(
 		accountName: String
 		appointment: CalendarItemInput!
@@ -3776,7 +3776,7 @@ type Mutation {
 	modifyAppointment(
 		accountName: String
 		appointment: CalendarItemInput!
-	): CreateModifyAppointmentResponse
+	): ModifyAppointmentResponse
 	modifyIdentity(id: ID!, attrs: IdentityAttrsInput): Boolean
 	modifyPrefs(prefs: PreferencesInput!): Boolean
 	modifyProps(props: [PropertiesInput!]): Boolean
