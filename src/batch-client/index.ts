@@ -530,22 +530,44 @@ export class ZimbraBatchClient {
 		loginNewPassword,
 		password,
 		username,
-		dryRun = false
-	}: ChangePasswordOptions) =>
-		this.jsonRequest({
-			name: 'ChangePassword',
-			namespace: Namespace.Account,
-			body: {
-				account: {
-					by: 'name',
-					_content: username
+		dryRun = false,
+		authToken,
+		csrfToken
+	}: ChangePasswordOptions) => {
+		if (authToken) {
+			return this.jsonRequest({
+				name: 'ChangePassword',
+				namespace: Namespace.Account,
+				body: {
+					account: {
+						by: 'name',
+						_content: username
+					},
+					oldPassword: password,
+					password: loginNewPassword,
+					dryRun,
+					authToken: { _content: authToken },
+					csrfToken: { _content: csrfToken }
 				},
-				oldPassword: password,
-				password: loginNewPassword,
-				dryRun
-			},
-			singleRequest: true
-		});
+				singleRequest: true
+			});
+		} else {
+			return this.jsonRequest({
+				name: 'ChangePassword',
+				namespace: Namespace.Account,
+				body: {
+					account: {
+						by: 'name',
+						_content: username
+					},
+					oldPassword: password,
+					password: loginNewPassword,
+					dryRun
+				},
+				singleRequest: true
+			});
+		}
+	};
 
 	public checkCalendar = ({ id, value }: FolderActionCheckCalendarInput) =>
 		this.action(ActionType.folder, {
