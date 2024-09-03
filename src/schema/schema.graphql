@@ -343,6 +343,7 @@ type AuthResponse {
 	session: Session
 	skin: [Skin]
 	csrfToken: CsrfToken
+	resetPassword: ResetPassword
 }
 
 type ScratchCodeType {
@@ -385,6 +386,10 @@ type TwoFactorAuthRequired {
 }
 
 type TrustedDevicesEnabled {
+	_content: Boolean
+}
+
+type ResetPassword {
 	_content: Boolean
 }
 
@@ -3681,6 +3686,8 @@ type Mutation {
 		loginNewPassword: String!
 		password: String!
 		username: String!
+		authToken: String
+		csrfToken: String
 	): AuthResponse
 	modifyProfileImage(
 		content: String
