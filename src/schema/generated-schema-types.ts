@@ -386,6 +386,7 @@ export type AuthResponse = {
   authToken?: Maybe<Array<Maybe<AuthToken>>>;
   csrfToken?: Maybe<CsrfToken>;
   lifetime?: Maybe<Scalars['Float']['output']>;
+  resetPassword?: Maybe<ResetPassword>;
   session?: Maybe<Session>;
   skin?: Maybe<Array<Maybe<Skin>>>;
   trustedDevicesEnabled?: Maybe<TrustedDevicesEnabled>;
@@ -2795,6 +2796,8 @@ export type MutationChangeFolderColorArgs = {
 
 
 export type MutationChangePasswordArgs = {
+  authToken?: InputMaybe<Scalars['String']['input']>;
+  csrfToken?: InputMaybe<Scalars['String']['input']>;
   dryRun?: InputMaybe<Scalars['Boolean']['input']>;
   loginNewPassword: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -4036,6 +4039,11 @@ export type ReplyAction = {
 export type ReplyActionInput = {
   content?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   index?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type ResetPassword = {
+  __typename?: 'ResetPassword';
+  _content?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type ResetPasswordResponse = {
