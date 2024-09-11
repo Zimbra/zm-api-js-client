@@ -2386,6 +2386,7 @@ export type MailboxMetadataAttrs = {
   archivedFolder?: Maybe<Scalars['String']['output']>;
   privacyOverlayPrefs_showOverlay?: Maybe<Scalars['Boolean']['output']>;
   privacyOverlayPrefs_timeOut?: Maybe<Scalars['Int']['output']>;
+  zimbraPrefColorMode?: Maybe<Scalars['String']['output']>;
   zimbraPrefContactSourceFolderID?: Maybe<Scalars['String']['output']>;
   zimbraPrefCustomFolderTreeOpen?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefDateFormat?: Maybe<Scalars['String']['output']>;
@@ -2416,6 +2417,7 @@ export type MailboxMetadataSectionAttrsInput = {
   archivedFolder?: InputMaybe<Scalars['String']['input']>;
   privacyOverlayPrefs_showOverlay?: InputMaybe<Scalars['Boolean']['input']>;
   privacyOverlayPrefs_timeOut?: InputMaybe<Scalars['Int']['input']>;
+  zimbraPrefColorMode?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefContactSourceFolderID?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefCustomFolderTreeOpen?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefDateFormat?: InputMaybe<Scalars['String']['input']>;
