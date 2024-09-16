@@ -2284,7 +2284,7 @@ input CalendarItemMessageInput {
 }
 
 input CounterAppointmentInput {
-	id: ID!
+	id: ID
 	modifiedSequence: Float
 	revision: Float
 	componentNum: Int # comp
