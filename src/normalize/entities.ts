@@ -92,7 +92,7 @@ const CalendarItemAttendees = new Entity({
 
 const CalendarItemReply = new Entity({
 	ptst: 'participationStatus',
-	at: 'attendee'
+	at: 'address'
 });
 
 const CalendarItemOrganizer = new Entity({

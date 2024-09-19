@@ -2413,7 +2413,7 @@ type CalendarItemAttendee {
 
 type CalendarItemReply {
 	participationStatus: ParticipationStatus
-	attendee: String
+	address: String
 }
 
 input CalendarItemAttendeesInput {
