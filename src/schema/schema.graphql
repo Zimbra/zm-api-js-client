@@ -2110,6 +2110,7 @@ type MailboxMetadataAttrs {
 	zimbraPrefSMIMEDefaultSetting: String
 	zimbraPrefSMIMELastOperation: String
 	zimbraPrefContactSourceFolderID: String
+	zimbraPrefHideMuteConvModal: Boolean
 }
 
 type MailboxMetadataMeta {
@@ -2143,6 +2144,7 @@ input MailboxMetadataSectionAttrsInput {
 	zimbraPrefSMIMEDefaultSetting: String
 	zimbraPrefSMIMELastOperation: String
 	zimbraPrefContactSourceFolderID: String
+	zimbraPrefHideMuteConvModal: Boolean
 }
 
 type MimePart {
