@@ -2329,11 +2329,17 @@ export enum LicenseStatus {
   ActivationGracePeriod = 'ACTIVATION_GRACE_PERIOD',
   Expired = 'EXPIRED',
   Invalid = 'INVALID',
+  InvalidLicense = 'INVALID_LICENSE',
+  InvalidLicenseUsageLimit = 'INVALID_LICENSE_USAGE_LIMIT',
   InFuture = 'IN_FUTURE',
+  LicenseActivationRestricted = 'LICENSE_ACTIVATION_RESTRICTED',
   LicenseGracePeriod = 'LICENSE_GRACE_PERIOD',
+  LicenseInvalidSupportEndDate = 'LICENSE_INVALID_SUPPORT_END_DATE',
   NotActivated = 'NOT_ACTIVATED',
   NotInstalled = 'NOT_INSTALLED',
-  Ok = 'OK'
+  NumberOfActivationsExceed = 'NUMBER_OF_ACTIVATIONS_EXCEED',
+  Ok = 'OK',
+  TrialHasExpired = 'TRIAL_HAS_EXPIRED'
 }
 
 export type Locale = {
