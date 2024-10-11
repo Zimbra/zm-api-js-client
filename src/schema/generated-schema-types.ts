@@ -819,7 +819,7 @@ export type CalendarItemRecurrenceRuleInput = {
 
 export type CalendarItemReply = {
   __typename?: 'CalendarItemReply';
-  attendee?: Maybe<Scalars['String']['output']>;
+  address?: Maybe<Scalars['String']['output']>;
   participationStatus?: Maybe<ParticipationStatus>;
 };
 
@@ -1136,7 +1136,7 @@ export type ConversationConditionInput = {
 
 export type CounterAppointmentInput = {
   componentNum?: InputMaybe<Scalars['Int']['input']>;
-  id: Scalars['ID']['input'];
+  id?: InputMaybe<Scalars['ID']['input']>;
   message: CounterAppointmentMessageInput;
   modifiedSequence?: InputMaybe<Scalars['Float']['input']>;
   revision?: InputMaybe<Scalars['Float']['input']>;
@@ -2400,6 +2400,7 @@ export type MailboxMetadataAttrs = {
   zimbraPrefFoldersExpanded?: Maybe<Scalars['String']['output']>;
   zimbraPrefGenerateLinkPreviews?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefGroupByList?: Maybe<Scalars['String']['output']>;
+  zimbraPrefHideMuteConvModal?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefMessageListDensity?: Maybe<Scalars['String']['output']>;
   zimbraPrefMultitasking?: Maybe<Scalars['String']['output']>;
   zimbraPrefReadingPaneSashHorizontal?: Maybe<Scalars['Int']['output']>;
@@ -2431,6 +2432,7 @@ export type MailboxMetadataSectionAttrsInput = {
   zimbraPrefFoldersExpanded?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefGenerateLinkPreviews?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefGroupByList?: InputMaybe<Scalars['String']['input']>;
+  zimbraPrefHideMuteConvModal?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefMessageListDensity?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefMultitasking?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefReadingPaneSashHorizontal?: InputMaybe<Scalars['Int']['input']>;
