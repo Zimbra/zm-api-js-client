@@ -1534,7 +1534,6 @@ export type EnableTwoFactorAuthInput = {
   authToken?: InputMaybe<Scalars['String']['input']>;
   csrfTokenSecured: Scalars['Boolean']['input'];
   email?: InputMaybe<Scalars['String']['input']>;
-  ignoreSameSite?: InputMaybe<Scalars['Boolean']['input']>;
   method: Scalars['String']['input'];
   name: Scalars['String']['input'];
   password?: InputMaybe<Scalars['String']['input']>;
@@ -3017,7 +3016,6 @@ export type MutationItemActionArgs = {
 export type MutationLoginArgs = {
   csrfTokenSecured: Scalars['Boolean']['input'];
   deviceTrusted?: InputMaybe<Scalars['Boolean']['input']>;
-  ignoreSameSite?: InputMaybe<Scalars['Boolean']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   persistAuthTokenCookie?: InputMaybe<Scalars['Boolean']['input']>;
   recoveryCode?: InputMaybe<Scalars['String']['input']>;
