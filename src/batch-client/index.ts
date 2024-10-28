@@ -1460,14 +1460,10 @@ export class ZimbraBatchClient {
 			const versionIds = data.documents.map((doc: any) => doc.version);
 			const maxVersion = Math.max(...versionIds);
 			const latestDocumentVersion = data.documents.find((doc: any) => doc.version === maxVersion);
-			const versionDocuments = data.documents.map((versionDoc: any) => ({
-				...versionDoc,
-				name: latestDocumentVersion.name
-			}));
 
 			return {
 				...latestDocumentVersion,
-				docs: versionDocuments
+				docs: data.documents
 			};
 		});
 
