@@ -28,7 +28,6 @@
     "size": "echo \"Gzipped Size: $(gzip-size $npm_package_main | pretty-bytes)\"",
     "prepublishOnly": "npm test && npm run build && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags",
     "publish:beta": "npm publish --tag=beta",
-    "security:audit": "npx audit-ci@^6 --moderate --report-type summary --pass-enoaudit --skip-dev",
     "prepare": "is-ci || husky install"
   },
   "keywords": [

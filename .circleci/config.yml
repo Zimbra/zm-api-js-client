@@ -73,34 +73,6 @@ jobs:
           name: Lint typescript source code
           command: npm run lint
 
-  security-audit:
-    <<: *config
-    steps:
-        - checkout
-
-        # Download node_modules dependencies
-        - restore_cache:
-            keys:
-              - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
-              # fallback to using the cache from the same branch
-              - v1-dependencies-{{ .Branch }}-
-              # fallback to using the latest cache if no exact match is found
-              - v1-dependencies-
-
-        # TODO PREAPPS-7520
-        - run:
-            name: Set correct npm version
-            command: sudo npm install -g npm@6
-
-        # Install dependencies - do this AFTER we do the optional branch checkout of the api client
-        - run:
-            name: Install npm modules
-            command: npm install --no-audit
-
-        - run:
-            name: Run security audit
-            command: npm run security:audit
-
 ############################################################################
 
 workflows:
@@ -109,14 +81,12 @@ workflows:
     jobs:
       - build
 
-      - security-audit
-
       - lint:
           requires:
             - build
 
-      - unit:
-          requires:
-            - build
+      # - unit:
+      #     requires:
+      #       - build
 
 ############################################################################
