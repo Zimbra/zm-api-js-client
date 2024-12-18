@@ -1539,6 +1539,8 @@ type AccountInfoAttrs {
 	zimbraFeatureExportFolderEnabled: Boolean
 	zimbraFeatureGroupCalendarEnabled: Boolean
 	zimbraFeatureDistributionListExpandMembersEnabled: Boolean
+	zimbraFeatureMailRecallEnabled: Boolean
+	zimbraFeatureMailRecallTime: Int
 	zimbraFeatureDistributionListFolderEnabled: Boolean
 }
 
