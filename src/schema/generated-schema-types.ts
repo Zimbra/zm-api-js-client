@@ -149,6 +149,7 @@ export type AccountInfoAttrs = {
   zimbraMailAlias?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   zimbraMailAttachmentMaxSize?: Maybe<Scalars['Float']['output']>;
   zimbraMailBlacklistMaxNumEntries?: Maybe<Scalars['Int']['output']>;
+  zimbraMailIdleSessionTimeout?: Maybe<Scalars['String']['output']>;
   zimbraMailQuota?: Maybe<Scalars['String']['output']>;
   zimbraMailSignatureMaxLength?: Maybe<Scalars['Float']['output']>;
   zimbraMailWhitelistMaxNumEntries?: Maybe<Scalars['Int']['output']>;
