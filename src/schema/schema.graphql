@@ -1540,6 +1540,7 @@ type AccountInfoAttrs {
 	zimbraFeatureGroupCalendarEnabled: Boolean
 	zimbraFeatureDistributionListExpandMembersEnabled: Boolean
 	zimbraFeatureDistributionListFolderEnabled: Boolean
+	zimbraMailIdleSessionTimeout: String
 }
 
 type AccountCos {
