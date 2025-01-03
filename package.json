@@ -29,7 +29,7 @@
     "prepublishOnly": "npm test && npm run build && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags",
     "publish:beta": "npm publish --tag=beta",
     "security:audit": "npx audit-ci@^6 --moderate --report-type summary --pass-enoaudit --skip-dev",
-    "prepare": "is-ci || husky install"
+    "prepare": "husky || true"
   },
   "keywords": [
     "zimbra",
@@ -76,8 +76,7 @@
     "chai": "^4.3.7",
     "copyfiles": "^2.4.1",
     "cross-var": "^1.1.0",
-    "husky": "^8.0.3",
-    "is-ci": "^3.0.1",
+    "husky": "^9.1.7",
     "lint-staged": "15.2.8",
     "mocha": "^10.2.0",
     "npm-run-all": "^4.1.5",
