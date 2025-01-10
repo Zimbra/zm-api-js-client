@@ -114,8 +114,8 @@ export type AccountInfoAttrs = {
   zimbraFeatureMailForwardingEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureMailForwardingInFiltersEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureMailPriorityEnabled?: Maybe<Scalars['Boolean']['output']>;
-  zimbraFeatureMailRecallEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureMailRecallTime?: Maybe<Scalars['Int']>;
+  zimbraFeatureMailRecallEnabled?: Maybe<Scalars['Boolean']['output']>;
+  zimbraFeatureMailRecallTime?: Maybe<Scalars['Int']['output']>;
   zimbraFeatureMailSendLaterEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureManageZimlets?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureMobileSyncEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -145,6 +145,7 @@ export type AccountInfoAttrs = {
   zimbraMailAlias?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   zimbraMailAttachmentMaxSize?: Maybe<Scalars['Float']['output']>;
   zimbraMailBlacklistMaxNumEntries?: Maybe<Scalars['Int']['output']>;
+  zimbraMailIdleSessionTimeout?: Maybe<Scalars['String']['output']>;
   zimbraMailQuota?: Maybe<Scalars['String']['output']>;
   zimbraMailSignatureMaxLength?: Maybe<Scalars['Float']['output']>;
   zimbraMailWhitelistMaxNumEntries?: Maybe<Scalars['Int']['output']>;

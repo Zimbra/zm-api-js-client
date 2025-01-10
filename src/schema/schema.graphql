@@ -1542,6 +1542,7 @@ type AccountInfoAttrs {
 	zimbraFeatureMailRecallEnabled: Boolean
 	zimbraFeatureMailRecallTime: Int
 	zimbraFeatureDistributionListFolderEnabled: Boolean
+	zimbraMailIdleSessionTimeout: String
 }
 
 type AccountCos {
