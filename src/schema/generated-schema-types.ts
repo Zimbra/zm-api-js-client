@@ -84,7 +84,7 @@ export type AccountInfoAttrs = {
   displayName?: Maybe<Scalars['String']['output']>;
   zimbraBlockEmailSendFromImapPop?: Maybe<Scalars['Boolean']['output']>;
   zimbraBrandingFolderName?: Maybe<Scalars['String']['output']>;
-  zimbraDataSourceMaxNumEntries?: Maybe<Scalars['String']['output']>;
+  zimbraDataSourceMaxNumEntries?: Maybe<Scalars['Int']['output']>;
   zimbraDomainTrialConvertAtExpiration?: Maybe<Scalars['Boolean']['output']>;
   zimbraDomainTrialExpirationDate?: Maybe<Scalars['String']['output']>;
   zimbraDumpsterEnabled?: Maybe<Scalars['Boolean']['output']>;
