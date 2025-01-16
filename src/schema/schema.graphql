@@ -1543,6 +1543,8 @@ type AccountInfoAttrs {
 	zimbraFeatureMailRecallEnabled: Boolean
 	zimbraFeatureMailRecallTime: Int
 	zimbraFeatureDistributionListFolderEnabled: Boolean
+	zimbraFeatureBasicOneToOneChatEnabled: Boolean
+	zimbraFeatureAdvancedChatEnabled: Boolean
 }
 
 type AccountCos {
