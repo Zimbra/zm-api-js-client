@@ -1529,6 +1529,8 @@ type AccountInfoAttrs {
 	zimbraFeatureGroupCalendarEnabled: Boolean
 	zimbraFeatureDistributionListExpandMembersEnabled: Boolean
 	zimbraFeatureDistributionListFolderEnabled: Boolean
+	zimbraFeatureBasicOneToOneChatEnabled: Boolean
+	zimbraFeatureAdvancedChatEnabled: Boolean
 }
 
 type AccountCos {
