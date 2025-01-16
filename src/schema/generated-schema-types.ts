@@ -90,9 +90,11 @@ export type AccountInfoAttrs = {
   zimbraExternalSharingEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureAdminMailEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureAdminPreferencesEnabled?: Maybe<Scalars['Boolean']['output']>;
+  zimbraFeatureAdvancedChatEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureAllowUsernameInPassword?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureAntispamEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureAppSpecificPasswordsEnabled?: Maybe<Scalars['Boolean']['output']>;
+  zimbraFeatureBasicOneToOneChatEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureBriefcasesEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureCalendarEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureChangePasswordEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -114,8 +116,8 @@ export type AccountInfoAttrs = {
   zimbraFeatureMailForwardingEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureMailForwardingInFiltersEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureMailPriorityEnabled?: Maybe<Scalars['Boolean']['output']>;
-  zimbraFeatureMailRecallEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureMailRecallTime?: Maybe<Scalars['Int']>;
+  zimbraFeatureMailRecallEnabled?: Maybe<Scalars['Boolean']['output']>;
+  zimbraFeatureMailRecallTime?: Maybe<Scalars['Int']['output']>;
   zimbraFeatureMailSendLaterEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureManageZimlets?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureMobileSyncEnabled?: Maybe<Scalars['Boolean']['output']>;
