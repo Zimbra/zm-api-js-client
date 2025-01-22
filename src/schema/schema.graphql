@@ -1454,6 +1454,7 @@ type AccountZimletConfigInfo {
 type AccountInfoAttrs {
 	displayName: String
 	zimbraBrandingFolderName: String
+	zimbraDataSourceMaxNumEntries: Int
 	zimbraDomainTrialConvertAtExpiration: Boolean
 	zimbraDomainTrialExpirationDate: String
 	zimbraDumpsterEnabled: Boolean

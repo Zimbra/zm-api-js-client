@@ -84,6 +84,7 @@ export type AccountInfoAttrs = {
   displayName?: Maybe<Scalars['String']['output']>;
   zimbraBlockEmailSendFromImapPop?: Maybe<Scalars['Boolean']['output']>;
   zimbraBrandingFolderName?: Maybe<Scalars['String']['output']>;
+  zimbraDataSourceMaxNumEntries?: Maybe<Scalars['Int']['output']>;
   zimbraDomainTrialConvertAtExpiration?: Maybe<Scalars['Boolean']['output']>;
   zimbraDomainTrialExpirationDate?: Maybe<Scalars['String']['output']>;
   zimbraDumpsterEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -114,8 +115,8 @@ export type AccountInfoAttrs = {
   zimbraFeatureMailForwardingEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureMailForwardingInFiltersEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureMailPriorityEnabled?: Maybe<Scalars['Boolean']['output']>;
-  zimbraFeatureMailRecallEnabled?: Maybe<Scalars['Boolean']>;
-  zimbraFeatureMailRecallTime?: Maybe<Scalars['Int']>;
+  zimbraFeatureMailRecallEnabled?: Maybe<Scalars['Boolean']['output']>;
+  zimbraFeatureMailRecallTime?: Maybe<Scalars['Int']['output']>;
   zimbraFeatureMailSendLaterEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureManageZimlets?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureMobileSyncEnabled?: Maybe<Scalars['Boolean']['output']>;
