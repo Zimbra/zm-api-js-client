@@ -1,13 +1,17 @@
 import { ErrorLink } from '@apollo/client/link/error';
+import { GraphQLFormattedError } from 'graphql';
 import get from 'lodash/get';
 
+interface CustomGraphQLError extends GraphQLFormattedError {
+	originalError?: any;
+}
 class ZimbraErrorLink extends ErrorLink {
 	handlers: any[] = [];
 
 	constructor() {
 		super(({ graphQLErrors, networkError }) => {
 			graphQLErrors &&
-				graphQLErrors.map(({ message, originalError, ...rest }) => {
+				graphQLErrors.map(({ message, originalError, ...rest }: CustomGraphQLError) => {
 					let errorCode = get(originalError, 'faults.0.Detail.Error.Code', '');
 
 					this.executeHandlers({
