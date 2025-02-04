@@ -61,12 +61,14 @@ export type SessionHandler = {
 };
 
 export interface ZimbraClientOptions {
+	agent?: any;
 	authToken?: string;
 	csrfToken?: string;
 	customFetch?: any;
 	jwtToken?: string;
 	localStoreClient?: any;
 	notificationHandler?: NotificationHandler;
+	serverUrl?: string;
 	sessionHandler?: SessionHandler;
 	soapPathname?: string;
 	userAgent?: UserAgent;
