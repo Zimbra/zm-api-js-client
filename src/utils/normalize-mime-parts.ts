@@ -76,6 +76,9 @@ export function normalizeMimeParts(
 	message: { [key: string]: any },
 	{ origin, jwtToken, isDesktop }: { isDesktop?: string; jwtToken?: string; origin?: string }
 ) {
+	let isMultipartWithInlineImage = false;
+	let textWithInlineImage = '';
+
 	const processAttachment = ({ ...attachment }, forcedContentDisposition?: string) => {
 		attachment.messageId = attachment.messageId || message.id;
 		attachment.url = getAttachmentUrl(attachment, { origin, jwtToken });
@@ -159,11 +162,10 @@ export function normalizeMimeParts(
 					// Use `text` content, because iOS client always yield `text` part (no `html` part) when multiple attachments are present along with text content.
 					// In cases of forwarded msg from iOS client, there wouldn't be `text` part, instead `html` parts.
 					// Update `text` content so that we stay up-to-date on which CID placeholders were added.
-					acc['text'] = (acc['text'] || acc['html'] || '').concat(
+					isMultipartWithInlineImage = true;
+					textWithInlineImage = textWithInlineImage.concat(
 						`<br /><div><img src="cid:${attachment.contentId}" /></div><br />`
 					);
-
-					acc['html'] = acc['text']; // And then update `html` part so that we render `html` in `viewer`.
 				} else {
 					const isTextType = MORE_TEXT_TYPES.includes(type);
 					let bodyType =
@@ -175,6 +177,7 @@ export function normalizeMimeParts(
 							isBody = true;
 						}
 						acc[bodyType] = (acc[bodyType] || '').concat(content);
+						textWithInlineImage = textWithInlineImage.concat(content);
 					}
 				}
 			}
@@ -202,6 +205,12 @@ export function normalizeMimeParts(
 
 	// Default to null if not exist to unset the key if this is an update.
 	message.autoSendTime = message.autoSendTime || null;
+
+	// For email sent from ios client or any other email client which does not provide html content but includes inline image,
+	// Convert the text part along with inline images into html so that it will be previewed as html content.
+	if (isMultipartWithInlineImage && !message.html) {
+		message.html = textWithInlineImage.replace(/\r\n/g, '<br />');
+	}
 
 	// Some mail clients add contentId and contentLocation to attachment data even though it's not inline attachments
 	// we are fixing it here
