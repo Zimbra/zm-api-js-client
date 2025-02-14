@@ -145,6 +145,7 @@ export type AccountInfoAttrs = {
   zimbraIdentityMaxNumEntries?: Maybe<Scalars['Int']['output']>;
   zimbraIsAdminAccount?: Maybe<Scalars['Boolean']['output']>;
   zimbraIsDelegatedAdminAccount?: Maybe<Scalars['Boolean']['output']>;
+  zimbraIsExternalVirtualAccount?: Maybe<Scalars['Boolean']['output']>;
   zimbraMailAlias?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   zimbraMailAttachmentMaxSize?: Maybe<Scalars['Float']['output']>;
   zimbraMailBlacklistMaxNumEntries?: Maybe<Scalars['Int']['output']>;
