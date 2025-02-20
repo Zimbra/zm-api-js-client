@@ -100,6 +100,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureCalendarEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureChangePasswordEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureConversationsEnabled?: Maybe<Scalars['Boolean']['output']>;
+  zimbraFeatureDeliveryStatusNotificationEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureDiscardInFiltersEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureDistributionListExpandMembersEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureDistributionListFolderEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -2477,6 +2478,7 @@ export type MessageInfo = MailItem & {
   conversationId?: Maybe<Scalars['ID']['output']>;
   date?: Maybe<Scalars['Float']['output']>;
   decryptionErrorCode?: Maybe<Scalars['String']['output']>;
+  deliveryReport?: Maybe<Scalars['Boolean']['output']>;
   emailAddresses?: Maybe<Array<Maybe<EmailAddress>>>;
   excerpt?: Maybe<Scalars['String']['output']>;
   flags?: Maybe<Scalars['String']['output']>;
@@ -3472,6 +3474,7 @@ export type Preferences = {
   zimbraPrefHtmlEditorDefaultFontFamily?: Maybe<Scalars['String']['output']>;
   zimbraPrefHtmlEditorDefaultFontSize?: Maybe<Scalars['String']['output']>;
   zimbraPrefLocale?: Maybe<Scalars['String']['output']>;
+  zimbraPrefMailDeliveryStatusNotification?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefMailForwardingAddress?: Maybe<Scalars['String']['output']>;
   zimbraPrefMailLocalDeliveryDisabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefMailPollingInterval?: Maybe<Scalars['String']['output']>;
@@ -3537,6 +3540,7 @@ export type PreferencesInput = {
   zimbraPrefHtmlEditorDefaultFontFamily?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefHtmlEditorDefaultFontSize?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefLocale?: InputMaybe<Scalars['String']['input']>;
+  zimbraPrefMailDeliveryStatusNotification?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefMailForwardingAddress?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefMailLocalDeliveryDisabled?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefMailPollingInterval?: InputMaybe<Scalars['String']['input']>;
@@ -4245,6 +4249,7 @@ export type SendMessageInput = {
   attachmentId?: InputMaybe<Scalars['ID']['input']>;
   attachments?: InputMaybe<Array<InputMaybe<AttachmentInput>>>;
   autoSendTime?: InputMaybe<Scalars['Float']['input']>;
+  deliveryReport?: InputMaybe<Scalars['Boolean']['input']>;
   draftId?: InputMaybe<Scalars['ID']['input']>;
   emailAddresses?: InputMaybe<Array<InputMaybe<MailItemEmailAddressInput>>>;
   entityId?: InputMaybe<Scalars['String']['input']>;

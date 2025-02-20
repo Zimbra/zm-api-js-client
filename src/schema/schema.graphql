@@ -576,6 +576,7 @@ type MessageInfo implements MailItem {
 	part: String
 	meta: [CustomMetadataMeta]
 	_attrs: [CustomHeader]
+	deliveryReport: Boolean
 }
 
 type Conversation implements MailItem {
@@ -1545,6 +1546,7 @@ type AccountInfoAttrs {
 	zimbraFeatureDistributionListFolderEnabled: Boolean
 	zimbraFeatureBasicOneToOneChatEnabled: Boolean
 	zimbraFeatureAdvancedChatEnabled: Boolean
+	zimbraFeatureDeliveryStatusNotificationEnabled: Boolean
 }
 
 type AccountCos {
@@ -1695,6 +1697,7 @@ type Preferences {
 	zimbraPrefPowerPasteEnabled: Boolean
 	zimbraPrefDisplayTimeInMailList: Boolean
 	zimbraPrefPrimaryTwoFactorAuthMethod: String
+	zimbraPrefMailDeliveryStatusNotification: Boolean
 }
 
 type GetAppointmentResponse {
@@ -2342,6 +2345,7 @@ input SendMessageInput {
 	attachments: [AttachmentInput] #attach
 	inlineAttachments: [MimePartInput] #attach
 	header: [HeaderInput] #header
+	deliveryReport: Boolean #deliveryReport
 }
 
 input HeaderInput {
@@ -2770,6 +2774,7 @@ input PreferencesInput {
 	zimbraPrefDisplayTimeInMailList: Boolean
 	zimbraPrefPrimaryTwoFactorAuthMethod: String
 	zimbraPrefDeleteInviteOnReply: Boolean
+	zimbraPrefMailDeliveryStatusNotification: Boolean
 }
 
 input ModifyIdentityInput {
