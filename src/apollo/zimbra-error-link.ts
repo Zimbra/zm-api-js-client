@@ -1,4 +1,5 @@
 import { ErrorLink } from '@apollo/client/link/error';
+import { GraphQLFormattedError } from 'graphql';
 import get from 'lodash/get';
 
 class ZimbraErrorLink extends ErrorLink {
@@ -7,13 +8,14 @@ class ZimbraErrorLink extends ErrorLink {
 	constructor() {
 		super(({ graphQLErrors, networkError }) => {
 			graphQLErrors &&
-				graphQLErrors.map(({ message, originalError, ...rest }) => {
-					let errorCode = get(originalError, 'faults.0.Detail.Error.Code', '');
+				graphQLErrors.map((error: GraphQLFormattedError) => {
+					const { message, extensions, ...rest } = error;
+					let errorCode = get(extensions, 'faults.0.Detail.Error.Code', '');
 
 					this.executeHandlers({
 						errorCode,
 						message,
-						originalError,
+						extensions,
 						...rest
 					});
 				});

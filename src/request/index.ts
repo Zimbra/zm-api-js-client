@@ -90,6 +90,7 @@ function faultError(response: ParsedResponse, faults: any) {
 	(error as SingleBatchRequestError).response = response;
 	(error as SingleBatchRequestError).parseError = response.parseError;
 	(error as SingleBatchRequestError).faults = faults;
+	(error as SingleBatchRequestError).extensions = { faults };
 	return error as SingleBatchRequestError;
 }
 

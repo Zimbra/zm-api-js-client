@@ -82,6 +82,7 @@ export interface NetworkError extends Error {
 }
 
 export interface SingleBatchRequestError extends NetworkError {
+	extensions?: { faults: Array<any> };
 	faults: Array<any>;
 }
 
