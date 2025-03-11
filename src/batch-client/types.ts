@@ -7,6 +7,7 @@ import {
 	Owner,
 	SearchType,
 	SortBy,
+	Timezone,
 	UploadDocument
 } from '../schema/generated-schema-types';
 
@@ -204,6 +205,7 @@ export interface SearchOptions {
 	sortBy?: SortBy;
 	type?: GalSearchType;
 	types?: SearchType;
+	tz?: Timezone;
 }
 
 export interface SearchCalendarResourcesCondition {

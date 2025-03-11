@@ -3224,6 +3224,10 @@ input uploadDocument {
 	id: ID! #id
 }
 
+input Timezone {
+	id: ID! #id
+}
+
 input messagePartForDocument {
 	messageId: ID! #id
 	attachmentPart: String! #part
@@ -3639,7 +3643,8 @@ type Query {
 		types: SearchType
 		resultMode: String
 		inDumpster: Boolean,
-		header: [MailItemHeaderInput]
+		header: [MailItemHeaderInput],
+		tz: Timezone
 	): SearchResponse
 
 	searchCalendarResources(

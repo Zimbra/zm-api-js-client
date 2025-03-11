@@ -3917,6 +3917,7 @@ export type QuerySearchArgs = {
   resultMode?: InputMaybe<Scalars['String']['input']>;
   sortBy?: InputMaybe<SortBy>;
   types?: InputMaybe<SearchType>;
+  tz?: InputMaybe<Timezone>;
 };
 
 
@@ -4542,6 +4543,10 @@ export type Targets = {
   __typename?: 'Targets';
   right?: Maybe<Scalars['String']['output']>;
   target?: Maybe<Array<Maybe<Target>>>;
+};
+
+export type Timezone = {
+  id: Scalars['ID']['input'];
 };
 
 export type TrustedDevicesEnabled = {
