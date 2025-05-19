@@ -3150,7 +3150,8 @@ input NameIdInput {
 	name: String
 }
 input InstanceDate {
-	date: String
+	date: String,
+	timezone: String
 }
 input DeleteAppointmentInput {
 	instanceDate: InstanceDate

@@ -2194,6 +2194,7 @@ export type Instance = {
 
 export type InstanceDate = {
   date?: InputMaybe<Scalars['String']['input']>;
+  timezone?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type IntervalRule = {
