@@ -82,6 +82,8 @@ export type AccountInfo = {
 export type AccountInfoAttrs = {
   __typename?: 'AccountInfoAttrs';
   displayName?: Maybe<Scalars['String']['output']>;
+  zimbraAttachmentsBlocked?: Maybe<Scalars['Boolean']['output']>;
+  zimbraAttachmentsViewInHtmlOnly?: Maybe<Scalars['Boolean']['output']>;
   zimbraBlockEmailSendFromImapPop?: Maybe<Scalars['Boolean']['output']>;
   zimbraBrandingFolderName?: Maybe<Scalars['String']['output']>;
   zimbraDataSourceMaxNumEntries?: Maybe<Scalars['Int']['output']>;
