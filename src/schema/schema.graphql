@@ -1454,6 +1454,8 @@ type AccountZimletConfigInfo {
 
 type AccountInfoAttrs {
 	displayName: String
+	zimbraAttachmentsBlocked: Boolean
+	zimbraAttachmentsViewInHtmlOnly: Boolean
 	zimbraBrandingFolderName: String
 	zimbraDataSourceMaxNumEntries: Int
 	zimbraDomainTrialConvertAtExpiration: Boolean
