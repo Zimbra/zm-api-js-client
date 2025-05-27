@@ -73,7 +73,7 @@
     "@types/node": "^20.10.4",
     "@types/whatwg-fetch": "^0.0.33",
     "babel-plugin-lodash": "^3.3.4",
-    "chai": "^4.3.7",
+    "chai": "^5.2.0",
     "copyfiles": "^2.4.1",
     "cross-var": "^1.1.0",
     "husky": "^9.1.7",
