@@ -1,4 +1,4 @@
-import chai, { expect } from 'chai';
+import { expect } from 'chai';
 import { mapValuesDeep } from '../../src/utils/map-values-deep.ts';
 
 /* eslint-env mocha */
