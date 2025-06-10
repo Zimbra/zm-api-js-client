@@ -2659,7 +2659,7 @@ export type Mutation = {
   cancelTask?: Maybe<Scalars['Boolean']['output']>;
   changeFolderColor?: Maybe<Scalars['Boolean']['output']>;
   changePassword?: Maybe<AuthResponse>;
-  checkCalendar?: Maybe<Scalars['Boolean']['output']>;
+  checkCalendar?: Maybe<ActionOpResponse>;
   contactAction?: Maybe<ActionOpResponse>;
   conversationAction?: Maybe<Scalars['Boolean']['output']>;
   counterAppointment?: Maybe<Scalars['Boolean']['output']>;
