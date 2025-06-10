@@ -59,6 +59,7 @@ import {
 } from '../request';
 import { JsonRequestOptions, Namespace, RequestBody, RequestOptions } from '../request/types';
 import {
+	ActionOpResponse,
 	AddMsgInput,
 	CalendarItemInput,
 	CounterAppointmentInput,
@@ -569,11 +570,21 @@ export class ZimbraBatchClient {
 		}
 	};
 
-	public checkCalendar = ({ id, value }: FolderActionCheckCalendarInput) =>
-		this.action(ActionType.folder, {
-			id,
-			op: value ? 'check' : '!check'
+	public checkCalendar = ({
+		id,
+		value
+	}: FolderActionCheckCalendarInput): Promise<ActionOpResponse> => {
+		return this.jsonRequest({
+			name: ActionType.folder,
+			body: {
+				action: {
+					id,
+					op: value ? 'check' : '!check'
+				}
+			},
+			singleRequest: true
 		});
+	};
 
 	public clientInfo = ({ by, domain }: any) =>
 		this.jsonRequest({

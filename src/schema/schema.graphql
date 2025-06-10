@@ -3718,7 +3718,7 @@ type Mutation {
 		content: String
 		contentType: String
 	): ProfileImageChangeResponse
-	checkCalendar(id: ID!, value: Boolean!): Boolean
+	checkCalendar(id: ID!, value: Boolean!): ActionOpResponse
 	contactAction(
 		id: ID
 		ids: [ID!]

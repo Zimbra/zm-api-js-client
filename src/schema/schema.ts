@@ -2,6 +2,7 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import mapValues from 'lodash/mapValues';
 
 import {
+	ActionOpResponse,
 	AddMsgInput,
 	CalendarItemInput,
 	CounterAppointmentInput,
@@ -281,7 +282,7 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 					client.createMountpoint(variables as CreateMountpointInput),
 				deleteAppointment: (_, { appointment }) =>
 					client.deleteAppointment(appointment as DeleteAppointmentInput),
-				checkCalendar: (_, variables) =>
+				checkCalendar: (_, variables): Promise<ActionOpResponse> =>
 					client.checkCalendar(variables as FolderActionCheckCalendarInput),
 				counterAppointment: (_, { counterAppointmentInvite }) =>
 					client.counterAppointment(counterAppointmentInvite as CounterAppointmentInput),
