@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@apollo/client": "3.4.16",
-    "@graphql-tools/schema": "^10.0.3",
+    "@graphql-tools/schema": "^10.0.23",
     "dataloader": "^2.2.2",
     "graphql": "^16.9.0",
     "lodash": "^4.17.21",
@@ -61,7 +61,7 @@
     "@babel/preset-env": "^7.18.2",
     "@babel/preset-typescript": "^7.17.12",
     "@babel/register": "^7.17.7",
-    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/cli": "^5.0.7",
     "@graphql-codegen/typescript": "^4.0.1",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^28.0.5",
