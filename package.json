@@ -1,7 +1,7 @@
 {
   "name": "@zimbra/api-client",
   "amdName": "zmApiJsClient",
-  "version": "97.0.0",
+  "version": "98.0.0",
   "description": "Zimbra JS API Client and GraphQL client for making requests against the Zimbra SOAP API.",
   "main": "dist/zm-api-js-client.js",
   "source": "index.ts",
