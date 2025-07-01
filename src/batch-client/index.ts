@@ -385,7 +385,7 @@ export class ZimbraBatchClient {
 		});
 
 	public action = (type: ActionType, options: ActionOptions) => {
-		const { ids, id, ...rest } = options;
+		const { ids, id, isBatchOperation, ...rest } = options;
 
 		return this.jsonRequest({
 			name: type,
@@ -395,7 +395,7 @@ export class ZimbraBatchClient {
 					...denormalize(ActionOptionsEntity)(rest)
 				}
 			},
-			singleRequest: true
+			singleRequest: !isBatchOperation
 		}).then(Boolean);
 	};
 

@@ -3787,6 +3787,7 @@ type Mutation {
 		op: String!
 		tagNames: String
 		name: String
+		isBatchOperation: Boolean
 	): Boolean
 	importExternalAccount(externalAccount: ExternalAccountImportInput!): Boolean
 	logout: Boolean
