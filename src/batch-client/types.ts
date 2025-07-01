@@ -264,6 +264,7 @@ export interface ActionOptions {
 	folderId?: string;
 	id?: string;
 	ids?: Array<string>;
+	isBatchOperation?: boolean;
 	isLocal?: boolean;
 	name?: string;
 	op: string;

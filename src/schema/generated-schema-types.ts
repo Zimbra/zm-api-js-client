@@ -3024,6 +3024,7 @@ export type MutationItemActionArgs = {
   folderId?: InputMaybe<Scalars['ID']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
   ids?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  isBatchOperation?: InputMaybe<Scalars['Boolean']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   op: Scalars['String']['input'];
   tagNames?: InputMaybe<Scalars['String']['input']>;
