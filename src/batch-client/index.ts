@@ -1892,6 +1892,18 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		}).then(normalize(SearchCalendarResourcesResponse));
 
+	public searchConversation = (options: any) =>
+		this.jsonRequest({
+			name: 'SearchConv',
+			body: options,
+			singleRequest: true
+		}).then(res => {
+			const conversation = this.normalizeConversation(res.c[0]);
+			const c = normalize(Conversation)(conversation);
+			c.messages = c.messages.map(this.normalizeMessage);
+			return c;
+		});
+
 	public searchGal = (options: SearchOptions) =>
 		this.jsonRequest({
 			name: 'SearchGal',

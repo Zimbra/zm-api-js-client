@@ -205,6 +205,7 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 				},
 				searchCalendarResources: (_: any, variables) =>
 					client.searchCalendarResources(variables as SearchCalendarResourcesOptions),
+				searchConversation: (_: any, variables) => client.searchConversation(variables as any),
 				searchGal: (_, variables) => client.searchGal(variables as SearchOptions),
 				shareInfo: (_, variables) => client.shareInfo(variables as ShareInfoOptions),
 				taskFolders: client.taskFolders,

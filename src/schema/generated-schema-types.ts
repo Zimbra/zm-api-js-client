@@ -3661,6 +3661,7 @@ export type Query = {
   relatedContacts?: Maybe<Array<Maybe<RelatedContact>>>;
   search?: Maybe<SearchResponse>;
   searchCalendarResources?: Maybe<SearchCalendarResourcesResponse>;
+  searchConversation?: Maybe<Conversation>;
   searchGal?: Maybe<SearchResponse>;
   shareInfo?: Maybe<Array<Maybe<ShareInfo>>>;
   taskFolders?: Maybe<Array<Maybe<Folder>>>;
@@ -3934,6 +3935,27 @@ export type QuerySearchCalendarResourcesArgs = {
   needExp?: InputMaybe<Scalars['Boolean']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   searchFilter?: InputMaybe<SearchConditionsInput>;
+};
+
+
+export type QuerySearchConversationArgs = {
+  cid?: InputMaybe<Scalars['String']['input']>;
+  fetch?: InputMaybe<Scalars['String']['input']>;
+  fullConversation?: InputMaybe<Scalars['Int']['input']>;
+  header?: InputMaybe<Array<InputMaybe<MailItemHeaderInput>>>;
+  html?: InputMaybe<Scalars['Boolean']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  locale?: InputMaybe<Scalars['String']['input']>;
+  max?: InputMaybe<Scalars['Int']['input']>;
+  needExp?: InputMaybe<Scalars['Boolean']['input']>;
+  nest?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  prefetch?: InputMaybe<Scalars['Int']['input']>;
+  query?: InputMaybe<Scalars['String']['input']>;
+  quick?: InputMaybe<Scalars['Int']['input']>;
+  recip?: InputMaybe<Scalars['String']['input']>;
+  sortBy?: InputMaybe<Scalars['String']['input']>;
+  tz?: InputMaybe<Timezone>;
 };
 
 
@@ -4211,6 +4233,14 @@ export type SearchCalendarResourcesResponse = {
 
 export type SearchConditionsInput = {
   conds?: InputMaybe<ConditionsInput>;
+};
+
+export type SearchConversationResponse = {
+  __typename?: 'SearchConversationResponse';
+  messages?: Maybe<Array<Maybe<MessageInfo>>>;
+  more?: Maybe<Scalars['Boolean']['output']>;
+  offset?: Maybe<Scalars['Int']['output']>;
+  sortBy?: Maybe<Scalars['String']['output']>;
 };
 
 export type SearchFolderInput = {

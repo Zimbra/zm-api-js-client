@@ -555,6 +555,10 @@ export const SearchResponse = new Entity({
 	hit: Hit
 });
 
+export const SearchConversationResponse = new Entity({
+	m: ['messages', MessageInfo]
+});
+
 export const CalResourceAttributes = new Entity({
 	l: 'city',
 	st: 'state',

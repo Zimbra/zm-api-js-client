@@ -166,7 +166,20 @@ export interface GetMessageOptions extends GetMailItemOptions {
 }
 
 export interface GetConversationOptions extends GetMailItemOptions {
+	cid: string;
 	fetch?: string;
+	fullConversation?: number;
+	limit: number;
+	locale?: number;
+	needExp: boolean;
+	nest?: number;
+	offset: number;
+	prefetch: number;
+	query: string;
+	quick: number;
+	recip: string;
+	sortBy: string;
+	tz: Timezone;
 }
 
 export interface RelatedContactsOptions {
