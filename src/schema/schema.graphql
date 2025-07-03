@@ -3694,6 +3694,7 @@ type Mutation {
 		tagNames: String
 		name: String
 		isLocal: Boolean
+		isBatchOperation: Boolean
 		recursive: Boolean
 		destFolderLocal: Boolean
 	): Boolean
