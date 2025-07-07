@@ -3726,6 +3726,7 @@ type Mutation {
 		folderId: ID
 		op: String!
 		tagNames: String
+		isBatchOperation: Boolean
 	): ActionOpResponse
 	conversationAction(ids: [ID!]!, op: String!): Boolean
 	counterAppointment(
