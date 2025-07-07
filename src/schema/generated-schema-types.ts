@@ -2837,6 +2837,7 @@ export type MutationContactActionArgs = {
   folderId?: InputMaybe<Scalars['ID']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
   ids?: InputMaybe<Array<Scalars['ID']['input']>>;
+  isBatchOperation?: InputMaybe<Scalars['Boolean']['input']>;
   op: Scalars['String']['input'];
   tagNames?: InputMaybe<Scalars['String']['input']>;
 };
