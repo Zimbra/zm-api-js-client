@@ -95,11 +95,15 @@ const typePolicies = {
 	MessageInfo: {
 		fields: {
 			emailAddresses: {
-				merge(existing: EmailAddress[], incoming: EmailAddress[]) {
-					return uniqWith(
-						[...(existing || []), ...(incoming || [])],
-						(a, b) => a.address === b.address && a.type === b.type
-					);
+				merge(existing: EmailAddress[] = [], incoming: EmailAddress[] = []) {
+					const combined = [...(incoming || []), ...(existing || [])];
+					// Prefer entries where isGroup is not null
+					combined.sort((a, b) => {
+						const aHasGroup = a.isGroup != null ? 1 : 0;
+						const bHasGroup = b.isGroup != null ? 1 : 0;
+						return bHasGroup - aHasGroup;
+					});
+					return uniqWith(combined, (a, b) => a.address === b.address && a.type === b.type);
 				}
 			}
 		}
