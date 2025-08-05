@@ -614,6 +614,7 @@ export type CalendarItemAttendee = {
   __typename?: 'CalendarItemAttendee';
   address?: Maybe<Scalars['String']['output']>;
   calendarUserType?: Maybe<Scalars['String']['output']>;
+  isGroup?: Maybe<Scalars['Boolean']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   participationStatus?: Maybe<ParticipationStatus>;
   role?: Maybe<ParticipationRole>;
@@ -831,6 +832,7 @@ export type CalendarItemRecurrenceRuleInput = {
 export type CalendarItemReply = {
   __typename?: 'CalendarItemReply';
   address?: Maybe<Scalars['String']['output']>;
+  isGroup?: Maybe<Scalars['Boolean']['output']>;
   participationStatus?: Maybe<ParticipationStatus>;
 };
 
