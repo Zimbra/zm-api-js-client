@@ -87,12 +87,14 @@ const CalendarItemAttendees = new Entity({
 	ptst: 'participationStatus',
 	a: 'address',
 	d: 'name',
-	cutype: 'calendarUserType'
+	cutype: 'calendarUserType',
+	isGroup: 'isGroup'
 });
 
 const CalendarItemReply = new Entity({
 	ptst: 'participationStatus',
-	at: 'address'
+	at: 'address',
+	isGroup: 'isGroup'
 });
 
 const CalendarItemOrganizer = new Entity({

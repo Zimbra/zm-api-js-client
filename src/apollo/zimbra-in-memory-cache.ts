@@ -1,3 +1,4 @@
+import { FieldFunctionOptions } from '@apollo/client';
 import { defaultDataIdFromObject, InMemoryCache, InMemoryCacheConfig } from '@apollo/client/core';
 import get from 'lodash/get';
 import uniqWith from 'lodash/uniqWith';
@@ -58,6 +59,29 @@ function createPossibleTypes(possibleTypesFactory = Object) {
 	});
 }
 
+function isReference(obj: any): obj is { __ref: string } {
+	return obj && typeof obj === 'object' && '__ref' in obj;
+}
+
+function resolvedRefrenceAddress(
+	address: EmailAddress[],
+	readField: FieldFunctionOptions['readField']
+) {
+	return (address || []).map(item => {
+		if (isReference(item)) {
+			return {
+				__typename: readField('__typename', item),
+				address: readField('address', item),
+				type: readField('type', item),
+				isGroup: readField('isGroup', item),
+				name: readField('name', item),
+				displayName: readField('displayName', item)
+			};
+		}
+		return item;
+	});
+}
+
 const typePolicies = {
 	Query: {
 		fields: {
@@ -95,14 +119,16 @@ const typePolicies = {
 	MessageInfo: {
 		fields: {
 			emailAddresses: {
-				merge(existing: EmailAddress[] = [], incoming: EmailAddress[] = []) {
-					const combined = [...(incoming || []), ...(existing || [])];
+				merge(
+					existing: EmailAddress[] = [],
+					incoming: EmailAddress[] = [],
+					{ readField }: FieldFunctionOptions
+				) {
+					const resolvedExisting = resolvedRefrenceAddress(existing, readField);
+					const resolvedIncoming = resolvedRefrenceAddress(incoming, readField);
+					const combined = [...(resolvedIncoming || []), ...(resolvedExisting || [])];
 					// Prefer entries where isGroup is not null
-					combined.sort((a, b) => {
-						const aHasGroup = a.isGroup != null ? 1 : 0;
-						const bHasGroup = b.isGroup != null ? 1 : 0;
-						return bHasGroup - aHasGroup;
-					});
+					combined.sort((a, b) => Number(b.isGroup != null) - Number(a.isGroup != null));
 					return uniqWith(combined, (a, b) => a.address === b.address && a.type === b.type);
 				}
 			}
