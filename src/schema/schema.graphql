@@ -1559,6 +1559,7 @@ type AccountInfoAttrs {
 	zimbraMailIdleSessionTimeout: String
 	zimbraFeatureDeliveryStatusNotificationEnabled: Boolean
 	zimbraPop3Enabled: Boolean
+	zimbraFeatureOptionsEnabled: Boolean
 }
 
 type AccountCos {

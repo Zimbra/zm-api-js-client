@@ -125,6 +125,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureMailSendLaterEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureManageZimlets?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureMobileSyncEnabled?: Maybe<Scalars['Boolean']['output']>;
+  zimbraFeatureOptionsEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureOutOfOfficeReplyEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeaturePop3DataSourceEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeaturePowerPasteEnabled?: Maybe<Scalars['Boolean']['output']>;
