@@ -2429,7 +2429,8 @@ input CalendarItemInviteComponentCounterInput {
 	status: InviteCompletionStatus
 	noBlob: Boolean
 	description: [CalendarItemInviteComponentDescriptionInput]
-	draft: Boolean
+	draft: Boolean,
+	seq: Int
 }
 
 type CalendarItemAttendee {

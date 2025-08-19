@@ -711,6 +711,7 @@ export type CalendarItemInviteComponentCounterInput = {
   percentComplete?: InputMaybe<Scalars['String']['input']>;
   priority?: InputMaybe<Scalars['String']['input']>;
   recurrence?: InputMaybe<CalendarItemRecurrenceInput>;
+  seq?: InputMaybe<Scalars['Int']['input']>;
   start: CalendarItemDateTimeInput;
   status?: InputMaybe<InviteCompletionStatus>;
   uid?: InputMaybe<Scalars['String']['input']>;
