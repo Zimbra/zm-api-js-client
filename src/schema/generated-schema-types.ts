@@ -171,6 +171,7 @@ export type AccountInfoAttrs = {
   zimbraPasswordMinNumericChars?: Maybe<Scalars['Int']['output']>;
   zimbraPasswordMinPunctuationChars?: Maybe<Scalars['Int']['output']>;
   zimbraPasswordMinUpperCaseChars?: Maybe<Scalars['Int']['output']>;
+  zimbraPop3Enabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraPublicSharingEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraSignupAffiliate?: Maybe<Scalars['String']['output']>;
   zimbraSignupRecoveryEmail?: Maybe<Scalars['String']['output']>;
@@ -3419,6 +3420,13 @@ export type PolicyInput = {
   policy?: InputMaybe<Array<InputMaybe<PolicyAttrsInput>>>;
 };
 
+export enum Pop3DeleteOption {
+  Delete = 'delete',
+  Keep = 'keep',
+  Read = 'read',
+  Trash = 'trash'
+}
+
 export enum PrefCalendarInitialView {
   Day = 'day',
   List = 'list',
@@ -3483,6 +3491,7 @@ export type Preferences = {
   zimbraPrefHtmlEditorDefaultFontColor?: Maybe<Scalars['String']['output']>;
   zimbraPrefHtmlEditorDefaultFontFamily?: Maybe<Scalars['String']['output']>;
   zimbraPrefHtmlEditorDefaultFontSize?: Maybe<Scalars['String']['output']>;
+  zimbraPrefImapEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefLocale?: Maybe<Scalars['String']['output']>;
   zimbraPrefMailDeliveryStatusNotification?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefMailForwardingAddress?: Maybe<Scalars['String']['output']>;
@@ -3505,6 +3514,10 @@ export type Preferences = {
   zimbraPrefOutOfOfficeUntilDate?: Maybe<Scalars['String']['output']>;
   zimbraPrefPasswordRecoveryAddress?: Maybe<Scalars['String']['output']>;
   zimbraPrefPasswordRecoveryAddressStatus?: Maybe<PasswordRecoveryAddressStatus>;
+  zimbraPrefPop3DeleteOption?: Maybe<Pop3DeleteOption>;
+  zimbraPrefPop3DownloadSince?: Maybe<Scalars['String']['output']>;
+  zimbraPrefPop3Enabled?: Maybe<Scalars['Boolean']['output']>;
+  zimbraPrefPop3IncludeSpam?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefPowerPasteEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefPrimaryTwoFactorAuthMethod?: Maybe<Scalars['String']['output']>;
   zimbraPrefReadingPaneEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -3549,6 +3562,7 @@ export type PreferencesInput = {
   zimbraPrefHtmlEditorDefaultFontColor?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefHtmlEditorDefaultFontFamily?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefHtmlEditorDefaultFontSize?: InputMaybe<Scalars['String']['input']>;
+  zimbraPrefImapEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefLocale?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefMailDeliveryStatusNotification?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefMailForwardingAddress?: InputMaybe<Scalars['String']['input']>;
@@ -3569,6 +3583,10 @@ export type PreferencesInput = {
   zimbraPrefOutOfOfficeStatusAlertOnLogin?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefOutOfOfficeSuppressExternalReply?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefOutOfOfficeUntilDate?: InputMaybe<Scalars['String']['input']>;
+  zimbraPrefPop3DeleteOption?: InputMaybe<Pop3DeleteOption>;
+  zimbraPrefPop3DownloadSince?: InputMaybe<Scalars['String']['input']>;
+  zimbraPrefPop3Enabled?: InputMaybe<Scalars['Boolean']['input']>;
+  zimbraPrefPop3IncludeSpam?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefPowerPasteEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefPrimaryTwoFactorAuthMethod?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefReadingPaneEnabled?: InputMaybe<Scalars['Boolean']['input']>;

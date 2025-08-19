@@ -322,6 +322,13 @@ enum PrefClientType {
 	standard
 }
 
+enum Pop3DeleteOption {
+	keep
+	read
+	trash
+	delete
+}
+
 enum Mode {
 	text
 	html
@@ -1551,6 +1558,7 @@ type AccountInfoAttrs {
 	zimbraFeatureAdvancedChatEnabled: Boolean
 	zimbraMailIdleSessionTimeout: String
 	zimbraFeatureDeliveryStatusNotificationEnabled: Boolean
+	zimbraPop3Enabled: Boolean
 }
 
 type AccountCos {
@@ -1702,6 +1710,11 @@ type Preferences {
 	zimbraPrefDisplayTimeInMailList: Boolean
 	zimbraPrefPrimaryTwoFactorAuthMethod: String
 	zimbraPrefMailDeliveryStatusNotification: Boolean
+	zimbraPrefImapEnabled: Boolean
+	zimbraPrefPop3Enabled: Boolean
+	zimbraPrefPop3DownloadSince: String
+	zimbraPrefPop3IncludeSpam: Boolean
+	zimbraPrefPop3DeleteOption: Pop3DeleteOption
 }
 
 type GetAppointmentResponse {
@@ -2781,6 +2794,11 @@ input PreferencesInput {
 	zimbraPrefPrimaryTwoFactorAuthMethod: String
 	zimbraPrefDeleteInviteOnReply: Boolean
 	zimbraPrefMailDeliveryStatusNotification: Boolean
+	zimbraPrefImapEnabled: Boolean
+	zimbraPrefPop3Enabled: Boolean
+	zimbraPrefPop3DownloadSince: String
+	zimbraPrefPop3IncludeSpam: Boolean
+	zimbraPrefPop3DeleteOption: Pop3DeleteOption
 }
 
 input ModifyIdentityInput {
