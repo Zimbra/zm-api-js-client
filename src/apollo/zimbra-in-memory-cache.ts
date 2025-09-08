@@ -133,6 +133,9 @@ const typePolicies = {
 				}
 			}
 		}
+	},
+	Folder: {
+		keyFields: false as const
 	}
 };
 

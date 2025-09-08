@@ -1171,7 +1171,8 @@ export class ZimbraBatchClient {
 	public getFolder = (options: GetFolderOptions) => {
 		return this.jsonRequest({
 			name: 'GetFolder',
-			body: denormalize(GetFolderRequestEntity)(options)
+			body: denormalize(GetFolderRequestEntity)(options),
+			singleRequest: true
 		}).then(res => {
 			const foldersResponse = normalize(Folder)(res);
 			const folders = get(foldersResponse, 'folders.0', {});
