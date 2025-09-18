@@ -1,4 +1,4 @@
-import { ApolloLink, FetchResult, Observable, Operation } from '@apollo/client/core';
+import { ApolloLink, FetchResult, Observable, Operation } from '@apollo/client';
 import { BatchLink } from '@apollo/client/link/batch';
 import { graphql, print } from 'graphql';
 import events from 'mitt';
@@ -56,7 +56,7 @@ export class LocalBatchLink extends ApolloLink {
 		});
 	}
 
-	request(operation: Operation): Observable<FetchResult> | null {
-		return this.batcher.request(operation);
+	request(operation: Operation, forward: any): Observable<FetchResult> {
+		return this.batcher.request(operation, forward);
 	}
 }

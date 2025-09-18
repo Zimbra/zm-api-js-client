@@ -1,13 +1,29 @@
-import { ErrorLink } from '@apollo/client/link/error';
+import { ApolloLink } from '@apollo/client';
+import { onError } from '@apollo/client/link/error';
 import get from 'lodash/get';
 
-class ZimbraErrorLink extends ErrorLink {
+class ZimbraErrorLink extends ApolloLink {
 	handlers: any[] = [];
 
 	constructor() {
-		super(({ graphQLErrors, networkError }) => {
+		super();
+	}
+
+	executeHandlers = (data: object) => {
+		this.handlers.map(handler => {
+			handler(data);
+		});
+	};
+
+	registerHandler = (handler: any) => {
+		this.handlers.push(handler);
+	};
+
+	request(operation: any, forward: any) {
+		return onError((error: any) => {
+			const { graphQLErrors, networkError } = error;
 			graphQLErrors &&
-				graphQLErrors.map(({ message, originalError, ...rest }) => {
+				graphQLErrors.map(({ message, originalError, ...rest }: any) => {
 					let errorCode = get(originalError, 'faults.0.Detail.Error.Code', '');
 
 					this.executeHandlers({
@@ -22,18 +38,8 @@ class ZimbraErrorLink extends ErrorLink {
 				this.executeHandlers({
 					message: `[Network error]: ${networkError}`
 				});
-		});
+		}).request(operation, forward);
 	}
-
-	executeHandlers = (data: object) => {
-		this.handlers.map(handler => {
-			handler(data);
-		});
-	};
-
-	registerHandler = (handler: any) => {
-		this.handlers.push(handler);
-	};
 
 	unRegisterAllHandlers = () => {
 		this.handlers = [];

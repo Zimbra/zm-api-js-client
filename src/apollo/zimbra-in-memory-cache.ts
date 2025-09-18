@@ -1,5 +1,9 @@
-import { FieldFunctionOptions } from '@apollo/client';
-import { defaultDataIdFromObject, InMemoryCache, InMemoryCacheConfig } from '@apollo/client/core';
+import {
+	defaultDataIdFromObject,
+	FieldFunctionOptions,
+	InMemoryCache,
+	InMemoryCacheConfig
+} from '@apollo/client';
 import get from 'lodash/get';
 import uniqWith from 'lodash/uniqWith';
 import { EmailAddress } from './types';
