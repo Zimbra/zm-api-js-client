@@ -4261,6 +4261,7 @@ export type SearchResponse = {
 
 export enum SearchType {
   Appointment = 'appointment',
+  Briefcase = 'briefcase',
   Contact = 'contact',
   Conversation = 'conversation',
   Document = 'document',

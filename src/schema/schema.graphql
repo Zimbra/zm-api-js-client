@@ -203,6 +203,7 @@ enum SearchType {
 	wiki
 	document
 	unknown
+	briefcase
 }
 
 enum ContactType {
