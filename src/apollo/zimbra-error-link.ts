@@ -7,8 +7,10 @@ class ZimbraErrorLink extends ErrorLink {
 	constructor() {
 		super(({ graphQLErrors, networkError }) => {
 			graphQLErrors &&
-				graphQLErrors.map(({ message, originalError, ...rest }) => {
-					let errorCode = get(originalError, 'faults.0.Detail.Error.Code', '');
+				graphQLErrors.map((error: any) => {
+					const { message, ...rest } = error;
+					const originalError = error.originalError;
+					const errorCode = get(originalError, 'faults.0.Detail.Error.Code', '');
 
 					this.executeHandlers({
 						errorCode,
