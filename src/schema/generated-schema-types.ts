@@ -2425,6 +2425,7 @@ export type MailboxMetadataAttrs = {
   zimbraPrefSMIMEDefaultSetting?: Maybe<Scalars['String']['output']>;
   zimbraPrefSMIMELastOperation?: Maybe<Scalars['String']['output']>;
   zimbraPrefSharedFolderTreeOpen?: Maybe<Scalars['Boolean']['output']>;
+  zimbraPrefSidebarCollapsed?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefSmartFolderTreeOpen?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefTimeFormat?: Maybe<Scalars['String']['output']>;
   zimbraPrefUndoSendEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -2458,6 +2459,7 @@ export type MailboxMetadataSectionAttrsInput = {
   zimbraPrefSMIMEDefaultSetting?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefSMIMELastOperation?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefSharedFolderTreeOpen?: InputMaybe<Scalars['Boolean']['input']>;
+  zimbraPrefSidebarCollapsed?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefSmartFolderTreeOpen?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefTimeFormat?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefUndoSendEnabled?: InputMaybe<Scalars['Boolean']['input']>;
@@ -3488,6 +3490,7 @@ export type Preferences = {
   zimbraPrefDisplayExternalImages?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefDisplayTimeInMailList?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefExternalSendersType?: Maybe<ExternalSendersType>;
+  zimbraPrefFolderTreeOpen?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefForwardReplyInOriginalFormat?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefGroupMailBy?: Maybe<Scalars['String']['output']>;
   zimbraPrefHtmlEditorDefaultFontColor?: Maybe<Scalars['String']['output']>;
@@ -3559,6 +3562,7 @@ export type PreferencesInput = {
   zimbraPrefDisplayExternalImages?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefDisplayTimeInMailList?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefExternalSendersType?: InputMaybe<ExternalSendersType>;
+  zimbraPrefFolderTreeOpen?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefForwardReplyInOriginalFormat?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefGroupMailBy?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefHtmlEditorDefaultFontColor?: InputMaybe<Scalars['String']['input']>;

@@ -1707,6 +1707,7 @@ type Preferences {
 	zimbraPrefUseTimeZoneListInCalendar: Boolean
 	zimbraPrefMailForwardingAddress: String
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
+	zimbraPrefFolderTreeOpen: Boolean
 	zimbraPrefTagTreeOpen: Boolean
 	zimbraPrefPowerPasteEnabled: Boolean
 	zimbraPrefDisplayTimeInMailList: Boolean
@@ -2151,6 +2152,7 @@ type MailboxMetadataAttrs {
 	zimbraPrefContactSourceFolderID: String
 	zimbraPrefHideMuteConvModal: Boolean
 	zimbraPrefColorMode: String
+	zimbraPrefSidebarCollapsed: Boolean
 }
 
 type MailboxMetadataMeta {
@@ -2187,6 +2189,7 @@ input MailboxMetadataSectionAttrsInput {
 	zimbraPrefContactSourceFolderID: String
 	zimbraPrefHideMuteConvModal: Boolean
 	zimbraPrefColorMode: String
+	zimbraPrefSidebarCollapsed: Boolean
 }
 
 type MimePart {
@@ -2791,6 +2794,7 @@ input PreferencesInput {
 	zimbraPrefUseTimeZoneListInCalendar: Boolean
 	zimbraPrefMailForwardingAddress: String
 	zimbraPrefMailLocalDeliveryDisabled: Boolean
+	zimbraPrefFolderTreeOpen: Boolean
 	zimbraPrefTagTreeOpen: Boolean
 	zimbraPrefPowerPasteEnabled: Boolean
 	zimbraPrefDisplayTimeInMailList: Boolean
