@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client/core';
-import get from 'lodash/get';
 import { ZimbraInMemoryCache } from '../apollo/zimbra-in-memory-cache';
 import { ZimbraSessionOptions } from './types';
 
@@ -22,7 +21,7 @@ export class SessionHandler {
 			id: this.cacheKeyForSession,
 			fragment: SESSION_GQL_FRAGMENT
 		});
-		return get(sessionIdFragment, 'id') || '1';
+		return sessionIdFragment?.id || '1';
 	};
 
 	public writeSessionId = (sessionId: string) => {

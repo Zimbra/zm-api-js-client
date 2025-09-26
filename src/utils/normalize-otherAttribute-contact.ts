@@ -1,6 +1,4 @@
-import concat from 'lodash/concat';
-import differenceBy from 'lodash/differenceBy';
-import forEach from 'lodash/forEach';
+import { differenceBy } from 'es-toolkit';
 import { denormalize } from '../normalize';
 import { ContactInputRequest } from '../normalize/entities';
 
@@ -102,19 +100,29 @@ export function createContactBody(data: any, isDesktop: Boolean) {
 	const { attributes, ...rest } = data;
 	const contactAttrs = <Object[]>[];
 
-	forEach(attributes, (val, key) =>
-		key !== 'other'
-			? contactAttrs.push({
-					name: key,
-					[key === 'image' || (!isDesktop && key === 'userCertificate') ? 'aid' : 'content']: val
-			  })
-			: forEach(val, otherValue =>
+	for (const [key, val] of Object.entries(attributes)) {
+		if (key !== 'other') {
+			contactAttrs.push({
+				name: key,
+				[key === 'image' || (!isDesktop && key === 'userCertificate') ? 'aid' : 'content']: val
+			});
+		} else if (Array.isArray(val)) {
+			for (const otherValue of val) {
+				if (
+					typeof otherValue === 'object' &&
+					otherValue !== null &&
+					'key' in otherValue &&
+					'value' in otherValue
+				) {
+					const { key: otherKey, value: otherVal } = otherValue as { key: string; value: unknown };
 					contactAttrs.push({
-						name: otherValue.key,
-						_content: otherValue.value
-					})
-			  )
-	);
+						name: otherKey,
+						_content: otherVal
+					});
+				}
+			}
+		}
+	}
 	return {
 		cn: denormalize(ContactInputRequest)({
 			...rest,
@@ -162,15 +170,17 @@ export function normalizeOtherAttr(data: any) {
 				(a: any, b: any) => Number(a.key.match(/(\d+)/g)[0]) - Number(b.key.match(/(\d+)/g)[0])
 			);
 
-		const remainingOtherAttribute = differenceBy(other, otherAttributewithCustomKey, 'key').sort(
-			(a: any, b: any) => a.key.localeCompare(b.key)
-		);
+		const remainingOtherAttribute = differenceBy(
+			other || [],
+			otherAttributewithCustomKey || [],
+			(item: any) => item.key
+		).sort((a: any, b: any) => a.key.localeCompare(b.key));
 
 		return {
 			...contact,
 			_attrs: {
 				...contact._attrs,
-				other: concat(otherAttributewithCustomKey, remainingOtherAttribute)
+				other: (otherAttributewithCustomKey || []).concat(remainingOtherAttribute || [])
 			}
 		};
 	});
