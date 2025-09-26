@@ -1,5 +1,3 @@
-import reduce from 'lodash/reduce';
-
 import { EntityMapping, EntityMappingValue, NormalizedKey } from './types';
 
 function normalizeKey(key: string, schema: Entity, inverse: Boolean = false): NormalizedKey {
@@ -19,25 +17,28 @@ function normalizeKey(key: string, schema: Entity, inverse: Boolean = false): No
 	return { key };
 }
 
-function _normalize(data: {}, schema: Entity, inverse: Boolean = false) {
-	return reduce(
-		data,
-		(result: { [key: string]: any }, v, k) => {
-			const { key, nestedSchema } = normalizeKey(k, schema, inverse);
-			const type = typeof v;
-			if (Array.isArray(v)) {
-				result[key] = (v as Array<any>).map(i =>
-					nestedSchema ? _normalize(i, nestedSchema, inverse) : i
-				);
-			} else if (type === 'object' && v !== null) {
-				result[key] = nestedSchema ? _normalize(v, nestedSchema, inverse) : v;
-			} else {
-				result[key] = v;
-			}
-			return result;
-		},
-		{}
-	);
+function _normalize(data: {}, schema: Entity, inverse: boolean = false) {
+	const result: { [key: string]: any } = {};
+
+	for (const k in data) {
+		if (!Object.prototype.hasOwnProperty.call(data, k)) {
+			continue;
+		}
+
+		const v = (data as any)[k];
+		const { key, nestedSchema } = normalizeKey(k, schema, inverse);
+		const type = typeof v;
+
+		if (Array.isArray(v)) {
+			result[key] = v.map(i => (nestedSchema ? _normalize(i, nestedSchema, inverse) : i));
+		} else if (type === 'object' && v !== null) {
+			result[key] = nestedSchema ? _normalize(v, nestedSchema, inverse) : v;
+		} else {
+			result[key] = v;
+		}
+	}
+
+	return result;
 }
 
 /**
@@ -74,24 +75,26 @@ export class Entity {
 		this.inverseMapping = this.initInverseMapping(this.mapping);
 	}
 
-	initInverseMapping(mapping: EntityMapping, accumulator = {}) {
-		return reduce(
-			mapping,
-			(result: EntityMapping, v: any, k) => {
-				if (Array.isArray(v)) {
-					result[v[0]] = [k, v[1]];
-				} else if (typeof v === 'object' && !(v instanceof Entity)) {
-					result[k] = this.initInverseMapping(v) as EntityMappingValue;
-				} else if (typeof v === 'string') {
-					result[v] = k;
-				} else {
-					result[k] = v;
-				}
+	initInverseMapping(mapping: EntityMapping, accumulator: EntityMapping = {}): EntityMapping {
+		for (const k in mapping) {
+			if (!Object.prototype.hasOwnProperty.call(mapping, k)) {
+				continue;
+			}
 
-				return result;
-			},
-			accumulator
-		);
+			const v: any = mapping[k];
+
+			if (Array.isArray(v)) {
+				accumulator[v[0]] = [k, v[1]];
+			} else if (typeof v === 'object' && !(v instanceof Entity)) {
+				accumulator[k] = this.initInverseMapping(v) as EntityMappingValue;
+			} else if (typeof v === 'string') {
+				accumulator[v] = k;
+			} else {
+				accumulator[k] = v;
+			}
+		}
+
+		return accumulator;
 	}
 
 	public inverseKey(k: string) {

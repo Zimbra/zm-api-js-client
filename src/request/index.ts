@@ -1,5 +1,3 @@
-import get from 'lodash/get';
-import reduce from 'lodash/reduce';
 import {
 	BatchRequestOptions,
 	BatchRequestResponse,
@@ -39,7 +37,7 @@ function parseJSON(response: Response): Promise<ParsedResponse> {
 		// for the rest of the cases (as of now only 500 error), parse and return the error response so that it can
 		// be handled properly by the caller
 		return parseErrorJSON(response).then(parsedResponse => {
-			const fault = get(parsedResponse.parsed, 'Body.Fault');
+			const fault = parsedResponse?.parsed?.Body?.Fault;
 			throw faultError(parsedResponse, [fault]);
 		});
 	}
@@ -71,7 +69,7 @@ function networkError(response: ParsedResponse) {
 
 	(error as NetworkError).message = message;
 	(error as NetworkError).response = response;
-	(error as NetworkError).parseError = response.parseError;
+	(error as NetworkError).parseError = response?.parseError;
 
 	return error as NetworkError;
 }
@@ -80,7 +78,7 @@ function faultReasonText(faults: any = []): string {
 	if (!Array.isArray(faults)) faults = [faults];
 
 	return faults
-		.map((f: any) => get(f, 'Reason.Text'))
+		.map((f: any) => f?.Reason?.Text)
 		.filter(Boolean)
 		.join(', ');
 }
@@ -88,7 +86,7 @@ function faultReasonText(faults: any = []): string {
 function faultError(response: ParsedResponse, faults: any) {
 	const error = new Error(`Fault error: ${faults ? faultReasonText(faults) : 'Unknown Error'}`);
 	(error as SingleBatchRequestError).response = response;
-	(error as SingleBatchRequestError).parseError = response.parseError;
+	(error as SingleBatchRequestError).parseError = response?.parseError;
 	(error as SingleBatchRequestError).faults = faults;
 	return error as SingleBatchRequestError;
 }
@@ -98,20 +96,20 @@ function faultError(response: ParsedResponse, faults: any) {
  * containing an array of the requests for that command.
  */
 function batchBody(requests: ReadonlyArray<RequestOptions>) {
-	return reduce(
-		requests,
-		(body: { [key: string]: any }, request) => {
-			const key = `${request.name}Request`;
-			const value = soapCommandBody(request);
-			if (body[key]) {
-				body[key].push(value);
-			} else {
-				body[key] = [value];
-			}
-			return body;
-		},
-		{}
-	);
+	const body: { [key: string]: any } = {};
+
+	for (const request of requests) {
+		const key = `${request.name}Request`;
+		const value = soapCommandBody(request);
+
+		if (body[key]) {
+			body[key].push(value);
+		} else {
+			body[key] = [value];
+		}
+	}
+
+	return body;
 }
 
 /**
@@ -127,34 +125,26 @@ function batchResponse(requests: any, response: RequestResponse) {
 	// For each request type, track which responses have been
 	// pulled out of the batch request body by incrementing
 	// indexes.
-	let indexes: { [key: string]: number } = {};
+	const indexes: { [key: string]: number } = {};
+	const responses: Array<SingleBatchRequestResponse | SingleBatchRequestError> = [];
+
+	for (const request of requests) {
+		const batchResponses = batchBody[`${request.name}Response`];
+		const index = indexes[request.name] || 0;
+		const singleResponse = batchResponses?.[index];
+
+		if (singleResponse) {
+			responses.push({ body: singleResponse });
+		} else {
+			responses.push(faultError(request.originalResponse, batchBody.Fault));
+		}
+
+		indexes[request.name] = index + 1;
+	}
 
 	return {
 		...res,
-		requests: reduce(
-			requests,
-			(responses: Array<SingleBatchRequestResponse | SingleBatchRequestError>, request) => {
-				const batchResponses = batchBody[`${request.name}Response`];
-				const index = indexes[request.name];
-				const response: any = batchResponses && batchResponses[index || 0];
-				if (response) {
-					responses.push({
-						body: response
-					});
-				} else {
-					responses.push(faultError(res.originalResponse, batchBody.Fault));
-				}
-
-				if (index) {
-					indexes[request.name] += 1;
-				} else {
-					indexes[request.name] = 1;
-				}
-
-				return responses;
-			},
-			[]
-		)
+		requests: responses
 	};
 }
 
@@ -267,7 +257,7 @@ export function jsonRequest(requestOptions: JsonRequestOptions): Promise<Request
 	})
 		.then(parseJSON)
 		.then((response: any) => {
-			const globalFault = get(response.parsed, 'Body.Fault');
+			const globalFault = response?.parsed?.Body?.Fault;
 
 			if (globalFault) {
 				throw faultError(response, globalFault);
