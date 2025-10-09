@@ -1,5 +1,5 @@
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import mapValues from 'lodash/mapValues';
+import { mapValues } from 'es-toolkit';
 
 import {
 	ActionOpResponse,
@@ -414,7 +414,7 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 							body: {
 								meta: {
 									section: variables.section,
-									_attrs: mapValues(variables.attrs, coerceBooleanToString)
+									_attrs: mapValues(variables.attrs || {}, coerceBooleanToString)
 								}
 							}
 						})

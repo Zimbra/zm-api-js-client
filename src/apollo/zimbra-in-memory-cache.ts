@@ -1,12 +1,12 @@
 import { FieldFunctionOptions } from '@apollo/client';
 import { defaultDataIdFromObject, InMemoryCache, InMemoryCacheConfig } from '@apollo/client/core';
-import get from 'lodash/get';
-import uniqWith from 'lodash/uniqWith';
+import { uniqWith } from 'es-toolkit';
+import { getValueByPath } from '../utils/map-values-deep';
 import { EmailAddress } from './types';
 
 const dataIdFromPath = (result: any, path: string) => {
 	if (result.__typename) {
-		const id = get(result, path);
+		const id = getValueByPath(result, path);
 		return id ? `${result.__typename}:${id}` : defaultDataIdFromObject(result);
 	}
 };

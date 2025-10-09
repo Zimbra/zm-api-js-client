@@ -50,8 +50,8 @@
     "@apollo/client": "3.4.16",
     "@graphql-tools/schema": "^10.0.25",
     "dataloader": "^2.2.2",
+    "es-toolkit": "^1.39.10",
     "graphql": "^16.9.0",
-    "lodash": "^4.17.21",
     "mitt": "^3.0.0"
   },
   "devDependencies": {

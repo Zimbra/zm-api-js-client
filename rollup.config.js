@@ -11,7 +11,7 @@ const FORMAT = process.env.FORMAT;
 const externalDeps = [
 	'@apollo/client',
 	'graphql',
-	'lodash',
+	'es-toolkit',
 	'mitt'
 ];
 
