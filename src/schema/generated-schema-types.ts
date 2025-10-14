@@ -1716,7 +1716,7 @@ export type FilterCondition = {
   __typename?: 'FilterCondition';
   address?: Maybe<Array<Maybe<AddressCondition>>>;
   addressBook?: Maybe<Array<Maybe<HeaderCheckCondition>>>;
-  allOrAny: FilterMatchCondition;
+  allOrAny?: Maybe<FilterMatchCondition>;
   attachment?: Maybe<Array<Maybe<BasicCondition>>>;
   body?: Maybe<Array<Maybe<BodyCondition>>>;
   bulk?: Maybe<Array<Maybe<BasicCondition>>>;

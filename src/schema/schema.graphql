@@ -1078,7 +1078,7 @@ type SizeCondition {
 }
 
 type FilterCondition {
-	allOrAny: FilterMatchCondition! # condition
+	allOrAny: FilterMatchCondition # condition
 	addressBook: [HeaderCheckCondition] # addressBookTest
 	address: [AddressCondition] # addressTest
 	attachment: [BasicCondition] # attachmentTest
