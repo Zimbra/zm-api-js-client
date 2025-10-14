@@ -75,6 +75,7 @@ import {
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
 	FilterInput,
+	FilterMatchCondition,
 	FolderActionChangeColorInput,
 	FolderActionCheckCalendarInput,
 	FolderView,
@@ -1166,7 +1167,24 @@ export class ZimbraBatchClient {
 	public getFilterRules = () =>
 		this.jsonRequest({
 			name: 'GetFilterRules'
-		}).then(res => normalize(Filter)(get(res, 'filterRules.0.filterRule') || []));
+		}).then(res => {
+			const filterRules = get(res, 'filterRules.0.filterRule') || [];
+
+			// Set default condition to anyof in case of null or undefined :: Classic UI approach
+			for (let i = 0; i < filterRules.length; i++) {
+				const rule = filterRules[i];
+				if (rule?.filterTests && Array.isArray(rule.filterTests)) {
+					for (let j = 0; j < rule.filterTests.length; j++) {
+						const test = rule?.filterTests[j];
+						if (test?.condition === null || test?.condition === undefined) {
+							test.condition = FilterMatchCondition.Anyof;
+						}
+					}
+				}
+			}
+
+			return normalize(Filter)(filterRules);
+		});
 
 	public getFolder = (options: GetFolderOptions) => {
 		return this.jsonRequest({
