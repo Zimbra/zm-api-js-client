@@ -1193,6 +1193,7 @@ export type CreateMountpointInput = {
 export type CreateTagInput = {
   color?: InputMaybe<Scalars['Int']['input']>;
   name: Scalars['String']['input'];
+  rgb?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CsrfToken = {
@@ -1861,6 +1862,7 @@ export type FolderActionInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   op: Scalars['String']['input'];
   retentionPolicy?: InputMaybe<Array<InputMaybe<RetentionPolicyInput>>>;
+  rgb?: InputMaybe<Scalars['String']['input']>;
   zimbraId?: InputMaybe<Scalars['ID']['input']>;
 };
 

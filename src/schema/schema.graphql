@@ -2643,6 +2643,7 @@ input FolderActionInput {
 	folderId: ID
 	zimbraId: ID
 	color: Int,
+	rgb: String,
 	retentionPolicy: [RetentionPolicyInput]
 }
 
@@ -2663,6 +2664,7 @@ input PolicyAttrsInput {
 input CreateTagInput {
 	name: String!
 	color: Int
+	rgb: String
 }
 
 # Special case of FolderAction for `changeFolderColor` resolver
