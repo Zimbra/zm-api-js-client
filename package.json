@@ -47,7 +47,7 @@
     ]
   },
   "dependencies": {
-    "@apollo/client": "3.4.16",
+    "@apollo/client": "^3.14.0",
     "@graphql-tools/schema": "^10.0.25",
     "dataloader": "^2.2.2",
     "es-toolkit": "^1.39.10",
