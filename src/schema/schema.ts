@@ -113,6 +113,7 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 				downloadAttachment: (_, variables) => client.downloadAttachment(variables),
 				downloadDocument: (_, variables) => client.downloadDocument(variables),
 				listDocumentRevisions: (_, variables) => client.listDocumentRevisions(variables),
+				getItem: (_, variables) => client.getItem(variables),
 				downloadMessage: (_, variables, context = {}) => {
 					const { local } = context;
 
