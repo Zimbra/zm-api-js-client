@@ -3270,6 +3270,7 @@ input SaveDocumentInput {
 	name: String #name
 	version: Float #ver  # Note :same item may have different versions (i.e same names) will need to implement ListDocumentRevisionsRequest
 	contentType: String #ct
+	content: String
 	upload: uploadDocument #upload with a id
 	messageData: [messagePartForDocument] #m
 	descriptionEnabled: Boolean #descEnabled
@@ -3533,6 +3534,7 @@ type Query {
 	downloadAttachment(id: ID!, part: ID!): Attachment
 	downloadDocument(id: ID!, url: String!): Attachment
 	listDocumentRevisions(id: ID!, version: Int!, count: Int!): Document
+	getItem(id: ID!): Document
 	discoverRights(right: [DiscoverRightInput!]!): DiscoverRights
 	freeBusy(names: [String!]!, start: Float, end: Float, excludeUid: String): [FreeBusy]
 	getContact(

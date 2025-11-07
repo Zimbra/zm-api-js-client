@@ -3664,6 +3664,7 @@ export type Query = {
   getHAB?: Maybe<HabGroup>;
   getIdentities?: Maybe<Identities>;
   getImportStatus?: Maybe<ImportStatusResponse>;
+  getItem?: Maybe<Document>;
   getMailboxMetadata?: Maybe<MailboxMetadata>;
   getMessage?: Maybe<MessageInfo>;
   getMessagesMetadata?: Maybe<Array<Maybe<MessageInfo>>>;
@@ -3833,6 +3834,11 @@ export type QueryGetFolderArgs = {
 
 export type QueryGetHabArgs = {
   habRootGroupId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryGetItemArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -4172,7 +4178,9 @@ export enum SaveDocumentAction {
 
 export type SaveDocumentInput = {
   action?: InputMaybe<SaveDocumentAction>;
+  content?: InputMaybe<Scalars['String']['input']>;
   contentType?: InputMaybe<Scalars['String']['input']>;
+  desc?: InputMaybe<Scalars['String']['input']>;
   descriptionEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   document?: InputMaybe<SaveDocumentInput>;
   folderId?: InputMaybe<Scalars['ID']['input']>;
