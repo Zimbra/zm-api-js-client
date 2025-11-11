@@ -178,6 +178,7 @@ export interface AppointmentOptions {
 }
 
 export interface SaveDocumentInput {
+	content: string;
 	ct: string;
 	descEnabled: Boolean;
 	id: string;

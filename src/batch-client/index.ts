@@ -32,6 +32,7 @@ import {
 	GetDocumentShareURLEntity,
 	GetDocumentShareURLResponseEntity,
 	GetFolderRequest as GetFolderRequestEntity,
+	GetItem,
 	GetRightsRequest,
 	HabGroup,
 	InviteReply,
@@ -1292,6 +1293,22 @@ export class ZimbraBatchClient {
 	public getImportStatus = () =>
 		this.jsonRequest({
 			name: 'GetImportStatus'
+		});
+
+	public getItem = ({ id }: any) =>
+		this.jsonRequest({
+			name: 'GetItem',
+			namespace: Namespace.Mail,
+			body: {
+				item: {
+					id
+				}
+			}
+		}).then(response => {
+			const data = normalize(GetItem)(response);
+			return {
+				docs: data.documents
+			};
 		});
 
 	public getMailboxMetadata = ({ section }: GetMailboxMetadataOptions) =>

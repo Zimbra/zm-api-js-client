@@ -533,6 +533,10 @@ export const ListDocumentRevisions = new Entity({
 	doc: ['documents', Document]
 });
 
+export const GetItem = new Entity({
+	doc: ['documents', Document]
+});
+
 export const MessagePartInputForDocuments = new Entity({
 	id: 'messageId',
 	part: 'attachmentPart'
@@ -545,7 +549,8 @@ export const SaveDocument = new Entity({
 	ct: 'contentType',
 	descEnabled: 'descriptionEnabled',
 	m: ['messageData', MessagePartInputForDocuments],
-	doc: ['document', Document]
+	doc: ['document', Document],
+	content: 'content'
 });
 
 export const SearchResponse = new Entity({
