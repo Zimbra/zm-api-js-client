@@ -1192,6 +1192,7 @@ export type CreateMountpointInput = {
 export type CreateTagInput = {
   color?: InputMaybe<Scalars['Int']['input']>;
   name: Scalars['String']['input'];
+  rgb?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CsrfToken = {
