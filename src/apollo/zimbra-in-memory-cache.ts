@@ -82,7 +82,7 @@ function resolvedRefrenceAddress(
 	});
 }
 
-const typePolicies = {
+const typePolicies: any = {
 	Query: {
 		fields: {
 			accountInfo: {
@@ -133,6 +133,9 @@ const typePolicies = {
 				}
 			}
 		}
+	},
+	Folder: {
+		keyFields: false
 	}
 };
 
