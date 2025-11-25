@@ -101,6 +101,7 @@ export type AccountInfoAttrs = {
   zimbraFeatureBriefcasesEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureCalendarEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureChangePasswordEnabled?: Maybe<Scalars['Boolean']['output']>;
+  zimbraFeatureContactsEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureConversationsEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureDeliveryStatusNotificationEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraFeatureDiscardInFiltersEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -4184,7 +4185,6 @@ export type SaveDocumentInput = {
   action?: InputMaybe<SaveDocumentAction>;
   content?: InputMaybe<Scalars['String']['input']>;
   contentType?: InputMaybe<Scalars['String']['input']>;
-  desc?: InputMaybe<Scalars['String']['input']>;
   descriptionEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   document?: InputMaybe<SaveDocumentInput>;
   folderId?: InputMaybe<Scalars['ID']['input']>;

@@ -1561,6 +1561,7 @@ type AccountInfoAttrs {
 	zimbraFeatureDeliveryStatusNotificationEnabled: Boolean
 	zimbraPop3Enabled: Boolean
 	zimbraFeatureOptionsEnabled: Boolean
+	zimbraFeatureContactsEnabled: Boolean
 }
 
 type AccountCos {
