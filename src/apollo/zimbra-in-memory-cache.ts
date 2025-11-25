@@ -90,6 +90,11 @@ const typePolicies: any = {
 			},
 			getPreferences: {
 				merge: true
+			},
+			getFolder: {
+				merge(_: any, incoming: any) {
+					return incoming;
+				}
 			}
 		}
 	},
@@ -135,7 +140,13 @@ const typePolicies: any = {
 		}
 	},
 	Folder: {
-		keyFields: false
+		fields: {
+			folders: {
+				merge(_: any, incoming: any) {
+					return incoming;
+				}
+			}
+		}
 	}
 };
 
