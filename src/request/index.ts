@@ -232,8 +232,6 @@ export function jsonRequest(requestOptions: JsonRequestOptions): Promise<Request
 
 	if (requestOptions.csrfToken) {
 		options.headers['X-Zimbra-Csrf-Token'] = requestOptions.csrfToken;
-
-		header.context.csrfToken = requestOptions.csrfToken;
 	}
 
 	// Allow to set Auth Token in Cookie in case `ZimbraBatchClient` is used on non-web platforms, like nodejs

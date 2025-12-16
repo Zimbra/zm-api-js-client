@@ -231,7 +231,6 @@ export interface ShareInfoOptions {
 
 export interface ChangePasswordOptions {
 	authToken: string;
-	csrfToken: string;
 	dryRun: boolean;
 	loginNewPassword: string;
 	password: string;

@@ -3675,7 +3675,6 @@ type Mutation {
 		password: String!
 		username: String!
 		authToken: String
-		csrfToken: String
 	): AuthResponse
 	modifyProfileImage(
 		content: String

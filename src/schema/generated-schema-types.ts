@@ -2792,7 +2792,6 @@ export type MutationChangeFolderColorArgs = {
 
 export type MutationChangePasswordArgs = {
   authToken?: InputMaybe<Scalars['String']['input']>;
-  csrfToken?: InputMaybe<Scalars['String']['input']>;
   dryRun?: InputMaybe<Scalars['Boolean']['input']>;
   loginNewPassword: Scalars['String']['input'];
   password: Scalars['String']['input'];
