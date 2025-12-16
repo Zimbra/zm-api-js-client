@@ -95,7 +95,6 @@ export interface SOAPHeader {
 		authTokenControl?: {
 			voidOnExpired: boolean;
 		};
-		csrfToken?: string;
 		jwtToken?: {
 			_content: string;
 		};
