@@ -531,8 +531,7 @@ export class ZimbraBatchClient {
 		password,
 		username,
 		dryRun = false,
-		authToken,
-		csrfToken
+		authToken
 	}: ChangePasswordOptions) => {
 		if (authToken) {
 			return this.jsonRequest({
@@ -546,8 +545,7 @@ export class ZimbraBatchClient {
 					oldPassword: password,
 					password: loginNewPassword,
 					dryRun,
-					authToken: { _content: authToken },
-					csrfToken: { _content: csrfToken }
+					authToken: { _content: authToken }
 				},
 				singleRequest: true
 			});
@@ -939,7 +937,6 @@ export class ZimbraBatchClient {
 			Header: {
 				context: {
 					_jsns: Namespace.All,
-					csrfToken: this.csrfToken,
 					account: {
 						by: 'name',
 						_content: options.accountName
