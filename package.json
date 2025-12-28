@@ -10,7 +10,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "generateSchemaTypes": "rimraf src/schema/generated-schema-types.ts && graphql-codegen",
-    "lint": "tslint --project .",
+    "lint": "npx eslint --config eslint.config.mjs .",
     "lint:fix": "npm run lint -- --fix",
     "test:unit": "BABEL_ENV=test mocha --require ./babelRegisterConfig.js test/**/*.js",
     "test:watch": "npm run test:unit -- --watch",
@@ -42,8 +42,8 @@
   },
   "license": "BSD-3-Clause",
   "lint-staged": {
-    "**/*.ts": [
-      "tslint"
+    "**/*.{ts,tsx}": [
+      "eslint --fix"
     ]
   },
   "dependencies": {
@@ -86,10 +86,10 @@
     "rollup-plugin-local-resolve": "^1.0.7",
     "rollup-plugin-visualizer": "^5.11.0",
     "tslib": "^2.5.0",
-    "tslint": "^6.1.3",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-plugin-prettier": "^2.3.0",
     "typescript": "^5.3.3",
-    "uglify-js": "^3.15.5"
+    "@typescript-eslint/eslint-plugin": "^8.50.1",
+    "uglify-js": "^3.15.5",
+    "eslint": "^9.0.0",
+    "zm-eslint-config": "git@github.com:Zimbra/zm-eslint-config.git#PREAPPS-8909"
   }
 }
