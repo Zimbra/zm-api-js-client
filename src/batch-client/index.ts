@@ -113,7 +113,11 @@ import {
 	getProfileImageUrl,
 	normalizeMimeParts
 } from '../utils/normalize-mime-parts';
-import { createContactBody, normalizeOtherAttr } from '../utils/normalize-otherAttribute-contact';
+import {
+	createContactBody,
+	createModifyContactBody,
+	normalizeOtherAttr
+} from '../utils/normalize-otherAttribute-contact';
 import { USER_FOLDER_IDS } from './constants';
 import {
 	ActionOptions,
@@ -1602,7 +1606,7 @@ export class ZimbraBatchClient {
 	public modifyContact = (data: ModifyContactInput) =>
 		this.jsonRequest({
 			name: 'ModifyContact',
-			body: createContactBody(data, this.localStoreClient !== undefined),
+			body: createModifyContactBody(data, this.localStoreClient !== undefined),
 			singleRequest: true
 		}).then(res => normalize(Contact)(normalizeOtherAttr(res.cn)[0]));
 

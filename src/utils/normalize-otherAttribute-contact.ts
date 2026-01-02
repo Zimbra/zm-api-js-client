@@ -14,66 +14,50 @@ const supportedContactAttributes = [
 	'namePrefix',
 	'nameSuffix',
 	'email',
-	'email2',
 	'workEmail',
-	'workEmail2',
 	'homeEmail',
-	'homeEmail2',
 	'companyPhone',
-	'companyPhone2',
 	'otherPhone',
-	'otherPhone2',
 	'mobilePhone',
-	'mobilePhone2',
 	'homePhone',
-	'homePhone2',
 	'workPhone',
-	'workPhone2',
-	'pager',
-	'pager2',
 	'homeFax',
-	'homeFax2',
 	'workFax',
-	'workFax2',
+	'otherFax',
+	'pager',
 	'imAddress',
-	'imAddress1',
-	'imAddress2',
-	'imAddress3',
-	'imAddress4',
-	'imAddress5',
-	'nickname',
+	'homeURL',
+	'workURL',
+	'otherURL',
+	'assistantPhone',
+	'callbackPhone',
+	'carPhone',
+	'birthday',
+	'anniversary',
 	'homeStreet',
 	'homeCity',
 	'homeState',
 	'homePostalCode',
 	'homeCountry',
-	'homeURL',
 	'workStreet',
 	'workCity',
 	'workState',
 	'workPostalCode',
 	'workCountry',
-	'workURL',
+	'otherStreet',
+	'otherCity',
+	'otherState',
+	'otherPostalCode',
+	'otherCountry',
+	'nickname',
 	'jobTitle',
 	'company',
 	'department',
-	'birthday',
-	'anniversary',
 	'website',
 	'notes',
 	'image',
 	'thumbnailPhoto',
 	'userCertificate',
-	'assistantPhone',
-	'callbackPhone',
-	'carPhone',
-	'otherCity',
-	'otherCountry',
-	'otherFax',
-	'otherPostalCode',
-	'otherState',
-	'otherStreet',
-	'otherURL',
 	'fileAs',
 	'type'
 ];
@@ -96,17 +80,54 @@ const ignoreAttributes = [
 	'vcardXProps',
 	'imagepart'
 ];
+
+// List of all array field names
+const ARRAY_FIELDS = [
+	'email',
+	'workEmail',
+	'homeEmail',
+	'companyPhone',
+	'otherPhone',
+	'mobilePhone',
+	'homePhone',
+	'workPhone',
+	'homeFax',
+	'workFax',
+	'otherFax',
+	'pager',
+	'imAddress',
+	'homeURL',
+	'workURL',
+	'otherURL',
+	'assistantPhone',
+	'callbackPhone',
+	'carPhone',
+	'birthday',
+	'anniversary',
+	'homeStreet',
+	'homeCity',
+	'homeState',
+	'homePostalCode',
+	'homeCountry',
+	'workStreet',
+	'workCity',
+	'workState',
+	'workPostalCode',
+	'workCountry',
+	'otherStreet',
+	'otherCity',
+	'otherState',
+	'otherPostalCode',
+	'otherCountry'
+];
+
 export function createContactBody(data: any, isDesktop: Boolean) {
 	const { attributes, ...rest } = data;
 	const contactAttrs = <Object[]>[];
 
 	for (const [key, val] of Object.entries(attributes)) {
-		if (key !== 'other') {
-			contactAttrs.push({
-				name: key,
-				[key === 'image' || (!isDesktop && key === 'userCertificate') ? 'aid' : 'content']: val
-			});
-		} else if (Array.isArray(val)) {
+		if (key === 'other' && Array.isArray(val)) {
+			// Handle 'other' array
 			for (const otherValue of val) {
 				if (
 					typeof otherValue === 'object' &&
@@ -121,8 +142,27 @@ export function createContactBody(data: any, isDesktop: Boolean) {
 					});
 				}
 			}
+		} else if (ARRAY_FIELDS.includes(key) && Array.isArray(val)) {
+			// Convert array to individual SOAP fields
+			// email: ["a", "b", "c"] → email, email2, email3
+			val.forEach((fieldValue, index) => {
+				if (fieldValue) {
+					const fieldKey = index === 0 ? key : `${key}${index + 1}`;
+					contactAttrs.push({
+						name: fieldKey,
+						_content: fieldValue
+					});
+				}
+			});
+		} else if (key !== 'other') {
+			// Handle regular attributes
+			contactAttrs.push({
+				name: key,
+				[key === 'image' || (!isDesktop && key === 'userCertificate') ? 'aid' : 'content']: val
+			});
 		}
 	}
+
 	return {
 		cn: denormalize(ContactInputRequest)({
 			...rest,
@@ -131,9 +171,16 @@ export function createContactBody(data: any, isDesktop: Boolean) {
 	};
 }
 
+// Normalize individual fields to arrays
 export function normalizeOtherAttr(data: any) {
 	return data.map((contact: any) => {
 		let other: any = [];
+		const arrayFields: Record<string, any[]> = {};
+
+		// Initialize all array fields
+		ARRAY_FIELDS.forEach(fieldName => {
+			arrayFields[fieldName] = [];
+		});
 
 		let castValueOfNickname: any = contact._attrs['nickname'];
 
@@ -154,6 +201,24 @@ export function normalizeOtherAttr(data: any) {
 				? castValueOfUserCert[0]
 				: castValueOfUserCert;
 		}
+
+		// Extract all multi-value fields into arrays
+		// email, email2, email3 → email: ["a", "b", "c"]
+		ARRAY_FIELDS.forEach(baseFieldName => {
+			let fieldIndex = 0;
+
+			while (true) {
+				const fieldKey = fieldIndex === 0 ? baseFieldName : `${baseFieldName}${fieldIndex + 1}`;
+
+				if (contact._attrs[fieldKey]) {
+					arrayFields[baseFieldName].push(contact._attrs[fieldKey]);
+					delete contact._attrs[fieldKey];
+					fieldIndex++;
+				} else {
+					break;
+				}
+			}
+		});
 
 		Object.keys(contact._attrs)
 			.filter(key => !supportedContactAttributes.includes(key) && !ignoreAttributes.includes(key))
@@ -180,8 +245,45 @@ export function normalizeOtherAttr(data: any) {
 			...contact,
 			_attrs: {
 				...contact._attrs,
+				// Add array fields (only if they have values)
+				...Object.keys(arrayFields).reduce((acc: Record<string, any>, arrayKey) => {
+					if (arrayFields[arrayKey].length > 0) {
+						acc[arrayKey] = arrayFields[arrayKey].filter(Boolean);
+					}
+					return acc;
+				}, {}),
 				other: (otherAttributewithCustomKey || []).concat(remainingOtherAttribute || [])
 			}
 		};
 	});
+}
+
+export function createModifyContactBody(data: any, isDesktop: Boolean) {
+	const { changes, ...rest } = data;
+	const contactAttrs = <Object[]>[];
+
+	if (Array.isArray(changes)) {
+		changes.forEach(({ key, value }) => {
+			if (key === 'image' || (!isDesktop && key === 'userCertificate')) {
+				contactAttrs.push({
+					n: key,
+					aid: value
+				});
+			} else {
+				contactAttrs.push({
+					n: key,
+					_content: value
+				});
+			}
+		});
+	}
+
+	return {
+		cn: {
+			id: rest.id,
+			...(rest.folderId && { l: rest.folderId }),
+			...(rest.tagNames && { tn: rest.tagNames }),
+			a: contactAttrs
+		}
+	};
 }
