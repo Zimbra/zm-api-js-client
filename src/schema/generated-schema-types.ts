@@ -1151,6 +1151,11 @@ export type ConversationConditionInput = {
   where?: InputMaybe<Scalars['String']['input']>;
 };
 
+export enum ConversationOrderBy {
+  DateAsc = 'dateAsc',
+  DateDesc = 'dateDesc'
+}
+
 export type CounterAppointmentInput = {
   componentNum?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
@@ -3486,6 +3491,7 @@ export type Preferences = {
   zimbraPrefClientType?: Maybe<PrefClientType>;
   zimbraPrefComposeDirection?: Maybe<Scalars['String']['output']>;
   zimbraPrefComposeFormat?: Maybe<Mode>;
+  zimbraPrefConversationOrder?: Maybe<ConversationOrderBy>;
   zimbraPrefDefaultCalendarId?: Maybe<Scalars['ID']['output']>;
   zimbraPrefDelegatedSendSaveTarget?: Maybe<PrefDelegatedSendSaveTarget>;
   zimbraPrefDeleteInviteOnReply?: Maybe<Scalars['Boolean']['output']>;
@@ -3558,6 +3564,7 @@ export type PreferencesInput = {
   zimbraPrefClientType?: InputMaybe<PrefClientType>;
   zimbraPrefComposeDirection?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefComposeFormat?: InputMaybe<Mode>;
+  zimbraPrefConversationOrder?: InputMaybe<ConversationOrderBy>;
   zimbraPrefDefaultCalendarId?: InputMaybe<Scalars['ID']['input']>;
   zimbraPrefDelegatedSendSaveTarget?: InputMaybe<PrefDelegatedSendSaveTarget>;
   zimbraPrefDeleteInviteOnReply?: InputMaybe<Scalars['Boolean']['input']>;
