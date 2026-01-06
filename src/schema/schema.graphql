@@ -181,6 +181,11 @@ enum AddressType {
 	rf # resent-from
 }
 
+enum ConversationOrderBy {
+	dateAsc
+	dateDesc
+}
+
 # https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/acl.md
 enum GranteeType {
 	usr # Zimbra User
@@ -1719,6 +1724,7 @@ type Preferences {
 	zimbraPrefPop3DownloadSince: String
 	zimbraPrefPop3IncludeSpam: Boolean
 	zimbraPrefPop3DeleteOption: Pop3DeleteOption
+	zimbraPrefConversationOrder: ConversationOrderBy
 }
 
 type GetAppointmentResponse {
@@ -2809,6 +2815,7 @@ input PreferencesInput {
 	zimbraPrefPop3DownloadSince: String
 	zimbraPrefPop3IncludeSpam: Boolean
 	zimbraPrefPop3DeleteOption: Pop3DeleteOption
+	zimbraPrefConversationOrder: ConversationOrderBy
 }
 
 input ModifyIdentityInput {
