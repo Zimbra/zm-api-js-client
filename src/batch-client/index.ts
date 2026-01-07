@@ -951,11 +951,15 @@ export class ZimbraBatchClient {
 		};
 
 		try {
-			const blob = new Blob([JSON.stringify(body)]);
-			if (navigator) {
-				// In zimbra desktop client navigator is null
-				navigator.sendBeacon(`${this.origin}/service/soap`, blob);
-			}
+			fetch(`${this.origin}/service/soap`, {
+				method: 'POST',
+				keepalive: true,
+				headers: {
+					'Content-Type': 'application/json',
+					'X-Zimbra-Csrf-Token': this.csrfToken || ''
+				},
+				body: JSON.stringify(body)
+			});
 		} catch (e) {
 			throw new Error('Error on endSessionBeaconRequest request' + e);
 		}
