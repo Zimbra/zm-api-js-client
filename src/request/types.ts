@@ -19,14 +19,14 @@ export interface BaseRequestOptions {
 	authToken?: string;
 	credentials?: RequestCredentials;
 	csrfToken?: string | null;
-	encrypt?: Boolean;
+	encrypt?: boolean;
 	fetchOptions?: any;
 	headers?: any;
 	jwtToken?: string | null;
 	origin?: string;
 	sessionId?: SessionId;
 	sessionSeq?: SessionSeq;
-	sign?: Boolean;
+	sign?: boolean;
 	singleRequest?: boolean;
 	soapPathname?: string;
 	userAgent?: UserAgent;

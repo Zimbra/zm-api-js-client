@@ -389,8 +389,8 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 					(context.local ? localStoreClient : client).sendMessage(
 						message as SendMessageInput,
 						accountName as string,
-						sign as Boolean,
-						encrypt as Boolean
+						sign as boolean,
+						encrypt as boolean
 					),
 				saveSMimeCert: (_, { upload, password }) =>
 					client.saveSMimeCert(upload as SaveSMimeCertInputUpload, password as string),
