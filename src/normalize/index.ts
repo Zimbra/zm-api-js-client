@@ -1,6 +1,6 @@
 import { EntityMapping, EntityMappingValue, NormalizedKey } from './types';
 
-function normalizeKey(key: string, schema: Entity, inverse: Boolean = false): NormalizedKey {
+function normalizeKey(key: string, schema: Entity, inverse: boolean = false): NormalizedKey {
 	const getKey = inverse ? schema.inverseKey : schema.key;
 	const schemaValue = getKey(key);
 
