@@ -96,9 +96,9 @@ const ignoreAttributes = [
 	'vcardXProps',
 	'imagepart'
 ];
-export function createContactBody(data: any, isDesktop: Boolean) {
+export function createContactBody(data: any, isDesktop: boolean) {
 	const { attributes, ...rest } = data;
-	const contactAttrs = <Object[]>[];
+	const contactAttrs = <object[]>[];
 
 	for (const [key, val] of Object.entries(attributes)) {
 		if (key !== 'other') {

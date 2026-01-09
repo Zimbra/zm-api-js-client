@@ -151,7 +151,7 @@ export interface GetMailItemOptions {
 	header?: Array<MailItemHeader>;
 	html?: boolean;
 	id: string;
-	ids: [String];
+	ids: [string];
 	isLocal?: boolean;
 	max?: number;
 	needExp?: boolean;
@@ -180,17 +180,17 @@ export interface AppointmentOptions {
 export interface SaveDocumentInput {
 	content: string;
 	ct: string;
-	descEnabled: Boolean;
+	descEnabled: boolean;
 	id: string;
 	l: string;
 	name: string;
 	upload: UploadDocument;
-	ver: Number;
+	ver: number;
 }
 
 export interface SearchOptions {
-	calExpandInstEnd?: Number;
-	calExpandInstStart?: Number;
+	calExpandInstEnd?: number;
+	calExpandInstStart?: number;
 	cursor?: Cursor;
 	fetch?: string;
 	fullConversation?: boolean;
@@ -210,9 +210,9 @@ export interface SearchOptions {
 }
 
 export interface SearchCalendarResourcesCondition {
-	attr?: String;
-	op?: String;
-	value?: String;
+	attr?: string;
+	op?: string;
+	value?: string;
 }
 export interface SearchCalendarResourcesOptions {
 	attrs?: string;
@@ -228,8 +228,8 @@ export interface SearchCalendarResourcesOptions {
 
 export interface ShareInfoOptions {
 	grantee?: Grantee;
-	includeSelf?: Boolean;
-	internal?: Boolean;
+	includeSelf?: boolean;
+	internal?: boolean;
 	owner?: Owner;
 }
 
@@ -268,7 +268,7 @@ export interface ActionOptions {
 	isLocal?: boolean;
 	name?: string;
 	op: string;
-	recursive?: Boolean;
+	recursive?: boolean;
 	rgb?: string;
 	tagNames?: string;
 }
