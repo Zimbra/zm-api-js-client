@@ -1,6 +1,6 @@
 export function setCustomMetaDataBody(data: any) {
 	const { attrs, id, section } = data;
-	const customMetaAttrs: Object[] = [];
+	const customMetaAttrs: object[] = [];
 
 	for (const { key, value } of attrs) {
 		customMetaAttrs.push({

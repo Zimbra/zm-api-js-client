@@ -372,7 +372,7 @@ export class ZimbraBatchClient {
 			};
 		});
 
-	public accountOnlyRemoteWipeSync = (deviceId: String) =>
+	public accountOnlyRemoteWipeSync = (deviceId: string) =>
 		this.jsonRequest({
 			name: 'AccountOnlyRemoteWipe',
 			namespace: Namespace.Sync,
@@ -433,7 +433,7 @@ export class ZimbraBatchClient {
 		}).then(normalize(MessageInfo));
 	};
 
-	public allowDeviceSync = (deviceId: String) =>
+	public allowDeviceSync = (deviceId: string) =>
 		this.jsonRequest({
 			name: 'AllowDevice',
 			namespace: Namespace.Sync,
@@ -476,7 +476,7 @@ export class ZimbraBatchClient {
 			body: options
 		}).then(res => normalize(AutoCompleteGALResponse)(res));
 
-	public blockDeviceSync = (deviceId: String) =>
+	public blockDeviceSync = (deviceId: string) =>
 		this.jsonRequest({
 			name: 'BlockDevice',
 			namespace: Namespace.Sync,
@@ -487,7 +487,7 @@ export class ZimbraBatchClient {
 			}
 		});
 
-	public cancelPendingAccountOnlyRemoteWipeSync = (deviceId: String) =>
+	public cancelPendingAccountOnlyRemoteWipeSync = (deviceId: string) =>
 		this.jsonRequest({
 			name: 'CancelPendingAccountOnlyRemoteWipe',
 			namespace: Namespace.Sync,
@@ -498,7 +498,7 @@ export class ZimbraBatchClient {
 			}
 		});
 
-	public cancelPendingRemoteWipeSync = (deviceId: String) =>
+	public cancelPendingRemoteWipeSync = (deviceId: string) =>
 		this.jsonRequest({
 			name: 'CancelPendingRemoteWipe',
 			namespace: Namespace.Sync,
@@ -992,7 +992,7 @@ export class ZimbraBatchClient {
 			}
 		}).then(res => normalize(FreeBusy)(res.usr));
 
-	public generateScratchCodes = (username: String) =>
+	public generateScratchCodes = (username: string) =>
 		this.jsonRequest({
 			name: 'GenerateScratchCodes',
 			namespace: Namespace.Account,
@@ -1005,7 +1005,7 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		});
 
-	public getAccountDistributionLists = (attrs: String, ownerOf: number) =>
+	public getAccountDistributionLists = (attrs: string, ownerOf: number) =>
 		this.jsonRequest({
 			name: 'GetAccountDistributionLists',
 			body: {
@@ -1115,7 +1115,7 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Sync
 		}).then(res => res?.device || []);
 
-	public getDistributionList = (dl: String, needOwners: Boolean, needRights: String, by: String) =>
+	public getDistributionList = (dl: string, needOwners: boolean, needRights: string, by: string) =>
 		this.jsonRequest({
 			name: 'GetDistributionList',
 			body: {
@@ -1129,7 +1129,7 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		});
 
-	public getDistributionListMembers = (limit: String, offset: String, dl: String) =>
+	public getDistributionListMembers = (limit: string, offset: string, dl: string) =>
 		this.jsonRequest({
 			name: 'GetDistributionListMembers',
 			body: {
@@ -1401,7 +1401,7 @@ export class ZimbraBatchClient {
 			body: denormalize(GetRightsRequest)(options)
 		}).then(normalize(AccountRights));
 
-	public getScratchCodes = (username: String) =>
+	public getScratchCodes = (username: string) =>
 		this.jsonRequest({
 			name: 'GetScratchCodes',
 			namespace: Namespace.Account,
@@ -1765,7 +1765,7 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(Boolean);
 
-	public quarantineDeviceSync = (deviceId: String) =>
+	public quarantineDeviceSync = (deviceId: string) =>
 		this.jsonRequest({
 			name: 'QuarantineDevice',
 			namespace: Namespace.Sync,
@@ -1796,7 +1796,7 @@ export class ZimbraBatchClient {
 			}
 		}).then(resp => resp.relatedContacts.relatedContact);
 
-	public remoteWipeSync = (deviceId: String) =>
+	public remoteWipeSync = (deviceId: string) =>
 		this.jsonRequest({
 			name: 'RemoteWipe',
 			namespace: Namespace.Sync,
@@ -1807,7 +1807,7 @@ export class ZimbraBatchClient {
 			}
 		});
 
-	public removeDeviceSync = (deviceId: String) =>
+	public removeDeviceSync = (deviceId: string) =>
 		this.jsonRequest({
 			name: 'RemoveDevice',
 			namespace: Namespace.Sync,
@@ -1959,8 +1959,8 @@ export class ZimbraBatchClient {
 	public sendMessage = (
 		message: SendMessageInput,
 		accountName: string,
-		sign: Boolean,
-		encrypt: Boolean
+		sign: boolean,
+		encrypt: boolean
 	) =>
 		this.jsonRequest({
 			name: !(sign || encrypt) ? 'SendMsg' : 'SendSecureMsg',
@@ -2019,7 +2019,7 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(Boolean);
 
-	public setUserAgent = (userAgent: Object) => {
+	public setUserAgent = (userAgent: object) => {
 		this.userAgent = userAgent;
 	};
 
@@ -2042,7 +2042,7 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(Boolean);
 
-	public subscribeDistributionList = (op: String, by: String, dl: String) =>
+	public subscribeDistributionList = (op: string, by: string, dl: string) =>
 		this.jsonRequest({
 			name: 'SubscribeDistributionList',
 			body: {
@@ -2203,7 +2203,7 @@ export class ZimbraBatchClient {
 	/**
 	 * These options are included on every request.
 	 */
-	private getAdditionalRequestOptions = (addCsrfToken: Boolean = true) => ({
+	private getAdditionalRequestOptions = (addCsrfToken: boolean = true) => ({
 		jwtToken: this.jwtToken,
 		...(addCsrfToken && {
 			csrfToken: this.csrfToken
