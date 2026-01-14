@@ -72,10 +72,13 @@
     "@types/lodash": "^4.14.182",
     "@types/node": "^20.10.4",
     "@types/whatwg-fetch": "^0.0.33",
+    "@typescript-eslint/eslint-plugin": "^8.50.1",
+    "@zimbra/eslint-config": "0.0.3",
     "babel-plugin-lodash": "^3.3.4",
     "chai": "^4.5.0",
     "copyfiles": "^2.4.1",
     "cross-var": "^1.1.0",
+    "eslint": "^9.0.0",
     "husky": "^9.1.7",
     "lint-staged": "15.2.8",
     "mocha": "^10.8.2",
@@ -87,9 +90,6 @@
     "rollup-plugin-visualizer": "^5.11.0",
     "tslib": "^2.5.0",
     "typescript": "^5.3.3",
-    "uglify-js": "^3.15.5",
-    "eslint": "^9.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.50.1",
-    "@zimbra/eslint-config": "0.0.1"
+    "uglify-js": "^3.15.5"
   }
 }
