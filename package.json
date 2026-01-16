@@ -10,7 +10,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "generateSchemaTypes": "rimraf src/schema/generated-schema-types.ts && graphql-codegen",
-    "lint": "npx eslint --config eslint.config.mjs .",
+    "lint": "eslint --config eslint.config.mjs .",
     "lint:fix": "npm run lint -- --fix",
     "test:unit": "BABEL_ENV=test mocha --require ./babelRegisterConfig.js test/**/*.js",
     "test:watch": "npm run test:unit -- --watch",
@@ -43,7 +43,7 @@
   "license": "BSD-3-Clause",
   "lint-staged": {
     "**/*.{ts, tsx}": [
-      "eslint --fix"
+      "eslint"
     ]
   },
   "dependencies": {
@@ -73,7 +73,7 @@
     "@types/node": "^20.10.4",
     "@types/whatwg-fetch": "^0.0.33",
     "@typescript-eslint/eslint-plugin": "^8.50.1",
-    "@zimbra/eslint-config": "0.0.3",
+    "@zimbra/eslint-config": "^1.0.0",
     "babel-plugin-lodash": "^3.3.4",
     "chai": "^4.5.0",
     "copyfiles": "^2.4.1",
