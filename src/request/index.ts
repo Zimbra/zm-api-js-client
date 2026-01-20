@@ -11,7 +11,7 @@ import {
 	SingleBatchRequestResponse,
 	SOAPHeader
 } from './types';
-export const DEFAULT_HOSTNAME = '/@zimbra';
+export const DEFAULT_HOSTNAME = '';
 export const DEFAULT_SOAP_PATHNAME = '/service/soap';
 
 let customFetch: any;
@@ -251,7 +251,10 @@ export function jsonRequest(requestOptions: JsonRequestOptions): Promise<Request
 			Header: header
 		}),
 		headers: options.headers,
-		...(fetchOptions && fetchOptions)
+		...(fetchOptions && fetchOptions),
+		...(requestOptions.agent && {
+			agent: requestOptions.agent
+		})
 	})
 		.then(parseJSON)
 		.then((response: any) => {
