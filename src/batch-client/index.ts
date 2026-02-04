@@ -928,41 +928,19 @@ export class ZimbraBatchClient {
 		});
 
 	public endSessionBeaconRequest = (options: JsonRequestOptions) => {
-		const body = {
-			Body: {
-				EndSessionRequest: {
-					_jsns: Namespace.Account
-				}
+		this.jsonRequest({
+			name: 'EndSession',
+			namespace: Namespace.Account,
+			singleRequest: true,
+			headers: {
+				'Content-Type': 'application/json',
+				'X-Zimbra-Csrf-Token': this.csrfToken || ''
 			},
-			Header: {
-				context: {
-					_jsns: Namespace.All,
-					account: {
-						by: 'name',
-						_content: options.accountName
-					},
-					session: {
-						id: this.sessionId,
-						_content: this.sessionId
-					},
-					userAgent: this.userAgent
-				}
-			}
-		};
-
-		try {
-			fetch(`${this.origin}/service/soap`, {
-				method: 'POST',
-				keepalive: true,
-				headers: {
-					'Content-Type': 'application/json',
-					'X-Zimbra-Csrf-Token': this.csrfToken || ''
-				},
-				body: JSON.stringify(body)
-			});
-		} catch (e) {
-			throw new Error('Error on endSessionBeaconRequest request' + e);
-		}
+			accountName: options.accountName,
+			sessionId: this.sessionId,
+			userAgent: this.userAgent,
+			fetchOptions: { keepalive: true }
+		});
 	};
 
 	public folderAction = (options: ActionOptions) => this.action(ActionType.folder, options);

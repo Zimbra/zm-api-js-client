@@ -237,7 +237,10 @@ export function jsonRequest(requestOptions: JsonRequestOptions): Promise<Request
 
 	if (requestOptions.fetchOptions) {
 		fetchOptions = {
-			signal: requestOptions.fetchOptions.signal
+			signal: requestOptions.fetchOptions.signal,
+			...(requestOptions.fetchOptions.keepalive && {
+				keepalive: requestOptions.fetchOptions.keepalive
+			})
 		};
 	}
 
