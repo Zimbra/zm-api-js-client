@@ -567,19 +567,34 @@ export class ZimbraBatchClient {
 		}
 	};
 
-	public checkCalendar = ({
-		id,
-		value
-	}: FolderActionCheckCalendarInput): Promise<ActionOpResponse> => {
+	public checkCalendars = (
+		actions: FolderActionCheckCalendarInput[]
+	): Promise<ActionOpResponse[]> => {
+		const folderActions = actions.map(action => ({
+			_jsns: 'urn:zimbraMail',
+			action: {
+				id: action.id,
+				op: action.value ? 'check' : '!check'
+			}
+		}));
+
 		return this.jsonRequest({
 			name: ActionType.folder,
-			body: {
-				action: {
-					id,
-					op: value ? 'check' : '!check'
-				}
-			},
-			singleRequest: true
+			body: folderActions
+		}).then(res => {
+			const data = res.body;
+
+			if (Array.isArray(data?.action)) {
+				return data.action.map((item: any) => ({
+					__typename: 'ActionOpResponse',
+					action: {
+						__typename: 'ActionOpResponseData',
+						id: item.id,
+						op: item.op
+					}
+				}));
+			}
+			return [];
 		});
 	};
 

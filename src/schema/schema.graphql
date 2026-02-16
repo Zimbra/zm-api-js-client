@@ -2673,7 +2673,7 @@ input FolderActionChangeColorInput {
 	color: Int!
 }
 
-# Special case of FolderAction for `checkCalendar` resolver
+# Special case of FolderAction for `checkCalendars` resolver
 input FolderActionCheckCalendarInput {
 	id: ID!
 	value: Boolean
@@ -3750,7 +3750,7 @@ type Mutation {
 		content: String
 		contentType: String
 	): ProfileImageChangeResponse
-	checkCalendar(id: ID!, value: Boolean!): ActionOpResponse
+	checkCalendars(actions: [FolderActionCheckCalendarInput!]): [ActionOpResponse]
 	contactAction(
 		id: ID
 		ids: [ID!]
