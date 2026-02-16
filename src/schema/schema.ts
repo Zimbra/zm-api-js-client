@@ -283,8 +283,10 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 					client.createMountpoint(variables as CreateMountpointInput),
 				deleteAppointment: (_, { appointment }) =>
 					client.deleteAppointment(appointment as DeleteAppointmentInput),
-				checkCalendar: (_, variables): Promise<ActionOpResponse> =>
-					client.checkCalendar(variables as FolderActionCheckCalendarInput),
+				checkCalendars: (
+					_,
+					variables: { actions: FolderActionCheckCalendarInput[] }
+				): Promise<ActionOpResponse[]> => client.checkCalendars(variables.actions),
 				counterAppointment: (_, { counterAppointmentInvite }) =>
 					client.counterAppointment(counterAppointmentInvite as CounterAppointmentInput),
 				createCalendar: (_, { name, color, url, parentFolderId }) =>

@@ -21,6 +21,11 @@ export function setCustomFetch(httpRequestAPI: any) {
 }
 
 function soapCommandBody(options: RequestOptions) {
+	// If the request body is already the array of actions, return it directly
+	if (Array.isArray(options.body)) {
+		return options.body;
+	}
+
 	return {
 		_jsns: options.namespace || Namespace.Mail,
 		...options.body
@@ -97,15 +102,18 @@ function faultError(response: ParsedResponse, faults: any) {
  */
 function batchBody(requests: ReadonlyArray<RequestOptions>) {
 	const body: { [key: string]: any } = {};
-
 	for (const request of requests) {
 		const key = `${request.name}Request`;
 		const value = soapCommandBody(request);
 
-		if (body[key]) {
-			body[key].push(value);
+		if (!body[key]) {
+			body[key] = [];
+		}
+
+		if (Array.isArray(value)) {
+			body[key].push(...value);
 		} else {
-			body[key] = [value];
+			body[key].push(value);
 		}
 	}
 
@@ -229,9 +237,10 @@ export function jsonRequest(requestOptions: JsonRequestOptions): Promise<Request
 		options.headers['Cookie'] = `ZM_AUTH_TOKEN=${requestOptions.authToken}`;
 	}
 
-	const body = {
-		[soapRequestName]: soapCommandBody(options)
-	};
+	const body =
+		requestOptions.body && requestOptions.body[soapRequestName]
+			? requestOptions.body
+			: { [soapRequestName]: soapCommandBody(options) };
 
 	let fetchOptions;
 
