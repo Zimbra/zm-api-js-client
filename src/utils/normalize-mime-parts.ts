@@ -94,9 +94,9 @@ export function normalizeMimeParts(
 		attachment.contentId = attachment.contentId
 			? normalizeCid(attachment.contentId)
 			: ~normalizeType(attachment.contentType).indexOf('image/') &&
-			  attachment.contentDisposition === 'inline'
-			? `AUTO-GEN-CID-${attachment.messageId}-${attachment.part}-${attachment.size}`
-			: undefined;
+				  attachment.contentDisposition === 'inline'
+				? `AUTO-GEN-CID-${attachment.messageId}-${attachment.part}-${attachment.size}`
+				: undefined;
 
 		return attachment;
 	};
