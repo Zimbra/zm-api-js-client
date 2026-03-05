@@ -1,7 +1,5 @@
 /** List of content type not show as attachment */
 const ignoreContentTypeToShowAsAttachment = [
-	'application/pkcs7-signature',
-	'application/x-pkcs7-signature',
 	'message/delivery-status', // present in Undelivered mail
 	'message/disposition-notification', // present in read-receipt response
 	'xml/x-zimbra-share' // present in folder share message
