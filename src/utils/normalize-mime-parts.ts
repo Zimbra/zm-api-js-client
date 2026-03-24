@@ -85,7 +85,7 @@ export function normalizeMimeParts(
 			if (forcedContentDisposition === 'attachments') {
 				attachment.contentDisposition = 'attachment';
 			} else if (forcedContentDisposition === 'inlineAttachments') {
-				attachment.contentDisposition === 'inline';
+				attachment.contentDisposition = 'inline';
 			}
 		}
 
@@ -183,6 +183,12 @@ export function normalizeMimeParts(
 			// remaining non-body, non-enclosure parts are attachments:
 			if (!isBody && type.split('/')[0] !== 'multipart') {
 				let mode = isInline ? 'inlineAttachments' : 'attachments';
+
+				// If inline but NOT an image, treat as regular attachment
+				if (isInline && !type.startsWith('image/')) {
+					mode = 'attachments';
+					part.contentDisposition = 'attachment';
+				}
 
 				!ignoreContentTypeToShowAsAttachment.includes(part.contentType) &&
 					(acc[mode] || (acc[mode] = [])).push(processAttachment(part, mode));
