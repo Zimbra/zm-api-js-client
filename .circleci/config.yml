@@ -18,6 +18,32 @@ attach-workspace: &attach-workspace
   attach_workspace:
     at: ~/
 
+# Cache node_modules
+restore-dependencies-cache: &restore-dependencies-cache
+  restore_cache:
+    keys:
+      - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+      # fallback to using the cache from the same branch
+      - v1-dependencies-{{ .Branch }}-
+      # fallback to using the latest cache if no exact match is found
+      - v1-dependencies-
+
+save-dependencies-cache: &save-dependencies-cache
+  save_cache:
+    paths:
+      - node_modules
+    key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+
+feature-branch: &feature-branch
+  filters:
+    branches:
+      ignore:
+        - /(custom_)?release\/.*/
+
+env-context: &env-context
+  context:
+    - npm-js
+
 ############################################################################
 
 jobs:
@@ -26,14 +52,7 @@ jobs:
     steps:
       - checkout
 
-      # Download node_modules dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
-            # fallback to using the cache from the same branch
-            - v1-dependencies-{{ .Branch }}-
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+      - *restore-dependencies-cache
 
       # TODO PREAPPS-7520
       - run:
@@ -45,11 +64,7 @@ jobs:
           name: Install npm modules
           command: npm install --no-audit
 
-      # Save node_modules dependencies
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+      - *save-dependencies-cache
 
       - run:
           name: Build application code
@@ -78,14 +93,7 @@ jobs:
     steps:
         - checkout
 
-        # Download node_modules dependencies
-        - restore_cache:
-            keys:
-              - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
-              # fallback to using the cache from the same branch
-              - v1-dependencies-{{ .Branch }}-
-              # fallback to using the latest cache if no exact match is found
-              - v1-dependencies-
+        - *restore-dependencies-cache
 
         # TODO PREAPPS-7520
         - run:
@@ -100,6 +108,36 @@ jobs:
         - run:
             name: Run security audit
             command: npm run security:audit
+
+  publish:
+    <<: *config
+    steps:
+      - *attach-workspace
+
+      - run:
+          name: Setup npm authentication
+          command: |
+            echo "//registry.npmjs.org/:_authToken=${NPM_PUBLISH_TOKEN}" > ~/.npmrc
+
+      - run:
+          name: Set dynamic prerelease version (no git tag)
+          command: |
+            SAFE_BRANCH=$(echo "$CIRCLE_BRANCH" | sed 's/\//-/g')
+            SHORT_SHA=$(echo "$CIRCLE_SHA1" | cut -c1-7)
+
+            npm version prerelease \
+              --preid="${SAFE_BRANCH}.${SHORT_SHA}" \
+              --no-git-tag-version
+
+      - run:
+          name: Publish to npm
+          command: |
+            SAFE_BRANCH=$(echo "$CIRCLE_BRANCH" | sed 's/\//-/g')
+            if [ "$SAFE_BRANCH" = "master" ]; then
+              npm publish --access public --tag beta
+            else
+              npm publish --access public --tag next
+            fi
 
 ############################################################################
 
@@ -118,5 +156,17 @@ workflows:
       - unit:
           requires:
             - build
+
+      - publish-approval:
+          <<: *feature-branch
+          type: approval
+          requires:
+            - build
+
+      - publish:
+          <<: *feature-branch
+          <<: *env-context
+          requires:
+            - publish-approval
 
 ############################################################################
