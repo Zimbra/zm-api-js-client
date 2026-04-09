@@ -4,11 +4,14 @@ class ZimbraErrorLink extends ErrorLink {
 	handlers: any[] = [];
 
 	constructor() {
-		super(({ graphQLErrors, networkError }) => {
-			graphQLErrors &&
-				graphQLErrors.map((error: any) => {
-					const { message, ...rest } = error;
-					const originalError = error.originalError;
+		super(error => {
+			const { graphQLErrors, networkError } = error;
+			// Handle GraphQL errors
+			const errorList = graphQLErrors || (networkError as any)?.errors || [];
+			if (errorList && errorList.length > 0) {
+				errorList.map((graphQLError: any) => {
+					const { message, ...rest } = graphQLError;
+					const originalError = graphQLError.originalError;
 					const errorCode = (originalError as any)?.faults?.[0]?.Detail?.Error?.Code || '';
 
 					this.executeHandlers({
@@ -18,11 +21,12 @@ class ZimbraErrorLink extends ErrorLink {
 						...rest
 					});
 				});
-
-			networkError &&
+			} else if (networkError) {
+				// Handle network error
 				this.executeHandlers({
 					message: `[Network error]: ${networkError}`
 				});
+			}
 		});
 	}
 

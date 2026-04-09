@@ -19,13 +19,13 @@
     "build:ts": "tsc --emitDeclarationOnly --declaration --outDir \"dist\"",
     "build:analyze": "visualize=true npm run build",
     "copySchema": "copyfiles -f src/schema/schema.graphql dist",
-    "rollup:cjs": "cross-var rollup -c rollup.config.js -m -f cjs -n $npm_package_amdName $npm_package_source -o $npm_package_main",
-    "rollup:umd": "cross-var rollup -c rollup.config.js -m -f umd -n $npm_package_amdName $npm_package_source -o $npm_package_umd_main",
-    "rollup:esm": "cross-var rollup -c rollup.config.js -m -f es --environment FORMAT:es -n $npm_package_amdName $npm_package_source -o $npm_package_module",
+    "rollup:cjs": "rollup -c rollup.config.js -m -f cjs -n zmApiJsClient index.ts -o dist/zm-api-js-client.js",
+    "rollup:umd": "rollup -c rollup.config.js -m -f umd -n zmApiJsClient index.ts -o dist/zm-api-js-client.umd.js",
+    "rollup:esm": "rollup -c rollup.config.js -m -f es --environment FORMAT:es -n zmApiJsClient index.ts -o dist/zm-api-js-client.esm.js",
     "linkedBuild": "npm run rollup:esm -- --watch",
-    "minify:cjs": "cross-var uglifyjs $npm_package_main -c pure_getters,pure_funcs=classCallCheck -m toplevel,reserved=['_createClass'] --keep-fnames -o $npm_package_main --source-map content=$npm_package_main.map,url=zm-api-js-client.js.map,filename=$npm_package_main.map",
-    "minify:umd": "cross-var uglifyjs $npm_package_umd_main -c pure_getters,pure_funcs=classCallCheck -m toplevel,reserved=['_createClass'] --keep-fnames -o $npm_package_umd_main --source-map content=$npm_package_umd_main.map,url=zm-api-js-client.umd.js.map,filename=$npm_package_umd_main.map",
-    "size": "echo \"Gzipped Size: $(gzip-size $npm_package_main | pretty-bytes)\"",
+    "minify:cjs": "uglifyjs dist/zm-api-js-client.js -c pure_getters,pure_funcs=classCallCheck -m toplevel,reserved=['_createClass'] --keep-fnames -o dist/zm-api-js-client.js --source-map content=dist/zm-api-js-client.js.map,url=zm-api-js-client.js.map,filename=dist/zm-api-js-client.js.map",
+    "minify:umd": "uglifyjs dist/zm-api-js-client.umd.js -c pure_getters,pure_funcs=classCallCheck -m toplevel,reserved=['_createClass'] --keep-fnames -o dist/zm-api-js-client.umd.js --source-map content=dist/zm-api-js-client.umd.js.map,url=zm-api-js-client.umd.js.map,filename=dist/zm-api-js-client.umd.js.map",
+    "size": "echo \"Gzipped Size: $(gzip-size dist/zm-api-js-client.js | pretty-bytes)\"",
     "prepublishOnly": "if [ \"$CI\" != \"true\" ]; then npm test && npm run build && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags; fi",
     "publish:beta": "npm publish --tag=beta",
     "security:audit": "npx audit-ci@^6 --moderate --report-type summary --pass-enoaudit --skip-dev",
@@ -38,7 +38,7 @@
   ],
   "repository": "Zimbra/zm-api-js-client",
   "engines": {
-    "node": ">=18.12.0"
+      "node": "^25.9.0"
   },
   "license": "BSD-3-Clause",
   "lint-staged": {
@@ -47,7 +47,7 @@
     ]
   },
   "dependencies": {
-    "@apollo/client": "^3.14.0",
+    "@apollo/client": "^3.10.8",
     "@graphql-tools/schema": "^10.0.25",
     "dataloader": "^2.2.2",
     "es-toolkit": "^1.39.10",
@@ -73,11 +73,10 @@
     "@types/node": "^20.10.4",
     "@types/whatwg-fetch": "^0.0.33",
     "@typescript-eslint/eslint-plugin": "^8.50.1",
-    "@zimbra/eslint-config": "^1.0.0",
+    "@zimbra/eslint-config": "git+https://github.com/Zimbra/zm-eslint-config.git#PREAPPS-9149",
     "babel-plugin-lodash": "^3.3.4",
     "chai": "^4.5.0",
     "copyfiles": "^2.4.1",
-    "cross-var": "^1.1.0",
     "eslint": "^9.0.0",
     "husky": "^9.1.7",
     "lint-staged": "15.2.8",

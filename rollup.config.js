@@ -18,6 +18,7 @@ const externalDeps = [
 const getExternalDeps = id => externalDeps.find(pkgName => id.includes('/node_modules/' + pkgName  + '/'));
 
 export default {
+	input: 'index.ts',
 	...(FORMAT==='es' && { external: getExternalDeps }),
 	context: 'commonjsGlobal', // what should "this" be at the top level when it is used by another module
 	plugins: [
@@ -36,6 +37,8 @@ export default {
 		...(process.env.visualize ? [visualizer({ open: true }) ] : [])
 	],
 	output: {
-		exports: FORMAT==='es' ? null : 'named'
+		format: FORMAT || 'cjs',
+		exports: FORMAT==='es' ? null : 'named',
+		sourcemap: true
 	}
 };

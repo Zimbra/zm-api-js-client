@@ -56,7 +56,7 @@ export class LocalBatchLink extends ApolloLink {
 		});
 	}
 
-	request(operation: Operation): Observable<FetchResult> | null {
-		return this.batcher.request(operation);
+	request(operation: Operation, forward: any) {
+		return this.batcher.request(operation, forward);
 	}
 }

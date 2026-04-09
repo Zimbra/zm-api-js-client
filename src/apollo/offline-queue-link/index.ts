@@ -1,11 +1,4 @@
-import {
-	ApolloLink,
-	FetchResult,
-	NextLink,
-	Observable,
-	Observer,
-	Operation
-} from '@apollo/client/core';
+import { ApolloLink, FetchResult, Observable, Operation } from '@apollo/client/core';
 
 import { SyncOfflineOperations } from '../sync-offline-operations';
 import { OfflineQueueLinkOptions, OperationEntry, StorageProvider } from './types';
@@ -101,7 +94,7 @@ export class OfflineQueueLink extends ApolloLink {
 
 	purge = () => Promise.resolve(this.storage.removeItem(this.storeKey));
 
-	request(operation: Operation, forward: NextLink) {
+	request(operation: Operation, forward: any) {
 		const { skipQueue, cancelQueues, offlineQueueName, local } = operation.getContext();
 
 		const isForwarding = this.isOpen || local || skipQueue || hasSensitiveVariables(operation);
@@ -112,7 +105,7 @@ export class OfflineQueueLink extends ApolloLink {
 			return forward(operation);
 		}
 
-		return new Observable<FetchResult>((observer: Observer<FetchResult>) => {
+		return new Observable<FetchResult>(observer => {
 			const entry = {
 				operation,
 				forward,

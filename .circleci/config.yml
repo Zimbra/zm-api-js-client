@@ -5,7 +5,7 @@ version: 2.1
 config: &config
   working_directory: ~/repo
   docker:
-    - image: cimg/node:18.18
+    - image: cimg/node:25.9.0
   resource_class: small
 
 persist-workspace: &persist-workspace
@@ -57,7 +57,7 @@ jobs:
       # TODO PREAPPS-7520
       - run:
           name: Set correct npm version
-          command: sudo npm install -g npm@6
+          command: sudo npm install -g npm@11
 
       # install dependencies - do this AFTER we do the optional branch checkout of the api client
       - run:
@@ -98,7 +98,7 @@ jobs:
         # TODO PREAPPS-7520
         - run:
             name: Set correct npm version
-            command: sudo npm install -g npm@6
+            command: sudo npm install -g npm@11
 
         # Install dependencies - do this AFTER we do the optional branch checkout of the api client
         - run:
