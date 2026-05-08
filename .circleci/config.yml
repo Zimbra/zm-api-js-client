@@ -38,7 +38,14 @@ feature-branch: &feature-branch
   filters:
     branches:
       ignore:
+        - master
         - /(custom_)?release\/.*/
+
+master-branch: &master-branch
+  filters:
+    branches:
+      only:
+        - master
 
 env-context: &env-context
   context:
@@ -143,17 +150,21 @@ jobs:
 
 workflows:
   version: 2
-  main:
+  commit-workflow:
     jobs:
-      - build
+      - build:
+          <<: *feature-branch
 
-      - security-audit
+      - security-audit:
+          <<: *feature-branch
 
       - lint:
+          <<: *feature-branch
           requires:
             - build
 
       - unit:
+          <<: *feature-branch
           requires:
             - build
 
@@ -168,5 +179,29 @@ workflows:
           <<: *env-context
           requires:
             - publish-approval
+
+  master-branch-workflow:
+    jobs:
+      - build:
+          <<: *master-branch
+
+      - security-audit:
+          <<: *master-branch
+
+      - lint:
+          <<: *master-branch
+          requires:
+            - build
+
+      - unit:
+          <<: *master-branch
+          requires:
+            - build
+
+      - publish:
+          <<: *master-branch
+          <<: *env-context
+          requires:
+            - build
 
 ############################################################################
