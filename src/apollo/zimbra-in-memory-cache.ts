@@ -11,6 +11,16 @@ const dataIdFromPath = (result: any, path: string) => {
 	}
 };
 
+const mergeSearches = (existing: any = {}, incoming: any = {}, types: any) => {
+	const obj: any = { ...incoming };
+
+	types.forEach((type: string) => {
+		obj[type] = [...(existing[type] || []), ...(incoming[type] || [])];
+	});
+
+	return obj;
+};
+
 const dataIdFromObject = (object: any) => {
 	switch (object.__typename) {
 		case 'CalendarItemHitInfo':
@@ -90,6 +100,11 @@ const typePolicies = {
 			},
 			getPreferences: {
 				merge: true
+			},
+			search: {
+				keyArgs: ['types', 'query', 'sortBy'],
+				merge: (existing: any, incoming: any) =>
+					mergeSearches(existing, incoming, ['contacts', 'messages', 'conversations'])
 			}
 		}
 	},
