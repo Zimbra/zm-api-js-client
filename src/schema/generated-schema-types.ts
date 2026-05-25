@@ -2424,7 +2424,7 @@ export type MailboxMetadataAttrs = {
   zimbraPrefFolderTreeSash?: Maybe<Scalars['Int']['output']>;
   zimbraPrefFoldersExpanded?: Maybe<Scalars['String']['output']>;
   zimbraPrefGenerateLinkPreviews?: Maybe<Scalars['Boolean']['output']>;
-  zimbraPrefGroupByList?: Maybe<Scalars['String']['output']>;
+  zimbraPrefGroupByListModern?: Maybe<Scalars['String']['output']>;
   zimbraPrefHideMuteConvModal?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefMessageListDensity?: Maybe<Scalars['String']['output']>;
   zimbraPrefMultitasking?: Maybe<Scalars['String']['output']>;
@@ -2458,7 +2458,7 @@ export type MailboxMetadataSectionAttrsInput = {
   zimbraPrefFolderTreeSash?: InputMaybe<Scalars['Int']['input']>;
   zimbraPrefFoldersExpanded?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefGenerateLinkPreviews?: InputMaybe<Scalars['Boolean']['input']>;
-  zimbraPrefGroupByList?: InputMaybe<Scalars['String']['input']>;
+  zimbraPrefGroupByListModern?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefHideMuteConvModal?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefMessageListDensity?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefMultitasking?: InputMaybe<Scalars['String']['input']>;
