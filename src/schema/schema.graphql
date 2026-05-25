@@ -2141,7 +2141,7 @@ type MailboxMetadataAttrs {
 	zimbraPrefFoldersExpanded: String
 	zimbraPrefFolderTreeSash: Int
 	zimbraPrefGenerateLinkPreviews: Boolean
-	zimbraPrefGroupByList: String
+	zimbraPrefGroupByListModern: String
 	zimbraPrefMessageListDensity: String
 	zimbraPrefMultitasking: String
 	zimbraPrefReadingPaneSashHorizontal: Int
@@ -2178,7 +2178,7 @@ input MailboxMetadataSectionAttrsInput {
 	zimbraPrefFoldersExpanded: String
 	zimbraPrefFolderTreeSash: Int
 	zimbraPrefGenerateLinkPreviews: Boolean
-	zimbraPrefGroupByList: String
+	zimbraPrefGroupByListModern: String
 	zimbraPrefMessageListDensity: String
 	zimbraPrefMultitasking: String
 	zimbraPrefReadingPaneSashHorizontal: Int
