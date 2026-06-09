@@ -93,6 +93,28 @@ const typePolicies = {
 			}
 		}
 	},
+	AccountInfo: {
+		fields: {
+			attrs: {
+				merge: true
+			},
+			habRoots: {
+				merge: true
+			},
+			license: {
+				merge: true
+			},
+			zimlets: {
+				merge: true
+			},
+			props: {
+				merge: true
+			},
+			cos: {
+				merge: true
+			}
+		}
+	},
 	Contact: {
 		fields: {
 			attributes: {
