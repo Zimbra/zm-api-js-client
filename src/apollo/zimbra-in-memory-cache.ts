@@ -135,6 +135,14 @@ const typePolicies = {
 				// but as our app is already handling at caller level
 				// we are just overwriting cache data here
 				merge: false
+			},
+			sortField: {
+				merge(existing: string, incoming: string) {
+					if (incoming !== null && incoming !== undefined) {
+						return incoming;
+					}
+					return existing;
+				}
 			}
 		}
 	},
