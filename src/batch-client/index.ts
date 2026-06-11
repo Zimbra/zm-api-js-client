@@ -1156,7 +1156,8 @@ export class ZimbraBatchClient {
 
 	public getFilterRules = () =>
 		this.jsonRequest({
-			name: 'GetFilterRules'
+			name: 'GetFilterRules',
+			singleRequest: true
 		}).then(res => {
 			const filterRules = res?.filterRules?.[0]?.filterRule || [];
 
