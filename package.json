@@ -78,7 +78,7 @@
     "chai": "^4.5.0",
     "copyfiles": "^2.4.1",
     "cross-var": "^1.1.0",
-    "eslint": "^9.0.0",
+    "eslint": "^9.39.4",
     "husky": "^9.1.7",
     "lint-staged": "15.2.8",
     "mocha": "^10.8.2",
