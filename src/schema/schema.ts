@@ -32,6 +32,7 @@ import {
 	PreferencesInput,
 	PropertiesInput,
 	PurgetRevisionInput,
+	RedirectMessgeInput,
 	RevokeRightsInput,
 	SaveSMimeCertInputUpload,
 	SearchFolderInput,
@@ -440,6 +441,7 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 				blockDeviceSync: (_, { deviceId }) => {
 					client.blockDeviceSync(deviceId);
 				},
+				bounceMessage: (_, variables) => client.bounceMsg(variables as RedirectMessgeInput),
 				accountOnlyRemoteWipeSync: (_, { deviceId }) => {
 					client.accountOnlyRemoteWipeSync(deviceId);
 				},

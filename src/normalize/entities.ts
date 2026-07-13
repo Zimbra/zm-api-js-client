@@ -605,6 +605,15 @@ const DateCondition = new Entity({
 	d: 'date'
 });
 
+const RedirectMessageAttribute = new Entity({
+	id: 'id',
+	e: ['emailAddresses', MailItemEmailAddress]
+});
+
+export const RedirectMessage = new Entity({
+	m: ['message', RedirectMessageAttribute]
+});
+
 const ImportanceCondition = new Entity({
 	imp: 'importance'
 });

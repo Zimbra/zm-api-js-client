@@ -3047,6 +3047,11 @@ input ForwardMessageInput {
 	emailAddresses: [MailItemEmailAddressInput] #e
 }
 
+input RedirectMessgeInput {
+	id: ID!
+	emailAddresses: [MailItemEmailAddressInput]
+}
+
 input ShareNotificationInput {
 	action: ShareInputAction
 	item: ShareNotificationItemInput!
@@ -3928,6 +3933,7 @@ type Mutation {
 	cancelPendingRemoteWipeSync(deviceId: String): Device
 	subscribeDistributionList(op: String!, by: String, dl: String!): String
 	distributionListAction(dlActions: DistributionListActionInput!): Boolean
+	bounceMessage(message: RedirectMessgeInput): Boolean
 }
 
 schema {

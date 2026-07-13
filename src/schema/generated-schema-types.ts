@@ -2669,6 +2669,7 @@ export type Mutation = {
   allowDeviceSync?: Maybe<Device>;
   applyFilterRules?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   blockDeviceSync?: Maybe<Device>;
+  bounceMessage?: Maybe<Scalars['Boolean']['output']>;
   cancelPendingAccountOnlyRemoteWipeSync?: Maybe<Device>;
   cancelPendingRemoteWipeSync?: Maybe<Device>;
   cancelTask?: Maybe<Scalars['Boolean']['output']>;
@@ -2808,6 +2809,11 @@ export type MutationApplyFilterRulesArgs = {
 
 export type MutationBlockDeviceSyncArgs = {
   deviceId?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationBounceMessageArgs = {
+  message?: InputMaybe<RedirectMessgeInput>;
 };
 
 
@@ -4037,6 +4043,11 @@ export type RedirectActionInput = {
   address?: InputMaybe<Scalars['String']['input']>;
   copy?: InputMaybe<Scalars['Boolean']['input']>;
   index?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type RedirectMessgeInput = {
+  emailAddresses?: InputMaybe<Array<InputMaybe<MailItemEmailAddressInput>>>;
+  id: Scalars['ID']['input'];
 };
 
 export type RelatedContact = {
