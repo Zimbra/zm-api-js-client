@@ -38,6 +38,7 @@ import {
 	InviteReply,
 	ListDocumentRevisions,
 	MessageInfo,
+	RedirectMessage,
 	SaveDocument,
 	SaveDocuments,
 	SearchCalendarResourcesResponse,
@@ -85,6 +86,7 @@ import {
 	ModifyContactInput,
 	ModifyIdentityInput,
 	PreferencesInput,
+	RedirectMessgeInput,
 	RevokeRightsInput,
 	SaveSMimeCertInputUpload,
 	SearchFolderInput,
@@ -486,6 +488,14 @@ export class ZimbraBatchClient {
 				}
 			}
 		});
+
+	public bounceMsg = (options: RedirectMessgeInput) =>
+		this.jsonRequest({
+			name: 'BounceMsg',
+			namespace: Namespace.Mail,
+			body: denormalize(RedirectMessage)(options),
+			singleRequest: true
+		}).then(Boolean);
 
 	public cancelPendingAccountOnlyRemoteWipeSync = (deviceId: string) =>
 		this.jsonRequest({
