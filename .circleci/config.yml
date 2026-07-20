@@ -5,7 +5,7 @@ version: 2.1
 config: &config
   working_directory: ~/repo
   docker:
-    - image: cimg/node:18.18
+    - image: cimg/node:24.18
   resource_class: small
 
 persist-workspace: &persist-workspace
@@ -59,19 +59,9 @@ jobs:
     steps:
       - checkout
 
-      - *restore-dependencies-cache
+      # - *restore-dependencies-cache
 
-      # TODO PREAPPS-7520
-      - run:
-          name: Set correct npm version
-          command: sudo npm install -g npm@6
-
-      # install dependencies - do this AFTER we do the optional branch checkout of the api client
-      - run:
-          name: Install npm modules
-          command: npm install --no-audit
-
-      - *save-dependencies-cache
+      # - *save-dependencies-cache
 
       - run:
           name: Build application code
@@ -100,12 +90,7 @@ jobs:
     steps:
         - checkout
 
-        - *restore-dependencies-cache
-
-        # TODO PREAPPS-7520
-        - run:
-            name: Set correct npm version
-            command: sudo npm install -g npm@6
+        # - *restore-dependencies-cache
 
         # Install dependencies - do this AFTER we do the optional branch checkout of the api client
         - run:

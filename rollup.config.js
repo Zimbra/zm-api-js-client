@@ -35,6 +35,7 @@ export default {
 		}),
 		...(process.env.visualize ? [visualizer({ open: true }) ] : [])
 	],
+	input: 'index.ts',
 	output: {
 		exports: FORMAT==='es' ? null : 'named'
 	}
