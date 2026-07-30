@@ -3907,7 +3907,7 @@ export type QueryGetSMimeCertInfoArgs = {
 
 
 export type QueryGetSMimePublicCertsArgs = {
-  contactAddr: Scalars['String']['input'];
+  contactAddr: Array<InputMaybe<Scalars['String']['input']>>;
   store: Scalars['String']['input'];
 };
 

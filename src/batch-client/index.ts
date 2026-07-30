@@ -1433,16 +1433,19 @@ export class ZimbraBatchClient {
 			namespace: Namespace.Account
 		}).then(certificate => normalize(SmimeCertInfoResponse)(certificate || {}));
 
-	public getSMimePublicCerts = (options: GetSMimePublicCertsOptions) =>
+	public getSMimePublicCerts = ({ contactAddr, store }: GetSMimePublicCertsOptions) =>
 		this.jsonRequest({
 			name: 'GetSMIMEPublicCerts',
 			body: {
 				store: {
-					_content: options.store
+					_content: store
 				},
-				email: {
-					_content: options.contactAddr
-				}
+				email:
+					typeof contactAddr === 'string'
+						? {
+								_content: contactAddr
+							}
+						: contactAddr.map(add => ({ _content: add }))
 			},
 			namespace: Namespace.Account
 		});
