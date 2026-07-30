@@ -3648,7 +3648,7 @@ type Query {
 	getMessagesMetadata(ids: [ID!]!, isLocal: Boolean): [MessageInfo]
 	getRights(input: GetRightsInput!): RightsResponse
 	getSMimePublicCerts(
-		contactAddr: String!
+		contactAddr: [String]!
 		store: String!
 	): SMimePublicCertsResponse
 	getSMimeCertInfo(certId: String): SmimeCertInfoResponse
