@@ -308,7 +308,7 @@ export interface CreateSearchFolderOptions {
 }
 
 export interface GetSMimePublicCertsOptions {
-	contactAddr: string;
+	contactAddr: string | Array<string>;
 	store: string;
 }
 
