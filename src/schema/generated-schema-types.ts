@@ -1838,6 +1838,7 @@ export type Folder = {
   query?: Maybe<Scalars['String']['output']>;
   retentionPolicy?: Maybe<Array<Maybe<RetentionPolicy>>>;
   revision?: Maybe<Scalars['Float']['output']>;
+  rgb?: Maybe<Scalars['String']['output']>;
   search?: Maybe<Array<Maybe<Folder>>>;
   sharedItemId?: Maybe<Scalars['ID']['output']>;
   types?: Maybe<Scalars['String']['output']>;
@@ -2915,6 +2916,7 @@ export type MutationCreateFolderArgs = {
   isLocalFolder?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
   parentFolderId?: InputMaybe<Scalars['ID']['input']>;
+  rgb?: InputMaybe<Scalars['String']['input']>;
   url?: InputMaybe<Scalars['String']['input']>;
   view?: InputMaybe<FolderView>;
 };
