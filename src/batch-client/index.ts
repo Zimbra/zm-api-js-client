@@ -158,7 +158,6 @@ import {
 
 import { CASTING_PREFS } from './constants';
 import { Notifier } from './notifier';
-
 const DEBUG = false;
 
 function normalizeMessage(
@@ -295,8 +294,10 @@ export class ZimbraBatchClient {
 	public localStoreClient: any;
 	public notifier: Notifier;
 	public origin: string;
+	public serverUrl: string;
 	public sessionId: any;
 	public soapPathname: string;
+	private agent?: any;
 	private authToken?: string;
 	private batchDataLoader: DataLoader<RequestOptions, RequestBody>;
 	private csrfToken?: string;
@@ -307,6 +308,7 @@ export class ZimbraBatchClient {
 	private userAgent?: {};
 
 	constructor(options: ZimbraClientOptions = {}) {
+		this.serverUrl = options.serverUrl !== undefined ? options.serverUrl : '';
 		this.sessionHandler = options.sessionHandler;
 		this.userAgent = options.userAgent;
 		this.jwtToken = options.jwtToken;
@@ -316,6 +318,7 @@ export class ZimbraBatchClient {
 		this.soapPathname = options.soapPathname || DEFAULT_SOAP_PATHNAME;
 		this.localStoreClient = options.localStoreClient;
 		this.customFetch = options.customFetch;
+		this.agent = options.agent;
 
 		this.notifier = new Notifier();
 
@@ -2079,7 +2082,7 @@ export class ZimbraBatchClient {
 			singleRequest: true
 		}).then(res => mapValuesDeep(res?.[<string>accountType]?.[0], coerceStringToBoolean));
 
-	public uploadMessage = (message: string): any => {
+	public uploadMessage = (message: string, agent: any = null): any => {
 		const contentDisposition = 'attachment';
 		const filename = 'message.eml';
 		const contentType = 'message/rfc822';
@@ -2097,6 +2100,7 @@ export class ZimbraBatchClient {
 					'X-Zimbra-Csrf-Token': this.csrfToken
 				})
 			},
+			...(agent && { agent }),
 			credentials: 'include'
 		}).then((response: any) => {
 			if (response.ok) {
@@ -2222,7 +2226,8 @@ export class ZimbraBatchClient {
 		userAgent: this.userAgent,
 		...(typeof this.notifier.getSequenceNumber() !== 'undefined' && {
 			sessionSeq: this.notifier.getSequenceNumber()
-		})
+		}),
+		agent: this.agent
 	});
 
 	private normalizeConversation = (conversation: { [key: string]: any }) => {

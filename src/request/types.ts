@@ -16,6 +16,7 @@ export interface UserAgent {
 export interface BaseRequestOptions {
 	accountId?: string;
 	accountName?: string | null;
+	agent?: any;
 	authToken?: string;
 	credentials?: RequestCredentials;
 	csrfToken?: string | null;
