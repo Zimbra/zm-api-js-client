@@ -1197,19 +1197,31 @@ export class ZimbraBatchClient {
 			if (folders.folders) {
 				folders.folders = folders.folders.map(setUnreadDescendentFlag);
 
-				folders.folders = folders.folders.map((currentFolder: any) => {
-					if (currentFolder.linkedFolders) {
-						currentFolder.linkedFolders = currentFolder.linkedFolders.map((linkFolder: any) => {
-							const { absFolderPath, oname, folders } = linkFolder;
+				// Recursive function to process linkedFolders at every folder level
+				const processLinkedFolders = (folderList: any[]): any[] => {
+					return folderList.map((currentFolder: any) => {
+						// Process linkedFolders at current level
+						if (currentFolder.linkedFolders) {
+							currentFolder.linkedFolders = currentFolder.linkedFolders.map((linkFolder: any) => {
+								const { absFolderPath, oname, folders } = linkFolder;
 
-							if (oname && folders) {
-								linkFolder.folders = updateAbsoluteFolderPath(oname, absFolderPath, folders);
-							}
-							return linkFolder;
-						});
-					}
-					return currentFolder;
-				});
+								if (oname && folders) {
+									linkFolder.folders = updateAbsoluteFolderPath(oname, absFolderPath, folders);
+								}
+								return linkFolder;
+							});
+						}
+
+						// Recurse into nested folders
+						if (currentFolder.folders && currentFolder.folders.length > 0) {
+							currentFolder.folders = processLinkedFolders(currentFolder.folders);
+						}
+
+						return currentFolder;
+					});
+				};
+
+				folders.folders = processLinkedFolders(folders.folders);
 			}
 			if (folders.linkedFolders) {
 				folders.linkedFolders = folders.linkedFolders.map(setUnreadDescendentFlag);
@@ -1233,6 +1245,17 @@ export class ZimbraBatchClient {
 						if (folder.view === FolderView.Contact) {
 							((folder.userId = folder.id), (folder.id = `${ownerZimbraId}:${sharedItemId}`));
 						}
+						console.log('folder', folder);
+						console.log(
+							'folders',
+							folders,
+							'linkedFolders',
+							linkedFolders,
+							'oname',
+							oname,
+							'absFolderPath',
+							absFolderPath
+						);
 						if (oname && folders) {
 							folder.folders = updateAbsoluteFolderPath(oname, absFolderPath, folders);
 						}
