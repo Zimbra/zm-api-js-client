@@ -1175,6 +1175,7 @@ type Folder {
 	absFolderPath: String
 	acl: ACL
 	color: Int
+	rgb: String
 	flags: String
 	id: ID
 	uuid: ID
@@ -3791,6 +3792,7 @@ type Mutation {
 	modifyContactList(contact: ModifyContactInput!): Contact
 	createFolder(
 		color: Int
+		rgb: String
 		fetchIfExists: Boolean
 		flags: String
 		name: String!
