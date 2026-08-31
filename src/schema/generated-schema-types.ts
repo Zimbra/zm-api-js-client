@@ -853,6 +853,12 @@ export type CancelRuleInfo = {
   tz?: Maybe<Scalars['String']['output']>;
 };
 
+export type CheckSpellingResponse = {
+  __typename?: 'CheckSpellingResponse';
+  available?: Maybe<Scalars['Boolean']['output']>;
+  misspelled?: Maybe<Array<Maybe<Misspelling>>>;
+};
+
 export type ClientInfoAttributes = {
   __typename?: 'ClientInfoAttributes';
   zimbraClassicWebClientDisabled?: Maybe<Scalars['Boolean']['output']>;
@@ -2598,6 +2604,12 @@ export type MimePartInput = {
   url?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type Misspelling = {
+  __typename?: 'Misspelling';
+  suggestions?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  word?: Maybe<Scalars['String']['output']>;
+};
+
 export enum Mode {
   Html = 'html',
   Text = 'text'
@@ -3659,6 +3671,7 @@ export type Query = {
   accountInfo?: Maybe<AccountInfo>;
   autoComplete?: Maybe<AutoCompleteResponse>;
   autoCompleteGAL?: Maybe<AutoCompleteGalResponse>;
+  checkSpelling?: Maybe<CheckSpellingResponse>;
   clientInfo?: Maybe<ClientInfoType>;
   discoverRights?: Maybe<DiscoverRights>;
   downloadAttachment?: Maybe<Attachment>;
@@ -3727,6 +3740,12 @@ export type QueryAutoCompleteGalArgs = {
   name: Scalars['String']['input'];
   needExp?: InputMaybe<Scalars['Boolean']['input']>;
   type?: InputMaybe<GalSearchType>;
+};
+
+
+export type QueryCheckSpellingArgs = {
+  ignore?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  text: Scalars['String']['input'];
 };
 
 
