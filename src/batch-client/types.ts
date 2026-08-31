@@ -378,3 +378,13 @@ export interface DiscoverRightInput {
 export interface DiscoverRightOptions {
 	right: Array<DiscoverRightInput>;
 }
+
+export interface CheckSpellingOptions {
+	text: string;
+	ignore: Array<string>;
+}
+
+export interface Misspelled {
+	word: string;
+	suggestions: string;
+}

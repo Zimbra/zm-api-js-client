@@ -57,6 +57,7 @@ import {
 	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
+	CheckSpellingOptions,
 	ClientInfoInput,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
@@ -212,7 +213,8 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 				taskFolders: client.taskFolders,
 				getWhiteBlackList: client.getWhiteBlackList,
 				getAppSpecificPasswords: client.getAppSpecificPasswords,
-				getTag: client.getTag
+				getTag: client.getTag,
+				checkSpelling: (_, variables) => client.checkSpelling(variables as CheckSpellingOptions)
 			},
 			//resolveType is necessary to differentiate for any Union or Interfaces
 			MailItem: {
