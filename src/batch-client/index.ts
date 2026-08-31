@@ -125,6 +125,7 @@ import {
 	AutoCompleteGALOptions,
 	AutoCompleteOptions,
 	ChangePasswordOptions,
+	CheckSpellingOptions,
 	CreateFolderOptions,
 	CreateSearchFolderOptions,
 	DiscoverRightOptions,
@@ -141,6 +142,7 @@ import {
 	GetMessageOptions,
 	GetSMimePublicCertsOptions,
 	LoginOptions,
+	Misspelled,
 	ModifyProfileImageOptions,
 	NoOpOptions,
 	RecoverAccountOptions,
@@ -2120,6 +2122,18 @@ export class ZimbraBatchClient {
 			}
 		});
 	};
+
+	public checkSpelling = ({ text, ignore }: CheckSpellingOptions) =>
+		this.jsonRequest({
+			name: 'CheckSpelling',
+			body: { _content: text, ignore: ignore?.join(',') }
+		}).then(response => ({
+			available: response.available,
+			misspelled: (response.misspelled || []).map((m: Misspelled) => ({
+				word: m.word,
+				suggestions: (m.suggestions || '').split(',').filter(Boolean)
+			}))
+		}));
 
 	private batchDataHandler = (requests: ReadonlyArray<RequestOptions>) =>
 		batchJsonRequest({

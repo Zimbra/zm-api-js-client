@@ -3530,6 +3530,16 @@ input DiscoverRightInput {
 	_content: String
 }
 
+type Misspelling {
+	word: String
+	suggestions: [String]
+}
+
+type CheckSpellingResponse {
+	available: Boolean
+	misspelled: [Misspelling]
+}
+
 # Zimbra GraphQL Queries
 # - [[SOAP API Reference]](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html)
 # - [[SOAP Documentation]](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt)
@@ -3723,6 +3733,11 @@ type Query {
 	taskFolders: [Folder]
 
 	getTag: [Tag]
+
+	checkSpelling(
+		text: String!
+		ignore: [String]
+	): CheckSpellingResponse
 }
 
 type Mutation {
