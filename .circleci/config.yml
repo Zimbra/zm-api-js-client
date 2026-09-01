@@ -22,17 +22,17 @@ attach-workspace: &attach-workspace
 restore-dependencies-cache: &restore-dependencies-cache
   restore_cache:
     keys:
-      - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+      - v2-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
       # fallback to using the cache from the same branch
-      - v1-dependencies-{{ .Branch }}-
+      - v2-dependencies-{{ .Branch }}-
       # fallback to using the latest cache if no exact match is found
-      - v1-dependencies-
+      - v2-dependencies-
 
 save-dependencies-cache: &save-dependencies-cache
   save_cache:
     paths:
       - node_modules
-    key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+    key: v2-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
 
 feature-branch: &feature-branch
   filters:
@@ -60,6 +60,11 @@ jobs:
       - checkout
 
       # - *restore-dependencies-cache
+
+      # Added to install npm-run-all and project dependencies for the build
+      - run:
+          name: Install npm modules
+          command: npm install --no-audit
 
       # - *save-dependencies-cache
 
@@ -89,13 +94,6 @@ jobs:
     <<: *config
     steps:
         - checkout
-
-        # - *restore-dependencies-cache
-
-        # Install dependencies - do this AFTER we do the optional branch checkout of the api client
-        - run:
-            name: Install npm modules
-            command: npm install --no-audit
 
         - run:
             name: Run security audit
