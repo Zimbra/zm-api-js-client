@@ -3055,6 +3055,7 @@ export type MutationItemActionArgs = {
 
 
 export type MutationLoginArgs = {
+  authToken?: InputMaybe<Scalars['String']['input']>;
   csrfTokenSecured: Scalars['Boolean']['input'];
   deviceTrusted?: InputMaybe<Scalars['Boolean']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;

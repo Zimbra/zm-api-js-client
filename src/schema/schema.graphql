@@ -3841,6 +3841,11 @@ type Mutation {
 	login(
 		username: String!
 		password: String
+		"""
+		A limited-usage TWO_FACTOR_AUTH token, used instead of a password to complete the
+		second leg of 2FA when the first leg was not a password login (e.g. PreAuth/SSO).
+		"""
+		authToken: String
 		recoveryCode: String
 		tokenType: String
 		persistAuthTokenCookie: Boolean

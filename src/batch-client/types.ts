@@ -247,9 +247,15 @@ export interface ModifyProfileImageOptions {
 }
 
 export interface LoginOptions {
+	/**
+	 * A limited-usage TWO_FACTOR_AUTH token, supplied instead of `password` to complete the
+	 * second leg of 2FA when the first leg was not a password login (e.g. PreAuth/SSO).
+	 */
+	authToken?: string;
 	csrfTokenSecured: boolean;
 	deviceTrusted?: boolean;
-	password: string;
+	/** Optional: a 2FA second leg authenticates with `authToken` and has no password. */
+	password?: string;
 	persistAuthTokenCookie?: boolean;
 	recoveryCode?: string;
 	tokenType?: string;

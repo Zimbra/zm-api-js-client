@@ -1545,6 +1545,7 @@ export class ZimbraBatchClient {
 	public login = ({
 		username,
 		password,
+		authToken,
 		recoveryCode,
 		tokenType,
 		persistAuthTokenCookie,
@@ -1564,6 +1565,13 @@ export class ZimbraBatchClient {
 					_content: username
 				},
 				...(password && { password }),
+				// Second leg of 2FA with no password: the server validates this TWO_FACTOR_AUTH
+				// token, resolves the account from it, and exchanges it for a full auth token.
+				...(authToken && {
+					authToken: {
+						_content: authToken
+					}
+				}),
 				...(recoveryCode && {
 					recoveryCode: {
 						verifyAccount: true,
