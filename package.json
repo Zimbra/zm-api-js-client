@@ -47,7 +47,7 @@
     ]
   },
   "dependencies": {
-    "@apollo/client": "^3.14.0",
+    "@apollo/client": "3.10.0",
     "@graphql-tools/schema": "^10.0.25",
     "dataloader": "^2.2.2",
     "es-toolkit": "^1.39.10",
@@ -90,5 +90,10 @@
     "tslib": "^2.5.0",
     "typescript": "^5.3.3",
     "uglify-js": "^3.15.5"
+  },
+  "overrides": {
+    "@apollo/client": {
+      "graphql-ws": "^6.2.1"
+    }
   }
 }
