@@ -346,13 +346,15 @@ export class ZimbraBatchClient {
 			const {
 				zimbraMailAlias,
 				zimbraTwoFactorAuthMethodAllowed,
-				zimbraTwoFactorAuthMethodEnabled
+				zimbraTwoFactorAuthMethodEnabled,
+				zimbraAllowFromAddress
 			} = res?.attrs?._attrs || {};
 			return {
 				...res,
 				attrs: {
 					...mapValuesDeep(res?.attrs?._attrs, coerceStringToBoolean),
 					zimbraMailAlias: [].concat(zimbraMailAlias || []),
+					zimbraAllowFromAddress: [].concat(zimbraAllowFromAddress || []),
 					zimbraTwoFactorAuthMethodAllowed: [].concat(zimbraTwoFactorAuthMethodAllowed || []),
 					zimbraTwoFactorAuthMethodEnabled: [].concat(zimbraTwoFactorAuthMethodEnabled || [])
 				},
