@@ -1553,6 +1553,18 @@ export type EmailAddressInput = {
   shortName: Scalars['String']['input'];
 };
 
+export type SsoTwoFactorSetupInput = {
+  action: Scalars['String']['input'];
+  authToken: Scalars['String']['input'];
+  email?: InputMaybe<Scalars['String']['input']>;
+  twoFactorCode?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type SsoTwoFactorSetupResponse = {
+  __typename?: 'SsoTwoFactorSetupResponse';
+  status?: Maybe<Scalars['String']['output']>;
+};
+
 export type EnableTwoFactorAuthInput = {
   authToken?: InputMaybe<Scalars['String']['input']>;
   csrfTokenSecured: Scalars['Boolean']['input'];

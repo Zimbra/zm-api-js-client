@@ -70,6 +70,7 @@ import {
 	DeleteIdentityInput,
 	DistributionListActionInput,
 	EnableTwoFactorAuthInput,
+	SsoTwoFactorSetupInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
@@ -947,6 +948,35 @@ export class ZimbraBatchClient {
 					}
 				}),
 				csrfTokenSecured
+			},
+			namespace: Namespace.Account,
+			singleRequest: true
+		});
+
+	/**
+	 * ZCS-20807: password-free 2FA enrolment for SSO arrivals (PreAuth / SAML).
+	 *
+	 * Stock EnableTwoFactorAuthRequest calls authAccount(password) unconditionally on its first
+	 * leg, so a user who arrived through an SSO door -- and has no password -- can never enrol.
+	 * This hits PreAuthTwoFactorSetupRequest instead, which authenticates with an
+	 * ENABLE_TWO_FACTOR_AUTH-scoped token handed to the enrolment page as ?t=.
+	 *
+	 * Two legs: action=sendCode (with email) mails a code; action=validateCode (with
+	 * twoFactorCode) verifies it and enables the method.
+	 */
+	public ssoTwoFactorSetup = ({
+		action,
+		authToken,
+		email,
+		twoFactorCode
+	}: SsoTwoFactorSetupInput) =>
+		this.jsonRequest({
+			name: 'PreAuthTwoFactorSetup',
+			body: {
+				action,
+				authToken,
+				...(email && { email }),
+				...(twoFactorCode && { twoFactorCode })
 			},
 			namespace: Namespace.Account,
 			singleRequest: true

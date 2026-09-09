@@ -3155,6 +3155,28 @@ input EnableTwoFactorAuthInput {
 	csrfTokenSecured: Boolean!
 }
 
+"""
+ZCS-20807: password-free 2FA enrolment for users who arrived through an SSO door
+(PreAuth HMAC or a validated SAML assertion) and therefore have no password to
+present. Backed by the PreAuthTwoFactorSetup admin-side handler; authenticated by
+an ENABLE_TWO_FACTOR_AUTH-scoped token rather than a session or a password.
+"""
+input SsoTwoFactorSetupInput {
+	"sendCode | validateCode"
+	action: String!
+	"ENABLE_TWO_FACTOR_AUTH-scoped token, from the ?t= param on the enrolment page"
+	authToken: String!
+	"recovery address to send the code to; required for action=sendCode"
+	email: String
+	"the code the user typed; required for action=validateCode"
+	twoFactorCode: String
+}
+
+type SsoTwoFactorSetupResponse {
+	"sent (after sendCode) | enabled (after validateCode)"
+	status: String
+}
+
 input SendTwoFactorAuthCodeInput {
 	action: String!
 	authToken: String!
@@ -3851,6 +3873,9 @@ type Mutation {
 	enableTwoFactorAuth(
 		options: EnableTwoFactorAuthInput!
 	): EnableTwoFactorAuthResponse
+	ssoTwoFactorSetup(
+		options: SsoTwoFactorSetupInput!
+	): SsoTwoFactorSetupResponse
 	disableTwoFactorAuth(method: String!): Boolean
 	messageAction(ids: [ID!]!, op: String!): Boolean
 	modifyExternalAccount(

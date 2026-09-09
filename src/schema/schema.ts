@@ -15,6 +15,7 @@ import {
 	DeleteIdentityInput,
 	DistributionListActionInput,
 	EnableTwoFactorAuthInput,
+	SsoTwoFactorSetupInput,
 	ExternalAccountAddInput,
 	ExternalAccountImportInput,
 	ExternalAccountTestInput,
@@ -246,6 +247,8 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 				disableTwoFactorAuth: (_, { method }) => client.disableTwoFactorAuth(method),
 				enableTwoFactorAuth: (_, { options }) =>
 					client.enableTwoFactorAuth(options as EnableTwoFactorAuthInput),
+				ssoTwoFactorSetup: (_, { options }) =>
+					client.ssoTwoFactorSetup(options as SsoTwoFactorSetupInput),
 				messageAction: (_, variables) => client.messageAction(variables as ActionOptions),
 				changePassword: (_, variables) => client.changePassword(variables as ChangePasswordOptions),
 				modifyProfileImage: (_, variables) =>
