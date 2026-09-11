@@ -2679,6 +2679,7 @@ export type Mutation = {
   action?: Maybe<Scalars['Boolean']['output']>;
   addExternalAccount?: Maybe<Scalars['ID']['output']>;
   addMessage?: Maybe<MessageInfo>;
+  addToSpellCheckDictionary?: Maybe<Scalars['Boolean']['output']>;
   allowDeviceSync?: Maybe<Device>;
   applyFilterRules?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   blockDeviceSync?: Maybe<Device>;
@@ -2806,6 +2807,11 @@ export type MutationAddExternalAccountArgs = {
 
 export type MutationAddMessageArgs = {
   message: AddMsgInput;
+};
+
+
+export type MutationAddToSpellCheckDictionaryArgs = {
+  word?: InputMaybe<Scalars['String']['input']>;
 };
 
 

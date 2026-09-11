@@ -2135,6 +2135,17 @@ export class ZimbraBatchClient {
 			}))
 		}));
 
+	public addToSpellCheckDictionary = (word: string) => {
+		return this.jsonRequest({
+			name: 'ModifyPrefs',
+			namespace: Namespace.Account,
+			body: {
+				_attrs: { '+zimbraPrefSpellIgnoreWord': word }
+			},
+			singleRequest: true
+		}).then(Boolean);
+	};
+
 	private batchDataHandler = (requests: ReadonlyArray<RequestOptions>) =>
 		batchJsonRequest({
 			requests,
