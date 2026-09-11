@@ -459,7 +459,8 @@ export function createZimbraSchema(options: ZimbraSchemaOptions): {
 				subscribeDistributionList: (_, { op, by, dl }) =>
 					client.subscribeDistributionList(op, by, dl),
 				distributionListAction: (_, { dlActions }) =>
-					client.distributionListAction(dlActions as DistributionListActionInput)
+					client.distributionListAction(dlActions as DistributionListActionInput),
+				addToSpellCheckDictionary: (_, { word }) => client.addToSpellCheckDictionary(word)
 			}
 		}
 	});

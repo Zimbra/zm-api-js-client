@@ -3952,6 +3952,7 @@ type Mutation {
 	subscribeDistributionList(op: String!, by: String, dl: String!): String
 	distributionListAction(dlActions: DistributionListActionInput!): Boolean
 	bounceMessage(message: RedirectMessgeInput): Boolean
+	addToSpellCheckDictionary(word: String): Boolean
 }
 
 schema {
