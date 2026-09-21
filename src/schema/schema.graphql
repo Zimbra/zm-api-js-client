@@ -1670,6 +1670,7 @@ type Preferences {
 	zimbraPrefComposeDirection: String
 	zimbraPrefComposeFormat: Mode
 	zimbraPrefForwardReplyInOriginalFormat: Boolean
+	zimbraPrefMandatorySpellCheckEnabled: Boolean
 	zimbraPrefHtmlEditorDefaultFontColor: String
 	zimbraPrefHtmlEditorDefaultFontFamily: String
 	zimbraPrefHtmlEditorDefaultFontSize: String
@@ -2764,6 +2765,7 @@ input PreferencesInput {
 	zimbraPrefComposeDirection: String
 	zimbraPrefComposeFormat: Mode
 	zimbraPrefForwardReplyInOriginalFormat: Boolean
+	zimbraPrefMandatorySpellCheckEnabled: Boolean
 	zimbraPrefExternalSendersType: ExternalSendersType
 	zimbraPrefHtmlEditorDefaultFontColor: String
 	zimbraPrefHtmlEditorDefaultFontFamily: String

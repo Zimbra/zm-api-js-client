@@ -3541,6 +3541,7 @@ export type Preferences = {
   zimbraPrefMailSendReadReceipts?: Maybe<PrefMailSendReadReceipts>;
   zimbraPrefMailToasterEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefMailTrustedSenderList?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  zimbraPrefMandatorySpellCheckEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefMarkMsgRead?: Maybe<Scalars['Int']['output']>;
   zimbraPrefMessageViewHtmlPreferred?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefOutOfOfficeExternalReply?: Maybe<Scalars['String']['output']>;
@@ -3614,6 +3615,7 @@ export type PreferencesInput = {
   zimbraPrefMailSendReadReceipts?: InputMaybe<PrefMailSendReadReceipts>;
   zimbraPrefMailToasterEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefMailTrustedSenderList?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  zimbraPrefMandatorySpellCheckEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefMarkMsgRead?: InputMaybe<Scalars['Int']['input']>;
   zimbraPrefMessageViewHtmlPreferred?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefOutOfOfficeExternalReply?: InputMaybe<Scalars['String']['input']>;
