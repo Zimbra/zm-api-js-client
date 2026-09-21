@@ -3496,6 +3496,7 @@ export type Preferences = {
   zimbraPrefCalendarShowPastDueReminders?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefCalendarToasterEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefCalendarWorkingHours?: Maybe<Scalars['String']['output']>;
+  zimbraPrefCalenderScaling?: Maybe<Scalars['Int']['output']>;
   zimbraPrefClientType?: Maybe<PrefClientType>;
   zimbraPrefComposeDirection?: Maybe<Scalars['String']['output']>;
   zimbraPrefComposeFormat?: Maybe<Mode>;
@@ -3569,6 +3570,7 @@ export type PreferencesInput = {
   zimbraPrefCalendarShowPastDueReminders?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefCalendarToasterEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   zimbraPrefCalendarWorkingHours?: InputMaybe<Scalars['String']['input']>;
+  zimbraPrefCalenderScaling?: InputMaybe<Scalars['Int']['input']>;
   zimbraPrefClientType?: InputMaybe<PrefClientType>;
   zimbraPrefComposeDirection?: InputMaybe<Scalars['String']['input']>;
   zimbraPrefComposeFormat?: InputMaybe<Mode>;
