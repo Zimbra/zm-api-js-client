@@ -1663,6 +1663,7 @@ type Preferences {
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
 	zimbraPrefCalendarWorkingHours: String
+	zimbraPrefCalenderScaling: Int
 	zimbraPrefCalendarApptReminderWarningTime: Int
 	zimbraPrefCalendarShowPastDueReminders: Boolean
 	zimbraPrefCalendarToasterEnabled: Boolean
@@ -2757,6 +2758,7 @@ input PreferencesInput {
 	zimbraPrefCalendarInitialView: PrefCalendarInitialView
 	zimbraPrefCalendarReminderEmail: String
 	zimbraPrefCalendarWorkingHours: String
+	zimbraPrefCalenderScaling: Int
 	zimbraPrefCalendarApptReminderWarningTime: Int
 	zimbraPrefCalendarShowPastDueReminders: Boolean
 	zimbraPrefCalendarToasterEnabled: Boolean
