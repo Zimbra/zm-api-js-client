@@ -1,7 +1,7 @@
 {
   "name": "@zimbra/api-client",
   "amdName": "zmApiJsClient",
-  "version": "102.0.0",
+  "version": "103.0.0",
   "description": "Zimbra JS API Client and GraphQL client for making requests against the Zimbra SOAP API.",
   "main": "dist/zm-api-js-client.js",
   "source": "index.ts",
@@ -26,7 +26,7 @@
     "minify:cjs": "uglifyjs dist/zm-api-js-client.js -c pure_getters,pure_funcs=classCallCheck -m toplevel,reserved=['_createClass'] --keep-fnames -o dist/zm-api-js-client.js --source-map content=dist/zm-api-js-client.js.map,url=zm-api-js-client.js.map,filename=dist/zm-api-js-client.js.map",
     "minify:umd": "uglifyjs dist/zm-api-js-client.umd.js -c pure_getters,pure_funcs=classCallCheck -m toplevel,reserved=['_createClass'] --keep-fnames -o dist/zm-api-js-client.umd.js --source-map content=dist/zm-api-js-client.umd.js.map,url=zm-api-js-client.umd.js.map,filename=dist/zm-api-js-client.umd.js.map",
     "size": "echo \"Gzipped Size: $(gzip-size dist/zm-api-js-client.js | pretty-bytes)\"",
-    "prepublishOnly": "if [ \"$CI\" != \"true\" ]; then npm test && npm run build && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags; fi",
+    "prepublishOnly": "if [ \"$CI\" != \"true\" ]; then npm run test:unit && npm run build && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags; fi",
     "publish:beta": "npm publish --tag=beta",
     "security:audit": "npx audit-ci@^6 --moderate --report-type summary --pass-enoaudit --skip-dev",
     "prepare": "husky || true"
