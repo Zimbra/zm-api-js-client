@@ -1399,6 +1399,7 @@ type AccountInfo {
 	cos: AccountCos
 	pasteitcleanedEnabled: Boolean
 	adminDelegated: Boolean
+	isSpellCheckAvailable: Boolean
 }
 
 type OnlyEmailAddress {
@@ -1671,6 +1672,7 @@ type Preferences {
 	zimbraPrefComposeFormat: Mode
 	zimbraPrefForwardReplyInOriginalFormat: Boolean
 	zimbraPrefMandatorySpellCheckEnabled: Boolean
+	zimbraPrefSpellDictionary: String
 	zimbraPrefHtmlEditorDefaultFontColor: String
 	zimbraPrefHtmlEditorDefaultFontFamily: String
 	zimbraPrefHtmlEditorDefaultFontSize: String
