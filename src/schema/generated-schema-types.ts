@@ -66,6 +66,7 @@ export type AccountInfo = {
   cos?: Maybe<AccountCos>;
   habRoots?: Maybe<HabRoots>;
   id: Scalars['ID']['output'];
+  isSpellCheckAvailable?: Maybe<Scalars['Boolean']['output']>;
   license?: Maybe<License>;
   name?: Maybe<Scalars['String']['output']>;
   pasteitcleanedEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -3568,6 +3569,7 @@ export type Preferences = {
   zimbraPrefShowFragments?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefSlackCalendarReminderEnabled?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefSortOrder?: Maybe<Scalars['String']['output']>;
+  zimbraPrefSpellDictionary?: Maybe<Scalars['String']['output']>;
   zimbraPrefTagTreeOpen?: Maybe<Scalars['Boolean']['output']>;
   zimbraPrefTimeZoneId?: Maybe<Scalars['String']['output']>;
   zimbraPrefUseTimeZoneListInCalendar?: Maybe<Scalars['Boolean']['output']>;
