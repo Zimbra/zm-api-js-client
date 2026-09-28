@@ -1,6 +1,7 @@
 [![CircleCI](https://circleci.com/gh/Zimbra/zm-api-js-client.svg?style=shield)](https://circleci.com/gh/Zimbra/zm-api-js-client) [![NPM Downloads](https://img.shields.io/npm/dm/@zimbra/api-client.svg?style=flat)](https://www.npmjs.com/package/@zimbra/api-client) [![NPM Version](https://img.shields.io/npm/v/@zimbra/api-client.svg?style=flat)](https://www.npmjs.com/package/@zimbra/api-client)
 
 # @zimbra/api-client
+
 A GraphQL client for making requests against the Zimbra SOAP API.
 
 ### Install
@@ -53,17 +54,17 @@ A few design goals outline how Zimbra GraphQL works:
 
 Long-term the schema is evolving towards GraphQL queries and mutations mapping roughly 1-to-1 to SOAP commands. It's up to the application code to provide abstraction over the data itself. This is for a few reasons:
 
-* Caching is more efficient because actual requests map well to cached data
-* The [SOAP API Documentation](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html). [SOAP Readme Document](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt), and other resources such as the [Search Tips](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips) are all useful in the context of making a GraphQL request
+- Caching is more efficient because actual requests map well to cached data
+- The [SOAP API Documentation](https://files.zimbra.com/docs/soap_api/8.7.11/api-reference/index.html). [SOAP Readme Document](https://github.com/Zimbra/zm-mailbox/blob/develop/store/docs/soap.txt), and other resources such as the [Search Tips](https://wiki.zimbra.com/wiki/Zimbra_Web_Client_Search_Tips) are all useful in the context of making a GraphQL request
 
 **Provide a straight forward way to add new functionality**
 
 Adding to the API is simplified and now involves only a few steps:
 
-* Ensure the types you need are in the [schema](src/schema/schema.graphql)
-* Design your query/mutation in application code
-* Add the associated simplified resolving function for your query/mutation to [the resolvers](src/schema/schema.ts)
-* Add any attribute mapping needed to the [entities declaration](src/normalize/entities.ts)
+- Ensure the types you need are in the [schema](src/schema/schema.graphql)
+- Design your query/mutation in application code
+- Add the associated simplified resolving function for your query/mutation to [the resolvers](src/schema/schema.ts)
+- Add any attribute mapping needed to the [entities declaration](src/normalize/entities.ts)
 
 **Provide type safety if possible**
 
@@ -125,12 +126,17 @@ import { jsonRequest, batchJsonRequest } from 'zimbra-graphql/request';
 ```
 
 ### Provide Custom `Fetch` API
+
 By default, `ZimbraBatchClient` uses [fetch api](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) of browser. In case, `ZimbraBatchClient` is used on non-browser platforms (i.e. NodeJS App), it will throw an error, such as: _**fetch is not defined.**_
 
 In such case, `customFetch` option key allows to override or provide third-party fetch module/method.
+
 ```javascript
 const client = new ZimbraBatchClient({ customFetch: myCustomFetchMethod });
 ```
 
 ### Hacking on the Client
+
 See the [wiki](https://github.com/Zimbra/zm-api-js-client/wiki) for details on how to add new APIs to the client.
+
+#Dummy
