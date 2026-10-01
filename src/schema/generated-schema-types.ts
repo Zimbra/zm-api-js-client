@@ -2813,7 +2813,7 @@ export type MutationAddMessageArgs = {
 
 
 export type MutationAddToSpellCheckDictionaryArgs = {
-  word?: InputMaybe<Scalars['String']['input']>;
+  word: Scalars['String']['input'];
 };
 
 

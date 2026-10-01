@@ -381,7 +381,7 @@ export interface DiscoverRightOptions {
 
 export interface CheckSpellingOptions {
 	text: string;
-	ignore: Array<string>;
+	ignore?: Array<string>;
 }
 
 export interface Misspelled {
