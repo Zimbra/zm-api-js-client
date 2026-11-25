@@ -60,7 +60,7 @@
     "@babel/plugin-proposal-class-properties": "^7.17.12",
     "@babel/preset-env": "^7.18.2",
     "@babel/preset-typescript": "^7.27.1",
-    "@babel/register": "^7.17.7",
+    "@babel/register": "^8.0.6",
     "@graphql-codegen/cli": "^5.0.7",
     "@graphql-codegen/typescript": "^4.1.6",
     "@rollup/plugin-babel": "^6.0.4",
